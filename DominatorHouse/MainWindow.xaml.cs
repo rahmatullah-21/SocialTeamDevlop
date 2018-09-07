@@ -368,6 +368,24 @@ namespace Socinator
             ThreadFactory.Instance.Start(() =>
             {
                 GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
+                try
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        if (LastTab == "Info")
+                            LoggerCollection.Filter += FilterByInfo;
+
+                        else
+                            LoggerCollection.Filter += FilterByError;
+
+                    });
+
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
             });
 
         }
@@ -621,11 +639,11 @@ namespace Socinator
                                 var constructors = networkType.GetConstructors();
                                 // do we have a constructor taking a strategy object?
                                 var selectedConstructor = constructors.FirstOrDefault(ci =>
-                                    {
-                                        var pars = ci.GetParameters();
-                                        return pars.Length == 1 && pars[0].ParameterType ==
-                                               typeof(DominatorAccountViewModel.AccessorStrategies);
-                                    });
+                                {
+                                    var pars = ci.GetParameters();
+                                    return pars.Length == 1 && pars[0].ParameterType ==
+                                       typeof(DominatorAccountViewModel.AccessorStrategies);
+                                });
                                 if (selectedConstructor != default(ConstructorInfo))
                                 {
                                     networkCoreFactory =
@@ -1017,7 +1035,10 @@ namespace Socinator
 
         public ICollectionView LoggerCollection
         {
-            get { return _loggerCollection; }
+            get
+            {
+                return _loggerCollection;
+            }
             set
             {
                 _loggerCollection = value;

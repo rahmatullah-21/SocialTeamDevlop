@@ -385,19 +385,53 @@ namespace EmbeddedBrowser
 
             }
 
-            if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
+            if (!IsGoogleAccountLoginFailed())
             {
-                SaveCookie();
-            }
-            var result = GetLoggedInPageSource();
+                if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
+                {
+                    SaveCookie();
+                }
+                var result = GetLoggedInPageSource();
 
-            if (!string.IsNullOrEmpty(result) && result.Contains("Switch accounts"))
-            {
-                LoadPostPage(true);
+                if (!string.IsNullOrEmpty(result) && result.Contains("Switch accounts"))
+                {
+                    LoadPostPage(true);
+                } 
             }
         }
 
+        private bool IsGoogleAccountLoginFailed()
+        {
+            try
+            {
+                if (!_dominatorAccountModel.IsUserLoggedIn)
+                {
+                    string PageText = Browser.GetTextAsync().Result;
 
+                    if (PageText.Contains("Couldn't find your Google Account")
+                        || PageText.Contains("Enter a valid email or phone number")
+                        || PageText.Contains("Wrong password. Try again or click Forgot password to reset it")
+                        || PageText.Contains("Your password was changed"))
+                    {
+                        DominatorAccountModel.IsUserLoggedIn = false;
+                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.InvalidCredentials;
+
+                        return true;
+                    }
+                    else if (PageText.Contains("Type the text you hear or see"))
+                    {
+                        DominatorAccountModel.IsUserLoggedIn = false;
+                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
         private void LinkedInBrowserLogin(string html)
         {
             if (!string.IsNullOrEmpty(html) && html.Contains("LinkedIn: Log In or Sign Up") && html.Contains("Be great at what you do") && html.Contains("By clicking Join now, you agree to the LinkedIn"))
@@ -438,13 +472,10 @@ namespace EmbeddedBrowser
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
                 {
                     KeyEvent k = new KeyEvent();
-                    k.FocusOnEditableField = false;
-                    k.WindowsKeyCode = 9;
-                    k.IsSystemKey = false;
-                    k.Type = KeyEventType.KeyDown;
+
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
 
-                    var userName = " " + DominatorAccountModel.AccountBaseModel.UserName;
+                    var userName = DominatorAccountModel.AccountBaseModel.UserName;
                     Browser.ExecuteScriptAsync("document.getElementsByName(\"id\")[0].click()");
                     Thread.Sleep(TimeSpan.FromSeconds(1));
                     userName.ToList<char>().ForEach((x) =>
@@ -456,6 +487,7 @@ namespace EmbeddedBrowser
                             IsSystemKey = false,
                             Type = KeyEventType.Char
                         };
+                        Thread.Sleep(50);
                         Browser.GetBrowser().GetHost().SendKeyEvent(k);
                     });
 
@@ -465,7 +497,6 @@ namespace EmbeddedBrowser
                     k.IsSystemKey = false;
                     k.Type = KeyEventType.KeyDown;
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
 
                     var password = " " + DominatorAccountModel.AccountBaseModel.Password;
                     Browser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
@@ -477,7 +508,6 @@ namespace EmbeddedBrowser
                         k.IsSystemKey = false;
                         k.Type = KeyEventType.Char;
                         Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
                     });
 
                     k = new KeyEvent();
@@ -1113,9 +1143,11 @@ namespace EmbeddedBrowser
 
                         if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                         {
-                            if (!objResponseParameter.Response.ToLower()
-                                     .Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) && !string.IsNullOrEmpty(objResponseParameter.Response) && objResponseParameter.Response != "<html><head></head><body></body></html>")
+                            string GooglePlusAcc = Utilities.GetBetween(objResponseParameter.Response, "\"oPEP7c\":\"", "\"");
+                            if (string.IsNullOrEmpty(GooglePlusAcc) || objResponseParameter.Response.Contains(">Join Google+<") && objResponseParameter.Response.Contains(">Sign in<"))
                                 return;
+
+                            DominatorAccountModel.AccountBaseModel.ProfileId = GooglePlusAcc;
                         }
 
 

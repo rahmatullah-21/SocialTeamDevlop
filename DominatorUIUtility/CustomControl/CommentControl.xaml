@@ -26,13 +26,13 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource LangKeyQueries}" VerticalAlignment="Center"/>
-                <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries"  x:FieldModifier="public"
+                <ComboBox Width="200" Margin="10" Grid.Column="1" x:Name="ComboBoxQueries"  x:FieldModifier="public" 
                           ItemsSource="{Binding Comments.LstQueries,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <CheckBox  x:Name="chkQuery"
                                           IsChecked="{Binding IsContentSelected}" Checked="chkQuery_Checked" Unchecked="chkQuery_Unchecked">
-                                <TextBlock>
+                                <TextBlock TextTrimming="CharacterEllipsis" Width="200">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0} [ {1} ]">
                                             <Binding Path="Content.QueryValue" />
@@ -49,7 +49,8 @@
             </Grid>
 
         </Grid>
-        <Button Content="{DynamicResource LangKeyAddCommentToList}" Width="200" x:Name="btnAddCommentToList" Click="btnAddCommentToList_Click"
+        <Button Content="{DynamicResource LangKeyAddCommentToList}" Width="200" x:Name="btnAddCommentToList" 
+                Command="{Binding AddCommentsCommand}" CommandParameter="{Binding CommandParameter}"
                     Background="{DynamicResource AccentBaseColorBrush}" Foreground="White" Margin="10,30,0,0"/>
 
     </StackPanel>

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using DominatorHouse.OtherConfiguration;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.ConfigControl;
 using DominatorUIUtility.CustomControl;
 
@@ -45,7 +46,13 @@ namespace Socinator.Social.OtherConfiguration
                 {
                     Title=FindResource("LangKeyThirdPartyServices").ToString(),
                     Content = new Lazy<UserControl>(ThirdPartyServices.GetSingeltonThirdPartyServices)
-                },
+                }
+                ,
+                //new TabItemTemplates
+                //{
+                //    Title = "LangKeyMigrationFromOldDominator".FromResourceDictionary(),
+                //    Content=new Lazy<UserControl>(()=>new MigrationFromOldDominator())
+                //},
                 new TabItemTemplates
                 {
                     Title=FindResource("LangKeyQuora").ToString(),

@@ -83,10 +83,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         if (string.IsNullOrEmpty(x) || string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
                             return;
 
-                        if (LstCustomDestination.All(y =>
-                            y.DestinationType != publisherCustomDestinationModel.InputDestination.DestinationType &&
-                            y.DestinationValue != publisherCustomDestinationModel.InputDestination.DestinationValue))
-                        {
+                        //if (LstCustomDestination.All(y =>
+                        //    y.DestinationType != publisherCustomDestinationModel.InputDestination.DestinationType &&
+                        //    y.DestinationValue != publisherCustomDestinationModel.InputDestination.DestinationValue))
+                            if (!LstCustomDestination.Any(y => y.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType &&
+                                                               y.DestinationValue == x))
+                            {
                             LstCustomDestination.Add(new PublisherCustomDestinationModel()
                             {
                                 DestinationType = publisherCustomDestinationModel.InputDestination.DestinationType,

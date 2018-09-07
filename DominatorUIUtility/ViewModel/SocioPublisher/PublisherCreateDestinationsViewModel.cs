@@ -14,6 +14,7 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
@@ -38,9 +39,50 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             StatusSyncCommand = new BaseCommand<object>(SyncCanExecute, SyncExecute);
             AddFreshAccounts = new BaseCommand<object>(AddFreshAccountCanExecute, AddFreshAccountExecute);
             AddCustomDestinationCommand = new BaseCommand<object>(AddCustomDestinationCanExecute, AddCustomDestinationExecute);
+            NetworkSelectionChangedCommand = new BaseCommand<object>((sender) => true, NetworkSelectionChangedExecute);
             InitializeProperties();
             InitializeDestinationList();
             IsSavedDestination = false;
+        }
+
+        private void NetworkSelectionChangedExecute(object sender)
+        {
+            try
+            {
+                SelectedNetworks = (SocialNetworks)sender;
+                FilterByNetwork();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void FilterByNetwork()
+        {
+            try
+            {
+                if (SelectedNetworks == SocialNetworks.Social)
+                {
+                    if (!string.IsNullOrEmpty(FilterText))
+                        DestinationCollectionView.Filter = x =>
+                            ((PublisherCreateDestinationSelectModel)x).AccountName.IndexOf(FilterText,
+                                StringComparison.CurrentCultureIgnoreCase) >= 0;
+                    else DestinationCollectionView.Filter = (x) => true;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(FilterText))
+                        DestinationCollectionView.Filter =
+                            x => ((PublisherCreateDestinationSelectModel)x).SocialNetworks == SelectedNetworks && ((PublisherCreateDestinationSelectModel)x).AccountName.IndexOf(_filterText, StringComparison.CurrentCultureIgnoreCase) >= 0;
+                    else DestinationCollectionView.Filter = x => ((PublisherCreateDestinationSelectModel)x).SocialNetworks == SelectedNetworks;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void InitializeProperties()
@@ -52,7 +94,78 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PublisherCreateDestinationModel = PublisherCreateDestinationModel.DestinationDefaultBuilder();
         }
 
+        #region Commands
+        public ICommand AddFreshAccounts { get; set; }
+
+        public ICommand StatusSyncCommand { get; set; }
+
+        public ICommand ClearCommand { get; set; }
+
+        public ICommand NavigationCommand { get; set; }
+
+        public ICommand GetSingleAccountGroupsCommand { get; set; }
+
+        public ICommand SelectAllAccountDetailsCommand { get; set; }
+
+        public ICommand OpenContextMenuCommand { get; set; }
+
+        public ICommand SelectionCommand { get; set; }
+
+        public ICommand GetSingleAccountPagesOrBoardsCommand { get; set; }
+
+        public ICommand SaveDestinationCommand { get; set; }
+
+        public ICommand AddCustomDestinationCommand { get; set; }
+        public ICommand NetworkSelectionChangedCommand { get; set; }
+        #endregion
+
         #region Properties
+
+        private SocialNetworks _selectedNetworks = SocialNetworks.Social;
+
+        public SocialNetworks SelectedNetworks
+        {
+            get
+            {
+                return _selectedNetworks;
+            }
+            set
+            {
+                if (_selectedNetworks == value)
+                    return;
+                SetProperty(ref _selectedNetworks, value);
+            }
+        }
+
+        private string _filterText;
+
+        public string FilterText
+        {
+            get
+            {
+                return _filterText;
+            }
+            set
+            {
+                if (_filterText == value)
+                    return;
+                SetProperty(ref _filterText, value);
+                FilterByNetwork();
+            }
+        }
+        private HashSet<SocialNetworks> _availableNetworks = SocinatorInitialize.AvailableNetworks;
+        public HashSet<SocialNetworks> AvailableNetworks
+        {
+            get
+            {
+                return _availableNetworks;
+            }
+            set
+            {
+                _availableNetworks = value;
+                OnPropertyChanged(nameof(AvailableNetworks));
+            }
+        }
 
         private PublisherCreateDestinationModel _publisherCreateDestinationModel = PublisherCreateDestinationModel.DestinationDefaultBuilder();
 
@@ -123,27 +236,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        public ICommand AddFreshAccounts { get; set; }
-
-        public ICommand StatusSyncCommand { get; set; }
-
-        public ICommand ClearCommand { get; set; }
-
-        public ICommand NavigationCommand { get; set; }
-
-        public ICommand GetSingleAccountGroupsCommand { get; set; }
-
-        public ICommand SelectAllAccountDetailsCommand { get; set; }
-
-        public ICommand OpenContextMenuCommand { get; set; }
-
-        public ICommand SelectionCommand { get; set; }
-
-        public ICommand GetSingleAccountPagesOrBoardsCommand { get; set; }
-
-        public ICommand SaveDestinationCommand { get; set; }
-
-        public ICommand AddCustomDestinationCommand { get; set; }
 
         private List<string> _needToUpdateAccounts = new List<string>();
 
@@ -250,10 +342,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private async Task UpdateSingleAccountGroupsDetails(AccountDetailsSelector accountDetailsSelector, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
         {
             // Get the account group pair
-            var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
+            // var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
 
             // Get already selected groups
-            var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
+            // var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
+
+            var alreadySelectedGroups = accountDetailsSelector.AccountDetailsSelectorViewModel.AlreadySelectedList;
 
             if (GroupsAvailableInNetworks.Contains(publisherCreateDestinationSelectModel.SocialNetworks.ToString()))
             {
@@ -268,7 +362,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 groups.ForEach(group =>
                 {
                     group.Network = publisherCreateDestinationSelectModel.SocialNetworks;
-
+                    group.IsSelected = alreadySelectedGroups.Contains(group.DetailUrl);
                     // Add the group details to Ui's view model 
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
@@ -365,10 +459,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private async Task UpdateSingleAccountPagesDetails(AccountDetailsSelector accountDetailsSelector, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
         {
-            var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
+            //var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == publisherCreateDestinationSelectModel.AccountId).ToList(); ;
 
-            var alreadySelectedPages = valuePairs.Select(x => x.Value).ToList();
+            //var alreadySelectedPages = valuePairs.Select(x => x.Value).ToList();
 
+            var alreadySelectedPages = accountDetailsSelector.AccountDetailsSelectorViewModel.AlreadySelectedList;
             if (BoardsOrPagesAvailableInNetworks.Contains(publisherCreateDestinationSelectModel.SocialNetworks.ToString()))
             {
                 var accountsDetailsSelector = SocinatorInitialize
@@ -380,7 +475,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 pagesOrBoards.ForEach(page =>
                 {
                     page.Network = publisherCreateDestinationSelectModel.SocialNetworks;
-
+                    page.IsSelected = alreadySelectedPages.Contains(page.DetailUrl);
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -571,6 +666,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     groups.ForEach(group =>
                     {
                         group.Network = x.SocialNetworks;
+                        group.IsSelected = alreadySelectedGroups.Contains(group.DetailUrl);
                         if (!Application.Current.Dispatcher.CheckAccess())
                         {
                             Application.Current.Dispatcher.Invoke(() =>
@@ -668,6 +764,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         pages.ForEach(group =>
                         {
                             group.Network = x.SocialNetworks;
+                            group.IsSelected = alreadySelectedPages.Contains(group.DetailUrl);
                             if (!Application.Current.Dispatcher.CheckAccess())
                             {
                                 Application.Current.Dispatcher.Invoke(() =>
@@ -729,7 +826,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AccountId = x.AccountBaseModel.AccountId,
                     AccountName = x.AccountBaseModel.UserName,
                     SocialNetworks = x.AccountBaseModel.AccountNetwork,
-                    IsOwnWallAvailable= x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                    IsOwnWallAvailable = x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
                     IsGroupsAvailable =
                         GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsPagesOrBoardsAvailable =
@@ -833,7 +930,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             {
                                 AccountId = x.AccountId,
                                 SocialNetworks = x.SocialNetworks,
-                                DestinationType = ConstantVariable.OwnWall ,
+                                DestinationType = ConstantVariable.OwnWall,
                                 DestinationUrl = x.AccountId,
                                 PublisherPostlistModel = new PublisherPostlistModel(),
                                 DestinationGuid = Utilities.GetGuid(),
@@ -843,8 +940,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         else
                         {
                             PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(z =>
-                                z.DestinationType ==ConstantVariable.OwnWall && z.AccountId == x.AccountId);
-                        }                         
+                                z.DestinationType == ConstantVariable.OwnWall && z.AccountId == x.AccountId);
+                        }
                     }
                     else
                     {

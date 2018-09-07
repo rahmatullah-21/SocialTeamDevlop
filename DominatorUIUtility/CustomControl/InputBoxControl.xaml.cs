@@ -2,6 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Utility;
+using System.Windows.Input;
+using DominatorHouseCore;
+using System;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -17,6 +20,7 @@ namespace DominatorUIUtility.CustomControl
             SaveVisiblity = Visibility.Visible;
             ImportVisiblity = Visibility.Visible;
             RefreshVisiblity = Visibility.Visible;
+            InputCollection = new List<string>();
             Height = 80;
         }
 
@@ -76,16 +80,27 @@ namespace DominatorUIUtility.CustomControl
         }
         private void BtnImportBlacklistsText_OnClick(object sender, RoutedEventArgs e)
         {
-            var list = FileUtilities.FileBrowseAndReader();
-            if (list.Count == 0)
-                return;
-
-            InputCollection.AddRange(list);
-
-            InputCollection.ForEach(x =>
+            try
             {
-                InputText = string.IsNullOrEmpty(InputText) ? x : InputText + "\r\n" + x;
-            });
+                var list = FileUtilities.FileBrowseAndReader();
+                if (list.Count == 0)
+                    return;
+                foreach (var text in list)
+                {
+                    if (!InputCollection.Contains(text))
+                        InputCollection.Add(text);
+
+                }
+                InputText = string.Empty;
+                InputCollection.ForEach(x =>
+                {
+                    InputText = string.IsNullOrEmpty(InputText) ? x : InputText + "\r\n" + x;
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void BtnSaveBlacklistsText_OnClick(object sender, RoutedEventArgs e)
@@ -167,5 +182,28 @@ namespace DominatorUIUtility.CustomControl
             {
                 BindsTwoWayByDefault = true
             });
+
+
+
+        public ICommand SaveCommand
+        {
+            get { return (ICommand)GetValue(SaveCommandProperty); }
+            set { SetValue(SaveCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SaveCommandProperty =
+            DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(InputBoxControl));
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(InputBoxControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+
+
     }
 }

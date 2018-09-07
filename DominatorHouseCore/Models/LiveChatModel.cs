@@ -201,16 +201,18 @@ namespace DominatorHouseCore.Models
             }
         }
 
-
-        public string SenderId { get; set; }
-
-
         [ProtoMember(5)]
         public string ThreadId { get; set; }
 
         [ProtoMember(6)]
         public string LastMessageOwnerId { get; set; }
 
+        [ProtoMember(7)]
+        public string SenderId { get; set; }
+
+        [ProtoMember(8)]
+        public string AccountId { get; set; } = string.Empty;
+        
         public bool MoreAvailableMax { get; set; }
 
         public bool MoreAvailableMin { get; set; }
@@ -218,10 +220,7 @@ namespace DominatorHouseCore.Models
         public string NextMaxId { get; set; }
         public string NextMinId { get; set; }
 
-
-        [ProtoMember(7)]
-        public string AccountId { get; set; } = string.Empty;
-
+      
     }
 
     [ProtoContract]

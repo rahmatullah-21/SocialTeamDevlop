@@ -18,6 +18,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -317,7 +318,7 @@ namespace DominatorUIUtility.CustomControl
                     convasImage = GetConvasImage(image);
 
                     var editInstaProfileMenu = new MenuItem { Header = "Edit Insta Profile", Icon = convasImage };
-                    editInstaProfileMenu.Click += EditInstaProfile;
+                    editInstaProfileMenu.Click += EditNetworkProfile;
                     editInstaProfileMenu.DataContext = dominatorAccountModel;
                     menuOptions.Add(editInstaProfileMenu);
 
@@ -335,9 +336,44 @@ namespace DominatorUIUtility.CustomControl
                     //#endregion
 
                     break;
-            }
+                case "Twitter":
 
+                    #region Edit Twitter Profile Menu
+
+                    image = Application.Current.FindResource("appbar_page_edit");
+                    convasImage = GetConvasImage(image);
+
+                    var editTwtProfileMenu = new MenuItem { Header = "Edit Twitter Profile", Icon = convasImage };
+                    editTwtProfileMenu.Click += EditNetworkProfile;
+                    editTwtProfileMenu.DataContext = dominatorAccountModel;
+                    menuOptions.Add(editTwtProfileMenu);
+
+                    #endregion
+                    break;
+            }
+            #region Edit Twitter Profile Menu
+
+            image = Application.Current.FindResource("appbar_page_duplicate");
+            convasImage = GetConvasImage(image);
+
+            var copyAccountId = new MenuItem { Header = "Copy Account Id", Icon = convasImage };
+            copyAccountId.Click += CopyAccountId;
+            copyAccountId.DataContext = dominatorAccountModel;
+            menuOptions.Add(copyAccountId);
+
+            #endregion
             return menuOptions;
+        }
+
+        private void CopyAccountId(object sender, RoutedEventArgs e)
+        {
+            var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+            if(!string.IsNullOrEmpty(dataContext.AccountId))
+            {
+                Clipboard.SetText(dataContext.AccountId);
+                ToasterNotification.ShowSuccess("AccountId copied");
+            }
+            
         }
 
         private static Rectangle GetConvasImage(object image)
@@ -436,7 +472,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        public void EditInstaProfile(object sender, RoutedEventArgs e)
+        public void EditNetworkProfile(object sender, RoutedEventArgs e)
         {
             try
             {

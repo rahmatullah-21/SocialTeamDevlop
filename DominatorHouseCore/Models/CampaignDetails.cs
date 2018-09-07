@@ -251,6 +251,9 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _selectedActivity, value);
             }
         }
+        [ProtoMember(11)]
+        public bool IsInteractedPostsUpdated { get; set; }
+       
     }
 
 

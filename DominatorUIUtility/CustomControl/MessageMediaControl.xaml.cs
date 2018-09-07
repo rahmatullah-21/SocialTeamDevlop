@@ -8,6 +8,8 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
+using System.Windows.Input;
+using DominatorHouseCore.Command;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -21,6 +23,8 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             MainGrid.DataContext = this;
+            AddMessagesCommand = new BaseCommand<object>((sender) => true, AddMessagesExecute);
+
         }
         private static readonly RoutedEvent AddMessagesToListEvent =
                 EventManager.RegisterRoutedEvent("AddMessagesToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
@@ -152,5 +156,67 @@ namespace DominatorUIUtility.CustomControl
         {
             Messages.MediaPath = "";
         }
+
+        public ICommand AddMessagesCommand
+        {
+            get { return (ICommand)GetValue(AddMessagesCommandProperty); }
+            set { SetValue(AddMessagesCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AddMessagesCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AddMessagesCommandProperty =
+            DependencyProperty.Register("AddMessagesCommand", typeof(ICommand), typeof(MessageMediaControl));
+
+        private void AddMessagesExecute(object sender)
+        {
+            if (string.IsNullOrEmpty(Messages.MessagesText) && string.IsNullOrEmpty(Messages.MediaPath))
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                    "Please type some message !!");
+                return;
+            }
+
+            AddCheckedQueryToList();
+            if (Messages.SelectedQuery.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                    "Please add atleast one query!!");
+                return;
+            }
+            if (btnAddMessagesToList.Content.ToString() == "Update Message")
+            {
+                LstManageMessagesModel.Select(x =>
+                {
+                    if (x.MessageId == Messages.MessageId)
+                    {
+                        x.MessagesText = Messages.MessagesText;
+                        x.LstQueries = Messages.LstQueries;
+                    }
+                    return x;
+                });
+                Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+                Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                Isupdated = true;
+                Dialog.CloseDialog(this);
+            }
+            else
+            {
+                AddCommentToListEventHandler();
+            }
+        }
+
+
+
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessageMediaControl), new PropertyMetadata(OnAvailableItemsChanged));
+
+
     }
 }

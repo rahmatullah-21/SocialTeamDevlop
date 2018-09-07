@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Facebook,Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn")]
+        [Description("Facebook,Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn,Tumblr")]
         Comment = 5,
 
         [Description("Twitter,Instagram,Reddit")]
@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Enums
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
-        [Description("Twitter,Instagram")]
+        [Description("Twitter")]
         Repost = 8,
 
         [Description("Facebook,Twitter,Instagram")]
@@ -209,7 +209,7 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Unsubscribe = 69,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
         BroadcastMessages = 70,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
@@ -297,6 +297,10 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Dislike = 100,
         [Description("Quora")]
-        AnswerOnQuestions=101
+        AnswerOnQuestions = 101,
+        [Description("Twitter")]
+        WelcomeTweet = 102,
+        [Description("LinkedIn")]
+        SalesNavigatorCompanyScraper = 103,
     }
 }

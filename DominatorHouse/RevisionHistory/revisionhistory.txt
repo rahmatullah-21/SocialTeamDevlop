@@ -1,3 +1,118 @@
+Version[1.0.0.12],[30th-August-18]
+
+New Features:-
+Sociopublisher:-
+	Added the search option in create destination
+Instagram:-
+	InstaPoster => Reposting posts with Original post caption, username and URL
+	Added an option to mention counts, how many posts needs to be reposted per user
+	Reposting unique posts from each account
+LinkedIn:-
+	Scraper => Added feature to  scrape after visiting  and  scrape without visiting for scraping profile details.
+	SalesNavigator Scraper => Added feature to  scrape after visiting  and  scrape without visiting for scraping profile details.
+	Linkedin socinator => Scraper => User scraper => Add feature to scrape Only 1st degree connection.
+	Grow Connection => Connection request => Added feature to send request via Email Id.
+Twitter:-
+	Poster => Reposter => QueryType => specific users tweets
+	Scraper => Scrape tweet => QueryType => specific user tweets
+	Engage => Unlike => Liked Tweets and 2.Custom Tweet list
+	Poster => Retweet => QueryType => Specific users tweets
+	Engage => Like => Query Type =>  Specific users tweets
+	Engage => Comment => Query Type => Specific users tweets
+	Engage =>Comment => Spintax support added
+	Messenger => Broadcast Message => Message Text => Spintax support Added
+	Messenger => Auto Reply => Message Text => Spintax support Added
+	Messenger => Message to new followers=>Message Text => Spintax support Added
+Pinterest:-
+	Grow follower => Added feature to follow "Boards By Keyword"
+Facebook:-
+	Grow Friends => Send friend request => Added query for suggested friends.
+Gplus:-
+	Grow follower => Added option to follow community members by custom URL and communities already joined.
+
+
+Fixed:-
+	Social:-
+		Social  =>  Other Configgurations =>  Issue fixed with enable Advanced User Mode
+		Issue fixed with updating pending posts of the campaign, when updated with a new url in "Create A Multiple Image Post
+		Added in checkbox in all Social networks to select all queries from list at a once and remove them.
+	Instagram:-
+		InstaLiker/InstaCommenter => Issue fixed with commenting multiple comments as a single comment
+		InstaLiker/InstaCommenter => Issue fixed with adding multiple post ids separated by comma "," and showing no more data.
+		InstaScraper => Issue fixed with downloading album posts
+	Facebook:-
+		Account Activitiy => Auto reply to messages => Fixed issue with reply to new pending messages having specific words
+		Account Activity => Post Liker => Fixed issue with saving custom post lists.
+		Engage => Post Comment => Fixed issue with custom post urls while saving in module and account activity as well.
+		Account Activity =>  Comment Scraper =>  Fixed issue with exporting the reports
+		Account Manager => Fixed issue with account's login issue.
+		Grow friends => Fixed issue with withdraw sent request.
+	LinkedIn:-
+		Scraper => User Scraper => Fixed issue with search URl
+	Twitter:-
+		Social => Twitter => Poster => Welcome Tweet => User Filter => Issue fixed with user has between _(dash) to _(dash) followings issue.
+		Accounts Manager => Add Account=> Issue fixed with giving invalid message while adding account
+		Accounts Activity => Welcome Tweet => Issue fixed with getting error message while clicking on save button even after adding message
+		Enagage => Unlike => Issue Fixed with Liked tweets not working
+		Accounts Activity => Comment => Issue Fixed with spintax
+	Pinterest:-
+		Account => Add valid Account then Select the valid account then Check Account Status then delete the selected accounts and you will see application get crashed.
+		Create Board => Schedule => Fixed Issue with scheduling the jobs to the upcoming days with proper message in the logger.
+	YouTube:-
+		Watch Video =>  View  Increaser => Fixed issue with continutiy of  the video in embedded browser.
+		Watch Video =>  View  Increaser => Fixed issue with other configuration in the module.
+		Watch Video =>  Fixed issue with start => pause actions in campaign.
+		Engage => Like =>  Video Filter => Fixed issue with video filters
+		Engage =>  Like => Report =>  Fixed issue with proper data are shown in .CSV file
+		Engage => Comment => Fixed issue with comment while saving into the comment list
+		Account Manager => Fixed issue with account login status.
+		Watch Video => View Increaser =>Fixed issue with export report for view increaser.
+	Gplus:-
+		Account => Application crashing while deleting accounts which failed login.
+	 
+
+Version[1.0.0.11],[23rd-August-18]
+
+****NOW SOCINATOR SUPPORTS DOMINATORHOUSE LICENSES****
+New Features:-
+Quora:-
+	Answer Questions:- Answer questions on quora
+Twitter:-
+	Welcome Tweet:- Send welcome to tweet to new followers as mention.
+	Added option to search tweets liked by a specific user
+Instagram:-
+	Added new filter => Filter by Gender
+Fixed:-
+	
+	SocioPublisher:-
+		Crashing issue fixed with Manage posts
+		Create a single post=>Manage post=>Published=>Issue fixed with exported file.
+	Account Growth:-
+		Issue fixed with growth changes
+		Facebook=> Create Single Post :Fixed issue with replace post description text with given text
+	Instagram:-
+		InstaLiker/InstaCommenter => Like => Someone's followers Posts. Issue fixed with showing no more data after completing first job. 
+		Campaigns => Issue fixed with showing accounts as selected while they have not been selected
+	Facebook:-
+		Grow Friend => Send friend request => Fixed issue with Next Job Scheduled before process getting started
+		Grow groups => Group Joiner => Fixed issue with exporting data to excel sheets in random order. 
+		Broadcast Messages => Auto reply to messages => Fixed issue with auto reply to messages.
+	Linkedin:-
+		Salesnavigator Scraper ==>  Fixed issue with showing search URL result in the mid of running campaign in sales navigator scraper module.
+		Grow Connection => Connection Request => Fixed issue with sending connection request by search Url.
+	Twitter:-
+		Accounts Activity => Delete => Issue Fixed with No more data available in Delete source
+		Messenger => Broadcast Message => Random followers => Issue fixed with coming error while clicking on Add message to list button while adding message
+		Messenger => Auto Reply message => Filter => Issue fixed with not showing report in campaign section
+		Messenger => Auto Reply message => Filter => Issue fixed with crashing issue while duplicating campaign and clicking on cancel editing button
+		Poster => Welcome Tweet => Issue fixed with welcome tweet not working
+	YouTube:-
+		Acivity Log => Fixed issue with proper activity not showing in activity log.
+		Engage => Like => Fixed issue with repeated data showing in .CSV file.
+	gPlus:-
+		Fixed Issue with crashing issue while deleting the invalid accounts.
+
+
 Version[1.0.0.10],[18th-August-18]
 New Features:-
 Added chart view for Account Growth (Beta)
@@ -7,20 +122,20 @@ Reddit:-
 
 Fixed:
 SocioPublisher:- 
-	Twitter-->Monitor Folder-->Issue fixed with Publishing in Destinations
-	Twitter-->Create A Multiple Image Post-->Issue fixed in Upload From Url for removing all the uploaded images
-	Facebook->Scrape Post->Fixed issue with scraping posts from facebook.
-	Facebook->Create Single Post - Buy and Sell Group->Fixed issue with deleting the post in the given time interval.
-	Facebook->Scrape Post->Fixed issue with scraping all the related posts from group with image.
+	Twitter =>Monitor Folder=>Issue fixed with Publishing in Destinations
+	Twitter =>Create A Multiple Image Post=>Issue fixed in Upload From Url for removing all the uploaded images
+	Facebook =>Scrape Post=>Fixed issue with scraping posts from facebook.
+	Facebook =>Create Single Post - Buy and Sell Group=>Fixed issue with deleting the post in the given time interval.
+	Facebook =>Scrape Post=>Fixed issue with scraping all the related posts from group with image.
 	Pinterest - Follow - Report: Fixed issue with duplicating the same reports.
 	Instagram : Issue fixed with updating re-added posts.
 	Instagram : Crashing issue fixed while selecting video as media.
 	Instagram : Issue fixed with posting multiple images.
 
 Accounts Activity:-
-	Tumblr->Report ->Fixed issue with displaying the report with proper count.
-	Tumblr->Report ->Fixed issue with refreshing the report.
-	Twitter-->Issue fixed in Follow Back on given time interval
+	Tumblr=>Report =>Fixed issue with displaying the report with proper count.
+	Tumblr=>Report =>Fixed issue with refreshing the report.
+	Twitter=>Issue fixed in Follow Back on given time interval
 
 Account=> Account manager => Issue in browser login is fixed.
 
@@ -36,13 +151,13 @@ Facebook:-
 Linkedin:-
 	Minor bug fixed and improvements
 Twitter:-
-	Accounts-->Issue fixed with showing success status for invalid account in account manager section.
-	Engage-->Comment-->Issue fixed in Queries list to select new added query after duplicating campaign.
-	Messenger-->Broadcast Message-->Issue fixed in Message Text to delete uploaded photo at one click.
-	Messenger-->Message to New Followers-->Issue fixed in manage list to show the serial number after adding messages
+	Accounts=>Issue fixed with showing success status for invalid account in account manager section.
+	Engage=>Comment=>Issue fixed in Queries list to select new added query after duplicating campaign.
+	Messenger=>Broadcast Message=>Issue fixed in Message Text to delete uploaded photo at one click.
+	Messenger=>Message to New Followers=>Issue fixed in manage list to show the serial number after adding messages
 Reddit:-
-	Voter -> Upvote -> Fixed issue with performing action on unique post from all accounts.
-	Voter -> upvote comment -> Issue fixed with voting comments.
+	Voter => Upvote => Fixed issue with performing action on unique post from all accounts.
+	Voter => upvote comment => Issue fixed with voting comments.
 Pinterest:-
 	Follow - Enable Auto Follow/Unfollow: Fixed issue with enabling the auto unfollow process after the followings count reaches a specific range.
 	Repin - Select Account - Click To Add Fresh Accounts: Fixed issue with adding fresh pinterest accounts.
@@ -50,10 +165,10 @@ Pinterest:-
 YouTube:-
 	Dislike: Fixed issue with dislike the video.
 	Settings: Fixed issue with settings module
-	Scraper -> Post Scraper -> Issue fixed with exporting the report.
-	Scraper -> Channel scrpaer -> Issue fixed with exporting the report.
-	Engage -> Like -> Issue fixed for report.
-	Subscriber -> Issue fixed with Report and Logger.
+	Scraper => Post Scraper => Issue fixed with exporting the report.
+	Scraper => Channel scrpaer => Issue fixed with exporting the report.
+	Engage => Like => Issue fixed for report.
+	Subscriber => Issue fixed with Report and Logger.
 Tumblr:-
 	Unfollow: Fixed issue with showing the count ranges in other configurations.
 	Follow: Fixed issue with enabling the auto unfollow process after the followings count reaches a specific range.
@@ -155,7 +270,7 @@ Youtube:- Minor bug fixed and improvements
 Quora:- Minor bug fixed and improvements
 Tumblr:- Minor bug fixed and improvements
 
-----------------------------------------------------------
+=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>
 Version[1.0.0.3],[21st-July-18]
 
 New Features:-
@@ -174,7 +289,7 @@ Youtube:- Minor bug fixed and improvements
 Quora:- Minor bug fixed and improvements
 Tumblr:- Minor bug fixed and improvements
 
-------------------------------------------------------------
+=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>
 Version[1.0.0.2],[18th-July-18]
 New Features:
 Reddit:- Subscribe Communities by keywords or custom URL

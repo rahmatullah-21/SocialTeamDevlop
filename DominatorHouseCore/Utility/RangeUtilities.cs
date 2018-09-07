@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Utility
             get
             {
                 if (_endValue < _startValue)
-                    _endValue = _startValue;
+                    EndValue = _startValue;
                 return _startValue;
             }
             set

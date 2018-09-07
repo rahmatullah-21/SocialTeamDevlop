@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d" MinHeight="40" x:Name="root">
+             mc:Ignorable="d" MinHeight="40" x:Name="root"
+             xmlns:behaviour="clr-namespace:DominatorUIUtility.Behaviours">
    <Grid  Background="{DynamicResource AccentBaseColorBrush}"  Name="mainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -58,7 +59,8 @@
                 </Button>
             </StackPanel>
             <ComboBox VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged"  Margin="15,0" Background="Transparent" Foreground="White" Grid.Column="2" BorderThickness="1"
-                      BorderBrush="AntiqueWhite" ItemsSource="{Binding AccountItemSource}" SelectedItem="{Binding SelectedItem}" />
+                      BorderBrush="AntiqueWhite" ItemsSource="{Binding AccountItemSource}" SelectedItem="{Binding SelectedItem}"
+                      behaviour:SelectionChangedBehaviour.Command="{Binding SelectionChangedCommand}"/>
 
         </Grid>
     </Grid>

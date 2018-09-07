@@ -150,6 +150,21 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _queryPriority, value);
             }
         }
+        private bool _isQuerySlected;
+
+        public bool IsQuerySelected
+        {
+            get
+            {
+                return _isQuerySlected;
+            }
+            set
+            {
+                if (_isQuerySlected == value)
+                    return;
+                SetProperty(ref _isQuerySlected, value);
+            }
+        }
 
         public string QueryTypeAsDisplayName()
         {

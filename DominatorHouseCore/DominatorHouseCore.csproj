@@ -201,6 +201,7 @@
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\SQliteMigration.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
@@ -591,6 +592,7 @@
     <Compile Include="Utility\MediaUtilites.cs" />
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\GlobalInteractionViewModel.cs" />
+    <Compile Include="ViewModel\MediaGeneratorViewModel.cs" />
     <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />

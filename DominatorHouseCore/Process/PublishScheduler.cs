@@ -355,8 +355,8 @@ namespace DominatorHouseCore.Process
 
                 // Check any destinations has been deleted
                 if (deletedDestinationCount > 0)
-                    GlobusLogHelper.log.Info(
-                        $"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
+                        $"{deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} Destination has been deleted from {campaignStatusModel.CampaignName}");
 
                 ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinations;
 
@@ -367,7 +367,7 @@ namespace DominatorHouseCore.Process
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)
                     {
-                        GlobusLogHelper.log.Info(
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                             $"{campaignStatusModel.CampaignName} has zero as maximum publishing count!");
                         return;
                     }
@@ -398,7 +398,7 @@ namespace DominatorHouseCore.Process
                     // Check whether current accounts network present or not
                     if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
                     {
-                        GlobusLogHelper.log.Info(
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                             $"You don't have a permission to run with {accountsNetwork} network, please purchase !");
                         continue;
                     }
@@ -477,7 +477,7 @@ namespace DominatorHouseCore.Process
 
                 if (campaignStatusModel == null)
                 {
-                    GlobusLogHelper.log.Info("Current post isn't register with any campaign!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "Current post isn't register with any campaign!");
                     return;
                 }
 
@@ -486,7 +486,7 @@ namespace DominatorHouseCore.Process
 
                 if (!isStart)
                 {
-                    GlobusLogHelper.log.Info("Current post's campaign expired!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "Current post's campaign expired!");
                     return;
                 }
 
@@ -571,8 +571,8 @@ namespace DominatorHouseCore.Process
 
                 // Check any destinations has been deleted
                 if (deletedDestinationCount > 0)
-                    GlobusLogHelper.log.Info(
-                        $"Error : Destination deleted {deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} from {campaignStatusModel.CampaignName}");
+                    GlobusLogHelper.log.Info(Log.CustomMessage,SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
+                        $"{deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} Destination has been deleted from {campaignStatusModel.CampaignName}");
 
                 var destinations = UpdatePostDetails(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, allDestination, post, allDestinaionGuid);
 
@@ -588,7 +588,7 @@ namespace DominatorHouseCore.Process
                     // Check whether current accounts network present or not
                     if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
                     {
-                        GlobusLogHelper.log.Info($"You don't have a permission to run with {accountsNetwork} network, please purchase !");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), $"You don't have a permission to run with {accountsNetwork} network, please purchase !");
                         continue;
                     }
 
@@ -766,7 +766,7 @@ namespace DominatorHouseCore.Process
         {
             if (givenDestinations.Count == 0)
             {
-                GlobusLogHelper.log.Info("No more unique destinations are present!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "No more unique destinations are present!");
                 return new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
             }
 
@@ -781,7 +781,7 @@ namespace DominatorHouseCore.Process
                 // Checking, If no more post available
                 if (!pendingPostList.Any())
                 {
-                    GlobusLogHelper.log.Info($"No more unique post are available for campaign {campaignName}!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), $"No more unique post are available for campaign {campaignName}!");
                     return null;
                 }
 
@@ -807,7 +807,7 @@ namespace DominatorHouseCore.Process
 
                 // Validate whether all destinations contains posts or not
                 if (pendingPostList.Count < postsDestinations.Count)
-                    GlobusLogHelper.log.Info("Pending postlist counts are lesser than required count!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required count!");
 
                 #region Assigning the Posts to Destinations
 
@@ -855,7 +855,7 @@ namespace DominatorHouseCore.Process
 
                 if (givenDestinations.Count == 0)
                 {
-                    GlobusLogHelper.log.Info("No more unique destinations are present!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "No more unique destinations are present!");
                     return new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
                 }
 
@@ -891,7 +891,7 @@ namespace DominatorHouseCore.Process
                             ToasterNotification.ShowInfomation(
                                 $"{campaignName} has {expiredPostCount} expired post!");
                         }
-                        GlobusLogHelper.log.Info($"No more unique post are available for campaign {campaignName}!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), $"No more unique post are available for campaign {campaignName}!");
                         return null;
                     }
 
@@ -916,7 +916,7 @@ namespace DominatorHouseCore.Process
 
                     // Validate whether all destinations contains posts or not
                     if (pendingPostList.Count < postsDestinations.Count)
-                        GlobusLogHelper.log.Info("Pending postlist counts are lesser than required count!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required count!");
 
                     #region Assigning the Posts to Destinations
 
@@ -993,7 +993,7 @@ namespace DominatorHouseCore.Process
                     if (post.LstPublishedPostDetailsModels.Any(x =>
                         x.DestinationUrl == currentDestinationUrl && destinationDetails.AccountId == x.AccountId))
                     {
-                        GlobusLogHelper.log.Info($"Current posts has already published on account {destinationDetails.AccountName}'s destination - {destinationDetails.DestinationType}[{destinationDetails.DestinationUrl}]");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), $"Current posts has already published on account {destinationDetails.AccountName}'s destination - {destinationDetails.DestinationType}[{destinationDetails.DestinationUrl}]");
                         return;
                     }
 
@@ -1087,7 +1087,7 @@ namespace DominatorHouseCore.Process
                     if (post.LstPublishedPostDetailsModels.Any(x =>
                         x.DestinationUrl == currentDestinationUrl && destinationDetails.AccountId == x.AccountId))
                     {
-                        GlobusLogHelper.log.Info($"Current posts has already published on account {destinationDetails.AccountName}'s destination - {destinationDetails.DestinationType}[{destinationDetails.DestinationUrl}]");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), $"Current posts has already published on account {destinationDetails.AccountName}'s destination - {destinationDetails.DestinationType}[{destinationDetails.DestinationUrl}]");
                         return;
                     }
 

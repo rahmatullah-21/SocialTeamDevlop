@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
+using System.Windows.Input;
+using DominatorHouseCore.Command;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -17,7 +19,8 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-            
+            AddCommentsCommand = new BaseCommand<object>((sender) => true, AddCommentsExecute);
+
         }
 
 
@@ -124,5 +127,61 @@ namespace DominatorUIUtility.CustomControl
             });
         }
         public bool Isupdated { get; set; } = false;
+
+        public ICommand AddCommentsCommand
+        {
+            get { return (ICommand)GetValue(AddCommentsCommandProperty); }
+            set { SetValue(AddCommentsCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AddCommentsCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AddCommentsCommandProperty =
+            DependencyProperty.Register("AddCommentsCommand", typeof(ICommand), typeof(CommentControl));
+
+        private void AddCommentsExecute(object sender)
+        {
+            if (string.IsNullOrEmpty(Comments.CommentText))
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                    "Please type some comment !!");
+                return;
+            }
+
+            AddCheckedQueryToList();
+            if (btnAddCommentToList.Content.ToString() == "Update Comment")
+            {
+                LstManageCommentModel.Select(x =>
+                {
+                    if (x.CommentId == Comments.CommentId)
+                    {
+                        x.CommentText = Comments.CommentText;
+                        x.FilterText = Comments.FilterText;
+                        x.LstQueries = Comments.LstQueries;
+                    }
+                    return x;
+                });
+                Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+                Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
+                Isupdated = true;
+                Dialog.CloseDialog(this);
+            }
+            else
+            {
+                AddCommentToListEventHandler();
+            }
+
+        }
+
+
+
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(CommentControl), new PropertyMetadata(OnAvailableItemsChanged));
     }
 }

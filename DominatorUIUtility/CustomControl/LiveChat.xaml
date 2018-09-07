@@ -37,12 +37,12 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </Button.Content>
-                   
+
                 </Button>
-                
+
                 <ComboBox x:Name="Accounts" Width="200" HorizontalAlignment="Right" ItemsSource="{Binding LiveChatModel.AccountNames}"
                       VerticalAlignment="Center" Margin="20,0" SelectedIndex="0" SelectedItem="{Binding LiveChatModel.SelectedAccount}"
-                     behaviour:SelectionChangedBehaviour.Command="{Binding UserSelectionChangedCommand}"/>
+                     behaviour:SelectionChangedBehaviour.Command="{Binding UserSelectionChangedCommand}" />
             </StackPanel>
         </Grid>
 
@@ -98,7 +98,7 @@
                     </Style>
                 </GridSplitter.Style>
             </GridSplitter>
-            <Grid Grid.Column="2" >
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
@@ -151,7 +151,7 @@
                 </ListBox>
 
                 <Border BorderThickness="2" Margin="5,0,0,0" Grid.Row="1" BorderBrush="Gainsboro" Visibility="{Binding ElementName=Senders,
-                    Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}">
+                    Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}" >
                     <Grid MinHeight="50" MaxHeight="114" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -160,7 +160,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Attach button -->
-                        <Button  VerticalAlignment="Center" Background="Transparent" Command="{Binding AttachFileCommand}">
+                        <!--<Button  VerticalAlignment="Center" Background="Transparent" Command="{Binding AttachFileCommand}">
                             <Button.Content>
                                 <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="35" Width="15">
                                     <Rectangle.OpacityMask>
@@ -172,13 +172,13 @@
                                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora }">
+                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora}">
                                             <Setter Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                        </Button>
+                        </Button>-->
 
                         <!-- Message box -->
                         <TextBox Grid.Column="1" x:Name="TxtMessege"
@@ -191,16 +191,32 @@
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 8 0" >
 
                             <!-- Emoji button -->
-                            <Button Background="Transparent" Command="{Binding EmojiCommand}" Content="😄" FontWeight="Bold" FontSize="30">
-                                <!--<Button.Content>
-                                    <Rectangle Fill="Orange" HorizontalAlignment="Center" Height="30" Width="30">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Visual="{StaticResource appbar_social_drupal}" Stretch="Fill"/>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button.Content>-->
-                            </Button>
+                            <!--<Button Background="Transparent" Command="{Binding EmojiCommand}" Content="😄" FontWeight="Bold" FontSize="30" Name="BtnEmoji"/>
+                            <Popup IsOpen="{Binding IsPopupOpen}" Name="LstEmoji"  MaxHeight="300"   AllowsTransparency="True" 
+                                   PopupAnimation="Fade"  Focusable="False" PlacementTarget="{Binding ElementName=BtnEmoji}" 
+                                   Placement="Top">
 
+                                <Border BorderThickness="1" BorderBrush="Gainsboro"  CornerRadius="3" Padding="2" Margin="0,0,12,0">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
+                                    </Border.Effect>
+                                    <ListBox Focusable="False" Foreground="Black" BorderThickness="0"  
+                                                 ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding LstEmojiSmileysAndPeople}">
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="5" />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Background="Transparent" ToolTipService.ToolTip="{Binding Name}" Text="{Binding Value}"/>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+
+                                </Border>
+                            </Popup>-->
                             <!-- Send button -->
                             <Button Padding="8"  Background="Transparent" x:Name="BtnSend" Command="{Binding SendMessageCommand}">
                                 <Button.Content>

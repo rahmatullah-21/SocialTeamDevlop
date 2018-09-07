@@ -147,7 +147,19 @@ namespace DominatorUIUtility.CustomControl
         {
             SaveEventArgsHandler();
         }
-       
+
+
+        public ICommand SelectionChangedCommand
+        {
+            get { return (ICommand)GetValue(SelectionChangedCommandProperty); }
+            set { SetValue(SelectionChangedCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectionChangedCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectionChangedCommandProperty =
+            DependencyProperty.Register("SelectionChangedCommand", typeof(ICommand), typeof(AccountGrowthModeHeader));
+
+
     }
    
 }

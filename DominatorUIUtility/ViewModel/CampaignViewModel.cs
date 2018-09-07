@@ -28,6 +28,7 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -43,9 +44,30 @@ namespace DominatorUIUtility.ViewModel
             ReportCommand = new BaseCommand<object>((sender) => true, ReportExecute);
             CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, CampaignTypeSelectionChanged);
             SelectionCommand = new BaseCommand<object>((sender) => true, SelectionExecute);
+            CopyCampaignIdCommand = new BaseCommand<object>((sender) => true, CopyCampaignIdExecute);
             BindingOperations.EnableCollectionSynchronization(LstCampaignDetails, _lock);
         }
 
+        public void LoadCampaign()
+        {
+            try
+            {
+                var lstOfCampaign = CampaignsFileManager.GetCampaignByNetwork(SocialNetworks);
+                Task.Factory.StartNew(() =>
+                {
+                    Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Clear());
+                    lstOfCampaign.ForEach(camp =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Add(camp));
+                        Thread.Sleep(50);
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
         public void SetActivityTypes()
         {
             CampaignModel.ActivityType.Add("All");
@@ -66,6 +88,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand ReportCommand { get; set; }
         public ICommand CampaignTypeSelectionChange { get; set; }
         public ICommand SelectionCommand { get; set; }
+        public ICommand CopyCampaignIdCommand { get; set; }
         #endregion
 
         #region Properties
@@ -200,7 +223,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var filter = sender as CampaignDetails;
-                return filter.SubModule.Contains(CampaignModel.SelectedActivity);
+                return filter.SubModule.CompareTo(CampaignModel.SelectedActivity) == 0;
             }
             catch (Exception ex)
             {
@@ -214,11 +237,12 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
+                CampaignDetails campName = sender as CampaignDetails;
+
                 ReportModel reportModel = new ReportModel();
-                Reports reportControl = new Reports(reportModel);
+                Reports reportControl = new Reports(reportModel, campName);
 
                 Dialog objDialog = new Dialog();
-                CampaignDetails campName = sender as CampaignDetails;
 
                 reportControl.ReportModel.ModuleType = campName.SubModule;
 
@@ -226,9 +250,9 @@ namespace DominatorUIUtility.ViewModel
 
                 var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);
 
-                ObservableCollection<QueryInfo> lstSavedQuery = SocinatorInitialize
-                    .GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory
-                    .GetSavedQuery(activityType, ActivitySettings);
+                var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory();
+
+                ObservableCollection<QueryInfo> lstSavedQuery = networkCoreFactory.ReportFactory.GetSavedQuery(activityType, ActivitySettings);
 
                 List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
 
@@ -274,7 +298,7 @@ namespace DominatorUIUtility.ViewModel
 
                     var dataBase = new DbOperations(campName.CampaignId, SocialNetworks, ConstantVariable.GetCampaignDb);
 
-                    if (SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.GetReportDetail(reportControl.ReportModel, lstCurrentQueries, campName) == 0)
+                    if (networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel, lstCurrentQueries, campName) == 0)
                     {
                         DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
                         return;
@@ -287,35 +311,39 @@ namespace DominatorUIUtility.ViewModel
 
                 Window win = objDialog.GetMetroWindow(reportControl, "Reports");
                 win.Owner = Application.Current.MainWindow;
-                reportControl.ExportReport.Click += (senders, events) =>
-                {
-                    try
-                    {
-                        var exportPath = FileUtilities.GetExportPath(win);
 
-                        if (string.IsNullOrEmpty(exportPath))
-                            return;
+                #region Commented
+                //reportControl.ExportReport.Click += (senders, events) =>
+                //{
+                //    try
+                //    {
+                //        var exportPath = FileUtilities.GetExportPath(win);
 
-                        var filename = Regex.Replace(
-                            input: $"{ campName.CampaignName }-Reports[{ DateTimeUtilities.GetEpochTime()}]",
-                            pattern: "[\\/:*?<>|\"]",
-                            replacement: "-");
+                //        if (string.IsNullOrEmpty(exportPath))
+                //            return;
 
-                        filename = $"{exportPath}\\{filename}.csv";
-                        //TODO
+                //        var filename = Regex.Replace(
+                //            input: $"{ campName.CampaignName }-Reports[{DateTimeUtilities.GetEpochTime()}]",
+                //            pattern: "[\\/:*?<>|\"]",
+                //            replacement: "-");
 
-                        SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Sucess",
-                            "Sucessfully Exported to " + filename);
-                    }
-                    catch (Exception)
-                    {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fail",
-                            "Export fail !!");
+                //        filename = $"{exportPath}\\{filename}.csv";
+                //        //TODO
 
-                    }
+                //        SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
+                //        Dialog.ShowDialog("Sucess", "Sucessfully Exported to " + filename);
+                //        GlobusLogHelper.log.Info(Log.CustomMessage, campName.SocialNetworks, activityType, campName.CampaignName, "Sucessfully Exported to " + filename);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fail",
+                //            "Export fail !!");
+                //        ex.DebugLog();
 
-                };
+                //    }
+
+                //}; 
+                #endregion
 
                 win.ShowDialog();
             }
@@ -330,6 +358,14 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+
+                if (selectedCampaign?.SelectedAccountList.Count == 0)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
+                    selectedCampaign.Status = "Paused";
+                    return;
+                }
+
                 var isChecked = ((ToggleSwitch)sender).IsChecked;
                 var isToggleSwitchSelected = isChecked != null && (bool)isChecked;
 
@@ -446,20 +482,38 @@ namespace DominatorUIUtility.ViewModel
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
                             //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
                         });
-                        if (LstCampaignDetails.Count == 0  && IsAllCampaignChecked)
+                        if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
                             IsAllCampaignChecked = false;
-                        
+
                     });
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
 
-                 
+
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
                 }
             }
-          
+
+        }
+
+        private void CopyCampaignIdExecute(object sender)
+        {
+            try
+            {
+                CampaignDetails campName = sender as CampaignDetails;
+
+                if (!string.IsNullOrEmpty(campName.CampaignId))
+                {
+                    Clipboard.SetText(campName.CampaignId);
+                    ToasterNotification.ShowSuccess("CampaignId copied");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void SettingExecute(object sender)

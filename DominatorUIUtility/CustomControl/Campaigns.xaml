@@ -48,7 +48,7 @@
 
                 </StackPanel>
             </Grid>
-            <ListView Grid.Row="1" SizeChanged="list_SizeChanged" x:Name="list" ItemsSource="{Binding CampaignCollection,IsAsync=True}" 
+            <ListView Grid.Row="1" x:Name="list" ItemsSource="{Binding CampaignCollection,IsAsync=True}" 
                       ItemContainerStyle="{StaticResource ListViewItems}" Foreground="{DynamicResource AccentBaseColorBrush}"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
                 <ListView.Resources>
@@ -56,7 +56,7 @@
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                     </Style>
 
-                    <viewModel:BindingData x:Key="proxy" Data="{Binding}" />
+                    <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
 
                 </ListView.Resources>
                 <ListView.View>
@@ -116,7 +116,7 @@
                                                 <Button.ContextMenu>
                                                     <ContextMenu >
                                                         <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center" Name="EditCampaign"
-                                                                  Command="{Binding Data.EditCommand, Source={StaticResource proxy}}"
+                                                                  Command="{Binding Data.EditCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
                                                                 <Rectangle Width="20" Height="20" Fill="Black">
@@ -128,7 +128,7 @@
                                                         </MenuItem>
                                                         <MenuItem Header="{DynamicResource LangKeyDuplicateCampaign}" Height="30" x:Name="DuplicateCampaign"  
                                                                   VerticalContentAlignment="Center" 
-                                                                  Command="{Binding Data.DuplicateCommand, Source={StaticResource proxy}}"
+                                                                  Command="{Binding Data.DuplicateCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
                                                                 <Image Source="/DominatorUIUtility;component/Images/duplicatecampaign.png" />
@@ -137,7 +137,7 @@
                                                         <Separator />
                                                         <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" x:Name="DeleteSingleCampaign" 
                                                                   VerticalContentAlignment="Center" 
-                                                                  Command="{Binding Data.DeleteCommand, Source={StaticResource proxy}}"
+                                                                  Command="{Binding Data.DeleteCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
                                                                 <Rectangle Width="15" Height="20" Fill="Black">
@@ -151,13 +151,20 @@
                                                         <Separator />
                                                         <MenuItem Header="{DynamicResource LangKeyReport}" VerticalContentAlignment="Center"
                                                                   Height="30" x:Name="CampaignReports"
-                                                                  Command="{Binding Data.ReportCommand, Source={StaticResource proxy}}"
+                                                                  Command="{Binding Data.ReportCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
                                                                 <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
                                                             </MenuItem.Icon>
                                                         </MenuItem>
-
+                                                        <MenuItem Header="{DynamicResource LangKeyCopyCampaignId}" VerticalContentAlignment="Center"
+                                                                  Height="30" 
+                                                                  Command="{Binding Data.CopyCampaignIdCommand, Source={StaticResource ContextMenuBinding}}"
+                                                                  CommandParameter="{Binding}">
+                                                            <MenuItem.Icon>
+                                                                <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
                                                     </ContextMenu>
                                                 </Button.ContextMenu>
 
