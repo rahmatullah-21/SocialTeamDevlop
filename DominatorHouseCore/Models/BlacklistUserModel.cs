@@ -5,9 +5,7 @@ namespace DominatorHouseCore.Models
 {
     public class BlacklistUserModel : BindableBase
     {
-        public ObservableCollection<BlacklistUserModel> LstBlackListUsers { get; set; }=new ObservableCollection<BlacklistUserModel>();
-
-
+    
         private string _blacklistUser;
        
         public string BlacklistUser
@@ -35,17 +33,6 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isBlackListUserChecked, value);
             }
         }
-        private bool _isAllBlackListUserChecked;
-
-        public bool IsAllBlackListUserChecked
-        {
-            get { return _isAllBlackListUserChecked; }
-            set
-            {
-                if (value == _isAllBlackListUserChecked)
-                    return;
-                SetProperty(ref _isAllBlackListUserChecked, value);
-            }
-        }
+      
     }
 }

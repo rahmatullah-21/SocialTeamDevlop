@@ -5,8 +5,7 @@ namespace DominatorHouseCore.Models
 {
     public class WhitelistUserModel : BindableBase
     {
-        public ObservableCollection<WhitelistUserModel> LstWhiteListUsers { get; set; } = new ObservableCollection<WhitelistUserModel>();
-
+      
 
         private string _whitelistUser;
 
@@ -35,17 +34,6 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isWhiteListUserChecked, value);
             }
         }
-        private bool _isAllWhiteListUserChecked;
-
-        public bool IsAllWhiteListUserChecked
-        {
-            get { return _isAllWhiteListUserChecked; }
-            set
-            {
-                if (value == _isAllWhiteListUserChecked)
-                    return;
-                SetProperty(ref _isAllWhiteListUserChecked, value);
-            }
-        }
+       
     }
 }

@@ -330,6 +330,7 @@
     </Compile>
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
+    <Compile Include="ViewModel\BlackListViewModel.cs" />
     <Compile Include="ViewModel\CampaignViewModel.cs" />
     <Compile Include="ViewModel\Config\URLShortnerServicesViewModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
@@ -353,6 +354,7 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherRssFeedViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherScrapePostViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
+    <Compile Include="ViewModel\WhiteListViewModel.cs" />
     <Compile Include="Views\AccountManager.xaml.cs">
       <DependentUpon>AccountManager.xaml</DependentUpon>
     </Compile>

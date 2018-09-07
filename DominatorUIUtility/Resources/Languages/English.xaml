@@ -3146,4 +3146,13 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEventUrl">Event Url</system:String>
     <system:String x:Key="LangKeyMutualFriend">Mutual Friend</system:String>
     <system:String x:Key="LangKeyScrapThePagesWhichContainLikersBetween">Scrap the pages which contains Likers Between</system:String>
+    <system:String x:Key="LangKeyScrapUsersWhoMessagedUs">Scrap The User Who Messaged Us</system:String>
+    <system:String x:Key="LangKeySocinatorUserScraperCampaign">UserScraper Campaign</system:String>
+    <system:String x:Key="LangKeySocinatorTweetScraperCampaign">TweetScraper Campaign</system:String>
+
+    <system:String x:Key="LangKeyMessageSpintaxFormat">Format : (Message 1|Message 2|Message 3|Message 4) Note: add any number of messages each separated by |</system:String>
+    <system:String x:Key="LangKeyCommentSpintaxFormat">Format : (Comment 1|Comment 2|Comment 3|Comment 4) Note: add any number of Comment each separated by |</system:String>
+    <system:String x:Key="LangKeyInviteForGroups">Invite for Groups</system:String>
+    <system:String x:Key="LangKeyInviteForPages">Invite for Pages</system:String>
+    <system:String x:Key="LangKeyFilterByCommentText">Filter By Comment Text</system:String>
 </ResourceDictionary>
