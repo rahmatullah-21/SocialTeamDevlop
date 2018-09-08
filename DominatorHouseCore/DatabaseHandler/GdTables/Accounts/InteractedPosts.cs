@@ -53,7 +53,6 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         public string CommentId { get; set; }
 
         [Column(Order = 15)]
-        [SqlDefaultValue(DefaultValue = "Success")]
         public string Status { get; set; }
     }
 }
