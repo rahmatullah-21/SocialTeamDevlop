@@ -80,7 +80,7 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _isAllWhiteistUserChecked, value);
             }
         }
-        private string _whitelistUser;
+        private string _whitelistUser = string.Empty;
 
         public string WhitelistUser
         {

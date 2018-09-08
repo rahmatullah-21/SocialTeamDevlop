@@ -91,7 +91,6 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         public string InteractedUserName { get; set; }
 
         [Column(Order = 15)]
-        [SqlDefaultValue(DefaultValue = "Success")]
         public string Status { get; set; }
 
     }

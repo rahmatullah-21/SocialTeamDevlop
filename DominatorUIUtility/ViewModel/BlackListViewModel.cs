@@ -80,7 +80,7 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _isAllBlackListUserChecked, value);
             }
         }
-        private string _blacklistUser;
+        private string _blacklistUser = string.Empty;
 
         public string BlacklistUser
         {
