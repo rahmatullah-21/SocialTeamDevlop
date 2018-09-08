@@ -6,7 +6,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using Microsoft.Office.Interop.Excel;
+
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -29,7 +29,8 @@ namespace DominatorHouseCore.Interfaces
                 cancellation.ThrowIfCancellationRequested();
                 try
                 {
-                    if (chat.SenderId == chatDetails.SenderId)
+                    //if (chat.SenderId == chatDetails.SenderId)
+                    if (chat.SenderId == chatDetails.SenderId && chat.MessegesId == chatDetails.MessegesId)
                     {
                         isPresent = true;
                         if (!ObjectComparer.Compare<ChatDetails>(chat, chatDetails))
@@ -68,11 +69,15 @@ namespace DominatorHouseCore.Interfaces
             {
                 if (!isPresent)
                 {
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        liveChatModel.LstChat.Add(chatDetails);
+                    });
                     liveChatModel.LstChat.Add(chatDetails);
                     GenericFileManager.AddModule<ChatDetails>(chatDetails,
                         FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
-                else if(requireUpdate)
+                else if (requireUpdate)
                 {
                     GenericFileManager.UpdateModuleDetails<ChatDetails>(oldData,
                         FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
@@ -103,7 +108,7 @@ namespace DominatorHouseCore.Interfaces
                         {
                             #region Update UI
 
-                            var oldFriendDetail = liveChatModel.LstSender.IndexOf(liveChatModel.LstSender.FirstOrDefault(x=>x.ThreadId==friends.ThreadId));
+                            var oldFriendDetail = liveChatModel.LstSender.IndexOf(liveChatModel.LstSender.FirstOrDefault(x => x.ThreadId == friends.ThreadId));
 
                             liveChatModel.LstSender[oldFriendDetail].SenderImage = friendDetail.SenderImage;
                             liveChatModel.LstSender[oldFriendDetail].SenderId = friendDetail.SenderId;
@@ -138,11 +143,15 @@ namespace DominatorHouseCore.Interfaces
             {
                 if (!isPresent)
                 {
-                    liveChatModel.LstSender.Add(friendDetail);
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        liveChatModel.LstSender.Add(friendDetail);
+                    });
+
                     GenericFileManager.AddModule<SenderDetails>(friendDetail,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
-                else if(requireUpdate)
+                else if (requireUpdate)
                 {
                     GenericFileManager.UpdateModuleDetails<SenderDetails>(oldData,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));

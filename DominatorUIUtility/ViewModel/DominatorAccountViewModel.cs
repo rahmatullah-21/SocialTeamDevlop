@@ -1404,15 +1404,15 @@ namespace DominatorUIUtility.ViewModel
                 try
                 {
                     var csvData =
-                    account.AccountBaseModel.AccountGroup.Content + ","
-                    + account.AccountBaseModel.AccountNetwork + ","
-                    + account.AccountBaseModel.UserName + ","
-                    + account.AccountBaseModel.Password + ","
-                    + account.AccountBaseModel.AccountProxy.ProxyIp + ","
-                    + account.AccountBaseModel.AccountProxy.ProxyPort + ","
-                    + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
-                    + account.AccountBaseModel.AccountProxy.ProxyPassword + ","
-                    + account.AccountBaseModel.Status;
+                     account.AccountBaseModel.AccountGroup.Content + ","
+                     + account.AccountBaseModel.AccountNetwork + ","
+                     + account.AccountBaseModel.UserName + ","
+                     + account.AccountBaseModel.Password + ","
+                       + account.AccountBaseModel.Status + ","
+                     + account.AccountBaseModel.AccountProxy.ProxyIp + ","
+                     + account.AccountBaseModel.AccountProxy.ProxyPort + ","
+                     + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
+                     + account.AccountBaseModel.AccountProxy.ProxyPassword;
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
