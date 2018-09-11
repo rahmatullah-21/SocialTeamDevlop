@@ -3157,4 +3157,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFilterByCommentText">Filter By Comment Text</system:String>
     <system:String x:Key="LangKeyTooManyAttemptsOnPhoneVerification">Too many attempts on Phone verification. Try again later.</system:String>
     <system:String x:Key="LangKeyCustomChannel">Custom Channel</system:String>
+    <system:String x:Key="LangKeySkipUserWhoReceivedMessaged">Skip User Who Already Received A Messaged</system:String>
+    <system:String x:Key="LangKeyCommentUniquePostsFromEachAccount">Comment on Unique Posts From Each Account</system:String>
 </ResourceDictionary>

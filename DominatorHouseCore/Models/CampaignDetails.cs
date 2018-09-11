@@ -229,7 +229,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _activityType, value);
             }
         }
-        private string _selectedActivity = string.Empty;
+        private string _selectedActivity = "All";
         private string _campaignName;
         private string _mainModule;
         private string _subModule;

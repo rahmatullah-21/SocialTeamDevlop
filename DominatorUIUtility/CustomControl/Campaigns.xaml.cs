@@ -82,6 +82,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                
                 if (CampaignViewModel.CampaignModel.SelectedActivity == "All" || string.IsNullOrEmpty(CampaignViewModel.CampaignModel.SelectedActivity))
                     CampaignViewModel.CampaignCollection.Filter = (x) => ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
                 else

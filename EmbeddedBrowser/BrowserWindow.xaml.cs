@@ -387,7 +387,7 @@ namespace EmbeddedBrowser
 
             if (!IsGoogleAccountLoginFailed())
             {
-                if ((html.Contains(DominatorAccountModel.UserName) || !html.Contains("Sign in now to see your channels")) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
+                if ((html.Contains(DominatorAccountModel.UserName)) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
                 {
                     SaveCookie();
                 }
@@ -1206,7 +1206,7 @@ namespace EmbeddedBrowser
                         if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                         {
                             string GooglePlusAcc = Utilities.GetBetween(objResponseParameter.Response, "\"oPEP7c\":\"", "\"");
-                            if (string.IsNullOrEmpty(GooglePlusAcc) || objResponseParameter.Response.Contains(">Join Google+<") && objResponseParameter.Response.Contains(">Sign in<"))
+                            if (string.IsNullOrEmpty(GooglePlusAcc))
                                 return;
 
                             DominatorAccountModel.AccountBaseModel.ProfileId = GooglePlusAcc;
@@ -1220,6 +1220,7 @@ namespace EmbeddedBrowser
                         }
                         DominatorAccountModel.IsUserLoggedIn = true;
                         DominatorAccountModel.Cookies = cookieCollection;
+                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
                            .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)

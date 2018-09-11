@@ -511,6 +511,9 @@
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.AddPhoneNumberToYourAccount}" >
                                                         <Setter Property="Text" Value="{DynamicResource LangKeyAddPhoneNumberToYourAccount}" />
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TooManyAttemptsOnPhoneVerification}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptsOnPhoneVerification}" />
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>

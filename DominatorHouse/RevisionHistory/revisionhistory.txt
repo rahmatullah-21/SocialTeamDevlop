@@ -1,9 +1,13 @@
-Version[1.0.0.13],[8th-September-18]
+Version[1.0.0.13],[11th-September-18]
 
 New Features:-
 Instagram:-
-	InstaScrape : Scrape the users who messaged us 
+	InstaScrape : Scrape the users who messaged us
+	Grow Follower => Should not be following this account (skip followers)
+	Instaliker/Instacommenter => Comment => Mention users without using comment
+	Instachat => Skip users who already received A message
 Facebook:-
+	Live Chat => Chat from multiple accounts on real time.
 	Grow Friends => Send Friend Request => Added query type for Suggested users and Event url to send request
 	Gow Friends => Incoming friend Request => Added feasture to filter based on location and mutual freinds 
 	Grow Friends => Unfriend => Added feature unfriend by custom profile urls
@@ -17,6 +21,9 @@ Facebook:-
 	Scraper => Comment Scraqper => Added comment filter based on text and days
 LinkedIn:-
 	Added feature to Scraping details of  Accounts(Companies) in Salesnavigator scraper.
+YouTube:-
+	Added new query type to search channels => Custom Channel List
+	Engage => Comment => Added feature to post unique comment from each account
 
 Fixed:-
 	Social:-
