@@ -229,10 +229,9 @@ namespace DominatorHouseCore.Process
         /// <returns></returns>
         public virtual JobProcessResult FinalProcess(ScrapeResultNew scrapedResult)
         {
-            var jobProcessResult = PostScrapeProcess(scrapedResult);
-
-
+            JobProcessResult jobProcessResult = new JobProcessResult();
             jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
+            jobProcessResult = PostScrapeProcess(scrapedResult);
 
             if (jobProcessResult.IsProcessCompleted)
             {

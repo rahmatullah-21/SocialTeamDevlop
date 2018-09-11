@@ -408,22 +408,84 @@ namespace EmbeddedBrowser
                 {
                     string PageText = Browser.GetTextAsync().Result;
 
-                    if (PageText.Contains("Couldn't find your Google Account")
-                        || PageText.Contains("Enter a valid email or phone number")
-                        || PageText.Contains("Wrong password. Try again or click Forgot password to reset it")
-                        || PageText.Contains("Your password was changed"))
+                    #region Google, Set with English Language
+                    if (PageText.Contains("English ("))
                     {
-                        DominatorAccountModel.IsUserLoggedIn = false;
-                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.InvalidCredentials;
+                        if (PageText.Contains("Couldn't find your Google Account")
+                                       || PageText.Contains("Enter a valid email or phone number")
+                                       || PageText.Contains("Wrong password. Try again or click Forgot password to reset it")
+                                       || PageText.Contains("Your password was changed"))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.InvalidCredentials;
 
-                        return true;
+                            return true;
+                        }
+                        else if (PageText.Contains("Type the text you hear or see"))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
+                            return true;
+                        }
+                        else if (PageText.Contains("Unavailable because of too many attempts. Please try again later.")
+                            || PageText.Contains("It is not available because too many attempts have been failed. Try again in a few hours."))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
+                            return true;
+                        }
+                        else if (PageText.Contains("Get a verification code at")
+                            || PageText.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you.")
+                            || PageText.Contains("Do you have your phone?")
+                            || PageText.Contains("Google will send a notification to your phone to verify that it's you")
+                            )
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
+                            return true;
+                        }
                     }
-                    else if (PageText.Contains("Type the text you hear or see"))
+
+                    #endregion
+
+                    #region Google, Set with Español (España) Language
+                    else if (PageText.Contains("Español (España)"))
                     {
-                        DominatorAccountModel.IsUserLoggedIn = false;
-                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
-                        return true;
+                        if (PageText.Contains("No se ha podido encontrar tu cuenta de Google")
+                                       || PageText.Contains("Introduce una dirección de correo electrónico o un número de teléfono válidos")
+                                       || PageText.Contains("Contraseña incorrecta. Vuelve a intentarlo o haz clic en Contraseña olvidada para cambiarla.")
+                                       || PageText.Contains("Tu contraseña se ha cambiado hace"))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.InvalidCredentials;
+
+                            return true;
+                        }
+                        else if (PageText.Contains("Type the text you hear or see"))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
+                            return true;
+                        }
+                        else if (PageText.Contains("No está disponible porque se han realizado demasiados intentos. Inténtalo de nuevo más tarde.")
+                             || PageText.Contains("No está disponible porque se han fallado demasiados intentos.Inténtalo de nuevo dentro de unas horas."))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
+                            return true;
+                        }
+                        else if (PageText.Contains("Recibe un código de verificación en el número")
+                            || PageText.Contains("No se reconoce este dispositivo. Por tu seguridad, Google quiere comprobar que seas tú.")
+                            || PageText.Contains("Tienes tu teléfono?")
+                            || PageText.Contains("Google enviará una notificación a tu teléfono para verificar tu identidad")
+                            )
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
+                            return true;
+                        }
                     }
+                    #endregion
                 }
             }
             catch (Exception ex)

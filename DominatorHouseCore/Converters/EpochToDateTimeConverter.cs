@@ -13,14 +13,18 @@ namespace DominatorHouseCore.Converters
         {
             try
             {
-                return DateTimeUtilities.EpochToDateTimeLocal(int.Parse(value.ToString()));
+                if (value.ToString().Length == 10)
+                    return DateTimeUtilities.EpochToDateTimeLocal(int.Parse(value.ToString()));
+                else if (value.ToString().Length > 10)
+                    return DateTimeUtilities.EpochToDateTimeUtc(Int64.Parse(value.ToString()));
+                return value;
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
                 return value;
             }
-        
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

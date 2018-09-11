@@ -57,6 +57,10 @@ namespace DominatorHouseCore.Interfaces
                     }
 
                 }
+                catch (OperationCanceledException)
+                {
+                    throw new OperationCanceledException();
+                }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
@@ -69,11 +73,12 @@ namespace DominatorHouseCore.Interfaces
             {
                 if (!isPresent)
                 {
+                    cancellation.ThrowIfCancellationRequested();
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
                         liveChatModel.LstChat.Add(chatDetails);
                     });
-                    liveChatModel.LstChat.Add(chatDetails);
+                    //liveChatModel.LstChat.Add(chatDetails);
                     GenericFileManager.AddModule<ChatDetails>(chatDetails,
                         FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
@@ -82,6 +87,10 @@ namespace DominatorHouseCore.Interfaces
                     GenericFileManager.UpdateModuleDetails<ChatDetails>(oldData,
                         FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
+            }
+            catch (OperationCanceledException)
+            {
+               
             }
             catch (Exception ex)
             {

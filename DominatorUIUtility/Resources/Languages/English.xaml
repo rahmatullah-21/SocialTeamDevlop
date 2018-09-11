@@ -3155,4 +3155,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyInviteForGroups">Invite for Groups</system:String>
     <system:String x:Key="LangKeyInviteForPages">Invite for Pages</system:String>
     <system:String x:Key="LangKeyFilterByCommentText">Filter By Comment Text</system:String>
+    <system:String x:Key="LangKeyTooManyAttemptsOnPhoneVerification">Too many attempts on Phone verification. Try again later.</system:String>
+    <system:String x:Key="LangKeyCustomChannel">Custom Channel</system:String>
 </ResourceDictionary>
