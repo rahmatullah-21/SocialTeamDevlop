@@ -1,4 +1,29 @@
 ﻿#region Namespaces
+using DominatorHouse;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.BusinessLogic.GlobalRoutines;
+using DominatorHouseCore.Converters;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Process;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.IoC;
+using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.Views.Publisher;
+using DominatorUIUtility.Views.SocioPublisher;
+using EmbeddedBrowser;
+//using EmbeddedBrowser;
+using FluentScheduler;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using NLog;
+using Socinator.Social.AutoActivity.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,30 +41,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.BusinessLogic.GlobalRoutines;
-using DominatorHouseCore.Converters;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Process;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.ViewModel;
-using DominatorUIUtility.Views.Publisher;
-using DominatorUIUtility.Views.SocioPublisher;
-using EmbeddedBrowser;
-//using EmbeddedBrowser;
-using FluentScheduler;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using NLog;
-using Socinator.Social.AutoActivity.Views;
+using Unity;
 
 #endregion
 
@@ -600,8 +602,6 @@ namespace Socinator
 
             try
             {
-                var streamq = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt");
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
                 {
                     TextReader tr = new StreamReader(stream);
@@ -616,72 +616,19 @@ namespace Socinator
                                 .AndEvery(1).Days());
                     });
 
-                AvailableNetworks = SocinatorInitialize.AvailableNetworks;
-                var to_remove = new List<SocialNetworks>();
                 FeatureFlags.UpdateFeatures();
-                foreach (var network in AvailableNetworks)
+                var modules = IoC.Container.ResolveAll<ISocialNetworkModule>();
+                var availableNetworks = new HashSet<SocialNetworks>();
+                foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                 {
-                    FeatureFlags.Check(network.ToString(), () =>
+                    var module = socialNetworkModule;
+                    FeatureFlags.Check(module.Network.ToString(), () =>
                     {
                         try
                         {
-                            var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
-                            var networkAssembly = Assembly.Load(networkNamespace);
-
-                            #region Network Functionality
-
-                            var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
-                            var networkType = networkAssembly.GetType(networkFullNameSpace);
-                            // is this a correct type?
-                            if (typeof(INetworkCollectionFactory).IsAssignableFrom(networkType))
-                            {
-                                INetworkCollectionFactory networkCoreFactory;
-                                var constructors = networkType.GetConstructors();
-                                // do we have a constructor taking a strategy object?
-                                var selectedConstructor = constructors.FirstOrDefault(ci =>
-                                {
-                                    var pars = ci.GetParameters();
-                                    return pars.Length == 1 && pars[0].ParameterType ==
-                                       typeof(DominatorAccountViewModel.AccessorStrategies);
-                                });
-                                if (selectedConstructor != default(ConstructorInfo))
-                                {
-                                    networkCoreFactory =
-                                        (INetworkCollectionFactory)selectedConstructor.Invoke(new object[] { _strategies });
-                                }
-                                else
-                                {
-                                    // if not, do we have a constructor with no parameters?
-                                    selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
-                                    networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(null);
-                                }
-                                SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
-                            }
-
-                            #endregion
-
-                            #region Publisher Functionality
-
-                            try
-                            {
-                                var publisherFullNameSpace = $"{networkNamespace}.Factories.{network}PublisherCollectionFactory";
-                                var publisherType = networkAssembly.GetType(publisherFullNameSpace);
-
-                                if (!typeof(IPublisherCollectionFactory).IsAssignableFrom(publisherType))
-                                    return;
-
-                                var constructors = publisherType.GetConstructors();
-                                var selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
-                                var publisherCoreFactory = (IPublisherCollectionFactory)selectedConstructor.Invoke(null);
-                                PublisherInitialize.SaveNetworkPublisher(publisherCoreFactory, network);
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
-
-                            #endregion
-
+                            SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(_strategies), module.Network);
+                            PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                            availableNetworks.Add(module.Network);
                         }
                         catch (AggregateException ex)
                         {
@@ -689,13 +636,12 @@ namespace Socinator
                         }
                         catch (Exception ex)
                         {
-                            to_remove.Add(network);
                             ex.DebugLog();
                         }
                     });
                 }
 
-                AvailableNetworks.ExceptWith(to_remove);
+                AvailableNetworks = availableNetworks;
 
                 FeatureFlags.UpdateFeatures();
 
