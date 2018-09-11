@@ -1,4 +1,6 @@
-﻿using DominatorHouseCore.Enums;
+﻿using AutoMapper;
+using DominatorHouse.AutoMapping;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorUIUtility.IoC;
 using Socinator.Factories;
@@ -16,6 +18,7 @@ namespace DominatorHouse
             Container.RegisterType<ISocialNetworkModule, MainDominatorModule>(CurrentyNetwork.ToString());
             Container.RegisterType<INetworkCollectionFactory, SocialNetworkCollectionFactory>(CurrentyNetwork.ToString());
             Container.RegisterType<IPublisherCollectionFactory, SocialPublisherCollectionFactory>(CurrentyNetwork.ToString());
+            Container.RegisterType<Profile, MainMapperProfile>(CurrentyNetwork.ToString());
         }
     }
 }
