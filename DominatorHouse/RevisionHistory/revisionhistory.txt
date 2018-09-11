@@ -1,3 +1,69 @@
+Version[1.0.0.13],[8th-September-18]
+
+New Features:-
+Instagram:-
+	InstaScrape : Scrape the users who messaged us 
+Facebook:-
+	Grow Friends => Send Friend Request => Added query type for Suggested users and Event url to send request
+	Gow Friends => Incoming friend Request => Added feasture to filter based on location and mutual freinds 
+	Grow Friends => Unfriend => Added feature unfriend by custom profile urls
+	Grow Friends => Unfriend => Added feature filter to unfriend based on location
+	Broadcast Messgages => Broadcast Message => Added feature to send the link with preview .
+	Added Module => FB Inviter => Group Inviter => Invite your account's friends to join group with note
+	Engage => Fanpage Likers => Added filter to like pages based on  likers range.
+	Added Module => FB Inviter => Page Inviter => Invite your account's friends to like the pages with note and in messanger
+	Added module => Engage => Comment Liker => Added feature to like the posts comment
+	Scraper => Profile Scraper => Added query type for Suggested users and Event url to be scraped
+	Scraper => Comment Scraqper => Added comment filter based on text and days
+LinkedIn:-
+	Added feature to Scraping details of  Accounts(Companies) in Salesnavigator scraper.
+
+Fixed:-
+	Social:-
+		Instagram :Issues fixed with publishing video.
+		Instagram :Issues fixed with publishing multiple post as Album.
+		Accounts Activity : Issue fixed with not showing query types in comment.
+		Accounts Activity : Issue fixed with not showing Job Configuration.
+		Instagram : Issue fixed with publishing videos.
+		Instagram : Issue fixed with publishing images as album.
+	Instagram:-
+		GrowFollowers :
+		Issue fixed with Gender filter.
+		Issue fixed with campaign not getting activated after completing dely.
+		Issue fixed with showing no more data.
+		Issues fixed with adding users those are having  underscore "_" in Username.
+		
+		InstaLiker/InstaCommenter :
+		Issue fixed with showing one comment twice in Report.
+		Issue fixed with showing no more data.
+		Issue fixed with not commenting as per Job Configuration.
+		Issue fixed with not showing Report.
+		
+		InstaChat :
+		Issue fixed with saving Blank Message.
+		Issue fixed with messages are not adding to list.
+		
+		Campaigns : 
+		Issue fixed not switching to Campaigns after clicking on Cancel Editing.
+	Facebook:-
+		Broadcast Messages => Broadcast message =>Fixed issue with pause the campaign
+		Broadcast Messages => Broadcast message =>Fixed issue with fail to message to custom users list
+		Broadcast Messages => Broadcast message =>Fixed issue with saving the comment in manage message
+		Grow Friends => Incoming Friend Request =>Fixed issue with activity log
+	LinkedIn:-
+		Grow Connection => Connection request => Fixed issue with sending connection request using search url.
+		Fixed issue with to show confirmation message afer save the message , in all custom url list option.
+		Fixed issue with to uploading profile url in  all custom url list.
+		Linkedin Socinator => Profile endoresement=> Connection source => Fixed issue with to stop endorse the profile skill after pause the campaign."
+		Messenger => Auto Reply to New Message =>Fixed issue with reply to all messages and reply to message that contains specific words
+	Reddit:-
+		Create Destination =>Fixed issues with Custom destination while posting.
+	YouTube:-
+		Engage => Like comment =>Fixed issue for like comments with keyword 
+		Subscriber => Subscribe =>Fixed issue with not genrating the report
+		Account activity => Fixed issue with showing the reports for the accounts
+
+
 Version[1.0.0.12],[30th-August-18]
 
 New Features:-

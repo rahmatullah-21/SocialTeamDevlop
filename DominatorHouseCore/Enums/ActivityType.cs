@@ -169,8 +169,7 @@ namespace DominatorHouseCore.Enums
 
         [Description("Instagram")]
         BlockFollower = 56,
-
-        [Description("Instagram,Youtube")]
+        [Description("Instagram,Youtube,Facebook")]
         LikeComment = 57,
 
         [Description("Instagram")]
@@ -302,5 +301,6 @@ namespace DominatorHouseCore.Enums
         WelcomeTweet = 102,
         [Description("LinkedIn")]
         SalesNavigatorCompanyScraper = 103,
+
     }
 }

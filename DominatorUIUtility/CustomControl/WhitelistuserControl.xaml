@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d"   xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+             mc:Ignorable="d"   xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -20,8 +21,12 @@
                     <TextBlock Text="Whitelist User" Foreground="White"  FontSize="30" FontWeight="SemiBold"/>
                     <Rectangle Width="20" Height="20" Fill="White"  Margin="10,0" Grid.Column="1"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
-                                   x:Name="RefreshWhitelistedUsers" ToolTip="{DynamicResource LangKeyClearUsersList}"
-                                   MouseDown="RefreshWhitelistedUsers_OnMouseDown">
+                                   x:Name="RefreshWhitelistedUsers" ToolTip="{DynamicResource LangKeyClearUsersList}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding ClearCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
                         </Rectangle.OpacityMask>
@@ -34,14 +39,14 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
-                              TextWrapping="Wrap" AcceptsReturn="True"
+                              TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding WhitelistUser}"
                               ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
                 <Button Grid.Row="1" Name="BtnAddtoWhitelist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToWhitelist}" 
                             VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Green" Foreground="White"
-                            Click="BtnAddtoWhitelist_OnClick"/>
+                           Command="{Binding AddtoWhiteListCommand}"/>
             </Grid>
         </GroupBox>
 
@@ -56,11 +61,14 @@
                                 VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
                     <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right">
                         <CheckBox Name="SelectAll"  Foreground="White" IsChecked="{Binding IsAllWhiteListUserChecked}"
-                              Margin="10,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"
-                              Checked="SelectAll_OnChecked"  Unchecked="SelectAll_OnUnchecked"/>
+                              Margin="10,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"/>
                         <Rectangle Width="15" Height="18" Fill="White"  Margin="10,0" VerticalAlignment="Center"
-                               x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}"
-                               MouseDown="Refresh_OnMouseDown" >
+                               x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
                             </Rectangle.OpacityMask>
@@ -73,12 +81,12 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstWhiteListUsers}" 
+                <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstWhiteListUsers,IsAsync=True}" 
                          Background="White" VerticalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <CheckBox x:Name="ChkWhitlistuser"  IsChecked="{Binding IsWhiteListUserChecked}"
-                                      Checked="ChkWhitlistuser_OnChecked"  Unchecked="ChkWhitlistuser_OnUnchecked">
+                                      Command="{Binding DataContext.SelectCommand}">
                                 <CheckBox.Content>
                                     <TextBlock Text="{Binding WhitelistUser}"/>
                                 </CheckBox.Content>
@@ -89,7 +97,7 @@
                 <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource LangKeyRemoveSelectedFromWhitelist}"
                         Background="{DynamicResource AccentBaseColorBrush}" 
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
-                        Click="DeletedSelected_OnClick">
+                        Command="{Binding DeleteCommand}">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                             <Setter Property="Foreground" Value="White" />

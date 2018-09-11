@@ -49,6 +49,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         [ProtoMember(14)]
         public SocialNetworks SocialNetworks { get; set; }
+        [ProtoMember(15)]
+        public string Title { get; set; }
 
     }
 }

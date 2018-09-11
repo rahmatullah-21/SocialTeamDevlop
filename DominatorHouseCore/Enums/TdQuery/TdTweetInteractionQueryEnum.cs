@@ -36,5 +36,7 @@ namespace DominatorHouseCore.Enums.TdQuery
         TweetsLikedBySpecificUser = 15,
         [Description("LangKeySpecificUserTweets")]
         SpecificUserTweets = 16,
+        [Description("LangKeySocinatorTweetScraperCampaign")]
+        TweetScraperCampaign = 17,
     }
 }

@@ -26,5 +26,7 @@ namespace DominatorHouseCore.Enums.GdQuery
         UsersWhoLikedPost,
         [Description("LangKeyUsersWhoCommentedOnPosts")]
         UsersWhoCommentedOnPost,
+        [Description("LangKeyScrapUsersWhoMessagedUs")]
+        ScrapUserWhoMessagedUs,
     }
 }

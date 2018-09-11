@@ -8,5 +8,7 @@ namespace DominatorHouseCore.Enums.YdQuery
         Keywords = 1,
         [Description("LangKeyCustomURLS")]
         CustomUrls = 2,
+        [Description("LangKeyCustomChannel")]
+        CustomChannel = 3,
     }
 }

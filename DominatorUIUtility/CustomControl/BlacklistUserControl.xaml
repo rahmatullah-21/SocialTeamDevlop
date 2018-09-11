@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+   
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -21,8 +23,12 @@
                     <TextBlock Text="Blacklist User" Foreground="White"  FontSize="30" FontWeight="SemiBold"/>
                     <Rectangle Width="20" Height="20" Fill="White"  Margin="10,0" Grid.Column="1"
                                    VerticalAlignment="Center" HorizontalAlignment="Right"
-                                   x:Name="RefreshBlacklistedUsers" ToolTip="{DynamicResource LangKeyClearUsersList}"
-                                   MouseDown="RefreshBlacklistedUsers_OnMouseDown">
+                                   ToolTip="{DynamicResource LangKeyClearUsersList}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding ClearCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
                         </Rectangle.OpacityMask>
@@ -35,14 +41,14 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
-                              TextWrapping="Wrap" AcceptsReturn="True"
+                              TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding BlacklistUser}"
                               ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
                 <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToBlacklist}" 
                             VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Red" Foreground="White"
-                            Click="BtnAddtoBlacklist_OnClick"/>
+                           Command="{Binding AddtoBlackListCommand}"/>
             </Grid>
         </GroupBox>
 
@@ -58,11 +64,15 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >
                         <CheckBox Name="SelectAll" Foreground="White" IsChecked="{Binding IsAllBlackListUserChecked}"
-                              Margin="10,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"
-                              Checked="SelectAll_OnChecked" Unchecked="SelectAll_OnUnchecked"/>
+                              Margin="10,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"/>
                         <Rectangle Width="15" Height="18" Fill="White"  Margin="10,0" VerticalAlignment="Center"
-                               x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}"
-                               MouseDown="Refresh_OnMouseDown" >
+                               x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
                             </Rectangle.OpacityMask>
@@ -80,7 +90,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <CheckBox x:Name="ChkBlacklistuser"  IsChecked="{Binding IsBlackListUserChecked}"
-                                      Checked="ChkBlacklistuser_OnChecked" Unchecked="ChkBlacklistuser_OnUnchecked">
+                                     Command="{Binding DataContext.SelectCommand}">
                                 <CheckBox.Content>
                                     <TextBlock Text="{Binding BlacklistUser}"/>
                                 </CheckBox.Content>
@@ -91,7 +101,7 @@
                 <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource LangKeyRemoveSelectedFromBlacklist}"
                         Background="{DynamicResource AccentBaseColorBrush}" 
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
-                        Click="DeletedSelected_OnClick">
+                        Command="{Binding DeleteCommand}">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                             <Setter Property="Foreground" Value="White" />

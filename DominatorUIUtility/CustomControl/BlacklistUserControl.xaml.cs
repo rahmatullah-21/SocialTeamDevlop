@@ -18,193 +18,50 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
+using DominatorHouseCore.Annotations;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for BlacklistUserControl.xaml
     /// </summary>
-    public partial class BlacklistUserControl : UserControl
+    public partial class BlacklistUserControl : UserControl, INotifyPropertyChanged
     {
-        private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
-
-        private DbContext dbContext { get; set; }
-
-        private DbOperations dbOperations { get; set; }
-
-        private bool IsUnCheckedFromUser { get; set; }
-
-        BlacklistUserModel BlacklistUserModel { get; set; } = new BlacklistUserModel();
-
         public BlacklistUserControl()
         {
             InitializeComponent();
-            DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
-            dbOperations = new DbOperations(dbContext);
-            ThreadFactory.Instance.Start(() =>
-            {
-                dbOperations.Get<BlackListUser>()?.ForEach(user =>
-                {
-                    Application.Current.Dispatcher.Invoke(() => BlacklistUserModel.LstBlackListUsers.Add(
-                        new BlacklistUserModel
-                        {
-                            BlacklistUser = user.UserName
-                        }));
-                });
-            });
-
-            MainGrid.DataContext = BlacklistUserModel;
-            BlacklistUserModel.LstBlackListUsers.CollectionChanged += UpdateBlackListUsers;
+            MainGrid.DataContext = BlackListViewModel;
+            BlackListViewModel.InitializeData();
         }
 
-        private void UpdateBlackListUsers(object sender, NotifyCollectionChangedEventArgs e)
+        private BlackListViewModel _blackListViewModel = new BlackListViewModel();
+
+        public BlackListViewModel BlackListViewModel
         {
-            if (!BlacklistUserModel.LstBlackListUsers.Any(x => x.IsBlackListUserChecked)
-                || BlacklistUserModel.LstBlackListUsers.Count == 0)
+            get
             {
-                IsUnCheckedFromUser = true;
-                if (!BlacklistUserModel.IsAllBlackListUserChecked)
+                return _blackListViewModel;
+            }
+            set
+            {
+                if (_blackListViewModel == value)
                     return;
-                SelectAll.Unchecked -= SelectAll_OnUnchecked;
-                BlacklistUserModel.IsAllBlackListUserChecked = false;
-                SelectAll.Unchecked += SelectAll_OnUnchecked;
-                IsUnCheckedFromUser = false;
-            }
-
-
-        }
-
-        private void RefreshBlacklistedUsers_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Txtusername.Clear();
-        }
-
-        private void BtnAddtoBlacklist_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(Txtusername.Text.Trim()))
-            {
-                GlobusLogHelper.log.Info("Error:- Please enter an username to add to the Blacklist.");
-            }
-            else
-            {
-                DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-                dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
-                var whiteListdbOperations = new DbOperations(dbContext);
-                var whiteListUser = whiteListdbOperations.Get<WhiteListUser>();
-                Txtusername.Text.Split('\n').ForEach(user =>
-                {
-                    var userName = user.Trim();
-                    if (!string.IsNullOrEmpty(userName))
-                    {
-                        if (!BlacklistUserModel.LstBlackListUsers.Any(x => string.Compare(x.BlacklistUser, userName, StringComparison.InvariantCultureIgnoreCase) == 0)
-                                 && !whiteListUser.Any(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) == 0))
-                        {
-                            BlacklistUserModel.LstBlackListUsers.Add(
-                                new BlacklistUserModel()
-                                {
-                                    BlacklistUser = userName
-                                });
-                            dbOperations.Add<BlackListUser>(new BlackListUser()
-                            {
-                                UserName = userName,
-                                AddedDateTime = DateTime.Now,
-
-                            });
-                        }
-                        else
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, userName, UserType.BlackListedUser, $"{userName} already added to Blacklist/Whitelist");
-
-                    }
-                });
-                Txtusername.Clear();
-            }
-
-        }
-
-
-        private void SelectAll_OnChecked(object sender, RoutedEventArgs e)
-        {
-            CheckUncheckAll(true);
-        }
-
-        private void SelectAll_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            CheckUncheckAll(false);
-        }
-        private void CheckUncheckAll(bool isChecked)
-        {
-            BlacklistUserModel.LstBlackListUsers.Select(x =>
-            {
-                x.IsBlackListUserChecked = isChecked;
-                return x;
-            }).ToList();
-        }
-
-        private void DeletedSelected_OnClick(object sender, RoutedEventArgs e)
-        {
-            var selectedUser = BlacklistUserModel.LstBlackListUsers.Where(x => x.IsBlackListUserChecked).ToList();
-            if (selectedUser.Count == 0)
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "Please select atleast on user");
-                return;
-            }
-            selectedUser.ForEach(x =>
-            {
-                BlacklistUserModel.LstBlackListUsers.Remove(x);
-                dbOperations.Remove<BlackListUser>(user => user.UserName == x.BlacklistUser);
-            });
-
-        }
-
-        private void ChkBlacklistuser_OnChecked(object sender, RoutedEventArgs e)
-        {
-            if (!BlacklistUserModel.IsAllBlackListUserChecked)
-            {
-                if (BlacklistUserModel.LstBlackListUsers.All(x => x.IsBlackListUserChecked))
-                {
-                    SelectAll.Checked -= SelectAll_OnChecked;
-                    BlacklistUserModel.IsAllBlackListUserChecked = true;
-                    SelectAll.Checked += SelectAll_OnChecked;
-
-                }
+                _blackListViewModel = value;
+                OnPropertyChanged(nameof(BlackListViewModel));
             }
         }
 
-        private void ChkBlacklistuser_OnUnchecked(object sender, RoutedEventArgs e)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-
-            if (BlacklistUserModel.IsAllBlackListUserChecked)
-            {
-                if (BlacklistUserModel.LstBlackListUsers.Any(x => !x.IsBlackListUserChecked))
-                {
-                    IsUnCheckedFromUser = true;
-                    if (!BlacklistUserModel.IsAllBlackListUserChecked)
-                        return;
-                    SelectAll.Unchecked -= SelectAll_OnUnchecked;
-                    BlacklistUserModel.IsAllBlackListUserChecked = false;
-                    SelectAll.Unchecked += SelectAll_OnUnchecked;
-                    IsUnCheckedFromUser = false;
-                }
-
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void Refresh_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            BlacklistUserModel.LstBlackListUsers.Clear();
-            ThreadFactory.Instance.Start(() =>
-            {
-                dbOperations.Get<BlackListUser>()?.ForEach(user =>
-                {
-                    Application.Current.Dispatcher.Invoke(() => BlacklistUserModel.LstBlackListUsers.Add(
-                        new BlacklistUserModel
-                        {
-                            BlacklistUser = user.UserName
-                        }));
-                });
-            });
-        }
     }
 }
