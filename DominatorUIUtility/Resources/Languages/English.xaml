@@ -3159,4 +3159,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCustomChannel">Custom Channel</system:String>
     <system:String x:Key="LangKeySkipUserWhoReceivedMessaged">Skip User Who Already Received A Messaged</system:String>
     <system:String x:Key="LangKeyCommentUniquePostsFromEachAccount">Comment on Unique Posts From Each Account</system:String>
+    <system:String x:Key="LangKeyRetypeEmail">ReType Email</system:String>
+    <system:String x:Key="LangKeyRetypePhoneNumber">ReType PhoneNumber</system:String>
+    <system:String x:Key="LangKeyWaitOnEachProfileBetween">Wait on each profile between</system:String>
 </ResourceDictionary>
