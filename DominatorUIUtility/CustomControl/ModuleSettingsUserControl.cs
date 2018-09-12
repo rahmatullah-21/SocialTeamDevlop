@@ -1444,6 +1444,7 @@ namespace DominatorUIUtility.CustomControl
                 var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == _activityType);
                 if (moduleConfiguration?.TemplateId == null || moduleConfiguration.LstRunningTimes == null)
                 {
+                    Model.IsAccountGrowthActive = !isStart;
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please save your settings, before starting the activity.");
                     return false;
                 }

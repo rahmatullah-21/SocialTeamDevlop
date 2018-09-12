@@ -7,8 +7,14 @@
              mc:Ignorable="d"  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
-             xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel" Loaded="Campaigns_OnLoaded"
+             xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel" 
              xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+
+    <interactivity:Interaction.Triggers>
+        <interactivity:EventTrigger EventName="Loaded">
+            <interactivity:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </interactivity:EventTrigger>
+    </interactivity:Interaction.Triggers>
 
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>

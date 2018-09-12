@@ -236,7 +236,7 @@ namespace DominatorUIUtility.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         LstWhiteListUsers.Remove(x);
-                        dbOperations.Remove<BlackListUser>(user => user.UserName == x.WhitelistUser);
+                        dbOperations.Remove<WhiteListUser>(user => user.UserName == x.WhitelistUser);
                     });
                     Thread.Sleep(50);
                 });

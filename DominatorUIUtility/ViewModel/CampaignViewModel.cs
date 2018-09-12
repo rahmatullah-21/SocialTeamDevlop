@@ -45,6 +45,7 @@ namespace DominatorUIUtility.ViewModel
             CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, CampaignTypeSelectionChanged);
             SelectionCommand = new BaseCommand<object>((sender) => true, SelectionExecute);
             CopyCampaignIdCommand = new BaseCommand<object>((sender) => true, CopyCampaignIdExecute);
+            LoadedCommand = new BaseCommand<object>((sender) => true, LoadedExecute);
             BindingOperations.EnableCollectionSynchronization(LstCampaignDetails, _lock);
         }
 
@@ -89,6 +90,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand CampaignTypeSelectionChange { get; set; }
         public ICommand SelectionCommand { get; set; }
         public ICommand CopyCampaignIdCommand { get; set; }
+        public ICommand LoadedCommand { get; set; }
         #endregion
 
         #region Properties
@@ -172,16 +174,23 @@ namespace DominatorUIUtility.ViewModel
             }
         }
         private bool _isUncheckedFromList;
+       
         public void SelectAllCampaign(bool isAllSelected)
         {
             try
             {
                 if (_isUncheckedFromList)
                     return;
-                LstCampaignDetails.Select(x =>
-                {
-                    x.IsCampaignChecked = isAllSelected; return x;
-                }).ToList();
+                if (CampaignModel.SelectedActivity == "All")
+                    LstCampaignDetails.Where(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork).Select(x =>
+                    {
+                        x.IsCampaignChecked = isAllSelected; return x;
+                    }).ToList();
+                else
+                    LstCampaignDetails.Where(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork && x.SubModule == CampaignModel.SelectedActivity).Select(x =>
+                     {
+                         x.IsCampaignChecked = isAllSelected; return x;
+                     }).ToList();
             }
             catch (Exception ex)
             {
@@ -203,7 +212,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                SelectAllCampaign(false);
+               // SelectAllCampaign(false);
                 IsAllCampaignChecked = false;
                 if (!CampaignModel.SelectedActivity.Equals("All"))
                     CampaignCollection.Filter = FilterByCampaignType;
@@ -551,6 +560,25 @@ namespace DominatorUIUtility.ViewModel
             }
 
         }
+
+
+        private void LoadedExecute(object sender)
+        {
+            try
+            {
+
+                if (CampaignModel.SelectedActivity == "All" || string.IsNullOrEmpty(CampaignModel.SelectedActivity))
+                    CampaignCollection.Filter = (x) => ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
+                else
+                    CampaignCollection.Filter = (x) => ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork && ((CampaignDetails)x).SubModule == CampaignModel.SelectedActivity;
+            }
+            catch (Exception ex)
+            {
+                CampaignCollection.Filter = (x) => ((CampaignDetails)x)?.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
+                ex.DebugLog();
+            }
+        }
+
         private void ActivePauseCampaign(CampaignDetails selectedCampaign, bool isToggleSwitchSelected)
         {
             try
