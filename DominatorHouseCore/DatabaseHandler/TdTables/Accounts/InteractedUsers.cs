@@ -5,7 +5,7 @@ using SQLite.CodeFirst;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : IInteractedUser
     {
         [Key]
         [Autoincrement]

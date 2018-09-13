@@ -26,12 +26,11 @@ namespace DominatorHouseCore.Process
     /// </summary>
     public abstract class JobProcess
     {
-        public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
+        protected JobProcess(string account, string template, TimingRange currentJobTimeRange)
         {
             // Get the current account details 
-            DominatorAccountModel = AccountsFileManager.GetAccount(account, network);
+            DominatorAccountModel = AccountsFileManager.GetAccount(account, SocialNetworks);
 
-            SocialNetworks = network;
 
             CurrentJobTimeRange = currentJobTimeRange;
 
@@ -56,9 +55,7 @@ namespace DominatorHouseCore.Process
             }
 
             TemplateId = template;
-            var campaigns = CampaignsFileManager.Get();
             CampaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
-            ActivityType = activityType;
 
             InitializeActivityCount(account);
 
@@ -75,8 +72,6 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
-            var objDatabaseHandler = new DataBaseHandler();
-
             if (CampaignId != null)
             {
                 try
@@ -118,95 +113,6 @@ namespace DominatorHouseCore.Process
                 RunningActivityManager.StartNextRound(DominatorAccountModel);
             }
 
-        }
-        //protected void ScheduleNextJob(DateTime dateTime)
-        //{
-        //    Stop();
-
-        //    var today = DateTimeUtilities.GetDayOfWeek();
-
-        //    var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
-
-        //    if (!timeScheduleModel.IsEnabled)
-        //        return;
-
-        //    // get the hour and minute of current time
-        //    var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
-
-        //    if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
-        //    {
-        //        var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
-        //            .FirstOrDefault(x => x.ActivityType == ActivityType);
-
-        //        if (moduleConfiguration != null)
-        //        {
-        //            var templateId = moduleConfiguration.TemplateId;
-        //            JobManager.AddJob(
-        //                () =>
-        //                {
-        //                    var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
-
-        //                    moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
-        //                    var isEnabled = moduleConfiguration.IsEnabled;
-        //                    if (isEnabled)
-        //                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
-        //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
-        //        }
-        //    }
-        //}
-
-        protected void ScheduleNextJob()
-        {
-            //if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
-            //{
-            //    Stop();
-            //    var dateTime = DateTime.Now.AddHours(1);
-            //    var today = DateTimeUtilities.GetDayOfWeek();
-
-            //    var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
-
-            //    if (!timeScheduleModel.IsEnabled)
-            //        return;
-
-            //    // get the hour and minute of current time
-            //    var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
-
-            //    if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
-            //    {
-            //        var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
-            //            .FirstOrDefault(x => x.ActivityType == ActivityType);
-
-            //        if (moduleConfiguration != null)
-            //        {
-            //            var templateId = moduleConfiguration.TemplateId;
-            //            JobManager.AddJob(
-            //                () =>
-            //                {
-            //                    var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
-
-            //                    moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
-            //                    var isEnabled = moduleConfiguration.IsEnabled;
-            //                    if (isEnabled)
-            //                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
-            //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    if (RunningJobProcesses != null)
-            //    {
-            //        foreach (var jobProcess in RunningJobProcesses.Values)
-            //        {
-            //            if (jobProcess.Id.Contains(AccountId))
-            //            {
-            //                return;
-            //            }
-            //        }
-            //    }
-            //    RunningActivityManager.StartNextRound(DominatorAccountModel);
-            //}
         }
 
 
@@ -253,7 +159,88 @@ namespace DominatorHouseCore.Process
         /// 
         /// </summary>
         /// <returns></returns>
-        protected abstract bool CheckJobProcessLimitsReached();
+        protected virtual bool CheckJobProcessLimitsReached()
+        {
+            var limitType = ReachedLimitType.NoLimit;
+            try
+            {
+                #region No of Actions performed per week
+
+                if (NoOfActionPerformedCurrentWeek >= MaxNoOfActionPerWeek && limitType == ReachedLimitType.NoLimit)
+                {
+                    GlobusLogHelper.log.Info(Log.WeeklyLimitReached,
+                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, MaxNoOfActionPerWeek);
+                    limitType = ReachedLimitType.Weekly;
+                }
+
+                #endregion
+
+                #region Number Actions performed per day
+
+
+                if (NoOfActionPerformedCurrentDay >= MaxNoOfActionPerDay && limitType == ReachedLimitType.NoLimit)
+                {
+                    GlobusLogHelper.log.Info(Log.DailyLimitReached,
+                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, MaxNoOfActionPerDay);
+                    limitType = ReachedLimitType.Daily;
+                }
+
+                #endregion
+
+                #region Number of Actions performed per hour
+
+                if (NoOfActionPerformedCurrentHour >= MaxNoOfActionPerHour && limitType == ReachedLimitType.NoLimit)
+                {
+                    GlobusLogHelper.log.Info(Log.HourlyLimitReached,
+                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, MaxNoOfActionPerHour);
+                    limitType = ReachedLimitType.Hourly;
+                }
+
+                #endregion
+
+                #region Number of actions performed per job
+
+                if (NoOfActionPerformedCurrentJob >= MaxNoOfActionPerJob && limitType == ReachedLimitType.NoLimit)
+                {
+                    GlobusLogHelper.log.Info(Log.JobLimitReached, DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, MaxNoOfActionPerJob);
+                    limitType = ReachedLimitType.Job;
+                }
+
+                #endregion
+
+
+
+                if (limitType != ReachedLimitType.NoLimit)
+                {
+                    Stop();
+                    var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
+                    var nextStartTime = limitType == ReachedLimitType.Job ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType, JobConfiguration.DelayBetweenJobs.GetRandom()) : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+                    if (moduleConfiguration != null)
+                    {
+                        moduleConfiguration.NextRun = nextStartTime;
+                        var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                            .AddOrUpdateModuleSettings(ActivityType, moduleConfiguration)
+                            .SaveToBinFile();
+                    }
+                    DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                    //  JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog("Error in scheduling");
+            }
+            if (limitType != ReachedLimitType.NoLimit)
+            {
+                return true;
+            }
+            return false;
+        }
 
         protected void StopFollow()
         {
@@ -358,7 +345,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// To get the activity type
         /// </summary>
-        public ActivityType ActivityType { get; set; }
+        public abstract ActivityType ActivityType { get; }
 
         /// <summary>
         /// To get the list of saved queries from <see cref="DominatorHouseCore.Models.TemplateModel.ActivitySettings"/>
@@ -383,7 +370,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// To specify the given account is belongs to which networks
         /// </summary>
-        public SocialNetworks SocialNetworks { get; set; }
+        public abstract SocialNetworks SocialNetworks { get; }
 
         #endregion
 
@@ -586,5 +573,19 @@ namespace DominatorHouseCore.Process
         }
 
         #endregion
+    }
+
+    public abstract class JobProcess<TModuleSetting> : JobProcess
+        where TModuleSetting : class
+
+    {
+        public TModuleSetting ModuleSetting { get; }
+
+        protected JobProcess(string account, string template, TimingRange currentJobTimeRange) : base(account, template, currentJobTimeRange)
+        {
+
+            TemplateModel model = TemplatesFileManager.GetTemplateById(template);
+            this.ModuleSetting = JsonConvert.DeserializeObject<TModuleSetting>(model.ActivitySettings);
+        }
     }
 }

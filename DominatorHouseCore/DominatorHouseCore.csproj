@@ -253,6 +253,7 @@
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedCommunitiesReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedUsersReport.cs" />
+    <Compile Include="DatabaseHandler\IInteractedUser.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\Connections.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\FeedInfo.cs" />
@@ -497,6 +498,8 @@
     <Compile Include="Models\SocioPublisher\PublisherCustomDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
+    <Compile Include="Process\Common\FollowProcess.cs" />
+    <Compile Include="Process\Common\UserBasedProcess.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="Settings\SoftwareSettings.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
