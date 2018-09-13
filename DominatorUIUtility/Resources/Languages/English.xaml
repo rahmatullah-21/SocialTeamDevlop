@@ -3162,4 +3162,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRetypeEmail">ReType Email</system:String>
     <system:String x:Key="LangKeyRetypePhoneNumber">ReType PhoneNumber</system:String>
     <system:String x:Key="LangKeyWaitOnEachProfileBetween">Wait on each profile between</system:String>
+    <system:String x:Key="LangKeyScrapAllLikes">Own Liked Post</system:String>
+    <system:String x:Key="LangKeyDelayBetweenEachActionBlock">Delay Between Each Action Block</system:String>
 </ResourceDictionary>
