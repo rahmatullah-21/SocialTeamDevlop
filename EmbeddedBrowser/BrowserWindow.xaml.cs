@@ -391,12 +391,16 @@ namespace EmbeddedBrowser
                 {
                     SaveCookie();
                 }
-                var result = GetLoggedInPageSource();
 
-                if (!string.IsNullOrEmpty(result) && result.Contains("Switch accounts"))
+                if (DominatorAccountModel.IsUserLoggedIn)
                 {
-                    LoadPostPage(true);
-                } 
+                    var result = GetLoggedInPageSource();
+
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        LoadPostPage(true);
+                    }
+                }
             }
         }
 
@@ -485,6 +489,46 @@ namespace EmbeddedBrowser
                             return true;
                         }
                     }
+                    #endregion
+
+                    #region Google, Set with Português (Brasil)? Language
+                    else if (PageText.Contains("Português (Brasil)?"))
+                    {
+                        if (PageText.Contains("Não foi possível encontrar sua Conta do Google")
+                                       || PageText.Contains("Digite um e-mail ou número de telefone válido")
+                                       || PageText.Contains("Senha incorreta. Tente novamente ou clique em \"Esqueceu a senha?\" para redefini-la.")
+                                       || PageText.Contains("Sua senha foi alterada há "))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.InvalidCredentials;
+
+                            return true;
+                        }
+                        else if (PageText.Contains("Type the text you hear or see"))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
+                            return true;
+                        }
+                        else if (PageText.Contains("Indisponível devido a tentativas em excesso. Tente novamente mais tarde.")
+                            || PageText.Contains("It is not available because too many attempts have been failed. Try again in a few hours."))
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
+                            return true;
+                        }
+                        else if (PageText.Contains("Receber um código de verificação no número ")
+                            || PageText.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you.")
+                            || PageText.Contains("Você está com seu smartphone?")
+                            || PageText.Contains("O Google enviará uma notificação ao seu smartphone para verificar sua identidade")
+                            )
+                        {
+                            DominatorAccountModel.IsUserLoggedIn = false;
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
+                            return true;
+                        }
+                    }
+
                     #endregion
                 }
             }

@@ -18,7 +18,11 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyTryingToLogin")]TryingToLogin,
         [Description("LangKeyAddPhoneNumberToYourAccount")]AddPhoneNumberToYourAccount,
         [Description("LangKeyTooManyAttemptsOnPhoneVerification")]
-        TooManyAttemptsOnPhoneVerification
+        TooManyAttemptsOnPhoneVerification,
+        [Description("LangKeyRetypeEmail")]
+        ReTypeEmail,
+        [Description("LangKeyRetypePhoneNumber")]
+        ReTypePhoneNumber,
 
     }
 }
