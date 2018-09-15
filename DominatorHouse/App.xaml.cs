@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using AutoMapper;
+using DominatorHouse;
+using DominatorHouse.AutoMapping;
+using System.Windows;
 
 namespace Socinator
 {
@@ -7,5 +10,16 @@ namespace Socinator
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            InitializeAutoMapper();
+            base.OnStartup(e);
+        }
+
+        private void InitializeAutoMapper()
+        {
+            //var moduleProfiles = IoC.Container.ResolveAll<Profile>();
+            //AutoMapperConfiguration.Init(moduleProfiles);
+        }
     }
 }

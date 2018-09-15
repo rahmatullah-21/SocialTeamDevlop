@@ -245,6 +245,7 @@
     <Compile Include="DominatorCores\DominatorTabHandlerFactory.cs" />
     <Compile Include="Factories\SocialPublisherCollectionFactory.cs" />
     <Compile Include="DominatorCores\SocialPublisherCoreFactory.cs" />
+    <Compile Include="IoC.cs" />
     <Compile Include="IoC\MainContainerExtension.cs" />
     <Compile Include="IoC\MainDominatorModule.cs" />
     <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
