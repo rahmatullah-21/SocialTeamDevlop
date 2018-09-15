@@ -3164,4 +3164,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWaitOnEachProfileBetween">Wait on each profile between</system:String>
     <system:String x:Key="LangKeyScrapAllLikes">Own Liked Post</system:String>
     <system:String x:Key="LangKeyDelayBetweenEachActionBlock">Delay Between Each Action Block</system:String>
+    <system:String x:Key="LangKeyAllowMultipleMentionOnSamePost">Allow Multiple Mentions On Same Post</system:String>
 </ResourceDictionary>

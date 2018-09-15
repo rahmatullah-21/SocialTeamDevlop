@@ -2,7 +2,7 @@
 using DominatorHouse;
 using DominatorHouse.AutoMapping;
 using System.Windows;
-
+using Unity;
 namespace Socinator
 {
     /// <summary>
@@ -18,8 +18,8 @@ namespace Socinator
 
         private void InitializeAutoMapper()
         {
-            //var moduleProfiles = IoC.Container.ResolveAll<Profile>();
-            //AutoMapperConfiguration.Init(moduleProfiles);
+            var moduleProfiles = IoC.Container.ResolveAll<Profile>();
+            AutoMapperConfiguration.Init(moduleProfiles);
         }
     }
 }
