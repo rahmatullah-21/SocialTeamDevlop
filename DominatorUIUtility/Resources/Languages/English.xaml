@@ -3165,4 +3165,11 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyScrapAllLikes">Own Liked Post</system:String>
     <system:String x:Key="LangKeyDelayBetweenEachActionBlock">Delay Between Each Action Block</system:String>
     <system:String x:Key="LangKeyAllowMultipleMentionOnSamePost">Allow Multiple Mentions On Same Post</system:String>
+    <system:String x:Key="LangKeyOwnPages">Own Pages</system:String>
+    <system:String x:Key="LangKeyLikedPages">Liked Pages</system:String>
+    <system:String x:Key="LangKeyPagePostReactBy">Page Post React By</system:String>
+    <system:String x:Key="LangKeyUniqueGroupsShouldBeJoinedFromEachAccount">Unique Groups Should Be Joined From Each Account</system:String>
+    <system:String x:Key="LangKeyCustomGroupUrl">Custom Group Url</system:String>
+    <system:String x:Key=" LangKeyCustomPageUrl">Custom Page Url</system:String>
+    <system:String x:Key="LangKeyReplyToComments">Reply To Comments</system:String>
 </ResourceDictionary>

@@ -107,5 +107,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
 
         [Column(Order = 17)]
         public string CommentId { get; set; }
+
+        [Column(Order = 17)]
+        public string PostUrl { get; set; }
     }
 }
