@@ -130,6 +130,12 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator">
+      <HintPath>..\packages\Unity.5.8.11\lib\net45\CommonServiceLocator.dll</HintPath>
+    </Reference>
     <Reference Include="ControlzEx">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
@@ -227,6 +233,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AutoMapping\AutoMapperConfiguration.cs" />
+    <Compile Include="AutoMapping\MainMapperProfile.cs" />
     <Compile Include="DominatorCores\SocialPublisherCoreBuilder.cs" />
     <Compile Include="DominatorCores\SocialPublisherPostDetailsScraper.cs" />
     <Compile Include="DominatorCores\SocialPublisherPostScraper.cs" />
@@ -237,6 +245,8 @@
     <Compile Include="DominatorCores\DominatorTabHandlerFactory.cs" />
     <Compile Include="Factories\SocialPublisherCollectionFactory.cs" />
     <Compile Include="DominatorCores\SocialPublisherCoreFactory.cs" />
+    <Compile Include="IoC\MainContainerExtension.cs" />
+    <Compile Include="IoC\MainDominatorModule.cs" />
     <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
       <DependentUpon>MigrationFromOldDominator.xaml</DependentUpon>
     </Compile>
