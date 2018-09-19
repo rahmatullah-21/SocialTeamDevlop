@@ -16,6 +16,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
     public class DbOperations
     {
         public DbContext _context;
+        public DbContext Context => _context;
 
         public DbOperations(DbContext context)
         {
@@ -56,6 +57,22 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             {
                 // Add to context
                 _context.Set<T>().Add(data);
+                // save the changes
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool AddRange<T>(List<T> data) where T : class
+        {
+            try
+            {
+                // Add to context
+                _context.Set<T>().AddRange(data);
                 // save the changes
                 _context.SaveChanges();
                 return true;
@@ -139,10 +156,9 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             try
             {
                 // Make with thread factory, If the expression is null then return the whole records otherwise only matched expression
-                lstData = await ThreadFactory.Instance.Start(() =>
-                expression == null
-                ? _context.Set<T>().ToList()
-                : _context.Set<T>().Where(expression).ToList(), TaskCreationOptions.LongRunning);
+                lstData = await (expression == null
+                ? _context.Set<T>().ToListAsync()
+                : _context.Set<T>().Where(expression).ToListAsync());
             }
             catch (Exception)
             {
@@ -177,11 +193,12 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         }
 
 
-
+        private static volatile int i;
         public bool UpdateAccountDetails(DominatorAccountModel dominatorAccountModel)
         {
             try
             {
+                i++;
                 var dataToUpdate = _context.Set<AccountDetails>().FirstOrDefault(x => x.AccountId == dominatorAccountModel.AccountId);
 
                 if (dataToUpdate == null)
@@ -279,6 +296,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         }
 
         #endregion
+
 
     }
 }

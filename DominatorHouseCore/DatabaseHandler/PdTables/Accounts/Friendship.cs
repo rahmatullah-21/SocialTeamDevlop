@@ -104,6 +104,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
     {
         Following = 1,
         FollowingBack  = 2,
+        Mutual = 3,
         Pending = 4
     }       
 }

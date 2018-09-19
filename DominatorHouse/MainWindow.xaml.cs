@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -88,6 +89,8 @@ namespace Socinator
                 ex.DebugLog();
             }
         }
+
+
 
         private async Task IsCheck()
         {
@@ -378,6 +381,16 @@ namespace Socinator
                         else
                             LoggerCollection.Filter += FilterByError;
 
+                        //if (!string.IsNullOrEmpty(SelectedActivity) && !string.IsNullOrEmpty(SelectedNetwork))
+                        //{
+                        //    LoggerCollection.Filter += FilterByNetwork;
+                        //    LoggerCollection.Filter += FilterByActivityType;
+                        //}
+                        //else if (!string.IsNullOrEmpty(SelectedActivity))
+                        //    LoggerCollection.Filter += FilterByActivityType;
+
+                        //else if (!string.IsNullOrEmpty(SelectedNetwork))
+                        //    LoggerCollection.Filter += FilterByNetwork;
                     });
 
                 }
@@ -509,13 +522,13 @@ namespace Socinator
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 TabDock = Dock.Left;
 
                 DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fatal Error",
                     $"Please purchase access of {network} automation features!");
-
+                ex.DebugLog();
                 SelectedNetworkIndex = 0;
             }
         }
@@ -709,7 +722,7 @@ namespace Socinator
                 ThreadFactory.Instance.Start(() =>
                 {
                     DirectoryUtilities.DeleteOldLogsFile();
-                    DirectoryUtilities.Compress();
+                    //DirectoryUtilities.Compress();
                 });
 
                 #region Publisher
@@ -943,8 +956,16 @@ namespace Socinator
         {
             try
             {
+                var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+                var type = (selectedTab == "Info") ? "Info" : "Error";
                 var logger = sender as LoggerModel;
-                return logger?.ActivityType?.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+                return logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0
+                    && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+
+                //var logger = sender as LoggerModel;
+                //return logger?.ActivityType?.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
             {
@@ -960,8 +981,9 @@ namespace Socinator
                 var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
                 var type = (selectedTab == "Info") ? "Info" : "Error";
                 var logger = sender as LoggerModel;
-
-                return logger?.Network.IndexOf(CmbAvailableNetworks.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0
+                if (SelectedNetwork == SocialNetworks.Social.ToString())
+                    return true;
+                return logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
                     && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
@@ -971,13 +993,31 @@ namespace Socinator
             }
 
         }
+        private bool FilterByNetworkActivity(LoggerModel logger,string type)
+        {
+            if (!string.IsNullOrEmpty(SelectedActivity) && !string.IsNullOrEmpty(SelectedNetwork))
+            {
+                return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
+                && logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0;
 
+            }
+            else if (!string.IsNullOrEmpty(SelectedActivity))
+                return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0
+                && logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+            else if (!string.IsNullOrEmpty(SelectedNetwork))
+                return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+            return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+        }
         private bool FilterByInfo(object sender)
         {
             try
             {
                 var logger = sender as LoggerModel;
-                return logger?.LogType.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) >= 0;
+                return FilterByNetworkActivity(logger, "Info");
+              //  return logger?.LogType.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
             {
@@ -992,7 +1032,8 @@ namespace Socinator
             try
             {
                 var logger = sender as LoggerModel;
-                return logger?.LogType.IndexOf("Error", StringComparison.InvariantCultureIgnoreCase) >= 0 || logger?.LogType.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) >= 0;
+                return FilterByNetworkActivity(logger, "Error");
+              //  return logger?.LogType.IndexOf("Error", StringComparison.InvariantCultureIgnoreCase) >= 0 || logger?.LogType.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
             {
@@ -1043,6 +1084,34 @@ namespace Socinator
             {
                 _loggerCollection = value;
                 OnPropertyChanged(nameof(LoggerCollection));
+            }
+        }
+        private string _selectedNetwork = string.Empty;
+
+        public string SelectedNetwork
+        {
+            get
+            {
+                return _selectedNetwork;
+            }
+            set
+            {
+                _selectedNetwork = value;
+                OnPropertyChanged(nameof(SelectedNetwork));
+            }
+        }
+        private string _selectedActivity = string.Empty;
+
+        public string SelectedActivity
+        {
+            get
+            {
+                return _selectedActivity;
+            }
+            set
+            {
+                _selectedActivity = value;
+                OnPropertyChanged(nameof(SelectedActivity));
             }
         }
 

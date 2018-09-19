@@ -1,3 +1,29 @@
+Version[1.0.0.14],[18th-September-18]
+
+New Features:-
+Instagram:-
+	Instaliker/Instacommenter => Custom photos => Unique comment from each account 
+	Reposter => Repost those posts are liked by the account.
+	Instaliker/Instacommenter => Comment => Comment on post those are liked by the account.
+LinkedIn:-
+	Added feature to scrape only "details required to send connection request" in salesnavigator scraper.
+
+Fixed:-
+	High CPU Usage issue
+	Instagram:-
+		Issue fixed with doing one more activity after reached per job and per hour limit
+
+		Reposter :
+	    Issue fixed with [USERNAME] in caption
+		Issue fixed with delay between each operation  X to Y seconds
+
+	LinkedIn:-
+		Message => Fixed isssue with send message to new connection .
+		Scraper => USer Scraper => Fixed issue with scrape profile data using search URL.
+		Connection => Export connection => Fixed issue with export connection
+	Reddit:-
+		Campaign => All campaign get deleted while deleting one particular module campaigns
+
 Version[1.0.0.13],[11th-September-18]
 
 New Features:-
@@ -6,6 +32,9 @@ Instagram:-
 	Grow Follower => Should not be following this account (skip followers)
 	Instaliker/Instacommenter => Comment => Mention users without using comment
 	Instachat => Skip users who already received A message
+	Instaliker/Instacommenter => Custom photos => Unique comment from each account 
+	Repster => Repost those posts are liked by the account.
+	Instaliker/Instacommenter => Comment => Comment on post those are liked by the account.
 Facebook:-
 	Live Chat => Chat from multiple accounts on real time.
 	Grow Friends => Send Friend Request => Added query type for Suggested users and Event url to send request
@@ -21,6 +50,7 @@ Facebook:-
 	Scraper => Comment Scraqper => Added comment filter based on text and days
 LinkedIn:-
 	Added feature to Scraping details of  Accounts(Companies) in Salesnavigator scraper.
+	Added feature to scrape only "details required to send connection request" in salesnavigator scraper.
 YouTube:-
 	Added new query type to search channels => Custom Channel List
 	Engage => Comment => Added feature to post unique comment from each account
@@ -52,6 +82,12 @@ Fixed:-
 		
 		Campaigns : 
 		Issue fixed not switching to Campaigns after clicking on Cancel Editing.
+		Issue fixed with doing one more activity after reached per job and per hour limit
+
+		Reposter :
+	    Issue fixed with [USERNAME] in caption
+		Issue fixed with delay between each operation  X to Y seconds
+		   
 	Facebook:-
 		Broadcast Messages => Broadcast message =>Fixed issue with pause the campaign
 		Broadcast Messages => Broadcast message =>Fixed issue with fail to message to custom users list
@@ -63,8 +99,12 @@ Fixed:-
 		Fixed issue with to uploading profile url in  all custom url list.
 		Linkedin Socinator => Profile endoresement=> Connection source => Fixed issue with to stop endorse the profile skill after pause the campaign."
 		Messenger => Auto Reply to New Message =>Fixed issue with reply to all messages and reply to message that contains specific words
+		Message => Fixed isssue with send message to new connection .
+		Scraper => USer Scraper => Fixed issue with scrape profile data using search URL.
+		Connection => Export connection => Fixed issue with export connection
 	Reddit:-
 		Create Destination =>Fixed issues with Custom destination while posting.
+		Campaign => All campaign get deleted while deleting one particular module campaigns
 	YouTube:-
 		Engage => Like comment =>Fixed issue for like comments with keyword 
 		Subscriber => Subscribe =>Fixed issue with not genrating the report

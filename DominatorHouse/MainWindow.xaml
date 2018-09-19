@@ -79,7 +79,7 @@
 
                 <Label Content="{DynamicResource LangKeyFilterByNetwork}" FontWeight="SemiBold"/>
                 <ComboBox ItemsSource="{Binding AvailableNetworks}" Width="200" SelectedIndex="-1" Name="CmbAvailableNetworks"
-                          controls:TextBoxHelper.ClearTextButton="True"
+                          controls:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding SelectedNetwork}"
                           SelectionChanged="CmbAvailableNetworks_OnSelectionChanged"/>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel.Style>
@@ -94,7 +94,7 @@
                     </StackPanel.Style>
                     <Label Content="{DynamicResource LangKeyFilterByActivityType}" FontWeight="SemiBold"/>
                     <ComboBox ItemsSource="{Binding ActivityType}" Width="200" controls:TextBoxHelper.ClearTextButton="True"
-                              Name="CmbActivityType"
+                              Name="CmbActivityType" SelectedItem="{Binding SelectedActivity}"
                               SelectionChanged="CmbActivityType_OnSelectionChanged"/>
                 </StackPanel>
             </StackPanel>
@@ -104,7 +104,7 @@
                                          MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" 
                                          SelectionChanged="InitialTabablzControl_OnSelectionChanged">
                     <TabItem Header="Info" Name="InfoTab" >
-                        <ListView x:Name="InfoLogger" ItemsSource="{Binding LoggerCollection}">
+                        <ListView x:Name="InfoLogger" ItemsSource="{Binding LoggerCollection,IsAsync=True}">
                             <ListView.CommandBindings>
                                 <CommandBinding Command="ApplicationCommands.Copy"
                                                 CanExecute="CopyCanExecute" Executed="CopyExecuted" />
@@ -151,7 +151,7 @@
                         <!--<ListBox x:Name="InfoLogger" IsSelected="True"/>-->
                     </TabItem>
                     <TabItem Header="Error List" Name="ErrorTab" >
-                        <ListView x:Name="ErrorLogger" ItemsSource="{Binding LoggerCollection}">
+                        <ListView x:Name="ErrorLogger" ItemsSource="{Binding LoggerCollection,IsAsync=True}">
                             <ListView.CommandBindings>
                                 <CommandBinding Command="ApplicationCommands.Copy"
                                                 CanExecute="CopyCanExecute" Executed="CopyExecuted" />

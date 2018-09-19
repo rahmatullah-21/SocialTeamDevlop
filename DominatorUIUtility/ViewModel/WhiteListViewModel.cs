@@ -8,6 +8,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
@@ -95,6 +96,8 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _whitelistUser, value);
             }
         }
+         List<BlackListUser> blackListUsers = new List<BlackListUser>();
+        List<WhiteListUser> whiteListUser = new List<WhiteListUser>();
         private ObservableCollection<WhitelistUserModel> _lstWhiteListUsers = new ObservableCollection<WhitelistUserModel>();
 
         public ObservableCollection<WhitelistUserModel> LstWhiteListUsers
@@ -116,6 +119,11 @@ namespace DominatorUIUtility.ViewModel
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
             dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
             dbOperations = new DbOperations(dbContext);
+
+            dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
+            var whiteListdbOperations = new DbOperations(dbContext);
+            blackListUsers = dbOperations.Get<BlackListUser>();
+
             ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<WhiteListUser>()?.ForEach(user =>
@@ -126,7 +134,7 @@ namespace DominatorUIUtility.ViewModel
                             WhitelistUser = user.UserName
                         }));
 
-                    Thread.Sleep(50);
+                    Thread.Sleep(5);
                 });
             });
         }
@@ -139,42 +147,52 @@ namespace DominatorUIUtility.ViewModel
             }
             else
             {
-                DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-                dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
-                var whiteListdbOperations = new DbOperations(dbContext);
-                var whiteListUser = whiteListdbOperations.Get<WhiteListUser>();
+                //DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+                //dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
+                //var whiteListdbOperations = new DbOperations(dbContext);
+                //var whiteListUser = whiteListdbOperations.Get<WhiteListUser>();
                 Task.Factory.StartNew(() =>
                 {
-                    WhitelistUser.Split('\n').ForEach(user =>
+                    var lstuser = WhitelistUser.Split('\n');
+                    WhitelistUser = string.Empty;
+                    whiteListUser = new List<WhiteListUser>();
+                    lstuser.ForEach(user =>
                     {
                         var userName = user.Trim();
                         if (!string.IsNullOrEmpty(userName))
                         {
                             if (!LstWhiteListUsers.Any(x => string.Compare(x.WhitelistUser, userName, StringComparison.InvariantCultureIgnoreCase) == 0)
-                                     && !whiteListUser.Any(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) == 0))
+                                     && !blackListUsers.Any(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) == 0))
                             {
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
-                                    LstWhiteListUsers.Add(new WhitelistUserModel()
+                                    whiteListUser.Add(new WhiteListUser()
                                     {
-                                        WhitelistUser = userName
+                                        UserName = userName
                                     });
-                                    dbOperations.Add<WhiteListUser>(new WhiteListUser()
-                                    {
-                                        UserName = userName,
-                                        AddedDateTime = DateTime.Now,
+                                    //LstWhiteListUsers.Add(new WhitelistUserModel()
+                                    //{
+                                    //    WhitelistUser = userName
+                                    //});
+                                    //dbOperations.Add<WhiteListUser>(new WhiteListUser()
+                                    //{
+                                    //    UserName = userName,
+                                    //    AddedDateTime = DateTime.Now,
 
-                                    });
+                                    //});
                                 }
                             );
-                                Thread.Sleep(50);
+                               // Thread.Sleep(50);
                             }
                             else
                                 GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, userName, UserType.BlackListedUser, $"{userName} already added to Blacklist/Whitelist");
 
                         }
                     });
-                    WhitelistUser = string.Empty;
+                    dbOperations.AddRange<WhiteListUser>(whiteListUser);
+                   // WhitelistUser = string.Empty;
+                    ToasterNotification.ShowSuccess($"Succesfully added {whiteListUser.Count} users. Click on refresh button to view updated list");
+
                 });
                
             }
@@ -195,7 +213,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             WhitelistUser = user.UserName
                         }));
-                    Thread.Sleep(50);
+                    Thread.Sleep(5);
                 });
             });
         }

@@ -3172,4 +3172,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCustomGroupUrl">Custom Group Url</system:String>
     <system:String x:Key=" LangKeyCustomPageUrl">Custom Page Url</system:String>
     <system:String x:Key="LangKeyReplyToComments">Reply To Comments</system:String>
+    <system:String x:Key="LangKeyOnlyDetailsRequiredToSendConnectionRequest">Only details required to send connection request</system:String>
 </ResourceDictionary>
