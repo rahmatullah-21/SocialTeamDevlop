@@ -99,16 +99,16 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         public string LikeType { get; set; }
 
 
-        [Column(Order = 16)]
+        [Column(Order = 15)]
         public string Comment { get; set; }
 
-        [Column(Order = 15)]
+        [Column(Order = 16)]
         public DateTime InteractionDateTime { get; set; }
 
         [Column(Order = 17)]
         public string CommentId { get; set; }
 
-        [Column(Order = 17)]
+        [Column(Order = 18)]
         public string PostUrl { get; set; }
     }
 }

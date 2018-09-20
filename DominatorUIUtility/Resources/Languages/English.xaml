@@ -3170,7 +3170,15 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPagePostReactBy">Page Post React By</system:String>
     <system:String x:Key="LangKeyUniqueGroupsShouldBeJoinedFromEachAccount">Unique Groups Should Be Joined From Each Account</system:String>
     <system:String x:Key="LangKeyCustomGroupUrl">Custom Group Url</system:String>
-    <system:String x:Key=" LangKeyCustomPageUrl">Custom Page Url</system:String>
+    <system:String x:Key="LangKeyCustomPageUrl">Custom Page Url</system:String>
     <system:String x:Key="LangKeyReplyToComments">Reply To Comments</system:String>
     <system:String x:Key="LangKeyOnlyDetailsRequiredToSendConnectionRequest">Only details required to send connection request</system:String>
+    <system:String x:Key="LangKeySelectMediaType">Select Media Type</system:String>
+    <system:String x:Key="LangKeyDownloadMedia">Download Media</system:String>
+    <system:String x:Key="LangKeyCopyPath">Copy File Path</system:String>
+    <system:String x:Key="LangKeyPath">File Path</system:String>
+    <system:String x:Key="LangKeyFilterShouldBePostedToWall">Should be posted to wall(Public) only</system:String>
+    <system:String x:Key="LangKeyFilterShouldBePostedToCommunity">Should be posted to Community only</system:String>
+    <system:String x:Key="LangKeyFilterPostByNumberOfShares">Filter Post By Number Of Shares</system:String>
+    <system:String x:Key="LangKeyMustContainSpecificWords">Must Contain Specific Words</system:String>
 </ResourceDictionary>

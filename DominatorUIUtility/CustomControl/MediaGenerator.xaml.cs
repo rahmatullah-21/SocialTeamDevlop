@@ -72,6 +72,15 @@ namespace DominatorUIUtility.CustomControl
 
         private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
         {
+            CopyPath(sender);
+        }
+        private void CopyExecuted(object sender, RoutedEventArgs e)
+        {
+            ListViewItem sourceRow = sender as ListViewItem;
+            CopyPath(sender);
+        }
+        private static void CopyPath(object sender)
+        {
             try
             {
                 ListView lb = (ListView)(sender);
@@ -87,5 +96,7 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+
+      
     }
 }

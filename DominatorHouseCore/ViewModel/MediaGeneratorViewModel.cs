@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System;
 using System.Linq;
+using System.Windows;
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -12,6 +13,8 @@ namespace DominatorHouseCore.ViewModel
         public MediaGeneratorViewModel()
         {
             BrowseCommand = new BaseCommand<object>((sender) => true, BrowseExecute);
+            CopyCommand = new BaseCommand<object>((sender) => true, CopyExecute);
+         
         }
 
         private void BrowseExecute(object sender)
@@ -36,8 +39,25 @@ namespace DominatorHouseCore.ViewModel
                 ex.DebugLog();
             }
         }
+        private void CopyExecute(object sender)
+        {
+            try
+            {
+                string filePath = sender as string;
 
+                if (!string.IsNullOrEmpty(filePath))
+                {
+                    Clipboard.SetText(filePath);
+                    ToasterNotification.ShowSuccess("File path copied");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
         public ICommand BrowseCommand { get; set; }
+        public ICommand CopyCommand { get; set; }
         private ObservableCollection<string> _lstFile = new ObservableCollection<string>();
 
         public ObservableCollection<string> LstFile

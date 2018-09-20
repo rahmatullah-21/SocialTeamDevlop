@@ -30,7 +30,7 @@ namespace DominatorHouse.Utilities
         {
             _strategies = strategies;
             CheckConfigurationFiles();
-            ScheduleAccountUpdation();
+           // ScheduleAccountUpdation();
             // ScheduleUpdation();
             ActivityManagerInitializer();
             OtherInitializers();
@@ -110,6 +110,52 @@ namespace DominatorHouse.Utilities
             AccountUpdateProducer(block, accountSynchronizationHours);
         }
 
+        //private void AccountUpdateProducer(ITargetBlock<AccountDetailsUpdation> accountActionBuffer, int accountSynchronizationHours)
+        //{
+        //    var dominatorAccountViewModel = AccountCustomControl
+        //        .GetAccountCustomControl(_strategies)
+        //        .DominatorAccountViewModel;
+
+        //    var accounts = dominatorAccountViewModel.LstDominatorAccountModel;
+
+        //    var currentUpdateAccounts = accounts.Where(x =>
+        //        DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
+
+        //    #region Schedule jobs for account update
+
+        //    var scheduleUpdateAccount = accounts.Except(currentUpdateAccounts);
+
+        //    foreach (var account in scheduleUpdateAccount)
+        //    {
+        //        var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeUtc();
+
+        //        JobManager.AddJob(async () =>
+        //        {
+        //            try
+        //            {
+        //                await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account.AccountBaseModel.AccountId));
+        //            }
+        //            catch (ArgumentException ex)
+        //            {
+        //                ex.DebugLog();
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ex.DebugLog();
+        //            }
+        //        }, s => s.ToRunOnceAt(dateTime).AndEvery(accountSynchronizationHours).Hours());
+        //    }
+
+        //    #endregion
+
+        //    currentUpdateAccounts.ForEach(async account =>
+        //    {
+        //        await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account.AccountBaseModel.AccountId));
+        //    });
+
+        //}
+
+
         private void AccountUpdateProducer(ITargetBlock<AccountDetailsUpdation> accountActionBuffer, int accountSynchronizationHours)
         {
             var dominatorAccountViewModel = AccountCustomControl
@@ -133,7 +179,7 @@ namespace DominatorHouse.Utilities
                 {
                     try
                     {
-                        await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account.AccountBaseModel.AccountId));
+                        await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account));
                     }
                     catch (ArgumentException ex)
                     {
@@ -150,7 +196,7 @@ namespace DominatorHouse.Utilities
 
             currentUpdateAccounts.ForEach(async account =>
             {
-                await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account.AccountBaseModel.AccountId));
+                await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account));
             });
 
         }
@@ -431,16 +477,68 @@ namespace DominatorHouse.Utilities
         {
             AccountId = accountId;
         }
+        public DominatorAccountModel account { get; set; }
+
+        public AccountDetailsUpdation(DominatorAccountModel AccountModel)
+        {
+            account = AccountModel;
+        }
 
         public static ConcurrentDictionary<string, CancellationTokenSource> AccountUpdatesCancellationToken { get; set; }
             = new ConcurrentDictionary<string, CancellationTokenSource>();
 
+        //public async Task UpdateAccountAsync()
+        //{
+
+        //    var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(AccountId, token => new CancellationTokenSource());
+
+        //    var account = AccountsFileManager.GetAccountById(AccountId);
+
+        //    if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+        //        return;
+
+        //    var accountFactory = SocinatorInitialize
+        //        .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+        //        .GetNetworkCoreFactory().AccountUpdateFactory;
+
+        //    var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
+
+        //    if (asyncAccount == null)
+        //        return;
+
+        //    try
+        //    {
+        //        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+        //        var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+        //        if (!checkResult)
+        //            return;
+
+        //        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+        //        await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
+
+        //        new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+        //            .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+        //            .SaveToBinFile();
+
+        //    }
+        //    catch (OperationCanceledException ex)
+        //    {
+        //        ex.DebugLog("Cancellation Requested!");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //    }
+        //}
+
+
         public async Task UpdateAccountAsync()
         {
 
-            var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(AccountId, token => new CancellationTokenSource());
-
-            var account = AccountsFileManager.GetAccountById(AccountId);
+            var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
 
             if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
                 return;

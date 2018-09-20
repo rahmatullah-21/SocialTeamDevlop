@@ -371,33 +371,23 @@ namespace Socinator
             ThreadFactory.Instance.Start(() =>
             {
                 GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
-                try
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        if (LastTab == "Info")
-                            LoggerCollection.Filter += FilterByInfo;
+                //try
+                //{
+                //    Application.Current.Dispatcher.Invoke(() =>
+                //    {
+                //        if (LastTab == "Info")
+                //            LoggerCollection.Filter += FilterByInfo;
 
-                        else
-                            LoggerCollection.Filter += FilterByError;
+                //        else
+                //            LoggerCollection.Filter += FilterByError;
 
-                        //if (!string.IsNullOrEmpty(SelectedActivity) && !string.IsNullOrEmpty(SelectedNetwork))
-                        //{
-                        //    LoggerCollection.Filter += FilterByNetwork;
-                        //    LoggerCollection.Filter += FilterByActivityType;
-                        //}
-                        //else if (!string.IsNullOrEmpty(SelectedActivity))
-                        //    LoggerCollection.Filter += FilterByActivityType;
+                //    });
 
-                        //else if (!string.IsNullOrEmpty(SelectedNetwork))
-                        //    LoggerCollection.Filter += FilterByNetwork;
-                    });
-
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    ex.DebugLog();
+                //}
 
             });
 
