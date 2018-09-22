@@ -15,26 +15,26 @@ namespace DominatorHouse.Support.Logs.Views
 
         public INotifyCollectionChanged Logs
         {
-            get => (INotifyCollectionChanged)GetValue(LogsProperty);
-            set => SetValue(LogsProperty, value);
+            get { return (INotifyCollectionChanged)GetValue(LogsProperty); }
+            set { SetValue(LogsProperty, value); }
         }
 
         public ActivityType? ActivityTypeFilter
         {
-            get => (ActivityType?)GetValue(ActivityTypeFilterProperty);
-            set => SetValue(ActivityTypeFilterProperty, value);
+            get { return (ActivityType?)GetValue(ActivityTypeFilterProperty); }
+            set { SetValue(ActivityTypeFilterProperty, value); }
         }
 
         public SocialNetworks? NetworkFilter
         {
-            get => (SocialNetworks?)GetValue(NetworkFilterProperty);
-            set => SetValue(NetworkFilterProperty, value);
+            get { return (SocialNetworks?)GetValue(NetworkFilterProperty); }
+            set { SetValue(NetworkFilterProperty, value); }
         }
 
         public string LogTypeFilter
         {
-            get => (string)GetValue(LogTypeFilterProperty);
-            set => SetValue(LogTypeFilterProperty, value);
+            get { return (string)GetValue(LogTypeFilterProperty); }
+            set { SetValue(LogTypeFilterProperty, value); }
         }
 
 

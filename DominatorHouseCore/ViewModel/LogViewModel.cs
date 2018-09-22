@@ -33,7 +33,7 @@ namespace DominatorHouseCore.ViewModel
 
         public LoggerModel Selected
         {
-            get => _selected;
+            get { return _selected; }
             set
             {
                 SetProperty(ref _selected, value, nameof(Selected));
@@ -43,7 +43,7 @@ namespace DominatorHouseCore.ViewModel
 
         public SocialNetworks? SelectedNetwork
         {
-            get => _selectedNetwork;
+            get { return _selectedNetwork; }
             set
             {
                 SetProperty(ref _selectedNetwork, value, nameof(SelectedNetwork));
@@ -52,7 +52,10 @@ namespace DominatorHouseCore.ViewModel
             }
         }
 
-        public bool NetworkIsSelected => SelectedNetwork.HasValue;
+        public bool NetworkIsSelected
+        {
+            get { return SelectedNetwork.HasValue; }
+        }
 
         public DelegateCommand CopyCmd { get; set; }
         public SelectableViewModel<ActivityType?> ActivityTypes { get; }

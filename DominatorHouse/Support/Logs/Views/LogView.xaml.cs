@@ -13,14 +13,26 @@ namespace DominatorHouse.Support.Logs.Views
 
         public IEnumerable<SocialNetworks> AvailableNetworks
         {
-            get => (IEnumerable<SocialNetworks>)GetValue(AvailableNetworksProperty);
-            set => SetValue(AvailableNetworksProperty, value);
+            get
+            {
+                return (IEnumerable<SocialNetworks>)GetValue(AvailableNetworksProperty);
+            }
+            set
+            {
+                SetValue(AvailableNetworksProperty, value);
+            }
         }
 
         public ILogViewModel ViewModel
         {
-            get => (ILogViewModel)GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
+            get
+            {
+                return (ILogViewModel)GetValue(ViewModelProperty);
+            }
+            set
+            {
+                SetValue(ViewModelProperty, value);
+            }
         }
 
         public static readonly DependencyProperty ViewModelProperty =
