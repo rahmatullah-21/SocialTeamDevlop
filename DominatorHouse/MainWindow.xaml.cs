@@ -1,26 +1,7 @@
 ﻿#region Namespaces
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Management;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
-using DominatorHouseCore.Converters;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -30,6 +11,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
@@ -37,10 +19,24 @@ using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
 //using EmbeddedBrowser;
 using FluentScheduler;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using NLog;
 using Socinator.Social.AutoActivity.Views;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Management;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Unity;
 
 #endregion
 
@@ -49,7 +45,7 @@ namespace Socinator
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow, ILoggableWindow, INotifyPropertyChanged
+    public partial class MainWindow : INotifyPropertyChanged
     {
         private static readonly string RamSize = GetRamsize();
 
@@ -58,13 +54,12 @@ namespace Socinator
         private ObservableCollection<TabItemTemplates> _tabItems;
         private ObservableCollection<string> _languages;
 
-        private Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
-
         private bool IsClickedFromMainWindow { get; set; } = true;
 
         private DominatorAccountViewModel.AccessorStrategies _strategies;
 
         private string _fatalError;
+        public ILogViewModel LogViewModel { get; }
 
         public MainWindow()
         {
@@ -81,8 +76,9 @@ namespace Socinator
                 {
                     GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
                 };
-                LoggerCollection =
-                    CollectionViewSource.GetDefaultView(LstLoggerModels);
+
+                LogViewModel = IoC.Container.Resolve<ILogViewModel>();
+
             }
             catch (Exception ex)
             {
@@ -362,47 +358,6 @@ namespace Socinator
             }
         }
 
-
-
-
-        public void LogText(string message, LogLevel logLevel)
-        {
-
-            ThreadFactory.Instance.Start(() =>
-            {
-                GlobusLogHelper.LogTextToList(LstLoggerModels, message, logLevel);
-                try
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        if (LastTab == "Info")
-                            LoggerCollection.Filter += FilterByInfo;
-
-                        else
-                            LoggerCollection.Filter += FilterByError;
-
-                        //if (!string.IsNullOrEmpty(SelectedActivity) && !string.IsNullOrEmpty(SelectedNetwork))
-                        //{
-                        //    LoggerCollection.Filter += FilterByNetwork;
-                        //    LoggerCollection.Filter += FilterByActivityType;
-                        //}
-                        //else if (!string.IsNullOrEmpty(SelectedActivity))
-                        //    LoggerCollection.Filter += FilterByActivityType;
-
-                        //else if (!string.IsNullOrEmpty(SelectedNetwork))
-                        //    LoggerCollection.Filter += FilterByNetwork;
-                    });
-
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-
-            });
-
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void SocinatorInitializer()
@@ -595,9 +550,6 @@ namespace Socinator
                     activityLogWindow.Content = null;
                     Grid.SetRow(Logger, 2);
                     MainGrid.Children.Add(Logger);
-
-                    Logger.Children.Remove(RootLayout);
-                    Logger.Children.Add(RootLayout);
                     MainGrid.RowDefinitions[2].Height = new GridLength(200);
                     IsClickedFromMainWindow = true;
                 };
@@ -915,150 +867,8 @@ namespace Socinator
 
         }
 
-        private void CmbAvailableNetworks_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            try
-            {
-                ActivityType.Clear();
-                if (CmbAvailableNetworks.SelectedItem.ToString() == SocialNetworks.Social.ToString())
-                {
-                    ActivityType = new ObservableCollection<string>(Enum.GetNames(typeof(ActivityType)));
-                    LoggerCollection.Filter += FilterByNetwork;
-                    return;
-                }
-
-                foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                {
-                    if (EnumDescriptionConverter.GetDescription((ActivityType)Enum.Parse(typeof(ActivityType), name)).Contains(CmbAvailableNetworks.SelectedItem.ToString()))
-                        ActivityType.Add(name);
-                }
-                LoggerCollection.Filter += FilterByNetwork;
-
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                LoggerCollection.Filter = null;
-            }
-            // GlobusLogHelper.log.Error("this is error");
-        }
-
-
-        private void CmbActivityType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            LoggerCollection.Filter += FilterByActivityType;
-        }
-
-        #region Filteration
-
-        private bool FilterByActivityType(object sender)
-        {
-            try
-            {
-                var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-                var type = (selectedTab == "Info") ? "Info" : "Error";
-                var logger = sender as LoggerModel;
-
-                return logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0
-                    && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-
-                //var logger = sender as LoggerModel;
-                //return logger?.ActivityType?.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return false;
-            }
-
-        }
-        private bool FilterByNetwork(object sender)
-        {
-            try
-            {
-                var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-                var type = (selectedTab == "Info") ? "Info" : "Error";
-                var logger = sender as LoggerModel;
-                if (SelectedNetwork == SocialNetworks.Social.ToString())
-                    return true;
-                return logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
-                    && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return false;
-            }
-
-        }
-        private bool FilterByNetworkActivity(LoggerModel logger,string type)
-        {
-            if (!string.IsNullOrEmpty(SelectedActivity) && !string.IsNullOrEmpty(SelectedNetwork))
-            {
-                return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
-                && logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-            }
-            else if (!string.IsNullOrEmpty(SelectedActivity))
-                return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0
-                && logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-            else if (!string.IsNullOrEmpty(SelectedNetwork))
-                return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-            return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-        }
-        private bool FilterByInfo(object sender)
-        {
-            try
-            {
-                var logger = sender as LoggerModel;
-                return FilterByNetworkActivity(logger, "Info");
-              //  return logger?.LogType.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) >= 0;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return false;
-            }
-
-        }
-
-        private bool FilterByError(object sender)
-        {
-            try
-            {
-                var logger = sender as LoggerModel;
-                return FilterByNetworkActivity(logger, "Error");
-              //  return logger?.LogType.IndexOf("Error", StringComparison.InvariantCultureIgnoreCase) >= 0 || logger?.LogType.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) >= 0;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return false;
-            }
-        }
-        #endregion
-
 
         #region Properties
-
-        private ObservableCollection<LoggerModel> _lstLoggerModels = new ObservableCollection<LoggerModel>();
-        public ObservableCollection<LoggerModel> LstLoggerModels
-        {
-            get
-            {
-                return _lstLoggerModels;
-            }
-            set
-            {
-                _lstLoggerModels = value;
-                OnPropertyChanged(nameof(LstLoggerModels));
-            }
-        }
         private ObservableCollection<string> _activityType = new ObservableCollection<string>();
         public ObservableCollection<string> ActivityType
         {
@@ -1070,20 +880,6 @@ namespace Socinator
             {
                 _activityType = value;
                 OnPropertyChanged(nameof(ActivityType));
-            }
-        }
-        private ICollectionView _loggerCollection;
-
-        public ICollectionView LoggerCollection
-        {
-            get
-            {
-                return _loggerCollection;
-            }
-            set
-            {
-                _loggerCollection = value;
-                OnPropertyChanged(nameof(LoggerCollection));
             }
         }
         private string _selectedNetwork = string.Empty;
@@ -1116,69 +912,5 @@ namespace Socinator
         }
 
         #endregion
-
-        public string LastTab { get; set; } = "Info";
-
-        private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if (CmbAvailableNetworks.SelectedItem == null)
-                {
-                    try
-                    {
-                        var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-
-                        if (selectedTab == LastTab)
-                            return;
-
-                        if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
-                        {
-                            LastTab = "Info";
-                            LoggerCollection.Filter += FilterByInfo;
-                        }
-                        else
-                        {
-                            LastTab = "Error";
-                            LoggerCollection.Filter += FilterByError;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-                }
-                else
-                    LoggerCollection.Filter += FilterByNetwork;
-            }
-            catch (Exception ex)
-            {
-                LoggerCollection.Filter += FilterByNetwork;
-                ex.DebugLog();
-            }
-        }
-
-        private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                ListView lb = (ListView)(sender);
-                var message = (lb?.SelectedItem as LoggerModel).Message;
-                if (!string.IsNullOrEmpty(message))
-                {
-                    Clipboard.SetText(message);
-                    ToasterNotification.ShowSuccess("Message copied");
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
     }
 }

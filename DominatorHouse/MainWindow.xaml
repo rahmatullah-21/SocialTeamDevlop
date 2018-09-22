@@ -6,8 +6,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:dockable="http://dragablz.net/winfx/xaml/dockablz"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         mc:Ignorable="d"
         BorderThickness="1" Icon="SociNator.ico"
         Title="{DynamicResource LangKeySocinator}" 
@@ -73,147 +73,8 @@
                       ResizeDirection="Rows" />
 
         <Grid Name="Logger" Grid.Row="2" Margin="5">
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Top" 
-                       Margin="0,0,15,0">
-
-                <Label Content="{DynamicResource LangKeyFilterByNetwork}" FontWeight="SemiBold"/>
-                <ComboBox ItemsSource="{Binding AvailableNetworks}" Width="200" SelectedIndex="-1" Name="CmbAvailableNetworks"
-                          controls:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding SelectedNetwork}"
-                          SelectionChanged="CmbAvailableNetworks_OnSelectionChanged"/>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel">
-                            <Setter Property="Visibility" Value="Visible"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=CmbAvailableNetworks,Path=SelectedIndex}" Value="-1">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
-                    <Label Content="{DynamicResource LangKeyFilterByActivityType}" FontWeight="SemiBold"/>
-                    <ComboBox ItemsSource="{Binding ActivityType}" Width="200" controls:TextBoxHelper.ClearTextButton="True"
-                              Name="CmbActivityType" SelectedItem="{Binding SelectedActivity}"
-                              SelectionChanged="CmbActivityType_OnSelectionChanged"/>
-                </StackPanel>
-            </StackPanel>
-
-            <dockable:Layout  Name="RootLayout" >
-                <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}" Margin="0,5,0,0"
-                                         MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" 
-                                         SelectionChanged="InitialTabablzControl_OnSelectionChanged">
-                    <TabItem Header="Info" Name="InfoTab" >
-                        <ListView x:Name="InfoLogger" ItemsSource="{Binding LoggerCollection,IsAsync=True}">
-                            <ListView.CommandBindings>
-                                <CommandBinding Command="ApplicationCommands.Copy"
-                                                CanExecute="CopyCanExecute" Executed="CopyExecuted" />
-                            </ListView.CommandBindings>
-                            <ListView.View>
-                                <GridView>
-                                    <GridView.Columns>
-                                        <GridViewColumn  Width="50" >
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Rectangle Height="15" Width="15" >
-                                                        <Rectangle.Style>
-                                                            <Style TargetType="Rectangle">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding LogType}" Value="Info">
-                                                                        <Setter Property="OpacityMask">
-                                                                            <Setter.Value>
-                                                                                <VisualBrush Visual="{StaticResource appbar_information_circle}" Stretch="Fill" />
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="Fill">
-                                                                            <Setter.Value>
-                                                                                <SolidColorBrush Color="LimeGreen"/>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyInformations}"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Rectangle.Style>
-                                                    </Rectangle>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="150" />
-                                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="680"/>
-                                    </GridView.Columns>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <!--<ListBox x:Name="InfoLogger" IsSelected="True"/>-->
-                    </TabItem>
-                    <TabItem Header="Error List" Name="ErrorTab" >
-                        <ListView x:Name="ErrorLogger" ItemsSource="{Binding LoggerCollection,IsAsync=True}">
-                            <ListView.CommandBindings>
-                                <CommandBinding Command="ApplicationCommands.Copy"
-                                                CanExecute="CopyCanExecute" Executed="CopyExecuted" />
-                            </ListView.CommandBindings>
-                            <ListView.View>
-                                <GridView>
-                                    <GridView.Columns>
-                                        <GridViewColumn  Width="50" >
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Rectangle Height="15" Width="15" >
-                                                        <Rectangle.Style>
-                                                            <Style TargetType="Rectangle">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding LogType}" Value="Error">
-                                                                        <Setter Property="OpacityMask">
-                                                                            <Setter.Value>
-                                                                                <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill" />
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="Fill">
-                                                                            <Setter.Value>
-                                                                                <SolidColorBrush Color="Red"/>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyError}"/>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding LogType}" Value="Warn">
-                                                                        <Setter Property="OpacityMask">
-                                                                            <Setter.Value>
-                                                                                <VisualBrush Visual="{StaticResource appbar_shield_alert}" Stretch="Fill"/>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="Fill">
-                                                                            <Setter.Value>
-                                                                                <SolidColorBrush Color="#ffd700"/>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyWarning}"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Rectangle.Style>
-                                                    </Rectangle>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="150"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="680"/>
-                                    </GridView.Columns>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <!--<ListBox x:Name="ErrorLogger"/>-->
-                    </TabItem>
-
-                </dragable:TabablzControl>
-            </dockable:Layout>
-
+            <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
+                           AvailableNetworks="{Binding AvailableNetworks, Mode=OneWay}"></views:LogView>
         </Grid>
 
         <Grid Grid.Row="3" VerticalAlignment="Bottom">

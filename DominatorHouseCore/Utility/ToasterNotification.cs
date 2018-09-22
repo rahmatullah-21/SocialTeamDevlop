@@ -7,11 +7,11 @@ using ToastNotifications.Position;
 
 namespace DominatorHouseCore.Utility
 {
-    public class ToasterNotification
+    public static class ToasterNotification
     {
-        public static Notifier Notifier { get; set; }
+        public static Notifier Notifier { get; }
 
-        public ToasterNotification()
+        static ToasterNotification()
         {
             Notifier = new Notifier(cfg =>
             {
@@ -94,6 +94,4 @@ namespace DominatorHouseCore.Utility
             Notifier.Dispose();
         }
     }
-
-   
 }

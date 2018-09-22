@@ -1,26 +1,26 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
-using System.Management;
-using System.Windows;
+﻿using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Utility;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Request;
+using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json.Linq;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models.SocioPublisher;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
-using System.Net;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
+using System.Management;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Linq;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -104,14 +104,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static void LogInitializer(Window mainWindow)
         {
-            var notifier = new ToasterNotification();
-
             GlobalExceptionInitializer();
-
-            var window = mainWindow as ILoggableWindow;
-
-            if (window != null)
-                GlobusLogHelper.InitializeLoggerUI(window);
         }
 
         public static void SetAsActiveNetwork(SocialNetworks networks)
