@@ -112,16 +112,8 @@ namespace DominatorHouseCore.ViewModel
         {
             if (Selected != null)
             {
-                try
-                {
-                    Clipboard.SetText(Selected.Message);
-                    ToasterNotification.ShowSuccess("Message copied");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                Clipboard.SetText(Selected.Message);
+                ToasterNotification.ShowSuccess("Message copied");
             }
         }
     }

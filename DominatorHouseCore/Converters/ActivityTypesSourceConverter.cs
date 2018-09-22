@@ -12,12 +12,13 @@ namespace DominatorHouseCore.Converters
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             var collection = values[0] as IEnumerable<ActivityType?>;
-            if (!(values[1] is SocialNetworks network) || network == SocialNetworks.Social)
+            var network = values[1] as SocialNetworks?;
+            if (network == null || network == SocialNetworks.Social)
             {
                 return collection;
             }
 
-            return collection.Where(a => a?.IsSupportedByNetwork(network) ?? false).ToList();
+            return collection.Where(a => a?.IsSupportedByNetwork(network.Value) ?? false).ToList();
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
