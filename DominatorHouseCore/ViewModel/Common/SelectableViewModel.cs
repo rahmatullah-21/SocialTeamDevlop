@@ -12,14 +12,14 @@ namespace DominatorHouseCore.ViewModel.Common
 
         public T Selected
         {
-            get => _selected;
-            set => SetProperty(ref _selected, value, nameof(Selected));
+            get { return _selected; }
+            set { SetProperty(ref _selected, value, nameof(Selected)); }
         }
 
         public INotifyCollectionChanged ItemsCollection
         {
-            get => _itemsCollection;
-            set => SetProperty(ref _itemsCollection, value, nameof(ItemsCollection));
+            get { return _itemsCollection; }
+            set { SetProperty(ref _itemsCollection, value, nameof(ItemsCollection)); }
         }
 
         public SelectableViewModel(IEnumerable<T> collection)
