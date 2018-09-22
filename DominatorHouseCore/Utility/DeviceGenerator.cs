@@ -101,17 +101,80 @@ namespace DominatorHouseCore.Utility
         {
 
             // retrun any one from device items
-            return ((IList<string>)new string[6]
+            return ((IList<string>)new string[60]
             {
 
                 //23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom;en_US
                 /*Format : AndroidVersion/AndroidRelease; dpi; Resolutions; Manufacturer/Brand; Model; Device; CPU  */
-                "24/7.0;380dpi;1080x1920;OnePlus;ONEPLUS A3010;OnePlus3T;qcom",
-                "23/6.0.1;640dpi;1440x2392;LGE/lge;RS988;h1;h1",
-                "24/7.0;640dpi;1440x2560;HUAWEI;LON-L29;HWLON;hi3660",
-                "23/6.0.1;640dpi;1440x2560;ZTE;ZTE A2017U;ailsa_ii;qcom",
-                "23/6.0.1;640dpi;1440x2560;samsung;SM-G935F;hero2lte;samsungexynos8890",
-                "23/6.0.1;640dpi;1440x2560;samsung;SM-G930F;herolte;samsungexynos8890"
+                //"24/7.0;380dpi;1080x1920;OnePlus;ONEPLUS A3010;OnePlus3T;qcom",
+                //"23/6.0.1;640dpi;1440x2392;LGE/lge;RS988;h1;h1",
+                //"24/7.0;640dpi;1440x2560;HUAWEI;LON-L29;HWLON;hi3660",
+                //"23/6.0.1;640dpi;1440x2560;ZTE;ZTE A2017U;ailsa_ii;qcom",
+                //"23/6.0.1;640dpi;1440x2560;samsung;SM-G935F;hero2lte;samsungexynos8890",
+                //"23/6.0.1;640dpi;1440x2560;samsung;SM-G930F;herolte;samsungexynos8890"
+               // "24/7.0; 640dpi; 1080x1920; OnePlus; ONEPLUS A3010; OnePlus3T; qcom;",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung; GT - I5800L; GT - I5800L; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-N7000B;GT-N7000B; qcom; en_US",
+                "26/8.0.0; 480dpi; 1080x1920; Samsung;GT-P7300B;GT-P7300B; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-P7320T;GT-P7320T; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-P7500M;GT-P7500M; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-P7500R;GT-P7500R; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-P7500V;GT-P7500V; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-S5698;GT-S5698; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-S5820;GT-S5820; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-S5830V;GT-S5830V; qcom; en_US",
+                "26/8.0.0; 480dpi; 1080x1920; Samsung;SCH-I339;SCH-I339; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I405U;SCH-I405U; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I509U;SCH-I509U; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I519;SCH-I519; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I559;SCH-i559; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I639;SCH-I639; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I659;SCH-I659; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I699;SCH-I699; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I779;SCH-I779; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-I919U;SCH-I919U; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-W899;SCH-W899; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-W999;SCH-W999; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-i809;SCH-i809; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-i919;SCH-i919; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SGH-I987;SGH-I987; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SGH_T939;Behold II; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SHV-E150S;SHV-E150S; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SHW-M115S;SHW-M115S; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SHW-M135K;SHW-M135K; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SHW-M135L;SHW-M135L; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SHW-M340D;SHW-M340D; qcom; en_US",
+                "26/8.0.0; 480dpi; 1080x1920; Samsung;SHW-M340K;SHW-M340K; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SHW-M460D;SHW-M460D; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;amazingtrf;SGH-S730G; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;aruba3gchn;GT-I8262D; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;espressorfcmcc;GT-P3108; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;gd1ltektt;EK-KC120K; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;godivaltevzw;SCH-I425; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;ironcmcc;GT-B9388; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;m0grandectc;SCH-W2013; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;m0grandectc;SCH-W9913; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;p4noterfskt;SHW-M480S; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;stunnerltespr;SPH-L500; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;superiorchn;GT-I9260; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;a7xltechn;SM-A710XZ; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-B9120;GT-B9120; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-R880;SCH-R880; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SCH-R720;SCH-R720; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;amazingtrf;SGH-S730M; qcom; en_US",
+                "26/8.0.0; 480dpi; 1080x1920; Samsung;baffinltelgt;SHV-E270L; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SGH-I927;SAMSUNG-SGH-I927; qcom; en_US",
+                "23/6.0.1; 480dpi; 1080x1920; Samsung;SGH-I927;SGH-I927; qcom; en_US",
+                "24 / 7.0; 640dpi; 1080x1920; OnePlus; ONEPLUS A3010; OnePlus3T; qcom; en_US",
+                "23/6.0.1; 640dpi; 1440x2392; LGE/lge; RS988; h1; h1; en_US",
+                "24/7.0; 640dpi; 1440x2560; HUAWEI; LON-L29; HWLON; hi3660; en_US",
+                "23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom; en_US",
+                "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G935F; hero2lte; samsungexynos8890; en_US",
+                "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G930F; herolte; samsungexynos8890; en_US",
+                "23/6.0; 640dpi; 1920x1152; Yota; RN2; RN2; trident; en_US",
+                "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G935F; hero2lte; samsungexynos8890; en_US",
+
+
             }).GetRandomItem();
         }
 
