@@ -76,7 +76,7 @@ namespace DominatorHouseCore.Models
 
             catch (IOException ex)
             {
-                GlobusLogHelper.log.Error($"Unable to add and save template [{templateName}] - {ex.Message}");
+             
                 ex.DebugLog();
                 return null;
             }            

@@ -3181,4 +3181,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFilterShouldBePostedToCommunity">Should be posted to Community only</system:String>
     <system:String x:Key="LangKeyFilterPostByNumberOfShares">Filter Post By Number Of Shares</system:String>
     <system:String x:Key="LangKeyMustContainSpecificWords">Must Contain Specific Words</system:String>
+    <system:String x:Key="LangKeyProfileSuspended">Profile is suspended</system:String>
+    <system:String x:Key="LangKeyChannelSubscribedBySoftware">Channel Subscribed By Software</system:String>
+    <system:String x:Key="LangKeyChannelSubscribedOutsideSoftware">Channel Subscribed Outside Software</system:String>
+    <system:String x:Key="LangKeyCustomChannelsList">Custom Channels List</system:String>
+    <system:String x:Key="LangKeyDaysAnd">Days And</system:String>
 </ResourceDictionary>

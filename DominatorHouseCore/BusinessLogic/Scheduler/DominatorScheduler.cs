@@ -175,7 +175,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                ex.DebugLog();
             }
         }
 
@@ -240,7 +240,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.ToString());
+                ex.DebugLog();
             }
         }
 
@@ -385,7 +385,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     moduleConfiguration.IsEnabled = false;
                     StopActivity(accountModel,
                         activityType.ToString(), accountstemplateId, true);
-                    DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
+                    //DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
 
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
@@ -444,7 +444,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.ToString());
+               ex.DebugLog();
             }
         }
 
@@ -508,7 +508,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                ex.DebugLog();
             }
         }
 

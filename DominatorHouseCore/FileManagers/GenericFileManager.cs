@@ -165,7 +165,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Updation error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }
@@ -217,7 +217,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Saving error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }
@@ -267,7 +267,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Updation error - " + ex.Message);
+                
                 ex.DebugLog();
                 return false;
             }
@@ -294,7 +294,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error($"Error caught while adding the account " + ex.StackTrace);
+                ex.DebugLog();
                 return false;
             }
         }
@@ -316,7 +316,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error($"Error caught while adding the account " + ex.StackTrace);
+                ex.DebugLog();
                 return false;
             }
         }
@@ -352,7 +352,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (IOException ex)
             {
-                GlobusLogHelper.log.Error($"Unable to delete file {filepath} - {ex.Message}");
+                ex.DebugLog();
             }
             catch (Exception ex)
             {

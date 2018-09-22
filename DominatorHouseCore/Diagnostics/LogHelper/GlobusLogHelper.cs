@@ -218,6 +218,7 @@ namespace DominatorHouseCore.LogHelper
 
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
+                    
                     Application.Current.Dispatcher.Invoke(() => lstLoggerModels.Insert(0, log));
                 }
                 else

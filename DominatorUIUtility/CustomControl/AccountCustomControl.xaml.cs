@@ -438,7 +438,7 @@ namespace DominatorUIUtility.CustomControl
             }
             catch (Exception exception)
             {
-                GlobusLogHelper.log.Error(exception.Message);
+                 exception.DebugLog();
                 //MessageBox.Show(exception.Message);
                 Console.WriteLine(exception);
             }

@@ -820,7 +820,7 @@ namespace Socinator
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                ex.DebugLog();
                 //MessageBox.Show(ex.Message);
             }
         }

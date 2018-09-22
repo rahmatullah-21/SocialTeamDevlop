@@ -195,7 +195,7 @@ namespace EmbeddedBrowser
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
 
             var homePage = GetNetworksHomeUrl();

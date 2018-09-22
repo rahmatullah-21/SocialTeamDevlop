@@ -1,4 +1,4 @@
-Version[1.0.0.14],[18th-September-18]
+Version[1.0.0.14],[21st-September-18]
 
 New Features:-
 Instagram:-
@@ -7,7 +7,16 @@ Instagram:-
 	Instaliker/Instacommenter => Comment => Comment on post those are liked by the account.
 LinkedIn:-
 	Added feature to scrape only "details required to send connection request" in salesnavigator scraper.
-
+Facebook:-
+	Added custom option for fanpage liker, fanpage scraper
+	Added custom option for group joiner , group scraper
+	Added filter skip joined| requested group filter for group scraper and group joiner
+	Added reply to comment module
+	Added post like / comment as page option
+LinkedIn:-
+	Added feature to scrape only "details required to send connection request" in salesnavigator scraper.
+Pinterest:-
+	In select board added a feature "board query type".
 Fixed:-
 	High CPU Usage issue
 	Instagram:-
@@ -21,8 +30,31 @@ Fixed:-
 		Message => Fixed isssue with send message to new connection .
 		Scraper => USer Scraper => Fixed issue with scrape profile data using search URL.
 		Connection => Export connection => Fixed issue with export connection
+		Message => Fixed isssue with send message to new connection.
+		Scraper => USer Scraper => Fixed issue with scrape profile data using search URL.
+		Connection => Export connection =>Fixed issue with export connection
+		Sociopublisher => Fixed issue to publish post discription with url.
+		Grow connection => Connection request => Fixed issue with sending connection request using salesnavigator profile URL.
 	Reddit:-
 		Campaign => All campaign get deleted while deleting one particular module campaigns
+		Fixed issue in publishing the posts on unsubscribed Subreddits via custom destination.
+	Facebook:-
+		Fb Inviter => Fixed issue with with group inviter
+		Grow friend => Fixed issue with withdraw Sent request
+	Twitter:-
+		Fixed issue with => Twitter => Engage => Unlike => Liked Tweets
+		Fixed issue with => Twitter => Poster => Retweet => Query type => specific user tweets
+		Fixed issue with => Twitter => Poster => Reposter => Query type => specific user tweets
+	Pinterest:-
+		Fixed issue in cancle editing whenever we edit/ duplicate in a board campaign 
+	YouTube:-
+		Fixed issue in engage  =>  Like
+		Fixed issue in engage  =>  Comment
+		Fixed issue in Watch Video  =>  View increaser
+		Fixed issues in UI for engage module
+	Quora:-
+		Answer => fixed issue with  Answer on question  by using custom url and custom user list .
+		Report => Fixed issue with report  on Answer by using custom user list.
 
 Version[1.0.0.13],[11th-September-18]
 

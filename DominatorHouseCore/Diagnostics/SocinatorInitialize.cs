@@ -236,7 +236,7 @@ namespace DominatorHouseCore.Diagnostics
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
 
             if (!Application.Current.Dispatcher.CheckAccess())

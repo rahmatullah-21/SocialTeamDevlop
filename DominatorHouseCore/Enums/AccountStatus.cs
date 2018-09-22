@@ -23,6 +23,8 @@ namespace DominatorHouseCore.Enums
         ReTypeEmail,
         [Description("LangKeyRetypePhoneNumber")]
         ReTypePhoneNumber,
+        [Description("LangKeyProfileSuspended")]
+        ProfileSuspended
 
     }
 }

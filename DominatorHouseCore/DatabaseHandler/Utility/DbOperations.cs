@@ -304,7 +304,18 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         }
 
         #endregion
-
+        public List<string> GetSingleColumn<T>(Func<T, string> query, Expression<Func<T, bool>> expression = null) where T : class
+        {
+            try
+            {
+                // Get the matched expression records, If expression is null returns full details
+                return expression == null ? _context.Set<T>().Select(query).ToList() : _context.Set<T>().Where(expression).Select(query).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
 
     }
 }

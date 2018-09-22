@@ -56,13 +56,13 @@ namespace DominatorHouseCore.Utility
                     }
                     catch (Exception ex)
                     {
-                        GlobusLogHelper.log.Error(ex.Message);
+                         ex.DebugLog();
                     }
                 }
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
             return lstDetailedFileInfo;
         }
