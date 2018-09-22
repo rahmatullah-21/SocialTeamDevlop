@@ -16,6 +16,7 @@
                 <ListView x:Name="ErrorLogger" SelectedItem="{Binding SelectedLoggerModel, Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}">
                     <ListView.ItemsSource>
                         <MultiBinding UpdateSourceTrigger="Explicit"  Mode="TwoWay" Converter="{StaticResource LogViewItemsSourceConverter}">
+                            <Binding Path="SyncObject" RelativeSource="{RelativeSource TemplatedParent}"></Binding>
                             <Binding Path="Logs" RelativeSource="{RelativeSource TemplatedParent}"/>
                             <Binding Path="NetworkFilter" RelativeSource="{RelativeSource TemplatedParent}"/>
                             <Binding Path="ActivityTypeFilter" RelativeSource="{RelativeSource TemplatedParent}"/>

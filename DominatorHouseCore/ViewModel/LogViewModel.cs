@@ -20,11 +20,11 @@ namespace DominatorHouseCore.ViewModel
     public class LogViewModel : BindableBase, ILogViewModel
     {
         private const int MaxLogSize = 1000;
-        private readonly object _syncObject = new object();
         private LoggerModel _selected;
         private SocialNetworks? _selectedNetwork;
         private ObservableCollection<LoggerModel> _logs;
 
+        public object SyncObject { get; }
         public ObservableCollection<LoggerModel> Logs
         {
             get { return _logs; }
@@ -62,9 +62,10 @@ namespace DominatorHouseCore.ViewModel
 
         public LogViewModel()
         {
+            SyncObject = new object();
             Logs = new ObservableCollection<LoggerModel>();
             CopyCmd = new DelegateCommand(Copy, CanCopy);
-            BindingOperations.EnableCollectionSynchronization(Logs, _syncObject);
+            BindingOperations.EnableCollectionSynchronization(Logs, SyncObject);
             ActivityTypes =
                 new SelectableViewModel<ActivityType?>(Enum.GetValues(typeof(ActivityType)).Cast<ActivityType?>());
         }
@@ -76,7 +77,7 @@ namespace DominatorHouseCore.ViewModel
 
         public void Add(string message, LogLevel logLevel)
         {
-            lock (_syncObject)
+            lock (SyncObject)
             {
 
                 var messages = message.Split('\t');

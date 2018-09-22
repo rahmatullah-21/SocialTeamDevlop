@@ -41,14 +41,16 @@
                                            NetworkFilter="{Binding SelectedNetwork}" 
                                            ActivityTypeFilter="{Binding ActivityTypes.Selected}" 
                                            LogTypeFilter="{x:Static views:LogList.LogTypeInfo}"
-                                           SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"/>
+                                           SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"
+                                           SyncObject="{Binding SyncObject, Mode=OneTime}"/>
                         </TabItem>
                         <TabItem Header="Error List" Name="ErrorTab" >
                             <views:LogList Logs="{Binding Logs}" 
                                            NetworkFilter="{Binding SelectedNetwork}" 
                                            ActivityTypeFilter="{Binding ActivityTypes.Selected}" 
                                            LogTypeFilter="{x:Static views:LogList.LogTypeError}"
-                                           SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"/>
+                                           SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"
+                                           SyncObject="{Binding SyncObject, Mode=OneTime}"/>
                         </TabItem>
                 </dragablz:TabablzControl>
             </Grid>

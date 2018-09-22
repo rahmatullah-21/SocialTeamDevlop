@@ -12,27 +12,33 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var collection = values[0] as IEnumerable<LoggerModel>;
-            if (collection == null)
+            var syncObject = values[0];
+            lock (syncObject)
             {
-                return values[0];
-            }
+                var collection = values[1] as IEnumerable<LoggerModel>;
+                if (collection == null)
+                {
+                    return values[1];
+                }
 
-            var network = (SocialNetworks?)values[1];
-            var activityType = (ActivityType?)values[2];
-            var logLevel = values[3];
-            collection = collection.Where(a => a.LogType.ToUpper() == logLevel.ToString());
-            if (network.HasValue)
-            {
-                collection = collection.Where(a => a.Network.ToString() == network.ToString());
-            }
+                IEnumerable<LoggerModel> copyCollection = collection.ToList();
 
-            if (activityType.HasValue)
-            {
-                collection = collection.Where(a => a.ActivityType?.ToString() == activityType.ToString());
-            }
+                var network = (SocialNetworks?)values[2];
+                var activityType = (ActivityType?)values[3];
+                var logLevel = values[4];
+                copyCollection = copyCollection.Where(a => a.LogType.ToUpper() == logLevel.ToString());
+                if (network.HasValue)
+                {
+                    copyCollection = copyCollection.Where(a => a.Network.ToString() == network.ToString());
+                }
 
-            return collection.ToList();
+                if (activityType.HasValue)
+                {
+                    copyCollection = copyCollection.Where(a => a.ActivityType?.ToString() == activityType.ToString());
+                }
+
+                return copyCollection.ToList();
+            }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

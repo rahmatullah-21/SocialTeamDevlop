@@ -37,12 +37,20 @@ namespace DominatorHouse.Support.Logs.Views
             set { SetValue(LogTypeFilterProperty, value); }
         }
 
-
         public LoggerModel SelectedLoggerModel
         {
-            get => (LoggerModel)GetValue(SelectedLoggerModelProperty);
-            set => SetValue(SelectedLoggerModelProperty, value);
+            get { return (LoggerModel)GetValue(SelectedLoggerModelProperty); }
+            set { SetValue(SelectedLoggerModelProperty, value); }
         }
+
+        public object SyncObject
+        {
+            get { return (object)GetValue(SyncObjectProperty); }
+            set { SetValue(SyncObjectProperty, value); }
+        }
+
+        public static readonly DependencyProperty SyncObjectProperty =
+            DependencyProperty.Register("SyncObject", typeof(object), typeof(LogList), new PropertyMetadata(new DefaultObject()));
 
         public static readonly DependencyProperty SelectedLoggerModelProperty =
             DependencyProperty.Register("SelectedLoggerModel", typeof(LoggerModel), typeof(LogList), new PropertyMetadata(null));
@@ -63,6 +71,11 @@ namespace DominatorHouse.Support.Logs.Views
         public LogList()
         {
             InitializeComponent();
+        }
+
+        private class DefaultObject
+        {
+
         }
     }
 }
