@@ -194,6 +194,17 @@ namespace DominatorUIUtility.CustomControl
         // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SaveCommandProperty =
             DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(InputBoxControl));
+
+        public ICommand ClearCommand
+        {
+            get { return (ICommand)GetValue(ClearCommandProperty); }
+            set { SetValue(ClearCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ClearCommandProperty =
+            DependencyProperty.Register("ClearCommand", typeof(ICommand), typeof(InputBoxControl));
+
         public object CommandParameter
         {
             get { return (object)GetValue(CommandParameterProperty); }

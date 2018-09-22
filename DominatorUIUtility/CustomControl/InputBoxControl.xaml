@@ -22,7 +22,8 @@
                         </Rectangle>
                     </StackPanel>
                 </Button>
-                <Button Name="BtnRefereshBlacklistsText" Visibility="{Binding RefreshVisiblity}" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Right"  Height="25" Width="35" VerticalAlignment="Center"  Click="BtnRefereshBlacklistsText_OnClick" >
+                <Button Name="BtnRefereshBlacklistsText" Visibility="{Binding RefreshVisiblity}" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Right"  Height="25" Width="35" VerticalAlignment="Center"
+                        Command="{Binding ClearCommand}" CommandParameter="{Binding CommandParameter}" Click="BtnRefereshBlacklistsText_OnClick" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="Clear﻿﻿﻿﻿ All">
                         <Rectangle Width="13" Height="15" Fill="White"  HorizontalAlignment="Center">
                             <Rectangle.OpacityMask>

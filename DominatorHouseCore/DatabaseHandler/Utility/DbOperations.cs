@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
-    public class DbOperations
+    public class DbOperations:IDisposable
     {
         public DbContext _context;
         public DbContext Context => _context;
@@ -21,6 +21,8 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         public DbOperations(DbContext context)
         {
             _context = context;
+            context.Configuration.AutoDetectChangesEnabled = false;
+            context.Configuration.ValidateOnSaveEnabled = false;
         }
 
         /// <summary>
@@ -293,6 +295,12 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 ex.DebugLog();
                 throw;
             }
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         #endregion

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             mc:Ignorable="d" >
+             mc:Ignorable="d"     xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -44,9 +44,67 @@
                 </Style>
             </Border.Style>
             <ListView ItemsSource="{Binding LstFile}" Name="Filelist" HorizontalAlignment="Center" Margin="10,5">
+                <!--<ListView.Resources>
+                    <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
+                </ListView.Resources>-->
                 <ListView.CommandBindings>
                     <CommandBinding Command="ApplicationCommands.Copy"  CanExecute="CopyCanExecute" Executed="CopyExecuted" />
                 </ListView.CommandBindings>
+                <!--<GridView>
+                    <GridView.Columns>
+
+                        <GridViewColumn Header="{DynamicResource LangKeyPath}" DisplayMemberBinding="{Binding}"/>
+                        <GridViewColumn Header="{DynamicResource LangKeyAction}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="4" >
+                                        <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                                    VerticalAlignment="Top" Margin="10,0,0,0"  Command="{Binding DataContext.SettingCommand,
+                                                    RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                    CommandParameter="{Binding ElementName=BtnCampaignSetting}" >
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                            <Button.ContextMenu>
+                                                <ContextMenu >
+
+                                                    <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" x:Name="DeleteSingleCampaign" 
+                                                                  VerticalContentAlignment="Center" 
+                                                                  Command="{Binding Data.DeleteCommand, Source={StaticResource ContextMenuBinding}}"
+                                                                  CommandParameter="{Binding}">
+                                                        <MenuItem.Icon>
+                                                            <Rectangle Width="15" Height="20" Fill="Black">
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    <Separator />
+
+                                                    <MenuItem Header="{DynamicResource LangKeyCopyPath}" VerticalContentAlignment="Center"
+                                                                  Height="30" 
+                                                                  Command="{Binding Data.CopyCommand, Source={StaticResource ContextMenuBinding}}"
+                                                                  CommandParameter="{Binding}">
+                                                        <MenuItem.Icon>
+                                                            <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                </ContextMenu>
+                                            </Button.ContextMenu>
+
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>-->
             </ListView>
         </Border>
     </Grid>
