@@ -181,33 +181,36 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         private static void ScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, bool isDelayed)
         {
-            if (isDelayed)
+            Task.Factory.StartNew(() =>
             {
-                JobManager.AddJob(() =>
+                if (isDelayed)
                 {
-                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
-                }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+                    JobManager.AddJob(() =>
+                    {
+                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                    }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
 
-                JobManager.AddJob(() =>
+                    JobManager.AddJob(() =>
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true);
+                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+                }
+                else
                 {
-                    StopActivity(dominatorAccount, timing.Module, templateId, true);
-                }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-            }
-            else
-            {
-                JobManager.AddJob(() =>
-                {
-                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                    JobManager.AddJob(() =>
+                    {
+                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
 
-                }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
+                    }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
 
-                JobManager.AddJob(() =>
-                {
-                    StopActivity(dominatorAccount, timing.Module, templateId, true);
+                    JobManager.AddJob(() =>
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true);
 
-                }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
 
-            }
+                }
+            });
         }
 
         /// <summary>
@@ -444,7 +447,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-               ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
@@ -541,14 +544,17 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 timeToRunNext.AddSeconds(25);
             }
-            JobManager.AddJob(() =>
+            Task.Factory.StartNew(() =>
             {
-                RunActivity(dominatorAccount, templateId, timing, timing.Module);
-            }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
-            JobManager.AddJob(() =>
-            {
-                StopActivity(dominatorAccount, timing.Module, templateId, true);
-            }, s => s.ToRunOnceAt(stopTime));
+                JobManager.AddJob(() =>
+                {
+                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+                JobManager.AddJob(() =>
+                {
+                    StopActivity(dominatorAccount, timing.Module, templateId, true);
+                }, s => s.ToRunOnceAt(stopTime));
+            });
         }
     }
 }

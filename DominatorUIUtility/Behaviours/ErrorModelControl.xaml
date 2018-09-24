@@ -13,13 +13,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" Margin="10" BorderBrush="{DynamicResource AccentColorBrush3}" BorderThickness="1">
-            <ItemsControl   ItemsSource="{Binding Accounts}" MaxWidth="300" Focusable="False">
-                <ItemsControl.ItemTemplate>
+            <ListView ItemsSource="{Binding Accounts}" MaxWidth="300" >
+                <ListView.ItemTemplate>
                     <DataTemplate>
                         <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding UserName}"/>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                </ListView.ItemTemplate>
+            </ListView>
         </ScrollViewer>
         <StackPanel Grid.Row="1">
           

@@ -21,59 +21,59 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         }
 
-        public override void InitializeDatabase(TDbContext context)
-        {
-            try
-            {
-                string databseFilePath = GetDatabasePathFromContext(context);
-                bool dbExists = File.Exists(databseFilePath);
-                if (dbExists)
-                {
-                    var metadata = ((IObjectContextAdapter)context).ObjectContext.MetadataWorkspace;
-                    var tables = metadata.GetItemCollection(DataSpace.SSpace)
-                       .GetItems<EntityContainer>()
-                       .Single()
-                       .BaseEntitySets
-                       .OfType<EntitySet>()
-                       .Where(s => !s.MetadataProperties.Contains("Type")
-                                   || s.MetadataProperties["Type"].ToString() == "Tables");
-                    foreach (var table in tables)
-                    {
-                        var tableName = table.MetadataProperties.Contains("Table")
-                                        && table.MetadataProperties["Table"].Value != null
-                            ? table.MetadataProperties["Table"].Value.ToString()
-                            : table.Name;
-                        foreach (var member in table.ElementType.DeclaredMembers)
-                        {
-                            var cur = context.Database.SqlQuery<TableInfo>($"PRAGMA table_info ({tableName})").ToList();
-                            if (cur.All(a => a.name != member.Name))
-                            {
+        //public override void InitializeDatabase(TDbContext context)
+        //{
+        //    try
+        //    {
+        //        string databseFilePath = GetDatabasePathFromContext(context);
+        //        bool dbExists = File.Exists(databseFilePath);
+        //        if (dbExists)
+        //        {
+        //            var metadata = ((IObjectContextAdapter)context).ObjectContext.MetadataWorkspace;
+        //            var tables = metadata.GetItemCollection(DataSpace.SSpace)
+        //               .GetItems<EntityContainer>()
+        //               .Single()
+        //               .BaseEntitySets
+        //               .OfType<EntitySet>()
+        //               .Where(s => !s.MetadataProperties.Contains("Type")
+        //                           || s.MetadataProperties["Type"].ToString() == "Tables");
+        //            foreach (var table in tables)
+        //            {
+        //                var tableName = table.MetadataProperties.Contains("Table")
+        //                                && table.MetadataProperties["Table"].Value != null
+        //                    ? table.MetadataProperties["Table"].Value.ToString()
+        //                    : table.Name;
+        //                foreach (var member in table.ElementType.DeclaredMembers)
+        //                {
+        //                    var cur = context.Database.SqlQuery<TableInfo>($"PRAGMA table_info ({tableName})").ToList();
+        //                    if (cur.All(a => a.name != member.Name))
+        //                    {
 
-                                if (member.MetadataProperties.Any(a => a.Name == DefaultValueMetadataName))
-                                {
-                                    var defaultValue = (SqlDefaultValueAttribute)member.MetadataProperties[DefaultValueMetadataName].Value;
-                                    context.Database.ExecuteSqlCommand(
-                                        $"ALTER TABLE {tableName} ADD COLUMN {member.Name} {GetTypeUsage(member)} DEFAULT '{defaultValue.DefaultValue}';");
-                                }
-                                else
-                                {
-                                    context.Database.ExecuteSqlCommand(
-                                        $"ALTER TABLE {tableName} ADD COLUMN {member.Name} {GetTypeUsage(member)} null;");
-                                }
+        //                        if (member.MetadataProperties.Any(a => a.Name == DefaultValueMetadataName))
+        //                        {
+        //                            var defaultValue = (SqlDefaultValueAttribute)member.MetadataProperties[DefaultValueMetadataName].Value;
+        //                            context.Database.ExecuteSqlCommand(
+        //                                $"ALTER TABLE {tableName} ADD COLUMN {member.Name} {GetTypeUsage(member)} DEFAULT '{defaultValue.DefaultValue}';");
+        //                        }
+        //                        else
+        //                        {
+        //                            context.Database.ExecuteSqlCommand(
+        //                                $"ALTER TABLE {tableName} ADD COLUMN {member.Name} {GetTypeUsage(member)} null;");
+        //                        }
 
-                            }
+        //                    }
 
-                        }
-                    }
-                }
-                base.InitializeDatabase(context);
-            }
-            catch (Exception ex)
-            {
-                base.InitializeDatabase(context);
-                ex.DebugLog();
-            }
-        }
+        //                }
+        //            }
+        //        }
+        //        base.InitializeDatabase(context);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        base.InitializeDatabase(context);
+        //        ex.DebugLog();
+        //    }
+        //}
         private static string GetTypeUsage(EdmMember member)
         {
             return ((TypeUsage)((ReadOnlyMetadataCollection<System.Data.Entity.Core.Metadata.Edm.MetadataProperty>)member.MetadataProperties["MetadataProperties"].Value)["TypeUsage"].Value).EdmType.Name;

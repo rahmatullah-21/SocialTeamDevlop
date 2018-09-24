@@ -1,3 +1,7 @@
+Version[1.0.0.15],[22nd-September-18]
+Fixed:-
+	Instagram accounts verification issue
+
 Version[1.0.0.14],[21st-September-18]
 
 New Features:-

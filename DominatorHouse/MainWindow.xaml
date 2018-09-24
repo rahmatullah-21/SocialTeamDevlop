@@ -32,9 +32,9 @@
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <ComboBox Background="Transparent" ItemsSource="{Binding AvailableNetworks}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="{Binding SelectedNetworkIndex}" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" />
+            <ComboBox Background="Transparent" ItemsSource="{Binding MainWindowModel.AvailableNetworks}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="{Binding MainWindowModel.SelectedNetworkIndex}" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" />
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" 
-                      Name="cmbLanguage" ItemsSource="{Binding Languages}"/>
+                      Name="cmbLanguage" ItemsSource="{Binding MainWindowModel.Languages}"/>
             <!--<ComboBoxItem>English</ComboBoxItem>
                 -->
             <!--<ComboBoxItem>Portuguese</ComboBoxItem>-->
@@ -52,9 +52,9 @@
         </Grid.RowDefinitions>
 
         <!--Account Growth Mode Tabs-->
-        <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="{Binding SelectedViewIndex}"
-                   Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding TabItems}"
-                    ItemContainerStyle="{StaticResource TabItemStyle}">
+        <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding MainWindowModel.TabDock}" SelectedIndex="{Binding MainWindowModel.SelectedViewIndex}"
+                   Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding MainWindowModel.TabItems}"
+                    ItemContainerStyle="{StaticResource TabItemStyle}" SelectedItem="{Binding MainWindowModel.SelectedContent}">
 
 
             <TabControl.ItemTemplate>
@@ -78,8 +78,8 @@
                        Margin="0,0,15,0">
 
                 <Label Content="{DynamicResource LangKeyFilterByNetwork}" FontWeight="SemiBold"/>
-                <ComboBox ItemsSource="{Binding AvailableNetworks}" Width="200" SelectedIndex="-1" Name="CmbAvailableNetworks"
-                          controls:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding SelectedNetwork}"
+                <ComboBox ItemsSource="{Binding MainWindowModel.AvailableNetworks}" Width="200" SelectedIndex="-1" Name="CmbAvailableNetworks"
+                          controls:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding MainWindowModel.SelectedNetwork}"
                           SelectionChanged="CmbAvailableNetworks_OnSelectionChanged"/>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel.Style>
@@ -93,18 +93,18 @@
                         </Style>
                     </StackPanel.Style>
                     <Label Content="{DynamicResource LangKeyFilterByActivityType}" FontWeight="SemiBold"/>
-                    <ComboBox ItemsSource="{Binding ActivityType}" Width="200" controls:TextBoxHelper.ClearTextButton="True"
-                              Name="CmbActivityType" SelectedItem="{Binding SelectedActivity}"
+                    <ComboBox ItemsSource="{Binding MainWindowModel.ActivityType}" Width="200" controls:TextBoxHelper.ClearTextButton="True"
+                              Name="CmbActivityType" SelectedItem="{Binding MainWindowModel.SelectedActivity}"
                               SelectionChanged="CmbActivityType_OnSelectionChanged"/>
                 </StackPanel>
             </StackPanel>
 
             <dockable:Layout  Name="RootLayout" >
                 <dragable:TabablzControl x:Name="InitialTabablzControl"  Style="{StaticResource TabablzControlStyle}" Margin="0,5,0,0"
-                                         MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" 
+                                         MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" SelectedItem="{Binding MainWindowModel.SelectedLogTab}"
                                          SelectionChanged="InitialTabablzControl_OnSelectionChanged">
                     <TabItem Header="Info" Name="InfoTab" >
-                        <ListView x:Name="InfoLogger" ItemsSource="{Binding LoggerCollection,IsAsync=True}">
+                        <ListView x:Name="InfoLogger" ItemsSource="{Binding MainWindowModel.LoggerCollection,IsAsync=True}">
                             <ListView.CommandBindings>
                                 <CommandBinding Command="ApplicationCommands.Copy"
                                                 CanExecute="CopyCanExecute" Executed="CopyExecuted" />
@@ -151,7 +151,7 @@
                         <!--<ListBox x:Name="InfoLogger" IsSelected="True"/>-->
                     </TabItem>
                     <TabItem Header="Error List" Name="ErrorTab" >
-                        <ListView x:Name="ErrorLogger" ItemsSource="{Binding LoggerCollection,IsAsync=True}">
+                        <ListView x:Name="ErrorLogger" ItemsSource="{Binding MainWindowModel.LoggerCollection,IsAsync=True}">
                             <ListView.CommandBindings>
                                 <CommandBinding Command="ApplicationCommands.Copy"
                                                 CanExecute="CopyCanExecute" Executed="CopyExecuted" />
@@ -237,7 +237,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{DynamicResource LangKeyLoadedMemory}"
                                Foreground="White" />
-                        <TextBlock Name="lbl_LoadedMemory" Text="{DynamicResource LangKey0MB}"
+                        <TextBlock Name="lbl_LoadedMemory" Text="{Binding   MainWindowModel.RamSize}"
                            Foreground="White"/>
                     </StackPanel>
 
@@ -246,7 +246,7 @@
                 <StatusBarItem  Grid.Column="1" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{DynamicResource LangKeyAvailableMemory}" Foreground="White"/>
-                        <TextBlock Name="lbl_Availablememory"  Text="{DynamicResource LangKey0MB}"
+                        <TextBlock Name="lbl_Availablememory"  Text="{Binding  MainWindowModel.Availablememory}"
                    Foreground="White" />
                     </StackPanel>
 
@@ -260,7 +260,7 @@
 
                         <TextBlock Text="{DynamicResource LangKeyCPUUsage}"
                                Foreground="White" />
-                        <TextBlock Name="lbl_CPUUsage" Text=" 0% " Foreground="White" />
+                        <TextBlock Name="lbl_CPUUsage" Text="{Binding  MainWindowModel.CpuUsage}" Foreground="White" />
                     </StackPanel>
 
                 </StatusBarItem>
