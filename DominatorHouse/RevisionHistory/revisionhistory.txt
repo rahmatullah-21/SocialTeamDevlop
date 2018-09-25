@@ -1,6 +1,8 @@
-Version[1.0.0.15],[22nd-September-18]
+Version[1.0.0.15],[24th-September-18]
 Fixed:-
 	Instagram accounts verification issue
+	Account Activity => Hashtag Scraper report => Fixed issue with showing report
+	Instascrape  => Download Photos => Fixed issue with select folder path.
 
 Version[1.0.0.14],[21st-September-18]
 

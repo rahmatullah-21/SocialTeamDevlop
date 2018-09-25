@@ -52,20 +52,7 @@ namespace Socinator
     /// </summary>
     public partial class MainWindow : MetroWindow, ILoggableWindow, INotifyPropertyChanged
     {
-        //private static readonly string RamSize = GetRamsize();
 
-        //private HashSet<SocialNetworks> _availableNetworks;
-        //private Dock _tabDock = Dock.Left;
-        //private ObservableCollection<TabItemTemplates> _tabItems;
-        //private ObservableCollection<string> _languages;
-
-        //private Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
-
-        //private bool IsClickedFromMainWindow { get; set; } = true;
-
-        //private DominatorAccountViewModel.AccessorStrategies _strategies;
-
-        //private string _fatalError;
         private MainWindowViewModel _mainWindowViewModel;
 
         public MainWindowViewModel MainWindowViewModel
@@ -91,11 +78,11 @@ namespace Socinator
                 SocinatorInitialize.LogInitializer(this);
                 //  SocinatorWindow.DataContext = this;
                 SocinatorWindow.DataContext = MainWindowViewModel;
-                MainGrid.DataContext= MainWindowViewModel;
+                MainGrid.DataContext = MainWindowViewModel;
                 Loaded += (o, e) =>
                 {
                     GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
-                   
+
                 };
 
                 //LoggerCollection =
@@ -107,6 +94,494 @@ namespace Socinator
             }
         }
 
+        private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            try
+            {
+                ListView lb = (ListView)(sender);
+                var message = (lb?.SelectedItem as LoggerModel).Message;
+                if (!string.IsNullOrEmpty(message))
+                {
+                    Clipboard.SetText(message);
+                    ToasterNotification.ShowSuccess("Message copied");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        public void LogText(string message, LogLevel logLevel)
+        {
+
+            ThreadFactory.Instance.Start(() =>
+            {
+                GlobusLogHelper.LogTextToList(MainWindowViewModel.MainWindowModel.LstLoggerModels, message, logLevel);
+                //try
+                //{
+                //    Application.Current.Dispatcher.Invoke(() =>
+                //    {
+                //        if (LastTab == "Info")
+                //            LoggerCollection.Filter += FilterByInfo;
+
+                //        else
+                //            LoggerCollection.Filter += FilterByError;
+
+                //    });
+
+                //}
+                //catch (Exception ex)
+                //{
+                //    ex.DebugLog();
+                //}
+
+            });
+
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (MainWindowViewModel.MainWindowModel.IsClickedFromMainWindow)
+            {
+                var dialog = new Dialog();
+
+                var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
+
+                MainWindowViewModel.MainWindowModel.IsClickedFromMainWindow = false;
+                activityLogWindow.Closing += (senders, events) =>
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            try
+                            {
+                                activityLogWindow.Content = null;
+                                Grid.SetRow(Logger, 2);
+                                MainGrid.Children.Add(Logger);
+
+                                Logger.Children.Remove(RootLayout);
+                                Logger.Children.Add(RootLayout);
+                                MainGrid.RowDefinitions[2].Height = new GridLength(200);
+                                MainWindowViewModel.MainWindowModel.IsClickedFromMainWindow = true;
+                                ActivityLog.IsEnabled = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
+                        });
+                    });
+                };
+
+                MainGrid.RowDefinitions[2].Height = new GridLength(0);
+                MainGrid.Children.Remove(Logger);
+                activityLogWindow.Show();
+                ActivityLog.IsEnabled = false;
+
+            }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #region Old Code [Commented]
+        //private static readonly string RamSize = GetRamsize();
+
+        //private HashSet<SocialNetworks> _availableNetworks;
+        //private Dock _tabDock = Dock.Left;
+        //private ObservableCollection<TabItemTemplates> _tabItems;
+        //private ObservableCollection<string> _languages;
+
+        //private Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
+
+        //private bool IsClickedFromMainWindow { get; set; } = true;
+
+        //private DominatorAccountViewModel.AccessorStrategies _strategies;
+
+        //private string _fatalError;
+        //public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
+        //{
+        //    try
+        //    {
+        //        ThreadFactory.Instance.Start(() =>
+        //        {
+        //            var accountUpdateFactory = SocinatorInitialize
+        //                .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+        //                .GetNetworkCoreFactory().AccountUpdateFactory;
+        //            accountUpdateFactory.CheckStatus(dominatorAccountModel);
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //    }
+        //}
+
+        //public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
+        //{
+        //    try
+        //    {
+        //        ThreadFactory.Instance.Start(() =>
+        //        {
+        //            var accountUpdateFactory = SocinatorInitialize
+        //                .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+        //                .GetNetworkCoreFactory().AccountUpdateFactory;
+        //            accountUpdateFactory.UpdateDetails(dominatorAccountModel);
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //    }
+        //}
+
+        //public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
+        //{
+        //    try
+        //    {
+        //        var browserWindow = new BrowserWindow(dominatorAccountModel);
+        //        browserWindow.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //        //MessageBox.Show(ex.Message);
+        //    }
+        //}
+
+        #region System Details  
+
+        //private async void StartbindMemory()
+        //{
+        //    while (true)
+        //    {
+        //        var availablememory = GetMemoryUsage().ToString(CultureInfo.InvariantCulture);
+
+        //        var cpuUsage = GetCpuUsage();
+
+        //        try
+        //        {
+        //            Dispatcher.Invoke(() =>
+        //            {
+        //                lbl_Datetime.Text = " : " + DateTime.Now.ToString(CultureInfo.InvariantCulture);
+        //                lbl_LoadedMemory.Text = " " + RamSize;
+        //                lbl_Availablememory.Text = " " + availablememory + "  MB";
+        //                lbl_CPUUsage.Text = " " + cpuUsage + " % ";
+        //            });
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ex.DebugLog();
+        //        }
+
+        //        await Task.Delay(100);
+        //    }
+        //}
+
+
+        //private static string GetRamsize()
+        //{
+        //    var objManagementClass = new ManagementClass("Win32_ComputerSystem");
+        //    var objManagementObjectCollection = objManagementClass.GetInstances();
+        //    foreach (var item in objManagementObjectCollection)
+        //        return Convert.ToString(
+        //                   Math.Round(Convert.ToDouble(item.Properties["TotalPhysicalMemory"].Value) / 1048576, 0),
+        //                   CultureInfo.InvariantCulture) + " MB";
+
+        //    return "0 MB";
+        //}
+
+
+        //private static string GetCpuUsage()
+        //{
+        //    try
+        //    {
+        //        Processor.Get();
+        //        return Processor.Properties["PercentProcessorTime"].Value.ToString();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return string.Empty;
+        //    }
+        //}
+
+
+        //private static double GetMemoryUsage()
+        //{
+        //    var memAvailable = (double)PerformanceCounter.NextValue();
+        //    return memAvailable;
+        //}
+
+        #endregion
+
+        //private void SocinatorWindow_OnClosing(object sender, CancelEventArgs e)
+        //{
+        //    e.Cancel = true;
+
+        //    bool isClose = this.ShowModalMessageExternal("Confirmation", "Are you sure to close Socinator?", MessageDialogStyle.AffirmativeAndNegative,
+        //                         Dialog.SetMetroDialogButton("Yes", "No")) == MessageDialogResult.Affirmative;
+        //    if (isClose)
+        //    {
+        //        Application.Current.Shutdown();
+        //        Process.GetCurrentProcess().Kill();
+        //    }
+
+        //}
+
+        //private void CmbAvailableNetworks_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+
+        //    try
+        //    {
+        //        MainWindowViewModel.MainWindowModel.ActivityType.Clear();
+        //        if (CmbAvailableNetworks.SelectedItem.ToString() == SocialNetworks.Social.ToString())
+        //        {
+        //            MainWindowViewModel.MainWindowModel.ActivityType = new ObservableCollection<string>(Enum.GetNames(typeof(ActivityType)));
+        //            MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByNetwork;
+        //            return;
+        //        }
+
+        //        foreach (var name in Enum.GetNames(typeof(ActivityType)))
+        //        {
+        //            if (EnumDescriptionConverter.GetDescription((ActivityType)Enum.Parse(typeof(ActivityType), name)).Contains(CmbAvailableNetworks.SelectedItem.ToString()))
+        //                MainWindowViewModel.MainWindowModel.ActivityType.Add(name);
+        //        }
+        //        MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByNetwork;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //        MainWindowViewModel.MainWindowModel.LoggerCollection.Filter = null;
+        //    }
+        //    // GlobusLogHelper.log.Error("this is error");
+        //}
+
+
+        //private void CmbActivityType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByActivityType;
+        //}
+
+        #region Filteration
+
+        //private bool FilterByActivityType(object sender)
+        //{
+        //    try
+        //    {
+        //        var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+        //        var type = (selectedTab == "Info") ? "Info" : "Error";
+        //        var logger = sender as LoggerModel;
+
+        //        return logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0
+        //            && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+
+        //        //var logger = sender as LoggerModel;
+        //        //return logger?.ActivityType?.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //        return false;
+        //    }
+
+        //}
+        //private bool FilterByNetwork(object sender)
+        //{
+        //    try
+        //    {
+        //        var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+        //        var type = (selectedTab == "Info") ? "Info" : "Error";
+        //        var logger = sender as LoggerModel;
+        //        if (SelectedNetwork == SocialNetworks.Social.ToString())
+        //            return true;
+        //        return logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
+        //            && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //        return false;
+        //    }
+
+        //}
+        //private bool FilterByNetworkActivity(LoggerModel logger, string type)
+        //{
+        //    if (!string.IsNullOrEmpty(SelectedActivity) && !string.IsNullOrEmpty(SelectedNetwork))
+        //    {
+        //        return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
+        //        && logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+        //    }
+        //    else if (!string.IsNullOrEmpty(SelectedActivity))
+        //        return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0
+        //        && logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+        //    else if (!string.IsNullOrEmpty(SelectedNetwork))
+        //        return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+        //    return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
+
+        //}
+        //private bool FilterByInfo(object sender)
+        //{
+        //    try
+        //    {
+        //        var logger = sender as LoggerModel;
+        //        return FilterByNetworkActivity(logger, "Info");
+        //        //  return logger?.LogType.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) >= 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //        return false;
+        //    }
+
+        //}
+
+        //private bool FilterByError(object sender)
+        //{
+        //    try
+        //    {
+        //        var logger = sender as LoggerModel;
+        //        return FilterByNetworkActivity(logger, "Error");
+        //        //  return logger?.LogType.IndexOf("Error", StringComparison.InvariantCultureIgnoreCase) >= 0 || logger?.LogType.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) >= 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //        return false;
+        //    }
+        //}
+        #endregion
+
+
+        #region Properties
+
+        //private ObservableCollection<LoggerModel> _lstLoggerModels = new ObservableCollection<LoggerModel>();
+        //public ObservableCollection<LoggerModel> LstLoggerModels
+        //{
+        //    get
+        //    {
+        //        return _lstLoggerModels;
+        //    }
+        //    set
+        //    {
+        //        _lstLoggerModels = value;
+        //        OnPropertyChanged(nameof(LstLoggerModels));
+        //    }
+        //}
+        //private ObservableCollection<string> _activityType = new ObservableCollection<string>();
+        //public ObservableCollection<string> ActivityType
+        //{
+        //    get
+        //    {
+        //        return _activityType;
+        //    }
+        //    set
+        //    {
+        //        _activityType = value;
+        //        OnPropertyChanged(nameof(ActivityType));
+        //    }
+        //}
+        //private ICollectionView _loggerCollection;
+
+        //public ICollectionView LoggerCollection
+        //{
+        //    get
+        //    {
+        //        return _loggerCollection;
+        //    }
+        //    set
+        //    {
+        //        _loggerCollection = value;
+        //        OnPropertyChanged(nameof(LoggerCollection));
+        //    }
+        //}
+        //private string _selectedNetwork = string.Empty;
+
+        //public string SelectedNetwork
+        //{
+        //    get
+        //    {
+        //        return _selectedNetwork;
+        //    }
+        //    set
+        //    {
+        //        _selectedNetwork = value;
+        //        OnPropertyChanged(nameof(SelectedNetwork));
+        //    }
+        //}
+        //private string _selectedActivity = string.Empty;
+
+        //public string SelectedActivity
+        //{
+        //    get
+        //    {
+        //        return _selectedActivity;
+        //    }
+        //    set
+        //    {
+        //        _selectedActivity = value;
+        //        OnPropertyChanged(nameof(SelectedActivity));
+        //    }
+        //}
+
+        #endregion
+
+        //  public string LastTab { get; set; } = "Info";
+
+        //private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (CmbAvailableNetworks.SelectedItem == null)
+        //        {
+        //            try
+        //            {
+        //                var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
+
+        //                if (selectedTab == MainWindowViewModel.MainWindowModel.LastTab)
+        //                    return;
+
+        //                if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
+        //                {
+        //                    MainWindowViewModel.MainWindowModel.LastTab = "Info";
+        //                    MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByInfo;
+        //                }
+        //                else
+        //                {
+        //                    MainWindowViewModel.MainWindowModel.LastTab = "Error";
+        //                    MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByError;
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ex.DebugLog();
+        //            }
+        //        }
+        //        else
+        //            MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByNetwork;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByNetwork;
+        //        ex.DebugLog();
+        //    }
+        //}
 
 
         //private async Task IsCheck()
@@ -378,40 +853,6 @@ namespace Socinator
         //        OnPropertyChanged(nameof(TabDock));
         //    }
         //}
-
-
-
-
-        public void LogText(string message, LogLevel logLevel)
-        {
-
-            ThreadFactory.Instance.Start(() =>
-            {
-                GlobusLogHelper.LogTextToList(MainWindowViewModel.MainWindowModel.LstLoggerModels, message, logLevel);
-                //try
-                //{
-                //    Application.Current.Dispatcher.Invoke(() =>
-                //    {
-                //        if (LastTab == "Info")
-                //            LoggerCollection.Filter += FilterByInfo;
-
-                //        else
-                //            LoggerCollection.Filter += FilterByError;
-
-                //    });
-
-                //}
-                //catch (Exception ex)
-                //{
-                //    ex.DebugLog();
-                //}
-
-            });
-
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         //private void SocinatorInitializer()
         //{
         //    try
@@ -492,10 +933,10 @@ namespace Socinator
         //    }
         //}
 
-        private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MainWindowViewModel.NetworkSelectionChanges(cmbSocialNetwork.SelectedItem.ToString());
-        }
+        //private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    MainWindowViewModel.NetworkSelectionChanges(cmbSocialNetwork.SelectedItem.ToString());
+        //}
 
         //private void NetworkSelectionChanges(string network)
         //{
@@ -540,80 +981,52 @@ namespace Socinator
         //    }
         //}
 
-        private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                var textBlockDetails = (FrameworkElement)sender as TextBlock;
+        //private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    try
+        //    {
+        //        var textBlockDetails = (FrameworkElement)sender as TextBlock;
 
-                if (textBlockDetails == null)
-                    return;
+        //        if (textBlockDetails == null)
+        //            return;
 
-                if (textBlockDetails.Text == FindResource("LangKeyAccountsActivity").ToString())
-                {
-                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+        //        if (textBlockDetails.Text == FindResource("LangKeyAccountsActivity").ToString())
+        //        {
+        //            DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
 
-                    // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
-                    //    .AccountUserControlTools;
-                    //accountUi.GetStartupToolsView();
-                }
-                if (textBlockDetails.Text == FindResource("LangKeyPublisher").ToString())
-                {
-                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
-                }
-                if (textBlockDetails.Text == FindResource("LangKeyAccountsManager").ToString())
-                {
-                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
-                }
-                if (textBlockDetails.Text == FindResource("LangKeySociopublisher").ToString())
-                {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+        //            // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
+        //            //    .AccountUserControlTools;
+        //            //accountUi.GetStartupToolsView();
+        //        }
+        //        if (textBlockDetails.Text == FindResource("LangKeyPublisher").ToString())
+        //        {
+        //            PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
+        //        }
+        //        if (textBlockDetails.Text == FindResource("LangKeyAccountsManager").ToString())
+        //        {
+        //            AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+        //        }
+        //        if (textBlockDetails.Text == FindResource("LangKeySociopublisher").ToString())
+        //        {
+        //            PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //    }
 
 
-        }
+        //}
 
-        private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 45)
-                MainGrid.RowDefinitions[2].Height = new GridLength(45);
-            else
-                MainGrid.RowDefinitions[2].Height = new GridLength(200);
-        }
+        //private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 45)
+        //        MainGrid.RowDefinitions[2].Height = new GridLength(45);
+        //    else
+        //        MainGrid.RowDefinitions[2].Height = new GridLength(200);
+        //}
 
-        private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (MainWindowViewModel.MainWindowModel.IsClickedFromMainWindow)
-            {
-                var dialog = new Dialog();
-
-                // var activityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
-
-                var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
-
-                MainWindowViewModel.MainWindowModel.IsClickedFromMainWindow = false;
-                activityLogWindow.Closing += (senders, events) =>
-                {
-                    activityLogWindow.Content = null;
-                    Grid.SetRow(Logger, 2);
-                    MainGrid.Children.Add(Logger);
-
-                    Logger.Children.Remove(RootLayout);
-                    Logger.Children.Add(RootLayout);
-                    MainGrid.RowDefinitions[2].Height = new GridLength(200);
-                    MainWindowViewModel.MainWindowModel.IsClickedFromMainWindow = true;
-                };
-
-                MainGrid.RowDefinitions[2].Height = new GridLength(0);
-                MainGrid.Children.Remove(Logger);
-                activityLogWindow.Show();
-            }
-        }
 
         //public void InitializeJobCores(string license)
         //{
@@ -784,408 +1197,9 @@ namespace Socinator
         //    {
         //        ex.DebugLog();
         //    }
-        //}
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
-        //{
-        //    try
-        //    {
-        //        ThreadFactory.Instance.Start(() =>
-        //        {
-        //            var accountUpdateFactory = SocinatorInitialize
-        //                .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-        //                .GetNetworkCoreFactory().AccountUpdateFactory;
-        //            accountUpdateFactory.CheckStatus(dominatorAccountModel);
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //    }
-        //}
-
-        //public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
-        //{
-        //    try
-        //    {
-        //        ThreadFactory.Instance.Start(() =>
-        //        {
-        //            var accountUpdateFactory = SocinatorInitialize
-        //                .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-        //                .GetNetworkCoreFactory().AccountUpdateFactory;
-        //            accountUpdateFactory.UpdateDetails(dominatorAccountModel);
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //    }
-        //}
-
-        //public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
-        //{
-        //    try
-        //    {
-        //        var browserWindow = new BrowserWindow(dominatorAccountModel);
-        //        browserWindow.Show();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        //MessageBox.Show(ex.Message);
-        //    }
-        //}
-
-        #region System Details  
-
-        //private async void StartbindMemory()
-        //{
-        //    while (true)
-        //    {
-        //        var availablememory = GetMemoryUsage().ToString(CultureInfo.InvariantCulture);
-
-        //        var cpuUsage = GetCpuUsage();
-
-        //        try
-        //        {
-        //            Dispatcher.Invoke(() =>
-        //            {
-        //                lbl_Datetime.Text = " : " + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-        //                lbl_LoadedMemory.Text = " " + RamSize;
-        //                lbl_Availablememory.Text = " " + availablememory + "  MB";
-        //                lbl_CPUUsage.Text = " " + cpuUsage + " % ";
-        //            });
-
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            ex.DebugLog();
-        //        }
-
-        //        await Task.Delay(100);
-        //    }
-        //}
-
-
-        //private static string GetRamsize()
-        //{
-        //    var objManagementClass = new ManagementClass("Win32_ComputerSystem");
-        //    var objManagementObjectCollection = objManagementClass.GetInstances();
-        //    foreach (var item in objManagementObjectCollection)
-        //        return Convert.ToString(
-        //                   Math.Round(Convert.ToDouble(item.Properties["TotalPhysicalMemory"].Value) / 1048576, 0),
-        //                   CultureInfo.InvariantCulture) + " MB";
-
-        //    return "0 MB";
-        //}
-
-
-        //private static string GetCpuUsage()
-        //{
-        //    try
-        //    {
-        //        Processor.Get();
-        //        return Processor.Properties["PercentProcessorTime"].Value.ToString();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return string.Empty;
-        //    }
-        //}
-
-
-        //private static double GetMemoryUsage()
-        //{
-        //    var memAvailable = (double)PerformanceCounter.NextValue();
-        //    return memAvailable;
-        //}
-
-        #endregion
-
-        private void SocinatorWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
-
-            bool isClose = this.ShowModalMessageExternal("Confirmation", "Are you sure to close Socinator?", MessageDialogStyle.AffirmativeAndNegative,
-                                 Dialog.SetMetroDialogButton("Yes", "No")) == MessageDialogResult.Affirmative;
-            if (isClose)
-            {
-                Application.Current.Shutdown();
-                Process.GetCurrentProcess().Kill();
-            }
-
-        }
-
-        private void CmbAvailableNetworks_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            try
-            {
-                MainWindowViewModel.MainWindowModel.ActivityType.Clear();
-                if (CmbAvailableNetworks.SelectedItem.ToString() == SocialNetworks.Social.ToString())
-                {
-                    MainWindowViewModel.MainWindowModel.ActivityType = new ObservableCollection<string>(Enum.GetNames(typeof(ActivityType)));
-                    MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByNetwork;
-                    return;
-                }
-
-                foreach (var name in Enum.GetNames(typeof(ActivityType)))
-                {
-                    if (EnumDescriptionConverter.GetDescription((ActivityType)Enum.Parse(typeof(ActivityType), name)).Contains(CmbAvailableNetworks.SelectedItem.ToString()))
-                        MainWindowViewModel.MainWindowModel.ActivityType.Add(name);
-                }
-                MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByNetwork;
-
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                MainWindowViewModel.MainWindowModel.LoggerCollection.Filter = null;
-            }
-            // GlobusLogHelper.log.Error("this is error");
-        }
-
-
-        private void CmbActivityType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByActivityType;
-        }
-
-        #region Filteration
-
-        //private bool FilterByActivityType(object sender)
-        //{
-        //    try
-        //    {
-        //        var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-        //        var type = (selectedTab == "Info") ? "Info" : "Error";
-        //        var logger = sender as LoggerModel;
-
-        //        return logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0
-        //            && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-
-        //        //var logger = sender as LoggerModel;
-        //        //return logger?.ActivityType?.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        return false;
-        //    }
-
-        //}
-        //private bool FilterByNetwork(object sender)
-        //{
-        //    try
-        //    {
-        //        var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-        //        var type = (selectedTab == "Info") ? "Info" : "Error";
-        //        var logger = sender as LoggerModel;
-        //        if (SelectedNetwork == SocialNetworks.Social.ToString())
-        //            return true;
-        //        return logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
-        //            && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        return false;
-        //    }
-
-        //}
-        //private bool FilterByNetworkActivity(LoggerModel logger, string type)
-        //{
-        //    if (!string.IsNullOrEmpty(SelectedActivity) && !string.IsNullOrEmpty(SelectedNetwork))
-        //    {
-        //        return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
-        //        && logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-        //    }
-        //    else if (!string.IsNullOrEmpty(SelectedActivity))
-        //        return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0
-        //        && logger?.Network.IndexOf(SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-        //    else if (!string.IsNullOrEmpty(SelectedNetwork))
-        //        return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.Network.IndexOf(SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-        //    return logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
-
-        //}
-        //private bool FilterByInfo(object sender)
-        //{
-        //    try
-        //    {
-        //        var logger = sender as LoggerModel;
-        //        return FilterByNetworkActivity(logger, "Info");
-        //        //  return logger?.LogType.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) >= 0;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        return false;
-        //    }
-
-        //}
-
-        //private bool FilterByError(object sender)
-        //{
-        //    try
-        //    {
-        //        var logger = sender as LoggerModel;
-        //        return FilterByNetworkActivity(logger, "Error");
-        //        //  return logger?.LogType.IndexOf("Error", StringComparison.InvariantCultureIgnoreCase) >= 0 || logger?.LogType.IndexOf("Warn", StringComparison.InvariantCultureIgnoreCase) >= 0;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //        return false;
-        //    }
-        //}
+        //} 
         #endregion
 
 
-        #region Properties
-
-        //private ObservableCollection<LoggerModel> _lstLoggerModels = new ObservableCollection<LoggerModel>();
-        //public ObservableCollection<LoggerModel> LstLoggerModels
-        //{
-        //    get
-        //    {
-        //        return _lstLoggerModels;
-        //    }
-        //    set
-        //    {
-        //        _lstLoggerModels = value;
-        //        OnPropertyChanged(nameof(LstLoggerModels));
-        //    }
-        //}
-        //private ObservableCollection<string> _activityType = new ObservableCollection<string>();
-        //public ObservableCollection<string> ActivityType
-        //{
-        //    get
-        //    {
-        //        return _activityType;
-        //    }
-        //    set
-        //    {
-        //        _activityType = value;
-        //        OnPropertyChanged(nameof(ActivityType));
-        //    }
-        //}
-        //private ICollectionView _loggerCollection;
-
-        //public ICollectionView LoggerCollection
-        //{
-        //    get
-        //    {
-        //        return _loggerCollection;
-        //    }
-        //    set
-        //    {
-        //        _loggerCollection = value;
-        //        OnPropertyChanged(nameof(LoggerCollection));
-        //    }
-        //}
-        //private string _selectedNetwork = string.Empty;
-
-        //public string SelectedNetwork
-        //{
-        //    get
-        //    {
-        //        return _selectedNetwork;
-        //    }
-        //    set
-        //    {
-        //        _selectedNetwork = value;
-        //        OnPropertyChanged(nameof(SelectedNetwork));
-        //    }
-        //}
-        //private string _selectedActivity = string.Empty;
-
-        //public string SelectedActivity
-        //{
-        //    get
-        //    {
-        //        return _selectedActivity;
-        //    }
-        //    set
-        //    {
-        //        _selectedActivity = value;
-        //        OnPropertyChanged(nameof(SelectedActivity));
-        //    }
-        //}
-
-        #endregion
-
-        //  public string LastTab { get; set; } = "Info";
-
-        private void InitialTabablzControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if (CmbAvailableNetworks.SelectedItem == null)
-                {
-                    try
-                    {
-                        var selectedTab = (InitialTabablzControl.SelectedItem as TabItem)?.Header.ToString();
-
-                        if (selectedTab == MainWindowViewModel.MainWindowModel.LastTab)
-                            return;
-
-                        if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
-                        {
-                            MainWindowViewModel.MainWindowModel.LastTab = "Info";
-                            MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByInfo;
-                        }
-                        else
-                        {
-                            MainWindowViewModel.MainWindowModel.LastTab = "Error";
-                            MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByError;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-                }
-                else
-                    MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByNetwork;
-            }
-            catch (Exception ex)
-            {
-                MainWindowViewModel.MainWindowModel.LoggerCollection.Filter += MainWindowViewModel.FilterByNetwork;
-                ex.DebugLog();
-            }
-        }
-
-        private void CopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            try
-            {
-                ListView lb = (ListView)(sender);
-                var message = (lb?.SelectedItem as LoggerModel).Message;
-                if (!string.IsNullOrEmpty(message))
-                {
-                    Clipboard.SetText(message);
-                    ToasterNotification.ShowSuccess("Message copied");
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
     }
 }

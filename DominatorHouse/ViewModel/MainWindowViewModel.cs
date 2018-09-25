@@ -41,11 +41,14 @@ using MahApps.Metro.Controls.Dialogs;
 using NLog;
 using Socinator.Social.AutoActivity.Views;
 using DominatorHouse.Model;
+using DominatorHouseCore.Command;
+using Dragablz;
 
 namespace DominatorHouse.ViewModel
 {
     public class MainWindowViewModel : BindableBase
     {
+
         public MainWindowViewModel()
         {
             try
@@ -54,19 +57,44 @@ namespace DominatorHouse.ViewModel
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     FatalErrorDiagnosis();
-                    MainWindowModel.Languages = new ObservableCollection<string>();
                     MainWindowModel.Languages.Add("English");
-                 
+
                     MainWindowModel.LoggerCollection =
-                        CollectionViewSource.GetDefaultView(mainWindowModel.LstLoggerModels);
+                        CollectionViewSource.GetDefaultView(MainWindowModel.LstLoggerModels);
                 });
-              
+                ResizeLoggerCommand = new BaseCommand<object>((sender) => true, ResizeLogger);
+                NetworkChangeCommand = new BaseCommand<object>((sender) => true, NetworkSelectionChange);
+                TabItemSelectCommand = new BaseCommand<object>((sender) => true, OnSelectTabItem);
+                WinClosingCommand = new BaseCommand<object>((sender) => true, OnClosing);
+                LoggerNetworkChangeCommand = new BaseCommand<object>((sender) => true, LoggerNetworkChange);
+                LoggerActivityChangeCommand = new BaseCommand<object>((sender) => true, LoggerActivityChange);
+                LoggerSelectionChangeCommand = new BaseCommand<object>((sender) => true, LoggerSelectionChange);
+                LanguageChangeCommand = new BaseCommand<object>((sender) => true, LanguageChange);
+                
+                BindingOperations.EnableCollectionSynchronization(MainWindowModel.LstLoggerModels, _lock);
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
+
+        #region Command
+
+        public ICommand ResizeLoggerCommand { get; set; }
+        public ICommand NetworkChangeCommand { get; set; }
+        public ICommand TabItemSelectCommand { get; set; }
+        public ICommand WinClosingCommand { get; set; }
+        public ICommand LoggerNetworkChangeCommand { get; set; }
+        public ICommand LoggerActivityChangeCommand { get; set; }
+        public ICommand LoggerSelectionChangeCommand { get; set; }
+        public ICommand LanguageChangeCommand { get; set; }
+        #endregion
+
+        #region Property
+
+        private static object _lock = new object();
+        public Grid MainGrid { get; set; }
         private MainWindowModel mainWindowModel = new MainWindowModel();
 
         public MainWindowModel MainWindowModel
@@ -92,6 +120,8 @@ namespace DominatorHouse.ViewModel
         static readonly string RamSize = GetRamsize();
         string _fatalError;
 
+        #endregion
+
         #region System Details  
 
         private async void StartbindMemory()
@@ -107,9 +137,9 @@ namespace DominatorHouse.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         MainWindowModel.Datetime = " : " + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-                        MainWindowModel.RamSize = " " + RamSize;
-                        MainWindowModel.Availablememory = " " + availablememory + "  MB";
-                        MainWindowModel.CpuUsage = " " + cpuUsage + " % ";
+                        MainWindowModel.RamSize = " " + RamSize ;
+                        MainWindowModel.Availablememory = " " + availablememory + " MB";
+                        MainWindowModel.CpuUsage = " " + cpuUsage + "%";
                     });
 
                 }
@@ -131,7 +161,7 @@ namespace DominatorHouse.ViewModel
                            Math.Round(Convert.ToDouble(item.Properties["TotalPhysicalMemory"].Value) / 1048576, 0),
                            CultureInfo.InvariantCulture) + " MB";
 
-            return "0 MB";
+            return " 0 MB";
         }
 
         private static string GetCpuUsage()
@@ -156,7 +186,6 @@ namespace DominatorHouse.ViewModel
 
         #endregion
 
-
         #region Filteration
 
         public bool FilterByActivityType(object sender)
@@ -170,14 +199,11 @@ namespace DominatorHouse.ViewModel
                 return logger?.Network.IndexOf(MainWindowModel.SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0
                     && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
 
-
-                //var logger = sender as LoggerModel;
-                //return logger?.ActivityType?.IndexOf(CmbActivityType.SelectedItem.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return false;
+                return true;
             }
 
         }
@@ -250,7 +276,187 @@ namespace DominatorHouse.ViewModel
         }
         #endregion
 
+        #region Command Methods
 
+        private void LanguageChange(object sender)
+        {
+
+        }
+
+        private void LoggerSelectionChange(object sender)
+        {
+            try
+            {
+                if (MainWindowModel.SelectedLogTab == null)
+                {
+                    try
+                    {
+                        var selectedTab = (((TabablzControl)sender).SelectedItem as TabItem)?.Header.ToString();
+
+                        if (selectedTab == MainWindowModel.LastTab)
+                            return;
+
+                        if (selectedTab?.IndexOf("Info", StringComparison.InvariantCultureIgnoreCase) == 0)
+                        {
+                            MainWindowModel.LastTab = "Info";
+                            MainWindowModel.LoggerCollection.Filter += FilterByInfo;
+                        }
+                        else
+                        {
+                            MainWindowModel.LastTab = "Error";
+                            MainWindowModel.LoggerCollection.Filter += FilterByError;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+                else
+                    MainWindowModel.LoggerCollection.Filter += FilterByNetwork;
+            }
+            catch (Exception ex)
+            {
+                MainWindowModel.LoggerCollection.Filter += FilterByNetwork;
+                ex.DebugLog();
+            }
+        }
+
+        private void LoggerActivityChange(object sender)
+        {
+            try
+            {
+                MainWindowModel.LoggerCollection.Filter += FilterByActivityType;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                MainWindowModel.LoggerCollection.Filter = null;
+            }
+        }
+
+        private void LoggerNetworkChange(object sender)
+        {
+            try
+            {
+                MainWindowModel.ActivityType.Clear();
+                if (MainWindowModel.SelectedNetwork == SocialNetworks.Social.ToString())
+                {
+                    MainWindowModel.ActivityType = new ObservableCollection<string>(Enum.GetNames(typeof(ActivityType)));
+                    MainWindowModel.LoggerCollection.Filter += FilterByNetwork;
+                    return;
+                }
+
+                foreach (var name in Enum.GetNames(typeof(ActivityType)))
+                {
+                    if (EnumDescriptionConverter.GetDescription((ActivityType)Enum.Parse(typeof(ActivityType), name)).Contains(MainWindowModel.SelectedNetwork))
+                        MainWindowModel.ActivityType.Add(name);
+                }
+                MainWindowModel.LoggerCollection.Filter += FilterByNetwork;
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                MainWindowModel.LoggerCollection.Filter = null;
+            }
+        }
+
+        private void OnClosing(object sender)
+        {
+            try
+            {
+                var e = (CancelEventArgs)sender;
+                e.Cancel = true;
+                bool isClose = Dialog.ShowCustomDialog("Confirmation", "Are you sure to close Socinator?", "Yes", "No") == MessageDialogResult.Affirmative;
+                if (isClose)
+                {
+                    Application.Current.Shutdown();
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void OnSelectTabItem(object sender)
+        {
+            try
+            {
+                var textBlockDetails = (FrameworkElement)sender as TextBlock;
+
+                if (textBlockDetails == null)
+                    return;
+
+                if (textBlockDetails.Text == Application.Current.FindResource("LangKeyAccountsActivity").ToString())
+                {
+                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+
+                    // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
+                    //    .AccountUserControlTools;
+                    //accountUi.GetStartupToolsView();
+                }
+                if (textBlockDetails.Text == Application.Current.FindResource("LangKeyPublisher").ToString())
+                {
+                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
+                }
+                if (textBlockDetails.Text == Application.Current.FindResource("LangKeyAccountsManager").ToString())
+                {
+                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+                }
+                if (textBlockDetails.Text == Application.Current.FindResource("LangKeySociopublisher").ToString())
+                {
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void NetworkSelectionChange(object sender)
+        {
+            try
+            {
+                var network = (SocialNetworks)sender;
+
+                MainWindowModel.TabDock = Dock.Top;
+
+                if (network == SocialNetworks.Social)
+                    MainWindowModel.TabDock = Dock.Left;
+                TabInitialize(network);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+        private void ResizeLogger(object sender)
+        {
+            try
+            {
+                MainGrid = sender as Grid;
+                if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 45)
+                    MainGrid.RowDefinitions[2].Height = new GridLength(45);
+                else
+                    MainGrid.RowDefinitions[2].Height = new GridLength(200);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         private async Task IsCheck()
         {
@@ -431,33 +637,6 @@ namespace DominatorHouse.ViewModel
 
             return false;
         }
-        public void LogText(string message, LogLevel logLevel)
-        {
-
-            ThreadFactory.Instance.Start(() =>
-            {
-                GlobusLogHelper.LogTextToList(MainWindowModel.LstLoggerModels, message, logLevel);
-                //try
-                //{
-                //    Application.Current.Dispatcher.Invoke(() =>
-                //    {
-                //        if (LastTab == "Info")
-                //            LoggerCollection.Filter += FilterByInfo;
-
-                //        else
-                //            LoggerCollection.Filter += FilterByError;
-
-                //    });
-
-                //}
-                //catch (Exception ex)
-                //{
-                //    ex.DebugLog();
-                //}
-
-            });
-
-        }
 
         private void SocinatorInitializer()
         {
@@ -515,7 +694,6 @@ namespace DominatorHouse.ViewModel
             }
         }
 
-
         private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
         {
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
@@ -533,11 +711,6 @@ namespace DominatorHouse.ViewModel
 
             }
         }
-
-        //private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    NetworkSelectionChanges(cmbSocialNetwork.SelectedItem.ToString());
-        //}
 
         public void NetworkSelectionChanges(string network)
         {
@@ -581,81 +754,6 @@ namespace DominatorHouse.ViewModel
                 MainWindowModel.SelectedNetworkIndex = 0;
             }
         }
-
-        private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                var textBlockDetails = (FrameworkElement)sender as TextBlock;
-
-                if (textBlockDetails == null)
-                    return;
-
-                if (textBlockDetails.Text == Application.Current.FindResource("LangKeyAccountsActivity").ToString())
-                {
-                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
-
-                    // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
-                    //    .AccountUserControlTools;
-                    //accountUi.GetStartupToolsView();
-                }
-                if (textBlockDetails.Text == Application.Current.FindResource("LangKeyPublisher").ToString())
-                {
-                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
-                }
-                if (textBlockDetails.Text == Application.Current.FindResource("LangKeyAccountsManager").ToString())
-                {
-                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
-                }
-                if (textBlockDetails.Text == Application.Current.FindResource("LangKeySociopublisher").ToString())
-                {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-
-
-        }
-
-        //private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 45)
-        //        MainGrid.RowDefinitions[2].Height = new GridLength(45);
-        //    else
-        //        MainGrid.RowDefinitions[2].Height = new GridLength(200);
-        //}
-
-        //private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (MainWindowModel.IsClickedFromMainWindow)
-        //    {
-        //        var dialog = new Dialog();
-
-        //        // var activityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
-
-        //        var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
-
-        //        MainWindowModel.IsClickedFromMainWindow = false;
-        //        activityLogWindow.Closing += (senders, events) =>
-        //        {
-        //            activityLogWindow.Content = null;
-        //            Grid.SetRow(Logger, 2);
-        //            MainGrid.Children.Add(Logger);
-
-        //            Logger.Children.Remove(RootLayout);
-        //            Logger.Children.Add(RootLayout);
-        //            MainGrid.RowDefinitions[2].Height = new GridLength(200);
-        //            IsClickedFromMainWindow = true;
-        //        };
-
-        //        MainGrid.RowDefinitions[2].Height = new GridLength(0);
-        //        MainGrid.Children.Remove(Logger);
-        //        activityLogWindow.Show();
-        //    }
-        //}
 
         public void InitializeJobCores(string license)
         {
@@ -763,7 +861,8 @@ namespace DominatorHouse.ViewModel
 
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
                 var softWareSetting = new DominatorHouseCore.Settings.SoftwareSettings();
-                ThreadFactory.Instance.Start(() => {
+                ThreadFactory.Instance.Start(() =>
+                {
 
                     softWareSettings.InitializeOnLoadConfigurations(MainWindowModel._strategies);
 
@@ -784,9 +883,9 @@ namespace DominatorHouse.ViewModel
                     deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
                 });
 
-            
 
-             
+
+
 
                 #region Publisher
 
@@ -797,7 +896,7 @@ namespace DominatorHouse.ViewModel
                 //    PublishScheduler.UpdateNewGroupList();
                 //    var publisherPostFetcher = new PublisherPostFetcher();
                 //    publisherPostFetcher.StartFetchingPostData();
-               
+
                 //    var deletionPostlist =
                 //    GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
                 //        .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
@@ -834,7 +933,6 @@ namespace DominatorHouse.ViewModel
                 ex.DebugLog();
             }
         }
-
 
         public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
         {
@@ -886,6 +984,8 @@ namespace DominatorHouse.ViewModel
             }
         }
 
+
+        #endregion
 
     }
 }

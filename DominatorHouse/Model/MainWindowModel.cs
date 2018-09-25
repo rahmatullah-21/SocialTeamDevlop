@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Management;
 using System.Text;
@@ -19,19 +20,13 @@ namespace DominatorHouse.Model
     public class MainWindowModel : BindableBase
     {
 
-
-        public HashSet<SocialNetworks> _availableNetworks;
-        public Dock _tabDock = Dock.Left;
-        public ObservableCollection<TabItemTemplates> _tabItems;
-        public ObservableCollection<string> _languages;
-
         public Dictionary<string, CancellationToken> _accountUpdater = new Dictionary<string, CancellationToken>();
-
+        public string LastTab { get; set; } = "Info";
         public bool IsClickedFromMainWindow { get; set; } = true;
 
         public DominatorAccountViewModel.AccessorStrategies _strategies;
 
-        private string _ramSize = string.Empty;
+        private string _ramSize = " 0 MB";
 
         public string RamSize
         {
@@ -46,7 +41,7 @@ namespace DominatorHouse.Model
             }
         }
 
-        private string _availablememory;
+        private string _availablememory = " 0 MB";
 
         public string Availablememory
         {
@@ -60,7 +55,7 @@ namespace DominatorHouse.Model
                 OnPropertyChanged(nameof(Availablememory));
             }
         }
-        private string _cpuUsage;
+        private string _cpuUsage = " 0%";
 
         public string CpuUsage
         {
@@ -74,7 +69,7 @@ namespace DominatorHouse.Model
                 OnPropertyChanged(nameof(CpuUsage));
             }
         }
-        private string _datetime;
+        private string _datetime = " : " + DateTime.Now.ToString(CultureInfo.InvariantCulture);
 
         public string Datetime
         {
@@ -89,7 +84,7 @@ namespace DominatorHouse.Model
             }
         }
 
-
+        public ObservableCollection<string> _languages = new ObservableCollection<string>();
         public ObservableCollection<string> Languages
         {
             get
@@ -103,6 +98,7 @@ namespace DominatorHouse.Model
             }
 
         }
+        public ObservableCollection<TabItemTemplates> _tabItems;
         public ObservableCollection<TabItemTemplates> TabItems
         {
             get
@@ -161,14 +157,17 @@ namespace DominatorHouse.Model
                 OnPropertyChanged(nameof(SelectedNetworkIndex));
             }
         }
-        private TabItem _selectedLogtab=new TabItem
+        private TabItem _selectedLogtab = new TabItem
         {
-           Header= "Info"
+            Header = "Info"
         };
 
         public TabItem SelectedLogTab
         {
-            get { return _selectedLogtab; }
+            get
+            {
+                return _selectedLogtab;
+            }
             set
             {
                 _selectedLogtab = value;
@@ -182,6 +181,8 @@ namespace DominatorHouse.Model
         private static ManagementObject Processor { get; }
             = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
 
+        public HashSet<SocialNetworks> _availableNetworks;
+        
         public HashSet<SocialNetworks> AvailableNetworks
         {
             get
@@ -195,6 +196,7 @@ namespace DominatorHouse.Model
             }
         }
 
+        public Dock _tabDock = Dock.Left;
         public Dock TabDock
         {
             get
@@ -208,7 +210,7 @@ namespace DominatorHouse.Model
             }
         }
 
-        #region Properties
+       
 
         private ObservableCollection<LoggerModel> _lstLoggerModels = new ObservableCollection<LoggerModel>();
         public ObservableCollection<LoggerModel> LstLoggerModels
@@ -279,9 +281,8 @@ namespace DominatorHouse.Model
             }
         }
 
-        #endregion
 
-        public string LastTab { get; set; } = "Info";
+      
 
     }
 }
