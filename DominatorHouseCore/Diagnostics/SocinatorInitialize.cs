@@ -661,5 +661,8 @@ namespace DominatorHouseCore.Diagnostics
             }
             return string.Empty;
         }
+        public static async Task<Stream> ProcessUpdatedVersionString(string serverName, string Path)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink, serverName, Path));
+   
     }
 }

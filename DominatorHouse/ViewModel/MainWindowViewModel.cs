@@ -43,6 +43,8 @@ using Socinator.Social.AutoActivity.Views;
 using DominatorHouse.Model;
 using DominatorHouseCore.Command;
 using Dragablz;
+using System.Text.RegularExpressions;
+using WindowsInstaller;
 
 namespace DominatorHouse.ViewModel
 {
@@ -559,7 +561,7 @@ namespace DominatorHouse.ViewModel
                 return true;
             }
 
-
+            ///await CheckVersion(GetAssemblyVersion());
             MainWindowModel._strategies = new DominatorAccountViewModel.AccessorStrategies
             {
                 ActionCheckAccount = AccountStatusChecker,
@@ -985,6 +987,84 @@ namespace DominatorHouse.ViewModel
 
 
         #endregion
+        public string GetAssemblyVersion()
+        {
+            try
+            {
+                string appName = Assembly.GetAssembly(this.GetType()).Location;
+                AssemblyName assemblyName = AssemblyName.GetAssemblyName(appName);
+                string CurrentVersion = assemblyName.Version.ToString();
+                return CurrentVersion.Trim();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(ex.StackTrace);
+            }
+            return string.Empty;
+        }
+        public async Task<bool> CheckVersion(string currentVersion)
+        {
+            try
+            {
+                string finalResponse = string.Empty;
+
+                var responseStream = await UtilityManager.ProcessUpdatedVersionString(ConstantVariable.UpdatedVersionIP, ConstantVariable.UpdateVersionFilePath);
+                using (var streamReader = new StreamReader(responseStream))
+                {
+                    finalResponse = streamReader.ReadToEnd();
+                }
+                if(string.IsNullOrEmpty(finalResponse))
+                {
+                    var check = Dialog.ShowCustomDialog("Update Available", "Update failed! Do you want to retry?", "Yes", "No");
+                }
+                string verstatus = string.Empty;
+
+                string updatedVersion = Regex.Split(finalResponse, "<:>")[0];
+                string updateVersionPath = Regex.Split(finalResponse, "<:>")[1].Trim();
+
+                if (!updatedVersion.Contains(currentVersion))
+                {
+                    var check = Dialog.ShowCustomDialog("Update Available", "An Updated Version Available - Do you Want to Upgrade!", "Yes", "No");
+                    if (check.ToString().Equals("Affirmative"))
+                    {
+                        await Install(updateVersionPath);
+
+                        GlobusLogHelper.log.Info("Updated Version software installed successfully.. ");
+
+                        Application.Current.MainWindow.Close();
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return false;
+        }
+
+        public static async Task Install(string UpdatedVersetup)
+        {
+            try
+            {
+                Type type = Type.GetTypeFromProgID("WindowsInstaller.Installer");
+                Installer installer = (Installer)Activator.CreateInstance(type);
+                string GetDesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                installer.InstallProduct(UpdatedVersetup, "PROPERTY=VALUE");
+
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+
 
     }
 }

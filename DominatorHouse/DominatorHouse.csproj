@@ -28,14 +28,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://169.50.161.212/soctest/</InstallUrl>
-    <UpdateUrl>http://169.50.161.212/soctest/</UpdateUrl>
+    <InstallUrl>http://169.50.161.212/socinator/</InstallUrl>
+    <UpdateUrl>http://169.50.161.212/socinator/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>68</ApplicationRevision>
-    <ApplicationVersion>1.0.0.68</ApplicationVersion>
+    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationVersion>1.0.0.16</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -579,6 +579,17 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WindowsInstaller">
+      <Guid>{000C1092-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>1033</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

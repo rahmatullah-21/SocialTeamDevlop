@@ -1,3 +1,53 @@
+Version[1.0.0.16],[29th-September-18]
+New Features:-
+	Queries added in the query dashboard can be exported in csv file.
+	Sociopublisher:-
+	Advance settings => Added feature to tag unique users for each post.
+	Facebook:-
+	Scraper => Download media => Added feature to download media.
+	Scraper => Added feature scrap unique user from each account.
+Fixed:-
+	Publisher => Post Configuration =>Fixed issue creating time slot  for Use Random Publishing Time Everyday.
+	Logger => Fixed issue with showing correct time in logger.
+	
+	Facebook:-
+	Publisher => Create campaign => Fixed issue with post on page.
+	Publisher => Create post => Fixed issue with post on  community with discrption.
+	Grow friends => Send friend request => Fixed issue with send friend request to group members.
+	Grow friends => Send friend request => Fixed issue with send friend request by selecting  specific gender.
+	Grow groups => Group joiner => Fixed issue with join public groups.
+	Scraper => Download media => Fixed issue with filter by reaction counts.
+
+	LinkedIn:-
+	Publisher => Fixed issue with posting description and link in the wall.
+	Grow Connection => Connection Request => Fixed issue with sending connection to salesnavigator URL.
+	Grow Connection => Export Connection => Fixed issue with software crashing at the time of pause campaign.
+	
+	Twitter:-
+	Issue fixed with Comment module in Accounts Activity.
+
+	Reddit:-
+	Account Manager => Account login => Fixed issue with login Old UI Design account.
+	Voter => Upvote => Fixed issue with upvote.
+
+	Pinterest:-
+	Pin poster => repin => custom pin => fixed  issue with custom pin.
+	Pintry/pincommenter => fixed issue with comment.
+	
+	YouTube:-
+	Engage => Comment => Fixed issue with import keyword query.
+
+	GPlus:-
+	Grow follower => Fixed issue with Users who commented on post.
+	Account activity => Fixed issue with +1 in search query.
+	Engage => Comment => Comment on mange comment in query type issue have been fixed.
+
+	Tumblr:-
+	Account Manager  => Fixed issue with account update.
+	Grow follower => Fixed issue with users who liked the posts  duplicte issue.
+	Engage => keywords => fixed the issue with keywords.
+	Broadcast message => keywords => Fixed issue add comment.
+
 Version[1.0.0.15],[24th-September-18]
 Fixed:-
 	Instagram accounts verification issue

@@ -90,7 +90,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                 if (LastPostCount < JobConfigurations.MaxPost - 1)
                 {
                     if (JobConfigurations.IsSpecifyPostingIntervalChecked)
-                        SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - LastPostCount, cancellectionToken, true);
+                        SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - LastPostCount, cancellectionToken, false);
 
                     if (JobConfigurations.IsRandomizePublishingTimerChecked)
                     {
