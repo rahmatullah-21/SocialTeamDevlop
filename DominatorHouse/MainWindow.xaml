@@ -36,7 +36,7 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
@@ -45,7 +45,7 @@
             <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" 
                       Name="cmbLanguage" ItemsSource="{Binding MainWindowModel.Languages}"
                       behaviour:SelectionChangedBehaviour.Command="{Binding LanguageChangeCommand}"/>
-           
+
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid Name="MainGrid" >
@@ -114,7 +114,7 @@
                                          behaviour:SelectionChangedBehaviour.Command="{Binding LoggerSelectionChangeCommand}">
 
                     <TabItem Header="Info" Name="InfoTab" >
-                        <ListView x:Name="InfoLogger" ItemsSource="{Binding MainWindowModel.LoggerCollection,IsAsync=True}">
+                        <ListView x:Name="InfoLogger" ItemsSource="{Binding MainWindowModel.LoggerCollection,IsAsync=True}" >
                             <ListView.CommandBindings>
                                 <CommandBinding Command="ApplicationCommands.Copy" CanExecute="CopyCanExecute" Executed="CopyExecuted" />
                             </ListView.CommandBindings>
@@ -152,14 +152,14 @@
                                         <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="680"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" />
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>
                         </ListView>
                     </TabItem>
                     <TabItem Header="Error List" Name="ErrorTab" >
-                        <ListView x:Name="ErrorLogger" ItemsSource="{Binding MainWindowModel.LoggerCollection,IsAsync=True}">
+                        <ListView x:Name="ErrorLogger" ItemsSource="{Binding MainWindowModel.LoggerCollection,IsAsync=True}" >
                             <ListView.CommandBindings>
                                 <CommandBinding Command="ApplicationCommands.Copy"
                                                 CanExecute="CopyCanExecute" Executed="CopyExecuted" />
@@ -211,12 +211,11 @@
                                         <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
                                         <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
-                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" Width="680"/>
+                                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}" />
                                     </GridView.Columns>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <!--<ListBox x:Name="ErrorLogger"/>-->
                     </TabItem>
 
                 </dragable:TabablzControl>

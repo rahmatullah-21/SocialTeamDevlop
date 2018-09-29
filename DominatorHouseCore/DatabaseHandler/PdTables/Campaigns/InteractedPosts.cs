@@ -90,5 +90,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [Column(Order = 22)]
         public string CommentId { get; set; }
+        [Column(Order = 23)]
+        public string BoardLabel { get; set; }
     }
 }

@@ -70,7 +70,6 @@ namespace DominatorHouse.ViewModel
                 LoggerActivityChangeCommand = new BaseCommand<object>((sender) => true, LoggerActivityChange);
                 LoggerSelectionChangeCommand = new BaseCommand<object>((sender) => true, LoggerSelectionChange);
                 LanguageChangeCommand = new BaseCommand<object>((sender) => true, LanguageChange);
-                
                 BindingOperations.EnableCollectionSynchronization(MainWindowModel.LstLoggerModels, _lock);
             }
             catch (Exception ex)
@@ -126,29 +125,29 @@ namespace DominatorHouse.ViewModel
 
         private async void StartbindMemory()
         {
-            while (true)
+            try
             {
-                var availablememory = GetMemoryUsage().ToString(CultureInfo.InvariantCulture);
+                Application.Current.Dispatcher.Invoke(() =>
+                 {
+                     MainWindowModel.RamSize = " " + RamSize;
 
-                var cpuUsage = GetCpuUsage();
+                 });
 
-                try
+                while (true)
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         MainWindowModel.Datetime = " : " + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-                        MainWindowModel.RamSize = " " + RamSize ;
-                        MainWindowModel.Availablememory = " " + availablememory + " MB";
-                        MainWindowModel.CpuUsage = " " + cpuUsage + "%";
+                        MainWindowModel.Availablememory = " " + GetMemoryUsage().ToString(CultureInfo.InvariantCulture) + " MB";
+                        MainWindowModel.CpuUsage = " " + GetCpuUsage() + "%";
                     });
-
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
+                    await Task.Delay(100);
                 }
 
-                await Task.Delay(100);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 
@@ -196,8 +195,8 @@ namespace DominatorHouse.ViewModel
                 var type = (selectedTab == "Info") ? "Info" : "Error";
                 var logger = sender as LoggerModel;
 
-                return logger?.Network.IndexOf(MainWindowModel.SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0
-                    && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
+                return logger?.Network.IndexOf(MainWindowModel.SelectedNetwork, StringComparison.InvariantCultureIgnoreCase) >= 0
+                    && logger?.ActivityType.IndexOf(MainWindowModel.SelectedActivity, StringComparison.InvariantCultureIgnoreCase) >= 0 && logger?.LogType.IndexOf(type, StringComparison.InvariantCultureIgnoreCase) >= 0;
 
             }
             catch (Exception ex)
@@ -222,7 +221,7 @@ namespace DominatorHouse.ViewModel
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return false;
+                return true;
             }
 
         }
@@ -255,7 +254,7 @@ namespace DominatorHouse.ViewModel
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return false;
+                return true;
             }
 
         }
@@ -271,7 +270,7 @@ namespace DominatorHouse.ViewModel
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return false;
+                return true;
             }
         }
         #endregion

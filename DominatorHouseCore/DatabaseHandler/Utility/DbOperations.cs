@@ -120,7 +120,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 // Get the matched expression records, If expression is null returns full details
                 return expression == null ? _context.Set<T>().ToList() : _context.Set<T>().Where(expression).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new List<T>();
             }
@@ -139,7 +139,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 // Get the first item with matched expression
                 return _context.Set<T>().FirstOrDefault(expression);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new T();
             }
@@ -162,7 +162,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 ? _context.Set<T>().ToListAsync()
                 : _context.Set<T>().Where(expression).ToListAsync());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return lstData;
             }
@@ -188,7 +188,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

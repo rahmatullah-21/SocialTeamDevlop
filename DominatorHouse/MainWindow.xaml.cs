@@ -172,6 +172,7 @@ namespace Socinator
                                 MainGrid.RowDefinitions[2].Height = new GridLength(200);
                                 MainWindowViewModel.MainWindowModel.IsClickedFromMainWindow = true;
                                 ActivityLog.IsEnabled = true;
+                                InitialTabablzControl.SelectedIndex = 0;
                             }
                             catch (Exception ex)
                             {

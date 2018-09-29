@@ -386,6 +386,23 @@ namespace DominatorHouseCore.FileManagers
             }
 
         }
+        public static bool UpdateAdvancedSettingDetails<T>(List<T> detailsList, string fileType) where T : class
+        {
+            try
+            {
+                // Fetch the file path from lock with type object
 
+                bool result = ProtoBuffBase.SerializeList(detailsList, fileType);
+                GlobusLogHelper.log.Debug("Details successfully saved");
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+
+                ex.DebugLog();
+                return false;
+            }
+        }
     }
 }

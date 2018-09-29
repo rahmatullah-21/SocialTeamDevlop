@@ -26,15 +26,17 @@ namespace DominatorUIUtility.Views.SocioPublisher
             JobConfigurations = new JobConfigurationModel();
 
         }
-        readonly object _lock;
+        readonly object _lock = new object();
 
         private static JobConfiguration _jobConfiguration;
 
         public static JobConfiguration GetInstance(JobConfigurationModel jobConfigurationModel)
         {
+
             if (_jobConfiguration == null)
                 _jobConfiguration = new JobConfiguration(jobConfigurationModel);
-
+            _jobConfiguration.CancelToken();
+            _jobConfiguration.LastPostCount = 0;
             _jobConfiguration.JobConfigurations = jobConfigurationModel;
             _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
 
@@ -47,7 +49,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             InitializeComponent();
             JobConfigurations = jobConfigurationModel;
             MainGrid.DataContext = JobConfigurations;
-            _lock = new object();
+
             BindingOperations.EnableCollectionSynchronization(JobConfigurations.LstTimer, _lock);
         }
 
@@ -75,42 +77,86 @@ namespace DominatorUIUtility.Views.SocioPublisher
         #endregion
 
         #region Post max count changed
-        
+
         private CancellationTokenSource cancellectionToken { get; set; }
         private void NumericMaxPost_OnValueDecremented(object sender, NumericUpDownChangedRoutedEventArgs args)
         {
-            cancellectionToken = new CancellationTokenSource();
-            if (JobConfigurations.MaxPost <= -1)
-                return;
+
             try
             {
-
-                if (JobConfigurations.IsSpecifyPostingIntervalChecked)
-                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1, cancellectionToken);
-
-                if (JobConfigurations.IsRandomizePublishingTimerChecked)
+                Thread.Sleep(100);
+                if (LastPostCount != JobConfigurations.MaxPost)
+                    CancelToken();
+                if (LastPostCount < JobConfigurations.MaxPost - 1)
                 {
-                    GenerateRandomIntervals(JobConfigurations.MaxPost - 1, cancellectionToken);
+                    if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+                        SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - LastPostCount, cancellectionToken, true);
+
+                    if (JobConfigurations.IsRandomizePublishingTimerChecked)
+                    {
+                        GenerateRandomIntervals(1, cancellectionToken);
+                    }
                 }
+                else
+                {
+                    if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+                        SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1, cancellectionToken, false);
+                    //SpecificPostGenerateIntervals(LastPostCount - (JobConfigurations.MaxPost - 1), cancellectionToken, false);
+
+                    if (JobConfigurations.IsRandomizePublishingTimerChecked)
+                    {
+                        GenerateRandomIntervals(JobConfigurations.MaxPost - 1, cancellectionToken);
+                    }
+                }
+
+                LastPostCount = JobConfigurations.MaxPost - 1;
+                //if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+                //    SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1, cancellectionToken,false);
+
+                //if (JobConfigurations.IsRandomizePublishingTimerChecked)
+                //{
+                //    GenerateRandomIntervals(JobConfigurations.MaxPost - 1, cancellectionToken);
+                //}
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
-
+        public int LastPostCount { get; set; }
         private void NumericMaxPost_OnValueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
         {
-            cancellectionToken = new CancellationTokenSource();
+            if (LastPostCount != JobConfigurations.MaxPost)
+                CancelToken();
+
             try
             {
-                if (JobConfigurations.IsSpecifyPostingIntervalChecked)
-                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1, cancellectionToken);
-
-                if (JobConfigurations.IsRandomizePublishingTimerChecked)
+                if (LastPostCount < JobConfigurations.MaxPost + 1)
                 {
-                    GenerateRandomIntervals(JobConfigurations.MaxPost + 1, cancellectionToken);
+                    if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+                        SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1 - LastPostCount, cancellectionToken, true);
+                    //SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1, cancellectionToken);
+
+                    if (JobConfigurations.IsRandomizePublishingTimerChecked)
+                    {
+                        GenerateRandomIntervals(JobConfigurations.MaxPost + 1 - LastPostCount, cancellectionToken);
+                    }
+                    LastPostCount = JobConfigurations.MaxPost + 1;
                 }
+                else
+                {
+                    if (JobConfigurations.IsSpecifyPostingIntervalChecked)
+                        SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1, cancellectionToken, false);
+                    //SpecificPostGenerateIntervals(LastPostCount - (JobConfigurations.MaxPost + 1), cancellectionToken, false);
+                    //SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1, cancellectionToken);
+
+                    if (JobConfigurations.IsRandomizePublishingTimerChecked)
+                    {
+                        GenerateRandomIntervals(LastPostCount - JobConfigurations.MaxPost + 1, cancellectionToken);
+                    }
+                    LastPostCount = JobConfigurations.MaxPost + 1;
+                }
+
             }
             catch (Exception ex)
             {
@@ -123,9 +169,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         #region Specific Post Interval Generations
 
-        private void SpecificPostGenerateIntervals(int maxCount, CancellationTokenSource cancellectionToken)
+        private void SpecificPostGenerateIntervals(int maxCount, CancellationTokenSource cancellectionToken, bool isNeedToAdd)
         {
-           
+
             var random = new Random();
 
             var startTime = JobConfigurations.TimeRange.StartTime;
@@ -143,35 +189,57 @@ namespace DominatorUIUtility.Views.SocioPublisher
             {
                 try
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        JobConfigurations.LstTimer.Clear();
-                    });
                     var timeRange = totalSeconds / maxCount;
                     var timeToAddToStartTime = TimeSpan.FromSeconds(timeRange);
+                    if (isNeedToAdd)
+                        AddTimeRange(maxCount, cancellectionToken, random, startTime, endTime, timeToAddToStartTime);
+                    else
+                        RemoveTimeRange(maxCount, cancellectionToken);
 
-                    for (int noOfPost = 0; noOfPost < maxCount; noOfPost++)
-                    {
-                        cancellectionToken.Token.ThrowIfCancellationRequested();
-                        endTime = startTime + timeToAddToStartTime;
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            JobConfigurations.LstTimer.Add(new TimeSpanHelper()
-                            {
-                                StartTime = startTime,
-                                MidTime = DateTimeUtilities.GetRandomTime(startTime, endTime, random),
-                                EndTime = endTime
-                            });
-                        });
-                        startTime = endTime + TimeSpan.FromSeconds(1);
-                        Thread.Sleep(10);
-                    }
                 }
                 catch (Exception ex)
                 {
+                    if (maxCount == 0)
+                        RemoveTimeRange(maxCount, cancellectionToken);
                     ex.DebugLog();
                 }
             });
+        }
+
+        private void AddTimeRange(int maxCount, CancellationTokenSource cancellectionToken, Random random, TimeSpan startTime, TimeSpan endTime, TimeSpan timeToAddToStartTime)
+        {
+            for (int noOfPost = 0; noOfPost < maxCount; noOfPost++)
+            {
+                cancellectionToken.Token.ThrowIfCancellationRequested();
+                endTime = startTime + timeToAddToStartTime;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    cancellectionToken.Token.ThrowIfCancellationRequested();
+                    JobConfigurations.LstTimer.Add(new TimeSpanHelper()
+                    {
+                        StartTime = startTime,
+                        MidTime = DateTimeUtilities.GetRandomTime(startTime, endTime, random),
+                        EndTime = endTime
+                    });
+                });
+                startTime = endTime + TimeSpan.FromSeconds(1);
+                Thread.Sleep(10);
+            }
+        }
+        private void RemoveTimeRange(int maxCount, CancellationTokenSource cancellectionToken)
+        {
+            while (JobConfigurations.LstTimer.Count != maxCount)
+            {
+                cancellectionToken.Token.ThrowIfCancellationRequested();
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    JobConfigurations.LstTimer.RemoveAt(JobConfigurations.LstTimer.Count - 1);
+                });
+
+                Thread.Sleep(10);
+            }
+           
         }
 
         #endregion
@@ -180,7 +248,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void GenerateRandomIntervals(int maxCount, CancellationTokenSource cancellectionToken)
         {
-           
+
             Random random = new Random();
             var startTime = JobConfigurations.TimeRange.StartTime;
             var endTime = JobConfigurations.TimeRange.EndTime;
@@ -188,10 +256,6 @@ namespace DominatorUIUtility.Views.SocioPublisher
             {
                 try
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        JobConfigurations.LstTimer.Clear();
-                    });
                     for (int noOfPost = 0; noOfPost < maxCount; noOfPost++)
                     {
                         cancellectionToken.Token.ThrowIfCancellationRequested();
@@ -230,28 +294,54 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void ChkPostingInterval_OnClick(object sender, RoutedEventArgs e)
         {
+
+            Task.Factory.StartNew(() =>
+            {
             try
             {
-                cancellectionToken = new CancellationTokenSource();
-                SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+                //   CancelToken();
+                Application.Current.Dispatcher.Invoke(() => JobConfigurations.LstTimer.Clear());
+                  
+                  //  RemoveTimeRange(JobConfigurations.LstTimer.Count, cancellectionToken);
+                    cancellectionToken.Token.ThrowIfCancellationRequested();
+                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            });
+
+
         }
 
         private void ChkRandomizePublishing_OnClick(object sender, RoutedEventArgs e)
         {
-            try
+
+            Task.Factory.StartNew(() =>
             {
-                cancellectionToken = new CancellationTokenSource();
-                GenerateRandomIntervals(JobConfigurations.MaxPost, cancellectionToken);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+                try
+                {
+                    // CancelToken();
+                    Application.Current.Dispatcher.Invoke(() => JobConfigurations.LstTimer.Clear());
+                    //  RemoveTimeRange(JobConfigurations.LstTimer.Count, cancellectionToken);
+                    cancellectionToken.Token.ThrowIfCancellationRequested();
+                    GenerateRandomIntervals(JobConfigurations.MaxPost, cancellectionToken);
+                    cancellectionToken.Token.ThrowIfCancellationRequested();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            });
+
+
+        }
+        void CancelToken()
+        {
+            cancellectionToken?.Cancel();
+            cancellectionToken?.Dispose();
+            cancellectionToken = new CancellationTokenSource();
         }
     }
 }
