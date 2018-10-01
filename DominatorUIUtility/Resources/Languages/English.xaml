@@ -3189,4 +3189,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySendInviteInMessanger">Send invitation in messanger to already invited user who did not liked page within</system:String>
     <system:String x:Key="LangKeyTagUniqueUsresForEachPost">Tag Unique Usres For Each Post</system:String>
     <system:String x:Key="LangKeyScrapUniqueUsersFromEachAccount">Scrap Unique Users From Each Account</system:String>
+    <system:String x:Key="LangKeyFilterDuplicateMessageByCheckingConversationHistory">Filter duplicate message by checking conversation history</system:String>
+    <system:String x:Key="LangKeyDeletePostWhichIsPostedBySoftware">Delete Repost which is posted by software</system:String>
+    <system:String x:Key="LangKeyDeletePostWhichIsPostedByOutsideSoftware">Delete post which is posted by outside software</system:String>
 </ResourceDictionary>

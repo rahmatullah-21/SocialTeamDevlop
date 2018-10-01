@@ -53,6 +53,9 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
         [Column(Order = 11)]
         public string MediaCode { get; set; }
+        [Column(Order = 12)]
+        public string PostedBy { get; set; }
+
 
     }
 }

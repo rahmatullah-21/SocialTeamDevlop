@@ -84,9 +84,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
             try
             {
-                Thread.Sleep(100);
                 if (LastPostCount != JobConfigurations.MaxPost)
                     CancelToken();
+
                 if (LastPostCount < JobConfigurations.MaxPost - 1)
                 {
                     if (JobConfigurations.IsSpecifyPostingIntervalChecked)
@@ -94,7 +94,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     if (JobConfigurations.IsRandomizePublishingTimerChecked)
                     {
-                        GenerateRandomIntervals(1, cancellectionToken);
+                        // GenerateRandomIntervals(1, cancellectionToken);
+                        RemoveTimeRange(LastPostCount - 1, cancellectionToken);
                     }
                 }
                 else
@@ -105,7 +106,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     if (JobConfigurations.IsRandomizePublishingTimerChecked)
                     {
-                        GenerateRandomIntervals(JobConfigurations.MaxPost - 1, cancellectionToken);
+                        // GenerateRandomIntervals(JobConfigurations.MaxPost - 1, cancellectionToken);
+                        RemoveTimeRange(LastPostCount - 1, cancellectionToken);
                     }
                 }
 
@@ -239,7 +241,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                 Thread.Sleep(10);
             }
-           
+
         }
 
         #endregion
@@ -297,12 +299,12 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
             Task.Factory.StartNew(() =>
             {
-            try
-            {
-                //   CancelToken();
-                Application.Current.Dispatcher.Invoke(() => JobConfigurations.LstTimer.Clear());
-                  
-                  //  RemoveTimeRange(JobConfigurations.LstTimer.Count, cancellectionToken);
+                try
+                {
+                    //   CancelToken();
+                    Application.Current.Dispatcher.Invoke(() => JobConfigurations.LstTimer.Clear());
+
+                    //  RemoveTimeRange(JobConfigurations.LstTimer.Count, cancellectionToken);
                     cancellectionToken.Token.ThrowIfCancellationRequested();
                     SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
                 }
