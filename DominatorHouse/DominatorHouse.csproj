@@ -251,6 +251,7 @@
     <Compile Include="Factories\SocialPublisherCollectionFactory.cs" />
     <Compile Include="DominatorCores\SocialPublisherCoreFactory.cs" />
     <Compile Include="IoC\MainContainerExtension.cs" />
+    <Compile Include="IoC\SocialContainerExtension.cs" />
     <Compile Include="IoC\MainDominatorModule.cs" />
     <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
       <DependentUpon>MigrationFromOldDominator.xaml</DependentUpon>
@@ -295,6 +296,7 @@
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\SoftwareSettings.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

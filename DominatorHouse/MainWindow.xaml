@@ -8,9 +8,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
+        xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         mc:Ignorable="d"
         BorderThickness="1" Icon="SociNator.ico"
-        Title="{DynamicResource LangKeySocinator}" 
+        Title="{Binding Title}" 
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
@@ -32,14 +33,8 @@
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <ComboBox Background="Transparent" ItemsSource="{Binding AvailableNetworks}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="{Binding SelectedNetworkIndex}" Name="cmbSocialNetwork" SelectionChanged="cmbSocialNetwork_SelectionChanged" />
-            <ComboBox Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" 
-                      Name="cmbLanguage" ItemsSource="{Binding Languages}"/>
-            <!--<ComboBoxItem>English</ComboBoxItem>
-                -->
-            <!--<ComboBoxItem>Portuguese</ComboBoxItem>-->
-            <!--
-            </ComboBox>-->
+            <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
+            <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid Name="MainGrid" >
@@ -52,18 +47,16 @@
         </Grid.RowDefinitions>
 
         <!--Account Growth Mode Tabs-->
-        <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="{Binding SelectedViewIndex}"
-                   Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding TabItems}"
+        <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
+                  VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
                     ItemContainerStyle="{StaticResource TabItemStyle}">
-
-
             <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Title}" MouseLeftButtonDown="TabItem_OnMouseLeftButtonDown"/>
+                <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
+                    <TextBlock Text="{Binding Title}"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                     <UserControl Content="{Binding Content.Value}"/>
                 </DataTemplate>
             </TabControl.ContentTemplate>
@@ -74,7 +67,7 @@
 
         <Grid Name="Logger" Grid.Row="2" Margin="5">
             <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
-                           AvailableNetworks="{Binding AvailableNetworks, Mode=OneWay}"></views:LogView>
+                           AvailableNetworks="{Binding AvailableNetworks.ItemsCollection, Mode=OneWay}"></views:LogView>
         </Grid>
 
         <Grid Grid.Row="3" VerticalAlignment="Bottom">

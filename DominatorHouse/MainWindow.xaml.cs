@@ -1,29 +1,20 @@
 ﻿#region Namespaces
+using DominatorHouse.ViewModels;
 using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
-using DominatorUIUtility.Views.Publisher;
-using DominatorUIUtility.Views.SocioPublisher;
-using EmbeddedBrowser;
 //using EmbeddedBrowser;
 using FluentScheduler;
 using MahApps.Metro.Controls.Dialogs;
-using Socinator.Social.AutoActivity.Views;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -31,7 +22,6 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,21 +35,14 @@ namespace Socinator
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : INotifyPropertyChanged
+    public partial class MainWindow
     {
+        private readonly IMainViewModel _mainViewModel;
         private static readonly string RamSize = GetRamsize();
-
-        private HashSet<SocialNetworks> _availableNetworks;
-        private Dock _tabDock = Dock.Left;
-        private ObservableCollection<TabItemTemplates> _tabItems;
-        private ObservableCollection<string> _languages;
 
         private bool IsClickedFromMainWindow { get; set; } = true;
 
-        private DominatorAccountViewModel.AccessorStrategies _strategies;
-
         private string _fatalError;
-        public ILogViewModel LogViewModel { get; }
 
         public MainWindow()
         {
@@ -67,17 +50,14 @@ namespace Socinator
             {
                 DialogParticipation.SetRegister(this, this);
                 Dispatcher.Invoke(async () => { await FatalErrorDiagnosis(); });
-                _languages = new ObservableCollection<string>();
-                _languages.Add("English");
                 InitializeComponent();
                 SocinatorInitialize.LogInitializer(this);
-                SocinatorWindow.DataContext = this;
+                _mainViewModel = IoC.Container.Resolve<IMainViewModel>();
+                SocinatorWindow.DataContext = _mainViewModel;
                 Loaded += (o, e) =>
                 {
                     GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
                 };
-
-                LogViewModel = IoC.Container.Resolve<ILogViewModel>();
 
             }
             catch (Exception ex)
@@ -190,19 +170,6 @@ namespace Socinator
                 return true;
             }
 
-
-            _strategies = new DominatorAccountViewModel.AccessorStrategies
-            {
-                ActionCheckAccount = AccountStatusChecker,
-                AccountBrowserLogin = AccountBrowserLogin,
-                _determine_available = (SocialNetworks s) => _availableNetworks.Contains(s),
-                _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower = AccountUpdate,
-                EditProfile = EditProfile,
-                RemovePhoneVerification = RemovePhoneVerification
-            };
-            DominatorCores.DominatorCoreBuilder.Strategies = _strategies;
-
             var fatalErrorHandler = new DominatorHouseCore.Models.FatalErrorHandler
             {
                 FatalErrorMessage = fatalError,
@@ -213,42 +180,6 @@ namespace Socinator
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
             await controller.CloseAsync();
             return true;
-        }
-
-        private void RemovePhoneVerification(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    var profileFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().ProfileFactory;
-                    profileFactory.RemovePhoneVerification(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        private void EditProfile(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    var profileFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().ProfileFactory;
-                    profileFactory.EditProfile(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
         }
 
         private async Task<bool> IsProcessFatalError(string fatalError)
@@ -268,107 +199,16 @@ namespace Socinator
             return false;
         }
 
-
-        public ObservableCollection<string> Languages
-        {
-            get
-            {
-                return _languages;
-            }
-            set
-            {
-                _languages = value;
-                OnPropertyChanged(nameof(Languages));
-            }
-
-        }
-        public ObservableCollection<TabItemTemplates> TabItems
-        {
-            get
-            {
-                return _tabItems;
-            }
-            set
-            {
-                _tabItems = value;
-                OnPropertyChanged(nameof(TabItems));
-            }
-
-        }
-
-        private int _selectedViewIndex;
-
-        public int SelectedViewIndex
-        {
-            get
-            {
-                return _selectedViewIndex;
-            }
-            set
-            {
-                _selectedViewIndex = value;
-                OnPropertyChanged(nameof(SelectedViewIndex));
-            }
-        }
-
-        private int _selectedNetworkIndex;
-
-        public int SelectedNetworkIndex
-        {
-            get
-            {
-                return _selectedNetworkIndex;
-            }
-            set
-            {
-                _selectedNetworkIndex = value;
-                OnPropertyChanged(nameof(SelectedNetworkIndex));
-            }
-        }
-
         private static PerformanceCounter PerformanceCounter { get; }
             = new PerformanceCounter("Memory", "Available MBytes");
 
         private static ManagementObject Processor { get; }
             = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
 
-        public HashSet<SocialNetworks> AvailableNetworks
-        {
-            get
-            {
-                return _availableNetworks;
-            }
-            set
-            {
-                _availableNetworks = value;
-                OnPropertyChanged(nameof(AvailableNetworks));
-            }
-        }
-
-        public Dock TabDock
-        {
-            get
-            {
-                return _tabDock;
-            }
-            set
-            {
-                _tabDock = value;
-                OnPropertyChanged(nameof(TabDock));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private void SocinatorInitializer()
         {
             try
             {
-                var streamq = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt");
-                var accountCustomControl =
-                    AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
-
                 ThreadFactory.Instance.Start(() =>
                 {
                     JobManager.AddJob(() => InitializeJobCores(_fatalError), x => x.ToRunNow());
@@ -379,7 +219,6 @@ namespace Socinator
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg) ==
                     MessageDialogResult.Affirmative;
 
-                TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
 
                 ConfigFileManager.ApplyTheme();
 
@@ -387,22 +226,6 @@ namespace Socinator
                     TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
                 performanceTask.Start();
 
-                TabSwitcher.ChangeTabIndex = (mainTabIndex, subTabIndex) =>
-                {
-                    SelectedViewIndex = mainTabIndex;
-
-                    if (subTabIndex == null)
-                        return;
-
-                    var selectedTabObject = (MainTabControl.SelectedContent as TabItemTemplates)?.Content.Value;
-
-                    ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
-                };
-
-                // Go to campaign from respective module after campaign saved
-                TabSwitcher.GoToCampaign = ()
-                    => SelectedViewIndex =
-                        TabItems.FindIndex(x => x.Title == FindResource("LangKeyCampaigns").ToString());
 
                 Closed += (o, e) => Process.GetCurrentProcess().Kill();
             }
@@ -414,116 +237,6 @@ namespace Socinator
             {
                 ex.DebugLog();
             }
-        }
-
-
-        private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
-        {
-            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
-            {
-                SelectedViewIndex = index;
-                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
-
-            }
-            else
-            {
-                SelectedViewIndex = index;
-
-                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
-                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
-
-
-                //GlobusLogHelper.log.Info("Goto Tools options only for social mode !");
-                //NetworkSelectionChanges("Social");
-                //SelectedViewIndex = index;
-                //SocialAutoActivity.NewAutoActivityObject(network, selectedAccount);
-            }
-        }
-
-        private void cmbSocialNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            NetworkSelectionChanges(cmbSocialNetwork.SelectedItem.ToString());
-        }
-
-        private void NetworkSelectionChanges(string network)
-        {
-            try
-            {
-                if (MainTabControl == null)
-                    return;
-                TabDock = Dock.Top;
-                var selectedSocialNetwork =
-                    (SocialNetworks)Enum.Parse(typeof(SocialNetworks), network);
-                if (selectedSocialNetwork == SocialNetworks.Social)
-                    TabDock = Dock.Left;
-                TabInitialize(selectedSocialNetwork);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        public void TabInitialize(SocialNetworks network)
-        {
-            try
-            {
-                var tabHandler = SocinatorInitialize.GetSocialLibrary(network).GetNetworkCoreFactory().TabHandlerFactory;
-                if (tabHandler == null)
-                    return;
-                TabItems = new ObservableCollection<TabItemTemplates>(tabHandler.NetworkTabs);
-                Title = tabHandler.NetworkName;
-                SelectedViewIndex = 0;
-                tabHandler.UpdateAccountCustomControl(network);
-                SocinatorInitialize.SetAsActiveNetwork(network);
-            }
-            catch (Exception ex)
-            {
-                TabDock = Dock.Left;
-
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fatal Error",
-                    $"Please purchase access of {network} automation features!");
-                ex.DebugLog();
-                SelectedNetworkIndex = 0;
-            }
-        }
-
-        private void TabItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                var textBlockDetails = (FrameworkElement)sender as TextBlock;
-
-                if (textBlockDetails == null)
-                    return;
-
-                if (textBlockDetails.Text == FindResource("LangKeyAccountsActivity").ToString())
-                {
-                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
-
-                    // var accountUi = SocinatorInitialize.GetSocialLibrary(SocialNetworks.Social).GetNetworkCoreFactory()
-                    //    .AccountUserControlTools;
-                    //accountUi.GetStartupToolsView();
-                }
-                if (textBlockDetails.Text == FindResource("LangKeyPublisher").ToString())
-                {
-                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
-                }
-                if (textBlockDetails.Text == FindResource("LangKeyAccountsManager").ToString())
-                {
-                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
-                }
-                if (textBlockDetails.Text == FindResource("LangKeySociopublisher").ToString())
-                {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-
-
         }
 
         private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -539,8 +252,6 @@ namespace Socinator
             if (IsClickedFromMainWindow)
             {
                 var dialog = new Dialog();
-
-                // var activityLogWindow = dialog.GetMetroWindow(sender, "Activity Log");
 
                 var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
 
@@ -565,8 +276,6 @@ namespace Socinator
 
             try
             {
-                var streamq = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt");
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
                 {
                     TextReader tr = new StreamReader(stream);
@@ -581,10 +290,8 @@ namespace Socinator
                                 .AndEvery(1).Days());
                     });
 
-                AvailableNetworks = SocinatorInitialize.AvailableNetworks;
-                var to_remove = new List<SocialNetworks>();
                 FeatureFlags.UpdateFeatures();
-                foreach (var network in AvailableNetworks)
+                foreach (var network in SocinatorInitialize.AvailableNetworks)
                 {
                     FeatureFlags.Check(network.ToString(), () =>
                     {
@@ -612,7 +319,7 @@ namespace Socinator
                                 if (selectedConstructor != default(ConstructorInfo))
                                 {
                                     networkCoreFactory =
-                                        (INetworkCollectionFactory)selectedConstructor.Invoke(new object[] { _strategies });
+                                        (INetworkCollectionFactory)selectedConstructor.Invoke(new object[] { _mainViewModel.Strategies });
                                 }
                                 else
                                 {
@@ -647,6 +354,7 @@ namespace Socinator
 
                             #endregion
 
+                            _mainViewModel.AddNetwork(network);
                         }
                         catch (AggregateException ex)
                         {
@@ -654,18 +362,16 @@ namespace Socinator
                         }
                         catch (Exception ex)
                         {
-                            to_remove.Add(network);
                             ex.DebugLog();
                         }
                     });
                 }
 
-                AvailableNetworks.ExceptWith(to_remove);
-
+                _mainViewModel.SetActiveNetwork(SocialNetworks.Social);
                 FeatureFlags.UpdateFeatures();
 
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
-                ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(_strategies); });
+                ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(_mainViewModel.Strategies); });
 
                 var softWareSetting = new DominatorHouseCore.Settings.SoftwareSettings();
                 ThreadFactory.Instance.Start(() => { softWareSetting.InitializeOnLoadConfigurations(); });
@@ -728,62 +434,6 @@ namespace Socinator
             catch (Exception ex)
             {
                 ex.DebugLog();
-            }
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var accountUpdateFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    accountUpdateFactory.CheckStatus(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var accountUpdateFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    accountUpdateFactory.UpdateDetails(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                var browserWindow = new BrowserWindow(dominatorAccountModel);
-                browserWindow.Show();
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error(ex.Message);
-                //MessageBox.Show(ex.Message);
             }
         }
 
@@ -866,51 +516,5 @@ namespace Socinator
             }
 
         }
-
-
-        #region Properties
-        private ObservableCollection<string> _activityType = new ObservableCollection<string>();
-        public ObservableCollection<string> ActivityType
-        {
-            get
-            {
-                return _activityType;
-            }
-            set
-            {
-                _activityType = value;
-                OnPropertyChanged(nameof(ActivityType));
-            }
-        }
-        private string _selectedNetwork = string.Empty;
-
-        public string SelectedNetwork
-        {
-            get
-            {
-                return _selectedNetwork;
-            }
-            set
-            {
-                _selectedNetwork = value;
-                OnPropertyChanged(nameof(SelectedNetwork));
-            }
-        }
-        private string _selectedActivity = string.Empty;
-
-        public string SelectedActivity
-        {
-            get
-            {
-                return _selectedActivity;
-            }
-            set
-            {
-                _selectedActivity = value;
-                OnPropertyChanged(nameof(SelectedActivity));
-            }
-        }
-
-        #endregion
     }
 }

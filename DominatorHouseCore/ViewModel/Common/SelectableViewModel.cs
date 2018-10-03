@@ -1,30 +1,52 @@
 ﻿using DominatorHouseCore.Utility;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows.Data;
 
 namespace DominatorHouseCore.ViewModel.Common
 {
     public class SelectableViewModel<T> : BindableBase
     {
-        private INotifyCollectionChanged _itemsCollection;
+        private readonly object _syncContext = new object();
+        private readonly ObservableCollection<T> _itemsCollection;
         private T _selected;
+
+        public event EventHandler<T> ItemSelected;
 
         public T Selected
         {
             get { return _selected; }
-            set { SetProperty(ref _selected, value, nameof(Selected)); }
+            set
+            {
+                SetProperty(ref _selected, value, nameof(Selected));
+                OnItemSelected(Selected);
+            }
         }
 
         public INotifyCollectionChanged ItemsCollection
         {
-            get { return _itemsCollection; }
-            set { SetProperty(ref _itemsCollection, value, nameof(ItemsCollection)); }
+            get
+            {
+                lock (_syncContext)
+                    return _itemsCollection;
+            }
+        }
+
+        public IReadOnlyCollection<T> Items
+        {
+            get
+            {
+                lock (_syncContext)
+                    return _itemsCollection;
+            }
         }
 
         public SelectableViewModel(IEnumerable<T> collection)
         {
-            this.ItemsCollection = new ObservableCollection<T>(collection);
+            this._itemsCollection = new ObservableCollection<T>(collection);
+            BindingOperations.EnableCollectionSynchronization(_itemsCollection, _syncContext);
         }
 
         public SelectableViewModel(IEnumerable<T> collection, T value) : this(collection)
@@ -32,5 +54,71 @@ namespace DominatorHouseCore.ViewModel.Common
             this.Selected = value;
         }
 
+        public void Add(T item)
+        {
+            lock (this._syncContext)
+            {
+                _itemsCollection.Add(item);
+            }
+        }
+
+        public void Renew(IEnumerable<T> items)
+        {
+            lock (_syncContext)
+            {
+                Selected = default(T);
+                _itemsCollection.Clear();
+                _itemsCollection.AddRange(items);
+            }
+        }
+
+        public void Remove(T item)
+        {
+            lock (this._syncContext)
+            {
+                _itemsCollection.Remove(item);
+                if (item.Equals(Selected))
+                {
+                    Selected = default(T);
+                }
+            }
+        }
+
+        public void Remove(IEnumerable<T> items)
+        {
+            lock (this._syncContext)
+            {
+                foreach (var item in items)
+                {
+                    _itemsCollection.Remove(item);
+                    if (item.Equals(Selected))
+                    {
+                        Selected = default(T);
+                    }
+                }
+            }
+        }
+
+        protected virtual void OnItemSelected(T e)
+        {
+            ItemSelected?.Invoke(this, e);
+        }
+
+        public bool Contains(T socialNetworks)
+        {
+            lock (this._syncContext)
+                return _itemsCollection.Contains(socialNetworks);
+        }
+
+        public void SelectByIndex(int index)
+        {
+            lock (_syncContext)
+            {
+                if (_itemsCollection.Count > index)
+                {
+                    Selected = _itemsCollection[index];
+                }
+            }
+        }
     }
 }

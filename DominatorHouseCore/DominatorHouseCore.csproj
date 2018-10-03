@@ -539,6 +539,7 @@
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
+    <Compile Include="AppResources\ApplicationResourceProvider.cs" />
     <Compile Include="Settings\SoftwareSettings.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\GlobalInteractedUtility.cs" />
