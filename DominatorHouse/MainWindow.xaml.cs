@@ -36,7 +36,6 @@ namespace Socinator
     public partial class MainWindow
     {
         private readonly IMainViewModel _mainViewModel;
-        //private static readonly string RamSize = GetRamsize();
 
         private bool IsClickedFromMainWindow { get; set; } = true;
 
@@ -415,10 +414,6 @@ namespace Socinator
                 ex.DebugLog();
             }
         }
-
-        #region System Details  
-
-        #endregion
 
         private void SocinatorWindow_OnClosing(object sender, CancelEventArgs e)
         {

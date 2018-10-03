@@ -4,8 +4,8 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Management;
+using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace DominatorHouse.ViewModels
 {
@@ -16,7 +16,7 @@ namespace DominatorHouse.ViewModels
 
     public class PerfCounterViewModel : BindableBase, IPerfCounterViewModel
     {
-        private readonly DispatcherTimer _timer;
+        private readonly Timer _timer;
         private GridLength _logViewHeight;
 
         private static PerformanceCounter PerformanceCounter { get; }
@@ -55,9 +55,16 @@ namespace DominatorHouse.ViewModels
             LogViewHeight = new GridLength(3, GridUnitType.Star);
             LoadedMemory = GetRamsize();
             ShowHideLogCmd = new DelegateCommand(ShowHideLog);
-            _timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
-            _timer.Tick += TimexTick;
+            _timer = new Timer() { Interval = 1000 };
+            _timer.Elapsed += OnElapsed;
             _timer.Start();
+        }
+
+        private void OnElapsed(object sender, ElapsedEventArgs e)
+        {
+            OnPropertyChanged(nameof(AvailableMemory));
+            OnPropertyChanged(nameof(CpuUsage));
+            OnPropertyChanged(nameof(CurrentDateTime));
         }
 
         private void ShowHideLog()
@@ -66,13 +73,6 @@ namespace DominatorHouse.ViewModels
                 LogViewHeight = new GridLength(45);
             else
                 LogViewHeight = new GridLength(200);
-        }
-
-        private void TimexTick(object sender, EventArgs eventArgs)
-        {
-            OnPropertyChanged(nameof(AvailableMemory));
-            OnPropertyChanged(nameof(CpuUsage));
-            OnPropertyChanged(nameof(CurrentDateTime));
         }
 
 
@@ -111,7 +111,7 @@ namespace DominatorHouse.ViewModels
 
         public void Dispose()
         {
-            _timer.Tick -= TimexTick;
+            _timer.Elapsed -= OnElapsed;
             this._timer.Stop();
         }
     }

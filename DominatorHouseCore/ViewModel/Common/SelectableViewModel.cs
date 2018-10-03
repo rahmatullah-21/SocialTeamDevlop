@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows;
 using System.Windows.Data;
 
 namespace DominatorHouseCore.ViewModel.Common
@@ -101,7 +102,8 @@ namespace DominatorHouseCore.ViewModel.Common
 
         protected virtual void OnItemSelected(T e)
         {
-            ItemSelected?.Invoke(this, e);
+            // TODO: yes, it's ugly, but i was forced to use Dispatcher here. We get rid of that when we transite from using code behind & creating controls  to MVVM pattern & using templates
+            Application.Current.Dispatcher.Invoke(() => { ItemSelected?.Invoke(this, e); });
         }
 
         public bool Contains(T socialNetworks)

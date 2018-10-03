@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DominatorHouse.ViewModels
@@ -40,7 +41,7 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<string> Languages { get; }
 
-        public SelectableViewModel<SocialNetworks> AvailableNetworks { get; }
+        public SelectableViewModel<SocialNetworks?> AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
 
@@ -76,7 +77,7 @@ namespace DominatorHouse.ViewModels
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
             Languages = new SelectableViewModel<string>(new[] { "English" });
-            AvailableNetworks = new SelectableViewModel<SocialNetworks>(new List<SocialNetworks>());
+            AvailableNetworks = new SelectableViewModel<SocialNetworks?>(new List<SocialNetworks?>());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;
@@ -104,7 +105,7 @@ namespace DominatorHouse.ViewModels
             {
                 ActionCheckAccount = AccountStatusChecker,
                 AccountBrowserLogin = AccountBrowserLogin,
-                _determine_available = AvailableNetworks.Contains,
+                _determine_available = a => AvailableNetworks.Contains(a),
                 _inform_warnings = GlobusLogHelper.log.Warn,
                 action_UpdateFollower = AccountUpdate,
                 EditProfile = EditProfile,
@@ -204,32 +205,47 @@ namespace DominatorHouse.ViewModels
         {
             if (itemTemplate != null)
             {
-                if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyAccountsActivity))
+                if (itemTemplate.Title ==
+                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
+                        .LangKeyAccountsActivity))
                 {
                     DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
                 }
-                if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyPublisher))
+
+                if (itemTemplate.Title ==
+                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyPublisher))
                 {
-                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
+                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl =
+                        Home.GetSingletonHome();
                 }
-                if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyAccountsManager))
+
+                if (itemTemplate.Title ==
+                    _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
+                        .LangKeyAccountsManager))
                 {
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
                         AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
                 }
-                if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeySociopublisher))
+
+                if (itemTemplate.Title ==
+                    _applicationResourceProvider.GetStringResource(
+                        ApplicationResourceProvider.LangKeySociopublisher))
                 {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
+                        PublisherDefaultPage.Instance();
                 }
             }
         }
 
-        private void OnAvailableNetworks_ItemSelected(object sender, SocialNetworks network)
+        private void OnAvailableNetworks_ItemSelected(object sender, SocialNetworks? network)
         {
+            if (!network.HasValue)
+                return;
+
             TabDock = Dock.Top;
             if (network == SocialNetworks.Social)
                 TabDock = Dock.Left;
-            TabInitialize(network);
+            TabInitialize(network.Value);
         }
 
         public void AddNetwork(SocialNetworks socialNetwork)
