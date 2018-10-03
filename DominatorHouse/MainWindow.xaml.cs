@@ -17,10 +17,8 @@ using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,7 +36,7 @@ namespace Socinator
     public partial class MainWindow
     {
         private readonly IMainViewModel _mainViewModel;
-        private static readonly string RamSize = GetRamsize();
+        //private static readonly string RamSize = GetRamsize();
 
         private bool IsClickedFromMainWindow { get; set; } = true;
 
@@ -199,12 +197,6 @@ namespace Socinator
             return false;
         }
 
-        private static PerformanceCounter PerformanceCounter { get; }
-            = new PerformanceCounter("Memory", "Available MBytes");
-
-        private static ManagementObject Processor { get; }
-            = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
-
         private void SocinatorInitializer()
         {
             try
@@ -222,11 +214,6 @@ namespace Socinator
 
                 ConfigFileManager.ApplyTheme();
 
-                var performanceTask = new Task(StartbindMemory,
-                    TaskCreationOptions.LongRunning | TaskCreationOptions.AttachedToParent);
-                performanceTask.Start();
-
-
                 Closed += (o, e) => Process.GetCurrentProcess().Kill();
             }
             catch (AggregateException ex)
@@ -237,14 +224,6 @@ namespace Socinator
             {
                 ex.DebugLog();
             }
-        }
-
-        private void ActivityLog_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (MainGrid.RowDefinitions[2].Height.Value <= 200 && MainGrid.RowDefinitions[2].Height.Value > 45)
-                MainGrid.RowDefinitions[2].Height = new GridLength(45);
-            else
-                MainGrid.RowDefinitions[2].Height = new GridLength(200);
         }
 
         private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -439,68 +418,6 @@ namespace Socinator
 
         #region System Details  
 
-        private async void StartbindMemory()
-        {
-            while (true)
-            {
-                var availablememory = GetMemoryUsage().ToString(CultureInfo.InvariantCulture);
-
-                var cpuUsage = GetCpuUsage();
-
-                try
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        lbl_Datetime.Text = " : " + DateTime.Now.ToString(CultureInfo.InvariantCulture);
-                        lbl_LoadedMemory.Text = " " + RamSize;
-                        lbl_Availablememory.Text = " " + availablememory + "  MB";
-                        lbl_CPUUsage.Text = " " + cpuUsage + " % ";
-                    });
-
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-
-                await Task.Delay(100);
-            }
-        }
-
-
-        private static string GetRamsize()
-        {
-            var objManagementClass = new ManagementClass("Win32_ComputerSystem");
-            var objManagementObjectCollection = objManagementClass.GetInstances();
-            foreach (var item in objManagementObjectCollection)
-                return Convert.ToString(
-                           Math.Round(Convert.ToDouble(item.Properties["TotalPhysicalMemory"].Value) / 1048576, 0),
-                           CultureInfo.InvariantCulture) + " MB";
-
-            return "0 MB";
-        }
-
-
-        private static string GetCpuUsage()
-        {
-            try
-            {
-                Processor.Get();
-                return Processor.Properties["PercentProcessorTime"].Value.ToString();
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-
-
-        private static double GetMemoryUsage()
-        {
-            var memAvailable = (double)PerformanceCounter.NextValue();
-            return memAvailable;
-        }
-
         #endregion
 
         private void SocinatorWindow_OnClosing(object sender, CancelEventArgs e)
@@ -511,6 +428,7 @@ namespace Socinator
                                  Dialog.SetMetroDialogButton("Yes", "No")) == MessageDialogResult.Affirmative;
             if (isClose)
             {
+                _mainViewModel.Dispose();
                 Application.Current.Shutdown();
                 Process.GetCurrentProcess().Kill();
             }

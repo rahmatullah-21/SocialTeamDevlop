@@ -9,9 +9,9 @@ namespace DominatorHouse.IoC
     {
         protected override void Initialize()
         {
-            // specify name of the module (CurrentyNetwork.ToString()) when you think it will be many registration upon your interface
-            Container.RegisterType<IMainViewModel, MainViewModel>();
-            Container.RegisterType<IApplicationResourceProvider, ApplicationResourceProvider>();
+            Container.RegisterSingleton<IMainViewModel, MainViewModel>();
+            Container.RegisterSingleton<IPerfCounterViewModel, PerfCounterViewModel>();
+            Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
         }
     }
 }

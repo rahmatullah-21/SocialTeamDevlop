@@ -22,7 +22,7 @@ using System.Windows.Controls;
 
 namespace DominatorHouse.ViewModels
 {
-    public interface IMainViewModel
+    public interface IMainViewModel : IDisposable
     {
         void AddNetwork(SocialNetworks socialNetwork);
 
@@ -36,6 +36,7 @@ namespace DominatorHouse.ViewModels
         private Dock _tabDock;
         private string _title;
         public ILogViewModel LogViewModel { get; }
+        public IPerfCounterViewModel PerfCounterViewModel { get; }
 
         public SelectableViewModel<string> Languages { get; }
 
@@ -69,10 +70,11 @@ namespace DominatorHouse.ViewModels
             }
         }
 
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider)
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel)
         {
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
+            PerfCounterViewModel = perfCounterViewModel;
             Languages = new SelectableViewModel<string>(new[] { "English" });
             AvailableNetworks = new SelectableViewModel<SocialNetworks>(new List<SocialNetworks>());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
@@ -249,7 +251,6 @@ namespace DominatorHouse.ViewModels
                     return;
                 TabItems.Renew(tabHandler.NetworkTabs);
                 TabItems.SelectByIndex(0);
-                ;
                 Title = tabHandler.NetworkName;
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
@@ -278,6 +279,13 @@ namespace DominatorHouse.ViewModels
                 DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
                 SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
             }
+        }
+
+        public void Dispose()
+        {
+            PerfCounterViewModel?.Dispose();
+            AvailableNetworks.ItemSelected -= OnAvailableNetworks_ItemSelected;
+            TabItems.ItemSelected -= OnTabItems_ItemSelected;
         }
     }
 }
