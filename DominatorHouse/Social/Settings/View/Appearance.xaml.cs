@@ -8,6 +8,7 @@ using MahApps.Metro;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.FileManagers;
 using Socinator.Social.Settings.ViewModel;
+using DominatorHouseCore;
 
 namespace Socinator.Social.Settings.View
 {
@@ -91,7 +92,7 @@ namespace Socinator.Social.Settings.View
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
+                ex.DebugLog();
             }
             SaveCurrentTheme();
         }

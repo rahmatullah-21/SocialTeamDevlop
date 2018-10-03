@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DominatorHouse.ViewModels
@@ -202,26 +203,29 @@ namespace DominatorHouse.ViewModels
 
         private void OnTabItems_ItemSelected(object sender, TabItemTemplates itemTemplate)
         {
-            if (itemTemplate != null)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyAccountsActivity))
+                if (itemTemplate != null)
                 {
-                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+                    if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyAccountsActivity))
+                    {
+                        DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+                    }
+                    if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyPublisher))
+                    {
+                        PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
+                    }
+                    if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyAccountsManager))
+                    {
+                        AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
+                            AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
+                    }
+                    if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeySociopublisher))
+                    {
+                        PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
+                    }
                 }
-                if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyPublisher))
-                {
-                    PublisherIndexPage.Instance.PublisherIndexPageViewModel.SelectedUserControl = Home.GetSingletonHome();
-                }
-                if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeyAccountsManager))
-                {
-                    AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
-                        AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
-                }
-                if (itemTemplate.Title == _applicationResourceProvider.GetStringResource(ApplicationResourceProvider.LangKeySociopublisher))
-                {
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = PublisherDefaultPage.Instance();
-                }
-            }
+            });
         }
 
         private void OnAvailableNetworks_ItemSelected(object sender, SocialNetworks network)

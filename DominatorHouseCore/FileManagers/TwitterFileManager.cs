@@ -21,7 +21,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update twitter configuration error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }
@@ -38,7 +38,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
             return null;
         }

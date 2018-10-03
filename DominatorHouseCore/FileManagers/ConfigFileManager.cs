@@ -64,7 +64,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.StackTrace);
+                ex.DebugLog();
             }
         }
 

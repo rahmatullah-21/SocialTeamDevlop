@@ -50,6 +50,7 @@ namespace DominatorUIUtility.CustomControl
         {
             _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
             InitializeComponent();
+
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
@@ -85,12 +86,17 @@ namespace DominatorUIUtility.CustomControl
 
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, DominatorAccountViewModel.AccessorStrategies strategies)
         {
-            if (_accountCustomInstance == null)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                _accountCustomInstance = new AccountCustomControl(strategies);
-            }
+                if (_accountCustomInstance == null)
+                {
+                    _accountCustomInstance = new AccountCustomControl(strategies);
 
-            _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
+
+                }
+
+                _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
+            });
 
             return _accountCustomInstance;
         }

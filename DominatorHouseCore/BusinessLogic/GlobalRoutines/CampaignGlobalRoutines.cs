@@ -23,7 +23,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         // UI delegate to select accounts
         public Func<string, bool> ConfirmDialog = msg =>
         {
-            GlobusLogHelper.log.Error("SelectAccountsDialog action handler not set");
+            //ex.DebugLog();
             return false;
         };
 

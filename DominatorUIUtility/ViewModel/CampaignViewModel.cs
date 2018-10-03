@@ -315,7 +315,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    GlobusLogHelper.log.Error(ex.Message);
+                     ex.DebugLog();
                 }
 
                 Window win = objDialog.GetMetroWindow(reportControl, "Reports");

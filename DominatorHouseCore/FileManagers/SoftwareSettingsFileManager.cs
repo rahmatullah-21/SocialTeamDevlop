@@ -23,7 +23,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update software settings error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }

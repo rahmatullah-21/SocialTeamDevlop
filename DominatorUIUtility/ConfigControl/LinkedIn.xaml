@@ -27,6 +27,8 @@
         <StackPanel Margin="10" x:Name="MainGrid">
             <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator}"
                       IsChecked="{Binding IsEnableExportingHTMLOfDifferentConnections}"/>
+            <CheckBox Margin="5" Content="{DynamicResource LangKeyFilterDuplicateMessageByCheckingConversationHistory}"
+                      IsChecked="{Binding IsFilterDuplicateMessageByCheckingConversationsHistory}"/>
         </StackPanel>
     </GroupBox>
 </UserControl>

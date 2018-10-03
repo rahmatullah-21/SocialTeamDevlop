@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Utility
 
         public static string UseragentLocale { get; } = "en_US";
 
-        public static string IgVersion { get; } = "10.33.0";
+        public static string IgVersion { get; } = "40.33.0";
 
         public static string ApiUrl => $"{(object)ConstantVariable.InstagramBaseUrl}api/v1/";
 
@@ -282,7 +282,11 @@ namespace DominatorHouseCore.Utility
         public static string Group { get; set; } = "Group";
 
         public static string OwnWall { get; set; } = "OwnWall";
+        public static string UpdatedVersionIP { get; set; } = "169.50.161.212";
 
+        public static string UpdateVersionFilePath { get; set; } = "fd/setup/FDSetup.txt";
+        public static string UpdateVersionLink { get; set; } =
+              "http://{0}/{1}";
     }
 
     public static class FileDirPath

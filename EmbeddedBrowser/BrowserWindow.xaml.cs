@@ -195,7 +195,7 @@ namespace EmbeddedBrowser
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
 
             var homePage = GetNetworksHomeUrl();
@@ -375,14 +375,6 @@ namespace EmbeddedBrowser
                     ex.DebugLog();
                 }
                 Thread.Sleep(2000);
-
-
-
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
-                {
-                    Browser.Load("https://plus.google.com/");
-                }
-
             }
 
             if (!IsGoogleAccountLoginFailed())
@@ -425,7 +417,7 @@ namespace EmbeddedBrowser
 
                             return true;
                         }
-                        else if (PageText.Contains("Type the text you hear or see"))
+                        else if (PageText.Contains("Type the text you hear or see") || PageText.Contains("Confirm your recovery email"))
                         {
                             DominatorAccountModel.IsUserLoggedIn = false;
                             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
@@ -1250,7 +1242,7 @@ namespace EmbeddedBrowser
                         if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                         {
                             string GooglePlusAcc = Utilities.GetBetween(objResponseParameter.Response, "\"oPEP7c\":\"", "\"");
-                            if (string.IsNullOrEmpty(GooglePlusAcc))
+                            if (string.IsNullOrEmpty(GooglePlusAcc) || cookieCollection.Count < 2)
                                 return;
 
                             DominatorAccountModel.AccountBaseModel.ProfileId = GooglePlusAcc;
@@ -1262,8 +1254,9 @@ namespace EmbeddedBrowser
                             if (objResponseParameter.Response.Contains("Sign in now to see your channels") && !string.IsNullOrEmpty(objResponseParameter.Response) && objResponseParameter.Response != "<html><head></head><body></body></html>")
                                 return;
                         }
-                        DominatorAccountModel.IsUserLoggedIn = true;
+
                         DominatorAccountModel.Cookies = cookieCollection;
+                        DominatorAccountModel.IsUserLoggedIn = true;
                         DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
