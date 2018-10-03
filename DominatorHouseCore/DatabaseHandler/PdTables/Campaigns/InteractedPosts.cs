@@ -55,7 +55,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string PinWebUrl { get; set; }
 
         [Column(Order = 11)]
-        public string BoardName { get; set; }
+        public string SourceBoardName { get; set; }
 
         [Column(Order = 12)]
         public int InteractionDate { get; set; }
@@ -80,7 +80,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         { get; set; }
 
         [Column(Order = 19)]
-        public string BoardId { get; set; }
+        public string SourceBoard { get; set; }
 
         [Column(Order = 20)]
         public string SinAccId { get; set; }
@@ -92,5 +92,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string CommentId { get; set; }
         [Column(Order = 23)]
         public string BoardLabel { get; set; }
+        [Column(Order = 24)]
+        public string DestinationBoard { get; set; }
     }
 }

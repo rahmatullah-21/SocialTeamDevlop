@@ -1,3 +1,19 @@
+Version[1.0.0.17],[01st-October-18]
+New Features:-
+	Instagram:-
+	Delete post(s) those are reposted by software. 
+	Linkedin:- 
+	Skip users who already received message by checking previous conversation.
+Fixed:-
+	Instagram:- 
+	Fixed issue with showig status requested in the report when following private user(s).
+	Twitter:-
+	Acounts Activity => Follow back => Fixed issue with showing report.
+	Facebook:-
+	Fixed issue with Scraping Fan Page Liker.
+	Pinterest:-
+	Fixed issue with repining from same board url in different account campaign.
+
 Version[1.0.0.16],[29th-September-18]
 New Features:-
 	Queries added in the query dashboard can be exported in csv file.
@@ -7,14 +23,14 @@ New Features:-
 	Scraper => Download media => Added feature to download media.
 	Scraper => Added feature scrap unique user from each account.
 Fixed:-
-	Publisher => Post Configuration =>Fixed issue creating time slot  for Use Random Publishing Time Everyday.
+	Publisher => Post Configuration => Fixed issue creating time slot for Use Random Publishing Time Everyday.
 	Logger => Fixed issue with showing correct time in logger.
 	
 	Facebook:-
 	Publisher => Create campaign => Fixed issue with post on page.
 	Publisher => Create post => Fixed issue with post on  community with discrption.
 	Grow friends => Send friend request => Fixed issue with send friend request to group members.
-	Grow friends => Send friend request => Fixed issue with send friend request by selecting  specific gender.
+	Grow friends => Send friend request => Fixed issue with send friend request by selecting specific gender.
 	Grow groups => Group joiner => Fixed issue with join public groups.
 	Scraper => Download media => Fixed issue with filter by reaction counts.
 
@@ -31,7 +47,7 @@ Fixed:-
 	Voter => Upvote => Fixed issue with upvote.
 
 	Pinterest:-
-	Pin poster => repin => custom pin => fixed  issue with custom pin.
+	Pin poster => repin => custom pin => fixed issue with custom pin.
 	Pintry/pincommenter => fixed issue with comment.
 	
 	YouTube:-
@@ -43,7 +59,7 @@ Fixed:-
 	Engage => Comment => Comment on mange comment in query type issue have been fixed.
 
 	Tumblr:-
-	Account Manager  => Fixed issue with account update.
+	Account Manager => Fixed issue with account update.
 	Grow follower => Fixed issue with users who liked the posts  duplicte issue.
 	Engage => keywords => fixed the issue with keywords.
 	Broadcast message => keywords => Fixed issue add comment.

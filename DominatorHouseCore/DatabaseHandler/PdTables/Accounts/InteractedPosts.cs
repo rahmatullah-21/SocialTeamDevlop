@@ -48,7 +48,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         //ID of the Board
         [Column(Order = 9)]
-        public string BoardId { get; set; }
+        public string SourceBoard { get; set; }
 
         //Web url of the Pin
         [Column(Order = 10)]
@@ -56,7 +56,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         // Board Name in which the Pin belongs to
         [Column(Order = 11)]
-        public string BoardName { get; set; }
+        public string SourceBoardName { get; set; }
 
         [Column(Order = 12)]
         public int InteractionDate { get; set; }
@@ -88,6 +88,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string CommentId { get; set; }
         [Column(Order = 20)]
         public string BoardLabel { get; set; }
+        [Column(Order = 21)]
+        public string DestinationBoard { get; set; }
 
     }
 }

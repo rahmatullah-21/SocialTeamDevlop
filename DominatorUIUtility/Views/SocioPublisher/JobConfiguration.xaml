@@ -53,7 +53,8 @@
         </StackPanel>
 
         <RadioButton GroupName="postGroup" IsChecked="{Binding IsSpecifyPostingIntervalChecked}" Content="{DynamicResource LangKeyConfigurePostingIntervalForEachTimer}"  Margin="5"
-                     x:Name="ChkPostingInterval" Click="ChkPostingInterval_OnClick" />
+                     x:Name="ChkPostingInterval"/>
+        <!--Click="ChkPostingInterval_OnClick" />-->
         <ItemsControl ItemsSource="{Binding LstTimer,IsAsync=True}" Margin="5"
                       Visibility="{Binding IsSpecifyPostingIntervalChecked,
             Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -79,7 +80,8 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <RadioButton GroupName="postGroup" IsChecked="{Binding IsRandomizePublishingTimerChecked}" Content="{DynamicResource LangKeyUseRandomPublishingTimeEveryday}"  Margin="5"
-                     Name="ChkRandomizePublishing" Click="ChkRandomizePublishing_OnClick" />
+                     Name="ChkRandomizePublishing"/>
+        <!--Click="ChkRandomizePublishing_OnClick" />-->
         <ItemsControl ItemsSource="{Binding LstTimer,IsAsync=True}" Margin="5"
                       Visibility="{Binding IsRandomizePublishingTimerChecked,
                  Converter={StaticResource BooleanToVisibilityConverter}}">
