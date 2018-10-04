@@ -73,7 +73,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                 if (LastPostCount < JobConfigurations.MaxPost - 1)
                 {
-                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - LastPostCount, cancellectionToken, false);
+                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost - 1 - LastPostCount, cancellectionToken, true);
                 }
                 else
                 {
@@ -102,6 +102,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
             {
                 if (LastPostCount < JobConfigurations.MaxPost + 1)
                     SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1 - LastPostCount, cancellectionToken, true);
+                else if (JobConfigurations.LstTimer.Count < JobConfigurations.MaxPost + 1)
+                    SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1 - JobConfigurations.LstTimer.Count, cancellectionToken, true);
 
                 else
                     SpecificPostGenerateIntervals(JobConfigurations.MaxPost + 1, cancellectionToken, false);
@@ -148,9 +150,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
             catch (Exception ex)
             {
-                if (maxCount == 0)
-                    RemoveTimeRange(maxCount, cancellectionToken);
-                ex.DebugLog();
+                if (ex.Message == "Attempted to divide by zero.")
+                    RemoveTimeRange(0, cancellectionToken);
+
             }
 
         }
@@ -179,20 +181,34 @@ namespace DominatorUIUtility.Views.SocioPublisher
                 }
             });
         }
+
+
         private void RemoveTimeRange(int maxCount, CancellationTokenSource cancellectionToken)
         {
-            while (JobConfigurations.LstTimer.Count != maxCount)
+
+            Task.Factory.StartNew(() =>
             {
-                cancellectionToken.Token.ThrowIfCancellationRequested();
 
-                Application.Current.Dispatcher.Invoke(() =>
+                while (JobConfigurations.LstTimer.Count > maxCount)
                 {
-                    JobConfigurations.LstTimer.RemoveAt(JobConfigurations.LstTimer.Count - 1);
-                });
+                    cancellectionToken.Token.ThrowIfCancellationRequested();
 
-                Thread.Sleep(50);
-            }
-
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        cancellectionToken.Token.ThrowIfCancellationRequested();
+                        try
+                        {
+                            JobConfigurations.LstTimer.RemoveAt(JobConfigurations.LstTimer.Count - 1);
+                        }
+                        catch (Exception ex)
+                        {
+                            return;
+                        }
+                    });
+                    cancellectionToken.Token.ThrowIfCancellationRequested();
+                    Thread.Sleep(50);
+                }
+            });
         }
 
         #endregion

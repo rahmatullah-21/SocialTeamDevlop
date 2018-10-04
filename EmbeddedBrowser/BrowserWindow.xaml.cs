@@ -379,19 +379,27 @@ namespace EmbeddedBrowser
 
             if (!IsGoogleAccountLoginFailed())
             {
-                if ((html.Contains(DominatorAccountModel.UserName)) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
-                {
+                string Username = DominatorAccountModel.UserName.ToLower();
+                if (!DominatorAccountModel.IsUserLoggedIn && (html.ToLower().Contains(Username)) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
                     SaveCookie();
-                }
-
+                
                 if (DominatorAccountModel.IsUserLoggedIn)
                 {
+                    if (string.IsNullOrEmpty(TargetUrl))
+                        switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        {
+                            case SocialNetworks.Gplus:
+                                TargetUrl = "https://plus.google.com/";
+                                break;
+                            case SocialNetworks.Youtube:
+                                TargetUrl = "https://www.youtube.com/";
+                                break;
+                        }
+
                     var result = GetLoggedInPageSource();
 
                     if (!string.IsNullOrEmpty(result))
-                    {
                         LoadPostPage(true);
-                    }
                 }
             }
         }
@@ -853,7 +861,7 @@ namespace EmbeddedBrowser
                 var sourceAsync = Browser.GetSourceAsync();
                 return sourceAsync.Result;
             }
-            return String.Empty;
+            return string.Empty;
         }
 
         public string GetLoggedInPageSourceLinkedin()
@@ -887,7 +895,7 @@ namespace EmbeddedBrowser
                 case SocialNetworks.Gplus:
                     return "https://accounts.google.com/signin";
                 case SocialNetworks.Youtube:
-                    return "https://www.youtube.com/signin";
+                    return "https://accounts.google.com/signin";
                 case SocialNetworks.Tumblr:
                     return "https://www.tumblr.com/login";
                 default:
@@ -1260,6 +1268,7 @@ namespace EmbeddedBrowser
                         DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                           .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
                            .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
                            .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                             .SaveToBinFile();

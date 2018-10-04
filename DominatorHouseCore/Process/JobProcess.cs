@@ -229,9 +229,7 @@ namespace DominatorHouseCore.Process
         /// <returns></returns>
         public virtual JobProcessResult FinalProcess(ScrapeResultNew scrapedResult)
         {
-            JobProcessResult jobProcessResult = new JobProcessResult();
-            jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
-            jobProcessResult = PostScrapeProcess(scrapedResult);
+            JobProcessResult jobProcessResult = PostScrapeProcess(scrapedResult);
 
             if (jobProcessResult.IsProcessCompleted)
             {
@@ -417,7 +415,7 @@ namespace DominatorHouseCore.Process
                 JobCancellationTokenSource = new CancellationTokenSource();
 
                 RunningJobProcesses.Add(Id, this);
-                CheckJobProcessLimitsReached();
+               
                 var task = ThreadFactory.Instance.Start(() =>
                 {
 
