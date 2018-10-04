@@ -5,16 +5,16 @@ using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.IoC;
 //using EmbeddedBrowser;
 using FluentScheduler;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -269,70 +269,17 @@ namespace Socinator
                     });
 
                 FeatureFlags.UpdateFeatures();
-                foreach (var network in SocinatorInitialize.AvailableNetworks)
+                var modules = IoC.Container.ResolveAll<ISocialNetworkModule>();
+                foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                 {
-                    FeatureFlags.Check(network.ToString(), () =>
+                    var module = socialNetworkModule;
+                    FeatureFlags.Check(module.Network.ToString(), () =>
                     {
                         try
                         {
-                            var networkNamespace = SocinatorInitialize.GetNetworksNamespace(network);
-                            var networkAssembly = Assembly.Load(networkNamespace);
-
-                            #region Network Functionality
-
-                            var networkFullNameSpace = $"{networkNamespace}.Factories.{network}NetworkCollectionFactory";
-                            var networkType = networkAssembly.GetType(networkFullNameSpace);
-                            // is this a correct type?
-                            if (typeof(INetworkCollectionFactory).IsAssignableFrom(networkType))
-                            {
-                                INetworkCollectionFactory networkCoreFactory;
-                                var constructors = networkType.GetConstructors();
-                                // do we have a constructor taking a strategy object?
-                                var selectedConstructor = constructors.FirstOrDefault(ci =>
-                                {
-                                    var pars = ci.GetParameters();
-                                    return pars.Length == 1 && pars[0].ParameterType ==
-                                       typeof(DominatorAccountViewModel.AccessorStrategies);
-                                });
-                                if (selectedConstructor != default(ConstructorInfo))
-                                {
-                                    networkCoreFactory =
-                                        (INetworkCollectionFactory)selectedConstructor.Invoke(new object[] { _mainViewModel.Strategies });
-                                }
-                                else
-                                {
-                                    // if not, do we have a constructor with no parameters?
-                                    selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
-                                    networkCoreFactory = (INetworkCollectionFactory)selectedConstructor.Invoke(null);
-                                }
-                                SocinatorInitialize.SocialNetworkRegister(networkCoreFactory, network);
-                            }
-
-                            #endregion
-
-                            #region Publisher Functionality
-
-                            try
-                            {
-                                var publisherFullNameSpace = $"{networkNamespace}.Factories.{network}PublisherCollectionFactory";
-                                var publisherType = networkAssembly.GetType(publisherFullNameSpace);
-
-                                if (!typeof(IPublisherCollectionFactory).IsAssignableFrom(publisherType))
-                                    return;
-
-                                var constructors = publisherType.GetConstructors();
-                                var selectedConstructor = constructors.First(ci => ci.GetParameters().Length == 0);
-                                var publisherCoreFactory = (IPublisherCollectionFactory)selectedConstructor.Invoke(null);
-                                PublisherInitialize.SaveNetworkPublisher(publisherCoreFactory, network);
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
-
-                            #endregion
-
-                            _mainViewModel.AddNetwork(network);
+                            SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(_mainViewModel.Strategies), module.Network);
+                            PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                            _mainViewModel.AddNetwork(socialNetworkModule.Network);
                         }
                         catch (AggregateException ex)
                         {
