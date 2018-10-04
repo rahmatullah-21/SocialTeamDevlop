@@ -18,6 +18,9 @@ namespace DominatorHouse.ViewModels
     {
         private readonly Timer _timer;
         private GridLength _logViewHeight;
+        private string _cpuUsage;
+        private string _availableMemory;
+        private DateTime? _currentDateTime;
 
         private static PerformanceCounter PerformanceCounter { get; }
             = new PerformanceCounter("Memory", "Available MBytes");
@@ -29,17 +32,20 @@ namespace DominatorHouse.ViewModels
 
         public string AvailableMemory
         {
-            get { return GetMemoryUsage().ToString(CultureInfo.InvariantCulture); }
+            get { return _availableMemory; }
+            set { SetProperty(ref _availableMemory, value, nameof(AvailableMemory)); }
         }
 
         public string CpuUsage
         {
-            get { return GetCpuUsage(); }
+            get { return _cpuUsage; }
+            set { SetProperty(ref _cpuUsage, value, nameof(CpuUsage)); }
         }
 
-        public string CurrentDateTime
+        public DateTime? CurrentDateTime
         {
-            get { return DateTime.Now.ToString(CultureInfo.InvariantCulture); }
+            get { return _currentDateTime; }
+            set { SetProperty(ref _currentDateTime, value, nameof(CurrentDateTime)); }
         }
 
         public GridLength LogViewHeight
@@ -62,9 +68,9 @@ namespace DominatorHouse.ViewModels
 
         private void OnElapsed(object sender, ElapsedEventArgs e)
         {
-            OnPropertyChanged(nameof(AvailableMemory));
-            OnPropertyChanged(nameof(CpuUsage));
-            OnPropertyChanged(nameof(CurrentDateTime));
+            AvailableMemory = GetMemoryUsage().ToString(NumberFormatInfo.InvariantInfo);
+            CpuUsage = GetCpuUsage();
+            CurrentDateTime = DateTime.Now;
         }
 
         private void ShowHideLog()
