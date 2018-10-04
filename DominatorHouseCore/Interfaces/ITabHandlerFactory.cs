@@ -8,8 +8,6 @@ namespace DominatorHouseCore.Interfaces
     {
         List<TabItemTemplates> NetworkTabs { get; set; }
 
-        string NetworkName { get; set; }
-
         void UpdateAccountCustomControl(SocialNetworks networks);
     }
 }

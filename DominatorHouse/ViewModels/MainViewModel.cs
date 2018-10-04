@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace DominatorHouse.ViewModels
@@ -56,18 +55,6 @@ namespace DominatorHouse.ViewModels
             set
             {
                 SetProperty(ref _tabDock, value, nameof(TabDock));
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-            set
-            {
-                SetProperty(ref _title, value, nameof(Title));
             }
         }
 
@@ -267,7 +254,6 @@ namespace DominatorHouse.ViewModels
                     return;
                 TabItems.Renew(tabHandler.NetworkTabs);
                 TabItems.SelectByIndex(0);
-                Title = tabHandler.NetworkName;
                 tabHandler.UpdateAccountCustomControl(network);
                 SocinatorInitialize.SetAsActiveNetwork(network);
             }

@@ -29,8 +29,6 @@ namespace Socinator.DominatorCores
 
         public List<TabItemTemplates> NetworkTabs { get; set; }
 
-        public string NetworkName { get; set; }
-
         private static DominatorTabHandlerFactory _instance;
 
         public static DominatorTabHandlerFactory GetInstance(DominatorAccountViewModel.AccessorStrategies strategies)
@@ -40,7 +38,6 @@ namespace Socinator.DominatorCores
         {
             _strategies = strategies;
             NetworkTabs = new List<TabItemTemplates>();
-            NetworkName = $"The {SocialNetworks.Social} Dominator";
             InitializeAllTabs();
         }
 

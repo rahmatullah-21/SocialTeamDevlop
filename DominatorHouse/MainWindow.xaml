@@ -11,15 +11,15 @@
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:views1="clr-namespace:DominatorHouse.Support.Perf.Views"
         mc:Ignorable="d"
+        Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
         BorderThickness="1" Icon="SociNator.ico"
-        Title="{Binding Title}" 
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
-    Name="SocinatorWindow"
-    WindowState="Maximized" 
-    Closing="SocinatorWindow_OnClosing">
+        Name="SocinatorWindow"
+        WindowState="Maximized" 
+        Closing="SocinatorWindow_OnClosing">
 
     <Window.Resources>
         <ResourceDictionary>
