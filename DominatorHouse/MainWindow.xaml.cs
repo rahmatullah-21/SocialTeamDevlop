@@ -14,12 +14,9 @@ using DominatorUIUtility.IoC;
 using FluentScheduler;
 using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -254,11 +251,6 @@ namespace Socinator
 
             try
             {
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
-                {
-                    TextReader tr = new StreamReader(stream);
-                    ConstantVariable.Revision = tr.ReadToEnd();
-                }
                 ThreadFactory.Instance.Start(() =>
                     {
                         var nextDayTime = DateTime.Now.AddDays(1);

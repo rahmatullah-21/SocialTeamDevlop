@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using DominatorHouseCore.Enums;
-using System.IO;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models.SocioPublisher;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 
 namespace DominatorHouseCore.Utility
@@ -31,7 +31,6 @@ namespace DominatorHouseCore.Utility
 
         public static string BitlyLogin { get; set; } = string.Empty;
 
-        public static string Revision { get; set; }
 
         public static string GetPlatformBaseDirectory()
         {

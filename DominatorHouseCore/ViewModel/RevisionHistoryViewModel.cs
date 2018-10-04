@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
-using DominatorHouseCore.Diagnostics;
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -17,8 +18,15 @@ namespace DominatorHouseCore.ViewModel
         {
             try
             {
-                var result = Regex.Split(ConstantVariable.Revision, "Version").ToList();
-                if (result != null && result.Count != 0)
+                var text = string.Empty;
+                using (var stream = Assembly.GetEntryAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
+                {
+                    TextReader tr = new StreamReader(stream);
+                    text = tr.ReadToEnd();
+                }
+
+                var result = Regex.Split(text, "Version").ToList();
+                if (result.Count != 0)
                 {
                     AddingVersionDetails(result);
                 }
