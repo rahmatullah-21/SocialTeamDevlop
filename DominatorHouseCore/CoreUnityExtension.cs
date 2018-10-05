@@ -9,6 +9,7 @@ namespace DominatorHouseCore
         protected override void Initialize()
         {
             Container.RegisterSingleton<ILogViewModel, LogViewModel>();
+            Container.AddNewExtension<ViewModelUnityExtension>();
         }
     }
 }

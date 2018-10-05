@@ -1,0 +1,123 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
+                    xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <ControlTemplate x:Key="SocinatorMacrosControlTemplate">
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource LangKeyMacroKey}" 
+                                   Width="65" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                        <TextBox Width="350" Margin="5" Text="{Binding InputMacro.Key}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource LangKeyMacroValue}" Width="65" Margin="5"/>
+                        <TextBox Width="350" Margin="5" Text="{Binding InputMacro.Value}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding SaveMacrosCommand}"  CommandParameter="{Binding}" >
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}" Width="60">
+                                            <Rectangle Width="15" Height="15" Fill="White" Margin="3">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                            <Label Content="{DynamicResource LangKeySave}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5" Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding ImportMacrosCammand}"  CommandParameter="{Binding}" >
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}" Width="70">
+                                            <Rectangle Width="15" Height="15" Fill="White" Margin="3">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_in}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                            <Label Content="{DynamicResource LangKeyImport}" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <GroupBox Header="{DynamicResource LangKeyMacroSList}" Margin="2"  HorizontalAlignment="Stretch">
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding MacrosCollection.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <DataGrid ItemsSource="{Binding MacrosCollection}" GridLinesVisibility="All" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
+                                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" >
+
+                        <DataGrid.Columns>
+
+                       
+
+                            <DataGridTemplateColumn Header="{DynamicResource LangKeyActions}" Width="80" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Background="White" Width="40" Height="25" 
+                                                    VerticalAlignment="Top" Margin="10,0" 
+                                                    Command="{Binding ElementName=MacrosList,Path=DataContext.DeleteCommand}"
+                                                    CommandParameter="{Binding}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Rectangle Width="12" Height="15" Fill="{DynamicResource AccentBaseColorBrush}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{DynamicResource LangKeyMacroKey}" Width="100" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Key}"  Margin="4" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="{DynamicResource LangKeyMacroValue}" Width="*" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Value}" Margin="4" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>

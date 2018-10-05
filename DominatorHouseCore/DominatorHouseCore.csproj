@@ -240,6 +240,7 @@
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
+    <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="CoreUnityExtension.cs" />
     <Compile Include="DatabaseHandler\CoreModels\SQliteMigration.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
@@ -630,13 +631,15 @@
     <Compile Include="Models\SocioPublisher\PublisherManageDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
     <Compile Include="ViewModel\Common\SelectableViewModel.cs" />
+    <Compile Include="ViewModel\DashboardVms\IDashboardViewModel.cs" />
     <Compile Include="ViewModel\GrowthProperty.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMediaViewerModel.cs" />
     <Compile Include="Utility\MediaUtilites.cs" />
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\GlobalInteractionViewModel.cs" />
+    <Compile Include="ViewModel\ITabViewModel.cs" />
     <Compile Include="ViewModel\MediaGeneratorViewModel.cs" />
-    <Compile Include="ViewModel\RevisionHistoryViewModel.cs" />
+    <Compile Include="ViewModel\DashboardVms\RevisionHistoryViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistSettingsModel.cs" />
@@ -724,8 +727,11 @@
     <Compile Include="ViewModel\LiveChatViewModel.cs" />
     <Compile Include="ViewModel\ManageDestinationViewModel.cs" />
     <Compile Include="ViewModel\DailyStatisticsViewModel.cs" />
+    <Compile Include="ViewModel\BaseTabViewModel.cs" />
+    <Compile Include="ViewModel\TablifiedContentControlViewModel.cs" />
     <Compile Include="ViewModel\UserControlSwitchViewModel.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelUnityExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -271,12 +271,6 @@
     <Compile Include="OtherConfiguration\OtherTools.xaml.cs">
       <DependentUpon>OtherTools.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OtherConfiguration\OtherConfigurationTab.xaml.cs">
-      <DependentUpon>OtherConfigurationTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OtherConfiguration\ThirdPartyServices.xaml.cs">
-      <DependentUpon>ThirdPartyServices.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Social\Accounts\AccountGrowthTab.xaml.cs" />
     <Compile Include="Social\Accounts\AccountTab.xaml.cs">
       <DependentUpon>AccountTab.xaml</DependentUpon>
@@ -288,12 +282,6 @@
     <Compile Include="Social\AutoActivity\Views\SocialAutoActivity.xaml.cs">
       <DependentUpon>SocialAutoActivity.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Social\DashBoards\DashBoardTab.xaml.cs">
-      <DependentUpon>DashBoardTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Social\DashBoards\RevisionHistory.xaml.cs">
-      <DependentUpon>RevisionHistory.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Social\Settings\ViewModel\AppearanceViewModel.cs" />
     <Compile Include="Social\Settings\View\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
@@ -301,6 +289,7 @@
     <Compile Include="Social\Settings\View\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Social\TablifiedContentControl.cs" />
     <Compile Include="Support\Logs\Views\LogList.xaml.cs">
       <DependentUpon>LogList.xaml</DependentUpon>
     </Compile>
@@ -332,14 +321,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OtherConfiguration\OtherConfigurationTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="OtherConfiguration\ThirdPartyServices.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Social\Accounts\AccountGrowthTab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -356,19 +337,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Social\DashBoards\DashBoardTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Social\DashBoards\DashboardTemplates.xaml">
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Social\DashBoards\RevisionHistory.xaml">
       <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Social\Settings\View\Appearance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Social\Settings\View\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Social\TablifiedContentControlTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

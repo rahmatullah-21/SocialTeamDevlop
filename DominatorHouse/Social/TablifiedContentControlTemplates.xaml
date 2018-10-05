@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DominatorHouse.Social"
+                    xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+                    xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore">
+    <ControlTemplate x:Key="TablifiedContentControlControlTemplate">
+        
+        <ControlTemplate.Resources>
+            <converters:StringToResourceConverter x:Key="StringToResourceConverter"/>
+        </ControlTemplate.Resources>
+        <TabControl TabStripPlacement="Top" ItemContainerStyle="{StaticResource TabItemStyle}" ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}" >
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type viewModel:ITabViewModel}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Title, Mode=OneWay}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type viewModel:ITabViewModel}">
+                    <UserControl Template="{Binding TemplateName, Converter={StaticResource StringToResourceConverter}, Mode=OneWay}"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </ControlTemplate>
+
+    <Style x:Key="TablifiedContentControlStyle" TargetType="{x:Type local:TablifiedContentControl}">
+        <Setter Property="Template" Value="{DynamicResource TablifiedContentControlControlTemplate}"></Setter>
+    </Style>
+</ResourceDictionary>

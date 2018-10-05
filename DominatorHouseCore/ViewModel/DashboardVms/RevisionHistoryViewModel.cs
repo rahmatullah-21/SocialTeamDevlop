@@ -10,11 +10,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace DominatorHouseCore.ViewModel
+namespace DominatorHouseCore.ViewModel.DashboardVms
 {
-    public class RevisionHistoryViewModel : BindableBase
+    public class RevisionHistoryViewModel : BaseTabViewModel, IDashboardViewModel
     {
-        public RevisionHistoryViewModel()
+        public RevisionHistoryViewModel() : base("LangKeyRevisionHistory", "RevisionHistoryControlTemplate")
         {
             try
             {
