@@ -8,7 +8,6 @@ using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
 using DominatorUIUtility.Views.SocioPublisher;
 using Socinator.Social.AutoActivity.Views;
-using Socinator.Social.OtherConfiguration;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -99,7 +98,7 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = "LangKeyOtherTools".FromResourceDictionary(),
-                    Content=new Lazy<UserControl>(()=>new OtherTools())
+                    Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("OtherTools"))
                 }
             };
         }

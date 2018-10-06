@@ -308,9 +308,6 @@
     <Compile Include="CustomControl\ManageMessages.xaml.cs">
       <DependentUpon>ManageMessages.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControl\MediaGenerator.xaml.cs">
-      <DependentUpon>MediaGenerator.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\MessageMediaControl.xaml.cs">
       <DependentUpon>MessageMediaControl.xaml</DependentUpon>
     </Compile>
@@ -348,8 +345,8 @@
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
     <Compile Include="ViewModel\BlackListViewModel.cs" />
     <Compile Include="ViewModel\CampaignViewModel.cs" />
-    <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
+    <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\IOtherConfigurationViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\LinkedInViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\QuoraViewModel.cs" />
@@ -358,6 +355,8 @@
     <Compile Include="ViewModel\OtherConfigurations\ThridPartyServices\IThridPartyServicesViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\ThirdPartyViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\ThridPartyServices\UrlShortnerServicesViewModel.cs" />
+    <Compile Include="ViewModel\OtherTools\IOtherToolsViewModel.cs" />
+    <Compile Include="ViewModel\OtherTools\MediaGeneratorViewModel.cs" />
     <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
     <Compile Include="ViewModel\SelectAccountViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\AccountDetailsSelectorViewModel.cs" />
@@ -711,7 +710,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CustomControl\MediaGenerator.xaml">
+    <Page Include="CustomControl\MediaGeneratorTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -744,6 +743,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\ProxyManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\ProxyManagerTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

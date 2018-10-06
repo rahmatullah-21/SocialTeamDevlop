@@ -1,5 +1,7 @@
-﻿using DominatorUIUtility.ViewModel.OtherConfigurations;
+﻿using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.ViewModel.OtherConfigurations;
 using DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
+using DominatorUIUtility.ViewModel.OtherTools;
 using Unity;
 using Unity.Extension;
 
@@ -17,6 +19,10 @@ namespace DominatorUIUtility.IoC
 
             Container.RegisterSingleton<IThridPartyServicesViewModel, CaptchaServicesViewModel>("CaptchaServicesViewModel");
             Container.RegisterSingleton<IThridPartyServicesViewModel, UrlShortnerServicesViewModel>("UrlShortnerServicesViewModel");
+
+            Container.RegisterSingleton<IOtherToolsViewModel, MediaGeneratorViewModel>("MediaGeneratorViewModel");
+
+            Container.RegisterSingleton<IProxyManagerViewModel, ProxyManagerViewModel>();
         }
     }
 }

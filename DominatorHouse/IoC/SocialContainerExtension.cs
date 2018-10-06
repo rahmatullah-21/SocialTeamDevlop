@@ -8,6 +8,7 @@ using DominatorHouseCore.ViewModel.DashboardVms;
 using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel.OtherConfigurations;
 using DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
+using DominatorUIUtility.ViewModel.OtherTools;
 using Socinator.Factories;
 using Unity;
 using Unity.Extension;
@@ -33,11 +34,14 @@ namespace DominatorHouse.IoC
                 "ThirdPartyServices");
             Container.RegisterSingleton<TablifiedContentControl, TablifiedContentControl<IOtherConfigurationViewModel>>(
                 "OtherConfiguration");
+            Container.RegisterSingleton<TablifiedContentControl, TablifiedContentControl<IOtherToolsViewModel>>(
+                "OtherTools");
 
             // viewmodels
             Container.RegisterSingleton<ITablifiedContentControlViewModel<IDashboardViewModel>, TablifiedContentControlViewModel<IDashboardViewModel>>();
             Container.RegisterSingleton<ITablifiedContentControlViewModel<IThridPartyServicesViewModel>, TablifiedContentControlViewModel<IThridPartyServicesViewModel>>();
             Container.RegisterSingleton<ITablifiedContentControlViewModel<IOtherConfigurationViewModel>, TablifiedContentControlViewModel<IOtherConfigurationViewModel>>();
+            Container.RegisterSingleton<ITablifiedContentControlViewModel<IOtherToolsViewModel>, TablifiedContentControlViewModel<IOtherToolsViewModel>>();
         }
     }
 }

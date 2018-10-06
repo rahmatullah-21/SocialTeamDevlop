@@ -542,6 +542,7 @@
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="AppResources\ApplicationResourceProvider.cs" />
     <Compile Include="Settings\SoftwareSettings.cs" />
+    <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\GlobalInteractedUtility.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
@@ -638,8 +639,8 @@
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\GlobalInteractionViewModel.cs" />
     <Compile Include="ViewModel\ITabViewModel.cs" />
-    <Compile Include="ViewModel\MediaGeneratorViewModel.cs" />
     <Compile Include="ViewModel\DashboardVms\RevisionHistoryViewModel.cs" />
+    <Compile Include="Converters\ProxyManagerSourceConverter.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherMediaViewerViewModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostlistSettingsModel.cs" />
