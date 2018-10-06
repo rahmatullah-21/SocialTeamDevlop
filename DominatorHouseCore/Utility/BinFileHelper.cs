@@ -122,7 +122,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error($"Error caught while adding the account " + ex.StackTrace);
+                ex.DebugLog();
                 return false;
             }
         }
@@ -208,7 +208,6 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update account details error - " + ex.Message);
                 ex.DebugLog();
                 return false;
             }
@@ -239,7 +238,6 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update account details error - " + ex.Message);
                 ex.DebugLog();
                 return false;
             }
@@ -266,7 +264,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update All Accounts error - " + ex.Message);
+                
                 ex.DebugLog();
                 return false;
             }
@@ -283,7 +281,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
+                ex.DebugLog();
             }
         }
 
@@ -296,7 +294,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update campaigns error - " + ex.Message);
+                ex.DebugLog();
             }
         }
 
@@ -344,7 +342,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update proxy details error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }
@@ -363,7 +361,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update All Proxy error - " + ex.Message);
+              
                 ex.DebugLog();
                 return false;
             }
@@ -402,7 +400,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update Posts details error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }
@@ -421,7 +419,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update All Posts error - " + ex.Message);
+                
                 ex.DebugLog();
                 return false;
             }
@@ -481,7 +479,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error($"Error caught while adding the destination " + ex.StackTrace);
+                ex.DebugLog();
                 return false;
             }
         }
@@ -508,7 +506,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update Destination details error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }
@@ -576,7 +574,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error($"Update all publisher postlist of {campaignId} error - " + ex.Message);
+                
                 ex.DebugLog();
                 return false;
             }
@@ -600,7 +598,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update all publisher destination error - " + ex.Message);
+             
                 ex.DebugLog();
                 return false;
             }

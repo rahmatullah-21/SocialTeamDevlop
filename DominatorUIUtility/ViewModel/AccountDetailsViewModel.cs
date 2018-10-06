@@ -388,6 +388,8 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
+        
+
         private bool VerifyAccountCanExecute(object arg) => true;
         private void VerifyAccountExecute(object sender)
         {
@@ -410,9 +412,16 @@ namespace DominatorUIUtility.ViewModel
                             );
 
                         else
+                        {
+                            DominatorAccountModel.VarificationCode = string.Empty;
                             Application.Current.Dispatcher.Invoke(
-                                () => VerificationSectionVisibility = Visibility.Visible
+                                () =>
+                                {
+                                  //  CodeSectionVisibility = Visibility.Collapsed;
+                                   
+                                }
                             );
+                        }
                     });
 
                 }
@@ -426,6 +435,7 @@ namespace DominatorUIUtility.ViewModel
         private void SendVerificationCodeExecute(object sender)
         {
             var button = (Button)sender;
+           
             try
             {
                 button.Visibility = Visibility.Collapsed;

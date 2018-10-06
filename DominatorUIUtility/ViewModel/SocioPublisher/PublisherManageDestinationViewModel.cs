@@ -14,6 +14,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -197,7 +198,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
         }
 

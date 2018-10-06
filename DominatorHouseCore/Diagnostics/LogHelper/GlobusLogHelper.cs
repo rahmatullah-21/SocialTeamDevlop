@@ -1,6 +1,14 @@
 ﻿using NLog;
 using NLog.Config;
 using NLog.Targets;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
 
 
 namespace DominatorHouseCore.LogHelper
@@ -41,5 +49,6 @@ namespace DominatorHouseCore.LogHelper
         /// Singleton Instance
         /// </summary>
         public static ILogger log { get; }
+
     }
 }

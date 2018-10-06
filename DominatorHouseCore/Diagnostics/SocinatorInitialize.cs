@@ -229,7 +229,7 @@ namespace DominatorHouseCore.Diagnostics
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
 
             if (!Application.Current.Dispatcher.CheckAccess())
@@ -654,5 +654,8 @@ namespace DominatorHouseCore.Diagnostics
             }
             return string.Empty;
         }
+        public static async Task<Stream> ProcessUpdatedVersionString(string serverName, string Path)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink, serverName, Path));
+   
     }
 }

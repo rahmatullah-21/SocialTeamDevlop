@@ -75,7 +75,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [Obsolete("Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property",true)]
+        [Obsolete("Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property", true)]
         [ProtoMember(6)]
         public bool IsCretedFromNormalMode { get; set; }
 
@@ -314,7 +314,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(14)]
         public Dictionary<string, string> ExtraParameters { get; set; }
             = new Dictionary<string, string>();
- 
+
 
         public CancellationTokenSource CancellationSource = new CancellationTokenSource();
 
@@ -330,7 +330,23 @@ namespace DominatorHouseCore.Models
         {
             CancellationSource.Cancel();
         }
-        public string VarificationCode { get; set; } = string.Empty;
+        private string _varificationCode = string.Empty;
+
+        public string VarificationCode
+        {
+            get
+            {
+                return _varificationCode;
+            }
+            set
+            {
+                if (_varificationCode == value)
+                    return;
+                SetProperty(ref _varificationCode, value);
+            }
+        }
+
+        // private string VarificationCode { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {

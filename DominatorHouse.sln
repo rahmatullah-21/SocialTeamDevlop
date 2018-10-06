@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouse", "DominatorHouse\DominatorHouse.csproj", "{C7B598E7-4B31-4A92-9B53-022A25E50002}"
 EndProject
@@ -56,6 +56,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeDominatorUI", "..\youtubedominator-library\YoutubeDominatorUI\YoutubeDominatorUI.csproj", "{7A02118A-50AC-4ED5-8247-0899782DDD2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorMigration", "DominatorMigration\DominatorMigration.csproj", "{9EA53624-9A11-4A4A-8E40-1B877CA214E7}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Socinator", "Socinator\Socinator.vdproj", "{BD2FEA7B-6985-4CAB-8158-693A28FC174A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -556,12 +558,21 @@ Global
 		{9EA53624-9A11-4A4A-8E40-1B877CA214E7}.Release|x64.Build.0 = Release|Any CPU
 		{9EA53624-9A11-4A4A-8E40-1B877CA214E7}.Release|x86.ActiveCfg = Release|Any CPU
 		{9EA53624-9A11-4A4A-8E40-1B877CA214E7}.Release|x86.Build.0 = Release|Any CPU
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Debug|Any CPU.ActiveCfg = Debug
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Debug|x64.ActiveCfg = Debug
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Debug|x86.ActiveCfg = Debug
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Debug-fast-test|Any CPU.ActiveCfg = Debug
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Debug-fast-test|x64.ActiveCfg = Debug
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Debug-fast-test|x86.ActiveCfg = Debug
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Release|Any CPU.ActiveCfg = Release
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Release|x64.ActiveCfg = Release
+		{BD2FEA7B-6985-4CAB-8158-693A28FC174A}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
+		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 	EndGlobalSection
 EndGlobal

@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (IOException ex)
             {
-                GlobusLogHelper.log.Error($"Unable to create directory {folder} - {ex.Message}");                
+                ex.DebugLog();
                 throw;        
             }
         }

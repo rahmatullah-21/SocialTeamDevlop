@@ -30,7 +30,7 @@ namespace DominatorHouse.Utilities
         {
             _strategies = strategies;
             CheckConfigurationFiles();
-           // ScheduleAccountUpdation();
+            ScheduleAccountUpdation();
             // ScheduleUpdation();
             ActivityManagerInitializer();
             OtherInitializers();
@@ -450,9 +450,9 @@ namespace DominatorHouse.Utilities
                             Monitor.Wait(dominatorAccountViewModel.AccountUpdateLock);
                         }
                     }
-                    catch (Exception Ex)
+                    catch (Exception ex)
                     {
-                        GlobusLogHelper.log.Error(Ex.Message);
+                        ex.DebugLog();
                     }
                 }
 

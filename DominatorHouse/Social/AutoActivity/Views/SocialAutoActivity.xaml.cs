@@ -155,7 +155,7 @@ namespace Socinator.Social.AutoActivity.Views
                 catch (Exception ex)
                 {
 
-                    GlobusLogHelper.log.Error(ex.Message + ex.StackTrace);
+                    ex.DebugLog();
                 }
             }               
         }

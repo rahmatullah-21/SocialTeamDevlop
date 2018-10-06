@@ -477,7 +477,7 @@ namespace DominatorUIUtility.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        GlobusLogHelper.log.Error("Error in Export Proxies");
+                        ex.DebugLog();
                     }
                 });
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
@@ -1116,7 +1116,7 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                ex.DebugLog();
             }
 
         }

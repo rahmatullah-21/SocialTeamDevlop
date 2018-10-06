@@ -20,7 +20,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
             return null;
         }
@@ -37,7 +37,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Update tumblr configuration error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }

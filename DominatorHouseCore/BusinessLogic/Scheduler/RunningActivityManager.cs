@@ -32,13 +32,26 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
             }
         }
+        public static void InitializeSingleAccount(DominatorAccountModel account)
+        {
+            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
+            {
+                // everything is allowed
 
+                DominatorScheduler.ScheduleEachActivity(account);
+            }
+            else
+            {
+                // be picky - only one per account (choose wisely)
+                StartNextRound(account);
+            }
+        }
         public static void StartNextRound(DominatorAccountModel accountModel)
         {
-            
-            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.Where(arg => arg.IsEnabled &&arg.LstRunningTimes !=null)
+
+            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.Where(arg => arg.IsEnabled && arg.LstRunningTimes != null)
                 .OrderByDescending(PickNextActivity).FirstOrDefault();
-            if (moduleConfiguration==null)return;
+            if (moduleConfiguration == null) return;
             //Check if any job process is already scheduled before to run after this activity.
             var schedules = JobManager.AllSchedules;
             var enumerable = schedules as Schedule[] ?? schedules.ToArray();
@@ -83,7 +96,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             int score = 0; //start from zero
             if (arg.IsEnabled) score += 50;
             TimeSpan differenceMinutes = DateTime.Now.Subtract(arg.NextRun);
-            score += 1 * (int )differenceMinutes.TotalMinutes;
+            score += 1 * (int)differenceMinutes.TotalMinutes;
             return score;
         }
     }

@@ -1,4 +1,76 @@
-Version[1.0.0.14],[18th-September-18]
+Version[1.0.0.17],[01st-October-18]
+New Features:-
+	Instagram:-
+	Delete post(s) those are reposted by software. 
+	Linkedin:- 
+	Skip users who already received message by checking previous conversation.
+Fixed:-
+	Instagram:- 
+	Fixed issue with showig status requested in the report when following private user(s).
+	Twitter:-
+	Acounts Activity => Follow back => Fixed issue with showing report.
+	Facebook:-
+	Fixed issue with Scraping Fan Page Liker.
+	Pinterest:-
+	Fixed issue with repining from same board url in different account campaign.
+
+Version[1.0.0.16],[29th-September-18]
+New Features:-
+	Queries added in the query dashboard can be exported in csv file.
+	Sociopublisher:-
+	Advance settings => Added feature to tag unique users for each post.
+	Facebook:-
+	Scraper => Download media => Added feature to download media.
+	Scraper => Added feature scrap unique user from each account.
+Fixed:-
+	Publisher => Post Configuration => Fixed issue creating time slot for Use Random Publishing Time Everyday.
+	Logger => Fixed issue with showing correct time in logger.
+	
+	Facebook:-
+	Publisher => Create campaign => Fixed issue with post on page.
+	Publisher => Create post => Fixed issue with post on  community with discrption.
+	Grow friends => Send friend request => Fixed issue with send friend request to group members.
+	Grow friends => Send friend request => Fixed issue with send friend request by selecting specific gender.
+	Grow groups => Group joiner => Fixed issue with join public groups.
+	Scraper => Download media => Fixed issue with filter by reaction counts.
+
+	LinkedIn:-
+	Publisher => Fixed issue with posting description and link in the wall.
+	Grow Connection => Connection Request => Fixed issue with sending connection to salesnavigator URL.
+	Grow Connection => Export Connection => Fixed issue with software crashing at the time of pause campaign.
+	
+	Twitter:-
+	Issue fixed with Comment module in Accounts Activity.
+
+	Reddit:-
+	Account Manager => Account login => Fixed issue with login Old UI Design account.
+	Voter => Upvote => Fixed issue with upvote.
+
+	Pinterest:-
+	Pin poster => repin => custom pin => fixed issue with custom pin.
+	Pintry/pincommenter => fixed issue with comment.
+	
+	YouTube:-
+	Engage => Comment => Fixed issue with import keyword query.
+
+	GPlus:-
+	Grow follower => Fixed issue with Users who commented on post.
+	Account activity => Fixed issue with +1 in search query.
+	Engage => Comment => Comment on mange comment in query type issue have been fixed.
+
+	Tumblr:-
+	Account Manager => Fixed issue with account update.
+	Grow follower => Fixed issue with users who liked the posts  duplicte issue.
+	Engage => keywords => fixed the issue with keywords.
+	Broadcast message => keywords => Fixed issue add comment.
+
+Version[1.0.0.15],[24th-September-18]
+Fixed:-
+	Instagram accounts verification issue
+	Account Activity => Hashtag Scraper report => Fixed issue with showing report
+	Instascrape  => Download Photos => Fixed issue with select folder path.
+
+Version[1.0.0.14],[21st-September-18]
 
 New Features:-
 Instagram:-
@@ -7,7 +79,16 @@ Instagram:-
 	Instaliker/Instacommenter => Comment => Comment on post those are liked by the account.
 LinkedIn:-
 	Added feature to scrape only "details required to send connection request" in salesnavigator scraper.
-
+Facebook:-
+	Added custom option for fanpage liker, fanpage scraper
+	Added custom option for group joiner , group scraper
+	Added filter skip joined| requested group filter for group scraper and group joiner
+	Added reply to comment module
+	Added post like / comment as page option
+LinkedIn:-
+	Added feature to scrape only "details required to send connection request" in salesnavigator scraper.
+Pinterest:-
+	In select board added a feature "board query type".
 Fixed:-
 	High CPU Usage issue
 	Instagram:-
@@ -21,8 +102,31 @@ Fixed:-
 		Message => Fixed isssue with send message to new connection .
 		Scraper => USer Scraper => Fixed issue with scrape profile data using search URL.
 		Connection => Export connection => Fixed issue with export connection
+		Message => Fixed isssue with send message to new connection.
+		Scraper => USer Scraper => Fixed issue with scrape profile data using search URL.
+		Connection => Export connection =>Fixed issue with export connection
+		Sociopublisher => Fixed issue to publish post discription with url.
+		Grow connection => Connection request => Fixed issue with sending connection request using salesnavigator profile URL.
 	Reddit:-
 		Campaign => All campaign get deleted while deleting one particular module campaigns
+		Fixed issue in publishing the posts on unsubscribed Subreddits via custom destination.
+	Facebook:-
+		Fb Inviter => Fixed issue with with group inviter
+		Grow friend => Fixed issue with withdraw Sent request
+	Twitter:-
+		Fixed issue with => Twitter => Engage => Unlike => Liked Tweets
+		Fixed issue with => Twitter => Poster => Retweet => Query type => specific user tweets
+		Fixed issue with => Twitter => Poster => Reposter => Query type => specific user tweets
+	Pinterest:-
+		Fixed issue in cancle editing whenever we edit/ duplicate in a board campaign 
+	YouTube:-
+		Fixed issue in engage  =>  Like
+		Fixed issue in engage  =>  Comment
+		Fixed issue in Watch Video  =>  View increaser
+		Fixed issues in UI for engage module
+	Quora:-
+		Answer => fixed issue with  Answer on question  by using custom url and custom user list .
+		Report => Fixed issue with report  on Answer by using custom user list.
 
 Version[1.0.0.13],[11th-September-18]
 

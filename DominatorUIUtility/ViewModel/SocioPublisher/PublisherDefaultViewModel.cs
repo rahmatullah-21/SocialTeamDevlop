@@ -352,7 +352,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
         }
 

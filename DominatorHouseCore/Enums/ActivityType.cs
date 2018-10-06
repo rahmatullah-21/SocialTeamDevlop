@@ -38,7 +38,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Twitter,Instagram,Gplus,LinkedIn,Pinterest")]
         UserScraper = 11,
 
-        [Description("Twitter,Instagram")]
+        [Description("Twitter,Instagram,Facebook")]
         DownloadScraper = 12,
 
         [Description("Facebook,Twitter,Instagram")]

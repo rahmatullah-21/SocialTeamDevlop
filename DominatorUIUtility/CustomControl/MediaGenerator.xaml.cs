@@ -76,13 +76,14 @@ namespace DominatorUIUtility.CustomControl
         }
         private void CopyExecuted(object sender, RoutedEventArgs e)
         {
-            ListViewItem sourceRow = sender as ListViewItem;
+            MenuItem sourceRow = sender as MenuItem;
             CopyPath(sender);
         }
         private static void CopyPath(object sender)
         {
             try
             {
+                MenuItem lbm = (MenuItem)(sender);
                 ListView lb = (ListView)(sender);
                 var filePath = (lb?.SelectedItem as string);
                 if (!string.IsNullOrEmpty(filePath))
