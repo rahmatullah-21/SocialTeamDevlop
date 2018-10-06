@@ -24,8 +24,11 @@
         <i:EventTrigger EventName="Closing">
             <cmd:EventToCommand Command="{Binding Path=WinClosingCommand}" PassEventArgsToCommand="True" />
         </i:EventTrigger>
+        <i:EventTrigger EventName="Activated">
+            <cmd:EventToCommand Command="{Binding Path=WinActivateCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
-
+  
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -70,13 +70,10 @@ namespace Socinator
             try
             {
                 DialogParticipation.SetRegister(this, this);
-                //Dispatcher.Invoke(async () => { await FatalErrorDiagnosis(); });
-                //_languages = new ObservableCollection<string>();
-                //_languages.Add("English");
+               
                 InitializeComponent();
                 MainWindowViewModel = new MainWindowViewModel();
                 SocinatorInitialize.LogInitializer(this);
-                //  SocinatorWindow.DataContext = this;
                 SocinatorWindow.DataContext = MainWindowViewModel;
                 MainGrid.DataContext = MainWindowViewModel;
                 Loaded += (o, e) =>
@@ -85,8 +82,6 @@ namespace Socinator
 
                 };
 
-                //LoggerCollection =
-                //    CollectionViewSource.GetDefaultView(LstLoggerModels);
             }
             catch (Exception ex)
             {
@@ -122,6 +117,9 @@ namespace Socinator
             ThreadFactory.Instance.Start(() =>
             {
                 GlobusLogHelper.LogTextToList(MainWindowViewModel.MainWindowModel.LstLoggerModels, message, logLevel);
+
+                #region Filter Commented
+
                 //try
                 //{
                 //    Application.Current.Dispatcher.Invoke(() =>
@@ -138,7 +136,9 @@ namespace Socinator
                 //catch (Exception ex)
                 //{
                 //    ex.DebugLog();
-                //}
+                //} 
+
+                #endregion
 
             });
 
@@ -195,6 +195,8 @@ namespace Socinator
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
 
         #region Old Code [Commented]
         //private static readonly string RamSize = GetRamsize();
@@ -468,7 +470,6 @@ namespace Socinator
         //    }
         //}
         #endregion
-
 
         #region Properties
 
@@ -1200,7 +1201,6 @@ namespace Socinator
         //    }
         //} 
         #endregion
-
 
     }
 }

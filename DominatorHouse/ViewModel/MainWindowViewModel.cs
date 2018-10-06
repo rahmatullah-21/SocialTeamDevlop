@@ -72,12 +72,20 @@ namespace DominatorHouse.ViewModel
                 LoggerActivityChangeCommand = new BaseCommand<object>((sender) => true, LoggerActivityChange);
                 LoggerSelectionChangeCommand = new BaseCommand<object>((sender) => true, LoggerSelectionChange);
                 LanguageChangeCommand = new BaseCommand<object>((sender) => true, LanguageChange);
+                WinActivateCommand = new BaseCommand<object>((sender) => true, WindowActivate);
                 BindingOperations.EnableCollectionSynchronization(MainWindowModel.LstLoggerModels, _lock);
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+        }
+
+        private void WindowActivate(object sender)
+        {
+            if (Application.Current.MainWindow.WindowState == WindowState.Minimized)
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+
         }
 
         #region Command
@@ -90,6 +98,7 @@ namespace DominatorHouse.ViewModel
         public ICommand LoggerActivityChangeCommand { get; set; }
         public ICommand LoggerSelectionChangeCommand { get; set; }
         public ICommand LanguageChangeCommand { get; set; }
+        public ICommand WinActivateCommand { get; set; }
         #endregion
 
         #region Property
@@ -143,6 +152,7 @@ namespace DominatorHouse.ViewModel
                         MainWindowModel.Availablememory = " " + GetMemoryUsage().ToString(CultureInfo.InvariantCulture) + " MB";
                         MainWindowModel.CpuUsage = " " + GetCpuUsage() + "%";
                     });
+                 
                     await Task.Delay(100);
                 }
 
@@ -682,8 +692,7 @@ namespace DominatorHouse.ViewModel
                 TabSwitcher.GoToCampaign = ()
                     => MainWindowModel.SelectedViewIndex =
                         MainWindowModel.TabItems.FindIndex(x => x.Title == Application.Current.FindResource("LangKeyCampaigns")?.ToString());
-
-                //Closed += (o, e) => Process.GetCurrentProcess().Kill();
+                
             }
             catch (AggregateException ex)
             {
@@ -775,6 +784,7 @@ namespace DominatorHouse.ViewModel
                     JobManager.AddJob(() => InitializeJobCores(license),
                         x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
                             .AndEvery(1).Days());
+                    
                 });
 
                 MainWindowModel.AvailableNetworks = SocinatorInitialize.AvailableNetworks;
@@ -868,7 +878,8 @@ namespace DominatorHouse.ViewModel
                     softWareSettings.InitializeOnLoadConfigurations(MainWindowModel._strategies);
 
                     // For Every day backup
-                    softWareSetting.InitializeOnLoadConfigurations(); DirectoryUtilities.DeleteOldLogsFile();
+                    softWareSetting.InitializeOnLoadConfigurations();
+                    DirectoryUtilities.DeleteOldLogsFile();
                     //DirectoryUtilities.Compress();
 
 
@@ -1013,7 +1024,7 @@ namespace DominatorHouse.ViewModel
                 {
                     finalResponse = streamReader.ReadToEnd();
                 }
-                if(string.IsNullOrEmpty(finalResponse))
+                if (string.IsNullOrEmpty(finalResponse))
                 {
                     var check = Dialog.ShowCustomDialog("Update Available", "Update failed! Do you want to retry?", "Yes", "No");
                 }
