@@ -42,7 +42,7 @@ namespace DominatorHouse.ViewModels
         void AddNetwork(SocialNetworks socialNetwork);
 
         void SetActiveNetwork(SocialNetworks social);
-        DominatorAccountViewModel.AccessorStrategies Strategies { get; }
+        AccessorStrategies Strategies { get; }
     }
 
     public class MainViewModel : BindableBase, IMainViewModel
@@ -59,7 +59,7 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
 
-        public DominatorAccountViewModel.AccessorStrategies Strategies { get; set; }
+        public AccessorStrategies Strategies { get; set; }
         string _fatalError { get; set; }
         public Dock TabDock
         {
@@ -121,7 +121,7 @@ namespace DominatorHouse.ViewModels
 
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
 
-            Strategies = new DominatorAccountViewModel.AccessorStrategies
+            Strategies = new AccessorStrategies
             {
                 ActionCheckAccount = AccountStatusChecker,
                 AccountBrowserLogin = AccountBrowserLogin,

@@ -60,7 +60,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #endregion
-        public ProxyManager(DominatorAccountViewModel.AccessorStrategies strategies)
+        public ProxyManager(AccessorStrategies strategies)
         {
 
             InitializeComponent();
@@ -72,7 +72,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         private static ProxyManager _proxyManagerInstance = null;
-        public static ProxyManager GetProxyManagerControl(DominatorAccountViewModel.AccessorStrategies strategies)
+        public static ProxyManager GetProxyManagerControl(AccessorStrategies strategies)
         {
             try
             {

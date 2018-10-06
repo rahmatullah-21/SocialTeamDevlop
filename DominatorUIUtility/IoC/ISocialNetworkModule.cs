@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorUIUtility.ViewModel;
+using DominatorHouseCore.Models;
 
 namespace DominatorUIUtility.IoC
 {
@@ -9,7 +10,7 @@ namespace DominatorUIUtility.IoC
         SocialNetworks Network { get; }
 
         INetworkCollectionFactory GetNetworkCollectionFactory(
-            DominatorAccountViewModel.AccessorStrategies strategies);
+            AccessorStrategies strategies);
 
         IPublisherCollectionFactory GetPublisherCollectionFactory();
     }

@@ -46,7 +46,7 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        private AccountCustomControl(DominatorAccountViewModel.AccessorStrategies strategyPack)
+        private AccountCustomControl(AccessorStrategies strategyPack)
         {
             _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
             InitializeComponent();
@@ -83,7 +83,7 @@ namespace DominatorUIUtility.CustomControl
 
         private static AccountCustomControl _accountCustomInstance = null;
 
-        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, DominatorAccountViewModel.AccessorStrategies strategies)
+        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, AccessorStrategies strategies)
         {
             if (_accountCustomInstance == null)
             {
@@ -96,7 +96,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public static AccountCustomControl GetAccountCustomControl(DominatorAccountViewModel.AccessorStrategies strategies)
+        public static AccountCustomControl GetAccountCustomControl(AccessorStrategies strategies)
         {
             return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl(strategies));
         }

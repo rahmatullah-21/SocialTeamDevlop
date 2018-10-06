@@ -24,7 +24,7 @@ namespace DominatorHouse.Model
         public string LastTab { get; set; } = "Info";
         public bool IsClickedFromMainWindow { get; set; } = true;
 
-        public DominatorAccountViewModel.AccessorStrategies _strategies;
+        public AccessorStrategies _strategies;
 
         private string _ramSize = " 0 MB";
 

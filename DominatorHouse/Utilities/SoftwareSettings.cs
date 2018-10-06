@@ -25,8 +25,8 @@ namespace DominatorHouse.Utilities
 {
     public class SoftwareSettings
     {
-        private DominatorAccountViewModel.AccessorStrategies _strategies;
-        public void InitializeOnLoadConfigurations(DominatorAccountViewModel.AccessorStrategies strategies)
+        private AccessorStrategies _strategies;
+        public void InitializeOnLoadConfigurations(AccessorStrategies strategies)
         {
             _strategies = strategies;
             CheckConfigurationFiles();

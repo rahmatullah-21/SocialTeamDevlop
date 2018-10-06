@@ -572,7 +572,7 @@ namespace DominatorHouse.ViewModel
     //        }
 
     //        ///await CheckVersion(GetAssemblyVersion());
-    //        MainWindowModel._strategies = new DominatorAccountViewModel.AccessorStrategies
+    //        MainWindowModel._strategies = new AccessorStrategies
     //        {
     //            ActionCheckAccount = AccountStatusChecker,
     //            AccountBrowserLogin = AccountBrowserLogin,
@@ -813,7 +813,7 @@ namespace DominatorHouse.ViewModel
     //                            {
     //                                var pars = ci.GetParameters();
     //                                return pars.Length == 1 && pars[0].ParameterType ==
-    //                                   typeof(DominatorAccountViewModel.AccessorStrategies);
+    //                                   typeof(AccessorStrategies);
     //                            });
     //                            if (selectedConstructor != default(ConstructorInfo))
     //                            {

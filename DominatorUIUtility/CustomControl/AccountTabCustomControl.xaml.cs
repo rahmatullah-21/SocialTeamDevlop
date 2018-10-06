@@ -23,7 +23,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AccountTabCustomControl : UserControl
     {
-        public AccountTabCustomControl(DominatorAccountViewModel.AccessorStrategies strategies)
+        public AccountTabCustomControl(AccessorStrategies strategies)
         {
             InitializeComponent();
             var items = new List<TabItemTemplates>

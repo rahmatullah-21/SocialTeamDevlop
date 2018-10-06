@@ -75,7 +75,7 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
         #region Properies
-        public DominatorAccountViewModel.AccessorStrategies _strategies { get; set; }
+        public AccessorStrategies _strategies { get; set; }
         ProxyManagerModel CurrentProxyManagerModel { get; set; }
         private ICollectionView _proxyManagerCollection;
         public ICollectionView ProxyManagerCollection
@@ -1027,7 +1027,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-        private static void UpdateAccountsProxy(DominatorAccountModel accountToUpdateProxy, DominatorAccountViewModel.AccessorStrategies strategies)
+        private static void UpdateAccountsProxy(DominatorAccountModel accountToUpdateProxy, AccessorStrategies strategies)
         {
             var objAccountCustomControl = AccountCustomControl.GetAccountCustomControl(strategies);
 
@@ -1122,7 +1122,7 @@ namespace DominatorUIUtility.ViewModel
         }
 
         #region Methods for account proxy updation
-        public void UpdateProxy(DominatorAccountBaseModel objAccountBaseModel, List<ProxyManagerModel> ProxyDetail, DominatorAccountViewModel.AccessorStrategies strategy)
+        public void UpdateProxy(DominatorAccountBaseModel objAccountBaseModel, List<ProxyManagerModel> ProxyDetail, AccessorStrategies strategy)
         {
             try
             {
@@ -1167,7 +1167,7 @@ namespace DominatorUIUtility.ViewModel
         }
 
         public bool IsProxyAvailable(DominatorAccountBaseModel objAccountBaseModel, List<ProxyManagerModel> oldProxies,
-       DominatorAccountBaseModel oldAccount, DominatorAccountViewModel.AccessorStrategies strategy)
+       DominatorAccountBaseModel oldAccount, AccessorStrategies strategy)
         {
             bool isDuplicatProxyAvailable = false;
             ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategy);
@@ -1285,7 +1285,7 @@ namespace DominatorUIUtility.ViewModel
             return isDuplicatProxyAvailable;
         }
         public async Task<bool> IsProxyUpdated(DominatorAccountBaseModel objDominatorAccountBaseModel, List<ProxyManagerModel> oldProxies,
-            DominatorAccountBaseModel oldAccount, DominatorAccountViewModel.AccessorStrategies strategy)
+            DominatorAccountBaseModel oldAccount, AccessorStrategies strategy)
         {
             bool isProxyUpdated = false;
             ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategy);
@@ -1379,7 +1379,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-        public async void AddProxyIfNotExist(DominatorAccountBaseModel objAccount, DominatorAccountViewModel.AccessorStrategies strategyPack)
+        public async void AddProxyIfNotExist(DominatorAccountBaseModel objAccount, AccessorStrategies strategyPack)
         {
 
             ProxyManagerModel ProxyManagerModel = new ProxyManagerModel
@@ -1451,7 +1451,7 @@ namespace DominatorUIUtility.ViewModel
 
 
         }
-        public bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel, DominatorAccountViewModel.AccessorStrategies strategy)
+        public bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel, AccessorStrategies strategy)
         {
 
             var oldproxies = ProxyFileManager.GetAllProxy();

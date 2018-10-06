@@ -511,6 +511,7 @@
     <Compile Include="Interfaces\SocioPublisher\IRedditSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
     <Compile Include="IoC.cs" />
+    <Compile Include="Models\AccessorStrategies.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />

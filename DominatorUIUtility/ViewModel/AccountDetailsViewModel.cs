@@ -24,7 +24,7 @@ namespace DominatorUIUtility.ViewModel
     {
         public DominatorAccountModel DominatorAccountModel { get; set; }
         public DominatorAccountModel OldDominatorAccountModel { get; set; }
-        private DominatorAccountViewModel.AccessorStrategies strategy;
+        private AccessorStrategies strategy;
         private bool _isEmailVerification;
 
         public bool IsEmailVerification
