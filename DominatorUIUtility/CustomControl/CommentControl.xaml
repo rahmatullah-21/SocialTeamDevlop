@@ -32,7 +32,7 @@
                         <DataTemplate>
                             <CheckBox  x:Name="chkQuery"
                                           IsChecked="{Binding IsContentSelected}" Checked="chkQuery_Checked" Unchecked="chkQuery_Unchecked">
-                                <TextBlock TextTrimming="CharacterEllipsis" Width="200">
+                                <TextBlock >
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0} [ {1} ]">
                                             <Binding Path="Content.QueryValue" />

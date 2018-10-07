@@ -20,25 +20,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.35*" />
+        <!--<Grid Grid.Row="0" Background="{DynamicResource AccentColorBrush}">-->
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>-->
 
-
-            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
-                <Label  
-                               HorizontalAlignment="Left"
+            <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
+           
+                <Label  HorizontalAlignment="Left" DockPanel.Dock="Left"
                                VerticalAlignment="Center" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
                                Content="{DynamicResource LangKeyAccountDetails}" />
-            </StackPanel>
 
 
-            <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
+
+                <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}" DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
 
                     <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
@@ -212,10 +211,9 @@
 
                     </Button>
 
-                    <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
+                    <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
                         <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
-                                   VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource LangKeyInfo}" 
-                                   >
+                                   VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
                             </Rectangle.OpacityMask>
@@ -224,8 +222,8 @@
 
                 </StackPanel>
             </Grid>
-
-        </Grid>
+            </DockPanel>
+        <!--</Grid>-->
 
         <!--Data grid view-->
         <Grid Grid.Row="1">
@@ -519,6 +517,9 @@
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}" >
                                                         <Setter Property="Text" Value="{DynamicResource LangKeyRetypePhoneNumber}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ProfileSuspended}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyProfileSuspended}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>

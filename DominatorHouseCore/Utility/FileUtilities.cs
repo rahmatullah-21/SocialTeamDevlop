@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using CsvHelper;
-using DominatorHouseCore.LogHelper;
-using Microsoft.Win32;
-using WPFFolderBrowser;
 using Excel = Microsoft.Office.Interop.Excel;
-using Microsoft.VisualBasic.FileIO;
 
 namespace DominatorHouseCore.Utility
 {

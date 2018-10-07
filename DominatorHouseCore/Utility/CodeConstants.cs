@@ -74,6 +74,8 @@
         public static string ProxyVerificationStarted { get; } = "I1068";
         public static string ProxyVerificationCompleted { get; } = "I1069";
         public static string SentVerificationCode { get; } = "I1070";
-        public static string FailedToSendVerificationCodeFaild { get; } = "I1070";
+        public static string FailedToSendVerificationCodeFaild { get; } = "I1071";
+
+        public static string PublishingFailedWithError { get; } = "I1072";
     }
 }

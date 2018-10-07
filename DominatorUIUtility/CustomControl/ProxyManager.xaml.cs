@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore;
+using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
 using System;
 using System.Windows.Controls;
@@ -21,7 +22,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        public ProxyManager(DominatorAccountViewModel.AccessorStrategies strategies)
+        public ProxyManager(AccessorStrategies strategies)
         {
 
             InitializeComponent();
@@ -31,7 +32,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         private static ProxyManager _proxyManagerInstance = null;
-        public static ProxyManager GetProxyManagerControl(DominatorAccountViewModel.AccessorStrategies strategies)
+        public static ProxyManager GetProxyManagerControl(AccessorStrategies strategies)
         {
             try
             {

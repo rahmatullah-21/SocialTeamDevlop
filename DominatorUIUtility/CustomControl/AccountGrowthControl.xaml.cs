@@ -56,7 +56,7 @@ namespace DominatorUIUtility.CustomControl
 
 
 
-        private AccountGrowthControl(DominatorAccountViewModel.AccessorStrategies strategyPack)
+        private AccountGrowthControl(AccessorStrategies strategyPack)
         {
 
             _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
@@ -419,7 +419,7 @@ namespace DominatorUIUtility.CustomControl
 
         private static AccountGrowthControl _accountGrowthInstance = null;
 
-        public static AccountGrowthControl GetAccountGrowthControl(SocialNetworks socialNetwork, DominatorAccountViewModel.AccessorStrategies strategies)
+        public static AccountGrowthControl GetAccountGrowthControl(SocialNetworks socialNetwork, AccessorStrategies strategies)
         {
             socialNetworks = socialNetwork;
             if (_accountGrowthInstance == null)
@@ -433,7 +433,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public static AccountGrowthControl GetAccountGrowthControl(DominatorAccountViewModel.AccessorStrategies strategies)
+        public static AccountGrowthControl GetAccountGrowthControl(AccessorStrategies strategies)
         {
             return _accountGrowthInstance ?? (_accountGrowthInstance = new AccountGrowthControl(strategies));
         }
@@ -735,7 +735,7 @@ namespace DominatorUIUtility.CustomControl
         //    }
         //    catch (Exception exception)
         //    {
-        //        GlobusLogHelper.log.Error(exception.Message);
+        //         exception.DebugLog();
         //        //MessageBox.Show(exception.Message);
         //        Console.WriteLine(exception);
         //    }

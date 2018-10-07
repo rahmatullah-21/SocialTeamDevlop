@@ -40,5 +40,22 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isEnableExportingHTMLOfDifferentConnections, value);
             }
         }
+
+        private bool _isFilterDuplicateMessageByCheckingConversationsHistory;
+        [ProtoMember(2)]
+        public bool IsFilterDuplicateMessageByCheckingConversationsHistory
+        {
+            get
+            {
+                return _isFilterDuplicateMessageByCheckingConversationsHistory;
+            }
+            set
+            {
+                if (value == _isFilterDuplicateMessageByCheckingConversationsHistory)
+                    return;
+                SetProperty(ref _isFilterDuplicateMessageByCheckingConversationsHistory, value);
+            }
+        }
+
     }
 }

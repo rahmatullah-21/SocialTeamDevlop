@@ -229,9 +229,7 @@ namespace DominatorHouseCore.Process
         /// <returns></returns>
         public virtual JobProcessResult FinalProcess(ScrapeResultNew scrapedResult)
         {
-            JobProcessResult jobProcessResult = new JobProcessResult();
-            jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
-            jobProcessResult = PostScrapeProcess(scrapedResult);
+            JobProcessResult jobProcessResult = PostScrapeProcess(scrapedResult);
 
             if (jobProcessResult.IsProcessCompleted)
             {
@@ -417,15 +415,30 @@ namespace DominatorHouseCore.Process
                 JobCancellationTokenSource = new CancellationTokenSource();
 
                 RunningJobProcesses.Add(Id, this);
-
+               
                 var task = ThreadFactory.Instance.Start(() =>
                 {
 
                     GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                     // Login and run scraper/poster from derived concrete classes
-                    if (Login())
-                        RunScrapper();
+                    if(DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
+                    {
+                        if (Login())
+                            RunScrapper();
+                        else
+                        {
+                            GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "did not get processed as account failed to login");
+                            DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                        }
+                           
+                    }
+                    else
+                    {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
+                        DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                    }
+                   
 
                 }, JobCancellationTokenSource.Token);
 

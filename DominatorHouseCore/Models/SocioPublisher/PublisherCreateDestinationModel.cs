@@ -335,35 +335,42 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 publisherCreateDestinationModel.AccountsWithNetwork.ForEach(async x =>
                 {
-                    if (FeatureFlags.IsNetworkAvailable(x.Key))
+                    try
                     {
-                        var accountsDetailsSelector = SocinatorInitialize
-                            .GetSocialLibrary(x.Key)
-                            .GetNetworkCoreFactory().AccountDetailsSelectors;
-
-                        if (accountsDetailsSelector.IsGroupsAvailables)
+                        if (FeatureFlags.IsNetworkAvailable(x.Key))
                         {
-                            try
+                            var accountsDetailsSelector = SocinatorInitialize
+                                .GetSocialLibrary(x.Key)
+                                .GetNetworkCoreFactory().AccountDetailsSelectors;
+
+                            if (accountsDetailsSelector != null && accountsDetailsSelector.IsGroupsAvailables)
                             {
-                                var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
-                                var alreadyPresentedGroups =
-                                    publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
-                                foreach (var group in groups)
+                                try
                                 {
-                                    if (!alreadyPresentedGroups.Contains(group))
+                                    var groups = await accountsDetailsSelector.GetGroupUrls(x.Value, publisherCreateDestinationModel.CreatedDate);
+                                    var alreadyPresentedGroups =
+                                        publisherCreateDestinationModel.AccountGroupPair.Select(y => y.Value).ToList();
+                                    foreach (var group in groups)
                                     {
-                                        publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                                        if (!alreadyPresentedGroups.Contains(group))
+                                        {
+                                            publisherCreateDestinationModel.AccountGroupPair.Add(new KeyValuePair<string, string>(x.Value, group));
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception ex)
-                            {
+                                catch (Exception ex)
+                                {
 
-                                ex.DebugLog();
+                                    ex.DebugLog();
+                                }
                             }
+                            PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
+                                publisherCreateDestinationModel.AccountGroupPair.Count);
                         }
-                        PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId,
-                            publisherCreateDestinationModel.AccountGroupPair.Count);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
                     }
                 });
             }
@@ -386,8 +393,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PublisherManageDestinationModel.UpdateDestinationsGroupCount(destinationId, updateCreateDestinationModel.AccountGroupPair.Count);
 
             UpdateDestination(updateCreateDestinationModel);
-        }        
-        
+        }
+
 
 
     }
@@ -399,7 +406,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
     {
 
         [ProtoMember(1)]
-        public string DestinationUrl { get; set; } =string.Empty;
+        public string DestinationUrl { get; set; } = string.Empty;
 
         [ProtoMember(2)]
         public string DestinationType { get; set; } = string.Empty;

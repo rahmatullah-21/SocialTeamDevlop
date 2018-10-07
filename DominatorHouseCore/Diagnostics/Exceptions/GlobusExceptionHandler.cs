@@ -84,6 +84,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 try
                 {
+                   
                     HandleGlobalException(e.ExceptionObject as Exception, o.ToString());
                 }
                 catch

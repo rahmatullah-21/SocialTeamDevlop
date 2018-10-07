@@ -29,10 +29,11 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetConfigurationKey()))
-                {
-                    return Serializer.Deserialize<FatalErrorHandler>(stream);
-                }
+                return GenericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
+                //using (var stream = File.OpenRead(ConstantVariable.GetConfigurationKey()))
+                //{
+                //    return Serializer.Deserialize<FatalErrorHandler>(stream);
+                //}
             }
             catch (Exception ex)
             {

@@ -1,24 +1,39 @@
 ﻿using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
+using DominatorHouseCore.BusinessLogic.GlobalRoutines;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.ViewModel.Common;
 using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
+using FluentScheduler;
 using MahApps.Metro.Controls.Dialogs;
 using Socinator.Social.AutoActivity.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Unity;
 
 namespace DominatorHouse.ViewModels
 {
@@ -27,7 +42,7 @@ namespace DominatorHouse.ViewModels
         void AddNetwork(SocialNetworks socialNetwork);
 
         void SetActiveNetwork(SocialNetworks social);
-        DominatorAccountViewModel.AccessorStrategies Strategies { get; }
+        AccessorStrategies Strategies { get; }
     }
 
     public class MainViewModel : BindableBase, IMainViewModel
@@ -44,8 +59,8 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
 
-        public DominatorAccountViewModel.AccessorStrategies Strategies { get; }
-
+        public AccessorStrategies Strategies { get; set; }
+        string _fatalError { get; set; }
         public Dock TabDock
         {
             get
@@ -57,9 +72,27 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
-
+        public ICommand WinActivateCommand { get; set; }
+        public ICommand WinClosingCommand { get; set; }
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel)
         {
+            try
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    FatalErrorDiagnosis();
+                    Languages.Add("English");
+                });
+
+                WinClosingCommand = new BaseCommand<object>((sender) => true, OnClosing);
+
+                WinActivateCommand = new BaseCommand<object>((sender) => true, WindowActivate);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
@@ -88,7 +121,7 @@ namespace DominatorHouse.ViewModels
 
             TabSwitcher.ChangeTabWithNetwork = ChangeTabWithNetwork;
 
-            Strategies = new DominatorAccountViewModel.AccessorStrategies
+            Strategies = new AccessorStrategies
             {
                 ActionCheckAccount = AccountStatusChecker,
                 AccountBrowserLogin = AccountBrowserLogin,
@@ -101,6 +134,302 @@ namespace DominatorHouse.ViewModels
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
+
+
+        private void WindowActivate(object sender)
+        {
+            if (Application.Current.MainWindow.WindowState == WindowState.Minimized)
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+
+        }
+        private void OnClosing(object sender)
+        {
+            try
+            {
+                var e = (CancelEventArgs)sender;
+                e.Cancel = true;
+                bool isClose = Dialog.ShowCustomDialog("Confirmation", "Are you sure to close Socinator?", "Yes", "No") == MessageDialogResult.Affirmative;
+                if (isClose)
+                {
+                    Application.Current.Shutdown();
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private async Task IsCheck()
+        {
+            try
+            {
+                var key = SocinatorKeyHelper.GetKey();
+
+                var networks = await UtilityManager.LogIndividualNetworksExceptions(key.FatalErrorMessage);
+
+                if (networks.Count <= 1)
+                {
+
+
+                    if (!Application.Current.Dispatcher.CheckAccess())
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Application.Current.Shutdown();
+                            Process.GetCurrentProcess().Kill();
+                        });
+                    }
+                    else
+                    {
+                        Application.Current.Shutdown();
+                        Process.GetCurrentProcess().Kill();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                if (!Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Application.Current.Shutdown();
+                        Process.GetCurrentProcess().Kill();
+                    });
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
+        }
+
+        private async Task FatalErrorDiagnosis()
+        {
+            try
+            {
+                string fatalError;
+                var key = SocinatorKeyHelper.GetKey();
+                if (key != null)
+                {
+                    var settings = new MetroDialogSettings()
+                    {
+                        DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
+                        AffirmativeButtonText = "Validate"
+                    };
+                    while (true)
+                    {
+                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
+                        if (await IsProcessFatalError(fatalError))
+                            continue;
+                        else break;
+                    }
+                }
+                else
+                    while (true)
+                    {
+                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License");
+                        if (await IsProcessFatalError(fatalError))
+                            continue;
+                        else break;
+                    }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private async Task<bool> DiagnoseFatalError(string fatalError)
+        {
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "Hang On! Checking your License status",
+                "this will take few moments...");
+            controller.SetIndeterminate();
+            _fatalError = fatalError;
+            var networks = await UtilityManager.LogIndividualNetworksExceptions(_fatalError);
+
+            if (networks == null)
+            {
+                await controller.CloseAsync();
+                return await DiagnoseFatalError(fatalError);
+            }
+            if (networks.Count <= 1)
+            {
+                Application.Current.MainWindow.Close();
+                await controller.CloseAsync();
+                await FatalErrorDiagnosis();
+                return true;
+            }
+
+            var fatalErrorHandler = new DominatorHouseCore.Models.FatalErrorHandler
+            {
+                FatalErrorMessage = fatalError,
+                FatalErrorAddedDate = DateTime.Now,
+                ErrorNetworks = networks
+            };
+            SocinatorKeyHelper.SaveKey(fatalErrorHandler);
+            FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
+            await controller.CloseAsync();
+            return true;
+        }
+
+        private async Task<bool> IsProcessFatalError(string fatalError)
+        {
+            if (!string.IsNullOrEmpty(fatalError) && await DiagnoseFatalError(fatalError))
+                return false;
+            else if (fatalError == null)
+                Application.Current.MainWindow.Close();
+            else
+            {
+                if (DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "License", "Please validate Socinator !!", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+                    return true;
+                else
+                    Application.Current.MainWindow.Close();
+            }
+
+            return false;
+        }
+
+        private void SocinatorInitializer()
+        {
+            try
+            {
+                ThreadFactory.Instance.Start(() =>
+                {
+                    JobManager.AddJob(() => InitializeJobCores(_fatalError), x => x.ToRunNow());
+                });
+
+                //Init UI delegates            
+                CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
+                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg) ==
+                    MessageDialogResult.Affirmative;
+
+
+                ConfigFileManager.ApplyTheme();
+
+                Application.Current.MainWindow.Closed += (o, e) => Process.GetCurrentProcess().Kill();
+            }
+            catch (AggregateException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+
+
+        public void InitializeJobCores(string license)
+        {
+
+            try
+            {
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var nextDayTime = DateTime.Now.AddDays(1);
+
+                    JobManager.AddJob(() => InitializeJobCores(license),
+                        x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
+                            .AndEvery(1).Days());
+                });
+
+                FeatureFlags.UpdateFeatures();
+                var modules = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>();
+                foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
+                {
+                    var module = socialNetworkModule;
+                    FeatureFlags.Check(module.Network.ToString(), () =>
+                    {
+                        try
+                        {
+                            SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
+                            PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                            AddNetwork(socialNetworkModule.Network);
+                        }
+                        catch (AggregateException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
+                }
+
+                SetActiveNetwork(SocialNetworks.Social);
+                FeatureFlags.UpdateFeatures();
+
+                var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
+                ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(Strategies); });
+
+                var softWareSetting = new DominatorHouseCore.Settings.SoftwareSettings();
+                ThreadFactory.Instance.Start(() => { softWareSetting.InitializeOnLoadConfigurations(); });
+
+                // For Every day backup
+                ThreadFactory.Instance.Start(() =>
+                {
+                    DirectoryUtilities.DeleteOldLogsFile();
+                    //DirectoryUtilities.Compress();
+                });
+
+                #region Publisher
+
+                ThreadFactory.Instance.Start(() =>
+                {
+                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                    PublishScheduler.ScheduleTodaysPublisher();
+                    PublishScheduler.UpdateNewGroupList();
+                });
+
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var publisherPostFetcher = new PublisherPostFetcher();
+                    publisherPostFetcher.StartFetchingPostData();
+                });
+
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var deletionPostlist =
+                    GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                        .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
+                });
+
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            try
+            {
+                ThreadFactory.Instance.Start(() =>
+                {
+                    JobManager.AddJob(async () => await IsCheck(),
+                        x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
+                            .AndEvery(1).Hours());
+                });
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (AggregateException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
 
         private void RemovePhoneVerification(DominatorAccountModel dominatorAccountModel)
         {

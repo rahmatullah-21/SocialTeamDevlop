@@ -80,5 +80,12 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
         [Column(Order = 17)]
         public string ProfilePicUrl
         { get; set; }
+
+        [Column(Order = 18)]
+        public string Status { get; set; }
+
+        [Column(Order = 19)]
+        public string RequiredData
+        { get; set; }
     }
 }

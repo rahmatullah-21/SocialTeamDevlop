@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DominatorHouseCore.Models;
 
 namespace DominatorHouse.Social.Accounts
 {
@@ -23,8 +24,8 @@ namespace DominatorHouse.Social.Accounts
     /// </summary>
     public partial class AccountGrowthTab : UserControl
     {
-        private DominatorAccountViewModel.AccessorStrategies _strategies;
-        public AccountGrowthTab(DominatorAccountViewModel.AccessorStrategies strategies)
+        private AccessorStrategies _strategies;
+        public AccountGrowthTab(AccessorStrategies strategies)
         {
             this._strategies = strategies;
             InitializeComponent();

@@ -1,7 +1,7 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Models;
 using DominatorUIUtility.IoC;
-using DominatorUIUtility.ViewModel;
 using Unity;
 using Unity.Resolution;
 
@@ -20,7 +20,7 @@ namespace DominatorHouse
 
 
         public INetworkCollectionFactory GetNetworkCollectionFactory(
-            DominatorAccountViewModel.AccessorStrategies strategies)
+            AccessorStrategies strategies)
         {
             return _unityContainer.Resolve<INetworkCollectionFactory>(Network.ToString(),
                 new ParameterOverrides { { "strategies", strategies } });

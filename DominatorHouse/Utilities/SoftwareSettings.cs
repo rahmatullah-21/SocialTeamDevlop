@@ -25,12 +25,12 @@ namespace DominatorHouse.Utilities
 {
     public class SoftwareSettings
     {
-        private DominatorAccountViewModel.AccessorStrategies _strategies;
-        public void InitializeOnLoadConfigurations(DominatorAccountViewModel.AccessorStrategies strategies)
+        private AccessorStrategies _strategies;
+        public void InitializeOnLoadConfigurations(AccessorStrategies strategies)
         {
             _strategies = strategies;
             CheckConfigurationFiles();
-           // ScheduleAccountUpdation();
+            ScheduleAccountUpdation();
             // ScheduleUpdation();
             ActivityManagerInitializer();
             OtherInitializers();
@@ -450,9 +450,9 @@ namespace DominatorHouse.Utilities
                             Monitor.Wait(dominatorAccountViewModel.AccountUpdateLock);
                         }
                     }
-                    catch (Exception Ex)
+                    catch (Exception ex)
                     {
-                        GlobusLogHelper.log.Error(Ex.Message);
+                        ex.DebugLog();
                     }
                 }
 

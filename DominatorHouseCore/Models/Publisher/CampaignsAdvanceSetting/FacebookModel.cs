@@ -363,7 +363,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isAddHashTagEvenIfAlreadyHastags, value);
             }
         }
-        private RangeUtilities _maxHashtagsPerPostRange=new RangeUtilities();
+        private RangeUtilities _maxHashtagsPerPostRange = new RangeUtilities();
 
         [ProtoMember(23)]
         public RangeUtilities MaxHashtagsPerPostRange
@@ -459,7 +459,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _isDeletePostAfter, value);
             }
         }
-       
+
 
         [ProtoMember(29)]
         public string CampaignId { get; set; }
@@ -527,6 +527,42 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _usersForEachPost, value);
             }
         }
+
+        private bool _isTagUniqueFriends = false;
+
+        [ProtoMember(34)]
+        public bool IsTagUniqueFriends
+        {
+            get
+            {
+                return _isTagUniqueFriends;
+            }
+            set
+            {
+                if (_isTagUniqueFriends == value)
+                    return;
+                SetProperty(ref _isTagUniqueFriends, value);
+            }
+        }
+
+        private List<string> _alreadyTaggedUsers = new List<string>();
+
+        [ProtoMember(35)]
+        public List<string> AlreadyTaggedUsers
+        {
+            get
+            {
+                return _alreadyTaggedUsers;
+            }
+            set
+            {
+                if (_alreadyTaggedUsers == value)
+                    return;
+                SetProperty(ref _alreadyTaggedUsers, value);
+            }
+        }
+
+
 
         public FacebookModel Clone()
         {

@@ -18,7 +18,7 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
-
+using DominatorHouseCore.Models;
 namespace Socinator.Social.Accounts
 {
     /// <summary>
@@ -26,9 +26,9 @@ namespace Socinator.Social.Accounts
     /// </summary>
     public partial class AccountTab : UserControl 
     {
-        private DominatorAccountViewModel.AccessorStrategies _strategies;
+        private AccessorStrategies _strategies;
 
-        public AccountTab(DominatorAccountViewModel.AccessorStrategies strategies)
+        public AccountTab(AccessorStrategies strategies)
         {
             this._strategies = strategies;
             InitializeComponent();

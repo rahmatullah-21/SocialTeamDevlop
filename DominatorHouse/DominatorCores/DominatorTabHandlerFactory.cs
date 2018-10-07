@@ -21,16 +21,16 @@ namespace Socinator.DominatorCores
 {
     public class DominatorTabHandlerFactory : ITabHandlerFactory
     {
-        private DominatorAccountViewModel.AccessorStrategies _strategies;
+        private AccessorStrategies _strategies;
 
         public List<TabItemTemplates> NetworkTabs { get; set; }
 
         private static DominatorTabHandlerFactory _instance;
 
-        public static DominatorTabHandlerFactory GetInstance(DominatorAccountViewModel.AccessorStrategies strategies)
+        public static DominatorTabHandlerFactory GetInstance(AccessorStrategies strategies)
             => _instance ?? (_instance = new DominatorTabHandlerFactory(strategies));
 
-        private DominatorTabHandlerFactory(DominatorAccountViewModel.AccessorStrategies strategies)
+        private DominatorTabHandlerFactory(AccessorStrategies strategies)
         {
             _strategies = strategies;
             NetworkTabs = new List<TabItemTemplates>();

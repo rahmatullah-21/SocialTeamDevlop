@@ -48,8 +48,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             CampaignsAdvanceSetting ObjCampaignsAdvanceSetting = new CampaignsAdvanceSetting();
             Dialog dialog = new Dialog();
             Window window = dialog.GetMetroWindow(ObjCampaignsAdvanceSetting, "Campaign - Advanced Settings");
-            btnAdvancedSettings.IsEnabled = false;
-
+        
             ObjCampaignsAdvanceSetting.BtnSave.Click += (senders, args) =>
             {
                 try
@@ -68,6 +67,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var generalModels = GenericFileManager.GetModuleDetails<GeneralModel>(file);
                         var moduleToUpdate = generalModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newGeneralModel, generalModels, file, SocialNetworks.Social);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social,"Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+
                     }
 
                     #endregion
@@ -84,6 +85,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var lstFacebookModels = GenericFileManager.GetModuleDetails<FacebookModel>(file);
                         var moduleToUpdate = lstFacebookModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newFacebookModel, lstFacebookModels, file, SocialNetworks.Facebook);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+
                     }
 
                     #endregion
@@ -101,6 +104,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var lstGooglePlusModels = GenericFileManager.GetModuleDetails<GooglePlusModel>(file);
                         var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Gplus, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+
                     }
                     #endregion
 
@@ -118,6 +123,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var lstInstagramModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(file);
                         var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newInstagramModel, lstInstagramModels, file, SocialNetworks.Instagram);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Instagram, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
                     }
 
                     #endregion
@@ -135,6 +141,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var lstPinterestModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(file);
                         var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newPinterestModel, lstPinterestModels, file, SocialNetworks.Pinterest);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+
                     }
                     #endregion
 
@@ -152,6 +160,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var lstTumblrModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(file);
                         var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Tumblr, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+
                     }
 
                     #endregion
@@ -169,6 +179,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var lstTwitterModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(file);
                         var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTwitterModel, lstTwitterModels, file, SocialNetworks.Twitter);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+
                     }
 
                     #endregion
@@ -186,12 +198,12 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var lstRedditModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.RedditModel>(file);
                         var moduleToUpdate = lstRedditModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newRedditModel, lstRedditModels, file, SocialNetworks.Reddit);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Reddit, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+
                     }
 
                     #endregion
-
-                    GlobusLogHelper.log.Info("Details successfully saved");
-                    btnAdvancedSettings.IsEnabled = true;
+                    
                     window.Close();
                 }
                 catch (Exception ex)
@@ -199,8 +211,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                     ex.DebugLog();
                 }
             };
-            window.Closing += (senders, args) => { btnAdvancedSettings.IsEnabled = true; };
-            window.Show();
+            window.ShowDialog();
         }
     }
 }

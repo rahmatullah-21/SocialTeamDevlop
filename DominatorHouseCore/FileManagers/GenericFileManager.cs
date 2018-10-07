@@ -165,7 +165,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Updation error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }
@@ -217,7 +217,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Saving error - " + ex.Message);
+               
                 ex.DebugLog();
                 return false;
             }
@@ -267,7 +267,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error("Updation error - " + ex.Message);
+                
                 ex.DebugLog();
                 return false;
             }
@@ -294,7 +294,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error($"Error caught while adding the account " + ex.StackTrace);
+                ex.DebugLog();
                 return false;
             }
         }
@@ -316,7 +316,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error($"Error caught while adding the account " + ex.StackTrace);
+                ex.DebugLog();
                 return false;
             }
         }
@@ -352,7 +352,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (IOException ex)
             {
-                GlobusLogHelper.log.Error($"Unable to delete file {filepath} - {ex.Message}");
+                ex.DebugLog();
             }
             catch (Exception ex)
             {
@@ -386,6 +386,23 @@ namespace DominatorHouseCore.FileManagers
             }
 
         }
+        public static bool UpdateAdvancedSettingDetails<T>(List<T> detailsList, string fileType) where T : class
+        {
+            try
+            {
+                // Fetch the file path from lock with type object
 
+                bool result = ProtoBuffBase.SerializeList(detailsList, fileType);
+                GlobusLogHelper.log.Debug("Details successfully saved");
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+
+                ex.DebugLog();
+                return false;
+            }
+        }
     }
 }
