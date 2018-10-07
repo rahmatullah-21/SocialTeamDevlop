@@ -31,9 +31,8 @@ namespace DominatorUIUtility.ViewModel
 
     public class ProxyManagerViewModel : BaseTabViewModel, IProxyManagerViewModel
     {
-
+        private readonly IMainViewModel _mainViewModel;
         private static readonly object _lock = new object();
-        public AccessorStrategies _strategies;
         private string _urlToUseToVerifyProxies = "https://www.google.com";
         private bool _isAddProxyEnabled = true;
         private ProxyManagerModel _proxyManagerModel = new ProxyManagerModel();
@@ -95,8 +94,9 @@ namespace DominatorUIUtility.ViewModel
         public ICommand AssignRandomProxyCommand { get; }
         #endregion
 
-        public ProxyManagerViewModel() : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
+        public ProxyManagerViewModel(IMainViewModel mainViewModel) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
         {
+            _mainViewModel = mainViewModel;
 
             AddProxyCommand = new DelegateCommand(AddProxyExecute);
             ImportProxyCommand = new DelegateCommand(ImportProxyExecute);
@@ -510,7 +510,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);
+                var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _mainViewModel.Strategies);
 
                 accountCustomControl.DominatorAccountViewModel.LstDominatorAccountModel.Where(account =>
                     account.AccountBaseModel.AccountProxy.ProxyIp == selectedProxy.AccountProxy.ProxyIp
@@ -597,7 +597,7 @@ namespace DominatorUIUtility.ViewModel
                     .SaveToBinFile();
 
                 var accountToUpdate = AccountsFileManager.GetAccount(acc.UserName, acc.AccountBaseModel.AccountNetwork);
-                UpdateAccountsProxy(accountToUpdate, _strategies);
+                UpdateAccountsProxy(accountToUpdate, _mainViewModel.Strategies);
             });
             DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
                 $"{oldProxy.AccountProxy.ProxyIp}:{oldProxy.AccountProxy.ProxyPort} Successfully updated.");
@@ -662,7 +662,7 @@ namespace DominatorUIUtility.ViewModel
                     .AddOrUpdateDominatorAccountBase(accountToDeleteProxy.AccountBaseModel)
                     .SaveToBinFile();
 
-                UpdateAccountsProxy(accountToDeleteProxy, _strategies);
+                UpdateAccountsProxy(accountToDeleteProxy, _mainViewModel.Strategies);
                 LstProxyManagerModel.ForEach(oldProxy =>
                  AccountsAlreadyAssigned.Remove(AccountsAlreadyAssigned.FirstOrDefault(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
                );
@@ -718,7 +718,7 @@ namespace DominatorUIUtility.ViewModel
                 LstProxyManagerModel[indexToUpdate].AccountsAssignedto = ProxyManagerModel.AccountsAssignedto;
                 LstProxyManagerModel[indexToUpdate].AccountsToBeAssign = ProxyManagerModel.AccountsToBeAssign;
 
-                UpdateAccountsProxy(accountToUpdateProxy, _strategies);
+                UpdateAccountsProxy(accountToUpdateProxy, _mainViewModel.Strategies);
                 ProxyFileManager.EditAllProxy(LstProxyManagerModel.ToList());
 
             }

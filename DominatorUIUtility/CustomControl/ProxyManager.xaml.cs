@@ -12,8 +12,6 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class ProxyManager : UserControl
     {
-
-
         public ProxyManagerViewModel ProxyManagerViewModel
         {
             get
@@ -22,12 +20,10 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        public ProxyManager(AccessorStrategies strategies)
+        public ProxyManager()
         {
 
             InitializeComponent();
-            _proxyManagerInstance = this;
-            ProxyManagerViewModel._strategies = strategies;
             MainGrid.DataContext = ProxyManagerViewModel;
         }
 
@@ -36,7 +32,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                return _proxyManagerInstance ?? (_proxyManagerInstance = new ProxyManager(strategies));
+                return _proxyManagerInstance ?? (_proxyManagerInstance = new ProxyManager());
             }
             catch (Exception ex)
             {
