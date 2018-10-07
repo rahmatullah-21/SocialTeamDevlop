@@ -23,7 +23,6 @@ using System.Windows.Input;
 using Unity;
 using NLog;
 using Socinator.Social.AutoActivity.Views;
-using DominatorHouse.ViewModel;
 
 
 #endregion
