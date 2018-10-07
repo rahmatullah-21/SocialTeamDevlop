@@ -23,6 +23,9 @@ namespace DominatorUIUtility.IoC
             Container.RegisterSingleton<IOtherToolsViewModel, MediaGeneratorViewModel>("MediaGeneratorViewModel");
 
             Container.RegisterSingleton<IProxyManagerViewModel, ProxyManagerViewModel>();
+
+            Container.RegisterSingleton<IDominatorAccountViewModel, DominatorAccountViewModel>();
+
         }
     }
 }

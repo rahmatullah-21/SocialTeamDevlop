@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
+﻿using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.DHEnum;
 using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorUIUtility.ViewModel;
-using LiveCharts.Wpf;
-using LiveCharts;
-using System.Reflection;
-using DominatorHouseCore;
 using DominatorHouseCore.ViewModel;
+using DominatorUIUtility.ViewModel;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using Unity;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -59,7 +55,7 @@ namespace DominatorUIUtility.CustomControl
         private AccountGrowthControl(AccessorStrategies strategyPack)
         {
 
-            _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
+            _dominatorAccountViewModel = (DominatorAccountViewModel)DominatorHouseCore.IoC.Container.Resolve<IDominatorAccountViewModel>();
             InitializeComponent();
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
