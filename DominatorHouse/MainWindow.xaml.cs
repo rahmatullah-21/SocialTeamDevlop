@@ -1,28 +1,16 @@
 ﻿#region Namespaces
-using DominatorHouse.ViewModels;
 using DominatorHouseCore;
-using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.IoC;
-using FluentScheduler;
+using DominatorHouseCore.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Unity;
-using NLog;
-using Socinator.Social.AutoActivity.Views;
 
 
 #endregion

@@ -628,6 +628,7 @@
     <Compile Include="Utility\MediaUtilites.cs" />
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\GlobalInteractionViewModel.cs" />
+    <Compile Include="ViewModel\IMainViewModel.cs" />
     <Compile Include="ViewModel\ITabViewModel.cs" />
     <Compile Include="ViewModel\DashboardVms\RevisionHistoryViewModel.cs" />
     <Compile Include="Converters\ProxyManagerSourceConverter.cs" />
