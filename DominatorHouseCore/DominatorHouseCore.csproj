@@ -211,6 +211,7 @@
     <Compile Include="Converters\BooleanToStringSelectConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
+    <Compile Include="Converters\BoolToValueConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\EpochToDateTimeConverter.cs" />
     <Compile Include="Converters\FeatureVisibilityConverter.cs" />
@@ -227,6 +228,8 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\PositiveValueConvertor.cs" />
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
+    <Compile Include="Converters\SocialNetworkToColorBrushConverter.cs" />
+    <Compile Include="Converters\SocialNetworkToVisualBrushConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
