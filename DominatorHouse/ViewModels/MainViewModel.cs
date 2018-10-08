@@ -76,23 +76,11 @@ namespace DominatorHouse.ViewModels
         public ICommand WinClosingCommand { get; set; }
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel)
         {
-            try
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    FatalErrorDiagnosis();
-                    Languages.Add("English");
-                });
+            FatalErrorDiagnosis();
 
-                WinClosingCommand = new BaseCommand<object>((sender) => true, OnClosing);
+            WinClosingCommand = new BaseCommand<object>((sender) => true, OnClosing);
+            WinActivateCommand = new BaseCommand<object>((sender) => true, WindowActivate);
 
-                WinActivateCommand = new BaseCommand<object>((sender) => true, WindowActivate);
-
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
