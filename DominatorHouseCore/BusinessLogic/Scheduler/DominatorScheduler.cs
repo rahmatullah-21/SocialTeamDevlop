@@ -34,7 +34,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-
                 _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
 
                 var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);

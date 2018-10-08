@@ -1,11 +1,13 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
 
 namespace DominatorHouseCore.Utility
 {
     [Serializable]
-    public abstract class BindableBase : INotifyPropertyChanged
+    public abstract class BindableBase :  INotifyPropertyChanged
     {
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -27,5 +29,8 @@ namespace DominatorHouseCore.Utility
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+       
+
     }
 }

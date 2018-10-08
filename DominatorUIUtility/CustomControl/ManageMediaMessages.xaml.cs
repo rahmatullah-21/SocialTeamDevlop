@@ -71,6 +71,7 @@ namespace DominatorUIUtility.CustomControl
                     if (editMessage.Messages.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
                         x.IsContentSelected = true;
                 });
+
                 editMessage.MainGrid.Margin = new Thickness(20);
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(editMessage, "Edit Message");

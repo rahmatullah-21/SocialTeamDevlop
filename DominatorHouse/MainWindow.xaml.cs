@@ -1,5 +1,6 @@
 ﻿#region Namespaces
 using DominatorHouse;
+using DominatorHouse.PopUpStyle;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
@@ -12,14 +13,19 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.Controls;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.IoC;
+using DominatorUIUtility.Navigations;
+using DominatorUIUtility.ScreenTip.ViewModel;
+using DominatorUIUtility.ScreenTipMode;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
 //using EmbeddedBrowser;
 using FluentScheduler;
+using GalaSoft.MvvmLight.Command;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
@@ -42,6 +48,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Unity;
+using DominatorUIUtility.ScreenTip.PopUpstyle;
 
 #endregion
 
@@ -77,6 +84,8 @@ namespace Socinator
                 _languages.Add("English");
                 InitializeComponent();
                 SocinatorInitialize.LogInitializer(this);
+                FeatureTour.SetViewModelFactoryMethod(tourRun => new CustomTourViewModel(tourRun));
+                var navigator = FeatureTour.GetNavigator();
                 SocinatorWindow.DataContext = this;
                 Loaded += (o, e) =>
                 {
@@ -506,6 +515,7 @@ namespace Socinator
                 if (tabHandler == null)
                     return;
                 TabItems = new ObservableCollection<TabItemTemplates>(tabHandler.NetworkTabs);
+               
                 Title = tabHandler.NetworkName;
                 SelectedViewIndex = 0;
                 tabHandler.UpdateAccountCustomControl(network);
@@ -526,6 +536,7 @@ namespace Socinator
         {
             try
             {
+
                 var textBlockDetails = (FrameworkElement)sender as TextBlock;
 
                 if (textBlockDetails == null)
@@ -599,7 +610,6 @@ namespace Socinator
 
         public void InitializeJobCores(string license)
         {
-
             try
             {
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
@@ -1055,6 +1065,19 @@ namespace Socinator
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+        
+
+        private void TextBlock_MouseEnter(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                TextBlock ovjtext = (TextBlock)sender;
+                PopUpStarter.StartIntroduction();
+            }
+            catch (Exception ex)
+            {
             }
         }
     }

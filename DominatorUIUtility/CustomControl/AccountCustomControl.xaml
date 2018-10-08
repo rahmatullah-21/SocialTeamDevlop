@@ -8,6 +8,7 @@
              xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:Tipcontrol="clr-namespace:DominatorUIUtility.Controls"
              Name="AccountModule"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -212,6 +213,26 @@
 
                     </Button>
 
+                    <Button Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="sbtnDeleteAccounts" Command="{Binding CmdStartOverView}" >
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Rectangle Width="15" Height="20" Fill="White">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+
+                                        <Label Content="Tools" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+
+                    </Button>
+
+
                     <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
                         <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
                                    VerticalAlignment="Center"  Margin="10,0,0,0" ToolTip="{DynamicResource LangKeyInfo}" 
@@ -229,9 +250,14 @@
 
         <!--Data grid view-->
         <Grid Grid.Row="1">
-            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
-                      AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
+            <Rectangle  HorizontalAlignment="Center"
+  VerticalAlignment="Center" 
+                           Tipcontrol:ScreenTipHelper.ElementID="ButtonOverView" 
+                           Tipcontrol:ScreenTipHelper.Placement="Center"/>
+            <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}"  
+                      AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}" >
                 <ListView.ItemContainerStyle>
+                 
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <EventSetter Event="ContextMenu.ContextMenuOpening" Handler="Row_ContextMenuOpening"/>
                         <!--<Setter Property="Foreground" Value="White"/>-->
@@ -294,7 +320,6 @@
                         <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <ContentControl>
                                             <ContentControl.Style>
@@ -562,10 +587,8 @@
 
 
                 </ListView.View>
-
-
-
             </ListView>
+           
             <!--Help section-->
             <Controls:FlyoutsControl>
                 <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"

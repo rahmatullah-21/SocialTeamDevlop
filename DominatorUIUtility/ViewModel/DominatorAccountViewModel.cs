@@ -14,12 +14,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Threading;
-using ControlzEx.Standard;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
-using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.DatabaseHandler.Utility;
@@ -37,6 +34,12 @@ using DominatorUIUtility.CustomControl;
 using LiveCharts;
 using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
+using DominatorUIUtility.ScreenTip.PopUpstyle;
+using GalaSoft.MvvmLight.Command;
+using DominatorUIUtility.Navigations;
+using DominatorUIUtility.ScreenTip.ViewModel;
+using DominatorUIUtility.Controls;
+using GalaSoft.MvvmLight;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -54,14 +57,22 @@ namespace DominatorUIUtility.ViewModel
             public Action<DominatorAccountModel> RemovePhoneVerification;
         }
 
-
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
         private DbContext dbContext { get; set; }
 
         private DbOperations dbOperations { get; set; }
 
+        public DominatorAccountViewModel()
+        {
+            InitialAccountDetails();
+            FeatureTour.SetViewModelFactoryMethod(tourRun => new CustomTourViewModel(tourRun));
 
+            var navigator = FeatureTour.GetNavigator();
+        }
+     
+
+        public static DominatorAccountViewModel Instance { get; } = new DominatorAccountViewModel();
 
         public DominatorAccountViewModel(AccessorStrategies strategyPack)
         {
@@ -72,7 +83,6 @@ namespace DominatorUIUtility.ViewModel
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
             dbContext = DataBaseConnectionGlb.GetDbContext();
             dbOperations = new DbOperations(dbContext);
-
 
             #region Command Initialization
 
@@ -280,8 +290,44 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SingleAccountDeleteCommand { get; set; }
         public ICommand UpdateAccountDetailsCommand { get; set; }
 
+        private ICommand _cmdStartOverView;
+
         public ICommand UpdateGroupCommand { get; set; }
         #endregion
+
+
+        private ICommand _cmdStartIntroduction;
+        private Placement _placement;
+
+        public ICommand CmdStartIntroduction
+        {
+            get
+            {
+                if (_cmdStartIntroduction == null)
+                {
+                    _cmdStartIntroduction = new GalaSoft.MvvmLight.Command.RelayCommand(PopUpStarter.StartIntroduction);
+                }
+                return _cmdStartIntroduction;
+            }
+        }
+
+        public Placement Placement
+        {
+            get { return _placement; }
+            set { SetProperty(ref _placement, value); }
+        }
+
+        public ICommand CmdStartOverView
+        {
+            get
+            {
+                if (_cmdStartOverView == null)
+                {
+                    _cmdStartOverView = new GalaSoft.MvvmLight.Command.RelayCommand(PopUpStarter.StartOverView);
+                }
+                return _cmdStartOverView;
+            }
+        }
 
         #region Add accounts
 
@@ -1848,6 +1894,18 @@ namespace DominatorUIUtility.ViewModel
         public List<string> _updateAccountList { get; set; } = new List<string>();
 
         public object AccountUpdateLock { get; set; } = new object();
+
+        //public ICommand CmdStartOverView
+        //{
+        //    get
+        //    {
+        //        if (_cmdStartOverView == null)
+        //        {
+        //            _cmdStartOverView = new RelayCommand(PopUpStarter.StartIntroduction);
+        //        }
+        //        return _cmdStartOverView;
+        //    }
+        //}
 
         private void UpdateAccountDetailsExecute(object sender)
         {

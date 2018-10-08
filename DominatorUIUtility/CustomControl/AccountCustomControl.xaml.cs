@@ -19,6 +19,8 @@ using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.Navigations;
+using DominatorUIUtility.Controls;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -50,6 +52,14 @@ namespace DominatorUIUtility.CustomControl
         {
             _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
             InitializeComponent();
+            DataContext = DominatorAccountViewModel.Instance;
+            var navigator = FeatureTour.GetNavigator();
+
+            navigator.OnStepEntering("Rectangle").Execute(s =>
+            {
+                (DataContext as DominatorAccountViewModel).Placement = (Placement)s.Tag;
+            });
+
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;

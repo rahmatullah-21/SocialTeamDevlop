@@ -8,6 +8,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dockable="http://dragablz.net/winfx/xaml/dockablz"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:Controls="clr-namespace:DominatorUIUtility.Controls;assembly=DominatorUIUtility"
+     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         BorderThickness="1" Icon="SociNator.ico"
         Title="{DynamicResource LangKeySocinator}" 
@@ -54,23 +56,24 @@
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedIndex="{Binding SelectedViewIndex}"
                    Name="MainTabControl" VerticalAlignment="Stretch" ItemsSource="{Binding TabItems}"
-                    ItemContainerStyle="{StaticResource TabItemStyle}">
-
-
-            <TabControl.ItemTemplate>
+                    ItemContainerStyle="{StaticResource TabItemStyle}"  >
+         
+            <TabControl.ItemTemplate >
                 <DataTemplate>
-                    <TextBlock Text="{Binding Title}" MouseLeftButtonDown="TabItem_OnMouseLeftButtonDown"/>
+                    <TextBlock Text="{Binding Title}" MouseLeftButtonDown="TabItem_OnMouseLeftButtonDown" MouseEnter="TextBlock_MouseEnter" Controls:ScreenTipHelper.ElementID="{Binding ElementID}"   Controls:ScreenTipHelper.Placement="RightCenter" />
                 </DataTemplate>
+
             </TabControl.ItemTemplate>
+
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <UserControl Content="{Binding Content.Value}"/>
+                    <UserControl Content="{Binding Content.Value}"    />
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
 
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
-                      ResizeDirection="Rows" />
+                      ResizeDirection="Rows"  />
 
         <Grid Name="Logger" Grid.Row="2" Margin="5">
 

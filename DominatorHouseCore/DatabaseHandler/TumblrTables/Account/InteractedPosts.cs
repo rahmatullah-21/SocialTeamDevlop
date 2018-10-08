@@ -79,5 +79,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 
         [Column(Order = 12)]
         public string CommentId { get; set; }
+        [Column(Order = 13)]
+        public string InteractedUserName { get; set; }
     }
 }

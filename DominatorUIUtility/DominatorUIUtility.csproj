@@ -86,7 +86,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>1990048D0DA21F988A15304F68B1204C0C068A95</ManifestCertificateThumbprint>
@@ -113,6 +113,12 @@
     <Reference Include="FluentScheduler">
       <HintPath>..\packages\FluentScheduler.5.2.1\lib\net40\FluentScheduler.dll</HintPath>
     </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
@@ -122,6 +128,9 @@
     <Reference Include="MahApps.Metro, Version=1.6.0.362, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -258,6 +267,15 @@
     <Compile Include="ConfigControl\Youtube.xaml.cs">
       <DependentUpon>Youtube.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScreenTip\Controls\Converters.cs" />
+    <Compile Include="ScreenTip\Controls\Placement.cs" />
+    <Compile Include="ScreenTip\Controls\PlacementHelper.cs" />
+    <Compile Include="ScreenTip\Controls\ScreenTipControl.cs" />
+    <Compile Include="ScreenTip\Controls\ScreenTipHelper.cs" />
+    <Compile Include="ScreenTip\Controls\TextLocalization.cs" />
+    <Compile Include="ScreenTip\Controls\VisualElement.cs" />
+    <Compile Include="ScreenTip\Controls\VisualElementManager.cs" />
+    <Compile Include="ScreenTip\Controls\WindowTransistion.cs" />
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
     </Compile>
@@ -353,6 +371,23 @@
       <DependentUpon>SelectAccountControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="IoC\ISocialNetworkModule.cs" />
+    <Compile Include="ScreenTip\Navigations\ActionRepository.cs" />
+    <Compile Include="ScreenTip\Navigations\FeatureTourNavigator.cs" />
+    <Compile Include="ScreenTip\Navigations\IReleasable.cs" />
+    <Compile Include="ScreenTip\Navigations\ITourDoable.cs" />
+    <Compile Include="ScreenTip\Navigations\ITourExecution.cs" />
+    <Compile Include="ScreenTip\Navigations\ITourNavigator.cs" />
+    <Compile Include="ScreenTip\Navigations\ReleasableAction.cs" />
+    <Compile Include="ScreenTip\PopUpstyle\PopUpStarter.cs" />
+    <Compile Include="ScreenTip\ScreenTipMode\ScreenTipRun.cs" />
+    <Compile Include="ScreenTip\ScreenTipMode\Step.cs" />
+    <Compile Include="ScreenTip\ScreenTipMode\StepNode.cs" />
+    <Compile Include="ScreenTip\ScreenTipMode\ScreenInfo.cs" />
+    <Compile Include="ScreenTip\ViewModel\CommandBase.cs" />
+    <Compile Include="ScreenTip\ViewModel\CustomTourViewModel.cs" />
+    <Compile Include="ScreenTip\ViewModel\RelayCommand.cs" />
+    <Compile Include="ScreenTip\ViewModel\TourViewModel.cs" />
+    <Compile Include="ScreenTip\ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
     <Compile Include="ViewModel\BlackListViewModel.cs" />
@@ -457,6 +492,7 @@
     <Compile Include="Views\SocioPublisher\CustomControl\PublisherUpdateMultiPost.xaml.cs">
       <DependentUpon>PublisherUpdateMultiPost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocioPublisher\CustomControl\ScreenTipControl.cs" />
     <Compile Include="Views\SocioPublisher\CustomControl\Settings\PostAdvancedSettings.xaml.cs">
       <DependentUpon>PostAdvancedSettings.xaml</DependentUpon>
     </Compile>
@@ -823,6 +859,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ScreenTip\PopUpstyle\ToolMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\BaseStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
