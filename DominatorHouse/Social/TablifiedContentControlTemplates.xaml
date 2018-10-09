@@ -11,20 +11,20 @@
         <TabControl TabStripPlacement="Top" ItemContainerStyle="{StaticResource TabItemStyle}" ItemsSource="{Binding ItemsCollection}" SelectedItem="{Binding Selected}" >
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type viewModel:ITabViewModel}">
-                    <StackPanel>
-                        <TextBlock Text="{Binding Title, Mode=OneWay}"/>
-                    </StackPanel>
+                    <VirtualizingStackPanel VirtualizationMode="Recycling" ScrollUnit="Pixel">
+                        <TextBlock Text="{Binding Title, Mode=OneTime}"/>
+                    </VirtualizingStackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type viewModel:ITabViewModel}">
-                    <UserControl Template="{Binding TemplateName, Converter={StaticResource StringToResourceConverter}, Mode=OneWay}"/>
+                    <UserControl Template="{Binding TemplateName, Converter={StaticResource StringToResourceConverter}, Mode=OneTime}"/>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
     </ControlTemplate>
 
     <Style x:Key="TablifiedContentControlStyle" TargetType="{x:Type local:TablifiedContentControl}">
-        <Setter Property="Template" Value="{DynamicResource TablifiedContentControlControlTemplate}"></Setter>
+        <Setter Property="Template" Value="{StaticResource TablifiedContentControlControlTemplate}"></Setter>
     </Style>
 </ResourceDictionary>

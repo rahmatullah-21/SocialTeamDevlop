@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace DominatorHouseCore.Converters
 {
-    class SocialNetworkToColorBrushConverter : IValueConverter
+    public class SocialNetworkToColorBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

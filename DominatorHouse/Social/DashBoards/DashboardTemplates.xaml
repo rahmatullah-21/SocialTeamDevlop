@@ -4,25 +4,25 @@
     <ControlTemplate x:Key="RevisionHistoryControlTemplate">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding LstRevisionHistoryModel}" Focusable="False">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel VirtualizationMode="Recycling" ScrollUnit="Pixel"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type models:RevisionHistoryModel}">
                         <StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Version :" FontWeight="Bold" />
-                                <TextBlock Text="{Binding Version}" FontWeight="Bold" Margin="10,0"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Revision Date :" FontWeight="Bold" />
-                                <TextBlock Text="{Binding RevisionDate}" FontWeight="Bold"  Margin="10,0"/>
-                            </StackPanel>
+                            <TextBlock Text="{Binding Version, Mode=OneWay, StringFormat=Version :{0}}" FontWeight="Bold" Margin="10,0"/>
+                            <TextBlock Text="{Binding RevisionDate, Mode=OneWay, StringFormat=Revision Date : {0}}" FontWeight="Bold"  Margin="10,0"/>
                             <ItemsControl ItemsSource="{Binding LstContent}" Focusable="False" Margin="10,5">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel VirtualizationMode="Recycling" ScrollUnit="Pixel"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="8" Height="8"/>
-                                            <TextBlock Text="{Binding}" Margin="8,0"/>
-                                        </StackPanel>
-
+                                        <TextBlock Text="{Binding StringFormat=• {0}}" Margin="8,0"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

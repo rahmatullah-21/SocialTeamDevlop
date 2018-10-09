@@ -82,7 +82,6 @@ namespace DominatorHouseCore.ViewModel.Common
         {
             lock (_syncContext)
             {
-                Selected = default(T);
                 _itemsCollection.Clear();
                 _itemsCollection.AddRange(items);
             }
