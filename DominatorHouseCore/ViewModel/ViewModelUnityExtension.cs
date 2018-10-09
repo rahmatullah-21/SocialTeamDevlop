@@ -9,6 +9,7 @@ namespace DominatorHouseCore.ViewModel
         protected override void Initialize()
         {
             Container.RegisterSingleton<IDashboardViewModel, RevisionHistoryViewModel>("RevisionHistory");
+            Container.RegisterSingleton<ISelectedNetworkViewModel, SelectedNetworkViewModel>();
         }
     }
 }

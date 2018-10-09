@@ -3,12 +3,27 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 
 namespace DominatorHouseCore.ViewModel.Common
 {
-    public class SelectableViewModel<T> : BindableBase
+    public interface ISelectableViewModel<T> : INotifyPropertyChanged
+    {
+        T Selected { get; }
+        INotifyCollectionChanged ItemsCollection { get; }
+        void Add(T item);
+        void Renew(IEnumerable<T> items);
+        void Remove(T item);
+        bool Contains(T socialNetworks);
+        void SelectByIndex(int index);
+        void SetSelected(T selected);
+
+        event EventHandler<T> ItemSelected;
+    }
+
+    public class SelectableViewModel<T> : BindableBase, ISelectableViewModel<T>
     {
         private readonly object _syncContext = new object();
         private readonly ObservableCollection<T> _itemsCollection;
@@ -121,6 +136,11 @@ namespace DominatorHouseCore.ViewModel.Common
                     Selected = _itemsCollection[index];
                 }
             }
+        }
+
+        public void SetSelected(T selected)
+        {
+            this.Selected = selected;
         }
     }
 }

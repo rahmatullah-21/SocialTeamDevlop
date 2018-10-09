@@ -146,22 +146,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private SocialNetworks _socialNetwork = SocialNetworks.Facebook;
-
-        public SocialNetworks SocialNetwork
-        {
-            get
-            {
-                return _socialNetwork;
-            }
-            set
-            {
-                if (_socialNetwork == value)
-                    return;
-                SetProperty(ref _socialNetwork, value);
-            }
-        }
-
         private bool _isOpenHelpControl;
 
         public bool IsOpenHelpControl

@@ -125,8 +125,6 @@ namespace DominatorUIUtility.CustomControl
                       .GetNetworkCoreFactory()
                       .AccountCountFactory.GetColumnSpecificationProvider();
             DominatorAccountViewModel.VisibleColumns = spec.VisibleHeaders;
-            DominatorAccountViewModel.SocialNetwork = socialNetworks;
-
         }
 
         private void Row_ContextMenuOpening(object sender, ContextMenuEventArgs e)

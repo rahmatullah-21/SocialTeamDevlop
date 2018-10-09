@@ -6,6 +6,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.DHEnum;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.ViewModel;
 using LiveCharts;
@@ -29,8 +30,8 @@ namespace DominatorUIUtility.CustomControl
     public partial class AccountGrowthControl : UserControl, INotifyPropertyChanged
     {
         private readonly DominatorAccountViewModel _dominatorAccountViewModel;
+        private readonly ISelectedNetworkViewModel _selectedNetworkViewModel;
         private readonly BackgroundWorker worker = new BackgroundWorker();
-        private static SocialNetworks socialNetworks;
 
 
 
@@ -38,6 +39,7 @@ namespace DominatorUIUtility.CustomControl
         {
 
             _dominatorAccountViewModel = (DominatorAccountViewModel)DominatorHouseCore.IoC.Container.Resolve<IDominatorAccountViewModel>();
+            _selectedNetworkViewModel = DominatorHouseCore.IoC.Container.Resolve<ISelectedNetworkViewModel>();
             InitializeComponent();
             _dominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(_dominatorAccountViewModel.LstDominatorAccountModel);
@@ -104,7 +106,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void ReloadGridWithGrowth(object sender, DoWorkEventArgs e)
         {
-            _accountGrowthInstance.GetRespectiveAccounts(socialNetworks, GrowthPeriod.Daily);
+            _accountGrowthInstance.GetRespectiveAccounts(GrowthPeriod.Daily);
             PlotChart();
         }
         private void UpdateChart(int eventType = 0)
@@ -257,7 +259,7 @@ namespace DominatorUIUtility.CustomControl
             this.Dispatcher.Invoke(() =>
             {
 
-                _dominatorAccountViewModel.GrowthList = new List<DominatorHouseCore.ViewModel.DailyStatisticsViewModel>();
+                _dominatorAccountViewModel.GrowthList = new List<DailyStatisticsViewModel>();
                 GetGrowthForAccount();
                 UpdateChart(1);
 
@@ -372,13 +374,12 @@ namespace DominatorUIUtility.CustomControl
 
         public static AccountGrowthControl GetAccountGrowthControl(SocialNetworks socialNetwork, AccessorStrategies strategies)
         {
-            socialNetworks = socialNetwork;
             if (_accountGrowthInstance == null)
             {
                 _accountGrowthInstance = new AccountGrowthControl();
             }
 
-            _accountGrowthInstance.GetRespectiveAccounts(socialNetworks);
+            _accountGrowthInstance.GetRespectiveAccounts();
 
             return _accountGrowthInstance;
         }
@@ -390,11 +391,10 @@ namespace DominatorUIUtility.CustomControl
         }
         public static AccountGrowthControl GetAccountGrowthControl(SocialNetworks socialNework)
         {
-            socialNetworks = socialNework;
             return _accountGrowthInstance;
         }
 
-        public void GetRespectiveAccounts(SocialNetworks socialNetworks, GrowthPeriod period = GrowthPeriod.NoPeriod)
+        public void GetRespectiveAccounts(GrowthPeriod period = GrowthPeriod.NoPeriod)
         {
 
 
@@ -404,7 +404,7 @@ namespace DominatorUIUtility.CustomControl
                 _dominatorAccountViewModel.GrowthProperties = _dominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
                 if (period == GrowthPeriod.NoPeriod)
                 {
-                    _dominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
+                    _dominatorAccountViewModel.LstDominatorAccountModel.ForEach(x =>
                     {
                         x.IsAccountManagerAccountSelected = false;
                         x.DisplayColumnValue6 = 0;
@@ -412,14 +412,13 @@ namespace DominatorUIUtility.CustomControl
                         x.DisplayColumnValue8 = 0;
                         x.DisplayColumnValue9 = 0;
                         x.DisplayColumnValue10 = 0;
-                        return x;
-                    }).ToList();
+                    });
 
-                    listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
+                    listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
                 }
                 else
                 {
-                    _dominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
+                    _dominatorAccountViewModel.LstDominatorAccountModel.ForEach(x =>
                     {
                         var accountUpdateFactory = SocinatorInitialize
                            .GetSocialLibrary(x.AccountBaseModel.AccountNetwork)
@@ -427,30 +426,22 @@ namespace DominatorUIUtility.CustomControl
                         x.IsAccountManagerAccountSelected = false;
 
                         var AccoutGrowth = accountUpdateFactory.GetDailyGrowth(x.AccountId, x.AccountBaseModel.ProfileId, period);
-                        //for (int i = 1; i <= x.AccountBaseModel.GrowthProperties.Count(); i++)
-                        //{
-                        //    var propertyName = "GrowthColumnValue" + i;
-                        //    System.Reflection.PropertyInfo prop = typeof(DailyStatisticsViewModel).GetProperty(propertyName);
-                        //    object value = prop.GetValue(AccoutGrowth);
-                        //    x.AccountBaseModel.GrowthProperties[i - 1].PropertyValue = Convert.ToInt32(value);
-                        //}
 
                         x.DisplayColumnValue6 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue1 : 0;
                         x.DisplayColumnValue7 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue2 : 0;
                         x.DisplayColumnValue8 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue3 : 0;
                         x.DisplayColumnValue9 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue4 : 0;
                         x.DisplayColumnValue10 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue5 : 0;
-                        return x;
-                    }).ToList();
+                    });
 
                     this.Dispatcher.Invoke(() =>
                     {
-                        listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
+                        listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
 
                     });
                 }
 
-                if (socialNetworks == SocialNetworks.Social)
+                if (_selectedNetworkViewModel.Selected == SocialNetworks.Social)
                     this.Dispatcher.Invoke(() =>
                     {
                         listCollection.Filter = null;
@@ -458,15 +449,14 @@ namespace DominatorUIUtility.CustomControl
                     });
 
 
-                var spec = (socialNetworks == SocialNetworks.Social) ?
+                var spec = (!_selectedNetworkViewModel.Selected.HasValue || _selectedNetworkViewModel.Selected == SocialNetworks.Social) ?
                    DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
-                   SocinatorInitialize.GetSocialLibrary(socialNetworks)
+                   SocinatorInitialize.GetSocialLibrary(_selectedNetworkViewModel.Selected.Value)
                          .GetNetworkCoreFactory()
                          .AccountCountFactory.GetColumnSpecificationProvider();
 
 
                 _dominatorAccountViewModel.GrowthChartAccountNumber = (listCollection.GetItemAt(0) as DominatorAccountModel).AccountId;
-                _dominatorAccountViewModel.SocialNetwork = socialNetworks;
             }
             catch (Exception ex)
             {
@@ -537,7 +527,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var selectedGrowthPeriod = (GrowthPeriod)cmbGrowthPeriod.SelectedIndex;
 
-                _accountGrowthInstance.GetRespectiveAccounts(socialNetworks, selectedGrowthPeriod);
+                _accountGrowthInstance.GetRespectiveAccounts(selectedGrowthPeriod);
 
             }
             catch (Exception ex)
@@ -605,7 +595,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var selectedGrowthPeriod = (GrowthPeriod)cmbGrowthPeriod.SelectedIndex;
 
-                _accountGrowthInstance.GetRespectiveAccounts(socialNetworks, selectedGrowthPeriod);
+                _accountGrowthInstance.GetRespectiveAccounts(selectedGrowthPeriod);
 
             }
             catch (Exception ex)
