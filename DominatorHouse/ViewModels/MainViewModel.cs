@@ -278,7 +278,7 @@ namespace DominatorHouse.ViewModels
 
                 //Init UI delegates            
                 CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
-                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg) ==
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirm", msg) ==
                     MessageDialogResult.Affirmative;
 
 
@@ -566,7 +566,7 @@ namespace DominatorHouse.ViewModels
             {
                 TabDock = Dock.Left;
 
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fatal Error",
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fatal Error",
                     $"Please purchase access of {network} automation features!");
                 ex.DebugLog();
             }

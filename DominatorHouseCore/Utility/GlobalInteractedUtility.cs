@@ -24,13 +24,13 @@ namespace DominatorHouseCore.Utility
 
         public GlobalInteractionDataModel GlobalInteractionDataModel { get; set; } = new GlobalInteractionDataModel();
 
-        public GlobalInteractionDataModel GetInteractedData(string campaignId)
+        public GlobalInteractionDataModel GetInteractedData(ActivityType activityType)
         {
             try
             {
 
                 GlobalInteractionDataModel = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory()
-                                                 .GlobalInteractionDetails.GlobalInteractedCollections[campaignId] ??
+                                                 .GlobalInteractionDetails.GlobalInteractedCollections[activityType] ??
                                              new GlobalInteractionDataModel();
                 return GlobalInteractionDataModel;
             }
@@ -39,12 +39,10 @@ namespace DominatorHouseCore.Utility
                 return new GlobalInteractionDataModel();
             }
         }
-        
-        public void CheckAndAddInteractedData(string campaignId, string interactedData,ActivityType activityType)
+
+        public void CheckAndAddInteractedData(string campaignId, string interactedData, ActivityType activityType)
         {
-            try
-            {
-                lock (Synclock)
+            lock (Synclock)
                 {
 
                     if (GlobalInteractionDataModel.InteractedData.Count == 0)
@@ -53,16 +51,15 @@ namespace DominatorHouseCore.Utility
 
                         var collections = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().GlobalInteractionDetails.GlobalInteractedCollections;
 
-                        if (collections.ContainsKey(campaignId))
+                        if (collections.ContainsKey(activityType))
                         {
-                            collections[campaignId].InteractedData.Add(interactedData, DateTime.Now);
+                            collections[activityType].InteractedData.Add(interactedData, DateTime.Now);
                         }
                         else
                         {
-                            collections.Add(campaignId,
+                            collections.Add(activityType,
                                 new GlobalInteractionDataModel
                                 {
-                                    ActivityType = activityType,
                                     InteractedData = hashsetValue
                                 });
                         }
@@ -74,22 +71,16 @@ namespace DominatorHouseCore.Utility
                             GlobalInteractionDataModel.InteractedData.Add(interactedData, DateTime.Now);
                     }
                     SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory()
-                        .CampaignInteractionDetails.UpdateInteractedData();
+                        .GlobalInteractionDetails.UpdateInteractedData();
 
                 }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-
         }
 
-        private bool IsInteractedDataAvailable(string campaignId, string interactedData)
+        private bool IsInteractedDataAvailable(ActivityType activityType, string interactedData)
         {
             try
             {
-                GlobalInteractionDataModel = GetInteractedData(campaignId);
+                GlobalInteractionDataModel = GetInteractedData(activityType);
                 return GlobalInteractionDataModel.InteractedData.ContainsKey(interactedData);
             }
             catch
@@ -99,13 +90,13 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public void RemoveInteractedData(string campaignId, string interactedData)
+        public void RemoveInteractedData(ActivityType activityType, string interactedData)
         {
             lock (Synclock)
             {
                 try
                 {
-                    if (IsInteractedDataAvailable(campaignId, interactedData))
+                    if (IsInteractedDataAvailable(activityType, interactedData))
                     {
                         GlobalInteractionDataModel.InteractedData.Remove(interactedData);
                         SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().GlobalInteractionDetails.UpdateInteractedData();
