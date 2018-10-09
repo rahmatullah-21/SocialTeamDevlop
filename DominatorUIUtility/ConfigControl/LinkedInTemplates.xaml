@@ -24,6 +24,8 @@
             <StackPanel Margin="10" DataContext="{Binding LinkedInModel}">
                 <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator}"
                           IsChecked="{Binding IsEnableExportingHTMLOfDifferentConnections}"/>
+                <CheckBox Margin="5" Content="{DynamicResource LangKeyFilterDuplicateMessageByCheckingConversationHistory}"
+                      IsChecked="{Binding IsFilterDuplicateMessageByCheckingConversationsHistory}"/>
             </StackPanel>
         </GroupBox>
     </ControlTemplate>
