@@ -19,6 +19,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Unity;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -48,7 +49,7 @@ namespace DominatorUIUtility.CustomControl
 
         private AccountCustomControl(AccessorStrategies strategyPack)
         {
-            _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
+            _dominatorAccountViewModel = (DominatorAccountViewModel)DominatorHouseCore.IoC.Container.Resolve<IDominatorAccountViewModel>();
             InitializeComponent();
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);

@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace DominatorHouseCore.Converters
 {
-
-    public class PositiveValueConvertor : IValueConverter
+    public class BoolToValueConverter : IValueConverter
     {
+        public object TrueValue { get; set; }
+        public object FalseValue { get; set; }
+        public object NullValue { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && (int)value >= 0)
+            var boolValue = value as bool?;
+            if (!boolValue.HasValue)
             {
-                return value;
+                return NullValue;
             }
-            else
-            {
 
-                return value != null ? -(int)(value) : 0;
-            }
+            return boolValue.Value ? TrueValue : FalseValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -5,7 +5,6 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -26,9 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,19 +34,10 @@ using Unity;
 
 namespace DominatorHouse.ViewModels
 {
-    public interface IMainViewModel : IDisposable
-    {
-        void AddNetwork(SocialNetworks socialNetwork);
-
-        void SetActiveNetwork(SocialNetworks social);
-        AccessorStrategies Strategies { get; }
-    }
-
     public class MainViewModel : BindableBase, IMainViewModel
     {
         private readonly IApplicationResourceProvider _applicationResourceProvider;
         private Dock _tabDock;
-        private string _title;
         public ILogViewModel LogViewModel { get; }
         public IPerfCounterViewModel PerfCounterViewModel { get; }
 

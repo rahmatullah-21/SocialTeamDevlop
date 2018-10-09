@@ -12,8 +12,15 @@ namespace DominatorHouseCore.Converters
 
     public class BooleanToVisibilityConverter : IValueConverter
     {
+        public bool IsInversed { get; set; }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (IsInversed)
+            {
+                return value != null && bool.Parse(value.ToString()) ? Visibility.Collapsed : Visibility.Visible;
+            }
+
             return value != null && bool.Parse(value.ToString()) ? Visibility.Visible : Visibility.Collapsed;
         }
 

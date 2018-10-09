@@ -1,5 +1,6 @@
 ﻿using DominatorHouse.ViewModels;
 using DominatorHouseCore.AppResources;
+using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
 

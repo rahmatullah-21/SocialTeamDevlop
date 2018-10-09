@@ -8,12 +8,17 @@
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
-             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
+             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
+             xmlns:uiExtensions="clr-namespace:DominatorHouseCore.UIExtensions;assembly=DominatorHouseCore"
+             xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel"
+             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converter:BooleanToVisibilityConverter IsInversed="True" x:Key="BooleanToVisibilityConverterInversed"/>
         <converter:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
         <converter:ListConvertor x:Key="ListConvertor"/>
         <converter:AlternationIndexConverter x:Key="AlternationIndexConverter"/>
+        <converter:ProxyManagerSourceConverter x:Key="ProxyManagerSourceConverter"/>
         <ControlTemplate x:Key="ErrorTemplate">
             <StackPanel Orientation="Vertical">
                 <AdornedElementPlaceholder x:Name="ErrorHolder" >
@@ -45,6 +50,20 @@
                 </TextBlock>
             </StackPanel>
         </ControlTemplate>
+        
+        <CollectionViewSource x:Key="ProxyView" uiExtensions:CollectionViewSourceExtensions.GroupBy="{Binding Groups}">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ProxyManagerSourceConverter}">
+                    <Binding Path="LstProxyManagerModel"/>
+                    <Binding Path="IsChecked" Source="{x:Reference ShowProxiesWithError}"/>
+                    <Binding Path="IsChecked" Source="{x:Reference ChkShowUnassignedProxies}"/>
+                    <Binding Path="IsChecked" Source="{x:Reference FilterByGroup}"/>
+                    <Binding Path="SelectedItem" Source="{x:Reference GroupCmb}"/>
+                    <Binding Path="Text" Source="{x:Reference FilterTb}"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+            
+        </CollectionViewSource>
     </UserControl.Resources>
 
     <Grid >
@@ -104,50 +123,33 @@
             <StackPanel Orientation="Horizontal"  Margin="5">
 
                 <CheckBox Margin="5" 
-                          Name="ChkHideUnhideSocialProfiles"
-                          Command="{Binding HideUnhideSocialProfilesCommand}"
-                          Content="{DynamicResource LangKeyHideAssignedSocialProfiles}">
-                    <CheckBox.CommandParameter>
-                        <MultiBinding Converter="{StaticResource ListConvertor}" UpdateSourceTrigger="PropertyChanged">
-                            <Binding ElementName="ProxyDataGrid" />
-                            <Binding Path="IsChecked" ElementName ="ChkHideUnhideSocialProfiles"/>
-                        </MultiBinding>
-                    </CheckBox.CommandParameter>
+                          Content="{DynamicResource LangKeyHideAssignedSocialProfiles}"
+                          x:Name="ChkHideUnhideSocialProfiles">
                 </CheckBox>
                 <CheckBox Margin="5" 
                           Content="{DynamicResource LangKeyHideUsernameAndPassword}"
-                          Command="{Binding HideUnhideUserPasswordCommand}"
                           x:Name="ChkHideUnhideUserPassword">
-                    <CheckBox.CommandParameter>
-                        <MultiBinding Converter="{StaticResource ListConvertor}" UpdateSourceTrigger="PropertyChanged">
-                            <Binding ElementName="ProxyDataGrid" />
-                            <Binding Path="IsChecked" ElementName="ChkHideUnhideUserPassword"/>
-                        </MultiBinding>
-                    </CheckBox.CommandParameter>
                 </CheckBox>
                 <CheckBox Margin="5" 
                           Content="{DynamicResource LangKeyShowByGroup}"
-                          x:Name="ShowByGroup" Command="{Binding ShowByGroupCommand}"
-                          CommandParameter="{Binding IsChecked,ElementName=ShowByGroup}"/>
+                          x:Name="ShowByGroup"
+                          Command="{Binding ShowByGroupCommand}" CommandParameter="{Binding IsChecked, ElementName=ShowByGroup}"/>
                 <CheckBox Margin="5"
                           Content="{DynamicResource LangKeyFilterByGroup}" x:Name="FilterByGroup"/>
                 <CheckBox Margin="5"  
-                          Content="{DynamicResource LangKeyShowOnlyProxiesWithError}" Name="ShowProxiesWithError"
-                          Command="{Binding ShowProxiesWithErrorCommand}"
-                          CommandParameter="{Binding IsChecked,ElementName=ShowProxiesWithError}"/>
+                          Content="{DynamicResource LangKeyShowOnlyProxiesWithError}" 
+                          x:Name="ShowProxiesWithError"/>
                 <CheckBox Margin="5"
                           Content="{DynamicResource LangKeyShowOnlyUnassignedProxies}" 
-                          x:Name="ChkShowUnassignedProxies" 
-                          Command="{Binding ShowUnassignedProxiesCommand}"
-                          CommandParameter="{Binding IsChecked,ElementName=ChkShowUnassignedProxies}"/>
+                          x:Name="ChkShowUnassignedProxies" />
 
             </StackPanel>
 
             <StackPanel  Orientation="Horizontal" Margin="5">
                 <TextBlock VerticalAlignment="Center" Margin="5" Text="{DynamicResource LangKeyFilter}"/>
-                <TextBox Width="200" Height="25" Name="txtfilter" Text="{Binding Filter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Width="200" Height="25" x:Name="FilterTb" />
                 <TextBlock VerticalAlignment="Center" Margin="20,5" Text="{DynamicResource LangKeyURLToUseToVerifyTheProxies}"/>
-                <TextBox Width="200" Height="25" Name="txtURLToUseToVerifyProxies" >
+                <TextBox Width="200" Height="25" >
                     <TextBox.Text>
                         <Binding Path="URLToUseToVerifyProxies" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -167,11 +169,10 @@
                         </Style>
                     </CheckBox.Style>
                 </CheckBox>
-                <StackPanel Orientation="Horizontal" x:Name="cmbFilterBytag" Margin="5,0"
+                <StackPanel Orientation="Horizontal" Margin="5,0"
                             Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectTag}"/>
-                    <ComboBox  Width="150" ItemsSource="{Binding ProxyManagerModel.Groups}" Name="Group" Controls:TextBoxHelper.ClearTextButton="True"
-                               behaviours:SelectionChangedBehaviour.Command="{Binding GroupsChangedCommand}"/>
+                    <ComboBox  Width="150" ItemsSource="{Binding ProxyManagerModel.Groups}" x:Name="GroupCmb" Controls:TextBoxHelper.ClearTextButton="True"/>
                 </StackPanel>
             </StackPanel>
 
@@ -223,7 +224,7 @@
 
         </StackPanel>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding ProxyManagerCollection, IsAsync=True}"
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Source={StaticResource ProxyView}}"
                   AutoGenerateColumns="False" EnableRowVirtualization="True" 
                   CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                   AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
@@ -232,7 +233,8 @@
                   GridLinesVisibility="All" 
                   x:Name="ProxyDataGrid" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
-                  ScrollViewer.IsDeferredScrollingEnabled="True">
+                  ScrollViewer.IsDeferredScrollingEnabled="True"
+                  SelectedItem="{Binding ProxyManagerModel}">
             <DataGrid.Resources>
 
                 <DataTemplate x:Key="AccountsAssignedToTemplate">
@@ -578,7 +580,6 @@
                     </Style.Triggers>
                 </Style>
 
-
             </DataGrid.Resources>
             <DataGrid.GroupStyle>
                 <GroupStyle>
@@ -647,21 +648,21 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyUsername}" >
+                <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyUsername}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideUserPassword}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox Text="{Binding AccountProxy.ProxyUsername, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyPassword}">
+                <DataGridTemplateColumn Header="{DynamicResource LangKeyProxyPassword}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideUserPassword}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox Text="{Binding AccountProxy.ProxyPassword, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{DynamicResource LangKeySocialProfiles}">
+                <DataGridTemplateColumn Header="{DynamicResource LangKeySocialProfiles}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideSocialProfiles}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <VirtualizingStackPanel Orientation="Horizontal">
@@ -714,22 +715,22 @@
                                             Binding="{Binding Failures}" IsReadOnly="True"/>
                 <DataGridTemplateColumn Header="{DynamicResource LangKeyAction}">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type models:ProxyManagerModel}">
                             <VirtualizingStackPanel Orientation="Horizontal">
-                                <Button Content="{DynamicResource LangKeyUpdateProxy}" x:Name="btnUpdateProxy" 
+                                <Button Content="{DynamicResource LangKeyUpdateProxy}"
                                         FontWeight="SemiBold" Command="{Binding DataContext.UpdateProxyCommand,
                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                        CommandParameter="{Binding ElementName=btnUpdateProxy}"
+                                        CommandParameter="{Binding}"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                <Button Content="{DynamicResource LangKeyDelete}" x:Name="btnDeletesProxy" 
+                                <Button Content="{DynamicResource LangKeyDelete}"
                                         FontWeight="SemiBold" Command="{Binding DataContext.DeleteCommand,
                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                        CommandParameter="{Binding ElementName=btnDeletesProxy}"
+                                        CommandParameter="{Binding}"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
-                                <Button Content="{DynamicResource LangKeyVerifyProxy}"  x:Name="btnVerifyProxy" 
+                                <Button Content="{DynamicResource LangKeyVerifyProxy}"
                                         FontWeight="SemiBold" Command="{Binding DataContext.VerifyProxyCommand,
                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                        CommandParameter="{Binding ElementName=btnVerifyProxy}"
+                                        CommandParameter="{Binding}"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
 
                             </VirtualizingStackPanel>

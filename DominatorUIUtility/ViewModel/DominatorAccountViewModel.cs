@@ -1,25 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Threading;
-using ControlzEx.Standard;
-using DominatorHouseCore;
+﻿using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
-using DominatorHouseCore.DatabaseHandler;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.DatabaseHandler.Utility;
@@ -32,39 +13,51 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.Views;
 using LiveCharts;
 using MahApps.Metro.Controls.Dialogs;
 using ProtoBuf;
-using System.Windows.Shapes;
-using DominatorUIUtility.Views;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DominatorUIUtility.ViewModel
 {
-    [ProtoContract]
-    public class DominatorAccountViewModel : BindableBase
+    public interface IDominatorAccountViewModel
     {
 
+    }
 
+    [ProtoContract]
+    public class DominatorAccountViewModel : BindableBase, IDominatorAccountViewModel
+    {
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
-        private DbContext dbContext { get; set; }
+        private DbOperations dbOperations { get; }
 
-        private DbOperations dbOperations { get; set; }
-
-
-
-        public DominatorAccountViewModel(AccessorStrategies strategyPack)
+        public DominatorAccountViewModel(IMainViewModel mainViewModel)
         {
-            this.strategyPack = strategyPack;
+            this.strategyPack = mainViewModel.Strategies;
 
             InitialAccountDetails();
 
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            dbContext = DataBaseConnectionGlb.GetDbContext();
-            dbOperations = new DbOperations(dbContext);
+            dbOperations = new DbOperations(DataBaseConnectionGlb.GetDbContext());
 
 
             #region Command Initialization
@@ -876,7 +869,7 @@ namespace DominatorUIUtility.ViewModel
                                 proxy.AccountsAssignedto.Add(accountTomodified);
 
                                 ProxyFileManager.EditProxy(proxy);
-                                proxyManager?.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
+                                proxyManager?.ProxyManagerViewModel.AccountsAlreadyAssigned.Add(
                                     new AccountAssign
                                     {
                                         UserName = accountTomodified.UserName,
@@ -1059,7 +1052,7 @@ namespace DominatorUIUtility.ViewModel
                             y.AccountNetwork == objAccount.AccountNetwork));
                 });
                 proxyManager.ProxyManagerViewModel.LstProxyManagerModel.Add(ProxyManagerModel);
-                proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.Add(
+                proxyManager.ProxyManagerViewModel.AccountsAlreadyAssigned.Add(
                     new AccountAssign
                     {
                         UserName = objAccount.UserName,
@@ -1106,8 +1099,8 @@ namespace DominatorUIUtility.ViewModel
                                 proxyManager.ProxyManagerViewModel.LstProxyManagerModel
                                     .FirstOrDefault(x => x.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId)
                                     .AccountsAssignedto = proxy.AccountsAssignedto;
-                                proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.
-                                    Remove(proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.FirstOrDefault(x => x.UserName == objAccountBaseModel.UserName
+                                proxyManager.ProxyManagerViewModel.AccountsAlreadyAssigned.
+                                    Remove(proxyManager.ProxyManagerViewModel.AccountsAlreadyAssigned.FirstOrDefault(x => x.UserName == objAccountBaseModel.UserName
                                                                                                                           && x.AccountNetwork == objAccountBaseModel.AccountNetwork));
                             }
                         }
@@ -1151,7 +1144,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         objAccountBaseModel.ForEach(account =>
                         {
-                            proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.Remove(proxyManager.ProxyManagerViewModel.accountsAlreadyAssigned.FirstOrDefault(x =>
+                            proxyManager.ProxyManagerViewModel.AccountsAlreadyAssigned.Remove(proxyManager.ProxyManagerViewModel.AccountsAlreadyAssigned.FirstOrDefault(x =>
                                 x.UserName == account.UserName
                                 && x.AccountNetwork == account.AccountBaseModel.AccountNetwork));
 
