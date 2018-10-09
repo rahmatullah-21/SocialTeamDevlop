@@ -65,12 +65,16 @@ namespace DominatorHouse.ViewModels
 
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel selectedNetworkViewModel)
         {
+            Languages = new SelectableViewModel<string>(new[] { "English" });
+            _applicationResourceProvider = applicationResourceProvider;
+            LogViewModel = logViewModel;
+            PerfCounterViewModel = perfCounterViewModel;
+            AvailableNetworks = selectedNetworkViewModel;
             try
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     FatalErrorDiagnosis();
-                    Languages.Add("English");
                 });
 
                 WinClosingCommand = new BaseCommand<object>((sender) => true, OnClosing);
@@ -82,11 +86,6 @@ namespace DominatorHouse.ViewModels
             {
                 ex.DebugLog();
             }
-            LogViewModel = logViewModel;
-            _applicationResourceProvider = applicationResourceProvider;
-            PerfCounterViewModel = perfCounterViewModel;
-            Languages = new SelectableViewModel<string>(new[] { "English" });
-            AvailableNetworks = selectedNetworkViewModel;
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;
