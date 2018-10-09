@@ -3196,6 +3196,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyManageContent">Manage Content</system:String>
     <system:String x:Key="LangKeyMessageTextFormat" xml:space="preserve"> Format: &lt;FULLNAME&gt;, &lt;FIRSTNAME&gt;, &lt;LASTNAME&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
     Note: The following tokens are replaced with user info.</system:String>
-
     <system:String x:Key="LangKeyReinviteInMessanger" xml:space="preserve">Reinvite in messaenger who didn't liked the page in everey</system:String>
+    <system:String x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">Enable send connection request to different users across all LinkedIn accounts configured in Socinator</system:String>
 </ResourceDictionary>
