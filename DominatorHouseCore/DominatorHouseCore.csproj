@@ -127,6 +127,10 @@
       <HintPath>..\packages\ObjectsComparer.1.1\lib\net45\ObjectsComparer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OpenPop, Version=2.0.6.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenPop.2.0.6.2\lib\net20\OpenPop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
@@ -430,6 +434,7 @@
     <Compile Include="Diagnostics\NetworkCoreLibraryBuilder.cs" />
     <Compile Include="Diagnostics\PublisherInitialize.cs" />
     <Compile Include="Diagnostics\SocinatorAccountBuilder.cs" />
+    <Compile Include="EmailService\MailCredentials.cs" />
     <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Enums\ActivitySpeed.cs" />
     <Compile Include="Enums\ActivityTypeExtensions.cs" />
