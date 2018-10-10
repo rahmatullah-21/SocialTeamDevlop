@@ -71,7 +71,7 @@
 
         <Grid Name="Logger" Grid.Row="2" Margin="5">
             <views:LogView MouseDoubleClick="InitialTabablzControl_MouseDoubleClick" ViewModel="{Binding LogViewModel, Mode=OneWay}"
-                           AvailableNetworks="{Binding AvailableNetworks.ItemsCollection, Mode=OneWay,ElementName=SocinatorWindow}" x:Name="RootLayout"></views:LogView>
+                           AvailableNetworks="{Binding AvailableNetworks.ItemsCollection, Mode=OneWay}" x:Name="RootLayout"></views:LogView>
         </Grid>
 
         <Grid Grid.Row="3" VerticalAlignment="Bottom">
