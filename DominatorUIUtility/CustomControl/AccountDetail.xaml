@@ -11,6 +11,8 @@
              mc:Ignorable="d"  xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:StringLengthToBooleanConverter x:Key="LengthToBooleanConverter"/>
+        <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>
+        <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid  Background="{DynamicResource AccentBaseColorBrush}" Height="40"  VerticalAlignment="Top">
@@ -87,130 +89,15 @@
                             <ContentControl.Style>
                                 <Style TargetType="{x:Type ContentControl}">
                                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                    <Style.Triggers>
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="#003569" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="Red" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-
-
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-
-                                        <DataTrigger Binding="{Binding Path=DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Tumblr}">
-                                            <Setter Property="Content" >
-                                                <Setter.Value>
-                                                    <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Rectangle Fill="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Style>
                             </ContentControl.Style>
                         </ContentControl>
@@ -373,6 +260,60 @@
                             </Style>
                         </RadioButton.Style>
                     </RadioButton>
+
+                    <RadioButton Content="{DynamicResource LangKeyAutoEmailVerifications}"  Margin="5" FontWeight="Bold">
+                        <RadioButton.Style>
+                            <Style TargetType="RadioButton"  BasedOn="{StaticResource {x:Type RadioButton}}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypeEmail}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>
+                    </RadioButton>
+                    <!--<StackPanel>
+                        <StackPanel  Orientation="Horizontal" >
+                            <TextBlock Text="{DynamicResource LangKeyEmailID}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding EmailId}" controls:TextBoxHelper.Watermark="Enter Email Id" Width="230"
+                                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center" 
+                                     Height="30" KeyDown="OnKeyDown"/>
+                        </StackPanel>
+
+                        <StackPanel  Orientation="Horizontal" >
+                            <TextBlock  Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <PasswordBox  passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
+                                          Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+                                          controls:TextBoxHelper.Watermark="Enter Password" 
+                                          Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30" />
+
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal" >
+                            <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox  Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="Enter Account Name" Width="230"
+                     FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
+                             KeyDown="OnKeyDown"/>
+                        </StackPanel>
+
+                        <StackPanel  Orientation="Horizontal" >
+                            <TextBlock Text="{DynamicResource LangKeyEmailIdUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+                     controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13" KeyDown="OnKeyDown"
+                     FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
+                     VerticalAlignment="Center"  Height="30" />
+                        </StackPanel>
+
+                    </StackPanel>-->
                     <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
                         Command="{Binding SendVerificationCodeCommand}" Width="200" HorizontalAlignment="Left" CommandParameter="{Binding ElementName=BtnSendVerificationCode}">
                         <Button.Style>

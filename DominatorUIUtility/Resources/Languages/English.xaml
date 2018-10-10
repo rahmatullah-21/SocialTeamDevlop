@@ -2839,6 +2839,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyUpdateAccount">Update Account</system:String>
     <system:String x:Key="LangKeySendVerificationCode">Send Verification Code</system:String>
     <system:String x:Key="LangKeyEmailVerifications">Email Verification</system:String>
+    <system:String x:Key="LangKeyAutoEmailVerifications">Email Auto Verification</system:String>
     <system:String x:Key="LangKeyPhoneVerifications">Phone Verification</system:String>
     <system:String x:Key="LangKeyIgnoreNoMedia">Ignore Posts without media</system:String>
     <system:String x:Key="LangKeyPostLike">Post Like</system:String>

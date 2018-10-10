@@ -34,8 +34,8 @@
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>77</ApplicationRevision>
-    <ApplicationVersion>1.0.0.77</ApplicationVersion>
+    <ApplicationRevision>78</ApplicationRevision>
+    <ApplicationVersion>1.0.0.78</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -458,7 +458,7 @@
     </Content>
     <Content Include="NLog.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config">
       <SubType>Designer</SubType>
