@@ -351,12 +351,30 @@ namespace DominatorHouseCore.Models
         [ProtoMember(22)]
         public MailCredentials MailCredentials
         {
-            get { return _mailCredentials; }
+            get
+            {
+                return _mailCredentials;
+            }
             set
             {
                 if (_mailCredentials == value)
                     return;
                 SetProperty(ref _mailCredentials, value);
+            }
+        }
+        private bool _isAutoVerifyByEmail;
+        [ProtoMember(23)]
+        public bool IsAutoVerifyByEmail
+        {
+            get
+            {
+                return _isAutoVerifyByEmail;
+            }
+            set
+            {
+                if (_isAutoVerifyByEmail == value)
+                    return;
+                SetProperty(ref _isAutoVerifyByEmail, value);
             }
         }
 

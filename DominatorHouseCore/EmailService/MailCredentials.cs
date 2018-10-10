@@ -3,18 +3,64 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DominatorHouseCore.Utility;
 using OpenPop.Mime;
 using OpenPop.Pop3;
+using ProtoBuf;
 
 namespace DominatorHouseCore.EmailService
 {
-    public class MailCredentials
+    [ProtoContract]
+    public class MailCredentials : BindableBase
     {
-        public string Hostname { get; set; }
-        public int Port  { get; set; }
+        private string _hostname;
+        private int _port;
+        private string _username;
+        private string _password;
 
-        public string Username { get; set; }
-        public string Password { get; set; }
+        [ProtoMember(1)]
+        public string Hostname
+        {
+            get { return _hostname; }
+            set
+            {
+                if( _hostname == value)return;
+                SetProperty(ref _hostname, value);
+            }
+        }
+
+        [ProtoMember(2)]
+        public int Port
+        {
+            get { return _port; }
+            set
+            {
+                if (_port == value)return;
+                SetProperty(ref _port, value);
+            }
+        }
+
+        [ProtoMember(3)]
+        public string Username
+        {
+            get { return _username; }
+            set
+            {
+                if (_username == value) return;
+                SetProperty(ref _username, value);
+            }
+        }
+
+        [ProtoMember(4)]
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                if (_password == value) return;
+                SetProperty(ref _password, value);
+            }
+        }
     }
 
     public class IncomingData
@@ -28,7 +74,7 @@ namespace DominatorHouseCore.EmailService
     public class EmailClient
     {
 
-        public static List<IncomingData> FetchAllMessages(MailCredentials mailCredentials,bool sslRequired)
+        public static List<IncomingData> FetchAllMessages(MailCredentials mailCredentials, bool sslRequired)
         {
             // The client disconnects from the server when being disposed
             using (Pop3Client client = new Pop3Client())
@@ -70,7 +116,7 @@ namespace DominatorHouseCore.EmailService
         }
 
         public static List<IncomingData> FetchLastXMailsFromSender(MailCredentials mailCredentials, bool sslRequired,
-            string senderEmail,int requiredEmailsCount)
+            string senderEmail, int requiredEmailsCount)
         {
             using (Pop3Client client = new Pop3Client())
             {
@@ -78,7 +124,7 @@ namespace DominatorHouseCore.EmailService
                 List<IncomingData> allMessages = new List<IncomingData>(messageCount);
                 for (int i = messageCount; i > 0; i--)
                 {
-                    if(requiredEmailsCount ==0)break;
+                    if (requiredEmailsCount == 0) break;
                     var a = client.GetMessage(i);
                     if (!a.Headers.From.Raw.Contains(senderEmail)) continue;
                     var mailData = new IncomingData
@@ -163,5 +209,5 @@ namespace DominatorHouseCore.EmailService
             client.Authenticate(mailCredentials.Username, mailCredentials.Password, AuthenticationMethod.UsernameAndPassword);
         }
     }
-    
+
 }

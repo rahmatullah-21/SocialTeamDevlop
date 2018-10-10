@@ -172,6 +172,8 @@ namespace DominatorUIUtility.ViewModel
                         .AddOrUpdateDisplayColumn3(DominatorAccountModel.DisplayColumnValue3)
                         .AddOrUpdateDisplayColumn4(DominatorAccountModel.DisplayColumnValue4)
                         .AddOrUpdateProxy(DominatorAccountModel.AccountBaseModel.AccountProxy)
+                        .AddOrUpdateMailCredentials(DominatorAccountModel.MailCredentials)
+                        .AddOrUpdateIsAutoVerifyByEmail(DominatorAccountModel.IsAutoVerifyByEmail)
                         .SaveToBinFile();
                     }
                 }

@@ -2669,6 +2669,7 @@ due to absence of the particular item in your current database.
     </system:String>
     <system:String x:Key="LangKeyAccountName">Account Name</system:String>
     <system:String x:Key="LangKeyHostName">Host Name</system:String>
+    <system:String x:Key="LangKeyPort">Port</system:String>
     <system:String x:Key="LangKeyBrowser">Browser</system:String>
     <system:String x:Key="LangKeyRemoveSelectedCookies">Remove selected Cookies</system:String>
     <system:String x:Key="LangKeyVerificationCode">Verification Code</system:String>
