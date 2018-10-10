@@ -134,7 +134,7 @@ namespace DominatorHouseCore.EmailService
                             : a.Headers.From.Raw,
                         Date = a.Headers.Date,
                         Subject = a.Headers.Subject,
-                        Message = a.MessagePart.ContentDescription
+                        Message = a.MessagePart.GetBodyAsText()
                     };
                     allMessages.Add(mailData);
                     requiredEmailsCount--;
@@ -161,7 +161,7 @@ namespace DominatorHouseCore.EmailService
                             : a.Headers.From.Raw,
                         Date = a.Headers.Date,
                         Subject = a.Headers.Subject,
-                        Message = a.MessagePart.ContentDescription
+                        Message = a.MessagePart.GetBodyAsText()
                     };
                     allMessages.Add(mailData);
                     requiredEmailsCount--;
@@ -174,6 +174,10 @@ namespace DominatorHouseCore.EmailService
         public static IncomingData FetchLastMailFromSender(MailCredentials mailCredentials, bool sslRequired,
             string senderEmail)
         {
+            if (mailCredentials.Username.ToLower().Contains("gmail.com"))
+            {
+                mailCredentials.Username = $"recent:{mailCredentials.Username}";
+            }
             using (Pop3Client client = new Pop3Client())
             {
                 int messageCount = ConnectAndGetMessageCount(mailCredentials, sslRequired, client);
@@ -185,7 +189,7 @@ namespace DominatorHouseCore.EmailService
                     mailData.From = senderEmail;
                     mailData.Date = a.Headers.Date;
                     mailData.Subject = a.Headers.Subject;
-                    mailData.Message = a.MessagePart.ContentDescription;
+                    mailData.Message = a.MessagePart.GetBodyAsText();
                     return mailData;
                 }
             }

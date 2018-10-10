@@ -449,23 +449,32 @@ namespace DominatorUIUtility.ViewModel
                 var verificationType = IsEmailVerification ? VerificationType.Email : VerificationType.Phone;
                 Task.Factory.StartNew(() =>
                 {
-                    if (accountVerificationFactory
-                        .SendVerificationCode(DominatorAccountModel, verificationType, DominatorAccountModel.Token).Result)
-                        Application.Current.Dispatcher.Invoke(
-                            () =>
-                            {
-                                CodeSectionVisibility = Visibility.Visible;
-                                // GlobusLogHelper.log.Info(Log.SentVerificationCode, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
-                            });
+                    if (DominatorAccountModel.IsAutoVerifyByEmail)
+                    {
+                        accountVerificationFactory.AutoVerifyByEmail(DominatorAccountModel,
+                            DominatorAccountModel.Token);
+                    }
                     else
-                        Application.Current.Dispatcher.Invoke(
-                            () =>
-                            {
-                                button.Visibility = Visibility.Visible;
-                                CodeSectionVisibility = Visibility.Collapsed;
-                                // GlobusLogHelper.log.Info(Log.FailedToSendVerificationCodeFaild, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
+                    {
+                        if (accountVerificationFactory
+                            .SendVerificationCode(DominatorAccountModel, verificationType, DominatorAccountModel.Token).Result)
+                            Application.Current.Dispatcher.Invoke(
+                                () =>
+                                {
+                                    CodeSectionVisibility = Visibility.Visible;
+                                    // GlobusLogHelper.log.Info(Log.SentVerificationCode, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
+                                });
+                        else
+                            Application.Current.Dispatcher.Invoke(
+                                () =>
+                                {
+                                    button.Visibility = Visibility.Visible;
+                                    CodeSectionVisibility = Visibility.Collapsed;
+                                    // GlobusLogHelper.log.Info(Log.FailedToSendVerificationCodeFaild, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
 
-                            });
+                                });
+                    }
+                    
 
                 });
             }
