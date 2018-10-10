@@ -430,6 +430,7 @@
     <Compile Include="Diagnostics\NetworkCoreLibraryBuilder.cs" />
     <Compile Include="Diagnostics\PublisherInitialize.cs" />
     <Compile Include="Diagnostics\SocinatorAccountBuilder.cs" />
+    <Compile Include="EmailService\MailCredentials.cs" />
     <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Enums\ActivitySpeed.cs" />
     <Compile Include="Enums\ActivityTypeExtensions.cs" />
