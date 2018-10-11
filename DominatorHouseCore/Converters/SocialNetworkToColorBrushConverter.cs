@@ -22,13 +22,14 @@ namespace DominatorHouseCore.Converters
                     case SocialNetworks.Twitter:
                         return (SolidColorBrush)(new BrushConverter().ConvertFrom("#3897F0"));
                     case SocialNetworks.Pinterest:
+                    case SocialNetworks.Quora:
                         return Brushes.Red;
                     case SocialNetworks.LinkedIn:
                         return Brushes.DodgerBlue;
                     case SocialNetworks.Reddit:
                         return Brushes.OrangeRed;
-                    case SocialNetworks.Quora:
-                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#28A745"));
+                    //case SocialNetworks.Quora:
+                    //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#28A745"));
                     case SocialNetworks.Gplus:
                         return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
                     case SocialNetworks.Youtube:

@@ -43,7 +43,7 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<string> Languages { get; }
 
-        public ISelectedNetworkViewModel AvailableNetworks { get; }
+        public SelectableViewModel<SocialNetworks?> AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
 
@@ -62,30 +62,17 @@ namespace DominatorHouse.ViewModels
         }
         public ICommand WinActivateCommand { get; set; }
         public ICommand WinClosingCommand { get; set; }
-
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel selectedNetworkViewModel)
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel)
         {
-            Languages = new SelectableViewModel<string>(new[] { "English" });
-            _applicationResourceProvider = applicationResourceProvider;
+            FatalErrorDiagnosis();
+
+            Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
+
             LogViewModel = logViewModel;
+            _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
-            AvailableNetworks = selectedNetworkViewModel;
-            try
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    FatalErrorDiagnosis();
-                });
-
-                WinClosingCommand = new BaseCommand<object>((sender) => true, OnClosing);
-
-                WinActivateCommand = new BaseCommand<object>((sender) => true, WindowActivate);
-
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+            Languages = new SelectableViewModel<string>(new[] { "English" });
+            AvailableNetworks = new SelectableViewModel<SocialNetworks?>(new List<SocialNetworks?>());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;
@@ -123,18 +110,11 @@ namespace DominatorHouse.ViewModels
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
 
-
-        private void WindowActivate(object sender)
-        {
-            if (Application.Current.MainWindow.WindowState == WindowState.Minimized)
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
-
-        }
-        private void OnClosing(object sender)
+        private void OnClosing(CancelEventArgs e)
         {
             try
             {
-                var e = (CancelEventArgs)sender;
+
                 e.Cancel = true;
                 bool isClose = Dialog.ShowCustomDialog("Confirmation", "Are you sure to close Socinator?", "Yes", "No") == MessageDialogResult.Affirmative;
                 if (isClose)
@@ -290,7 +270,7 @@ namespace DominatorHouse.ViewModels
 
                 //Init UI delegates            
                 CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
-                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Confirm", msg) ==
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirm", msg) ==
                     MessageDialogResult.Affirmative;
 
 
@@ -559,7 +539,7 @@ namespace DominatorHouse.ViewModels
 
         public void SetActiveNetwork(SocialNetworks social)
         {
-            AvailableNetworks.SetSelected(social);
+            AvailableNetworks.Selected = social;
         }
 
         public void TabInitialize(SocialNetworks network)
@@ -578,7 +558,7 @@ namespace DominatorHouse.ViewModels
             {
                 TabDock = Dock.Left;
 
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Fatal Error",
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fatal Error",
                     $"Please purchase access of {network} automation features!");
                 ex.DebugLog();
             }

@@ -57,7 +57,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeDominatorUI", "..\yo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorMigration", "DominatorMigration\DominatorMigration.csproj", "{9EA53624-9A11-4A4A-8E40-1B877CA214E7}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Socinator", "Socinator\Socinator.vdproj", "{BD2FEA7B-6985-4CAB-8158-693A28FC174A}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SociNator", "Socinator\Socinator.vdproj", "{BD2FEA7B-6985-4CAB-8158-693A28FC174A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -362,20 +362,20 @@ Global
 		{317A142C-6AE2-4CC1-90A7-5752B9ED76F3}.Release|x86.Build.0 = Release|x86
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug|x64.ActiveCfg = Debug|x64
-		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug|x64.Build.0 = Debug|x64
+		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug|x64.Build.0 = Debug|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug|x86.Build.0 = Debug|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
-		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug-fast-test|x64.ActiveCfg = Debug|x64
-		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug-fast-test|x64.Build.0 = Debug|x64
+		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Release|x64.ActiveCfg = Release|x64
-		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Release|x64.Build.0 = Release|x64
+		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Release|x64.ActiveCfg = Release|Any CPU
+		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Release|x64.Build.0 = Release|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Release|x86.ActiveCfg = Release|Any CPU
 		{9DF3CAC5-0C31-49F0-A71E-27B9CEFC6553}.Release|x86.Build.0 = Release|Any CPU
 		{8A858CD7-7834-4365-8F4D-4FAA0361DE7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -572,7 +572,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal

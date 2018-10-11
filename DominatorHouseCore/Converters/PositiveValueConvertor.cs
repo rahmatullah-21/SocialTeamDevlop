@@ -8,20 +8,20 @@ using System.Windows.Data;
 
 namespace DominatorHouseCore.Converters
 {
-   
+
     public class PositiveValueConvertor : IValueConverter
     {
-  
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((int)value >= 0)
+            if (value != null && (int)value >= 0)
             {
                 return value;
             }
             else
             {
-                
-                return -(int)(value);
+
+                return value != null ? -(int)(value) : 0;
             }
         }
 

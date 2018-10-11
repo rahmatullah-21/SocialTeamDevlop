@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DominatorHouseCore.Request;
 using System.Threading;
+using DominatorHouseCore.EmailService;
 
 namespace DominatorHouseCore.Models
 {
@@ -346,7 +347,37 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        // private string VarificationCode { get; set; } = string.Empty;
+        private MailCredentials _mailCredentials = new MailCredentials();
+        [ProtoMember(22)]
+        public MailCredentials MailCredentials
+        {
+            get
+            {
+                return _mailCredentials;
+            }
+            set
+            {
+                if (_mailCredentials == value)
+                    return;
+                SetProperty(ref _mailCredentials, value);
+            }
+        }
+        private bool _isAutoVerifyByEmail;
+        [ProtoMember(23)]
+        public bool IsAutoVerifyByEmail
+        {
+            get
+            {
+                return _isAutoVerifyByEmail;
+            }
+            set
+            {
+                if (_isAutoVerifyByEmail == value)
+                    return;
+                SetProperty(ref _isAutoVerifyByEmail, value);
+            }
+        }
+
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {

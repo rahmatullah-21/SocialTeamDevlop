@@ -301,6 +301,8 @@ namespace DominatorHouseCore.Enums
         WelcomeTweet = 102,
         [Description("LinkedIn")]
         SalesNavigatorCompanyScraper = 103,
+        [Description("Twitter")]
+        TweetTo = 104,
 
     }
 }

@@ -29,6 +29,7 @@ namespace DominatorHouseCore.Interfaces
     {
         Task<bool> VerifyAccountAsync(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);
         Task<bool> SendVerificationCode(DominatorAccountModel accountModel, VerificationType verificationType, CancellationToken token);
+        Task<bool> AutoVerifyByEmail(DominatorAccountModel accountModel, CancellationToken token);
 
     }
 

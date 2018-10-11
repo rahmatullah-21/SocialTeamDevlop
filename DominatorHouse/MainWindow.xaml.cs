@@ -55,6 +55,7 @@ namespace Socinator
 
         private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            statusbar.IsEnabled = false;
             if (IsClickedFromMainWindow)
             {
                 var dialog = new Dialog();
@@ -78,7 +79,7 @@ namespace Socinator
                                 Logger.Children.Add(RootLayout);
                                 MainGrid.RowDefinitions[2].Height = new GridLength(200);
                                 IsClickedFromMainWindow = true;
-
+                                statusbar.IsEnabled = true;
                             }
                             catch (Exception ex)
                             {

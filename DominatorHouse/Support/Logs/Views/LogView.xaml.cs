@@ -11,11 +11,11 @@ namespace DominatorHouse.Support.Logs.Views
     public partial class LogView
     {
 
-        public IEnumerable<SocialNetworks> AvailableNetworks
+        public IEnumerable<SocialNetworks?> AvailableNetworks
         {
             get
             {
-                return (IEnumerable<SocialNetworks>)GetValue(AvailableNetworksProperty);
+                return (IEnumerable<SocialNetworks?>)GetValue(AvailableNetworksProperty);
             }
             set
             {
@@ -40,7 +40,7 @@ namespace DominatorHouse.Support.Logs.Views
 
 
         public static readonly DependencyProperty AvailableNetworksProperty =
-            DependencyProperty.Register("AvailableNetworks", typeof(IEnumerable<SocialNetworks>), typeof(LogView), new PropertyMetadata(null));
+            DependencyProperty.Register("AvailableNetworks", typeof(IEnumerable<SocialNetworks?>), typeof(LogView), new PropertyMetadata(null));
 
 
         public LogView()

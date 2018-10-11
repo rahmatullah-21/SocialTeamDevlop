@@ -2668,6 +2668,8 @@ due to absence of the particular item in your current database.
  *ant*=test will replace any word that contains ant with test
     </system:String>
     <system:String x:Key="LangKeyAccountName">Account Name</system:String>
+    <system:String x:Key="LangKeyHostName">Host Name</system:String>
+    <system:String x:Key="LangKeyPort">Port</system:String>
     <system:String x:Key="LangKeyBrowser">Browser</system:String>
     <system:String x:Key="LangKeyRemoveSelectedCookies">Remove selected Cookies</system:String>
     <system:String x:Key="LangKeyVerificationCode">Verification Code</system:String>
@@ -2839,6 +2841,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyUpdateAccount">Update Account</system:String>
     <system:String x:Key="LangKeySendVerificationCode">Send Verification Code</system:String>
     <system:String x:Key="LangKeyEmailVerifications">Email Verification</system:String>
+    <system:String x:Key="LangKeyAutoEmailVerifications">Email Auto Verification</system:String>
     <system:String x:Key="LangKeyPhoneVerifications">Phone Verification</system:String>
     <system:String x:Key="LangKeyIgnoreNoMedia">Ignore Posts without media</system:String>
     <system:String x:Key="LangKeyPostLike">Post Like</system:String>
@@ -3192,4 +3195,13 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFilterDuplicateMessageByCheckingConversationHistory">Filter duplicate message by checking conversation history</system:String>
     <system:String x:Key="LangKeyDeletePostWhichIsPostedBySoftware">Delete Repost which is posted by software</system:String>
     <system:String x:Key="LangKeyDeletePostWhichIsPostedByOutsideSoftware">Delete post which is posted by outside software</system:String>
+    <system:String x:Key="LangKeyTweetTo">TweetTo</system:String>
+    <system:String x:Key="LangKeyManageContent">Manage Content</system:String>
+    <system:String x:Key="LangKeyMessageTextFormat" xml:space="preserve"> Format: &lt;FULLNAME&gt;, &lt;FIRSTNAME&gt;, &lt;LASTNAME&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
+    Note: The following tokens are replaced with user info.</system:String>
+    <system:String x:Key="LangKeyReinviteInMessanger" xml:space="preserve">Reinvite in messaenger who didn't liked the page in everey</system:String>
+    <system:String x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">Enable send connection request to different users across all LinkedIn accounts configured in Socinator</system:String>
+    <system:String x:Key="LangKeyInviteForEventUrl">Invite For Event Url(s)</system:String>
+    <system:String x:Key="LangKeyAfterSentRequestAction">After Sent Request Action</system:String>
+    <system:String x:Key="LangKeyAutoVerifyByEmail">Auto verify by Email</system:String>
 </ResourceDictionary>

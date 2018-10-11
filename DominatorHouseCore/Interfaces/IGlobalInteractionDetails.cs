@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -11,6 +12,6 @@ namespace DominatorHouseCore.Interfaces
 
         void ReadInteractedData();
 
-        Dictionary<string, GlobalInteractionDataModel> GlobalInteractedCollections { get; set; }
+        Dictionary<ActivityType, GlobalInteractionDataModel> GlobalInteractedCollections { get; set; }
     }
 }
