@@ -66,8 +66,7 @@ namespace DominatorHouse.ViewModels
         {
             FatalErrorDiagnosis();
 
-            WinClosingCommand = new BaseCommand<object>((sender) => true, OnClosing);
-            WinActivateCommand = new BaseCommand<object>((sender) => true, WindowActivate);
+            Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
 
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
@@ -111,18 +110,11 @@ namespace DominatorHouse.ViewModels
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
 
-
-        private void WindowActivate(object sender)
-        {
-            if (Application.Current.MainWindow.WindowState == WindowState.Minimized)
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
-
-        }
-        private void OnClosing(object sender)
+        private void OnClosing(CancelEventArgs e)
         {
             try
             {
-                var e = (CancelEventArgs)sender;
+
                 e.Cancel = true;
                 bool isClose = Dialog.ShowCustomDialog("Confirmation", "Are you sure to close Socinator?", "Yes", "No") == MessageDialogResult.Affirmative;
                 if (isClose)

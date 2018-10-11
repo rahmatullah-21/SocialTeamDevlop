@@ -330,45 +330,58 @@
                 </StackPanel>
                 
                 <!--Auto verify Section-->
-                <CheckBox Name="AutoVerifyByEmail" Content="{DynamicResource LangKeyAutoVerifyByEmail}" IsChecked="{Binding DominatorAccountModel.IsAutoVerifyByEmail}"  Margin="5" FontWeight="Bold"/>
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel"  >
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <CheckBox Name="AutoVerifyByEmail" Content="{DynamicResource LangKeyAutoVerifyByEmail}" IsChecked="{Binding DominatorAccountModel.IsAutoVerifyByEmail}"  Margin="5" FontWeight="Bold"/>
 
-                <StackPanel Visibility="{Binding DominatorAccountModel.IsAutoVerifyByEmail,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel  Orientation="Horizontal" >
-                        <TextBlock Text="{DynamicResource LangKeyEmailID}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                        <TextBox Text="{Binding DominatorAccountModel.MailCredentials.Username}" controls:TextBoxHelper.Watermark="Enter Email Id" Width="230"
+                    <StackPanel Visibility="{Binding DominatorAccountModel.IsAutoVerifyByEmail,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel  Orientation="Horizontal" >
+                            <TextBlock Text="{DynamicResource LangKeyEmailID}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding DominatorAccountModel.MailCredentials.Username}" controls:TextBoxHelper.Watermark="Enter Email Id" Width="230"
                                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center" 
                                      Height="30" KeyDown="OnKeyDown"/>
-                    </StackPanel>
+                        </StackPanel>
 
-                    <StackPanel  Orientation="Horizontal" >
-                        <TextBlock  Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                        <PasswordBox  passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
+                        <StackPanel  Orientation="Horizontal" >
+                            <TextBlock  Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <PasswordBox  passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
                                           Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                           controls:TextBoxHelper.Watermark="Enter Password" Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" 
                                           Foreground="Black" VerticalAlignment="Center"  Height="30" >
-                            <passwordHelper:PasswordBoxHelper.Password>
-                                <Binding Path="DominatorAccountModel.MailCredentials.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
-                            </passwordHelper:PasswordBoxHelper.Password>
-                        </PasswordBox>
+                                <passwordHelper:PasswordBoxHelper.Password>
+                                    <Binding Path="DominatorAccountModel.MailCredentials.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
+                                </passwordHelper:PasswordBoxHelper.Password>
+                            </PasswordBox>
 
-                    </StackPanel>
+                        </StackPanel>
 
-                    <StackPanel  Orientation="Horizontal" >
-                        <TextBlock Text="{DynamicResource LangKeyHostName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                        <TextBox  controls:TextBoxHelper.Watermark="Enter Host name" Width="230"
+                        <StackPanel  Orientation="Horizontal" >
+                            <TextBlock Text="{DynamicResource LangKeyHostName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox  controls:TextBoxHelper.Watermark="Enter Host name" Width="230"
                                       FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black"
                                       VerticalAlignment="Center"  Height="30" KeyDown="OnKeyDown"
                                       Text="{Binding DominatorAccountModel.MailCredentials.Hostname}"/>
-                    </StackPanel>
+                        </StackPanel>
 
-                    <StackPanel  Orientation="Horizontal" >
-                        <TextBlock Text="{DynamicResource LangKeyPort}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                        <TextBox  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+                        <StackPanel  Orientation="Horizontal" >
+                            <TextBlock Text="{DynamicResource LangKeyPort}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                            <TextBox  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                       controls:TextBoxHelper.Watermark="Enter port" Width="230" FontSize="13"
                                       KeyDown="OnKeyDown" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
                                       VerticalAlignment="Center"  Height="30"  Text="{Binding DominatorAccountModel.MailCredentials.Port}" />
-                    </StackPanel>
+                        </StackPanel>
 
+                    </StackPanel>
                 </StackPanel>
                 <!--End of Auto verify Section-->
 
