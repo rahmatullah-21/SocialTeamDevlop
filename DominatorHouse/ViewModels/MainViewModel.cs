@@ -49,6 +49,7 @@ namespace DominatorHouse.ViewModels
 
         public AccessorStrategies Strategies { get; set; }
         string _fatalError { get; set; }
+        private bool IsCancelFromLicenceValidationState { get; set; }
         public Dock TabDock
         {
             get
@@ -122,6 +123,9 @@ namespace DominatorHouse.ViewModels
                     Application.Current.Shutdown();
                     Process.GetCurrentProcess().Kill();
                 }
+                else if (IsCancelFromLicenceValidationState)
+                    FatalErrorDiagnosis();
+
             }
             catch (Exception ex)
             {
@@ -188,19 +192,31 @@ namespace DominatorHouse.ViewModels
                     };
                     while (true)
                     {
-                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
-                        if (await IsProcessFatalError(fatalError))
-                            continue;
-                        else break;
+                        try
+                        {
+                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
+                            if (await IsProcessFatalError(fatalError))
+                                continue;
+                            else break;
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                     }
                 }
                 else
                     while (true)
                     {
-                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License");
-                        if (await IsProcessFatalError(fatalError))
-                            continue;
-                        else break;
+                        try
+                        {
+                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License");
+                            if (await IsProcessFatalError(fatalError))
+                                continue;
+                            else break;
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                     }
             }
             catch (Exception ex)
@@ -229,7 +245,7 @@ namespace DominatorHouse.ViewModels
                 await FatalErrorDiagnosis();
                 return true;
             }
-
+            IsCancelFromLicenceValidationState = false;
             var fatalErrorHandler = new DominatorHouseCore.Models.FatalErrorHandler
             {
                 FatalErrorMessage = fatalError,
@@ -247,7 +263,10 @@ namespace DominatorHouse.ViewModels
             if (!string.IsNullOrEmpty(fatalError) && await DiagnoseFatalError(fatalError))
                 return false;
             else if (fatalError == null)
+            {
+                IsCancelFromLicenceValidationState = true;
                 Application.Current.MainWindow.Close();
+            }
             else
             {
                 if (DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "License", "Please validate Socinator !!", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
