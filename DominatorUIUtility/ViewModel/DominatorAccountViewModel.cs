@@ -2042,11 +2042,16 @@ namespace DominatorUIUtility.ViewModel
         private void UpdateUserCradExecute(object sender)
         {
             var lstcred = FileUtilities.FileBrowseAndReader();
+            ToasterNotification.ShowInfomation("Credentials imported successfully.\nStart updating...");
             foreach (var cred in lstcred)
             {
                 var data = cred.Split('\t');
+
+                if (data.Length < 7)
+                    continue;
+
                 var accountToUpdate = LstDominatorAccountModel.FirstOrDefault(x =>
-                    x.AccountBaseModel.AccountNetwork.ToString() == data[0] && x.AccountBaseModel.UserName == data[1]);
+                           x.AccountBaseModel.AccountNetwork.ToString() == data[0] && x.AccountBaseModel.UserName == data[1]);
                 if (accountToUpdate != null)
                 {
                     accountToUpdate.MailCredentials.Username = data[2];
@@ -2054,10 +2059,12 @@ namespace DominatorUIUtility.ViewModel
                     accountToUpdate.MailCredentials.Hostname = data[4];
                     accountToUpdate.MailCredentials.Port = int.Parse(data[5]);
                     accountToUpdate.IsUseSSL = bool.Parse(data[6]);
+                    accountToUpdate.IsAutoVerifyByEmail = true;
                 }
+
             }
             AccountsFileManager.UpdateAccounts(LstDominatorAccountModel);
-
+            ToasterNotification.ShowSuccess("Credentials successfully updated.");
         }
 
 
