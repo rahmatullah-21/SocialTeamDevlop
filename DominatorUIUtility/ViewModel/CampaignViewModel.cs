@@ -370,6 +370,8 @@ namespace DominatorUIUtility.ViewModel
 
                 if (selectedCampaign?.SelectedAccountList.Count == 0)
                 {
+                    if (selectedCampaign.Status == "Paused")
+                        return;
                     GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
                     selectedCampaign.Status = "Paused";
                     return;

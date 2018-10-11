@@ -377,6 +377,13 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isAutoVerifyByEmail, value);
             }
         }
+        private bool _isUseSSL;
+        [ProtoMember(24)]
+        public bool IsUseSSL
+        {
+            get { return _isUseSSL; }
+            set { SetProperty(ref _isUseSSL, value); }
+        }
 
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()

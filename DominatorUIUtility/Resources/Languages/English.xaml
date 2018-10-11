@@ -2474,6 +2474,7 @@
     <system:String x:Key="LangKeyUpdateAccountNameWhenChangingInstagramUsername">Update Account Name When Changing Instagram Username.</system:String>
     <system:String x:Key="LangKeyUpdateAccountNameWhenChangingPinterestUsername">Update Account Name When Changing Pinterest Username.</system:String>
     <system:String x:Key="LangKeyUpdateAllDetails">Update All Details</system:String>
+    <system:String x:Key="LangKeyUpdateUserCredential">Update User Credential</system:String>
     <system:String x:Key="LangKeyUpdateEvery">Update Every</system:String>
     <system:String x:Key="LangKeyUpdateFollowers">Update Followers</system:String>
     <system:String x:Key="LangKeyUpdateFollowings">Update Followings</system:String>
@@ -3204,4 +3205,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyInviteForEventUrl">Invite For Event Url(s)</system:String>
     <system:String x:Key="LangKeyAfterSentRequestAction">After Sent Request Action</system:String>
     <system:String x:Key="LangKeyAutoVerifyByEmail">Auto verify by Email</system:String>
+    <system:String x:Key="LangKeyUseSSL">Use SSL</system:String>
 </ResourceDictionary>

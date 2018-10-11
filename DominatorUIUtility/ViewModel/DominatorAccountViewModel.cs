@@ -35,6 +35,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -88,10 +89,10 @@ namespace DominatorUIUtility.ViewModel
 
             UpdateGroupCommand = new BaseCommand<object>(UpdateGroupDetailsCanExecute, UpdateGroupDetailsExecute);
 
+            UpdateUserCradCommand = new BaseCommand<object>((sender) => true, UpdateUserCradExecute);
+
             #endregion
         }
-
-
 
         #region Property
 
@@ -249,8 +250,8 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SingleAccountEditCommand { get; set; }
         public ICommand SingleAccountDeleteCommand { get; set; }
         public ICommand UpdateAccountDetailsCommand { get; set; }
-
         public ICommand UpdateGroupCommand { get; set; }
+        public ICommand UpdateUserCradCommand { get; set; }
         #endregion
 
         #region Add accounts
@@ -2037,6 +2038,30 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
+
+        private void UpdateUserCradExecute(object sender)
+        {
+            var lstcred = FileUtilities.FileBrowseAndReader();
+            foreach (var cred in lstcred)
+            {
+                var data = cred.Split('\t');
+                var accountToUpdate = LstDominatorAccountModel.FirstOrDefault(x =>
+                    x.AccountBaseModel.AccountNetwork.ToString() == data[0] && x.AccountBaseModel.UserName == data[1]);
+                if (accountToUpdate != null)
+                {
+                    accountToUpdate.MailCredentials.Username = data[2];
+                    accountToUpdate.MailCredentials.Password = data[3];
+                    accountToUpdate.MailCredentials.Hostname = data[4];
+                    accountToUpdate.MailCredentials.Port = int.Parse(data[5]);
+                    accountToUpdate.IsUseSSL = bool.Parse(data[6]);
+                }
+            }
+            AccountsFileManager.UpdateAccounts(LstDominatorAccountModel);
+
+        }
+
+
+
         public void AccountBrowserLogin(DominatorAccountModel model)
             => strategyPack.AccountBrowserLogin(model);
 
@@ -2304,8 +2329,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
-
         public void CheckinStatus(object sender, RoutedEventArgs e)
         {
             try
@@ -2417,11 +2440,6 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _headerVisible, value);
             }
         }
-
-
-
-
-
 
     }
 }

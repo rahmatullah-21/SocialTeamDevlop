@@ -179,50 +179,44 @@ namespace DominatorHouse.ViewModels
 
         private async Task FatalErrorDiagnosis()
         {
-            try
+            string fatalError;
+            var key = SocinatorKeyHelper.GetKey();
+            if (key != null)
             {
-                string fatalError;
-                var key = SocinatorKeyHelper.GetKey();
-                if (key != null)
+                var settings = new MetroDialogSettings()
                 {
-                    var settings = new MetroDialogSettings()
+                    DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
+                    AffirmativeButtonText = "Validate"
+                };
+                while (true)
+                {
+                    try
                     {
-                        DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
-                        AffirmativeButtonText = "Validate"
-                    };
-                    while (true)
+                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
+                        if (await IsProcessFatalError(fatalError))
+                            continue;
+                        else break;
+                    }
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
-                            if (await IsProcessFatalError(fatalError))
-                                continue;
-                            else break;
-                        }
-                        catch (Exception ex)
-                        {
-                        }
                     }
                 }
-                else
-                    while (true)
+            }
+            else
+                while (true)
+                {
+                    try
                     {
-                        try
-                        {
-                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License");
-                            if (await IsProcessFatalError(fatalError))
-                                continue;
-                            else break;
-                        }
-                        catch (Exception ex)
-                        {
-                        }
+                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License");
+                        if (await IsProcessFatalError(fatalError))
+                            continue;
+                        else break;
                     }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+
         }
 
         private async Task<bool> DiagnoseFatalError(string fatalError)

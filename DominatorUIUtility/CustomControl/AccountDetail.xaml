@@ -385,6 +385,8 @@
                 </StackPanel>
                 <!--End of Auto verify Section-->
 
+                <CheckBox Content="{DynamicResource LangKeyUseSSL}" IsChecked="{Binding DominatorAccountModel.IsUseSSL}" FontWeight="SemiBold"  Margin="5"/>
+                
                 <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" FontWeight="SemiBold"  Name="ChkAdvanceSetting" Margin="5"/>
                 
                 <StackPanel  Visibility="{Binding ElementName=ChkAdvanceSetting,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">

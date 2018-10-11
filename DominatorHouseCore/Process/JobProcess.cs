@@ -143,7 +143,10 @@ namespace DominatorHouseCore.Process
             JobProcessResult jobProcessResult =
                 new JobProcessResult { IsProcessCompleted = CheckJobProcessLimitsReached() };
             if (!jobProcessResult.IsProcessCompleted)
+            {
                 jobProcessResult = PostScrapeProcess(scrapedResult);
+              //  DelayBeforeNextActivity();
+            }
             else
             {
                 StartOtherConfiguration(scrapedResult);
