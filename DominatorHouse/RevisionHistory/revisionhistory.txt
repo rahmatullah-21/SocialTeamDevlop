@@ -1,3 +1,55 @@
+Version[1.0.0.18],[12th-October-18]
+New Features:-
+	Instagram:-
+		Account => Account Manager => Auto-verify account only for gmail and Yahoo.
+		Instascrape => Userscraper => Now we have feature for scraping required data of user.
+		Like/Comment => Custom Photos => Now we can use post Url(s) for like and comment.
+	Linkedin:- 
+		Social => Other configruation => Linkedin => Send connection request to different users across all linkedin accounts.
+		Export connection => Expand see more detail while save profile as a Html.
+	Facebook:-
+		Broadcast Messages => Manage Messages=> Added feature to send message with Friends Name & Own Name.
+		Broadcast Messages => Manage Messages => Added feature to send message by using spintax format.
+		Grow Groups => In other configuration => Added feature unique groups should be join from each account.
+		Facebook Tool => Scraper => Group scraper => Added feature with Skip the group if already Joined|sended request to join.
+		Facebook Tool => Fb Inviter => Page Inviter => Added feature with send private messages to those user who already invited but did not like the page.
+	Twitter:-
+		Poster => Tweet To => Added feature to tweet to any users.
+		Grow Follwers => Followers => After follow action => comment on user latest tweet => Spintax feature is added.
+	All modules => Query List => Action => Added feature to export all added queries in query list
+Fixed:-
+	SocioPublisher:-
+		Fixed issue with creating random publishing time everyday.
+		Linkedin => create a single post => Fixed issue with video posting on wall.
+		Pinterest => Socioppublisher => Post to boards => Fixed issue with posting to boards.
+	Instagram:-
+		Grow Follower => Follower => Fixed issue with Must have atleast one post  with a caption containing specific words.
+		Grow Follower => User Filter => Fixed issue with showing keywords added in filter when editing campaign.
+		Grow Follower => Follower => Enable auto follow/unfollow => Fixed issue with taking any random number between given range XX to YY.
+		Grow Follower => Fixed issue with delay between each action block when use default time.
+		Grow Follower => Follower => Fixed issue with follow when use more filter.
+		Instascraper => User scraper => Fixed issue with Must have atleast one post  with a caption containing specific words.
+		Instascraper => User scraper => Users who messaged us => Fixed issue with scraping duplicate users. 
+	Facebook:-
+		Facebook Tool => Scraper => Fanpage scraper => Fixed issues with showing proper report while editing the campaign.
+		Facebook Tool => Scraper => Profile scraper => Fixed issues with  scrap male members of a group to unique user for each accounts.
+		Profile Scraper => Fan Page Liker => Fixed issue with scraping users as per the given count.
+		Facebook => Broadcast messages => Fixed issues with Campaign report is not showing in Account activity.
+		Profile Scraper => Page Post Liker => Fixed Issue with scraping unique users from each account.
+	Linkedin:- 
+		Fixed issue with sending blank message.
+	Twitter:-
+		Fixed issue with Tweet To,only trying to tweet but not tweeting.
+		Fixed issue with Twitter => Engage => Comment => Spintax.
+		Fixed issue with Twitter => Accounts => Account Manager => Check account status.
+		Fixed issue with => Accounts Activity => Follow Back => Reports => Refresh button.
+	Pinterest:-
+		Pin Poster => Repin => Fixed issue with repining pins from custom boards to own accounts board.
+	Quora:-
+		Voting => Fixed issue with Downvote Question/Answer.
+		Message => Fixed issue with auto reply to new message.
+		Scraper => Fixed issue with scrape question by using custom url.
+
 Version[1.0.0.17],[01st-October-18]
 New Features:-
 	Instagram:-

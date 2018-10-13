@@ -1840,6 +1840,11 @@ namespace DominatorUIUtility.ViewModel
                 StopProcess();
                 return;
             }
+            if (updateMenuItem == "StopAllActivity")
+            {
+                StopAllActivity(selectedAccount);
+                return;
+            }
 
             try
             {
@@ -1965,7 +1970,31 @@ namespace DominatorUIUtility.ViewModel
                 {
                     StopProcess();
                 }
+              
             }
+        }
+
+        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts)
+        {
+            
+            ThreadFactory.Instance.Start(() =>
+            {
+                selectedAccounts.ForEach(account =>
+                {
+                    var accountToStop = LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == account.AccountId);
+                    accountToStop.ActivityManager.LstModuleConfiguration.Select(x =>
+                    {
+                        x.IsEnabled = false;
+                        return x;
+                    });
+                    GlobusLogHelper.log.Info(Log.StopAllActivitiesOfAccount,
+                        account.AccountBaseModel.AccountNetwork,
+                        account.AccountBaseModel.UserName);
+                });
+               
+                BinFileHelper.UpdateAllAccounts(LstDominatorAccountModel.ToList());
+                _updateAccountList.Clear();
+            });
         }
 
         private void StopProcess()

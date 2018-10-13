@@ -385,6 +385,13 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _isUseSSL, value); }
         }
 
+        /// <summary>
+        /// Using ActivityType:Querytype:Queryvalue as a key
+        /// </summary>
+        [ProtoMember(25)]
+        public Dictionary<string, string> PaginationId { get; set; }
+            = new Dictionary<string, string>();
+
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {

@@ -77,5 +77,6 @@
         public static string FailedToSendVerificationCodeFaild { get; } = "I1071";
 
         public static string PublishingFailedWithError { get; } = "I1072";
+        public static string StopAllActivitiesOfAccount { get; } = "I1073";
     }
 }

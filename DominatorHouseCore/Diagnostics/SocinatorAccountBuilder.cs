@@ -167,6 +167,21 @@ namespace DominatorHouseCore.Diagnostics
             DominatorAccountModel.IsAutoVerifyByEmail = IsAutoVerifyByEmail;
             return this;
         }
+        public SocinatorAccountBuilder AddOrUpdatePaginationId(string key, string value)
+        {
+            try
+            {
+                if (DominatorAccountModel.PaginationId.Keys.Contains(key))
+                    DominatorAccountModel.PaginationId[key] = value;
+                else
+                    DominatorAccountModel.PaginationId.Add(key, value);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return this;
+        }
         public bool SaveToBinFile()
             => AccountsFileManager.Edit(DominatorAccountModel);
     }

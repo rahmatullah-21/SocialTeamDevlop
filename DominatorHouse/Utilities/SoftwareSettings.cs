@@ -173,8 +173,8 @@ namespace DominatorHouse.Utilities
 
             foreach (var account in scheduleUpdateAccount)
             {
-                var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeUtc();
-
+                var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeLocal();
+                
                 JobManager.AddJob(async () =>
                 {
                     try

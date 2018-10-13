@@ -257,6 +257,7 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         public static string StopUpdatingAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyStoppedForFurtherFriendshipUpdate".FromResourceDictionary() + "\t" + CodeConstants.StopUpdatingAccount;
 
+        public static string StopAllActivitiesOfAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyStoppedAllActivitiesOfAccount".FromResourceDictionary() + "\t" + CodeConstants.StopAllActivitiesOfAccount;
 
         /// <summary>
         /// 0 = Account's SocialNetwork

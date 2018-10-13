@@ -2209,6 +2209,7 @@
     <system:String x:Key="LangKeyStopFollowToolWhenReaching">Stop Follow Tool When Reaching</system:String>
     <system:String x:Key="LangKeyStopJoinTool">Stop Join Tool</system:String>
     <system:String x:Key="LangKeyStopProcess">Stop Process</system:String>
+    <system:String x:Key="LangKeyStopAllActivity">All Activity</system:String>
     <system:String x:Key="LangKeyStopRandomisingDestinationsOrderForPosts">Stop Randomising Destinations Order For Posts</system:String>
     <system:String x:Key="LangKeyStopSavingEmbeddedBrowserScreenshotsWhenErrorOccurToSaveDiskSpace">Stop Saving Embedded Browser Screenshots When Error Occur (To Save Disk Space)</system:String>
     <system:String x:Key="LangKeyStopTheCampaignForSpecificErrorCodes">Stop The Campaign For Specific Error Codes</system:String>
@@ -3206,4 +3207,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAfterSentRequestAction">After Sent Request Action</system:String>
     <system:String x:Key="LangKeyAutoVerifyByEmail">Auto verify by Email</system:String>
     <system:String x:Key="LangKeyUseSSL">Use SSL</system:String>
+    <system:String x:Key="LangKeyNumberOfTweetToPerDay">Number Of TweetTo Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfTweetToPerHour">Number Of TweetTo Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfTweetToPerJob">Number Of TweetTo Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfTweetToPerWeek">Number Of TweetTo Per Week</system:String>
+    <system:String x:Key="LangKeyMaxTweetToPerDay">Max TweetTo Per Day</system:String>
+    <system:String x:Key="LangKeyStoppedAllActivitiesOfAccount">Stopped All Activities Of Account</system:String>
 </ResourceDictionary>

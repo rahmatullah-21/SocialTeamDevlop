@@ -414,7 +414,8 @@ namespace DominatorUIUtility.CustomControl
                         x.DisplayColumnValue10 = 0;
                     });
 
-                    listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
+                   // listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
+                    listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork;
                 }
                 else
                 {
@@ -436,7 +437,8 @@ namespace DominatorUIUtility.CustomControl
 
                     this.Dispatcher.Invoke(() =>
                     {
-                        listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
+                       // listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
+                        listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork;
 
                     });
                 }
@@ -447,13 +449,17 @@ namespace DominatorUIUtility.CustomControl
                         listCollection.Filter = null;
 
                     });
+                var spec = ( SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social) ?
+                    DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
+                    SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                        .GetNetworkCoreFactory()
+                        .AccountCountFactory.GetColumnSpecificationProvider();
 
-
-                var spec = (!_selectedNetworkViewModel.Selected.HasValue || _selectedNetworkViewModel.Selected == SocialNetworks.Social) ?
-                   DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
-                   SocinatorInitialize.GetSocialLibrary(_selectedNetworkViewModel.Selected.Value)
-                         .GetNetworkCoreFactory()
-                         .AccountCountFactory.GetColumnSpecificationProvider();
+                //var spec = (!_selectedNetworkViewModel.Selected.HasValue || _selectedNetworkViewModel.Selected == SocialNetworks.Social) ?
+                //   DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
+                //   SocinatorInitialize.GetSocialLibrary(_selectedNetworkViewModel.Selected.Value)
+                //         .GetNetworkCoreFactory()
+                //         .AccountCountFactory.GetColumnSpecificationProvider();
 
 
                 _dominatorAccountViewModel.GrowthChartAccountNumber = (listCollection.GetItemAt(0) as DominatorAccountModel).AccountId;
