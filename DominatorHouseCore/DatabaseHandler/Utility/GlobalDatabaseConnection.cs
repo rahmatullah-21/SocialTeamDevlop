@@ -25,7 +25,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             var directoryName = ConstantVariable.GetPlatformBaseDirectory() + $"\\Index\\Global\\DB\\{userType}";
             var connectionString = directoryName + $"\\{networks}.db";
             DirectoryUtilities.CreateDirectory(directoryName);
-            var dbConnection = new SQLiteConnection(@"data source=" + connectionString);
+            var dbConnection = new SQLiteConnection(connectionString);
             if (userType == UserType.BlackListedUser)
             {
                 dbConnection.Table<DHTables.BlackListUser>();
