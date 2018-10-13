@@ -1,23 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using SQLite;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
     public class DailyStatitics
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public DateTime Date
         { get; set; }
 
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public int Followers
         { get; set; }
 
@@ -25,7 +25,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         /// LinkedinGroups count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public int Followings
         { get; set; }
 
@@ -33,7 +33,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         /// Posts count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int Communities
         { get; set; }
 

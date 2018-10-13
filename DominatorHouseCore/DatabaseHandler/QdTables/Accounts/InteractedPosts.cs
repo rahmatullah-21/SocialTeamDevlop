@@ -1,44 +1,44 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DominatorHouseCore.Enums;
-using SQLite.CodeFirst;
+using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {
     public class InteractedPosts
     {
-        [Key]
-        [Column(Order = 1)]
-        [Index]
-        [Autoincrement]
+        [PrimaryKey]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
+        [Indexed]
+        [AutoIncrement]
         public int Id { get; set; }
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public int InteractionDate { get; set; }
 
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public MediaType MediaType { get; set; }
 
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public ActivityType ActivityType { get; set; }
 
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string PkOwner { get; set; }
 
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int TakenAt { get; set; }
 
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string UsernameOwner { get; set; }
 
 
-        [Column(Order = 8)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string Username { get; set; }
 
-        [Column(Order = 9)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string Comment { get; set; }
 
-        [Column(Order = 10)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string CommentId { get; set; }
     }
 }

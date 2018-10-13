@@ -1,4 +1,4 @@
-﻿using SQLite.CodeFirst;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,19 +11,19 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
     public class OwnChannels
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
-        [Column(Order =2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order =2)]
         public string ChannelName { get; set; }
 
-        [Column(Order =3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order =3)]
         public string SubscribersCount { get; set; }
 
-        [Column(Order =4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order =4)]
         public string VideosCount { get; set; }
     }
 }

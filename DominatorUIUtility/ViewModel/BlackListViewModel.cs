@@ -10,7 +10,6 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,8 +39,6 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SelectCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
-
-        private DbContext dbContext { get; set; }
 
         private DbOperations dbOperations { get; set; }
 
@@ -117,11 +114,9 @@ namespace DominatorUIUtility.ViewModel
         public void InitializeData()
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
-            dbOperations = new DbOperations(dbContext);
-           
-            dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
-            var whiteListdbOperations = new DbOperations(dbContext);
+            dbOperations = new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser));
+
+            var whiteListdbOperations = new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser));
             whiteListUser = whiteListdbOperations.Get<WhiteListUser>();
 
             ThreadFactory.Instance.Start(() =>

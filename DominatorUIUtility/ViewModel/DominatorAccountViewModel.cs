@@ -35,7 +35,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Microsoft.Win32;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -47,8 +46,6 @@ namespace DominatorUIUtility.ViewModel
     [ProtoContract]
     public class DominatorAccountViewModel : BindableBase, IDominatorAccountViewModel
     {
-        private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
-
         private DbOperations dbOperations { get; }
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel)
@@ -57,8 +54,7 @@ namespace DominatorUIUtility.ViewModel
 
             InitialAccountDetails();
 
-            DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            dbOperations = new DbOperations(DataBaseConnectionGlb.GetDbContext());
+            dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
 
 
             #region Command Initialization
@@ -623,7 +619,7 @@ namespace DominatorUIUtility.ViewModel
 
             var databaseCreation = secondaryTaskStrategyReturningCancellation(() =>
             {
-                var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetDbContext());
+                var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
 
                 DataBaseHandler.DbInitialCounters[objDominatorAccountBaseModel.AccountNetwork](dbOperations);
 

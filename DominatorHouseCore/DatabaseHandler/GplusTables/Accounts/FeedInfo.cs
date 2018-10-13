@@ -1,46 +1,46 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
     public class FeedInfoes
     {
-        [Key]
-        [Column(Order = 1)]
-        [Index]
-        [Autoincrement]
+        [PrimaryKey]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
+        [Indexed]
+        [AutoIncrement]
         public int Id
         { get; set; }
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Caption
         { get; set; }
 
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public int CommentCount
         { get; set; }
 
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public bool CommentsDisabled
         { get; set; }
 
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string Preview
         { get; set; }
 
 
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int TakenAt
         { get; set; }
 
 
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public double VideoDuration
         { get; set; }
 
 
-        [Column(Order = 8)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public int ViewCount
         { get; set; }
 

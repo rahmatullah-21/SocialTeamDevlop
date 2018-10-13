@@ -1,4 +1,4 @@
-﻿using SQLite.CodeFirst;
+﻿using SQLite;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,44 +6,44 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
 {
     public class InteractedUser
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
         /// <summary>
         /// EmailId of the Account from which Interaction has been done
         /// </summary>
         [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 1, IsUnique = true)]
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountEmail { get; set; }
 
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryType
         { get; set; }
 
         /// <summary>
         /// Contains QueryValue For Interaction
         /// </summary>
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
 
         [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 2, IsUnique = true)]
         /// <summary>
         /// Describes Activity 
         /// </summary>
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ActivityType
         { get; set; }
 
         /// <summary>
         /// Contains FullName Of the Interacted User
         /// </summary>
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string UserFullName
         { get; set; }
 
@@ -51,34 +51,34 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         /// Contains ProfileUrl Of the Interacted User
         /// </summary>
         [Index("Pk_AccountEmail_ActivityType_UserProfileUrl", 3, IsUnique = true)]
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string UserProfileUrl
         { get; set; }
 
         /// <summary>
         /// Contains Detailed Info of the Interacted User in the Form of Jason String
         /// </summary>
-        [Column(Order = 8)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string DetailedUserInfo
         { get; set; }
         
         /// <summary>
         /// Contains TimeStamp when interacted with the User
         /// </summary>
-        [Column(Order = 9)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public int InteractionTimeStamp { get; set; }
 
-        [Column(Order = 11)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string UserName { get; set; }
 
 
-        [Column(Order = 12)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string InteractedUsername { get; set; }
         
 
-        [Column(Order=13)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order=13)]
         public string TemplateId { get; set; }
-        [Column(Order = 14)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public string DirectMessage { get; set; }
 
     }

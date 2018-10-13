@@ -1,84 +1,84 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using SQLite;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
     public class InteractedSubreddit
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string whitelistStatus { get; set; }
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public bool isNSFW { get; set; }
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public int subscribers { get; set; }
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string primaryColor { get; set; }
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string SubscribeId { get; set; }
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public bool isQuarantined { get; set; }
-        [Column(Order = 8)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string name { get; set; }
-        [Column(Order = 9)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string title { get; set; }
-        [Column(Order = 10)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string url { get; set; }
-        [Column(Order = 11)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public int wls { get; set; }
-        [Column(Order = 12)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string displayText { get; set; }
-        [Column(Order = 13)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public string type { get; set; }
-        [Column(Order = 14)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public string communityIcon { get; set; }
-        [Column(Order = 15)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
 
         public string publicDescription { get; set; }
 
-        [Column(Order = 16)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public bool userIsSubscriber { get; set; }
-        [Column(Order = 17)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string accountsActive { get; set; }
-        [Column(Order = 18)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string advertiserCategory { get; set; }
       
-        [Column(Order = 19)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public bool showMedia { get; set; }
-        [Column(Order = 20)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string usingNewModmail { get; set; }
-        [Column(Order = 21)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public bool emojisEnabled { get; set; }
-        [Column(Order = 22)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
         public bool originalContentTagEnabled { get; set; }
-        [Column(Order = 23)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
         public bool allOriginalContent { get; set; }
 
-        [Column(Order = 24)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public string QueryType { get; set; }
-        [Column(Order = 25)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
         public string QueryValue { get; set; }
 
-        [Column(Order = 26)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string ActivityType { get; set; }
 
-        [Column(Order = 27)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public int InteractionTimeStamp
         { get; set; }
 
-        [Column(Order = 28)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public DateTime InteractionDateTime { get; set; }
 
-        [Column(Order = 29)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
         public string SinAccId { get; set; }
 
-        [Column(Order = 30)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 30)]
         public string SinAccUsername { get; set; }
 
 
