@@ -2209,7 +2209,7 @@
     <system:String x:Key="LangKeyStopFollowToolWhenReaching">Stop Follow Tool When Reaching</system:String>
     <system:String x:Key="LangKeyStopJoinTool">Stop Join Tool</system:String>
     <system:String x:Key="LangKeyStopProcess">Stop Process</system:String>
-    <system:String x:Key="LangKeyStopAllActivity">All Activity</system:String>
+    <system:String x:Key="LangKeyStopAllActivity">Stop All Activity</system:String>
     <system:String x:Key="LangKeyStopRandomisingDestinationsOrderForPosts">Stop Randomising Destinations Order For Posts</system:String>
     <system:String x:Key="LangKeyStopSavingEmbeddedBrowserScreenshotsWhenErrorOccurToSaveDiskSpace">Stop Saving Embedded Browser Screenshots When Error Occur (To Save Disk Space)</system:String>
     <system:String x:Key="LangKeyStopTheCampaignForSpecificErrorCodes">Stop The Campaign For Specific Error Codes</system:String>
@@ -3213,4 +3213,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfTweetToPerWeek">Number Of TweetTo Per Week</system:String>
     <system:String x:Key="LangKeyMaxTweetToPerDay">Max TweetTo Per Day</system:String>
     <system:String x:Key="LangKeyStoppedAllActivitiesOfAccount">Stopped All Activities Of Account</system:String>
+    <system:String x:Key="LangKeyWriteANoteEvent">Write a note to include in your invitation (Only in case of personal message)</system:String>
 </ResourceDictionary>

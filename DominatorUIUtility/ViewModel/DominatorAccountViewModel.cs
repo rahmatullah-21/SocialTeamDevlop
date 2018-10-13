@@ -1970,30 +1970,33 @@ namespace DominatorUIUtility.ViewModel
                 {
                     StopProcess();
                 }
-              
+
             }
         }
 
         private void StopAllActivity(List<DominatorAccountModel> selectedAccounts)
         {
-            
+
             ThreadFactory.Instance.Start(() =>
             {
                 selectedAccounts.ForEach(account =>
                 {
-                    var accountToStop = LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == account.AccountId);
-                    accountToStop.ActivityManager.LstModuleConfiguration.Select(x =>
+                    var accountToUpdate = AccountsFileManager.GetAccountById(account.AccountId);
+                    accountToUpdate.ActivityManager.LstModuleConfiguration.ForEach(x =>
                     {
                         x.IsEnabled = false;
-                        return x;
+                        DominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
                     });
+                    account.ActivityManager.LstModuleConfiguration =
+                        accountToUpdate.ActivityManager.LstModuleConfiguration;
+                    account?.NotifyCancelled();
                     GlobusLogHelper.log.Info(Log.StopAllActivitiesOfAccount,
-                        account.AccountBaseModel.AccountNetwork,
-                        account.AccountBaseModel.UserName);
+                         account.AccountBaseModel.AccountNetwork,
+                         account.AccountBaseModel.UserName);
                 });
-               
+
                 BinFileHelper.UpdateAllAccounts(LstDominatorAccountModel.ToList());
-                _updateAccountList.Clear();
+
             });
         }
 

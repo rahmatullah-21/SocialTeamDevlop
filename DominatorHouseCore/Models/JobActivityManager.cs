@@ -6,13 +6,23 @@ using DominatorHouseCore.Enums;
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class JobActivityManager
+    public class JobActivityManager:BindableBase
     {
+        private List<ModuleConfiguration> _lstModuleConfiguration = new List<ModuleConfiguration>();
+
         /// <summary>
         /// Module Configurations. FollowModule, UnfollowModule, LikeModule etc.
         /// </summary>
         [ProtoMember(1)]
-        public List<ModuleConfiguration> LstModuleConfiguration { get; set; } = new List<ModuleConfiguration>();
+        public List<ModuleConfiguration> LstModuleConfiguration
+        {
+            get { return _lstModuleConfiguration; }
+            set
+            {
+                if(_lstModuleConfiguration == value)return;
+                SetProperty(ref _lstModuleConfiguration, value);
+            }
+        }
 
         /// <summary>
         /// Day of week and Time when particular modules will be running
