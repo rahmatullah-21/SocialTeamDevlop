@@ -1,4 +1,4 @@
-Version[1.0.0.18],[12th-October-18]
+Version[1.0.0.18],[13th-October-18]
 New Features:-
 	Instagram:-
 		Account => Account Manager => Auto-verify account only for gmail and Yahoo.
@@ -36,13 +36,23 @@ Fixed:-
 		Profile Scraper => Fan Page Liker => Fixed issue with scraping users as per the given count.
 		Facebook => Broadcast messages => Fixed issues with Campaign report is not showing in Account activity.
 		Profile Scraper => Page Post Liker => Fixed Issue with scraping unique users from each account.
+		Send Friend Request => Unfriend => Fixed issue with unfriending people.
+		Send Friend Request => Withdraw Sent Request => Fixed issue with cancelling sent request.
 	Linkedin:- 
 		Fixed issue with sending blank message.
+		Fixed issue with => Grow Connection => Export Connection => while exporting,it was going to home page.
+		Fixed issue with => Grow Connection => Export Connection => Not expanding show more details of the profiles while exporting.
+		Fixed issue with => Grow Connection => Connection Request => Unique operation => Sending duplicate connection request via search url
+		Fixed issue with => Grow Connection => Export Connection => custom user list => Not exporting the profile data and asking to get login  into the account.
+		Fixed issue with => Grow Connection => Connection Request => search url => Result was not matching from browser's result to send request.
 	Twitter:-
 		Fixed issue with Tweet To,only trying to tweet but not tweeting.
 		Fixed issue with Twitter => Engage => Comment => Spintax.
 		Fixed issue with Twitter => Accounts => Account Manager => Check account status.
 		Fixed issue with => Accounts Activity => Follow Back => Reports => Refresh button.
+		Fixed issue with => Accounts Activity => Comment =>  Not commenting with custom tweet list and keywords.
+		Fixed issue with => Accounts Actvity => Some features were missing which were present in twitter section.
+		Fixed issue with => Grow Followers => Follower => Job Configuration => Advanced Settings.
 	Pinterest:-
 		Pin Poster => Repin => Fixed issue with repining pins from custom boards to own accounts board.
 	Quora:-

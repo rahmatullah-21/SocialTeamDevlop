@@ -970,12 +970,15 @@ namespace DominatorUIUtility.CustomControl
 
                     var oldCampaignindex = LstCampaignDetails.IndexOf(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
-                    LstCampaignDetails[oldCampaignindex].CampaignName = CampaignName;
-                    LstCampaignDetails[oldCampaignindex].SelectedAccountList = _footerControl.list_SelectedAccounts;
-                    LstCampaignDetails[oldCampaignindex].TemplateId = TemplateId;
-                    LstCampaignDetails[oldCampaignindex].CreationDate = campaign.CreationDate;
-                    LstCampaignDetails[oldCampaignindex].Status = "Active";
-                    LstCampaignDetails[oldCampaignindex].LastEditedDate = campaign.LastEditedDate;
+                    if (oldCampaignindex >= 0)
+                    {
+                        LstCampaignDetails[oldCampaignindex].CampaignName = CampaignName;
+                        LstCampaignDetails[oldCampaignindex].SelectedAccountList = _footerControl.list_SelectedAccounts;
+                        LstCampaignDetails[oldCampaignindex].TemplateId = TemplateId;
+                        LstCampaignDetails[oldCampaignindex].CreationDate = campaign.CreationDate;
+                        LstCampaignDetails[oldCampaignindex].Status = "Active";
+                        LstCampaignDetails[oldCampaignindex].LastEditedDate = campaign.LastEditedDate;
+                    }
 
                     #endregion
 
