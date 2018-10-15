@@ -161,8 +161,8 @@ namespace DominatorHouseCore.Enums
         //[Description("Youtube")]
         //LikeComments = 53,
 
-        //[Description("Youtube")]
-        //UnSubscribe = 54,
+        [Description("Reddit")]
+        UnSubscribe = 54,
 
         [Description("Youtube")]
         ViewIncreaser = 55,
