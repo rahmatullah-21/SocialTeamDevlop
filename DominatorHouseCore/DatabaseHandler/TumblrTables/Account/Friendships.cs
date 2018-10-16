@@ -1,4 +1,4 @@
-﻿using SQLite.CodeFirst;
+﻿using SQLite;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,96 +7,96 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 
     public class Friendships
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public int DetailedInfoHasBeenRetrievedAtleastOnce
         { get; set; }
 
 
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public int DetailedInfoWillNotBeRetrieved
         { get; set; }
 
 
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public int Followers
         { get; set; }
 
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int Followings
         { get; set; }
 
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int PostsPerWeek
         { get; set; }
 
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public int Uploads
         { get; set; }
 
 
-        [Column(Order = 8)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public string FullName
         { get; set; }
 
 
-        [Column(Order = 9)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public bool? HasAnonymousProfilePicture
         { get; set; }
 
 
 
-        [Column(Order = 10)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public bool IsPrivate
         { get; set; }
 
 
-        [Column(Order = 11)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public bool IsVerified
         { get; set; }
 
 
-        [Column(Order = 12)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string ProfilePicUrl
         { get; set; }
 
 
 
 
-        [Column(Order = 13)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         // [Unique]
         public string Username
         { get; set; }
 
 
 
-        [Column(Order = 14)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public bool IsBusiness
         { get; set; }
 
 
-        [Column(Order = 15)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string UserId
         { get; set; }
 
 
 
-        [Column(Order = 16)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public int Time
         { get; set; }
 
 
-        [Column(Order = 17)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public FollowType FollowType
         { get; set; }
 
-        [Column(Order = 18)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public bool IsFollowBySoftware
         { get; set; }
     }

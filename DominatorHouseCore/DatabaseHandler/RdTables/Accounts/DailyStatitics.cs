@@ -1,23 +1,23 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
     public class DailyStatitics
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
         
         /// <summary>
         /// Date when statistics are entered in Unix Timestamp
         /// </summary>
         
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public DateTime Date
         { get; set; }
        
@@ -25,7 +25,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         /// Followers count of the DB owner when the statistics has got updated
         /// </summary>
         
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public int Score
         { get; set; }
 
@@ -33,7 +33,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         /// Followings count of the DB owner when the statistics has got updated
         /// </summary>
        
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public int Communities
         { get; set; }
 
@@ -41,7 +41,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         /// Tweets count of the DB owner when the statistics has got updated
         /// </summary>
         
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int PostKarma
         { get; set; }
 
@@ -49,7 +49,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         /// Likes count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int CommentKarma { get; set; }
 
     }

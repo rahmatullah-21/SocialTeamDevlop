@@ -1,23 +1,23 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.DHTables
 {
     public class BlackListUser
     {
-        [Key]
-        [Column(Order = 1)]
-        [Index]
-        [Autoincrement]
+        [PrimaryKey]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
+        [Indexed]
+        [AutoIncrement]
         public int Id { get; set; }
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string UserId { get; set; }
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string UserName { get; set; }
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public DateTime AddedDateTime { get; set; }
     }
 }
