@@ -399,6 +399,7 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherScrapePostViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\SoftwareSettingsViewModel.cs" />
+    <Compile Include="ViewModel\VerifyProxiesViewModel.cs" />
     <Compile Include="ViewModel\WhiteListViewModel.cs" />
     <Compile Include="Views\AccountManager.xaml.cs">
       <DependentUpon>AccountManager.xaml</DependentUpon>

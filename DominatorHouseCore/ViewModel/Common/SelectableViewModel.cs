@@ -1,5 +1,4 @@
-﻿using DominatorHouseCore.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -23,7 +22,7 @@ namespace DominatorHouseCore.ViewModel.Common
         event EventHandler<T> ItemSelected;
     }
 
-    public class SelectableViewModel<T> : BindableBase, ISelectableViewModel<T>
+    public class SelectableViewModel<T> : SynchronizedViewModel, ISelectableViewModel<T>
     {
         private readonly object _syncContext = new object();
         private readonly ObservableCollection<T> _itemsCollection;
