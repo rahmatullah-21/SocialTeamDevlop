@@ -3214,4 +3214,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMaxTweetToPerDay">Max TweetTo Per Day</system:String>
     <system:String x:Key="LangKeyStoppedAllActivitiesOfAccount">Stopped All Activities Of Account</system:String>
     <system:String x:Key="LangKeyWriteANoteEvent">Write a note to include in your invitation (Only in case of personal message)</system:String>
+    <system:String x:Key="LangKeyUserTag">Tag users in post</system:String>
 </ResourceDictionary>

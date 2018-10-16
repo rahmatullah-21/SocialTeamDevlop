@@ -1,5 +1,7 @@
-Version[1.0.0.18],[13th-October-18]
+Version[1.0.0.18],[15th-October-18]
 New Features:-
+	Social:-
+		Added feature to stop all activity for selected account in Account Manager => Update => Stop All Activity
 	Instagram:-
 		Account => Account Manager => Auto-verify account only for gmail and Yahoo.
 		Instascrape => Userscraper => Now we have feature for scraping required data of user.
