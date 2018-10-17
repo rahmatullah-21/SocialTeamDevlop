@@ -466,8 +466,138 @@ namespace DominatorHouse.Utilities
 
         #endregion
 
-    }
+        public class ScrapAdsDetails
+        {
+            public string AccountId { get; set; }
 
+            public DominatorAccountModel account { get; set; }
+
+            public ScrapAdsDetails(DominatorAccountModel AccountModel)
+            {
+                account = AccountModel;
+            }
+
+            public static ConcurrentDictionary<string, CancellationTokenSource> AccountUpdatesCancellationToken { get; set; }
+                = new ConcurrentDictionary<string, CancellationTokenSource>();
+
+
+            public async Task StartAdScarperAsync()
+            {
+
+                try
+                {
+                    var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
+
+                    if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+                        return;
+
+                    var accountFactory = SocinatorInitialize
+                        .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AdScraperFactory;
+
+                    var asyncAccount = accountFactory as IAdScraperFactory;
+
+                    if (asyncAccount == null)
+                        return;
+
+                    try
+                    {
+                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+                        if (!checkResult)
+                            return;
+
+                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        ex.DebugLog("Cancellation Requested!");
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+
+        }
+
+    }
+    public class ScrapAdsDetails
+    {
+        public string AccountId { get; set; }
+
+        public DominatorAccountModel account { get; set; }
+
+        public ScrapAdsDetails(DominatorAccountModel AccountModel)
+        {
+            account = AccountModel;
+        }
+
+        public static ConcurrentDictionary<string, CancellationTokenSource> AccountUpdatesCancellationToken { get; set; }
+            = new ConcurrentDictionary<string, CancellationTokenSource>();
+
+
+        public async Task StartAdScarperAsync()
+        {
+
+            try
+            {
+                var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
+
+                if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+                    return;
+
+                var accountFactory = SocinatorInitialize
+                    .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory().AdScraperFactory;
+
+                var asyncAccount = accountFactory as IAdScraperFactory;
+
+                if (asyncAccount == null)
+                    return;
+
+                try
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+                    if (!checkResult)
+                        return;
+
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Cancellation Requested!");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+    }
 
     public class AccountDetailsUpdation
     {

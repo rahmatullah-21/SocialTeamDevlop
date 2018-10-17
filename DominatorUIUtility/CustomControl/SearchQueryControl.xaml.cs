@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,9 +8,6 @@ using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
-using System.Windows.Data;
-using System.Reflection;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore;
@@ -25,7 +21,6 @@ namespace DominatorUIUtility.CustomControl
 {
     public partial class SearchQueryControl : UserControl, INotifyPropertyChanged
     {
-
         public SearchQueryControl()
         {
             InitializeComponent();
@@ -45,6 +40,7 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyScrapAllLikes".FromResourceDictionary());
             DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
             DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
+
         }
 
 
@@ -371,40 +367,6 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        //public bool CanExecute(object parameter)
-        //{
-        //    return true;
-        //}
-
-        //public void Execute(object parameter)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(TxtInputQuery.Text.Trim()) && QueryCollection.Count == 0)
-        //            return;
-        //        if (TxtInputQuery.Text.Contains(","))
-        //        {
-        //            CurrentQuery.QueryValue = String.Empty;
-        //            QueryCollection.AddRange(TxtInputQuery.Text.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct());
-        //        }
-        //        else
-        //        {
-        //            CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
-        //        }
-        //        CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
-        //        // CurrentQuery.QueryType = LstQueryType[SelectedIndex].ToString();
-
-        //        TxtInputQuery.Text = string.Empty;
-        //        SelectedIndex = 0;
-        //        AddQueryEventHandler();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //    }
-        //    TxtInputQuery.IsEnabled = true;
-        //}
-
         public bool IsExpanded
         {
             get { return (bool)GetValue(IsExpandedProperty); }
@@ -618,6 +580,12 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
+        }
+
+        private void SearchQueries_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (ListQueryInfo.Count > 0)
+                SearchQueries.ScrollIntoView(ListQueryInfo[0]);
         }
     }
 

@@ -465,6 +465,7 @@
     <Compile Include="FileManagers\YoutubeFileManager.cs" />
     <Compile Include="Interfaces\ChatFactory.cs" />
     <Compile Include="Interfaces\ColumnSpecificationAdapter.cs" />
+    <Compile Include="Interfaces\IAdScraperFactory.cs" />
     <Compile Include="Interfaces\ICampaignInteractionDetails.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Interfaces\IComments.cs" />
