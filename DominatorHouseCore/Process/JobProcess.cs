@@ -43,12 +43,12 @@ namespace DominatorHouseCore.Process
             {
                 JObject jsonObject = JObject.Parse(model.ActivitySettings);
                 //dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings); ----//Todo 
-                JobConfiguration =
-                    JsonConvert.DeserializeObject<JobConfiguration>(jsonObject["JobConfiguration"].ToString());
+                JobConfiguration = jsonObject["JobConfiguration"]?.ToObject<JobConfiguration>();
+                //  JsonConvert.DeserializeObject<JobConfiguration>(jsonObject["JobConfiguration"].ToString());
                 try
                 {
-                    SavedQueries =
-                        JsonConvert.DeserializeObject<List<QueryInfo>>(jsonObject["SavedQueries"].ToString());
+                    SavedQueries = jsonObject["SavedQueries"]?.ToObject<List<QueryInfo>>();
+                    // JsonConvert.DeserializeObject<List<QueryInfo>>(jsonObject["SavedQueries"].ToString());
                 }
                 catch
                 {
@@ -145,7 +145,7 @@ namespace DominatorHouseCore.Process
             if (!jobProcessResult.IsProcessCompleted)
             {
                 jobProcessResult = PostScrapeProcess(scrapedResult);
-              //  DelayBeforeNextActivity();
+                //  DelayBeforeNextActivity();
             }
             else
             {

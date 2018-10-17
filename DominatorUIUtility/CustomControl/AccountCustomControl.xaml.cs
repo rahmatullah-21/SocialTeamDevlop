@@ -103,7 +103,7 @@ namespace DominatorUIUtility.CustomControl
         }
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNework)
         {
-            return _accountCustomInstance;
+            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
         }
 
         public void GetRespectiveAccounts(SocialNetworks socialNetworks)
