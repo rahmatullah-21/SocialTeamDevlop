@@ -1762,14 +1762,10 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (syncLoadAccounts)
             {
-                var accountList = new ObservableCollection<DominatorAccountModel>();
-                AccountsFileManager.FillList(accountList);
-                var savedAccounts = accountList.ToList();
-
                 try
                 {
                     LstDominatorAccountModel.Clear();
-                    savedAccounts.ForEach(account =>
+                    AccountsFileManager.GetAll().ForEach(account =>
                     {
                         if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel.AccountNetwork))
                         {

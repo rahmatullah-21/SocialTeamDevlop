@@ -10,6 +10,7 @@ namespace DominatorHouseCore.ViewModel
         {
             Container.RegisterSingleton<IDashboardViewModel, RevisionHistoryViewModel>("RevisionHistory");
             Container.RegisterSingleton<ISelectedNetworkViewModel, SelectedNetworkViewModel>();
+            Container.RegisterSingleton<ILogViewModel, LogViewModel>();
         }
     }
 }

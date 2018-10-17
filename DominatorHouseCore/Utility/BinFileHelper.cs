@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
-using System.IO;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 
 
 namespace DominatorHouseCore.Utility
@@ -20,14 +20,6 @@ namespace DominatorHouseCore.Utility
         //private static readonly object _proxyFileLocker = new object();
         //private static readonly object _postFileLocker = new object();
         //private static readonly object _configFileLocker = new object();
-
-        public static ObservableCollection<string> GetUsers()
-            => new ObservableCollection<string>(GetAccountDetails().Select(x => x.AccountBaseModel.UserName).ToList());
-
-        public static ObservableCollection<string> GetUsers(SocialNetworks networks)
-            => new ObservableCollection<string>(GetAccountDetails()
-                .Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.AccountBaseModel.UserName)
-                .ToList());
 
         public static ObservableCollection<string> GetUsers<T>() where T : class
             => new ObservableCollection<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string)
