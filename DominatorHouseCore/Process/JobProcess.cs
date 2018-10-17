@@ -15,6 +15,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
 using DominatorHouseCore.Interfaces;
+using Newtonsoft.Json.Linq;
 
 namespace DominatorHouseCore.Process
 {
@@ -36,18 +37,18 @@ namespace DominatorHouseCore.Process
             CurrentJobTimeRange = currentJobTimeRange;
 
             // Get the Template Model from the given template id
-            var model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
+            var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
 
             if (model != null)
             {
-                dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings);
-
+                JObject jsonObject = JObject.Parse(model.ActivitySettings);
+                //dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings); ----//Todo 
                 JobConfiguration =
-                    JsonConvert.DeserializeObject<JobConfiguration>(deserializedValue["JobConfiguration"].ToString());
+                    JsonConvert.DeserializeObject<JobConfiguration>(jsonObject["JobConfiguration"].ToString());
                 try
                 {
                     SavedQueries =
-                        JsonConvert.DeserializeObject<List<QueryInfo>>(deserializedValue["SavedQueries"].ToString());
+                        JsonConvert.DeserializeObject<List<QueryInfo>>(jsonObject["SavedQueries"].ToString());
                 }
                 catch
                 {
@@ -56,7 +57,6 @@ namespace DominatorHouseCore.Process
             }
 
             TemplateId = template;
-            var campaigns = CampaignsFileManager.Get();
             CampaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
             ActivityType = activityType;
 
@@ -171,7 +171,7 @@ namespace DominatorHouseCore.Process
         {
             Stop();
 
-            var lstTemplateModel = BinFileHelper.GetTemplateDetails().ToList();
+            var lstTemplateModel = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().ToList();
             foreach (var template in lstTemplateModel)
                 if (template.Id == TemplateId)
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();

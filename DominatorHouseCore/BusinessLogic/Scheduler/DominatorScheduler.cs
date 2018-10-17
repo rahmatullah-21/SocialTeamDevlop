@@ -264,7 +264,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var moduleConfiguration = item.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == moduleType);
                 if (moduleConfiguration != null)
                 {
-                    var activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
+                    //ITemplatesCacheService TemplatesCacheService;
+                       //var TemplatesCacheService = new TemplatesCacheService();
+                    var activitySetting = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels()
+                        .FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
+                    //var activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
 
                     dynamic obj = JsonConvert.DeserializeObject(activitySetting);
                     runningTime = obj.JobConfiguration.RunningTime;

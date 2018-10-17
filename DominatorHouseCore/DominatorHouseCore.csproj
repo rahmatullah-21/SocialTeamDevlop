@@ -461,6 +461,7 @@
     <Compile Include="FileManagers\PublisherFileManager.cs" />
     <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
+    <Compile Include="FileManagers\TemplatesCacheService.cs" />
     <Compile Include="FileManagers\TumblrFileManager.cs" />
     <Compile Include="FileManagers\TwitterFileManager.cs" />
     <Compile Include="FileManagers\YoutubeFileManager.cs" />

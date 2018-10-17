@@ -1,0 +1,114 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+
+namespace DominatorHouseCore.FileManagers
+{
+    public interface ITemplatesCacheService
+    {
+        IReadOnlyCollection<TemplateModel> GetTemplateModels();
+        bool UpsertTemplates(params TemplateModel[] accounts);
+        bool Delete(params TemplateModel[] accounts);
+    }
+    public class TemplatesCacheService : ITemplatesCacheService
+    {
+        private readonly object _syncContext = new object();
+        private readonly Dictionary<string, TemplateModel> _cache;
+
+        public TemplatesCacheService()
+        {
+            _cache = new Dictionary<string, TemplateModel>();
+        }
+
+        private static TemplatesCacheService _templatesCacheService;
+
+        public static TemplatesCacheService GetTemplatesCacheService()
+        {
+            return _templatesCacheService??(_templatesCacheService = new TemplatesCacheService());
+        }
+        public IReadOnlyCollection<TemplateModel> GetTemplateModels()
+        {
+            lock (_syncContext)
+            {
+                if (_cache.Count == 0)
+                {
+                    foreach (var template in BinFileHelper.GetTemplateDetails())
+                    {
+                        _cache.Add(template.Id, template);
+                    }
+                }
+
+                return _cache.Values;
+            }
+        }
+
+        public bool UpsertTemplates(params TemplateModel[] accounts)
+        {
+            lock (_syncContext)
+            {
+                var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
+                UpsertData(cacheCopy, accounts);
+                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                if (result)
+                {
+                    _cache.Clear();
+                    foreach (var model in cacheCopy)
+                    {
+                        _cache.Add(model.Key, model.Value);
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        public bool Delete(params TemplateModel[] templates)
+        {
+            lock (_syncContext)
+            {
+
+                var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
+                foreach (var template in templates)
+                {
+
+                    if (cacheCopy.ContainsKey(template.Id))
+                    {
+                        cacheCopy[template.Id] = template;
+                    }
+                }
+
+                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                if (result)
+                {
+                    _cache.Clear();
+                    foreach (var model in cacheCopy)
+                    {
+                        _cache.Add(model.Key, model.Value);
+                    }
+                }
+                return result;
+            }
+        }
+        private void UpsertData(IDictionary<string, TemplateModel> target, params TemplateModel[] source)
+        {
+            lock (_syncContext)
+            {
+                foreach (var template in source)
+                {
+                    if (target.ContainsKey(template.Id))
+                    {
+                        target[template.Id] = template;
+                    }
+                    else
+                    {
+                        target.Add(template.Id, template);
+                    }
+                }
+            }
+        }
+    }
+}

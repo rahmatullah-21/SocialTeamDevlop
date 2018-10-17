@@ -10,6 +10,7 @@ namespace DominatorHouseCore
         protected override void Initialize()
         {
             Container.RegisterSingleton<IAccountsCacheService, AccountsCacheService>();
+            Container.RegisterSingleton<ITemplatesCacheService, TemplatesCacheService>();
             Container.AddNewExtension<ViewModelUnityExtension>();
         }
     }
