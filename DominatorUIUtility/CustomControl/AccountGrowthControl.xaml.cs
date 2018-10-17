@@ -443,7 +443,8 @@ namespace DominatorUIUtility.CustomControl
                     });
                 }
 
-                if (_selectedNetworkViewModel.Selected == SocialNetworks.Social)
+              //  if (_selectedNetworkViewModel.Selected == SocialNetworks.Social)
+                if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                     this.Dispatcher.Invoke(() =>
                     {
                         listCollection.Filter = null;

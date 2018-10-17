@@ -115,10 +115,10 @@ namespace DominatorHouseCore.Diagnostics
             NetworkCoreFactory.ChatFactory = chatFactory;
             return this;
         }
-        public NetworkCoreLibraryBuilder AddAdScraperFactory(IAdScraperFactory adScraperFactory)
-        {
-            NetworkCoreFactory.AdScraperFactory = adScraperFactory;
-            return this;
-        }
+        //public NetworkCoreLibraryBuilder AddAdScraperFactory(IAdScraperFactory adScraperFactory)
+        //{
+        //    NetworkCoreFactory.AdScraperFactory = adScraperFactory;
+        //    return this;
+        //}
     }
 }

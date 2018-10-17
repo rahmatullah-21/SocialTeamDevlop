@@ -35,6 +35,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using DominatorHouseCore.ViewModel.Common;
+using DominatorUIUtility.IoC;
+using Unity;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -1764,7 +1767,11 @@ namespace DominatorUIUtility.ViewModel
             {
                 var accountList = new ObservableCollection<DominatorAccountModel>();
                 AccountsFileManager.FillList(accountList);
-                var savedAccounts = accountList.ToList();
+
+                var availablenetworks = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network);
+             
+                var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
+                //var savedAccounts = accountList.ToList();
 
                 try
                 {
