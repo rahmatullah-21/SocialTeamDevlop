@@ -1358,9 +1358,9 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Account Group,AccountNetwork,Username,Password,Status,Proxy Address,Proxy Port,Proxy Username,Proxy Password";
+            const string header = "Account Group,Account Network,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status";
 
-            var filename = $"{exportPath}\\AccountExport {ConstantVariable.DateasFileName}.csv";
+            var filename = $"{exportPath}\\Accounts {ConstantVariable.DateasFileName}.csv";
 
             if (!File.Exists(filename))
             {
@@ -1378,11 +1378,11 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.AccountNetwork + ","
                      + account.AccountBaseModel.UserName + ","
                      + account.AccountBaseModel.Password + ","
-                       + account.AccountBaseModel.Status + ","
                      + account.AccountBaseModel.AccountProxy.ProxyIp + ","
                      + account.AccountBaseModel.AccountProxy.ProxyPort + ","
                      + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
-                     + account.AccountBaseModel.AccountProxy.ProxyPassword;
+                     + account.AccountBaseModel.AccountProxy.ProxyPassword
+                     + "," + account.AccountBaseModel.Status;
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1769,7 +1769,7 @@ namespace DominatorUIUtility.ViewModel
                 AccountsFileManager.FillList(accountList);
 
                 var availablenetworks = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network);
-             
+
                 var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
                 //var savedAccounts = accountList.ToList();
 
