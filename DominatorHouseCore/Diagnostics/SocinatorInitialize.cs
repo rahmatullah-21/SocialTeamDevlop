@@ -1,8 +1,6 @@
-﻿using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
@@ -20,6 +18,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
+using Unity;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace DominatorHouseCore.Diagnostics
@@ -138,7 +137,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static IGlobalDatabaseConnection GetGlobalDatabase()
         {
-            return new GlobalDatabaseConnection();
+            return IoC.Container.Resolve<IGlobalDatabaseConnection>();
         }
 
     }
