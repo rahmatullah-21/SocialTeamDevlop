@@ -1,5 +1,4 @@
-﻿using DominatorHouseCore.Dal;
-using DominatorHouseCore.DatabaseHandler.Utility;
+﻿using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.ProxyServerManagment;
 using DominatorHouseCore.ViewModel;
@@ -17,7 +16,6 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ILogViewModel, LogViewModel>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
-            Container.AddNewExtension<DbMigrationUnityExtension>();
             Container.AddNewExtension<ProxyManagmentUnityExtension>();
         }
     }
