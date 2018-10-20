@@ -37,7 +37,8 @@ namespace DominatorHouseCore.Process
             CurrentJobTimeRange = currentJobTimeRange;
 
             // Get the Template Model from the given template id
-            var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
+          //  var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
+            var model = TemplatesFileManager.GetTemplateById(template);
 
             if (model != null)
             {
@@ -75,15 +76,14 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
-            var objDatabaseHandler = new DataBaseHandler();
-
+            var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory();
             if (CampaignId != null)
             {
                 try
                 {
-                    DataBaseConnectionCampaign = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignDatabase;
-                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.InitializeInteraction();
-                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().GlobalInteractionDetails.InitializeInteraction();
+                    DataBaseConnectionCampaign = networkCoreFactory.CampaignDatabase;
+                    networkCoreFactory.CampaignInteractionDetails.InitializeInteraction();
+                    networkCoreFactory.GlobalInteractionDetails.InitializeInteraction();
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +91,7 @@ namespace DominatorHouseCore.Process
                 }
             }
 
-            DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;
+            DataBaseConnectionAccount = networkCoreFactory.AccountDatabase;
 
             //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }

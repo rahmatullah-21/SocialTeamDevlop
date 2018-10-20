@@ -8,7 +8,6 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 {
     public class GlobalDatabaseConnection : IGlobalDatabaseConnection
     {
-
         public SQLiteConnection GetSqlConnection()
         {
             var directoryName = ConstantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
@@ -27,13 +26,9 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             DirectoryUtilities.CreateDirectory(directoryName);
             var dbConnection = new SQLiteConnection(connectionString);
             if (userType == UserType.BlackListedUser)
-            {
-                dbConnection.Table<DHTables.BlackListUser>();
-            }
+                dbConnection.CreateTable<DHTables.BlackListUser>();
             else
-            {
-                dbConnection.Table<DHTables.WhiteListUser>();
-            }
+                dbConnection.CreateTable<DHTables.WhiteListUser>();
 
             return dbConnection;
         }

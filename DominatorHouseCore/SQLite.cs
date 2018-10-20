@@ -1521,7 +1521,7 @@ namespace SQLite
                 throw new NotSupportedException("Cannot delete " + map.TableName + ": it has no PK");
             }
             var q = string.Format("delete from \"{0}\" where \"{1}\" = ?", map.TableName, pk.Name);
-            return Execute(q, primaryKey);
+            return Execute(q,( (dynamic)primaryKey).Id);
         }
 
         /// <summary>

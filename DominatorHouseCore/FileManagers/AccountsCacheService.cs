@@ -62,17 +62,12 @@ namespace DominatorHouseCore.FileManagers
         {
             lock (_syncContext)
             {
-
                 var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
                 foreach (var model in accounts)
                 {
-
                     if (cacheCopy.ContainsKey(model.AccountId))
-                    {
-                        cacheCopy[model.AccountId] = model;
-                    }
+                        cacheCopy.Remove(model.AccountId);
                 }
-
                 var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {

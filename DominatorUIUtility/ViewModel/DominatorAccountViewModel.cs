@@ -1213,9 +1213,10 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.Remove(item);
                 });
-                dbOperations.Remove<AccountDetails>(user =>
-                    user.AccountNetwork == item.AccountBaseModel.AccountNetwork.ToString() &&
-                    user.UserName == item.UserName);
+                var network = item.AccountBaseModel.AccountNetwork.ToString();
+
+                dbOperations.Remove<AccountDetails>(user => user.AccountNetwork == network && user.UserName == item.UserName);
+              
                 GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
                 DeleteAccountFromCampaign(item);
                 item.NotifyCancelled();
