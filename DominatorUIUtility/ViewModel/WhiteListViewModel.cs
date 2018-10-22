@@ -115,9 +115,7 @@ namespace DominatorUIUtility.ViewModel
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
             dbOperations = new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser));
-
-            blackListUsers = dbOperations.Get<BlackListUser>();
-
+           
             ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<WhiteListUser>()?.ForEach(user =>

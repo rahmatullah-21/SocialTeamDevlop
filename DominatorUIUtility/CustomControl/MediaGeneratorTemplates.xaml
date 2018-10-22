@@ -40,13 +40,13 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <ListView x:Name="MediaGeneratorFileList" ItemsSource="{Binding LstFile}" HorizontalAlignment="Center" Margin="10,5">
+                <ListView x:Name="MediaGeneratorFileList" ItemsSource="{Binding LstFile}" SelectedItem="{Binding SelectedPath}" HorizontalAlignment="Center" Margin="10,5">
                     <ListView.InputBindings>
                         <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCmd}" CommandParameter="{Binding SelectedItem, ElementName=MediaGeneratorFileList}"/>
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Copy" Command="{Binding CopyCmd}" CommandParameter="{Binding SelectedItem, ElementName=MediaGeneratorFileList}"/>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="Copy" Command="{Binding CopyCmd}" />
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>

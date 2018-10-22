@@ -402,12 +402,12 @@ Global
 		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug|x64.Build.0 = Debug|Any CPU
 		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug|x86.Build.0 = Debug|Any CPU
-		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|Any CPU.ActiveCfg = Debug-fast-test|Any CPU
-		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|Any CPU.Build.0 = Debug-fast-test|Any CPU
-		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|x64.ActiveCfg = Debug-fast-test|Any CPU
-		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|x64.Build.0 = Debug-fast-test|Any CPU
-		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|x86.ActiveCfg = Debug-fast-test|Any CPU
-		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|x86.Build.0 = Debug-fast-test|Any CPU
+		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
 		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{107CEBC6-409B-47CA-A248-4A5E03D86E66}.Release|x64.ActiveCfg = Release|Any CPU
@@ -420,12 +420,12 @@ Global
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug|x64.Build.0 = Debug|Any CPU
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug|x86.Build.0 = Debug|Any CPU
-		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|Any CPU.ActiveCfg = Debug-fast-test|Any CPU
-		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|Any CPU.Build.0 = Debug-fast-test|Any CPU
-		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|x64.ActiveCfg = Debug-fast-test|Any CPU
-		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|x64.Build.0 = Debug-fast-test|Any CPU
-		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|x86.ActiveCfg = Debug-fast-test|Any CPU
-		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|x86.Build.0 = Debug-fast-test|Any CPU
+		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68EF34BF-36C9-4E33-9ACD-7B9D7B746F29}.Release|x64.ActiveCfg = Release|Any CPU
@@ -572,7 +572,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
+		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 	EndGlobalSection
 EndGlobal

@@ -598,5 +598,21 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isDoNotAutoLoginAccountsWhileAddingToSoftware, value);
             }
         }
+        private int _simultaneousAdsScreperThreadCount = 30;
+
+        [ProtoMember(40)]
+        public int SimultaneousAdsScreperThreadCount
+        {
+            get
+            {
+                return _simultaneousAdsScreperThreadCount;
+            }
+            set
+            {
+                if (value == _simultaneousAdsScreperThreadCount)
+                    return;
+                SetProperty(ref _simultaneousAdsScreperThreadCount, value);
+            }
+        }
     }
 }

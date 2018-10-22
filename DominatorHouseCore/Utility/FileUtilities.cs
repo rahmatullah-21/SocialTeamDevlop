@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using ExcelDataReader;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace DominatorHouseCore.Utility
@@ -39,7 +40,7 @@ namespace DominatorHouseCore.Utility
                     var extension = Path.GetExtension(fileName);
                     if (!string.IsNullOrEmpty(extension))
                     {
-                        if (extension.Equals(".xls",StringComparison.CurrentCultureIgnoreCase) || extension.Equals(".xlsx", StringComparison.CurrentCultureIgnoreCase))
+                        if (extension.Equals(".xls", StringComparison.CurrentCultureIgnoreCase) || extension.Equals(".xlsx", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetExcelFileContent(fileName));
                         else if (extension.Equals(".csv", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetCsvFileContent(fileName));
@@ -236,41 +237,28 @@ namespace DominatorHouseCore.Utility
 
         public static List<string> GetExcelFileContent(string fileName)
         {
-            Excel.Application excel = new Excel.Application();
-            Excel.Workbook workBook = excel.Workbooks.Open(fileName, 0, true, 5, "", "", true,
-                Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-            Excel.Worksheet workSheet = (Excel.Worksheet)workBook.Worksheets.Item[1];
-            Excel.Range range = workSheet.UsedRange;
-
             List<string> content = new List<string>();
-            try
+            using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
             {
-                for (int row = 1; row <= range.Rows.Count; row++)
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
-                    string rowContent = String.Empty;
-                    for (int colum = 1; colum <= range.Columns.Count; colum++)
+                    do
                     {
-                        var val = Convert.ToString(range.Cells[row, colum].Value2);
-                        rowContent += (String.IsNullOrEmpty(val) ? String.Empty : val.ToString()) + "\t";
-                    }
-                    var data = rowContent.Trim();
-                    if (!string.IsNullOrEmpty(data))
-                    {
-                        var substring = rowContent.Substring(0, rowContent.Length - 1);
-                        content.Add(substring);
-                    }
+                        while (reader.Read())
+                        {
+                            string rowContent = String.Empty;
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                var val = reader.GetString(i);
+                                rowContent += (String.IsNullOrEmpty(val) ? String.Empty : val) + "\t";
+                            }
+                            if (string.IsNullOrEmpty(rowContent.Trim()))
+                                break;
+                            content.Add(rowContent);
+                        }
+                    } while (reader.NextResult());
                 }
             }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            finally
-            {
-                workBook.Close(true);
-                excel.Quit();
-            }
-
             return content;
         }
 

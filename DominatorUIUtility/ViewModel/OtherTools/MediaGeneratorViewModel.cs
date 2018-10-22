@@ -15,7 +15,7 @@ namespace DominatorUIUtility.ViewModel.OtherTools
         public ICommand BrowseCommand { get; }
         public ICommand CopyCmd { get; }
         public ObservableCollection<string> LstFile { get; }
-
+        public string SelectedPath { get; set; }
         public MediaGeneratorViewModel() : base("LangKeyMediaGenerator", "MediaGeneratorControlTemplate")
         {
             BrowseCommand = new DelegateCommand(BrowseExecute);
@@ -27,7 +27,7 @@ namespace DominatorUIUtility.ViewModel.OtherTools
         {
             try
             {
-                var filePath = path;
+                var filePath = SelectedPath;
                 if (!string.IsNullOrEmpty(filePath))
                 {
                     Clipboard.SetText(filePath);
