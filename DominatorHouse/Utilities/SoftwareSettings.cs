@@ -32,7 +32,7 @@ namespace DominatorHouse.Utilities
             _strategies = strategies;
             CheckConfigurationFiles();
             ScheduleAccountUpdation();
-            StartScrapAds();
+           // StartScrapAds();
             // ScheduleUpdation();
             ActivityManagerInitializer();
             OtherInitializers();
@@ -581,74 +581,74 @@ namespace DominatorHouse.Utilities
         public async Task StartAdScarperAsync(ActionBlock<ScrapAdsDetails> adsActionBlock)
         {
 
-            try
-            {
-                var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
+            //try
+            //{
+            //    var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
 
-                if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
-                    return;
+            //    if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+            //        return;
 
-                var accountFactory = SocinatorInitialize
-                    .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                    .GetNetworkCoreFactory().AdScraperFactory;
+            //    var accountFactory = SocinatorInitialize
+            //        .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+            //        .GetNetworkCoreFactory().AdScraperFactory;
 
-                var asyncAccount = accountFactory as IAdScraperFactory;
+            //    var asyncAccount = accountFactory as IAdScraperFactory;
 
-                if (asyncAccount == null)
-                    return;
+            //    if (asyncAccount == null)
+            //        return;
 
-                try
-                {
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //    try
+            //    {
+            //        cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+            //        var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
 
-                    if (!checkResult)
-                        return;
+            //        if (!checkResult)
+            //            return;
 
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //        cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+            //        await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
 
-                    var dateTime = DateTime.Now;
+            //        var dateTime = DateTime.Now;
 
-                    if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ||
-                    account.AccountBaseModel.AccountNetwork == SocialNetworks.Reddit)
-                        dateTime = DateTime.Now.AddMinutes(15);
+            //        if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ||
+            //        account.AccountBaseModel.AccountNetwork == SocialNetworks.Reddit)
+            //            dateTime = DateTime.Now.AddMinutes(15);
 
-                    else if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
-                        dateTime = DateTime.Now.AddMinutes(5);
+            //        else if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
+            //            dateTime = DateTime.Now.AddMinutes(5);
 
-                    JobManager.AddJob(async () =>
-                    {
-                        try
-                        {
-                            await adsActionBlock.SendAsync(new ScrapAdsDetails(account));
-                        }
-                        catch (ArgumentException ex)
-                        {
-                            ex.DebugLog();
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    }, s => s.ToRunOnceAt(dateTime));
+            //        JobManager.AddJob(async () =>
+            //        {
+            //            try
+            //            {
+            //                await adsActionBlock.SendAsync(new ScrapAdsDetails(account));
+            //            }
+            //            catch (ArgumentException ex)
+            //            {
+            //                ex.DebugLog();
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                ex.DebugLog();
+            //            }
+            //        }, s => s.ToRunOnceAt(dateTime));
 
-                }
-                catch (OperationCanceledException ex)
-                {
-                    ex.DebugLog("Cancellation Requested!");
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-            catch (Exception ex)
-            {
+            //    }
+            //    catch (OperationCanceledException ex)
+            //    {
+            //        ex.DebugLog("Cancellation Requested!");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        ex.DebugLog();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
 
-            }
+            //}
         }
         
     }

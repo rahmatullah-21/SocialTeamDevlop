@@ -47,6 +47,6 @@ namespace DominatorHouseCore.Interfaces
         ProfileFactory ProfileFactory { get; set; }
         ChatFactory ChatFactory { get; set; }
         IGlobalInteractionDetails GlobalInteractionDetails { get; set; }
-        IAdScraperFactory AdScraperFactory { get; set; }
+        //IAdScraperFactory AdScraperFactory { get; set; }
     }
 }
