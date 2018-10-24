@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Management;
 using System.Timers;
 using System.Windows;
+using DominatorHouseCore;
 
 namespace DominatorHouse.ViewModels
 {
@@ -102,8 +103,9 @@ namespace DominatorHouse.ViewModels
                 Processor.Get();
                 return Processor.Properties["PercentProcessorTime"].Value.ToString();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ex.DebugLog();
                 return string.Empty;
             }
         }

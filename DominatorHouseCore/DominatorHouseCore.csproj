@@ -257,6 +257,11 @@
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="CoreUnityExtension.cs" />
+    <Compile Include="Dal\DbConnection.cs" />
+    <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />
+    <Compile Include="Dal\DbMigrations\GlobalDatabaseMigrations.cs" />
+    <Compile Include="Dal\DbMigrationUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\CoreModels\DbVersions.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackWhiteListUser.cs" />
@@ -394,6 +399,7 @@
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnFollowedUser.cs" />
+    <Compile Include="Dal\DbMigrations\BaseDbMigrations.cs" />
     <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
     <Compile Include="DatabaseHandler\Utility\GlobalDatabaseConnection.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
@@ -410,6 +416,8 @@
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\UnfollowedUsers.cs" />
+    <Compile Include="Dal\DbMigrations\GlobalDatabaseWhiteListMigrations.cs" />
+    <Compile Include="Dal\VersionedDbConnection.cs" />
     <Compile Include="Diagnostics\AesDecryption.cs" />
     <Compile Include="Diagnostics\Exceptions\ExceptionExtensions.cs" />
     <Compile Include="Diagnostics\Exceptions\GlobusExceptionHandler.cs" />
@@ -652,6 +660,7 @@
     <Compile Include="Models\SocioPublisher\PublisherHomeModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManageDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherManagePostsModel.cs" />
+    <Compile Include="ViewModel\Common\SynchronizedViewModel.cs" />
     <Compile Include="ViewModel\Common\SelectableViewModel.cs" />
     <Compile Include="ViewModel\DashboardVms\IDashboardViewModel.cs" />
     <Compile Include="ViewModel\GrowthProperty.cs" />

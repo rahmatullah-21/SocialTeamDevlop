@@ -18,13 +18,14 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls;
 
 namespace EmbeddedBrowser
 {
     /// <summary>
     ///     Interaction logic for BrowserWindow.xaml
     /// </summary>
-    public partial class BrowserWindow : Window, INotifyPropertyChanged, IComponentConnector, IDisposable
+    public partial class BrowserWindow : MetroWindow, INotifyPropertyChanged, IComponentConnector, IDisposable
     {
 
         private readonly object _syncLock = new object();
@@ -40,16 +41,13 @@ namespace EmbeddedBrowser
         public BrowserWindow(DominatorAccountModel dominatorAccountModel)
             : this()
         {
-
             DominatorAccountModel = dominatorAccountModel;
-
-            InitializeComponent();
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
-
+            Browser.BrowserSettings.BackgroundColor = 010869014;
             Browser.RequestHandler = new RequestHandlerCustom(this);
             var url = GetNetworksHomeUrl();
             Browser.Address = url;
@@ -84,7 +82,6 @@ namespace EmbeddedBrowser
 
             DominatorAccountModel = dominatorAccountModel;
             TargetUrl = targetUrl;
-            InitializeComponent();
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
@@ -195,7 +192,7 @@ namespace EmbeddedBrowser
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
 
             var homePage = GetNetworksHomeUrl();
@@ -382,7 +379,7 @@ namespace EmbeddedBrowser
                 string Username = DominatorAccountModel.UserName.ToLower();
                 if (!DominatorAccountModel.IsUserLoggedIn && (html.ToLower().Contains(Username)) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
                     SaveCookie();
-                
+
                 if (DominatorAccountModel.IsUserLoggedIn)
                 {
                     if (string.IsNullOrEmpty(TargetUrl))
@@ -666,8 +663,8 @@ namespace EmbeddedBrowser
                     };
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
                 }
-                
-               Thread.Sleep(TimeSpan.FromSeconds(1));
+
+                Thread.Sleep(TimeSpan.FromSeconds(1));
                 k = new KeyEvent();
                 k.FocusOnEditableField = false;
                 k.WindowsKeyCode = 9;
@@ -734,7 +731,7 @@ namespace EmbeddedBrowser
 
                 Thread.Sleep(2000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('js-password-field')[0].value= '" +
-                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'","\\'") + "'");
+                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'", "\\'") + "'");
                 Thread.Sleep(2000);
                 this.Browser.ExecuteScriptAsync(
                     "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");

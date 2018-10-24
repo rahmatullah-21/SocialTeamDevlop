@@ -120,8 +120,7 @@ namespace Socinator.Social.AutoActivity.Views
             {
                 var currentAccountActivity = AccountsFileManager.GetAccountById(currentDataContext.AccountId).ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == currentDataContext.Title);
                 var account = AccountsFileManager.GetAccountById(currentDataContext.AccountId);
-                var campaignStatus = CampaignsFileManager.Get()
-                    .FirstOrDefault(x => x.TemplateId == currentAccountActivity.TemplateId).Status;
+                var campaignStatus = CampaignsFileManager.Get()?.FirstOrDefault(x => x.TemplateId == currentAccountActivity.TemplateId)?.Status;
                 if (campaignStatus == "Paused" && currentDataContext.Status)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", $"This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");

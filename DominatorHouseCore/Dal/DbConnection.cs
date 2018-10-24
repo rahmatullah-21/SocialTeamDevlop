@@ -1,0 +1,13 @@
+﻿using SQLite;
+
+namespace DominatorHouseCore.Dal
+{
+    public abstract class DbConnection
+    {
+        protected virtual SQLiteConnection GetConnection(string path)
+        {
+            var dbConnection = new SQLite.SQLiteConnection(path);
+            return dbConnection;
+        }
+    }
+}

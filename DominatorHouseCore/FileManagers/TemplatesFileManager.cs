@@ -14,6 +14,7 @@ namespace DominatorHouseCore.FileManagers
         static TemplatesFileManager()
         {
             TemplatesCacheService = IoC.Container.Resolve<ITemplatesCacheService>();
+            TemplatesCacheService.GetTemplateModels();
         }
         // Updates Template with applying action to it and writes changes back to file
         public static void ApplyAction(Action<TemplateModel> actionToApply)

@@ -216,9 +216,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\SociNator.ico" />
+    <Resource Include="Resources\SociNator.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.Core.dll" />
+    <Content Include="CefSharpFiles\Libs\CefSharp.BrowserSubprocess.exe" />
+    <Content Include="CefSharpFiles\Libs\CefSharp.dll" />
     <Content Include="CefSharpFiles\Libs\chrome_elf.dll" />
     <Content Include="CefSharpFiles\Libs\d3dcompiler_47.dll" />
     <Content Include="CefSharpFiles\Libs\libcef.dll" />

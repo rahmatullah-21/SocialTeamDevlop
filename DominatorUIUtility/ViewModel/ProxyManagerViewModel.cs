@@ -33,16 +33,9 @@ namespace DominatorUIUtility.ViewModel
     {
         private readonly IMainViewModel _mainViewModel;
         private static readonly object _lock = new object();
-        private string _urlToUseToVerifyProxies = "https://www.google.com";
         private bool _isAddProxyEnabled = true;
         private ProxyManagerModel _proxyManagerModel = new ProxyManagerModel();
         private bool _isAllProxySelected;
-
-        public string URLToUseToVerifyProxies
-        {
-            get { return _urlToUseToVerifyProxies; }
-            set { SetProperty(ref _urlToUseToVerifyProxies, value); }
-        }
 
         public bool IsAddProxyEnabled
         {
@@ -50,6 +43,7 @@ namespace DominatorUIUtility.ViewModel
             set { SetProperty(ref _isAddProxyEnabled, value); }
         }
 
+        public IVerifyProxiesViewModel VerifyProxiesViewModel { get; }
         public ObservableCollection<ProxyManagerModel> LstProxyManagerModel { get; }
         public ObservableCollection<string> Groups { get; }
 
@@ -94,18 +88,19 @@ namespace DominatorUIUtility.ViewModel
         public ICommand AssignRandomProxyCommand { get; }
         #endregion
 
-        public ProxyManagerViewModel(IMainViewModel mainViewModel) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
+        public ProxyManagerViewModel(IMainViewModel mainViewModel, IVerifyProxiesViewModel verifyProxiesViewModel) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
         {
             _mainViewModel = mainViewModel;
+            VerifyProxiesViewModel = verifyProxiesViewModel;
 
             AddProxyCommand = new DelegateCommand(AddProxyExecute);
             ImportProxyCommand = new DelegateCommand(ImportProxyExecute);
             ShowByGroupCommand = new DelegateCommand<bool?>(ShowByGroupExecute);
-            ExportProxyCommand = new DelegateCommand<object>(ExportProxyExecute);
-            DeleteCommand = new BaseCommand<object>(DeleteCanExecute, DeleteExecute);
+            ExportProxyCommand = new DelegateCommand(ExportProxyExecute);
+            DeleteCommand = new DelegateCommand<ProxyManagerModel>(DeleteExecute);
             SelectProxyCommand = new DelegateCommand(SelectProxyExecute);
             UpdateProxyCommand = new DelegateCommand<ProxyManagerModel>(UpdateProxyExecute);
-            VerifyProxyCommand = new DelegateCommand<object>(VerifyProxyExecute);
+            VerifyProxyCommand = new DelegateCommand<ProxyManagerModel>(VerifyProxyExecute);
             RemoveAccountFromProxyCommand = new DelegateCommand<AccountAssign>(RemoveAccountFromProxyExecute);
             AccountToAddToProxyCommand = new DelegateCommand<object>(AccountToAddToProxyExecute);
             DropDownCommand = new BaseCommand<object>(DropDownCanExecute, DropDownExecute);
@@ -114,6 +109,7 @@ namespace DominatorUIUtility.ViewModel
             AccountsAlreadyAssigned = new ObservableCollection<AccountAssign>();
             Groups = new ObservableCollection<string>();
             BindingOperations.EnableCollectionSynchronization(LstProxyManagerModel, _lock);
+            BindingOperations.EnableCollectionSynchronization(Groups, _lock);
             StartAddingItems();
         }
 
@@ -149,7 +145,6 @@ namespace DominatorUIUtility.ViewModel
                 }
 
             });
-
         }
 
         private void SelectAllProxies(bool isAllProxySelected)
@@ -319,22 +314,15 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
-        private void ExportProxyExecute(object sender)
+        private void ExportProxyExecute()
         {
-            if (sender == null)
+            var proxiesToExport = LstProxyManagerModel.Where(proxy => proxy.IsProxySelected).ToList();
+            if (!proxiesToExport.Any())
             {
-                var allProxies = ProxyFileManager.GetAllProxy();
-                ExportProxies(allProxies);
+                proxiesToExport = ProxyFileManager.GetAllProxy();
             }
-            else
-            {
-                var SelectedProxies = GetSelectedProxies();
 
-                if (SelectedProxies.Count != 0)
-                {
-                    ExportProxies(SelectedProxies);
-                }
-            }
+            ExportProxies(proxiesToExport);
         }
 
         private List<ProxyManagerModel> GetSelectedProxies()
@@ -405,15 +393,17 @@ namespace DominatorUIUtility.ViewModel
 
 
         }
-        private void ShowByGroupExecute(bool? isChecked)
+        private async void ShowByGroupExecute(bool? isChecked)
         {
             try
             {
-                if (isChecked ?? false)
-                    Groups.Add("AccountProxy.ProxyGroup");
-                else
-                    Groups.Clear();
-
+                lock (_lock)
+                {
+                    if (isChecked ?? false)
+                        Groups.Add("AccountProxy.ProxyGroup");
+                    else
+                        Groups.Clear();
+                }
             }
             catch (Exception ex)
             {
@@ -421,9 +411,8 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private bool DeleteCanExecute(object sender) => true;
 
-        private void DeleteExecute(object sender)
+        private void DeleteExecute(ProxyManagerModel sender)
         {
             try
             {
@@ -432,15 +421,15 @@ namespace DominatorUIUtility.ViewModel
                 if (sender == null)
                 {
 
-                    var SelectedProxies = GetSelectedProxies();
+                    var selectedProxies = GetSelectedProxies();
 
-                    if (SelectedProxies.Count != 0)
+                    if (selectedProxies.Count != 0)
                     {
                         if (ShowWarningMessage() == MessageDialogResult.Affirmative)
                         {
                             Application.Current.Dispatcher.InvokeAsync(() =>
                             {
-                                SelectedProxies.ForEach(selectedProxy =>
+                                selectedProxies.ForEach(selectedProxy =>
                                 {
                                     RemoveProxy(selectedProxy);
                                     Thread.Sleep(50);
@@ -448,8 +437,8 @@ namespace DominatorUIUtility.ViewModel
                                 });
                                 DialogCoordinator.Instance.ShowModalMessageExternal(
                                     Application.Current.MainWindow, "Success",
-                                    $"{SelectedProxies.Count} proxies successfully DeletedDateText.");
-                                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{SelectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
+                                    $"{selectedProxies.Count} proxies successfully DeletedDateText.");
+                                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{selectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
                             });
 
 
@@ -464,13 +453,11 @@ namespace DominatorUIUtility.ViewModel
 
                 else
                 {
-                    var currentProxy = ((FrameworkElement)sender).DataContext as ProxyManagerModel;
-
-                    if (currentProxy != null && ShowWarningMessage() == MessageDialogResult.Affirmative)
+                    if (ShowWarningMessage() == MessageDialogResult.Affirmative)
                     {
-                        RemoveProxy(currentProxy);
+                        RemoveProxy(sender);
                         Application.Current.Dispatcher.Invoke(() => DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                       $"{currentProxy.AccountProxy.ProxyIp}:{currentProxy.AccountProxy.ProxyPort} Successfully DeletedDateText."));
+                       $"{sender.AccountProxy.ProxyIp}:{sender.AccountProxy.ProxyPort} Successfully DeletedDateText."));
                     }
                 }
 
@@ -604,35 +591,17 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
-        private async void VerifyProxyExecute(object proxy)
+        private async void VerifyProxyExecute(ProxyManagerModel currentProxyManager)
         {
-            await CheckProxyAsync(proxy as ProxyManagerModel);
+            if (currentProxyManager != null)
+            {
+                await VerifyProxiesViewModel.Verify(currentProxyManager);
+                return;
+            }
+
+            await VerifyProxiesViewModel.Verify(LstProxyManagerModel.Where(a => a.IsProxySelected).ToArray());
         }
 
-        private async Task CheckProxyAsync(ProxyManagerModel currentProxyManager)
-        {
-
-            await ProxyFileManager.UpdateProxyStatusAsync(currentProxyManager, URLToUseToVerifyProxies);
-
-            try
-            {
-                var item = LstProxyManagerModel.FirstOrDefault(proxy =>
-                                proxy.AccountProxy.ProxyName == currentProxyManager?.AccountProxy.ProxyName);
-
-                var indexToUpdate = LstProxyManagerModel.IndexOf(item);
-
-                if (currentProxyManager != null)
-                {
-                    LstProxyManagerModel[indexToUpdate].Status = currentProxyManager.Status;
-                    GlobusLogHelper.log.Info(Log.ProxyVerificationCompleted, SocialNetworks.Social, currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
 
         private void RemoveAccountFromProxyExecute(AccountAssign account)
         {

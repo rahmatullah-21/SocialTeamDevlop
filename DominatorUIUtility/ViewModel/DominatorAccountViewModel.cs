@@ -35,6 +35,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using DominatorHouseCore.ViewModel.Common;
+using DominatorUIUtility.IoC;
+using Unity;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -649,7 +652,7 @@ namespace DominatorUIUtility.ViewModel
             dominatorAccountModel.Token.Register(databaseCreation);
 
             #endregion
-            if (!SoftwareSettings.Settings.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
+            if (!(bool)SoftwareSettings.Settings?.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
             {
                 try
                 {
@@ -1357,7 +1360,7 @@ namespace DominatorUIUtility.ViewModel
                 return;
 
             const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status";
-
+            
             var filename = $"{exportPath}\\Accounts {ConstantVariable.DateasFileName}.csv";
 
             if (!File.Exists(filename))
@@ -1763,10 +1766,17 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (syncLoadAccounts)
             {
+                var accountList = AccountsFileManager.GetAll();
+              
+                var availablenetworks = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network);
+
+                var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
+                //var savedAccounts = accountList.ToList();
+
                 try
                 {
                     LstDominatorAccountModel.Clear();
-                    AccountsFileManager.GetAll().ForEach(account =>
+                    savedAccounts.ForEach(account =>
                     {
                         if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel.AccountNetwork))
                         {

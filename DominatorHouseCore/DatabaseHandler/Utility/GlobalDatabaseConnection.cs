@@ -1,4 +1,7 @@
-﻿using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Dal;
+using DominatorHouseCore.Dal.DbMigrations;
+using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.DHEnum;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
@@ -6,17 +9,27 @@ using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
-    public class GlobalDatabaseConnection : IGlobalDatabaseConnection
+    public class GlobalDatabaseConnection : VersionedDbConnection, IGlobalDatabaseConnection
     {
+
+        private readonly IGlobalDatabaseBlackListMigrations _globalDatabaseBlackListMigrations;
+        private readonly IGlobalDatabaseWhiteListMigrations _globalDatabaseWhiteListMigrations;
+
+        public GlobalDatabaseConnection(IGlobalDatabaseMigrations dbMigration,
+            IGlobalDatabaseBlackListMigrations globalDatabaseBlackListMigrations,
+            IGlobalDatabaseWhiteListMigrations globalDatabaseWhiteListMigrations) : base(dbMigration)
+        {
+            _globalDatabaseBlackListMigrations = globalDatabaseBlackListMigrations;
+            _globalDatabaseWhiteListMigrations = globalDatabaseWhiteListMigrations;
+        }
+
+
         public SQLiteConnection GetSqlConnection()
         {
             var directoryName = ConstantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
-            var connectionString = directoryName + $"\\Global.db";
             DirectoryUtilities.CreateDirectory(directoryName);
-            var dbConnection = new SQLite.SQLiteConnection(connectionString);
-            dbConnection.CreateTable<DHTables.AccountDetails>();
-            dbConnection.CreateTable<DHTables.BlackWhiteListUser>();
-            return dbConnection;
+            var connectionString = directoryName + $"\\Global.db";
+            return base.GetSqlConnectionAndRunMigration(connectionString);
         }
 
         public SQLiteConnection GetSqlConnection(SocialNetworks networks, UserType userType)
@@ -24,11 +37,17 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             var directoryName = ConstantVariable.GetPlatformBaseDirectory() + $"\\Index\\Global\\DB\\{userType}";
             var connectionString = directoryName + $"\\{networks}.db";
             DirectoryUtilities.CreateDirectory(directoryName);
-            var dbConnection = new SQLiteConnection(connectionString);
+            var dbConnection = base.GetConnection(connectionString);
             if (userType == UserType.BlackListedUser)
+            {
                 dbConnection.CreateTable<DHTables.BlackListUser>();
+                _globalDatabaseBlackListMigrations.RunMigration(dbConnection);
+            }
             else
+            {
                 dbConnection.CreateTable<DHTables.WhiteListUser>();
+                _globalDatabaseWhiteListMigrations.RunMigration(dbConnection);
+            }
 
             return dbConnection;
         }

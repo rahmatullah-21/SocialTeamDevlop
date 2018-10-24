@@ -392,7 +392,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     moduleConfiguration.IsEnabled = false;
                     StopActivity(accountModel,
-                        activityType.ToString(), accountstemplateId, true);
+                        activityType.ToString(), accountstemplateId, false);
                     //DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
 

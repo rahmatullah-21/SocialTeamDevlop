@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.LogHelper;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System;
@@ -7,7 +8,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -59,6 +59,7 @@ namespace DominatorHouseCore.FileManagers
                     return;
                 }
                 var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+                request.Timeout = 5000;
 
                 if (currentProxyManager != null)
                 {

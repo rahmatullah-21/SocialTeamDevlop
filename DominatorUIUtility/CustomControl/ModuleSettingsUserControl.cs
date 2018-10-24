@@ -1620,7 +1620,7 @@ namespace DominatorUIUtility.CustomControl
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, $"{accountModel.AccountBaseModel.AccountId}-Configuration");
 
                 moduleConfiguration.TemplateId = TemplateId;
-
+             
                 var runningTime = (List<RunningTimes>)Model.JobConfiguration.RunningTime;
 
                 runningTime.ForEach(x =>
