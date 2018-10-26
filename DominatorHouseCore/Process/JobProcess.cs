@@ -194,7 +194,7 @@ namespace DominatorHouseCore.Process
 
                 var scraper = scraperFactory.Create(this);
 
-                if (SavedQueries.Count == 0)
+                if (SavedQueries==null || SavedQueries?.Count == 0)
                     scraper.ScrapeWithoutQueries(ActivityType.ToString());
                 else
                     scraper.ScrapeWithQueries();

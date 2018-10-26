@@ -1,3 +1,44 @@
+Version[1.0.0.19],[25th-October-18]
+New Features:-
+	Instagram:-
+		Instaposter => Reposter => Now you can Tag users in post.
+	Facebook:-
+		Engage => Event Inviter => Added feature to invite people to events.
+Fixed:-
+	SocioPublisher:-
+		Linkedin => Fixed issue with fetching groups.
+		Pinterest => Fixed issue with showing the source url after editing the campaign.
+		Instagram => Account Activity => FIxed issue with closing the software while deleting the report of the campaign.
+		Instagram => Sociopublisher => Fixed issue with duplicating of the same data while loading csv file in create multiple post.
+		Instagram => Sociopublisher => Fixed issue with monitor folder.
+		Quora => Socialpublisher => Fixed issue with posting question on wall.
+	Instagram:-
+		Instagram => InstaScraper => UserScraper. Fixed issue with showing blank in CSv file After exporting the data.
+		Instaposter => Reposter => Fixed issue with reposting the same user photos after editing the campaign.
+	Facebook:-
+		Engage => Post Comment => All Search Query => Fixed issue with comment process working for all the search query.
+		Engage => Post Liker => Fixed issue with report generated in the campaign.
+		Facebook Tool => Engage => Post like => Fixed issue with to like posts by filtering with posted date.
+		Engage => Reply to comment => Fixed issue with adding comment to comment list."
+	LInkedin:-
+		Profile Endorsement => Fixed issue with profile endorsement.
+		Grow Connection => Withdraw Connecrtion request => Fixed issue with Source filter.
+		Group => Group Joiner => Fixed issue with group joiner.
+	Twitter:-
+		Accounts Activity =>Scrape Tweet =>For all query type => Fixed issue with taking Delay.
+		All modules =>Fixed issue with After creating campaigns,it is not proceeding for its job.
+		Unfollow => who follow back => Fixed issue with no more data available issue.
+		Grow followers => Follower => Fixed issue with while editing campaign software getting close automatically
+		Poster => Delete => Fixed issue with edit and duplicating campaign.
+	Pinterest:-
+		Follower => Keyword => Fixed issue with following users by keyword.
+		Follower => Board Followers => Fixed issue with following the board followers.
+		Create Board => Fixed issue with creating boards as per the given count.
+	Quora:-
+		Unfollow => Fixed issue with unfollow the user .
+		Message => Fixed issue with Broadcast message.
+		Voting => Fixed issue with upvote answer by using custom url.
+
 Version[1.0.0.18],[15th-October-18]
 New Features:-
 	Social:-

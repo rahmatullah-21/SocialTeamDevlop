@@ -32,7 +32,7 @@ namespace DominatorHouse.Utilities
             _strategies = strategies;
             CheckConfigurationFiles();
             ScheduleAccountUpdation();
-           // StartScrapAds();
+            // StartScrapAds();
             // ScheduleUpdation();
             ActivityManagerInitializer();
             OtherInitializers();
@@ -107,16 +107,19 @@ namespace DominatorHouse.Utilities
 
         private void ActivityManagerInitializer()
         {
-            try
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
-                       .DominatorAccountViewModel;
-                RunningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+                try
+                {
+                    var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
+                            .DominatorAccountViewModel;
+                    RunningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            });
         }
 
         private void CheckConfigurationFiles()
@@ -764,6 +767,6 @@ namespace DominatorHouse.Utilities
 
             //}
         }
-        
+
     }
 }

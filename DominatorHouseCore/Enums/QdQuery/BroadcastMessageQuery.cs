@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Enums.QdQuery
         FollowersOfFollowers,
         [Description("LangKeyCustomUsersList")]
         CustomUsers,
-        [Description("LangKeyCustomURLS")]
-        CustomUrl
+        //[Description("LangKeyCustomURLS")]
+        //CustomUrl
     }
 }

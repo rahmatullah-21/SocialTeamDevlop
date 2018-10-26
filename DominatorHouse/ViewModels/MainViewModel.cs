@@ -276,6 +276,31 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
+                FeatureFlags.UpdateFeatures();
+                var modules = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>();
+                foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
+                {
+                    var module = socialNetworkModule;
+                    FeatureFlags.Check(module.Network.ToString(), () =>
+                    {
+                        try
+                        {
+                            SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
+                            PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                            AddNetwork(socialNetworkModule.Network);
+                        }
+                        catch (AggregateException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    });
+                }
+
+                SetActiveNetwork(SocialNetworks.Social);
                 ThreadFactory.Instance.Start(() =>
                 {
                     JobManager.AddJob(() => InitializeJobCores(_fatalError), x => x.ToRunNow());
@@ -305,7 +330,6 @@ namespace DominatorHouse.ViewModels
 
         public void InitializeJobCores(string license)
         {
-
             try
             {
                 ThreadFactory.Instance.Start(() =>
@@ -317,31 +341,6 @@ namespace DominatorHouse.ViewModels
                             .AndEvery(1).Days());
                 });
 
-                FeatureFlags.UpdateFeatures();
-                var modules = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>();
-                foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
-                {
-                    var module = socialNetworkModule;
-                    FeatureFlags.Check(module.Network.ToString(), () =>
-                    {
-                        try
-                        {
-                            SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                            PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
-                            AddNetwork(socialNetworkModule.Network);
-                        }
-                        catch (AggregateException ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    });
-                }
-
-                SetActiveNetwork(SocialNetworks.Social);
                 FeatureFlags.UpdateFeatures();
 
                 var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
@@ -459,7 +458,6 @@ namespace DominatorHouse.ViewModels
             catch (Exception ex)
             {
                 GlobusLogHelper.log.Error(ex.Message);
-                //MessageBox.Show(ex.Message);
             }
         }
         public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)

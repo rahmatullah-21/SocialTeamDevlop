@@ -95,13 +95,14 @@ namespace DominatorHouse.ViewModels
             return "0 MB";
         }
 
-
-        private static string GetCpuUsage()
+        PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+        private  string GetCpuUsage()
         {
             try
             {
-                Processor.Get();
-                return Processor.Properties["PercentProcessorTime"].Value.ToString();
+                return ((int) cpuCounter.NextValue()).ToString();
+                //Processor.Get();
+                //return Processor.Properties["PercentProcessorTime"].Value.ToString();
             }
             catch (Exception ex)
             {

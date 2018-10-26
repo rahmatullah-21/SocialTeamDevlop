@@ -1782,7 +1782,7 @@
     <system:String x:Key="LangKeyQuestionScraper">Question Scraper</system:String>
     <system:String x:Key="LangKeyQuestions">Questions</system:String>
     <system:String x:Key="LangKeyQuestionsCount">Questions Count</system:String>
-    <system:String x:Key="LangKeyRandomDestinationsWithAMaximumOf">Random Destinations. (With A Maximum Of</system:String>
+    <system:String x:Key="LangKeyRandomDestinationsWithAMaximumOf">Random Destinations. With A Maximum Of</system:String>
     <system:String x:Key="LangKeyRandomFollowers">Random Followers</system:String>
     <system:String x:Key="LangKeyRandomImagesForPostsWithMultipleImages">Random Images For Posts With Multiple Images</system:String>
     <system:String x:Key="LangKeyRandomiseNightMode">Randomise Night Mode</system:String>
