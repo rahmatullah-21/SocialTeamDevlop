@@ -104,7 +104,7 @@
                                                     </Style>
                                                 </ContentControl.Style>
                                             </ContentControl>
-                                            <Label Content="{DynamicResource EblangLogin}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <Label Content="{DynamicResource LangKeyLogin}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>
@@ -123,7 +123,7 @@
                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_home_location_round}" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <Label Content="{DynamicResource EblangCheckIp}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <Label Content="{DynamicResource LangKeyCheckIp}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>

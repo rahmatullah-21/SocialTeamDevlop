@@ -1,5 +1,7 @@
-Version[1.0.0.19],[25th-October-18]
+Version[1.0.0.19],[26th-October-18]
 New Features:-
+	Social:-
+		Added feature to import and export accounts with cookies.
 	Instagram:-
 		Instaposter => Reposter => Now you can Tag users in post.
 	Facebook:-

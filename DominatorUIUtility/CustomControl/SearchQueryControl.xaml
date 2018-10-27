@@ -79,11 +79,11 @@
                     <GroupBox  FontWeight="Bold" BorderThickness="1" Header="{DynamicResource LangKeyQueriesList}" Foreground="white">
 
                         <DataGrid x:Name="SearchQueries" Width="auto" Background="White" AutoGenerateColumns="False"  CanUserAddRows="false"
-                                  ItemsSource="{Binding ListQueryInfo}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800" 
-                                  AlternationCount="{Binding ListQueryInfo.Count}" >
+                                  ItemsSource="{Binding ListQueryInfo}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" HorizontalAlignment="Stretch"
+                                  AlternationCount="{Binding ListQueryInfo.Count}" HorizontalScrollBarVisibility="Auto">
 
                             <DataGrid.Columns>
-                                <DataGridTemplateColumn>
+                                <DataGridTemplateColumn >
                                     <DataGridTemplateColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -131,11 +131,14 @@
                                                 <TextBlock Text="{DynamicResource LangKeyAction}" Margin="10,0" VerticalAlignment="Center"/>
                                                 <Button Background="Transparent" Click="ExportSelected" VerticalAlignment="Center">
                                                     <Button.Content>
-                                                        <Rectangle Fill="Black" Height="17" Width="15" ToolTip="{DynamicResource LangKeyExportSelected}" >
-                                                            <Rectangle.OpacityMask>
-                                                                <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill"/>
-                                                            </Rectangle.OpacityMask>
-                                                        </Rectangle>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Rectangle Fill="Black" Height="17" Width="15" ToolTip="{DynamicResource LangKeyExportSelected}" >
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill"/>
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+                                                            <TextBlock Margin="5,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource LangKeyExportSelected}"/>
+                                                        </StackPanel>
                                                     </Button.Content>
                                                 </Button>
                                             </StackPanel>
