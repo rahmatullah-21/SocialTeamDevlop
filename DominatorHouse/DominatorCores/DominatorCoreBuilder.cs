@@ -6,14 +6,15 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorUIUtility.ViewModel;
+using DominatorHouseCore.Models;
 
 namespace Socinator.DominatorCores
 {
     public class DominatorCoreBuilder : NetworkCoreLibraryBuilder
     {
         private static DominatorCoreBuilder _instance;
-        private static DominatorAccountViewModel.AccessorStrategies _strategies;
-        public static DominatorAccountViewModel.AccessorStrategies Strategies
+        private static AccessorStrategies _strategies;
+        public static AccessorStrategies Strategies
         {
             set
             {

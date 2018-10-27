@@ -57,7 +57,6 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             CampaignViewModel.SocialNetworks = socialNetworks;
             CampaignViewModel.SetActivityTypes();
-            CampaignViewModel.LoadCampaign();
             Campaign.DataContext = CampaignViewModel;
             CampaignViewModel.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignViewModel.LstCampaignDetails);
             instance = this;
@@ -76,24 +75,6 @@ namespace DominatorUIUtility.CustomControl
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void Campaigns_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                
-                if (CampaignViewModel.CampaignModel.SelectedActivity == "All" || string.IsNullOrEmpty(CampaignViewModel.CampaignModel.SelectedActivity))
-                    CampaignViewModel.CampaignCollection.Filter = (x) => ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
-                else
-                    CampaignViewModel.CampaignCollection.Filter = (x) => ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork && ((CampaignDetails)x).SubModule == CampaignViewModel.CampaignModel.SelectedActivity;
-            }
-            catch (Exception ex)
-            {
-                CampaignViewModel.CampaignCollection.Filter = (x) => ((CampaignDetails)x)?.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
-                ex.DebugLog();
-            }
-
         }
     }
 }

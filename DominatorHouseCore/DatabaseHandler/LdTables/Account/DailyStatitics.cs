@@ -1,4 +1,4 @@
-﻿using SQLite.CodeFirst;
+﻿using SQLite;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,17 +7,17 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 {
     public class DailyStatitics
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
         
         /// <summary>
         /// Date when statistics are entered in Unix Timestamp
         /// </summary>
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public DateTime Date
         { get; set; }
 
@@ -25,7 +25,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Connections count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public int Connections
         { get; set; }
 
@@ -33,7 +33,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// LinkedinGroups count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public int LinkedinGroups
         { get; set; }
 
@@ -41,7 +41,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Posts count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int Posts
         { get; set; }
 
@@ -49,14 +49,14 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Likes count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int Likes { get; set; }
 
         /// <summary>
         /// Comments count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public int Comments { get; set; }
 
     }

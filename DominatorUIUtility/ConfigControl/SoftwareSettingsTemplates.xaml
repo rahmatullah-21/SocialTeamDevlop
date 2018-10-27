@@ -1,0 +1,96 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
+    <ControlTemplate x:Key="SoftwareSettingsControlTemplate">
+        <ControlTemplate.Resources>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ControlTemplate.Resources>
+        <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
+            <GroupBox.Header>
+                <Grid>
+                    <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>
+                    <Button Command="{Binding SaveCmd}"  Background="{DynamicResource AccentBaseColorBrush}" Foreground="White"
+                            VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="15" Height="15" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <AccessText Margin="6,0">_Save</AccessText>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </GroupBox.Header>
+            <ScrollViewer   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel Margin="10" DataContext="{Binding SoftwareSettingsModel}">
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyRunSocinatorAtSystemStartup}"
+                             Visibility="Collapsed" IsChecked="{Binding IsRunDHAtStartUpChecked}"/>
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyShowToolTipWhenMinimizingToSystemTray}"
+                              Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateDesktopShortcutAtStartup}"
+                              Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
+                              IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>
+                    <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel  Orientation="Horizontal">
+                            <Label Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"/>
+                            <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding ExecuteAnyActionsBetween.StartValue}"/>
+                            <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
+                            <mah:NumericUpDown  Margin="5" Minimum="{Binding ExecuteAnyActionsBetween.StartValue}"
+                                                    Value="{Binding ExecuteAnyActionsBetween.EndValue}"/>
+                        </StackPanel>
+                        <CheckBox Margin="5" Content="{DynamicResource LangKeyRandomiseNightMode}"
+                                  IsChecked="{Binding IsRandomiseNightModeChecked}"/>
+                        <StackPanel Margin="20,5" Visibility="{Binding IsRandomiseNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Margin="5" Content="{DynamicResource LangKeyStartBetween}"/>
+                                <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding StartBetween.StartValue}"/>
+                                <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
+                                <mah:NumericUpDown  Margin="5" Minimum="{Binding StartBetween.StartValue}"
+                                                        Value="{Binding StartBetween.EndValue}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <Label Margin="5" Content="{DynamicResource LangKeyEndBetween}"/>
+                                <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding EndBetween.StartValue}"/>
+                                <Label Content="{DynamicResource LangKeyAnd}" Margin="5"/>
+                                <mah:NumericUpDown Margin="5" Minimum="{Binding EndBetween.StartValue}"
+                                                        Value="{Binding EndBetween.EndValue}"/>
+                            </StackPanel>
+                            <Label Margin="5" Content="{DynamicResource LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode}"/>
+                        </StackPanel>
+                        <CheckBox Margin="5" Content="{DynamicResource LangKeyAllowAccountThatSetTheirOwnNightModeToIgnoreGlobalNightMode}"
+                                  IsChecked="{Binding IsIgnoreGlobalChecked}"/>
+                    </StackPanel>
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyUseTabInsteadOfComma}"
+                         Visibility="Collapsed"     IsChecked="{Binding IsUseTabInsteadOfCommaChecked}"/>
+                    <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
+                        <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAutoRestartSocinatorAfterAMinimumOf}"
+                                  IsChecked="{Binding IsEnableAutoRestartSocinatorChecked}"/>
+                        <mah:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
+                                                Value="{Binding MinHour}"/>
+                        <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="5" Text="{DynamicResource LangKeySynchronizeAccountInformationsEvery}"/>
+                        <mah:NumericUpDown Minimum="0" Margin="5" 
+                                                Value="{Binding AccountSynchronizationHours}"/>
+                        <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
+                        <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
+                    </StackPanel>
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
+                              IsChecked="{Binding IsEnableAdvancedUserMode}"/>
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
+                              IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </GroupBox>
+    </ControlTemplate>
+</ResourceDictionary>

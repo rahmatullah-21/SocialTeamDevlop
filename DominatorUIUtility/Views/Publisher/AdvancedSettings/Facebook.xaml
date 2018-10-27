@@ -76,7 +76,7 @@
                         </StackPanel>
                     </GroupBox>
 
-                   </StackPanel>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal" >
                     <CheckBox Content="{DynamicResource LangKeyDeletePostAfter}"
                               VerticalAlignment="Center" Margin="5" 
@@ -129,21 +129,25 @@
                 <StackPanel Margin="25,5" Visibility="{Binding FacebookModel.IsAutoTagFriends,
                             Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
-                        <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 
+                        <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Maximum="100" 
                                                 Margin="5,0" Value="{Binding FacebookModel.UsersForEachPost.StartValue}" />
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTo}" Margin="0,0,5,0"/>
                         <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" 
-                                                Minimum="{Binding FacebookModel.UsersForEachPost.StartValue}"
+                                                Minimum="0" Maximum="100"
                                                 Value="{Binding FacebookModel.UsersForEachPost.EndValue}"/>
                         <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyUsersForEachPosts}" Margin="0,0,10,0"/>
                     </StackPanel>
-
+                    <StackPanel Orientation="Horizontal" Margin="0,10">
+                        <CheckBox Content="{DynamicResource LangKeyTagUniqueUsresForEachPost}"
+                          VerticalAlignment="Center" Margin="5"
+                          IsChecked="{Binding FacebookModel.IsTagUniqueFriends}"/>
+                    </StackPanel>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource LangKeyGlobalSellPostsZipcode}"
                               VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsGlobalSellPostsZipcode}"/>
                 <custom:InputBoxControl Margin="30,5" 
                                         Visibility="{Binding FacebookModel.IsGlobalSellPostsZipcode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                
+
                 <!--<StackPanel Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource LangKeySellPostsLocation}" VerticalAlignment="Center" Margin="5"/>
                     <TextBox Width="200" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyLosAngelesCalifornia}"/>

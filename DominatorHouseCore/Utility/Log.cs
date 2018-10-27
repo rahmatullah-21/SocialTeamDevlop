@@ -257,6 +257,7 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         public static string StopUpdatingAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyStoppedForFurtherFriendshipUpdate".FromResourceDictionary() + "\t" + CodeConstants.StopUpdatingAccount;
 
+        public static string StopAllActivitiesOfAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyStoppedAllActivitiesOfAccount".FromResourceDictionary() + "\t" + CodeConstants.StopAllActivitiesOfAccount;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -411,5 +412,13 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         public static string FailedToSendVerificationCodeFaild { get; set; } = "{0}\t {1}\t " + "LangKeyVerification".FromResourceDictionary() + "\t" + "LangKeyfailedToSendVerificationCodeToRregistered".FromResourceDictionary() + " {2}. "  + "LangKeyPleaseTryAgain".FromResourceDictionary() + "\t" + CodeConstants.FailedToSendVerificationCodeFaild;
 
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = Destination type
+        /// 3 = Destination Url  
+        /// 3 = Error Details
+        /// </summary>
+        public static string PublishingFailedWithError { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyErrorWhilePublishingOn".FromResourceDictionary() + " {2}-[{3}] with error {4}\t" + CodeConstants.PublishingFailedWithError;
     }
 }

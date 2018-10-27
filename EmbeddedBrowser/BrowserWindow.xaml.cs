@@ -18,13 +18,14 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls;
 
 namespace EmbeddedBrowser
 {
     /// <summary>
     ///     Interaction logic for BrowserWindow.xaml
     /// </summary>
-    public partial class BrowserWindow : Window, INotifyPropertyChanged, IComponentConnector, IDisposable
+    public partial class BrowserWindow : MetroWindow, INotifyPropertyChanged, IComponentConnector, IDisposable
     {
 
         private readonly object _syncLock = new object();
@@ -40,16 +41,13 @@ namespace EmbeddedBrowser
         public BrowserWindow(DominatorAccountModel dominatorAccountModel)
             : this()
         {
-
             DominatorAccountModel = dominatorAccountModel;
-
-            InitializeComponent();
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
-
+            Browser.BrowserSettings.BackgroundColor = 010869014;
             Browser.RequestHandler = new RequestHandlerCustom(this);
             var url = GetNetworksHomeUrl();
             Browser.Address = url;
@@ -84,7 +82,6 @@ namespace EmbeddedBrowser
 
             DominatorAccountModel = dominatorAccountModel;
             TargetUrl = targetUrl;
-            InitializeComponent();
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
@@ -195,7 +192,7 @@ namespace EmbeddedBrowser
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                ex.DebugLog();
             }
 
             var homePage = GetNetworksHomeUrl();
@@ -375,31 +372,31 @@ namespace EmbeddedBrowser
                     ex.DebugLog();
                 }
                 Thread.Sleep(2000);
-
-
-
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
-                {
-                    Browser.Load("https://plus.google.com/");
-                }
-
             }
 
             if (!IsGoogleAccountLoginFailed())
             {
-                if ((html.Contains(DominatorAccountModel.UserName)) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
-                {
+                string Username = DominatorAccountModel.UserName.ToLower();
+                if (!DominatorAccountModel.IsUserLoggedIn && (html.ToLower().Contains(Username)) && !string.IsNullOrEmpty(html) && html != "<html><head></head><body></body></html>")
                     SaveCookie();
-                }
 
                 if (DominatorAccountModel.IsUserLoggedIn)
                 {
+                    if (string.IsNullOrEmpty(TargetUrl))
+                        switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        {
+                            case SocialNetworks.Gplus:
+                                TargetUrl = "https://plus.google.com/";
+                                break;
+                            case SocialNetworks.Youtube:
+                                TargetUrl = "https://www.youtube.com/";
+                                break;
+                        }
+
                     var result = GetLoggedInPageSource();
 
                     if (!string.IsNullOrEmpty(result))
-                    {
                         LoadPostPage(true);
-                    }
                 }
             }
         }
@@ -425,7 +422,7 @@ namespace EmbeddedBrowser
 
                             return true;
                         }
-                        else if (PageText.Contains("Type the text you hear or see"))
+                        else if (PageText.Contains("Type the text you hear or see") || PageText.Contains("Confirm your recovery email"))
                         {
                             DominatorAccountModel.IsUserLoggedIn = false;
                             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
@@ -666,8 +663,8 @@ namespace EmbeddedBrowser
                     };
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
                 }
-                
-               Thread.Sleep(TimeSpan.FromSeconds(1));
+
+                Thread.Sleep(TimeSpan.FromSeconds(1));
                 k = new KeyEvent();
                 k.FocusOnEditableField = false;
                 k.WindowsKeyCode = 9;
@@ -734,7 +731,7 @@ namespace EmbeddedBrowser
 
                 Thread.Sleep(2000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('js-password-field')[0].value= '" +
-                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'","\\'") + "'");
+                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'", "\\'") + "'");
                 Thread.Sleep(2000);
                 this.Browser.ExecuteScriptAsync(
                     "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");
@@ -861,7 +858,7 @@ namespace EmbeddedBrowser
                 var sourceAsync = Browser.GetSourceAsync();
                 return sourceAsync.Result;
             }
-            return String.Empty;
+            return string.Empty;
         }
 
         public string GetLoggedInPageSourceLinkedin()
@@ -895,7 +892,7 @@ namespace EmbeddedBrowser
                 case SocialNetworks.Gplus:
                     return "https://accounts.google.com/signin";
                 case SocialNetworks.Youtube:
-                    return "https://www.youtube.com/signin";
+                    return "https://accounts.google.com/signin";
                 case SocialNetworks.Tumblr:
                     return "https://www.tumblr.com/login";
                 default:
@@ -1250,7 +1247,7 @@ namespace EmbeddedBrowser
                         if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                         {
                             string GooglePlusAcc = Utilities.GetBetween(objResponseParameter.Response, "\"oPEP7c\":\"", "\"");
-                            if (string.IsNullOrEmpty(GooglePlusAcc))
+                            if (string.IsNullOrEmpty(GooglePlusAcc) || cookieCollection.Count < 2)
                                 return;
 
                             DominatorAccountModel.AccountBaseModel.ProfileId = GooglePlusAcc;
@@ -1262,11 +1259,13 @@ namespace EmbeddedBrowser
                             if (objResponseParameter.Response.Contains("Sign in now to see your channels") && !string.IsNullOrEmpty(objResponseParameter.Response) && objResponseParameter.Response != "<html><head></head><body></body></html>")
                                 return;
                         }
-                        DominatorAccountModel.IsUserLoggedIn = true;
+
                         DominatorAccountModel.Cookies = cookieCollection;
+                        DominatorAccountModel.IsUserLoggedIn = true;
                         DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                           .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
                            .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
                            .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                             .SaveToBinFile();

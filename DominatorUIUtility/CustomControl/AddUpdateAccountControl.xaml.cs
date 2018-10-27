@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -6,6 +8,8 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.IoC;
+using Unity;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -14,21 +18,17 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AddUpdateAccountControl : UserControl
     {
-
         public DominatorAccountBaseModel DominatorAccountBaseModel { get; set; } = new DominatorAccountBaseModel();
-
         /// <summary>
         /// Constructor with default data context
         /// </summary>
         public AddUpdateAccountControl()
         {
             InitializeComponent();
-
-            foreach (var item in Enum.GetValues(typeof(SocialNetworks)))
+            foreach (var item in DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network))
             {
                 ComboBoxSocialNetworks.Items.Add(item);
             }
-
             UserControlAddUpdateAccount.DataContext = DominatorAccountBaseModel;
         }
 
@@ -56,15 +56,15 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="title">Show the title of the user control, like Add account</param>
         /// <param name="actionButtonContent">Pass the action button content like Save</param>
         /// <param name="showAdvance">Pass true only if proxy ip contains values otherwise false</param>
-        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance,  string socialNetwork)
+        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance, string socialNetwork)
         {
             InitializeComponent();
 
-            if (socialNetwork==SocialNetworks.Social.ToString())
+            if (socialNetwork == SocialNetworks.Social.ToString())
             {
-                foreach (var item in SocinatorInitialize.AvailableNetworks)
+                foreach (var item in DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network))
                 {
-                    if(item == SocialNetworks.Social)
+                    if (item == SocialNetworks.Social)
                         continue;
                     ComboBoxSocialNetworks.Items.Add(item);
                 }
@@ -72,7 +72,7 @@ namespace DominatorUIUtility.CustomControl
             else
             {
                 ComboBoxSocialNetworks.Items.Add((SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
-              
+
                 //ComboBoxSocialNetworks.Items.Add(dominatorAccountBaseModelBinding.AccountNetwork);
             }
 
@@ -91,7 +91,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (e.Key == Key.Enter)
             {
-                btnSave.IsDefault=true;
+                btnSave.IsDefault = true;
             }
         }
     }

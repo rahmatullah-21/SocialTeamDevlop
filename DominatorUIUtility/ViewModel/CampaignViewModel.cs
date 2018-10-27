@@ -42,18 +42,19 @@ namespace DominatorUIUtility.ViewModel
             DuplicateCommand = new BaseCommand<object>((sender) => true, DuplicateExecute);
             StatusChangeCommand = new BaseCommand<object>((sender) => true, StatusChangeExecute);
             ReportCommand = new BaseCommand<object>((sender) => true, ReportExecute);
-            CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, CampaignTypeSelectionChanged);
+            CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, FilterCampaign);
             SelectionCommand = new BaseCommand<object>((sender) => true, SelectionExecute);
             CopyCampaignIdCommand = new BaseCommand<object>((sender) => true, CopyCampaignIdExecute);
-            LoadedCommand = new BaseCommand<object>((sender) => true, LoadedExecute);
+            LoadedCommand = new BaseCommand<object>((sender) => true, FilterCampaign);
             BindingOperations.EnableCollectionSynchronization(LstCampaignDetails, _lock);
+            LoadCampaign();
         }
 
         public void LoadCampaign()
         {
             try
             {
-                var lstOfCampaign = CampaignsFileManager.GetCampaignByNetwork(SocialNetworks);
+                var lstOfCampaign = CampaignsFileManager.Get();
                 Task.Factory.StartNew(() =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Clear());
@@ -174,7 +175,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
         private bool _isUncheckedFromList;
-       
+
         public void SelectAllCampaign(bool isAllSelected)
         {
             try
@@ -206,40 +207,6 @@ namespace DominatorUIUtility.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void CampaignTypeSelectionChanged(object sender)
-        {
-            try
-            {
-               // SelectAllCampaign(false);
-                IsAllCampaignChecked = false;
-                if (!CampaignModel.SelectedActivity.Equals("All"))
-                    CampaignCollection.Filter = FilterByCampaignType;
-                else
-                    CampaignCollection.Filter = (filter) => true;
-            }
-            catch (Exception ex)
-            {
-                CampaignCollection.Filter = (filter) => true;
-                ex.DebugLog();
-            }
-
-        }
-
-        private bool FilterByCampaignType(object sender)
-        {
-            try
-            {
-                var filter = sender as CampaignDetails;
-                return filter.SubModule.CompareTo(CampaignModel.SelectedActivity) == 0;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return true;
-            }
-
         }
 
         private void ReportExecute(object sender)
@@ -315,7 +282,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    GlobusLogHelper.log.Error(ex.Message);
+                    ex.DebugLog();
                 }
 
                 Window win = objDialog.GetMetroWindow(reportControl, "Reports");
@@ -370,9 +337,11 @@ namespace DominatorUIUtility.ViewModel
 
                 if (selectedCampaign?.SelectedAccountList.Count == 0)
                 {
+                    if (selectedCampaign.Status == "Paused")
+                        return;
                     GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
                     selectedCampaign.Status = "Paused";
-                    return;
+                    // return;
                 }
 
                 var isChecked = ((ToggleSwitch)sender).IsChecked;
@@ -561,20 +530,22 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
-
-        private void LoadedExecute(object sender)
+        private void FilterCampaign(object sender)
         {
             try
             {
-
                 if (CampaignModel.SelectedActivity == "All" || string.IsNullOrEmpty(CampaignModel.SelectedActivity))
-                    CampaignCollection.Filter = (x) => ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
+                    CampaignCollection.Filter = (x) =>
+                        ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
                 else
-                    CampaignCollection.Filter = (x) => ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork && ((CampaignDetails)x).SubModule == CampaignModel.SelectedActivity;
+                    CampaignCollection.Filter = (x) =>
+                        ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork &&
+                        ((CampaignDetails)x).SubModule == CampaignModel.SelectedActivity;
             }
             catch (Exception ex)
             {
-                CampaignCollection.Filter = (x) => ((CampaignDetails)x)?.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
+                CampaignCollection.Filter =
+                    (x) => ((CampaignDetails)x)?.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
                 ex.DebugLog();
             }
         }

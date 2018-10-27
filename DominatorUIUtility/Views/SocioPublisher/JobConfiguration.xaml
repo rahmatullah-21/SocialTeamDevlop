@@ -53,8 +53,9 @@
         </StackPanel>
 
         <RadioButton GroupName="postGroup" IsChecked="{Binding IsSpecifyPostingIntervalChecked}" Content="{DynamicResource LangKeyConfigurePostingIntervalForEachTimer}"  Margin="5"
-                     x:Name="ChkPostingInterval" Click="ChkPostingInterval_OnClick" />
-        <ItemsControl ItemsSource="{Binding LstTimer}" Margin="5"
+                     x:Name="ChkPostingInterval"/>
+        <!--Click="ChkPostingInterval_OnClick" />-->
+        <ItemsControl ItemsSource="{Binding LstTimer,IsAsync=True}" Margin="5"
                       Visibility="{Binding IsSpecifyPostingIntervalChecked,
             Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl.ItemsPanel>
@@ -79,8 +80,9 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <RadioButton GroupName="postGroup" IsChecked="{Binding IsRandomizePublishingTimerChecked}" Content="{DynamicResource LangKeyUseRandomPublishingTimeEveryday}"  Margin="5"
-                     Name="ChkRandomizePublishing" Click="ChkRandomizePublishing_OnClick" />
-        <ItemsControl ItemsSource="{Binding LstTimer}" Margin="5"
+                     Name="ChkRandomizePublishing"/>
+        <!--Click="ChkRandomizePublishing_OnClick" />-->
+        <ItemsControl ItemsSource="{Binding LstTimer,IsAsync=True}" Margin="5"
                       Visibility="{Binding IsRandomizePublishingTimerChecked,
                  Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl.ItemsPanel>
@@ -141,7 +143,7 @@
                      Value="{Binding RandomDestinationCount}"
                      VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource LangKeyRandomDestinationsWithAMaximumOf}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Minimum="0" Value="{Binding PostBetween.EndValue}" Maximum="{Binding RandomDestinationCount}" VerticalAlignment="Center"  Margin="5"/>
+            <control:NumericUpDown Minimum="0" Value="{Binding PostBetween.EndValue}"  VerticalAlignment="Center"  Margin="5"/>
             <TextBlock Text="{DynamicResource LangKeyDestinationsFromEachAccount0ForNoLimits}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
         <CheckBox Content="{DynamicResource LangKeyAddDelayBetweenPublishingMultiplePosts}" IsChecked="{Binding IsAddDelayBetweenPublishingPost}"  Margin="5"/>

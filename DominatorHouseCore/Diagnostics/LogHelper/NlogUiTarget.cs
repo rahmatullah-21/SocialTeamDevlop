@@ -1,22 +1,19 @@
-﻿using NLog;
+﻿using DominatorHouseCore.ViewModel;
+using NLog;
 using NLog.Common;
-using NLog.Config;
 using NLog.Targets;
-using System;
+using Unity;
 
-namespace DominatorHouseCore.LogHelper
+namespace DominatorHouseCore.Diagnostics.LogHelper
 {
-    public class NlogUiTarget : Target
+    [Target("NlogUiTarget")]
+    public class NlogUiTarget : TargetWithLayout
     {
-        public Action<string, LogLevel> Log = delegate { };
+        private readonly ILogViewModel _logViewModel;
 
-        public NlogUiTarget(string name, LogLevel level)
+        public NlogUiTarget()
         {
-            LogManager.Configuration.AddTarget(name, this);
-
-            // This will ensure that exsiting rules are not overwritten
-            LogManager.Configuration.LoggingRules.Add(new LoggingRule("*", level, this));
-            LogManager.Configuration.Reload();
+            _logViewModel = IoC.Container.Resolve<ILogViewModel>();
         }
 
         protected override void Write(AsyncLogEventInfo[] logEvents)
@@ -34,13 +31,8 @@ namespace DominatorHouseCore.LogHelper
 
         protected override void Write(LogEventInfo logEvent)
         {
-            //if (logEvent.Level != LogLevel.Error)
-            //    Log(logEvent.FormattedMessage, false);
-            //else
-            //    Log(logEvent.FormattedMessage, true);
-            
-                Log(logEvent.FormattedMessage, logEvent.Level);
-          
+            _logViewModel.Add(logEvent.FormattedMessage, logEvent.Level);
+
         }
     }
 }

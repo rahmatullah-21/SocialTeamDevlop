@@ -2,6 +2,7 @@
 using DominatorHouseCore.LogHelper;
 using System.IO;
 using System.IO.Compression;
+using System.Diagnostics;
 
 namespace DominatorHouseCore.Utility
 {
@@ -16,13 +17,15 @@ namespace DominatorHouseCore.Utility
             }
             catch (IOException ex)
             {
-                GlobusLogHelper.log.Error($"Unable to create directory {folder} - {ex.Message}");                
+                ex.DebugLog();
                 throw;        
             }
         }
 
+        private static volatile int i;
         public static void Compress()
         {
+                var sw = Stopwatch.StartNew();
             try
             {
                 var extractPath =

@@ -60,12 +60,12 @@ namespace DominatorHouseCore
 
         public static void ErrorLog(this Exception ex)
         {
-            ErrorLog(ex, "");
+           // ErrorLog(ex, "");
         }
 
         public static void ErrorLog(this Exception ex, string userMessage, params object[] args)
         {
-            GlobusLogHelper.log.Error(ex.ToUserStringWithStack(userMessage, args));
+            //GlobusLogHelper.log.Error(ex.ToUserStringWithStack(userMessage, args));
         }
     }
 }

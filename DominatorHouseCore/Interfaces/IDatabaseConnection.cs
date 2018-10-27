@@ -1,23 +1,19 @@
-﻿using System.Data.Entity;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.DHEnum;
+using SQLite;
 
 namespace DominatorHouseCore.Interfaces
 {
     public interface IDatabaseConnection
     {
-        string ConnectionString { get; set; }
-
-        DbContext GetContext(string connectionString);
+        SQLiteConnection GetSqlConnection(string accountId);
 
     }
 
     public interface IGlobalDatabaseConnection
     {
-        string ConnectionString { get; set; }
+        SQLiteConnection GetSqlConnection();
+        SQLiteConnection GetSqlConnection(SocialNetworks networks, UserType userType);
 
-        DbContext GetDbContext();
-        DbContext GetDbContext(SocialNetworks networks,UserType userType);
-       
     }
 }

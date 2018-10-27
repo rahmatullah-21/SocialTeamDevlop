@@ -115,6 +115,12 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource LangKeyProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
+                         Text="{Binding AccountProxy.ProxyIp}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" 
+                         Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
+                          controls:TextBoxHelper.Watermark="Type Proxy IP..."/>
+
+
+                <!--<TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
                          controls:TextBoxHelper.Watermark="Format:{255.255.255.255}" Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                     <TextBox.Text>
                         <Binding Path="AccountProxy.ProxyIp" UpdateSourceTrigger="PropertyChanged">
@@ -123,7 +129,7 @@
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
-                </TextBox>
+                </TextBox>-->
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -132,15 +138,10 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
-                         controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
-                    <TextBox.Text>
-                        <Binding Path="AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <validation:ValidationHelper Sender="txtProxyPort"  ValidatesOnTargetUpdated="True"/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                         controls:TextBoxHelper.Watermark="Type Proxy Port..." Width="230" FontSize="13" FontWeight="SemiBold" 
+                         Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
+                         Text="{Binding AccountProxy.ProxyPort}"/>
+
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -183,7 +184,7 @@
                              Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
                              Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
                              Grid.ColumnSpan="2">
-                    <PasswordBox.Style>
+                    <!--<PasswordBox.Style>
                         <Style BasedOn="{StaticResource MetroButtonRevealedPasswordBox}" TargetType="PasswordBox">
                             <Setter Property="IsEnabled" Value="false" />
                             <Style.Triggers>
@@ -200,7 +201,7 @@
                                 </MultiDataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </PasswordBox.Style>
+                    </PasswordBox.Style>-->
                     <passwordHelper:PasswordBoxHelper.Password>
                         <Binding Path="AccountProxy.ProxyPassword" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
                     </passwordHelper:PasswordBoxHelper.Password>
@@ -223,8 +224,8 @@
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding ElementName=txtUserName, Path=(Validation.HasError)}" Value="false" />
                                         <Condition Binding="{Binding ElementName=txtPassword, Path=(Validation.HasError)}" Value="false" />
-                                        <Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
-                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
+                                        <!--<Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />-->
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
                                     <Setter Property="Control.Background" Value="Green"/>

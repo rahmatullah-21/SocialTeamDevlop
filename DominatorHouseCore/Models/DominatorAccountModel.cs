@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DominatorHouseCore.Request;
 using System.Threading;
+using DominatorHouseCore.EmailService;
 
 namespace DominatorHouseCore.Models
 {
@@ -75,7 +76,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        [Obsolete("Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property",true)]
+        [Obsolete("Dont use this property, instead use DominatorHouseCore.Utility.ModuleConfiguration.IsTemplateMadeByCampaignMode property", true)]
         [ProtoMember(6)]
         public bool IsCretedFromNormalMode { get; set; }
 
@@ -314,7 +315,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(14)]
         public Dictionary<string, string> ExtraParameters { get; set; }
             = new Dictionary<string, string>();
- 
+
 
         public CancellationTokenSource CancellationSource = new CancellationTokenSource();
 
@@ -330,7 +331,67 @@ namespace DominatorHouseCore.Models
         {
             CancellationSource.Cancel();
         }
-        public string VarificationCode { get; set; } = string.Empty;
+        private string _varificationCode = string.Empty;
+
+        public string VarificationCode
+        {
+            get
+            {
+                return _varificationCode;
+            }
+            set
+            {
+                if (_varificationCode == value)
+                    return;
+                SetProperty(ref _varificationCode, value);
+            }
+        }
+
+        private MailCredentials _mailCredentials = new MailCredentials();
+        [ProtoMember(22)]
+        public MailCredentials MailCredentials
+        {
+            get
+            {
+                return _mailCredentials;
+            }
+            set
+            {
+                if (_mailCredentials == value)
+                    return;
+                SetProperty(ref _mailCredentials, value);
+            }
+        }
+        private bool _isAutoVerifyByEmail;
+        [ProtoMember(23)]
+        public bool IsAutoVerifyByEmail
+        {
+            get
+            {
+                return _isAutoVerifyByEmail;
+            }
+            set
+            {
+                if (_isAutoVerifyByEmail == value)
+                    return;
+                SetProperty(ref _isAutoVerifyByEmail, value);
+            }
+        }
+        private bool _isUseSSL;
+        [ProtoMember(24)]
+        public bool IsUseSSL
+        {
+            get { return _isUseSSL; }
+            set { SetProperty(ref _isUseSSL, value); }
+        }
+
+        /// <summary>
+        /// Using ActivityType:Querytype:Queryvalue as a key
+        /// </summary>
+        [ProtoMember(25)]
+        public Dictionary<string, string> PaginationId { get; set; }
+            = new Dictionary<string, string>();
+
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {

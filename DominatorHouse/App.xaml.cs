@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using DominatorHouse;
 using DominatorHouse.AutoMapping;
 using System.Windows;
 using Unity;
-
+using DominatorHouseCore;
 namespace Socinator
 {
     /// <summary>

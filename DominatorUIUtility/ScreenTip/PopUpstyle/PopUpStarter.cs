@@ -31,19 +31,19 @@ namespace DominatorUIUtility.ScreenTip.PopUpstyle
 
         public static void StartOverView()
         {
-            var tour = new ScreenInfo
-            {
-                Name = "Overview",
-                ShowNextButtonDefault = false,
-                Steps = new[]
-               {
-                    new Step("ButtonOverView", "Welcome - Select a tour", DominatorAccountViewModel.Instance)
-                    {
-                        ContentDataTemplateKey = "SelectTourDataTemplate"
-                    },
-                }
-            };
-            tour.Start();
+            //var tour = new ScreenInfo
+            //{
+            //    Name = "Overview",
+            //    ShowNextButtonDefault = false,
+            //    Steps = new[]
+            //   {
+            //        new Step("ButtonOverView", "Welcome - Select a tour", DominatorAccountViewModel.Instance)
+            //        {
+            //            ContentDataTemplateKey = "SelectTourDataTemplate"
+            //        },
+            //    }
+            //};
+            //tour.Start();
         }
     }
 }

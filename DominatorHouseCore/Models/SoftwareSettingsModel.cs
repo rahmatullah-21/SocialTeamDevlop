@@ -568,7 +568,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isEnableAdvancedUserMode;
+        private bool _isEnableAdvancedUserMode = true;
         [ProtoMember(38)]
         public bool IsEnableAdvancedUserMode
         {
@@ -596,6 +596,22 @@ namespace DominatorHouseCore.Models
                 if (value == _isDoNotAutoLoginAccountsWhileAddingToSoftware)
                     return;
                 SetProperty(ref _isDoNotAutoLoginAccountsWhileAddingToSoftware, value);
+            }
+        }
+        private int _simultaneousAdsScreperThreadCount = 30;
+
+        [ProtoMember(40)]
+        public int SimultaneousAdsScreperThreadCount
+        {
+            get
+            {
+                return _simultaneousAdsScreperThreadCount;
+            }
+            set
+            {
+                if (value == _simultaneousAdsScreperThreadCount)
+                    return;
+                SetProperty(ref _simultaneousAdsScreperThreadCount, value);
             }
         }
     }

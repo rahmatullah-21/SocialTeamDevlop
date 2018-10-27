@@ -1,29 +1,21 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.ObjectModel;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Enums;
+using Unity;
 
 namespace DominatorHouseCore.FileManagers
 {
     public static class AccountsFileManager
     {
-        private static List<DominatorAccountModel> _allAccountsCache = new List<DominatorAccountModel>();
+        private static readonly IAccountsCacheService AccountsCacheService;
 
-        // Same as above, but Func must return true if file needs to be overwritten        
-        public static void ApplyFunc(Func<DominatorAccountModel, bool> funcToApply)
+        static AccountsFileManager()
         {
-            bool updated = false;
-            var accounts = BinFileHelper.GetAccountDetails();
-
-            foreach (var a in accounts)
-                updated |= funcToApply(a);
-
-            if (updated)
-                BinFileHelper.UpdateAllAccounts(accounts);
+            AccountsCacheService = IoC.Container.Resolve<IAccountsCacheService>();
         }
 
 
@@ -32,7 +24,7 @@ namespace DominatorHouseCore.FileManagers
         internal static void SaveAll(List<DominatorAccountModel> lstAccountModel)
         {
             // Warning: make sure lstAccountModel contains all accounts            
-            BinFileHelper.UpdateAllAccounts(lstAccountModel);
+            AccountsCacheService.UpsertAccounts(lstAccountModel.ToArray());
             GlobusLogHelper.log.Debug($"{lstAccountModel.Count} Accounts successfully saved");
         }
 
@@ -40,27 +32,14 @@ namespace DominatorHouseCore.FileManagers
         // Update account entries and save to AccountDetails.bin        
         public static void UpdateAccounts(IList<DominatorAccountModel> libraryAccounts)
         {
-            var all = BinFileHelper.GetAccountDetails();
-
-            // Update all entries that exists in libraryAccount, and add that does not exists
-            for (int i = 0; i < libraryAccounts.Count; i++)
-            {
-                var acc = libraryAccounts[i];
-                var ix = all.FindIndex(a => acc.AccountBaseModel.AccountId == a.AccountBaseModel.AccountId);
-                if (ix == -1)
-                    all.Add(acc);
-                else
-                    all[ix] = acc;
-            }
-
-            BinFileHelper.UpdateAllAccounts(all);
+            AccountsCacheService.UpsertAccounts(libraryAccounts.ToArray());
         }
 
         // Saves one account by looking for it in list of all accounts.
         // Use Edit() in consumer code
         private static bool SaveAccount(DominatorAccountModel account)
         {
-            var savedStatus = BinFileHelper.UpdateAccount(account);
+            var savedStatus = AccountsCacheService.UpsertAccounts(account);
 
             if (savedStatus)
             {
@@ -73,29 +52,19 @@ namespace DominatorHouseCore.FileManagers
         internal static bool Edit(DominatorAccountModel account)
             => SaveAccount(account);
 
-        public static void FillList<T>(ObservableCollection<T> lstAccountModel) where T : class
-        {
-            lstAccountModel.Clear();
-            ApplyFunc(a =>
-            {
-                lstAccountModel.Add((T)(object)a);
-                return false;
-            });
-        }
-
-        public static List<DominatorAccountModel> GetAll()  => BinFileHelper.GetAccountDetails();
+        public static List<DominatorAccountModel> GetAll() => AccountsCacheService.GetAccountDetails().ToList();
 
         // for internal user to prevent overwriting all accounts after GetAll
         internal static List<DominatorAccountModel> GetAll(SocialNetworks network)
-            => BinFileHelper.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
+            => AccountsCacheService.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();
 
-        internal static List<DominatorAccountModel> GetAll(List<string> neededAccountList) 
-            => BinFileHelper.GetAccountDetails().Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName)).ToList();
+        internal static List<DominatorAccountModel> GetAll(List<string> neededAccountList)
+            => AccountsCacheService.GetAccountDetails().Where(a => neededAccountList.Contains(a.AccountBaseModel.UserName)).ToList();
 
         internal static List<DominatorAccountModel> GetAllAccounts(List<string> neededAccountList,
             SocialNetworks socialNetwork)
         {
-            var Accounts = BinFileHelper.GetAccountDetails().Where(a => neededAccountList.Contains((a.AccountBaseModel.UserName)))
+            var Accounts = AccountsCacheService.GetAccountDetails().Where(a => neededAccountList.Contains((a.AccountBaseModel.UserName)))
                 .ToList();
             return Accounts.FindAll(x => x.AccountBaseModel.AccountNetwork == socialNetwork);
         }
@@ -103,29 +72,25 @@ namespace DominatorHouseCore.FileManagers
         // backward compatibility for TD, PD
         public static bool Add(DominatorAccountModel account)
         {
-            var lst = GetAll() ?? new List<DominatorAccountModel>();
-            lst.Add(account);
-            BinFileHelper.UpdateAllAccounts(lst);
-            return true;
+            return AccountsCacheService.UpsertAccounts(account);
         }
 
         // backward compatibility for TD, PD
         public static bool Add<AModel>(AModel account) where AModel : class
         {
+            throw new Exception("this method should be deleted");
             return BinFileHelper.Append(account);
         }
 
         public static void DeleteSelected(List<DominatorAccountModel> accs)
         {
-            var all = GetAll().Where(a => accs.FirstOrDefault(p => p.AccountId == a.AccountId) == null).ToList();
-            SaveAll(all);
+            AccountsCacheService.Delete(accs.ToArray());
         }
 
-        public static void Delete(Predicate<DominatorAccountModel> match)
+        public static void Delete(Func<DominatorAccountModel, bool> match)
         {
             var accs = GetAll();
-            accs.RemoveAll(match);
-            BinFileHelper.UpdateAllAccounts(accs);
+            AccountsCacheService.Delete(accs.Where(match).ToArray());
         }
 
         public static DominatorAccountModel GetAccount(string userName)

@@ -23,7 +23,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AccountTabCustomControl : UserControl
     {
-        public AccountTabCustomControl(DominatorAccountViewModel.AccessorStrategies strategies)
+        public AccountTabCustomControl(AccessorStrategies strategies)
         {
             InitializeComponent();
             var items = new List<TabItemTemplates>
@@ -31,7 +31,8 @@ namespace DominatorUIUtility.CustomControl
                 new TabItemTemplates
                 {
                     Title =FindResource("LangKeyAccountsManager").ToString(),
-                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, strategies))
+                    Content = new Lazy<UserControl>(() =>  AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, strategies)),
+                    ElementID="Account"
                 },
                 //new TabItemTemplates
                 //{

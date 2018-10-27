@@ -416,27 +416,31 @@ namespace DominatorUIUtility.CustomControl
                     SaveTemplateToAccounts(TemplateId);
                     SaveTemplateToCampaigns();
 
-                    #region Commented
+
 
                     var accountDetails =
                         AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
-
-                    allScheduleQueued = false;
 
                     try
                     {
                         new Thread(() =>
                             {
-                                while (!allScheduleQueued)
+                                foreach (var account in accountDetails)
                                 {
-                                    Thread.Sleep(50);
-                                    while (!schedulePending.IsEmpty)
+                                    Action scheduleAccount = () =>
                                     {
-                                        Action startSchedule;
-                                        schedulePending = schedulePending.Dequeue(out startSchedule);
-                                        startSchedule();
-                                    }
+                                        DominatorScheduler.ScheduleNextActivity(account, _activityType);
+                                    };
+                                    schedulePending = schedulePending.Enqueue(scheduleAccount);
                                 }
+
+                                while (!schedulePending.IsEmpty)
+                                {
+                                    Action startSchedule;
+                                    schedulePending = schedulePending.Dequeue(out startSchedule);
+                                    startSchedule();
+                                }
+
                             })
                         { IsBackground = true }.Start();
                     }
@@ -444,21 +448,6 @@ namespace DominatorUIUtility.CustomControl
                     {
                         ex.DebugLog();
                     }
-
-                    Thread.Sleep(50);
-
-                    foreach (var account in accountDetails)
-                    {
-                        Action scheduleAccount = () =>
-                        {
-                            DominatorScheduler.ScheduleNextActivity(account, _activityType);
-                        };
-                        schedulePending = schedulePending.Enqueue(scheduleAccount);
-                    }
-
-                    allScheduleQueued = true;
-
-                    #endregion
 
                     SetDataContext();
 
@@ -981,12 +970,15 @@ namespace DominatorUIUtility.CustomControl
 
                     var oldCampaignindex = LstCampaignDetails.IndexOf(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
-                    LstCampaignDetails[oldCampaignindex].CampaignName = CampaignName;
-                    LstCampaignDetails[oldCampaignindex].SelectedAccountList = _footerControl.list_SelectedAccounts;
-                    LstCampaignDetails[oldCampaignindex].TemplateId = TemplateId;
-                    LstCampaignDetails[oldCampaignindex].CreationDate = campaign.CreationDate;
-                    LstCampaignDetails[oldCampaignindex].Status = "Active";
-                    LstCampaignDetails[oldCampaignindex].LastEditedDate = campaign.LastEditedDate;
+                    if (oldCampaignindex >= 0)
+                    {
+                        LstCampaignDetails[oldCampaignindex].CampaignName = CampaignName;
+                        LstCampaignDetails[oldCampaignindex].SelectedAccountList = _footerControl.list_SelectedAccounts;
+                        LstCampaignDetails[oldCampaignindex].TemplateId = TemplateId;
+                        LstCampaignDetails[oldCampaignindex].CreationDate = campaign.CreationDate;
+                        LstCampaignDetails[oldCampaignindex].Status = "Active";
+                        LstCampaignDetails[oldCampaignindex].LastEditedDate = campaign.LastEditedDate;
+                    }
 
                     #endregion
 
@@ -1470,8 +1462,8 @@ namespace DominatorUIUtility.CustomControl
                 if (!moduleConfiguration.IsEnabled)
                     DominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                         moduleConfiguration.TemplateId, true);
-
-                DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                else
+                    DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
                 return moduleConfiguration.IsEnabled;
             }
             catch (Exception ex)
@@ -1628,7 +1620,7 @@ namespace DominatorUIUtility.CustomControl
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, $"{accountModel.AccountBaseModel.AccountId}-Configuration");
 
                 moduleConfiguration.TemplateId = TemplateId;
-
+             
                 var runningTime = (List<RunningTimes>)Model.JobConfiguration.RunningTime;
 
                 runningTime.ForEach(x =>

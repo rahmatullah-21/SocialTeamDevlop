@@ -1,4 +1,4 @@
-﻿using SQLite.CodeFirst;
+﻿using SQLite;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,15 +7,15 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
     public class Friends
     {
-        [Key]
-        [Autoincrement]
-        [Index]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
 
-        [Column(Order = 1)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         [Unique]
         public string FriendId { get; set; }
 
@@ -23,7 +23,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string IsDetailedUserInfoStored
         { get; set; }
 
@@ -32,14 +32,14 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string FullName
         { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ProfileUrl
         { get; set; }
 
@@ -47,7 +47,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string Location
         { get; set; }
 
@@ -55,10 +55,10 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string DetailedUserInfo { get; set; }
 
-        [Column(Order = 8)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public DateTime InteractionDate { get; set; }
 
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using DominatorHouse.Social.Accounts;
-using DominatorHouse.Social.DashBoards;
-using DominatorHouseCore.Diagnostics;
+﻿using DominatorHouse.Social;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
@@ -12,11 +6,13 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
-using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
-using Socinator.Social.Accounts;
 using Socinator.Social.AutoActivity.Views;
-using Socinator.Social.OtherConfiguration;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using Unity;
 
 
 //using EmbeddedBrowser;
@@ -25,22 +21,19 @@ namespace Socinator.DominatorCores
 {
     public class DominatorTabHandlerFactory : ITabHandlerFactory
     {
-        private DominatorAccountViewModel.AccessorStrategies _strategies;
+        private AccessorStrategies _strategies;
 
         public List<TabItemTemplates> NetworkTabs { get; set; }
 
-        public string NetworkName { get; set; }
-
         private static DominatorTabHandlerFactory _instance;
 
-        public static DominatorTabHandlerFactory GetInstance(DominatorAccountViewModel.AccessorStrategies strategies)
+        public static DominatorTabHandlerFactory GetInstance(AccessorStrategies strategies)
             => _instance ?? (_instance = new DominatorTabHandlerFactory(strategies));
 
-        private DominatorTabHandlerFactory(DominatorAccountViewModel.AccessorStrategies strategies)
+        private DominatorTabHandlerFactory(AccessorStrategies strategies)
         {
             _strategies = strategies;
             NetworkTabs = new List<TabItemTemplates>();
-            NetworkName = $"The {SocialNetworks.Social} Dominator";
             InitializeAllTabs();
         }
 
@@ -59,22 +52,18 @@ namespace Socinator.DominatorCores
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsManager") == null? "Account Manager" : Application.Current.FindResource("LangKeyAccountsManager")?.ToString(),
                     Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager",null,SocialNetworks.Social))
-                    ,ElementID="Account"
                    // Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
                 },
                 new TabItemTemplates
                 {
                     Title="LangKeyAccountGrowth".FromResourceDictionary(),
                     Content = new Lazy<UserControl>(() =>  AccountGrowthControl.GetAccountGrowthControl(SocialNetworks.Social,_strategies))
-                    ,ElementID="AccountGrowth"
                 },
-
 
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
-                   Content=new Lazy<UserControl>(DashBoardTab.GetSingeltonObjectDashBoardTab)
-                     ,ElementID="DashBoard"
+                   Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("Dashboard"))
                 },
                 new TabItemTemplates
                 {
@@ -104,12 +93,12 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
-                      Content=new Lazy<UserControl>(()=>new OtherConfigurationTab())
+                      Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("OtherConfiguration"))
                 },
                 new TabItemTemplates
                 {
                     Title = "LangKeyOtherTools".FromResourceDictionary(),
-                    Content=new Lazy<UserControl>(()=>new OtherTools())
+                    Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("OtherTools"))
                 }
             };
         }

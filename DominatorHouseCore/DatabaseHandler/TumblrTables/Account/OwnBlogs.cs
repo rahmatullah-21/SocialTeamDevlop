@@ -1,4 +1,4 @@
-﻿using SQLite.CodeFirst;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,18 +11,18 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 {
     public class OwnBlogs
     {
-        [Key]
-        [Autoincrement]
-        [Index]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
 
-        [Column(Order = 1)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
 
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         [Unique]
         public string BlogKey { get; set; }
 
@@ -30,22 +30,22 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string BlogUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string BlogName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int Postcount { get; set; }
 
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public DateTime InteractionDate { get; set; }
 
     }

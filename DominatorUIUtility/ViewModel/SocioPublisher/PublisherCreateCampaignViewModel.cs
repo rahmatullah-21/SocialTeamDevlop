@@ -583,6 +583,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             PostQueuedStatus = post.PostQueuedStatus,
                             PostRunningStatus = PostRunningStatus.Active,
                             PostDescription = post.PostDescription,
+                            PdSourceUrl = post.PdSourceUrl,
                             MediaList = post.MediaViewer.MediaList,
                             FdSellLocation = post.FdSellLocation,
                             PostId = post.PostDetailsId,

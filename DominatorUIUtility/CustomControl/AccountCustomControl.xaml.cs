@@ -1,4 +1,18 @@
-﻿using System;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.BusinessLogic.Factories;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.Views;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.Navigations;
+using DominatorUIUtility.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,19 +22,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.BusinessLogic.Factories;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorUIUtility.ViewModel;
-using DominatorUIUtility.Views;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.Navigations;
-using DominatorUIUtility.Controls;
+using Unity;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -48,11 +50,11 @@ namespace DominatorUIUtility.CustomControl
 
         #endregion
 
-        private AccountCustomControl(DominatorAccountViewModel.AccessorStrategies strategyPack)
+        private AccountCustomControl()
         {
-            _dominatorAccountViewModel = new DominatorAccountViewModel(strategyPack);
+            _dominatorAccountViewModel = (DominatorAccountViewModel)DominatorHouseCore.IoC.Container.Resolve<IDominatorAccountViewModel>();
             InitializeComponent();
-            DataContext = DominatorAccountViewModel.Instance;
+           // DataContext = DominatorAccountViewModel.Instance;
             var navigator = FeatureTour.GetNavigator();
 
             navigator.OnStepEntering("Rectangle").Execute(s =>
@@ -93,26 +95,23 @@ namespace DominatorUIUtility.CustomControl
 
         private static AccountCustomControl _accountCustomInstance = null;
 
-        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, DominatorAccountViewModel.AccessorStrategies strategies)
+        public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, AccessorStrategies strategies)
         {
             if (_accountCustomInstance == null)
-            {
-                _accountCustomInstance = new AccountCustomControl(strategies);
-            }
+              _accountCustomInstance = new AccountCustomControl();
 
             _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
-
             return _accountCustomInstance;
         }
 
 
-        public static AccountCustomControl GetAccountCustomControl(DominatorAccountViewModel.AccessorStrategies strategies)
+        public static AccountCustomControl GetAccountCustomControl(AccessorStrategies strategies)
         {
-            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl(strategies));
+            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
         }
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNework)
         {
-            return _accountCustomInstance;
+            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
         }
 
         public void GetRespectiveAccounts(SocialNetworks socialNetworks)
@@ -134,59 +133,10 @@ namespace DominatorUIUtility.CustomControl
                       .GetNetworkCoreFactory()
                       .AccountCountFactory.GetColumnSpecificationProvider();
             DominatorAccountViewModel.VisibleColumns = spec.VisibleHeaders;
-            DominatorAccountViewModel.SocialNetwork = socialNetworks;
-
-        }
-
-        private void MangeblacklistedContextMenu_Click(object sender, RoutedEventArgs e)
-        {
-            BlacklistUserControl objBlacklistUserControl = new BlacklistUserControl();
-
-            var window = new Window()
-            {
-                Content = objBlacklistUserControl,
-                Topmost = true,
-                ResizeMode = ResizeMode.NoResize,
-                SizeToContent = SizeToContent.WidthAndHeight
-            };
-
-            window.ShowDialog();
-        }
-
-        private void MangewhitelistUserContextMenu_Click(object sender, RoutedEventArgs e)
-        {
-            WhitelistuserControl objWhitelistuserControl = new WhitelistuserControl();
-
-            var window = new Window()
-            {
-                Content = objWhitelistuserControl,
-                Topmost = true,
-                ResizeMode = ResizeMode.NoResize,
-                SizeToContent = SizeToContent.WidthAndHeight
-            };
-            window.ShowDialog();
-        }
-
-        private void chkgroup_Checked(object sender, RoutedEventArgs e)
-        {
-            DominatorAccountViewModel.SelectAccountByGroup(sender);
-        }
-
-        private void chkgroup_Unchecked(object sender, RoutedEventArgs e)
-        {
-            DominatorAccountViewModel.SelectAccountByGroup(sender);
-        }
-
-        private void MenuCheckAccount_OnClick(object sender, RoutedEventArgs e)
-        {
-            DominatorAccountModel ObjDominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-            //DominatorAccountViewModel.UpdateAccount(ObjDominatorAccountModel);
         }
 
         private void Row_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            List<string> menuOptions = new List<string>();
-
             ListViewItem sourceRow = sender as ListViewItem;
 
             var dominatorAccountModelSelected = ((FrameworkElement)sourceRow)?.DataContext as DominatorAccountModel;
@@ -227,18 +177,6 @@ namespace DominatorUIUtility.CustomControl
             menuOptions.Add(deatilProfileMenu);
 
             #endregion
-
-            //#region Edit Profile Menu
-
-            //image = Application.Current.FindResource("appbar_edit_box");
-            //convasImage = GetConvasImage(image);
-
-            //var editProfileMenu = new MenuItem { Header = "Edit Profile", Icon = convasImage };
-            //editProfileMenu.Click += EditProfile;
-            //editProfileMenu.DataContext = dominatorAccountModel;
-            //menuOptions.Add(editProfileMenu);
-
-            //#endregion
 
             #region Delete Profile Menu
 
@@ -305,19 +243,6 @@ namespace DominatorUIUtility.CustomControl
             switch (socialNetwork)
             {
                 case "Facebook":
-
-                    #region Remove Phone Verification Menu
-
-                    //image = Application.Current.FindResource("appbar_iphone");
-                    //convasImage = GetConvasImage(image);
-
-                    //var removePhoneVerificationMenu = new MenuItem { Header = "Remove Phone Verification", Icon = convasImage };
-                    //removePhoneVerificationMenu.Click += FacebookRemovePhoneVerification;
-                    //removePhoneVerificationMenu.DataContext = dominatorAccountModel;
-                    //menuOptions.Add(removePhoneVerificationMenu);
-
-                    #endregion
-
                     break;
 
                 case "Instagram":
@@ -333,17 +258,6 @@ namespace DominatorUIUtility.CustomControl
                     menuOptions.Add(editInstaProfileMenu);
 
                     #endregion
-
-                    //#region Phone Verification Menu
-
-                    //image = Application.Current.FindResource("appbar_iphone");
-                    //convasImage = GetConvasImage(image);
-                    //var phoneVerificationMenu = new MenuItem { Header = "Phone Verification", Icon = convasImage };
-                    //phoneVerificationMenu.Click += InstaPhoneVerification;
-                    //phoneVerificationMenu.DataContext = dominatorAccountModel;
-                    //menuOptions.Add(phoneVerificationMenu);
-
-                    //#endregion
 
                     break;
                 case "Twitter":
@@ -378,12 +292,12 @@ namespace DominatorUIUtility.CustomControl
         private void CopyAccountId(object sender, RoutedEventArgs e)
         {
             var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-            if(!string.IsNullOrEmpty(dataContext.AccountId))
+            if (!string.IsNullOrEmpty(dataContext.AccountId))
             {
                 Clipboard.SetText(dataContext.AccountId);
                 ToasterNotification.ShowSuccess("AccountId copied");
             }
-            
+
         }
 
         private static Rectangle GetConvasImage(object image)
@@ -487,7 +401,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-               
+
                 DominatorAccountViewModel.EditProfile(dominatorAccountModel);
             }
             catch (Exception exception)

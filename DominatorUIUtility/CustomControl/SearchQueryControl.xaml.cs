@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,21 +8,19 @@ using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
-using System.Windows.Data;
-using System.Reflection;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.LogHelper;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
+using System.IO;
 
 namespace DominatorUIUtility.CustomControl
 {
     public partial class SearchQueryControl : UserControl, INotifyPropertyChanged
     {
-
         public SearchQueryControl()
         {
             InitializeComponent();
@@ -41,8 +38,9 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyMyConnectionsPostS".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapUsersWhoMessagedUs".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapAllLikes".FromResourceDictionary());
-            DeleteQueryCommand = new BaseCommand<object>((sender)=>true, DeleteQueryExecute);
-            DeleteMulipleCommand = new BaseCommand<object>((sender)=>true, DeleteMulipleExecute);
+            DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
+            DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
+
         }
 
 
@@ -280,7 +278,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #endregion
-        
+
         public object CommandParameter
         {
             get { return (object)GetValue(CommandParameterProperty); }
@@ -368,40 +366,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #endregion
-
-        //public bool CanExecute(object parameter)
-        //{
-        //    return true;
-        //}
-
-        //public void Execute(object parameter)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(TxtInputQuery.Text.Trim()) && QueryCollection.Count == 0)
-        //            return;
-        //        if (TxtInputQuery.Text.Contains(","))
-        //        {
-        //            CurrentQuery.QueryValue = String.Empty;
-        //            QueryCollection.AddRange(TxtInputQuery.Text.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct());
-        //        }
-        //        else
-        //        {
-        //            CurrentQuery.QueryValue = TxtInputQuery.Text.ToString();
-        //        }
-        //        CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
-        //        // CurrentQuery.QueryType = LstQueryType[SelectedIndex].ToString();
-
-        //        TxtInputQuery.Text = string.Empty;
-        //        SelectedIndex = 0;
-        //        AddQueryEventHandler();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //    }
-        //    TxtInputQuery.IsEnabled = true;
-        //}
 
         public bool IsExpanded
         {
@@ -506,7 +470,7 @@ namespace DominatorUIUtility.CustomControl
                 else
                 {
                     IsEnable = true;
-                    CurrentQuery.QueryValue =string.Empty;
+                    CurrentQuery.QueryValue = string.Empty;
                 }
 
             }
@@ -531,7 +495,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var QueryToDelete =sender as QueryInfo;
+                var QueryToDelete = sender as QueryInfo;
                 DeleteQueryEventHandler();
                 if (ListQueryInfo.Any(x => QueryToDelete != null && x.Id == QueryToDelete.Id))
                 {
@@ -584,6 +548,45 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
+        private void ExportSelected(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFiledialog = new SaveFileDialog
+                {
+                    Filter = "CSV file (.csv)|*.csv",
+                    FileName = "Query-" + DateTimeUtilities.GetCurrentEpochTime(DateTime.Now)
+                };
+
+                if (saveFiledialog.ShowDialog() == true)
+                {
+                    string filename = saveFiledialog.FileName;
+                    var csvData = new List<string>();
+                    using (var streamWriter = new StreamWriter(filename, true))
+                    {
+                        ListQueryInfo.ForEach(x =>
+                        {
+                            if (x.IsQuerySelected)
+                            {
+                                streamWriter.WriteLine(x.QueryType + "," + x.QueryValue);
+                            }
+
+                        });
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void SearchQueries_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (ListQueryInfo.Count > 0)
+                SearchQueries.ScrollIntoView(ListQueryInfo[0]);
+        }
     }
 
 

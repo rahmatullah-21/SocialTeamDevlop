@@ -10,38 +10,38 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit")]
         Unfollow = 2,
 
-        [Description("Facebook,Twitter,Instagram,Gplus,Tumblr,LinkedIn")]
+        [Description("Twitter,Instagram,Gplus,Tumblr,LinkedIn,Youtube")]
         Like = 3,
 
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Facebook,Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn,Tumblr")]
+        [Description("Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn,Tumblr,Youtube")]
         Comment = 5,
 
         [Description("Twitter,Instagram,Reddit")]
         DeleteComment = 6,
 
-        [Description("Facebook,Twitter,Instagram,Quora")]
+        [Description("Twitter,Instagram,Quora")]
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
         [Description("Twitter")]
         Repost = 8,
 
-        [Description("Facebook,Twitter,Instagram")]
+        [Description("Twitter,Instagram")]
         DeletePost = 9,
 
         //[Description("Facebook,Twitter,Instagram")]
         //Message = 10,
 
-        [Description("Facebook,Twitter,Instagram,Gplus,LinkedIn,Pinterest")]
+        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest")]
         UserScraper = 11,
 
         [Description("Twitter,Instagram")]
         DownloadScraper = 12,
 
-        [Description("Facebook,Twitter,Instagram")]
+        [Description("Twitter,Instagram")]
         Reposter = 13,
 
         [Description("Twitter")]
@@ -92,7 +92,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         CommentScraper = 29,
 
-        [Description("Facebook,Gplus")]
+        [Description("Facebook,Gplus,Youtube")]
         PostScraper = 30,
 
         [Description("Facebook,LinkedIn")]
@@ -152,19 +152,19 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         ConnectionRequest = 50,
 
-        [Description("YouTube")]
+        [Description("Youtube")]
         Subscribe = 51,
 
-        [Description("Facebook,Youtube")]
+        [Description("Facebook")]
         Share = 52,
 
-        //[Description("YouTube")]
+        //[Description("Youtube")]
         //LikeComments = 53,
 
-        [Description("YouTube")]
+        [Description("Reddit")]
         UnSubscribe = 54,
 
-        [Description("YouTube")]
+        [Description("Youtube")]
         ViewIncreaser = 55,
 
         [Description("Instagram")]
@@ -229,10 +229,10 @@ namespace DominatorHouseCore.Enums
         //[Description("Youtube")]
         //LikeToComment = 76,
 
-        [Description("Youtube")]
-        DislikeToComment = 77,
+        //[Description("Youtube")]
+        //DislikeToComment = 77,
 
-        [Description("Youtube")]
+        [Description("Facebook")]
         ReplyToComment = 78,
 
         [Description("Tumblr")]
@@ -301,6 +301,8 @@ namespace DominatorHouseCore.Enums
         WelcomeTweet = 102,
         [Description("LinkedIn")]
         SalesNavigatorCompanyScraper = 103,
+        [Description("Twitter")]
+        TweetTo = 104,
 
     }
 }

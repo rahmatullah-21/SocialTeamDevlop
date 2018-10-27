@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../ConfigControl/SoftwareSettingsTemplates.xaml"/>
+        <ResourceDictionary Source="../ConfigControl/SocinatorMacrosTemplates.xaml"/>
+        <ResourceDictionary Source="../ConfigControl/LinkedInTemplates.xaml"/>
+        <ResourceDictionary Source="../ConfigControl/QuoraTemplates.xaml"/>
+        
+        <ResourceDictionary Source="../ConfigControl/CaptchaServicesTemplates.xaml"/>
+        <ResourceDictionary Source="../ConfigControl/URLShortnerServicesTemplates.xaml"/>
+        
+        <ResourceDictionary Source="../CustomControl/MediaGeneratorTemplates.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -10,7 +10,7 @@ namespace DominatorHouseCore.Models
     public class ProxyManagerModel : BindableBase
     {
 
-       
+
         private Proxy _accountProxy = new Proxy();
         [ProtoMember(1)]
         public Proxy AccountProxy
@@ -21,13 +21,11 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_accountProxy != null && _accountProxy == value)
-                    return;
                 SetProperty(ref _accountProxy, value);
             }
         }
 
-        private HashSet<string> _groups=new HashSet<string>();
+        private HashSet<string> _groups = new HashSet<string>();
 
         public HashSet<string> Groups
         {
@@ -37,14 +35,12 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_groups == value)
-                    return;
                 SetProperty(ref _groups, value);
             }
         }
 
         private bool _isProxySelected;
-    
+
         public bool IsProxySelected
         {
             get
@@ -53,13 +49,11 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_isProxySelected == value)
-                    return;
                 SetProperty(ref _isProxySelected, value);
             }
         }
-       
-        private string _status="Not Checked";
+
+        private string _status = "Not Checked";
         [ProtoMember(12)]
         public string Status
         {
@@ -69,12 +63,10 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_status == value)
-                    return;
                 SetProperty(ref _status, value);
             }
         }
-        private string _responseTime="0 milli seconds";
+        private string _responseTime = "0 milli seconds";
         [ProtoMember(13)]
         public string ResponseTime
         {
@@ -84,8 +76,6 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_responseTime == value)
-                    return;
                 SetProperty(ref _responseTime, value);
             }
         }
@@ -99,12 +89,10 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_failures == value)
-                    return;
                 SetProperty(ref _failures, value);
             }
         }
-        private ObservableCollection<AccountAssign> _accountsAssignedto=new ObservableCollection<AccountAssign>();
+        private ObservableCollection<AccountAssign> _accountsAssignedto = new ObservableCollection<AccountAssign>();
         [ProtoMember(15)]
         public ObservableCollection<AccountAssign> AccountsAssignedto
         {
@@ -114,8 +102,6 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_accountsAssignedto == value)
-                    return;
                 SetProperty(ref _accountsAssignedto, value);
             }
         }
@@ -129,12 +115,10 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_accountsToBeAssign == value)
-                    return;
                 SetProperty(ref _accountsToBeAssign, value);
             }
         }
-        private string _group ;
+        private string _group;
         [ProtoMember(17)]
         public string Group
         {
@@ -144,8 +128,6 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_group == value)
-                    return;
                 SetProperty(ref _group, value);
             }
         }
@@ -164,8 +146,6 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_userName == value)
-                    return;
                 SetProperty(ref _userName, value);
             }
         }
@@ -180,8 +160,6 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_accountNetwork == value)
-                    return;
                 SetProperty(ref _accountNetwork, value);
 
             }

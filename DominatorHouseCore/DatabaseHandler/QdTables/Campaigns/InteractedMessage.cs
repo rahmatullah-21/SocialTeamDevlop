@@ -1,50 +1,50 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Campaigns
 {
     public class InteractedMessage
     {
-        [Key]
-        [Column(Order = 1)]
-        [Index]
-        [Autoincrement]
+        [PrimaryKey]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
+        [Indexed]
+        [AutoIncrement]
         public int Id { get; set; }
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string SinAccUsername { get; set; }
 
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryType
         { get; set; }
 
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string QueryValue { get; set; }
 
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ActivityType { get; set; }
 
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int InteractionTimeStamp { get; set; }
 
 
-        [Column(Order = 9)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string Username { get; set; }
 
 
-        [Column(Order = 11)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string Message { get; set; }
 
 
 
-        [Column(Order = 17)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public int FollowBackStatus
         { get; set; }
 
 
-        [Column(Order = 19)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public DateTime InteractionDate { get; set; }
     }
 }

@@ -15,6 +15,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
 using DominatorHouseCore.Interfaces;
+using Newtonsoft.Json.Linq;
 
 namespace DominatorHouseCore.Process
 {
@@ -36,18 +37,19 @@ namespace DominatorHouseCore.Process
             CurrentJobTimeRange = currentJobTimeRange;
 
             // Get the Template Model from the given template id
-            var model = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == template);
+          //  var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
+            var model = TemplatesFileManager.GetTemplateById(template);
 
             if (model != null)
             {
-                dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings);
-
-                JobConfiguration =
-                    JsonConvert.DeserializeObject<JobConfiguration>(deserializedValue["JobConfiguration"].ToString());
+                JObject jsonObject = JObject.Parse(model.ActivitySettings);
+                //dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings); ----//Todo 
+                JobConfiguration = jsonObject["JobConfiguration"]?.ToObject<JobConfiguration>();
+                //  JsonConvert.DeserializeObject<JobConfiguration>(jsonObject["JobConfiguration"].ToString());
                 try
                 {
-                    SavedQueries =
-                        JsonConvert.DeserializeObject<List<QueryInfo>>(deserializedValue["SavedQueries"].ToString());
+                    SavedQueries = jsonObject["SavedQueries"]?.ToObject<List<QueryInfo>>();
+                    // JsonConvert.DeserializeObject<List<QueryInfo>>(jsonObject["SavedQueries"].ToString());
                 }
                 catch
                 {
@@ -56,7 +58,6 @@ namespace DominatorHouseCore.Process
             }
 
             TemplateId = template;
-            var campaigns = CampaignsFileManager.Get();
             CampaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
             ActivityType = activityType;
 
@@ -75,15 +76,14 @@ namespace DominatorHouseCore.Process
 
         private void InitializeDatabaseConnection()
         {
-            var objDatabaseHandler = new DataBaseHandler();
-
+            var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory();
             if (CampaignId != null)
             {
                 try
                 {
-                    DataBaseConnectionCampaign = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignDatabase;
-                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.InitializeInteraction();
-                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().GlobalInteractionDetails.InitializeInteraction();
+                    DataBaseConnectionCampaign = networkCoreFactory.CampaignDatabase;
+                    networkCoreFactory.CampaignInteractionDetails.InitializeInteraction();
+                    networkCoreFactory.GlobalInteractionDetails.InitializeInteraction();
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +91,7 @@ namespace DominatorHouseCore.Process
                 }
             }
 
-            DataBaseConnectionAccount = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().AccountDatabase;
+            DataBaseConnectionAccount = networkCoreFactory.AccountDatabase;
 
             //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }
@@ -119,95 +119,6 @@ namespace DominatorHouseCore.Process
             }
 
         }
-        //protected void ScheduleNextJob(DateTime dateTime)
-        //{
-        //    Stop();
-
-        //    var today = DateTimeUtilities.GetDayOfWeek();
-
-        //    var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
-
-        //    if (!timeScheduleModel.IsEnabled)
-        //        return;
-
-        //    // get the hour and minute of current time
-        //    var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
-
-        //    if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
-        //    {
-        //        var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
-        //            .FirstOrDefault(x => x.ActivityType == ActivityType);
-
-        //        if (moduleConfiguration != null)
-        //        {
-        //            var templateId = moduleConfiguration.TemplateId;
-        //            JobManager.AddJob(
-        //                () =>
-        //                {
-        //                    var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
-
-        //                    moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
-        //                    var isEnabled = moduleConfiguration.IsEnabled;
-        //                    if (isEnabled)
-        //                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
-        //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
-        //        }
-        //    }
-        //}
-
-        protected void ScheduleNextJob()
-        {
-            //if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
-            //{
-            //    Stop();
-            //    var dateTime = DateTime.Now.AddHours(1);
-            //    var today = DateTimeUtilities.GetDayOfWeek();
-
-            //    var timeScheduleModel = JobConfiguration.RunningTime.First(x => x.DayOfWeek == today);
-
-            //    if (!timeScheduleModel.IsEnabled)
-            //        return;
-
-            //    // get the hour and minute of current time
-            //    var nextJobTimeSpan = DateTimeUtilities.GetTimeSpanForGivenTime(dateTime); //GetTimeSpanForGivenTime
-
-            //    if (CurrentJobTimeRange.EndTime >= nextJobTimeSpan && nextJobTimeSpan > CurrentJobTimeRange.StartTime)
-            //    {
-            //        var moduleConfiguration = DominatorAccountModel.ActivityManager.LstModuleConfiguration
-            //            .FirstOrDefault(x => x.ActivityType == ActivityType);
-
-            //        if (moduleConfiguration != null)
-            //        {
-            //            var templateId = moduleConfiguration.TemplateId;
-            //            JobManager.AddJob(
-            //                () =>
-            //                {
-            //                    var account = AccountsFileManager.GetAccount(DominatorAccountModel.AccountBaseModel.UserName, DominatorAccountModel.AccountBaseModel.AccountNetwork);
-
-            //                    moduleConfiguration = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == ActivityType);
-            //                    var isEnabled = moduleConfiguration.IsEnabled;
-            //                    if (isEnabled)
-            //                        DominatorScheduler.RunActivity(DominatorAccountModel, templateId, CurrentJobTimeRange, ActivityType.ToString());
-            //                }, s => s.WithName(this.TemplateId).ToRunOnceAt(dateTime));
-            //        }
-            //    }
-
-            //}
-            //else
-            //{
-            //    if (RunningJobProcesses != null)
-            //    {
-            //        foreach (var jobProcess in RunningJobProcesses.Values)
-            //        {
-            //            if (jobProcess.Id.Contains(AccountId))
-            //            {
-            //                return;
-            //            }
-            //        }
-            //    }
-            //    RunningActivityManager.StartNextRound(DominatorAccountModel);
-            //}
-        }
 
 
         /// <summary>
@@ -229,16 +140,18 @@ namespace DominatorHouseCore.Process
         /// <returns></returns>
         public virtual JobProcessResult FinalProcess(ScrapeResultNew scrapedResult)
         {
-            JobProcessResult jobProcessResult = new JobProcessResult();
-            jobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
-            jobProcessResult = PostScrapeProcess(scrapedResult);
-
-            if (jobProcessResult.IsProcessCompleted)
+            JobProcessResult jobProcessResult =
+                new JobProcessResult { IsProcessCompleted = CheckJobProcessLimitsReached() };
+            if (!jobProcessResult.IsProcessCompleted)
+            {
+                jobProcessResult = PostScrapeProcess(scrapedResult);
+                //  DelayBeforeNextActivity();
+            }
+            else
             {
                 StartOtherConfiguration(scrapedResult);
 
                 GlobusLogHelper.log.Info(Log.ProcessCompleted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
-
 
             }
 
@@ -258,7 +171,7 @@ namespace DominatorHouseCore.Process
         {
             Stop();
 
-            var lstTemplateModel = BinFileHelper.GetTemplateDetails().ToList();
+            var lstTemplateModel = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().ToList();
             foreach (var template in lstTemplateModel)
                 if (template.Id == TemplateId)
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();
@@ -281,7 +194,7 @@ namespace DominatorHouseCore.Process
 
                 var scraper = scraperFactory.Create(this);
 
-                if (SavedQueries.Count == 0)
+                if (SavedQueries==null || SavedQueries?.Count == 0)
                     scraper.ScrapeWithoutQueries(ActivityType.ToString());
                 else
                     scraper.ScrapeWithQueries();
@@ -424,8 +337,23 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                     // Login and run scraper/poster from derived concrete classes
-                    if (Login())
-                        RunScrapper();
+                    if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
+                    {
+                        if (Login())
+                            RunScrapper();
+                        else
+                        {
+                            GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "did not get processed as account failed to login");
+                            DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                        }
+
+                    }
+                    else
+                    {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
+                        DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                    }
+
 
                 }, JobCancellationTokenSource.Token);
 

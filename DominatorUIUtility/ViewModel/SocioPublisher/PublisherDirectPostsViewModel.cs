@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -229,10 +230,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         if (post.IsMultipleImagePost)
                         {
-                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;                         
+                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
                             post.IsUniquePost = PostDetailsModel.IsUniquePost;
                         }
-                          
+
 
                         // Add to Post Collections 
                         postCollectionDetails.Add(post);
@@ -343,8 +344,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     MediaList.Clear();
                     PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                         .PublisherCreateCampaignModel.LstMultipleImagePostCollection.Clear();
-                   // Re intialize post lists
-                   mediaViewer?.Initialize();
+                    // Re intialize post lists
+                    mediaViewer?.Initialize();
                     return;
                 }
 
@@ -409,8 +410,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     .PublisherCreateCampaignModel.LstPostDetailsModels;
 
                 // Get the object of multiple post UI
-                var publisherMultiplePost = new PublisherMultiplePost(LstPostDetailsModels);
+                //   var publisherMultiplePost = new PublisherMultiplePost(LstPostDetailsModels);
+                var publisherMultiplePost = new PublisherMultiplePost();
+                publisherMultiplePost.Loaded += (s, e) =>
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        LstPostDetailsModels.ForEach(x =>
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                publisherMultiplePost.PublisherMultiplePostViewModel.LstPostDetailsModel.Add(x);
+                            });
+                            Thread.Sleep(20);
+                        });
+                    });
 
+                    // e.Handled = true;
+                };
 
                 // Get the core dialog object
                 var dialog = new Dialog();
@@ -439,7 +456,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             ThreadFactory.Instance.Start(() =>
             {
-
                 // Iterate selected file name
                 listPostDetailsModel.ForEach(x =>
                 {

@@ -20,32 +20,36 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AccountDetailsSelector : UserControl, INotifyPropertyChanged
     {
-        public AccountDetailsSelector(Func<string, string, AccountDetailsSelector,Task> updateUiData, string accountId, string accountName)
+        public AccountDetailsSelector(Func<string, string, AccountDetailsSelector, Task> updateUiData,
+              string accountId, string accountName, bool isPageOptionVisible = false)
         {
             InitializeComponent();
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
+            AccountDetailsSelectorViewModel.IsPageOptionVisible = isPageOptionVisible;
             _accountId = accountId;
             _accountName = accountName;
-            _updateUiDetails = updateUiData;           
+            _updateUiDetails = updateUiData;
         }
 
 
-        public AccountDetailsSelector(Action<AccountDetailsSelector> updateAllData)
+        public AccountDetailsSelector(Action<AccountDetailsSelector> updateAllData, bool isPageOptionVisible = false)
         {
             InitializeComponent();
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
+            AccountDetailsSelectorViewModel.IsPageOptionVisible = isPageOptionVisible;
             _updateAllDetails = updateAllData;
         }
 
 
-        public AccountDetailsSelector(Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> updateSingleData, PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel)
+        public AccountDetailsSelector(Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> updateSingleData,
+            PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel, bool isPageOptionVisible = false)
         {
             InitializeComponent();
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
+            AccountDetailsSelectorViewModel.IsPageOptionVisible = isPageOptionVisible;
             _updateSinlgeDetails = updateSingleData;
             _publisherCreateDestinationSelectModel = publisherCreateDestinationSelectModel;
         }
-
         private readonly string _accountId;
         private readonly string _accountName;
         private PublisherCreateDestinationSelectModel _publisherCreateDestinationSelectModel = new PublisherCreateDestinationSelectModel();

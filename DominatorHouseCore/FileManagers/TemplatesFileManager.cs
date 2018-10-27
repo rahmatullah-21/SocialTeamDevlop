@@ -3,33 +3,41 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity;
 
 namespace DominatorHouseCore.FileManagers
 {
     public class TemplatesFileManager
     {
+        private static readonly ITemplatesCacheService TemplatesCacheService;
+
+        static TemplatesFileManager()
+        {
+            TemplatesCacheService = IoC.Container.Resolve<ITemplatesCacheService>();
+            TemplatesCacheService.GetTemplateModels();
+        }
         // Updates Template with applying action to it and writes changes back to file
         public static void ApplyAction(Action<TemplateModel> actionToApply)
         {
-            var templates = BinFileHelper.GetTemplateDetails().ToList();
+            var templates = Get();
 
             foreach (var t in templates)
                 actionToApply(t);
 
-            BinFileHelper.UpdateTemplates(templates);
+            TemplatesCacheService.UpsertTemplates(templates.ToArray());
         }
 
         // Same as above, but Func must return true if file needs to be overwritten        
         public static void ApplyFunc(Func<TemplateModel, bool> funcToApply)
         {
-            var templates = BinFileHelper.GetTemplateDetails().ToList();
+            var templates = Get();
             bool updated = false;
 
             foreach (var t in templates)
                 updated |= funcToApply(t);
 
             if (updated)
-                BinFileHelper.UpdateTemplates(templates);
+                TemplatesCacheService.UpsertTemplates(templates.ToArray());
         }
 
         public static void ApplyActionForId(string templateId, Action<TemplateModel> actionToApply)
@@ -54,14 +62,7 @@ namespace DominatorHouseCore.FileManagers
 
         public static List<TemplateModel> Get()
         {
-            var result = new List<TemplateModel>();
-            ApplyFunc(t =>
-            {
-                result.Add(t);
-                return false;
-            });
-
-            return result;
+            return TemplatesCacheService.GetTemplateModels().ToList();
         }
 
         public static TemplateModel GetTemplateById(string id)
@@ -74,11 +75,11 @@ namespace DominatorHouseCore.FileManagers
 
         public static void Save(List<TemplateModel> templates)
         {
-            BinFileHelper.UpdateTemplates(templates);
+            TemplatesCacheService.UpsertTemplates(templates.ToArray());
         }
 
 
-        public static void Add(TemplateModel template) => BinFileHelper.Append(template);            
+        public static void Add(TemplateModel template) => TemplatesCacheService.UpsertTemplates(template);
 
         // finds by id and delete
         public static void Delete(TemplateModel template)
@@ -90,6 +91,11 @@ namespace DominatorHouseCore.FileManagers
                 templates.Remove(toDelete);
                 Save(templates);
             }
+        }
+        public static void Delete(Func<TemplateModel, bool> match)
+        {
+            var templates = Get();
+            TemplatesCacheService.Delete(templates.Where(match).ToArray());
         }
 
         public static void Edit(TemplateModel template)

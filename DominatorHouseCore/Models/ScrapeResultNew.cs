@@ -20,5 +20,6 @@ namespace DominatorHouseCore.Models
         public IPage ResultPage { get; set; }
 
         public IComments ResultComment { get; set; }
+        public IEvent ResultEvent { get; set; }
     }
 }

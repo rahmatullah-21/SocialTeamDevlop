@@ -1,4 +1,4 @@
-﻿using SQLite.CodeFirst;
+﻿using SQLite;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,55 +8,55 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
   
     public class InteractedJobs
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string QueryType
         { get; set; }
 
         /// <summary>
         /// Contains QueryValue For Interaction
         /// </summary>
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryValue { get; set; }
 
         /// <summary>
         /// Describes Activity 
         /// </summary>
      
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string ActivityType { get; set; }
 
         /// <summary>
         /// Contains Url of the JobPost being interacted
         /// </summary>
       
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string JobPostUrl { get; set; }
 
         /// <summary>
         /// Contains title of the JobPost being interacted
         /// </summary>
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string JobTitle { get; set; }
 
         /// <summary>
         /// Contains DetailedInfo Regarding Interacted Job In Jason String Form
         /// </summary>
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string DetailedInfo { get; set; }
 
         /// <summary>
         /// TimeStamp when interacted with the JobPost
         /// </summary>
-        [Column(Order = 8)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public DateTime InteractionDatetime { get; set; }
     }
 }

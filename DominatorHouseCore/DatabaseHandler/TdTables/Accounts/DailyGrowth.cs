@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SQLite.CodeFirst;
+using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
     public class DailyGrowth
     {
-        [Key]
-        [Autoincrement]
-        [Index]
-        [Column(Order = 1)]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
         /// <summary>
@@ -17,12 +17,12 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         /// </summary>
 
 
-        [Column(Order = 2)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string UserId
         { get; set; }
 
 
-        [Column(Order = 3)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string UserName
         { get; set; }
 
@@ -30,7 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         /// Date when statistics are entered in Unix Timestamp
         /// </summary>
 
-        [Column(Order = 4)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public System.DateTime Date
         { get; set; }
        
@@ -38,7 +38,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         /// Followers count of the DB owner when the statistics has got updated
         /// </summary>
         
-        [Column(Order = 5)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int Followers
         { get; set; }
 
@@ -46,7 +46,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         /// Followings count of the DB owner when the statistics has got updated
         /// </summary>
        
-        [Column(Order = 6)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int Followings
         { get; set; }
 
@@ -54,7 +54,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         /// Tweets count of the DB owner when the statistics has got updated
         /// </summary>
         
-        [Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public int Tweets
         { get; set; }
 
@@ -62,7 +62,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         /// Likes count of the DB owner when the statistics has got updated
         /// </summary>
 
-        [Column(Order = 8)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public int Likes { get; set; }
 
     }

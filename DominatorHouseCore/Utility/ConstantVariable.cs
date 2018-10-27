@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using DominatorHouseCore.Enums;
-using System.IO;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models.SocioPublisher;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 
 namespace DominatorHouseCore.Utility
@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Utility
 
         public static string UseragentLocale { get; } = "en_US";
 
-        public static string IgVersion { get; } = "10.33.0";
+        public static string IgVersion { get; } = "40.33.0";
 
         public static string ApiUrl => $"{(object)ConstantVariable.InstagramBaseUrl}api/v1/";
 
@@ -30,8 +30,8 @@ namespace DominatorHouseCore.Utility
         public static string BitlyApiKey { get; set; } = string.Empty;
 
         public static string BitlyLogin { get; set; } = string.Empty;
-
         public static string Revision { get; set; }
+
 
         public static string GetPlatformBaseDirectory()
         {
@@ -282,7 +282,11 @@ namespace DominatorHouseCore.Utility
         public static string Group { get; set; } = "Group";
 
         public static string OwnWall { get; set; } = "OwnWall";
+        public static string UpdatedVersionIP { get; set; } = "169.50.161.212";
 
+        public static string UpdateVersionFilePath { get; set; } = "fd/setup/FDSetup.txt";
+        public static string UpdateVersionLink { get; set; } =
+              "http://{0}/{1}";
     }
 
     public static class FileDirPath

@@ -11,6 +11,7 @@ using System.Windows;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
@@ -25,15 +26,61 @@ namespace DominatorHouse.Utilities
 {
     public class SoftwareSettings
     {
-        private DominatorAccountViewModel.AccessorStrategies _strategies;
-        public void InitializeOnLoadConfigurations(DominatorAccountViewModel.AccessorStrategies strategies)
+        private AccessorStrategies _strategies;
+        public void InitializeOnLoadConfigurations(AccessorStrategies strategies)
         {
             _strategies = strategies;
             CheckConfigurationFiles();
             ScheduleAccountUpdation();
+            // StartScrapAds();
             // ScheduleUpdation();
             ActivityManagerInitializer();
             OtherInitializers();
+        }
+
+        private void StartScrapAds()
+        {
+            ActionBlock<ScrapAdsDetails> adScraperblock = null;
+
+            var socinatorSettings = SoftwareSettingsFileManager.GetSoftwareSettings();
+
+            var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
+
+            adScraperblock = new ActionBlock<ScrapAdsDetails>(
+                async job => await job.StartAdScarperAsync(adScraperblock),
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = socinatorSettings.SimultaneousAdsScreperThreadCount });
+
+
+            ScrapAdsProducer(adScraperblock, accountSynchronizationHours);
+        }
+
+        private void ScrapAdsProducer(ActionBlock<ScrapAdsDetails> adsActionBuffer, int accountSynchronizationHours)
+        {
+            var dominatorAccountViewModel = AccountCustomControl
+                .GetAccountCustomControl(_strategies)
+                .DominatorAccountViewModel;
+
+            var accounts = dominatorAccountViewModel.LstDominatorAccountModel.ToList();
+
+            accounts = accounts.Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ||
+              x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram || x.AccountBaseModel.AccountNetwork == SocialNetworks.Reddit).ToList();
+
+            ListHelper.ShuffleAccountsForAds(accounts);
+
+            accounts.ForEach(async account =>
+            {
+                await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+            });
+
+        }
+
+        public async Task StartAdScraperProcessAsyc(DominatorAccountModel account, ActionBlock<ScrapAdsDetails> adsActionBuffer)
+        {
+
+
+
+
+
         }
 
         private void OtherInitializers()
@@ -60,16 +107,19 @@ namespace DominatorHouse.Utilities
 
         private void ActivityManagerInitializer()
         {
-            try
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
-                       .DominatorAccountViewModel;
-                RunningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+                try
+                {
+                    var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
+                            .DominatorAccountViewModel;
+                    RunningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            });
         }
 
         private void CheckConfigurationFiles()
@@ -107,10 +157,13 @@ namespace DominatorHouse.Utilities
                 async job => await job.UpdateAccountAsync(),
                 new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = socinatorSettings.SimultaneousAccountUpdateCount });
 
-            AccountUpdateProducer(block, accountSynchronizationHours);
+
         }
 
-        private void AccountUpdateProducer(ITargetBlock<AccountDetailsUpdation> accountActionBuffer, int accountSynchronizationHours)
+
+
+        private void AccountUpdateProducer(ITargetBlock<AccountDetailsUpdation> accountActionBuffer, ITargetBlock<ScrapAdsDetails> adsActionBuffer,
+            int accountSynchronizationHours)
         {
             var dominatorAccountViewModel = AccountCustomControl
                 .GetAccountCustomControl(_strategies)
@@ -127,13 +180,13 @@ namespace DominatorHouse.Utilities
 
             foreach (var account in scheduleUpdateAccount)
             {
-                var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeUtc();
+                var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeLocal();
 
                 JobManager.AddJob(async () =>
                 {
                     try
                     {
-                        await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account.AccountBaseModel.AccountId));
+                        await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account));
                     }
                     catch (ArgumentException ex)
                     {
@@ -148,9 +201,19 @@ namespace DominatorHouse.Utilities
 
             #endregion
 
+            //scheduleUpdateAccount.ForEach(async account =>
+            //{
+            //    await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+            //});
+
+            //currentUpdateAccounts.ForEach(async account =>
+            //{
+            //    await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+            //});
+
             currentUpdateAccounts.ForEach(async account =>
             {
-                await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account.AccountBaseModel.AccountId));
+                await accountActionBuffer.SendAsync(new AccountDetailsUpdation(account));
             });
 
         }
@@ -312,7 +375,7 @@ namespace DominatorHouse.Utilities
                 }
             }, account.Token);
 
-            updateAccount.Start();          
+            updateAccount.Start();
         }
 
 
@@ -404,9 +467,9 @@ namespace DominatorHouse.Utilities
                             Monitor.Wait(dominatorAccountViewModel.AccountUpdateLock);
                         }
                     }
-                    catch (Exception Ex)
+                    catch (Exception ex)
                     {
-                        GlobusLogHelper.log.Error(Ex.Message);
+                        ex.DebugLog();
                     }
                 }
 
@@ -420,8 +483,122 @@ namespace DominatorHouse.Utilities
 
         #endregion
 
-    }
+        //private void StartScrapAds()
+        //{
+        //    var socinatorSettings = SoftwareSettingsFileManager.GetSoftwareSettings();
 
+        //    var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
+
+        //    var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+        //        async job => await job.StartAdScarperAsync(),
+        //        new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = socinatorSettings.SimultaneousAdsScreperThreadCount });
+
+
+        //    ScrapAdsProducer(adScraperblock, accountSynchronizationHours);
+        //}
+
+        //private void ScrapAdsProducer(ActionBlock<ScrapAdsDetails> adsActionBuffer, int accountSynchronizationHours)
+        //{
+        //    var dominatorAccountViewModel = AccountCustomControl
+        //        .GetAccountCustomControl(_strategies)
+        //        .DominatorAccountViewModel;
+
+        //    var accounts = dominatorAccountViewModel.LstDominatorAccountModel;
+
+        //    ListHelper.Shuffle(accounts);
+
+        //    accounts.ForEach(async account =>
+        //    {
+        //        await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+
+        //        var dateTime = DateTime.Now.AddMinutes(15);
+
+        //        JobManager.AddJob(async () =>
+        //        {
+        //            try
+        //            {
+        //                await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+        //            }
+        //            catch (ArgumentException ex)
+        //            {
+        //                ex.DebugLog();
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ex.DebugLog();
+        //            }
+        //        }, s => s.ToRunOnceAt(dateTime));
+        //    });
+
+        //}
+
+
+    }
+    //public class ScrapAdsDetails
+    //{
+    //    public string AccountId { get; set; }
+
+    //    public DominatorAccountModel account { get; set; }
+
+    //    public ScrapAdsDetails(DominatorAccountModel AccountModel)
+    //    {
+    //        account = AccountModel;
+    //    }
+
+    //    public static ConcurrentDictionary<string, CancellationTokenSource> AccountUpdatesCancellationToken { get; set; }
+    //        = new ConcurrentDictionary<string, CancellationTokenSource>();
+
+
+    //    public async Task StartAdScarperAsync()
+    //    {
+
+    //        try
+    //        {
+    //            var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
+
+    //            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+    //                return;
+
+    //            var accountFactory = SocinatorInitialize
+    //                .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+    //                .GetNetworkCoreFactory().AdScraperFactory;
+
+    //            var asyncAccount = accountFactory as IAdScraperFactory;
+
+    //            if (asyncAccount == null)
+    //                return;
+
+    //            try
+    //            {
+    //                cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+    //                var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+    //                if (!checkResult)
+    //                    return;
+
+    //                cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+    //                await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+
+    //            }
+    //            catch (OperationCanceledException ex)
+    //            {
+    //                ex.DebugLog("Cancellation Requested!");
+    //            }
+    //            catch (Exception ex)
+    //            {
+    //                ex.DebugLog();
+    //            }
+    //        }
+    //        catch (Exception ex)
+    //        {
+
+    //        }
+    //    }
+
+
+    //}
 
     public class AccountDetailsUpdation
     {
@@ -431,16 +608,22 @@ namespace DominatorHouse.Utilities
         {
             AccountId = accountId;
         }
+        public DominatorAccountModel account { get; set; }
+
+        public AccountDetailsUpdation(DominatorAccountModel AccountModel)
+        {
+            account = AccountModel;
+        }
 
         public static ConcurrentDictionary<string, CancellationTokenSource> AccountUpdatesCancellationToken { get; set; }
             = new ConcurrentDictionary<string, CancellationTokenSource>();
 
+
+
         public async Task UpdateAccountAsync()
         {
 
-            var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(AccountId, token => new CancellationTokenSource());
-
-            var account = AccountsFileManager.GetAccountById(AccountId);
+            var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
 
             if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
                 return;
@@ -482,14 +665,107 @@ namespace DominatorHouse.Utilities
             }
         }
 
+
         public static void StopUpdate(string accountId)
         {
             CancellationTokenSource cancellationToken;
 
             var status = AccountUpdatesCancellationToken.TryGetValue(accountId, out cancellationToken);
 
-            if(status)
+            if (status)
                 cancellationToken.Cancel();
+        }
+
+
+
+    }
+
+    public class ScrapAdsDetails
+    {
+        public string AccountId { get; set; }
+
+        public DominatorAccountModel account { get; set; }
+
+        public ScrapAdsDetails(DominatorAccountModel AccountModel)
+        {
+            account = AccountModel;
+        }
+
+        public static ConcurrentDictionary<string, CancellationTokenSource> AccountUpdatesCancellationToken { get; set; }
+            = new ConcurrentDictionary<string, CancellationTokenSource>();
+
+
+        public async Task StartAdScarperAsync(ActionBlock<ScrapAdsDetails> adsActionBlock)
+        {
+
+            //try
+            //{
+            //    var cancellationTokenSource = AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
+
+            //    if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+            //        return;
+
+            //    var accountFactory = SocinatorInitialize
+            //        .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+            //        .GetNetworkCoreFactory().AdScraperFactory;
+
+            //    var asyncAccount = accountFactory as IAdScraperFactory;
+
+            //    if (asyncAccount == null)
+            //        return;
+
+            //    try
+            //    {
+            //        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+            //        var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+            //        if (!checkResult)
+            //            return;
+
+            //        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+            //        await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+
+            //        var dateTime = DateTime.Now;
+
+            //        if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ||
+            //        account.AccountBaseModel.AccountNetwork == SocialNetworks.Reddit)
+            //            dateTime = DateTime.Now.AddMinutes(15);
+
+            //        else if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
+            //            dateTime = DateTime.Now.AddMinutes(5);
+
+            //        JobManager.AddJob(async () =>
+            //        {
+            //            try
+            //            {
+            //                await adsActionBlock.SendAsync(new ScrapAdsDetails(account));
+            //            }
+            //            catch (ArgumentException ex)
+            //            {
+            //                ex.DebugLog();
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                ex.DebugLog();
+            //            }
+            //        }, s => s.ToRunOnceAt(dateTime));
+
+            //    }
+            //    catch (OperationCanceledException ex)
+            //    {
+            //        ex.DebugLog("Cancellation Requested!");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        ex.DebugLog();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+
+            //}
         }
 
     }

@@ -6,6 +6,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.EmailService;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -153,6 +154,32 @@ namespace DominatorHouseCore.Diagnostics
         public SocinatorAccountBuilder AddOrUpdateProxy(Proxy proxy)
         {
             DominatorAccountModel.AccountBaseModel.AccountProxy = proxy;
+            return this;
+        }
+
+        public SocinatorAccountBuilder AddOrUpdateMailCredentials(MailCredentials mailCredentials)
+        {
+            DominatorAccountModel.MailCredentials = mailCredentials;
+            return this;
+        }
+        public SocinatorAccountBuilder AddOrUpdateIsAutoVerifyByEmail(bool IsAutoVerifyByEmail)
+        {
+            DominatorAccountModel.IsAutoVerifyByEmail = IsAutoVerifyByEmail;
+            return this;
+        }
+        public SocinatorAccountBuilder AddOrUpdatePaginationId(string key, string value)
+        {
+            try
+            {
+                if (DominatorAccountModel.PaginationId.Keys.Contains(key))
+                    DominatorAccountModel.PaginationId[key] = value;
+                else
+                    DominatorAccountModel.PaginationId.Add(key, value);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             return this;
         }
         public bool SaveToBinFile()

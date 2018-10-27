@@ -1,26 +1,25 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
-using System.Management;
-using System.Windows;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Utility;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Request;
+using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json.Linq;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models.SocioPublisher;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
-using System.Net;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
+using System.Management;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Linq;
+using Unity;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -104,14 +103,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static void LogInitializer(Window mainWindow)
         {
-            var notifier = new ToasterNotification();
-
             GlobalExceptionInitializer();
-
-            var window = mainWindow as ILoggableWindow;
-
-            if (window != null)
-                GlobusLogHelper.InitializeLoggerUI(window);
         }
 
         public static void SetAsActiveNetwork(SocialNetworks networks)
@@ -145,7 +137,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static IGlobalDatabaseConnection GetGlobalDatabase()
         {
-            return new GlobalDatabaseConnection();
+            return IoC.Container.Resolve<IGlobalDatabaseConnection>();
         }
 
     }
@@ -236,7 +228,7 @@ namespace DominatorHouseCore.Diagnostics
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                 ex.DebugLog();
             }
 
             if (!Application.Current.Dispatcher.CheckAccess())
@@ -661,5 +653,8 @@ namespace DominatorHouseCore.Diagnostics
             }
             return string.Empty;
         }
+        public static async Task<Stream> ProcessUpdatedVersionString(string serverName, string Path)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink, serverName, Path));
+   
     }
 }

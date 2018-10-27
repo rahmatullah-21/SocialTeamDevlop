@@ -21,10 +21,118 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             AccountDetailsSelectorView = CollectionViewSource.GetDefaultView(ListAccountDetailsSelectorModels);
             TextSearchCommand = new BaseCommand<object>(TextSearchCanExecute, TextSearchExecute);
+            OwnPageCheckedCommand = new BaseCommand<object>(OwnPageCheckedCanExecute, OwnPageCheckedExecute);
+            LikedPageCheckedCommand = new BaseCommand<object>(LikedPageCheckedCanExecute, LikedPageCheckedExecute);
         }
 
 
         public ICommand TextSearchCommand { get; set; }
+        public ICommand OwnPageCheckedCommand { get; set; }
+        public ICommand LikedPageCheckedCommand { get; set; }
+        private bool OwnPageCheckedCanExecute(object sender) => true;
+
+        private bool LikedPageCheckedCanExecute(object sender) => true;
+
+        private void OwnPageCheckedExecute(object sender)
+        {
+            AccountDetailsSelectorView.Filter += null;
+
+            if (IsOwnPageSelected)
+                AccountDetailsSelectorView.Filter += FilterByOwnPageSelect;
+            else
+                AccountDetailsSelectorView.Filter += FilterByOwnPageRemove;
+        }
+
+        private bool FilterByOwnPageRemove(object sender)
+        {
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+
+                if (IsLikedPageSelected)
+                    return objAccountDetailsSelectorModel != null &&
+                       objAccountDetailsSelectorModel.IsFanpage &&
+                        !objAccountDetailsSelectorModel.IsOwnPage;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+        private bool FilterByOwnPageSelect(object sender)
+        {
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+
+                if (!IsLikedPageSelected)
+                    return objAccountDetailsSelectorModel != null &&
+                           objAccountDetailsSelectorModel.IsFanpage &&
+                            objAccountDetailsSelectorModel.IsOwnPage;
+                else
+                    return true;
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+        private void LikedPageCheckedExecute(object sender)
+        {
+            AccountDetailsSelectorView.Filter += null;
+            if (IsLikedPageSelected)
+                AccountDetailsSelectorView.Filter += FilterByLikedPageSelected;
+            else
+                AccountDetailsSelectorView.Filter += FilterByLikedPageRemove;
+        }
+
+        private bool FilterByLikedPageSelected(object sender)
+        {
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+
+                if (!IsOwnPageSelected)
+                    return objAccountDetailsSelectorModel != null &&
+                       objAccountDetailsSelectorModel.IsFanpage &&
+                        objAccountDetailsSelectorModel.IsLikePage;
+                else
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+        private bool FilterByLikedPageRemove(object sender)
+        {
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+
+                if (IsOwnPageSelected)
+                    return objAccountDetailsSelectorModel != null &&
+                           objAccountDetailsSelectorModel.IsFanpage &&
+                            !objAccountDetailsSelectorModel.IsLikePage;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
 
         private bool TextSearchCanExecute(object sender) => true;
 
@@ -82,18 +190,32 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void SelectAllCampaign()
         {
-            ListAccountDetailsSelectorModels.Select(x =>
+            List<AccountDetailsSelectorModel> CallsList = AccountDetailsSelectorView
+                                        .Cast<AccountDetailsSelectorModel>().ToList();
+
+            CallsList.Select(x =>
             {
                 x.IsSelected = true; return x;
             }).ToList();
+            //ListAccountDetailsSelectorModels.Select(x =>
+            //{
+            //    x.IsSelected = true; return x;
+            //}).ToList();
         }
 
         public void SelectNoneCampaign()
         {
-            ListAccountDetailsSelectorModels.Select(x =>
+            List<AccountDetailsSelectorModel> CallsList = AccountDetailsSelectorView
+                                       .Cast<AccountDetailsSelectorModel>().ToList();
+
+            CallsList.Select(x =>
             {
                 x.IsSelected = false; return x;
             }).ToList();
+            //ListAccountDetailsSelectorModels.Select(x =>
+            //{
+            //    x.IsSelected = false; return x;
+            //}).ToList();
         }
 
         private ObservableCollection<AccountDetailsSelectorModel> _listAccountDetailsSelectorModels = new ObservableCollection<AccountDetailsSelectorModel>();
@@ -251,7 +373,57 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
+        private bool _isOwnPageSelected = true;
 
+        public bool IsOwnPageSelected
+        {
+            get
+            {
+                return _isOwnPageSelected;
+            }
+            set
+            {
+                if (_isOwnPageSelected == value)
+                    return;
+                _isOwnPageSelected = value;
+                OnPropertyChanged(nameof(IsOwnPageSelected));
+            }
+        }
+
+        private bool _isPageOptionVisible = true;
+
+        public bool IsPageOptionVisible
+        {
+            get
+            {
+                return _isPageOptionVisible;
+            }
+            set
+            {
+                if (_isPageOptionVisible == value)
+                    return;
+                _isPageOptionVisible = value;
+                OnPropertyChanged(nameof(IsPageOptionVisible));
+            }
+        }
+
+
+        private bool _isLikedPageSelected = true;
+
+        public bool IsLikedPageSelected
+        {
+            get
+            {
+                return _isLikedPageSelected;
+            }
+            set
+            {
+                if (_isLikedPageSelected == value)
+                    return;
+                _isLikedPageSelected = value;
+                OnPropertyChanged(nameof(IsLikedPageSelected));
+            }
+        }
         public IEnumerable<KeyValuePair<string, string>> GetSelectedItems()
         {
             var selectedItems = new List<KeyValuePair<string, string>>();

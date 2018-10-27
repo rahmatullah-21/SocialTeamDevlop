@@ -61,6 +61,59 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(DetailUrl));
             }
         }
+        private bool _isOwnPage = false;
+
+        public bool IsOwnPage
+        {
+            get
+            {
+                return _isOwnPage;
+            }
+            set
+            {
+                if (_isOwnPage == value)
+                    return;
+                _isOwnPage = value;
+                OnPropertyChanged(nameof(IsOwnPage));
+            }
+        }
+
+
+
+        private bool _isLikePage = false;
+
+        public bool IsLikePage
+        {
+            get
+            {
+                return _isLikePage;
+            }
+            set
+            {
+                if (_isLikePage == value)
+                    return;
+                _isLikePage = value;
+                OnPropertyChanged(nameof(IsLikePage));
+            }
+        }
+
+
+        private bool _isFanpage = false;
+
+        public bool IsFanpage
+        {
+            get
+            {
+                return _isFanpage;
+            }
+            set
+            {
+                if (_isFanpage == value)
+                    return;
+                _isFanpage = value;
+                OnPropertyChanged(nameof(IsFanpage));
+            }
+        }
 
         public SocialNetworks Network { get; set; }
     }

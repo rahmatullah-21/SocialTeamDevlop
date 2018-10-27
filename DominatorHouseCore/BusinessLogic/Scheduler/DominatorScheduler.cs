@@ -1,18 +1,18 @@
-﻿using System;
+﻿using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Process;
+using DominatorHouseCore.Utility;
+using FluentScheduler;
+using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using FluentScheduler;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Process;
-using Newtonsoft.Json;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.FileManagers;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -96,6 +96,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
 
         /// <summary>
+
         /// Schedules for today or run at once specific activity for certain social network
         /// </summary>
         /// <param name="dominatorAccount"></param>
@@ -174,39 +175,42 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                ex.DebugLog();
             }
         }
 
         private static void ScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, bool isDelayed)
         {
-            if (isDelayed)
+            Task.Factory.StartNew(() =>
             {
-                JobManager.AddJob(() =>
+                if (isDelayed)
                 {
-                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
-                }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+                    JobManager.AddJob(() =>
+                    {
+                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                    }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
 
-                JobManager.AddJob(() =>
+                    JobManager.AddJob(() =>
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true);
+                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+                }
+                else
                 {
-                    StopActivity(dominatorAccount, timing.Module, templateId, true);
-                }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-            }
-            else
-            {
-                JobManager.AddJob(() =>
-                {
-                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                    JobManager.AddJob(() =>
+                    {
+                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
 
-                }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
+                    }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
 
-                JobManager.AddJob(() =>
-                {
-                    StopActivity(dominatorAccount, timing.Module, templateId, true);
+                    JobManager.AddJob(() =>
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true);
 
-                }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
 
-            }
+                }
+            });
         }
 
         /// <summary>
@@ -239,7 +243,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.ToString());
+                ex.DebugLog();
             }
         }
 
@@ -259,7 +263,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var moduleConfiguration = item.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == moduleType);
                 if (moduleConfiguration != null)
                 {
-                    var activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
+                    //ITemplatesCacheService TemplatesCacheService;
+                       //var TemplatesCacheService = new TemplatesCacheService();
+                    var activitySetting = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels()
+                        .FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
+                    //var activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
 
                     dynamic obj = JsonConvert.DeserializeObject(activitySetting);
                     runningTime = obj.JobConfiguration.RunningTime;
@@ -383,8 +391,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     moduleConfiguration.IsEnabled = false;
                     StopActivity(accountModel,
-                        activityType.ToString(), accountstemplateId, true);
-                    DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
+                        activityType.ToString(), accountstemplateId, false);
+                    //DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
 
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
@@ -443,7 +451,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.ToString());
+                ex.DebugLog();
             }
         }
 
@@ -507,7 +515,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(ex.Message);
+                ex.DebugLog();
             }
         }
 
@@ -540,14 +548,17 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 timeToRunNext.AddSeconds(25);
             }
-            JobManager.AddJob(() =>
+            Task.Factory.StartNew(() =>
             {
-                RunActivity(dominatorAccount, templateId, timing, timing.Module);
-            }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
-            JobManager.AddJob(() =>
-            {
-                StopActivity(dominatorAccount, timing.Module, templateId, true);
-            }, s => s.ToRunOnceAt(stopTime));
+                JobManager.AddJob(() =>
+                {
+                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+                JobManager.AddJob(() =>
+                {
+                    StopActivity(dominatorAccount, timing.Module, templateId, true);
+                }, s => s.ToRunOnceAt(stopTime));
+            });
         }
     }
 }
