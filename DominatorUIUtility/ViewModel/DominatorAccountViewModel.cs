@@ -294,7 +294,7 @@ namespace DominatorUIUtility.ViewModel
                     if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
                         objDominatorAccountBaseModel.AccountNetwork =
                             (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
-
+                    objDominatorAccountBaseModel.Status = AccountStatus.NotChecked;
                     dialogWindow.Close();
 
                     if (LstDominatorAccountModel.Count + 1 >=
@@ -434,6 +434,7 @@ namespace DominatorUIUtility.ViewModel
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
                                 proxypassword = splitAccount[7];
+                                status = splitAccount[8];
                                 break;
                             case 10:
                                 proxyaddress = splitAccount[4];

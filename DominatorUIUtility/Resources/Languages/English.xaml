@@ -3219,4 +3219,6 @@ Type 3. IP:Port
     <system:String x:Key="LangRepeatvideountillreach">Repeat video untill reach</system:String>
     <system:String x:Key="Langviewspervideo">views per video</system:String>
     <system:String x:Key="LangKeyTotalNumberMutualFriendsShouldBeSmallerThan">Total Number Mutual Friends Should be smaller than</system:String>
+    <system:String x:Key="LangKeyPostUsingGeoLocationWithLocationName">Geo Location Name</system:String>
+    <system:String x:Key="LangKeyPostUsingGeoLocationWithLocationId">Geo Location Id</system:String>
 </ResourceDictionary>
