@@ -5,6 +5,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.ProxyServerManagment;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.CustomControl;
@@ -15,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,6 +32,7 @@ namespace DominatorUIUtility.ViewModel
     public class ProxyManagerViewModel : BaseTabViewModel, IProxyManagerViewModel
     {
         private readonly IMainViewModel _mainViewModel;
+        public readonly IProxyServerParserService _proxyServerParserService;
         private static readonly object _lock = new object();
         private bool _isAddProxyEnabled = true;
         private ProxyManagerModel _proxyManagerModel = new ProxyManagerModel();
@@ -88,10 +89,11 @@ namespace DominatorUIUtility.ViewModel
         public ICommand AssignRandomProxyCommand { get; }
         #endregion
 
-        public ProxyManagerViewModel(IMainViewModel mainViewModel, IVerifyProxiesViewModel verifyProxiesViewModel) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
+        public ProxyManagerViewModel(IMainViewModel mainViewModel, IVerifyProxiesViewModel verifyProxiesViewModel, IProxyServerParserService proxyServerParserService) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
         {
             _mainViewModel = mainViewModel;
             VerifyProxiesViewModel = verifyProxiesViewModel;
+            _proxyServerParserService = proxyServerParserService;
 
             AddProxyCommand = new DelegateCommand(AddProxyExecute);
             ImportProxyCommand = new DelegateCommand(ImportProxyExecute);
@@ -201,86 +203,38 @@ namespace DominatorUIUtility.ViewModel
             var allProxy = ProxyFileManager.GetAllProxy();
             int noOfExistingProxies = 0;
             int noOfProxyAdded = 0;
-            int noOfInvalidProxies = 0;
-            List<string> lstInvalidProxies = new List<string>();
 
 
             ThreadFactory.Instance.Start(() =>
             {
-                foreach (var givenProxy in loadedProxylist)
+                var parsingResult = _proxyServerParserService.ParseProxies(loadedProxylist);
+                foreach (var givenProxy in parsingResult.Proxies)
                 {
                     try
                     {
-                        // var proxy = givenProxy.Replace(",", ":");
-                        var proxy = givenProxy;
-
-                        var selectedProxy = Regex.Split(proxy, "\t");
-                        if (selectedProxy.Length < 2)
-                            continue;
-
-                        ProxyManagerModel = new ProxyManagerModel();
-
-                        if (selectedProxy.Length == 2 || selectedProxy.Length == 4)
-                        {
-                            if (!Proxy.IsValidProxy(selectedProxy[0], selectedProxy[1]))
-                            {
-                                noOfInvalidProxies++;
-                                lstInvalidProxies.Add(proxy);
-                                continue;
-                            }
-
-                            ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[0];
-                            ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[1];
-                        }
-
-                        if (selectedProxy.Length == 4)
-                        {
-                            ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[2];
-                            ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[3];
-                        }
-
-                        if (selectedProxy.Length == 6)
-                        {
-                            ProxyManagerModel.AccountProxy.ProxyGroup = selectedProxy[0];
-                            ProxyManagerModel.AccountProxy.ProxyName = selectedProxy[1];
-                            ProxyManagerModel.AccountProxy.ProxyIp = selectedProxy[2];
-                            ProxyManagerModel.AccountProxy.ProxyPort = selectedProxy[3];
-                            ProxyManagerModel.AccountProxy.ProxyUsername = selectedProxy[4];
-                            ProxyManagerModel.AccountProxy.ProxyPassword = selectedProxy[5];
-                        }
-
-                        if (!Proxy.IsValidProxy(ProxyManagerModel.AccountProxy.ProxyIp,
-                            ProxyManagerModel.AccountProxy.ProxyPort))
-                        {
-                            noOfInvalidProxies++;
-                            lstInvalidProxies.Add(proxy);
-                            continue;
-                        }
-
-                        if (allProxy.Any(x => x.AccountProxy.ProxyIp == ProxyManagerModel.AccountProxy.ProxyIp
-                                              && x.AccountProxy.ProxyPort == ProxyManagerModel.AccountProxy.ProxyPort))
+                        if (allProxy.Any(x => x.AccountProxy.ProxyIp == givenProxy.AccountProxy.ProxyIp
+                                              && x.AccountProxy.ProxyPort == givenProxy.AccountProxy.ProxyPort))
 
                         {
                             noOfExistingProxies++;
                             continue;
                         }
 
-                        if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyGroup))
-                            ProxyManagerModel.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped;
+                        if (string.IsNullOrEmpty(givenProxy.AccountProxy.ProxyGroup))
+                            givenProxy.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped;
 
-                        if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyName))
-                            ProxyManagerModel.AccountProxy.ProxyName = "Proxy " + LstProxyManagerModel.Count + 1;
+                        if (string.IsNullOrEmpty(givenProxy.AccountProxy.ProxyName))
+                            givenProxy.AccountProxy.ProxyName = "Proxy " + LstProxyManagerModel.Count + 1;
 
-                        UpdateAccountsToBeAssign(ProxyManagerModel);
-                        ProxyFileManager.SaveProxy(ProxyManagerModel);
+                        UpdateAccountsToBeAssign(givenProxy);
+                        ProxyFileManager.SaveProxy(givenProxy);
 
-                        LstProxyManagerModel.Add(ProxyManagerModel);
+                        LstProxyManagerModel.Add(givenProxy);
                         noOfProxyAdded++;
-                        Thread.Sleep(50);
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.StackTrace);
+                        GlobusLogHelper.log.Error(ex);
                     }
                 }
 
@@ -293,20 +247,20 @@ namespace DominatorUIUtility.ViewModel
                 {
                     GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Added {noOfProxyAdded} proxie(s).");
                 }
-                if (noOfInvalidProxies > 0)
+                if (parsingResult.InvalidProxies.Any())
                 {
-                    var Path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Socinator";
-                    DirectoryUtilities.CreateDirectory(Path);
-                    var filename = $"{Path}\\invalidProxies {ConstantVariable.DateasFileName}.txt";
-                    lstInvalidProxies.ForEach(p =>
+                    var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Socinator";
+                    DirectoryUtilities.CreateDirectory(path);
+                    var filename = $"{path}\\invalidProxies {ConstantVariable.DateasFileName}.txt";
+                    using (var streamWriter = new StreamWriter(filename, true))
                     {
-                        using (var streamWriter = new StreamWriter(filename, true))
+                        parsingResult.InvalidProxies.ForEach(p =>
                         {
                             streamWriter.WriteLine(p);
-                        }
-                    });
+                        });
+                    }
 
-                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfInvalidProxies} proxie(s) as it does not match the import format. List of invalid proxies has been exported to {filename}");
+                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {parsingResult.InvalidProxies.Count} proxie(s) as it does not match the import format. List of invalid proxies has been exported to {filename}");
                 }
                 #endregion
             });

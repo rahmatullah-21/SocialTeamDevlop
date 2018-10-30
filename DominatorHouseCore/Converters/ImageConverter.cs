@@ -1,12 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using DominatorHouseCore.Utility;
+using System;
 using System.Globalization;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Converters
 {
@@ -17,23 +14,6 @@ namespace DominatorHouseCore.Converters
         {
             try
             {
-                #region Avoid Blocking Images
-
-                //var imagePath = value?.ToString();
-                //if (string.IsNullOrEmpty(imagePath))
-                //    return new BitmapImage();
-                //var bitmap = new BitmapImage();
-                //var stream = File.OpenRead(imagePath);
-                //bitmap.BeginInit();
-                //bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                //bitmap.StreamSource = stream;
-                //bitmap.EndInit();
-                //stream.Close();
-                //stream.Dispose();
-                //return bitmap;
-
-                #endregion
-
                 if (File.Exists(value?.ToString()) || ImageExtracter.IsValidUrl(value?.ToString()))
                     return string.IsNullOrEmpty(value?.ToString()) ? new BitmapImage() : new BitmapImage(new Uri(value.ToString()));
 
@@ -59,5 +39,5 @@ namespace DominatorHouseCore.Converters
         }
 
     }
- 
+
 }
