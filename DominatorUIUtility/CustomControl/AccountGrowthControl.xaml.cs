@@ -1,10 +1,9 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.DHEnum;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
@@ -19,8 +18,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using CommonServiceLocator;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -39,8 +36,6 @@ namespace DominatorUIUtility.CustomControl
             _dominatorAccountViewModel = (DominatorAccountViewModel)ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
             _selectedNetworkViewModel = ServiceLocator.Current.GetInstance<ISelectedNetworkViewModel>();
             InitializeComponent();
-            _dominatorAccountViewModel.AccountCollectionView =
-                CollectionViewSource.GetDefaultView(_dominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = _dominatorAccountViewModel;
             InitializeChart();
             worker.DoWork += ReloadGridWithGrowth;
@@ -333,9 +328,12 @@ namespace DominatorUIUtility.CustomControl
         private ChartValues<int> getGrowthValueList(List<DailyStatisticsViewModel> growthList, string growthChartProperty, string type)
         {
             var list = new ChartValues<int>();
-            var properties = _dominatorAccountViewModel.LstDominatorAccountModel.Where(x => x.AccountId == _dominatorAccountViewModel.GrowthChartAccountNumber).FirstOrDefault().AccountBaseModel.GrowthProperties;
-            properties = _dominatorAccountViewModel.LstDominatorAccountModel.Where(x => x.AccountId == _dominatorAccountViewModel.GrowthChartAccountNumber).FirstOrDefault().AccountBaseModel.
-                GetGrowthProperties(_dominatorAccountViewModel.LstDominatorAccountModel.Where(x => x.AccountId == _dominatorAccountViewModel.GrowthChartAccountNumber).FirstOrDefault().AccountBaseModel.AccountNetwork);
+            var properties = _dominatorAccountViewModel.LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == _dominatorAccountViewModel.GrowthChartAccountNumber)?.AccountBaseModel.GrowthProperties;
+            properties = _dominatorAccountViewModel.LstDominatorAccountModel.FirstOrDefault(x =>
+                    x.AccountId == _dominatorAccountViewModel.GrowthChartAccountNumber)
+                ?.AccountBaseModel.GetGrowthProperties(_dominatorAccountViewModel.LstDominatorAccountModel
+                    .FirstOrDefault(x => x.AccountId == _dominatorAccountViewModel.GrowthChartAccountNumber)
+                    .AccountBaseModel.AccountNetwork);
             for (int i = 1; i <= properties.Count(); i++)
             {
                 if (growthChartProperty == properties[i - 1].PropertyName)
@@ -359,7 +357,6 @@ namespace DominatorUIUtility.CustomControl
                 {
 
                     var value = i == 0 ? 0 : (list[i] - list[i - 1]);
-                    //var value = i == 0 ? 0 : (i == 1 ? list[i] - 0 : (list[i] - list[i - 1]));
                     gainList.Add(value);
                 }
                 list = gainList;
@@ -394,11 +391,8 @@ namespace DominatorUIUtility.CustomControl
 
         public void GetRespectiveAccounts(GrowthPeriod period = GrowthPeriod.NoPeriod)
         {
-
-
             try
             {
-                var listCollection = (ListCollectionView)_dominatorAccountViewModel.AccountCollectionView;
                 _dominatorAccountViewModel.GrowthProperties = _dominatorAccountViewModel.LstDominatorAccountModel[0].AccountBaseModel.GrowthProperties;
                 if (period == GrowthPeriod.NoPeriod)
                 {
@@ -411,9 +405,6 @@ namespace DominatorUIUtility.CustomControl
                         x.DisplayColumnValue9 = 0;
                         x.DisplayColumnValue10 = 0;
                     });
-
-                    // listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
-                    listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork;
                 }
                 else
                 {
@@ -432,37 +423,7 @@ namespace DominatorUIUtility.CustomControl
                         x.DisplayColumnValue9 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue4 : 0;
                         x.DisplayColumnValue10 = AccoutGrowth != null ? AccoutGrowth.GrowthColumnValue5 : 0;
                     });
-
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        // listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
-                        listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork;
-
-                    });
                 }
-
-                // if (_selectedNetworkViewModel.Selected == SocialNetworks.Social)
-
-                if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        listCollection.Filter = null;
-
-                    });
-                var spec = (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social) ?
-                    DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
-                    SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
-                        .GetNetworkCoreFactory()
-                        .AccountCountFactory.GetColumnSpecificationProvider();
-
-                //var spec = (!_selectedNetworkViewModel.Selected.HasValue || _selectedNetworkViewModel.Selected == SocialNetworks.Social) ?
-                //   DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
-                //   SocinatorInitialize.GetSocialLibrary(_selectedNetworkViewModel.Selected.Value)
-                //         .GetNetworkCoreFactory()
-                //         .AccountCountFactory.GetColumnSpecificationProvider();
-
-
-                _dominatorAccountViewModel.GrowthChartAccountNumber = (listCollection.GetItemAt(0) as DominatorAccountModel).AccountId;
             }
             catch (Exception ex)
             {

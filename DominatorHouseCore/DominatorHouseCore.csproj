@@ -224,6 +224,7 @@
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\QueryScraper.cs" />
     <Compile Include="Command\BaseCommand.cs" />
+    <Compile Include="Converters\AccountsFilterConverter.cs" />
     <Compile Include="Converters\AverageConverter.cs" />
     <Compile Include="Converters\BooleanToStringSelectConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />

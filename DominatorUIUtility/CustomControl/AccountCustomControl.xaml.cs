@@ -1,9 +1,8 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -19,7 +18,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using CommonServiceLocator;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -51,8 +49,6 @@ namespace DominatorUIUtility.CustomControl
         {
             _dominatorAccountViewModel = (DominatorAccountViewModel)ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
             InitializeComponent();
-            DominatorAccountViewModel.AccountCollectionView =
-                CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
             AccountModule.DataContext = DominatorAccountViewModel;
             DominatorAccountViewModel.PropertyChanged += DominatorAccountViewModel_PropertyChanged;
         }
@@ -105,23 +101,10 @@ namespace DominatorUIUtility.CustomControl
 
         public void GetRespectiveAccounts(SocialNetworks socialNetworks)
         {
-            var listCollection = (ListCollectionView)DominatorAccountViewModel.AccountCollectionView;
-            DominatorAccountViewModel.LstDominatorAccountModel.Select(x =>
+            DominatorAccountViewModel.LstDominatorAccountModel.ForEach(x =>
             {
                 x.IsAccountManagerAccountSelected = false;
-                return x;
-            }).ToList();
-            listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == socialNetworks;
-
-            if (socialNetworks == SocialNetworks.Social)
-                listCollection.Filter = null;
-
-            var spec = (socialNetworks == SocialNetworks.Social) ?
-                DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
-                SocinatorInitialize.GetSocialLibrary(socialNetworks)
-                      .GetNetworkCoreFactory()
-                      .AccountCountFactory.GetColumnSpecificationProvider();
-            DominatorAccountViewModel.VisibleColumns = spec.VisibleHeaders;
+            });
         }
 
         private void Row_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -315,20 +298,12 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        public void EditProfile(object sender, RoutedEventArgs e)
-        {
-            var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-
-            if (dataContext != null) DominatorAccountViewModel.EditAccount(sender);
-        }
-
         public void DeleteAccount(object sender, RoutedEventArgs e)
         {
             var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
             if (dataContext != null)
                 DominatorAccountViewModel.DeleteAccountByContextMenu(sender);
-            AccountListView.ItemsSource = DominatorAccountViewModel.AccountCollectionView;
 
         }
 

@@ -42,7 +42,7 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<string> Languages { get; }
 
-        public SelectableViewModel<SocialNetworks?> AvailableNetworks { get; }
+        public ISelectedNetworkViewModel AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
 
@@ -62,7 +62,7 @@ namespace DominatorHouse.ViewModels
         }
         public ICommand WinActivateCommand { get; set; }
         public ICommand WinClosingCommand { get; set; }
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel)
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks)
         {
             FatalErrorDiagnosis();
 
@@ -71,8 +71,8 @@ namespace DominatorHouse.ViewModels
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
+            AvailableNetworks = availableNetworks;
             Languages = new SelectableViewModel<string>(new[] { "English" });
-            AvailableNetworks = new SelectableViewModel<SocialNetworks?>(new List<SocialNetworks?>());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;

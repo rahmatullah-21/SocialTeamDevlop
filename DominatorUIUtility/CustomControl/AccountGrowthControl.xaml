@@ -39,7 +39,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Template"  Value="{StaticResource ArrowCellControlTemplate}"/>
         </Style>
-
+        <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
     </UserControl.Resources>
     <Grid Name="MainGrid">
         <TabControl ItemContainerStyle="{StaticResource TabItemStyle}">
@@ -83,9 +83,14 @@
                     </Grid>
                     <!--Data grid view-->
                     <Grid Grid.Row="1">
-                        <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
+                        <ListView x:Name="AccountListView"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
-
+                            <ListView.ItemsSource>
+                                <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
+                                    <Binding Path="LstDominatorAccountModel"/>
+                                    <Binding Path="SelectedNetworkViewModel.Selected"/>
+                                </MultiBinding>
+                            </ListView.ItemsSource>
                             <ListView.View>
                                 <GridView >
                                     <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
