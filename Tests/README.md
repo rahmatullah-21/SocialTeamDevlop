@@ -6,7 +6,7 @@ There are two goals that can be archived by implementing unit tests
 1. Keep the solution stable all the time, whenever or whatever has been changed
 2. Make the code self-documented or self-descriptive by setting meaningful  names to the tests
 
-## Code conversions ##
+## Code conventions ##
 The rule of thumb here is "easy to read". Feel free to propose better convention if you come up with
 
 + The test class should be created one-or-many per each class
