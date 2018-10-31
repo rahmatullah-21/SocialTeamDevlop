@@ -55,12 +55,12 @@ namespace DominatorUIUtility.CustomControl
             _dominatorAccountViewModel = (DominatorAccountViewModel)DominatorHouseCore.IoC.Container.Resolve<IDominatorAccountViewModel>();
             InitializeComponent();
            // DataContext = DominatorAccountViewModel.Instance;
-            var navigator = FeatureTour.GetNavigator();
+            //var navigator = FeatureTour.GetNavigator();
 
-            navigator.OnStepEntering("Rectangle").Execute(s =>
-            {
-                (DataContext as DominatorAccountViewModel).Placement = (Placement)s.Tag;
-            });
+            //navigator.OnStepEntering("Rectangle").Execute(s =>
+            //{
+            //    (DataContext as DominatorAccountViewModel).Placement = (Placement)s.Tag;
+            //});
 
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);

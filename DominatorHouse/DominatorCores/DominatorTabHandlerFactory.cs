@@ -73,7 +73,7 @@ namespace Socinator.DominatorCores
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
                     Content = new Lazy<UserControl>(() => DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social)),
-
+                     ElementID="AccountsActivity"
                 },
                 //new TabItemTemplates
                 //{
@@ -83,7 +83,8 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeySociopublisher") == null? "Socio Publisher" : Application.Current.FindResource("LangKeySociopublisher")?.ToString(),
-                    Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
+                    Content = new Lazy<UserControl>(()=>PublisherHome.Instance),
+                     ElementID="Sociopublisher"
                 },
                 new TabItemTemplates
                 {
@@ -99,6 +100,7 @@ namespace Socinator.DominatorCores
                 {
                     Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
                       Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("OtherConfiguration"))
+                     
                 },
                 new TabItemTemplates
                 {

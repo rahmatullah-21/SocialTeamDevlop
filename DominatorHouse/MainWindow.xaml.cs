@@ -114,7 +114,7 @@ namespace Socinator
             try
             {
                 TextBlock ovjtext = (TextBlock)sender;
-                PopUpStarter.StartIntroduction();
+                PopUpStarter.StartIntroduction(null);
             }
             catch (Exception ex)
             {

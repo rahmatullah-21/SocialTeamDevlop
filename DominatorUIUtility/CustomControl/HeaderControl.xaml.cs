@@ -166,6 +166,21 @@ namespace DominatorUIUtility.CustomControl
             DependencyProperty.Register("InfoCommand", typeof(ICommand), typeof(HeaderControl));
 
 
+
+        public ICommand CmdStartModuleOverView
+        {
+            get { return (ICommand)GetValue(CmdStartModuleOverViewProperty); }
+            set { SetValue(CmdStartModuleOverViewProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for InfoCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CmdStartModuleOverViewProperty =
+            DependencyProperty.Register("CmdStartModuleOverView", typeof(ICommand), typeof(HeaderControl));
+
+
+        // CmdStartOverView
+
+
     }
-    
+
 }

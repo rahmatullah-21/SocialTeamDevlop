@@ -16,6 +16,8 @@ using DominatorHouseCore.LogHelper;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System.IO;
+using DominatorUIUtility.Navigations;
+using DominatorUIUtility.ScreenTip.PopUpstyle;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -28,7 +30,7 @@ namespace DominatorUIUtility.CustomControl
             MainGrid.DataContext = this;
             IsExpanded = true;
             // AddQueryCommand = new BaseCommand<object>(CanExecute, Execute);
-            SelectedIndex = 0;
+            SelectedIndex = 1;
             ListQueryType = new List<string>();
             ListQueryInfo = new ObservableCollection<QueryInfo>();
             LstNonQueryType.Add("LangKeyOwnFollowers".FromResourceDictionary());
@@ -40,7 +42,12 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyScrapAllLikes".FromResourceDictionary());
             DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
             DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
-
+            var navigator = FeatureTour.GetNavigator();
+            navigator.OnStepEntering("ComboBoxOption");
+            navigator.ForStep("TextBox").AttachDoable(s => CurrentQuery.QueryValue = "Flowers");
+           
+            // navigator.ForStep(ElementID.ComboBoxOption).AttachDoable(s => SelectedIndex = 1);
+            // navigator.ForStep(ElementID.TextBoxPath).AttachDoable(s => Path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
         }
 
 
@@ -204,6 +211,8 @@ namespace DominatorUIUtility.CustomControl
                 }
                 else
                     GlobusLogHelper.log.Info("You did not upload any query !!");
+                var navigator = FeatureTour.GetNavigator();
+                navigator.IfCurrentStepEquals("TextBoxPath").GoNext();
             }
             catch (Exception ex)
             {
@@ -258,6 +267,8 @@ namespace DominatorUIUtility.CustomControl
         {
             var routedEventArgs = new RoutedEventArgs(AddQueryEvent);
             RaiseEvent(routedEventArgs);
+            var navigator = FeatureTour.GetNavigator();
+            navigator.IfCurrentStepEquals("ButtonAdd").GoNext();
         }
 
 
@@ -380,6 +391,9 @@ namespace DominatorUIUtility.CustomControl
                 BindsTwoWayByDefault = true
             });
 
+       
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -456,31 +470,7 @@ namespace DominatorUIUtility.CustomControl
         // Using a DependencyProperty as the backing store for CustomFilterCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CustomFilterCommandProperty =
             DependencyProperty.Register("CustomFilterCommand", typeof(ICommand), typeof(SearchQueryControl));
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
-                if (LstNonQueryType.Contains(CurrentQuery.QueryType))
-                {
-                    CurrentQuery.QueryValue = "NA";
-                    IsEnable = false;
-                }
-                else
-                {
-                    IsEnable = true;
-                    CurrentQuery.QueryValue = string.Empty;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-
+        
         public ICommand DeleteQueryCommand
         {
             get { return (ICommand)GetValue(DeleteQueryCommandProperty); }
@@ -508,8 +498,6 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
-
-
 
         public ICommand DeleteMulipleCommand
         {
@@ -586,6 +574,73 @@ namespace DominatorUIUtility.CustomControl
         {
             if (ListQueryInfo.Count > 0)
                 SearchQueries.ScrollIntoView(ListQueryInfo[0]);
+        }
+
+        int keywordcount = 0;
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (PopUpStarter.istutorial)
+                {
+                    var navigator = FeatureTour.GetNavigator();
+                    if (keywordcount>0)
+                    {
+                       // navigator.ForStep("TextBox").AttachDoable(s => CurrentQuery.QueryValue = "nature");
+                       // navigator.ForStep("TextBoxPath").AttachDoable(s => CurrentQuery.QueryValue = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)+"\\query");
+                        if (CurrentQuery.QueryType == "Hashtag User(S)")
+                        {
+                            keywordcount++;
+                            navigator.IfCurrentStepEquals("ComboBoxOption").GoNext();
+                            return;
+                        }
+                    }
+                    if (CurrentQuery.QueryType == "Keywords" )
+                    {
+                        keywordcount++;
+                        navigator.IfCurrentStepEquals("ComboBoxOption").GoNext();
+                    }
+                    
+                }
+                CurrentQuery.QueryType = ListQueryType.ToList()[SelectedIndex];
+                if (LstNonQueryType.Contains(CurrentQuery.QueryType))
+                {
+                    CurrentQuery.QueryValue = "NA";
+                    IsEnable = false;
+                }
+                else
+                {
+                    IsEnable = true;
+                    CurrentQuery.QueryValue = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void TxtInputQuery_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var Enteredvalue = TxtInputQuery.Text.Trim();
+            if (Enteredvalue== "Flowers" || Enteredvalue == "nature")
+            {
+                var navigator = FeatureTour.GetNavigator();
+                navigator.IfCurrentStepEquals("TextBox").GoNext();
+            }
+        }
+
+        private void btn_AddQuery_click(object sender, RoutedEventArgs e)
+        {
+                var navigator = FeatureTour.GetNavigator();
+                navigator.IfCurrentStepEquals("ButtonAdd").GoNext();
+           
+        }
+
+        private void btn_querydelete(object sender, RoutedEventArgs e)
+        {
+            var navigator = FeatureTour.GetNavigator();
+            navigator.IfCurrentStepEquals("ButtonDelete").GoNext();
         }
     }
 

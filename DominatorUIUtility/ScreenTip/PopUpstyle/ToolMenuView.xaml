@@ -45,7 +45,23 @@
                 </Style>
             </StackPanel.Resources>
             <Button Content="Introduction (passive tour)" Command="{Binding  CmdStartIntroduction}" />
-            <Button Content="Active Tour" Command="{Binding AddSingleAccountCommand}" />
+            <Button Content="Active Tour" Command="{Binding CmdStartModuleTutorial}" />
+
+        </StackPanel>
+    </DataTemplate>
+
+
+
+    <DataTemplate x:Key="SelectSearchQueryTemplate">
+        <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Padding" Value="10" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="Introduction (Module Info)" Command="{Binding  CmdStartModuleIntro}" />
+            <Button Content="Active Tour" Command="{Binding CmdStartModuleTutorial}" />
 
         </StackPanel>
     </DataTemplate>

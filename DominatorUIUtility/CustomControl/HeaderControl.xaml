@@ -43,6 +43,25 @@
                 </Button.Content>
             </Button>
 
+            <Button Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="sggbtnDeleteAccounts" Command="{Binding CmdStartModuleOverView}" >
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
+                            <StackPanel Orientation="Horizontal" >
+                                <Rectangle Width="15" Height="20" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+
+                                <Label Content="Tools" Margin="0,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
+            </Button>
+
             <Button Background="Transparent" Command="{Binding InfoCommand}">
                 <Button.Content>
                     <Rectangle Width="25" Height="25" Fill="White" 

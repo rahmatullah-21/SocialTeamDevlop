@@ -40,7 +40,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using DominatorUIUtility.IoC;
 using Unity;
-
+using DominatorUIUtility.Navigations;
+using DominatorUIUtility.ScreenTip.ViewModel;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -73,15 +74,25 @@ namespace DominatorUIUtility.ViewModel
 //        }
      
 
-//        public static DominatorAccountViewModel Instance { get; } = new DominatorAccountViewModel();
+//    
 //=======
 
     }
+  
 
     [ProtoContract]
     public class DominatorAccountViewModel : BindableBase, IDominatorAccountViewModel
     {
         private DbOperations dbOperations { get; }
+
+        public DominatorAccountViewModel()
+        {
+            InitialAccountDetails();
+            FeatureTour.SetViewModelFactoryMethod(tourRun => new CustomTourViewModel(tourRun));
+
+            var navigator = FeatureTour.GetNavigator();
+        }
+        public static DominatorAccountViewModel Instance { get; } = new DominatorAccountViewModel();
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel)
         {
@@ -295,7 +306,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (_cmdStartIntroduction == null)
                 {
-                   // _cmdStartIntroduction = new GalaSoft.MvvmLight.Command.RelayCommand(PopUpStarter.StartIntroduction);
+                    _cmdStartIntroduction = new BaseCommand<object>((sender)=>true,PopUpStarter.StartIntroduction);
                 }
                 return _cmdStartIntroduction;
             }
@@ -313,7 +324,8 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (_cmdStartOverView == null)
                 {
-                   // _cmdStartOverView = new GalaSoft.MvvmLight.Command.RelayCommand(PopUpStarter.StartOverView);
+                   _cmdStartOverView = new BaseCommand<object>((sender) => true, PopUpStarter.StartOverView);
+                    //new GalaSoft.MvvmLight.Command.RelayCommand(PopUpStarter.StartOverView);
                 }
                 return _cmdStartOverView;
             }

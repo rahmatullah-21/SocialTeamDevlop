@@ -33,6 +33,11 @@ using DominatorHouseCore.LogHelper;
 using FluentScheduler;
 using DominatorHouseCore.Command;
 using System.Windows.Input;
+using DominatorUIUtility.Navigations;
+using DominatorUIUtility.ScreenTip.ViewModel;
+using DominatorUIUtility.ScreenTip.PopUpstyle;
+using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.ScreenTipMode;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -63,9 +68,10 @@ namespace DominatorUIUtility.CustomControl
             LoadedCommand = new BaseCommand<object>((sender) => true, (sender) => SetSelectedAccounts());
             SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
             StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
-
+            CmdStartModuleOverView = new BaseCommand<object>((sender) => true, StartModuleOverView);
 
         }
+      
 
         private void CreateOrUpdateCampaign(object sender)
         {
@@ -84,6 +90,9 @@ namespace DominatorUIUtility.CustomControl
         public ICommand LoadedCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand StatusChangedCommand { get; set; }
+
+        public ICommand CmdStartModuleOverView { get; set; }
+     
         #endregion
 
         #region Properties
@@ -126,6 +135,10 @@ namespace DominatorUIUtility.CustomControl
             _moduleName = moduleName;
             _accountGrowthModeHeader = accountGrowthModeHeader;
             _initialized = true;
+          
+            FeatureTour.SetViewModelFactoryMethod(tourRun => new CustomTourViewModel(tourRun));
+
+            var navigator = FeatureTour.GetNavigator();
 
         }
 
@@ -304,6 +317,8 @@ namespace DominatorUIUtility.CustomControl
         // NOTE: ViewModel must contain Model field
         public dynamic Model => (ObjViewModel as dynamic).Model as TModel;
 
+        public static TViewModel Instances { get; } = new TViewModel();
+
         #endregion
 
         #region PropertyChanged section
@@ -391,6 +406,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #endregion
+        
 
         #region Create Campaign 
 
@@ -472,6 +488,46 @@ namespace DominatorUIUtility.CustomControl
                     break;
             }
         }
+
+        #region ToolTip commands
+        public static void StartModuleOverView(object sender)
+        {
+            PopUpStarter.istutorial = false;
+            var tour = new ScreenInfo
+            {
+                Name = "Overview",
+                ShowNextButtonDefault = false,
+                Steps = new[]
+               {
+                    new Step("ModuleButtonOverView", "Welcome - Start your Tutorial", (TViewModel)Instances)
+                    {
+                        ContentDataTemplateKey = "SelectSearchQueryTemplate"
+                    },
+                }
+            };
+            tour.Start();
+        }
+
+
+        public static void StartSelectQueryIntro(object sender)
+        {
+            var tour = new ScreenInfo
+            {
+                Name = "Introduction",
+                ShowNextButtonDefault = true,
+                Steps = new[]
+                {
+                    new Step("SearchQuery", "SearchQuery", "Login with Accounts "),
+                     new Step("JobConfiguration", "JobConfiguration", "Shows you growth rate of accounts"),
+                      new Step("AfterFollow", "AfterFollow", "Shows you Info regarding dashboard"),
+                       new Step("OtherConfiguration", "AccountsActivityInfo", "Shows you Info regarding dashboard"),
+                        new Step("BlacklistUsers", "BlacklistUsers", "Shows you Info regarding dashboard"),
+
+                }
+            };
+            tour.Start();
+        }
+        #endregion
 
         public void SaveTemplateToAccounts(string templateId, List<RunningTimes> runningTime)
         {
@@ -846,7 +902,6 @@ namespace DominatorUIUtility.CustomControl
         #endregion
 
         #region Update campaign
-
 
         protected void UpdateCampaign()
         {
@@ -1918,6 +1973,22 @@ namespace DominatorUIUtility.CustomControl
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+
+
+
+        protected virtual void InitializeTutorial()
+        {
+            try
+            {
+                if (_queryControl.CurrentQuery.QueryType == "Keywords")
+                {
+
+                } 
+            }
+            catch (Exception ex)
+            {
             }
         }
     }
