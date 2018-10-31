@@ -1,5 +1,5 @@
-﻿using DominatorHouse.Social;
-using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouse.Social;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Unity;
 
 
 //using EmbeddedBrowser;
@@ -63,12 +62,12 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
-                   Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("Dashboard"))
+                   Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("Dashboard"))
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
-                    Content = new Lazy<UserControl>(() => (UserControl)IoC.Container.Resolve<IDominatorAutoActivity>())
+                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<DominatorAutoActivity>())
                 },
                 //new TabItemTemplates
                 //{
@@ -93,12 +92,12 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
-                      Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("OtherConfiguration"))
+                      Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration"))
                 },
                 new TabItemTemplates
                 {
                     Title = "LangKeyOtherTools".FromResourceDictionary(),
-                    Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("OtherTools"))
+                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherTools"))
                 }
             };
         }

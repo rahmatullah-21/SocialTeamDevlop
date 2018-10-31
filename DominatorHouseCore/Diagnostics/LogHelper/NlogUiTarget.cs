@@ -1,8 +1,8 @@
-﻿using DominatorHouseCore.ViewModel;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.ViewModel;
 using NLog;
 using NLog.Common;
 using NLog.Targets;
-using Unity;
 
 namespace DominatorHouseCore.Diagnostics.LogHelper
 {
@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Diagnostics.LogHelper
 
         public NlogUiTarget()
         {
-            _logViewModel = IoC.Container.Resolve<ILogViewModel>();
+            _logViewModel = ServiceLocator.Current.GetInstance<ILogViewModel>();
         }
 
         protected override void Write(AsyncLogEventInfo[] logEvents)

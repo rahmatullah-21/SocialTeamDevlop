@@ -2,7 +2,6 @@
 using DominatorHouse.ViewModels;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.ViewModel;
-using Socinator.Social.AutoActivity.Views;
 using Unity;
 using Unity.Extension;
 
@@ -13,8 +12,6 @@ namespace DominatorHouse.IoC
         protected override void Initialize()
         {
             // views
-            Container.RegisterSingleton<IDominatorAutoActivity, DominatorAutoActivity>();
-
 
             // view models
             Container.RegisterSingleton<IMainViewModel, MainViewModel>();

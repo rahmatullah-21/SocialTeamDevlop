@@ -1,9 +1,9 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
 using DominatorHouseCore.Models;
 using DominatorUIUtility.ViewModel;
 using System;
 using System.Windows.Controls;
-using Unity;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -16,7 +16,7 @@ namespace DominatorUIUtility.CustomControl
         {
             get
             {
-                return (ProxyManagerViewModel)DominatorHouseCore.IoC.Container.Resolve<IProxyManagerViewModel>();
+                return (ProxyManagerViewModel)ServiceLocator.Current.GetInstance<IProxyManagerViewModel>();
             }
         }
 

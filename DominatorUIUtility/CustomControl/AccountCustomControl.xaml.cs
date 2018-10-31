@@ -19,7 +19,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Unity;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -49,7 +49,7 @@ namespace DominatorUIUtility.CustomControl
 
         private AccountCustomControl()
         {
-            _dominatorAccountViewModel = (DominatorAccountViewModel)DominatorHouseCore.IoC.Container.Resolve<IDominatorAccountViewModel>();
+            _dominatorAccountViewModel = (DominatorAccountViewModel)ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
             InitializeComponent();
             DominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(DominatorAccountViewModel.LstDominatorAccountModel);
@@ -87,7 +87,7 @@ namespace DominatorUIUtility.CustomControl
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, AccessorStrategies strategies)
         {
             if (_accountCustomInstance == null)
-              _accountCustomInstance = new AccountCustomControl();
+                _accountCustomInstance = new AccountCustomControl();
 
             _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
             return _accountCustomInstance;

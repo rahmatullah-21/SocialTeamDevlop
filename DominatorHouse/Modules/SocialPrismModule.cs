@@ -1,8 +1,6 @@
-﻿using DominatorHouseCore.Enums;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using Socinator.Social.AutoActivity.Views;
 
 namespace DominatorHouse.Modules
 {
@@ -10,13 +8,11 @@ namespace DominatorHouse.Modules
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<SocialAutoActivity>($"{SocialNetworks.Social}AutoActivity");
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            //regionManager.RegisterViewWithRegion($"AutoActivity", typeof(SocialAutoActivity));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
@@ -14,9 +15,12 @@ using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.IoC;
 using DominatorUIUtility.Views;
 using LiveCharts;
 using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
@@ -35,11 +39,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using DominatorHouseCore.ViewModel.Common;
-using DominatorUIUtility.IoC;
-using Newtonsoft.Json;
-using Unity;
-using Newtonsoft.Json.Linq;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -675,93 +674,93 @@ namespace DominatorUIUtility.ViewModel
             #endregion
             //if (dominatorAccountBaseModel.Status != AccountStatus.Success)
             //{
-                if (!(bool)SoftwareSettings.Settings?.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
+            if (!(bool)SoftwareSettings.Settings?.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
+            {
+                try
                 {
-                    try
+                    var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+
+                    if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
                     {
-                        var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
-                            .GetNetworkCoreFactory().AccountUpdateFactory;
+                        // this account supports async modules
+                        var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
-                        if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
+                        try
                         {
-                            // this account supports async modules
-                            var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
-
-                            try
-                            {
-                                asyncAccount
-                                    .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
-                                    .ContinueWith(checkSucceeded =>
-                                    {
-                                        try
-                                        {
-                                            if (checkSucceeded.Result)
-                                            {
-                                                return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
-                                                    dominatorAccountModel.Token);
-                                            }
-
-                                            return new Task(() => { });
-                                        }
-                                        catch (OperationCanceledException)
-                                        {
-                                            return new Task(() => { });
-                                        }
-                                        catch (AggregateException ae)
-                                        {
-                                            foreach (var e in ae.InnerExceptions)
-                                            {
-                                                if (e is TaskCanceledException || e is OperationCanceledException)
-                                                    e.DebugLog("Cancellation requested before task completion!");
-                                                else
-                                                    e.DebugLog(e.StackTrace + e.Message);
-                                            }
-
-                                            return new Task(() => { });
-                                        }
-                                        catch (Exception)
-                                        {
-                                            return new Task(() => { });
-                                        }
-                                    })
-                                    .Start();
-                            }
-                            catch (OperationCanceledException)
-                            {
-                                throw new OperationCanceledException();
-                            }
-                            catch (AggregateException ae)
-                            {
-                                foreach (var e in ae.InnerExceptions)
+                            asyncAccount
+                                .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
+                                .ContinueWith(checkSucceeded =>
                                 {
-                                    if (e is TaskCanceledException || e is OperationCanceledException)
-                                        e.DebugLog("Cancellation requested before task completion!");
-                                    else
-                                        e.DebugLog(e.StackTrace + e.Message);
-                                }
-                            }
-                            catch (Exception ex)
+                                    try
+                                    {
+                                        if (checkSucceeded.Result)
+                                        {
+                                            return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
+                                                dominatorAccountModel.Token);
+                                        }
+
+                                        return new Task(() => { });
+                                    }
+                                    catch (OperationCanceledException)
+                                    {
+                                        return new Task(() => { });
+                                    }
+                                    catch (AggregateException ae)
+                                    {
+                                        foreach (var e in ae.InnerExceptions)
+                                        {
+                                            if (e is TaskCanceledException || e is OperationCanceledException)
+                                                e.DebugLog("Cancellation requested before task completion!");
+                                            else
+                                                e.DebugLog(e.StackTrace + e.Message);
+                                        }
+
+                                        return new Task(() => { });
+                                    }
+                                    catch (Exception)
+                                    {
+                                        return new Task(() => { });
+                                    }
+                                })
+                                .Start();
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw new OperationCanceledException();
+                        }
+                        catch (AggregateException ae)
+                        {
+                            foreach (var e in ae.InnerExceptions)
                             {
-                                ex.DebugLog();
+                                if (e is TaskCanceledException || e is OperationCanceledException)
+                                    e.DebugLog("Cancellation requested before task completion!");
+                                else
+                                    e.DebugLog(e.StackTrace + e.Message);
                             }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            // TODO: Add on-deleted cancellation mechanics for non-async modules 
-                            var cancelUpdate = secondaryTaskStrategyReturningCancellation(() =>
-                            {
-                                accountFactory.CheckStatus(dominatorAccountModel);
-
-                                accountFactory.UpdateDetails(dominatorAccountModel);
-                            });
-                            dominatorAccountModel.Token.Register(cancelUpdate);
+                            ex.DebugLog();
                         }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        ex.DebugLog();
+                        // TODO: Add on-deleted cancellation mechanics for non-async modules 
+                        var cancelUpdate = secondaryTaskStrategyReturningCancellation(() =>
+                        {
+                            accountFactory.CheckStatus(dominatorAccountModel);
+
+                            accountFactory.UpdateDetails(dominatorAccountModel);
+                        });
+                        dominatorAccountModel.Token.Register(cancelUpdate);
                     }
                 }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
             //}
         }
         public bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
@@ -1794,7 +1793,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 var accountList = AccountsFileManager.GetAll();
 
-                var availablenetworks = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network);
+                var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
 
                 var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
                 //var savedAccounts = accountList.ToList();

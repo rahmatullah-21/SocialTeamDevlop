@@ -63,9 +63,9 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <Canvas>
-                        <UserControl Content="{Binding Content.Value}" Visibility="{Binding DontShowRegion, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    </Canvas>
+                    <Grid>
+                        <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

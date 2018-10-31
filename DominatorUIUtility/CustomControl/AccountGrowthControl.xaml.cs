@@ -20,7 +20,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Unity;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -33,13 +33,11 @@ namespace DominatorUIUtility.CustomControl
         private readonly ISelectedNetworkViewModel _selectedNetworkViewModel;
         private readonly BackgroundWorker worker = new BackgroundWorker();
 
-
-
         private AccountGrowthControl()
         {
 
-            _dominatorAccountViewModel = (DominatorAccountViewModel)DominatorHouseCore.IoC.Container.Resolve<IDominatorAccountViewModel>();
-            _selectedNetworkViewModel = DominatorHouseCore.IoC.Container.Resolve<ISelectedNetworkViewModel>();
+            _dominatorAccountViewModel = (DominatorAccountViewModel)ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
+            _selectedNetworkViewModel = ServiceLocator.Current.GetInstance<ISelectedNetworkViewModel>();
             InitializeComponent();
             _dominatorAccountViewModel.AccountCollectionView =
                 CollectionViewSource.GetDefaultView(_dominatorAccountViewModel.LstDominatorAccountModel);
@@ -414,7 +412,7 @@ namespace DominatorUIUtility.CustomControl
                         x.DisplayColumnValue10 = 0;
                     });
 
-                   // listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
+                    // listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
                     listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork;
                 }
                 else
@@ -437,13 +435,13 @@ namespace DominatorUIUtility.CustomControl
 
                     this.Dispatcher.Invoke(() =>
                     {
-                       // listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
+                        // listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == _selectedNetworkViewModel.Selected;
                         listCollection.Filter = x => ((DominatorAccountModel)x).AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork;
 
                     });
                 }
 
-               // if (_selectedNetworkViewModel.Selected == SocialNetworks.Social)
+                // if (_selectedNetworkViewModel.Selected == SocialNetworks.Social)
 
                 if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
                     this.Dispatcher.Invoke(() =>
@@ -451,7 +449,7 @@ namespace DominatorUIUtility.CustomControl
                         listCollection.Filter = null;
 
                     });
-                var spec = ( SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social) ?
+                var spec = (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social) ?
                     DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
                     SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
                         .GetNetworkCoreFactory()

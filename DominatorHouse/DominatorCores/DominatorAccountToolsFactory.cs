@@ -1,9 +1,8 @@
 
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
-using Socinator.Social.AutoActivity.Views;
+using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace Socinator.DominatorCores
 {
@@ -14,10 +13,10 @@ namespace Socinator.DominatorCores
         public static DominatorAccountToolsFactory Instance
             => _instance ?? (_instance = new DominatorAccountToolsFactory());
 
-        private DominatorAccountToolsFactory()  { }
+        private DominatorAccountToolsFactory() { }
 
-        public UserControl GetStartupToolsView() 
-            => SocialAutoActivity.GetSingletonSocialAutoActivity();
+        public UserControl GetStartupToolsView()
+            => new UserControl();
 
         public IEnumerable<ActivityType> GetImportantActivityTypes()
         {

@@ -290,9 +290,6 @@
     <Compile Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml.cs">
       <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Social\AutoActivity\Views\SocialAutoActivity.xaml.cs">
-      <DependentUpon>SocialAutoActivity.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Social\Settings\ViewModel\AppearanceViewModel.cs" />
     <Compile Include="Social\Settings\View\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
@@ -339,10 +336,6 @@
     <Page Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Social\AutoActivity\Views\SocialAutoActivity.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Social\DashBoards\DashboardTemplates.xaml">
       <SubType>Designer</SubType>

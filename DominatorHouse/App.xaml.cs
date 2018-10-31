@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
 using DominatorHouseCore;
+using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -8,6 +10,8 @@ using Prism.Unity;
 using System;
 using System.Windows;
 using Unity;
+using Unity.Interception.ContainerIntegration;
+
 namespace Socinator
 {
     /// <summary>
@@ -37,7 +41,10 @@ namespace Socinator
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            IoC.Init(containerRegistry.GetContainer());
+            var container = containerRegistry.GetContainer();
+            container.AddNewExtension<Interception>();
+            container.AddNewExtension<CoreUnityExtension>();
+            container.LoadConfiguration();
         }
 
         //protected override IModuleCatalog CreateModuleCatalog()
@@ -47,7 +54,7 @@ namespace Socinator
 
         private void InitializeAutoMapper()
         {
-            var moduleProfiles = IoC.Container.ResolveAll<Profile>();
+            var moduleProfiles = ServiceLocator.Current.GetAllInstances<Profile>();
             AutoMapperConfiguration.Init(moduleProfiles);
         }
         protected override IModuleCatalog CreateModuleCatalog()

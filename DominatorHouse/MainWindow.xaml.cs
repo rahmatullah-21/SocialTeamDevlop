@@ -1,4 +1,5 @@
 ﻿#region Namespaces
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
@@ -10,8 +11,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Unity;
-
 
 #endregion
 
@@ -42,7 +41,7 @@ namespace Socinator
 
                 SocinatorInitialize.LogInitializer(this);
 
-                _mainViewModel = IoC.Container.Resolve<IMainViewModel>();
+                _mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
                 SocinatorWindow.DataContext = _mainViewModel;
                 Loaded += (o, e) =>
                 {
