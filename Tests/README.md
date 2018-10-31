@@ -9,32 +9,44 @@ There are two goals that can be archived by implementing unit tests
 ## Code conversions ##
 The rule of thumb here is "easy to read". Feel free to propose better convention if you come up with
 
-1. The test class should be created one-or-many per each class
++ The test class should be created one-or-many per each class
+
 *Example:*
+
 GIVEN Actual class name  "RevenueCalculationService"
+
 THEN The test class would be **RevenueCalculationService**Tests
 
+
 If the actual class has a lot of things to implement we can split test class to many
+
 *Example:*
+
 GIVEN Actual class name  "RevenueCalculationService"
+
 THEN The test class would be 
+ 
 RevenueCalculationService**TradeCalcs**Tests
+ 
 RevenueCalculationService**PositionCals**Tests
 
-2. The test class should start with the name of the actual class and end with the word "Tests"
++ The test class should start with the name of the actual class and end with the word "Tests"
 
-3. The instance of the class that we are going to test we call **SUT** - **S**ystem **U**nder **T**est
++ The instance of the class that we are going to test we call **SUT** - **S**ystem **U**nder **T**est
 
-4. The SUT should be created for each test separately ( to archive one of the main principals - Isolation)
++ The SUT should be created for each test separately ( to archive one of the main principals - Isolation)
 
-5. We use lower_case_underscore_separated_name_to_name_the_tests
++ We use lower_case_underscore_separated_name_to_name_the_tests
 
-5. Test methods should start with *should_* or *should_NOT_*
++ Test methods should start with *should_* or *should_NOT_
+
 *Examples:*
+```
 public void should_return_4_if_parameters_are_2_and_2
 public void should_NOT_return_value_if_something_is_disabled
+```
++ We use pattern AAA - **A**rrange **A**ct **A**ssert
 
-6. We use pattern AAA - **A**rrange **A**ct **A**ssert
 *Example:*
 ```
 public void should_return_4_if_parameters_are_2_and_2
@@ -51,17 +63,20 @@ public void should_return_4_if_parameters_are_2_and_2
 }
 ```
 
-7. For assertions, we use the FluentAssertions framework (https://fluentassertions.com/)
++ For assertions, we use the FluentAssertions framework (https://fluentassertions.com/)
 
-8. For mockups, we use the NSubstitute framework (http://nsubstitute.github.io/)
++ For mockups, we use the NSubstitute framework (http://nsubstitute.github.io/)
 
 ## Unit Tests ##
 ###Principals###
 1. Isolation - tests SHOULD **NOT** INFLUENCE ON EACH OTHER ANYHOW!!!
 2. Test only one block - the only one piece of logic should be tested within one test, not more!
 3. Immutability - test should return the same result no matter how many times it has been run
+
 *Examples:*
+
 There should be **3** test methods to test it!!!
+```
 pub void Cals()
 {
 	// 1 test
@@ -78,11 +93,13 @@ pub void Cals()
 	{
 	}
 }
+```
 
 ### Purpose ###
 By this type of tests, we want to test the only one small piece of business logic. **All the integrations** should be mocked up
-*Examples:*
 
+*Examples:*
+```
 public int Cals()
 {
 	// _ service1.GetValue() - this implementation should be mocked up with the value that we expect
@@ -90,6 +107,7 @@ public int Cals()
 
 	return value * 3;
 }
+```
 
 ## Integration tests ##
 ###Principals###
