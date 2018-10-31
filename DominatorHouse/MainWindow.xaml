@@ -10,6 +10,7 @@
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:views1="clr-namespace:DominatorHouse.Support.Perf.Views"
+        xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
         BorderThickness="1" Icon="SociNator.ico"
@@ -29,6 +30,7 @@
             <Style TargetType="{x:Type dragable:TabablzControl}" x:Key="TabablzControlStyle">
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
             </Style>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -61,10 +63,13 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <UserControl Content="{Binding Content.Value}"/>
+                    <Canvas>
+                        <UserControl Content="{Binding Content.Value}" Visibility="{Binding DontShowRegion, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Canvas>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
+        <ContentControl regions:RegionManager.RegionName="AutoActivityRegion" />
 
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
@@ -75,7 +80,8 @@
         </Grid>
 
         <Grid Grid.Row="3" VerticalAlignment="Bottom">
-            <views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>
+            <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
+            <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
         </Grid>
 
     </Grid>

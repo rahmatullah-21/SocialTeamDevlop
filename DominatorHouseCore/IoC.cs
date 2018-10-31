@@ -7,11 +7,12 @@ namespace DominatorHouseCore
 
     public static class IoC
     {
-        public static readonly IUnityContainer Container;
+        public static IUnityContainer Container { get; private set; }
 
-        static IoC()
+        public static void Init(IUnityContainer container)
         {
-            Container = new UnityContainer();
+
+            Container = container;
             Container.AddNewExtension<Interception>();
             Container.AddNewExtension<CoreUnityExtension>();
             Container.LoadConfiguration();

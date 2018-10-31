@@ -1,38 +1,23 @@
-
-﻿using System.Threading.Tasks;
-using System.Windows.Controls;
 using DominatorHouse.Social.AutoActivity.ViewModels;
-
-using DominatorHouseCore.Enums;
 
 namespace Socinator.Social.AutoActivity.Views
 {
+    public interface IDominatorAutoActivity
+    {
+        //IDominatorAutoActivityViewModel DominatorAutoActivityViewModel { get; }
+    }
     /// <summary>
     /// Interaction logic for DominatorAutoActivity.xaml
     /// </summary>
-    public partial class DominatorAutoActivity : UserControl
+    public partial class DominatorAutoActivity : IDominatorAutoActivity
     {
-        public DominatorAutoActivityViewModel DominatorAutoActivityViewModel { get; set; }
+        //public IDominatorAutoActivityViewModel DominatorAutoActivityViewModel { get; set; }
 
-        private DominatorAutoActivity()
+        public DominatorAutoActivity(IDominatorAutoActivityViewModel activityViewModel)
         {
             InitializeComponent();
-            DominatorAutoActivityViewModel =  DominatorAutoActivityViewModel.GetSingletonDominatorAutoActivityViewModel();
-            DominatorActivityPage.DataContext = DominatorAutoActivityViewModel;
+            DataContext = activityViewModel;
         }
 
-        public static DominatorAutoActivity ObjDominatorAutoActivity = null;
-
-        public static DominatorAutoActivity GetSingletonDominatorAutoActivity(SocialNetworks networks)
-        {
-            if (ObjDominatorAutoActivity == null)            
-                ObjDominatorAutoActivity = new DominatorAutoActivity();
-
-            ObjDominatorAutoActivity.DominatorAutoActivityViewModel.CallRespectiveView(networks);
-
-            return ObjDominatorAutoActivity;
-        }
-
-        
     }
 }

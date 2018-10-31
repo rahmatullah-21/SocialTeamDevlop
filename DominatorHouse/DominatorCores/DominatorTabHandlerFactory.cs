@@ -1,10 +1,10 @@
 ﻿using DominatorHouse.Social;
+using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
 using DominatorUIUtility.Views.SocioPublisher;
 using Socinator.Social.AutoActivity.Views;
@@ -68,7 +68,7 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
-                    Content = new Lazy<UserControl>(() => DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
+                    Content = new Lazy<UserControl>(() => (UserControl)IoC.Container.Resolve<IDominatorAutoActivity>())
                 },
                 //new TabItemTemplates
                 //{

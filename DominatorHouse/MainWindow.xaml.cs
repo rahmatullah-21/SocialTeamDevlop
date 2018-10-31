@@ -17,10 +17,14 @@ using Unity;
 
 namespace Socinator
 {
+    public interface IMainWindow
+    {
+
+    }
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : IMainWindow
     {
 
         private readonly IMainViewModel _mainViewModel;

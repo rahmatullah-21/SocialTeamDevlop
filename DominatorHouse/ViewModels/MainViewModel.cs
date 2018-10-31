@@ -1,7 +1,7 @@
-﻿using DominatorHouseCore;
+﻿using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
-using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -504,7 +504,7 @@ namespace DominatorHouse.ViewModels
                     _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
                         .LangKeyAccountsActivity))
                 {
-                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+                    DominatorHouseCore.IoC.Container.Resolve<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
                 }
 
                 if (itemTemplate.Title ==
@@ -586,7 +586,7 @@ namespace DominatorHouse.ViewModels
             else
             {
                 TabItems.SelectByIndex(index);
-                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+                DominatorHouseCore.IoC.Container.Resolve<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
                 SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
             }
         }
