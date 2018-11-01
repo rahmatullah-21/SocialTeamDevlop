@@ -1,20 +1,22 @@
-﻿using System;
+﻿using DominatorHouseCore.Utility;
+using ProtoBuf;
+using System;
 using System.Net;
 using System.Text.RegularExpressions;
-using DominatorHouseCore.Utility;
-using ProtoBuf;
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
     public class Proxy : BindableBase
     {
+        private static readonly Regex ProxyIpValidationRegex = new Regex("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+        private static readonly Regex ProxyPortValidationRegex = new Regex("^([0-9]{1,4}$|[1-5][0-9]{4}$|6[0-4][0-9]{3}$|65[0-4][0-9]{2}$|655[0-2][0-9]$|6553[0-5])$");
         private string _proxyIp;
         private string _proxyPort;
         private string _proxyUsername;
         private string _proxyPassword;
-      
-      
+
+
 
         public Proxy()
         {
@@ -61,7 +63,7 @@ namespace DominatorHouseCore.Models
             {
                 if (_proxyPort != null && value == _proxyPort)
                     return;
-                SetProperty(ref _proxyPort, value);              
+                SetProperty(ref _proxyPort, value);
             }
         }
 
@@ -74,7 +76,7 @@ namespace DominatorHouseCore.Models
                 return _proxyPassword;
             }
             set
-            {              
+            {
                 if (_proxyPassword != null && value == _proxyPassword)
                     return;
                 SetProperty(ref _proxyPassword, value);
@@ -207,23 +209,20 @@ namespace DominatorHouseCore.Models
 
         public static bool IsValidProxy(string ip, string port)
         {
-           
-           return Regex.IsMatch(ip + ":" + port, "^\\d{1,3}(\\.\\d{1,3}){3}:\\d{1,5}$");
+
+            return Regex.IsMatch(ip + ":" + port, "^\\d{1,3}(\\.\\d{1,3}){3}:\\d{1,5}$");
         }
 
 
         public static bool IsValidProxyIp(string proxyAddress)
         {
-            return Regex.IsMatch(proxyAddress, "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+            return ProxyIpValidationRegex.IsMatch(proxyAddress);
 
         }
 
         public static bool IsValidProxyPort(string proxyPort)
         {
-
-            //  return Regex.IsMatch(proxyPort, "^\\d{1,5}$");
-             return Regex.IsMatch(proxyPort, "^([0-9]{1,4}$|[1-5][0-9]{4}$|6[0-4][0-9]{3}$|65[0-4][0-9]{2}$|655[0-2][0-9]$|6553[0-5])$");
-          //  return (int.Parse(proxyPort) >= 0 && int.Parse(proxyPort) <= 65535);
+            return ProxyPortValidationRegex.IsMatch(proxyPort);
         }
 
 

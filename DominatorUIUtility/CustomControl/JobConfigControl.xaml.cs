@@ -30,6 +30,15 @@ namespace DominatorUIUtility.CustomControl
             MainGrid.DataContext = this;
             InitilizeFavoriteTime();
             SelectFavoriteTime = new BaseCommand<object>((sender) => true, SelectFavoriteTimeExecute);
+            RemoveFavoriteTimeCommand = new BaseCommand<object>((sender) => true, RemoveFavoriteTimeExecute);
+        }
+
+        private void RemoveFavoriteTimeExecute(object sender)
+        {
+            var itemTodelete = sender as string;
+            LstFavoriteTime.Remove(LstFavoriteTime.FirstOrDefault(x=>x.FavoriteTimeName==itemTodelete));
+            GenericFileManager.UpdateModuleDetails<FavoriteTime>(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
+
         }
 
         public JobConfiguration JobConfiguration
@@ -280,6 +289,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public ICommand SelectFavoriteTime { get; set; }
+        public ICommand RemoveFavoriteTimeCommand { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

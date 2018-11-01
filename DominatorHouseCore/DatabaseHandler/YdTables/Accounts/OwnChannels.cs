@@ -17,6 +17,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
+        [Unique]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order =2)]
         public string ChannelName { get; set; }
 

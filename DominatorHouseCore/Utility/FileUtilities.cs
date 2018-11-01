@@ -247,14 +247,16 @@ namespace DominatorHouseCore.Utility
                         while (reader.Read())
                         {
                             string rowContent = String.Empty;
+
                             for (int i = 0; i < reader.FieldCount; i++)
                             {
-                                var val = reader.GetString(i);
-                                rowContent += (String.IsNullOrEmpty(val) ? String.Empty : val) + "\t";
+                                var val = reader.GetValue(i);
+                                rowContent += (String.IsNullOrEmpty(val?.ToString()) ? String.Empty : val) + "\t";
                             }
                             if (string.IsNullOrEmpty(rowContent.Trim()))
                                 break;
                             content.Add(rowContent);
+
                         }
                     } while (reader.NextResult());
                 }
@@ -270,6 +272,7 @@ namespace DominatorHouseCore.Utility
                 {
                     var csv = new CsvReader(reader);
                     List<string> csvSplitList = new List<string>();
+                    csv.Configuration.BadDataFound = null;
 
                     while (csv.Read())
                     {
@@ -281,17 +284,16 @@ namespace DominatorHouseCore.Utility
                         while (hasColumn)
                         {
                             hasColumn = csv.TryGetField(columnCount, out columnValue);
-
                             if (hasColumn)
                             {
                                 columnCount += 1;
                                 rowContent += columnValue + "\t";
                             }
                         }
-
                         var data = rowContent.Trim();
                         if (!string.IsNullOrEmpty(data))
                             csvSplitList.Add(rowContent.Substring(0, rowContent.Length - 1));
+
                     }
                     return csvSplitList;
                 }

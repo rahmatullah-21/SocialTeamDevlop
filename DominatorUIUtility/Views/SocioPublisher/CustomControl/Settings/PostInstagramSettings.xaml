@@ -5,7 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d">
+             mc:Ignorable="d"   
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -20,7 +24,13 @@
          
             <StackPanel Orientation="Vertical">
                 <CheckBox Name="CheckBoxGeoLocation" Margin="2" IsChecked="{Binding IsGeoLocation}" Content="{DynamicResource LangKeyPostUsingGeoLocation}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <StackPanel Orientation="Vertical" Visibility="{Binding IsGeoLocation,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <RadioButton Name="RadioButtonForLocationName" Margin="10,2" GroupName="GeoLocation" Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationName}"
+                                 IsChecked="{Binding IsGeoLocationName}"/>
+                    <RadioButton Name="RadioButtonForLocationId" Margin="10,2"  GroupName="GeoLocation" Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationId}"   
+                                 IsChecked="{Binding IsGeoLocationId}"/>
+                    <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                </StackPanel>
             </StackPanel>
             
             <StackPanel Orientation="Vertical">

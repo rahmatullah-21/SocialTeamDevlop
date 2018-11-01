@@ -56,13 +56,13 @@ namespace DominatorHouseCore.Utility
                     }
                     catch (Exception ex)
                     {
-                         ex.DebugLog();
+                        ex.DebugLog();
                     }
                 }
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
             return lstDetailedFileInfo;
         }
@@ -163,7 +163,7 @@ namespace DominatorHouseCore.Utility
                                 {
                                     isNoUniqueTitleToasterNotified = true;
                                     ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");
-                                }                             
+                                }
                                 postTitle = string.Empty;
                             }
                         }
@@ -269,6 +269,13 @@ namespace DominatorHouseCore.Utility
                             .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
                             .Replace("[FileComments]", monitorFolderModel.FileComment)
                             .Replace("[FileTags]", monitorFolderModel.FileTags);
+                        if (campaignDetails.Count > 0)
+                        {
+                            var post = campaignDetails.FirstOrDefault(x =>
+                                x.PostSource == PostSource.MonitorFolderPost && x.MonitorFilePath == file);
+                            if (post != null)
+                                post.PostDescription = publisherPostlistModel.PostDescription;
+                        }
 
                         // Check whether Cancellation Requested or not
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -302,7 +309,8 @@ namespace DominatorHouseCore.Utility
                         ex.DebugLog();
                     }
                 }
-
+                if (campaignDetails.Count > 0)
+                    PostlistFileManager.UpdatePostlists(campaignId, campaignDetails);
                 // Check whether need to readd the post 
                 if (postDetailsModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
                 {

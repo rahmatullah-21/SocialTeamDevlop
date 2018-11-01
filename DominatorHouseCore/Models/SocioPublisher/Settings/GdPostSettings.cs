@@ -17,6 +17,8 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         private string _geoLocationList;
         private bool _isTagUser;
         private string _tagUserList;
+        private bool _isLocationName;
+        private bool _isLocationId;
 
         [ProtoMember(1)]
         public string PostTitle
@@ -145,5 +147,36 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 SetProperty(ref _tagUserList, value);
             }
         }
+        [ProtoMember(9)]
+        public bool IsGeoLocationName
+        {
+            get
+            {
+                return _isLocationName;
+            }
+            set
+            {
+                if (_isLocationName == value)
+                    return;
+
+                SetProperty(ref _isLocationName, value);
+            }
+        }
+        [ProtoMember(10)]
+        public bool IsGeoLocationId
+        {
+            get
+            {
+                return _isLocationId;
+            }
+            set
+            {
+                if (_isLocationId == value)
+                    return;
+
+                SetProperty(ref _isLocationId, value);
+            }
+        }
+
     }
 }

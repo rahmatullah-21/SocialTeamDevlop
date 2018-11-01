@@ -42,6 +42,8 @@ using DominatorUIUtility.IoC;
 using Unity;
 using DominatorUIUtility.Navigations;
 using DominatorUIUtility.ScreenTip.ViewModel;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -370,7 +372,7 @@ namespace DominatorUIUtility.ViewModel
                     if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
                         objDominatorAccountBaseModel.AccountNetwork =
                             (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
-
+                    objDominatorAccountBaseModel.Status = AccountStatus.NotChecked;
                     dialogWindow.Close();
 
                     if (LstDominatorAccountModel.Count + 1 >=
@@ -381,7 +383,7 @@ namespace DominatorUIUtility.ViewModel
 
                     ThreadFactory.Instance.Start(() =>
                     {
-                        AddAccount(objDominatorAccountBaseModel, act =>
+                        AddAccount(objDominatorAccountBaseModel, String.Empty, act =>
                         {
                             var th = new Thread(() => act()) { IsBackground = true };
                             th.Start();
@@ -471,7 +473,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         // var finalAccount = singleAccount.Replace(",", ":").Replace("<NA>", "");
                         var finalAccount = singleAccount.Replace("<NA>", "\t");
-                        var splitAccount = Regex.Split(finalAccount, "\t");
+                        var splitAccount = Regex.Split(finalAccount.TrimEnd(), "\t");
                         //var splitAccount = Regex.Split(finalAccount, ":");
                         if (splitAccount.Length <= 1) continue;
 
@@ -490,6 +492,8 @@ namespace DominatorUIUtility.ViewModel
                         var proxyport = string.Empty;
                         var proxyusername = string.Empty;
                         var proxypassword = string.Empty;
+                        var status = AccountStatus.NotChecked.ToString();
+                        var cookies = string.Empty;
 
                         switch (splitAccount.Length)
                         {
@@ -508,6 +512,15 @@ namespace DominatorUIUtility.ViewModel
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
                                 proxypassword = splitAccount[7];
+                                status = splitAccount[8];
+                                break;
+                            case 10:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                status = splitAccount[8];
+                                cookies = splitAccount[9].Replace("<>", ",");
                                 break;
                         }
 
@@ -542,12 +555,14 @@ namespace DominatorUIUtility.ViewModel
                                 ProxyUsername = proxyusername,
                                 ProxyPassword = proxypassword
                             },
-                            AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork)
+                            AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork),
+                            Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), status),
+
                         };
 
                         if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                         {
-                            pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel,
+                            pending = pending.Enqueue(() => AddAccount(objDominatorAccountBaseModel, cookies,
                                 (action) =>
                                 {
                                     pending = pending.Enqueue(action);
@@ -591,7 +606,7 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
-        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel,
+        public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, string cookies,
             Func<Action, Action> secondaryTaskStrategyReturningCancellation)
         {
             #region Check account limits
@@ -639,7 +654,8 @@ namespace DominatorUIUtility.ViewModel
                     ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword
                 },
-                Status = AccountStatus.NotChecked,
+                Status = string.IsNullOrEmpty(objDominatorAccountBaseModel.Status.ToString())
+                    ? AccountStatus.NotChecked : objDominatorAccountBaseModel.Status,
                 AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
                 AccountId = objDominatorAccountBaseModel.AccountId
             };
@@ -650,7 +666,15 @@ namespace DominatorUIUtility.ViewModel
                 RowNo = LstDominatorAccountModel.Count + 1,
                 AccountId = dominatorAccountBaseModel.AccountId
             };
+            if (!string.IsNullOrEmpty(cookies))
+                try
+                {
+                    dominatorAccountModel.CookieHelperList = JArray.Parse(cookies).ToObject<HashSet<CookieHelper>>();
+                }
+                catch (Exception ex)
+                {
 
+                }
             List<ProxyManagerModel> oldproxies = ProxyFileManager.GetAllProxy();
 
             //var cancel = secondaryTaskStrategyReturningCancellation(() => UpdateProxy(objDominatorAccountBaseModel));
@@ -674,10 +698,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
-                    Application.Current.Dispatcher.Invoke(new Action(delegate
-                    {
-                        LstDominatorAccountModel.Add(dominatorAccountModel);
-                    }));
+                    Application.Current.Dispatcher.Invoke(() => LstDominatorAccountModel.Add(dominatorAccountModel));
                 }
                 else
                 {
@@ -730,93 +751,96 @@ namespace DominatorUIUtility.ViewModel
             dominatorAccountModel.Token.Register(databaseCreation);
 
             #endregion
-            if (!(bool)SoftwareSettings.Settings?.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
-            {
-                try
+            //if (dominatorAccountBaseModel.Status != AccountStatus.Success)
+            //{
+                if (!(bool)SoftwareSettings.Settings?.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
                 {
-                    var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-
-                    if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
+                    try
                     {
-                        // this account supports async modules
-                        var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
+                        var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory().AccountUpdateFactory;
 
-                        try
+                        if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
                         {
-                            asyncAccount
-                                .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
-                                .ContinueWith(checkSucceeded =>
-                                {
-                                    try
-                                    {
-                                        if (checkSucceeded.Result)
-                                        {
-                                            return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
-                                                dominatorAccountModel.Token);
-                                        }
+                            // this account supports async modules
+                            var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
-                                        return new Task(() => { });
-                                    }
-                                    catch (OperationCanceledException)
-                                    {
-                                        return new Task(() => { });
-                                    }
-                                    catch (AggregateException ae)
-                                    {
-                                        foreach (var e in ae.InnerExceptions)
-                                        {
-                                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                                e.DebugLog("Cancellation requested before task completion!");
-                                            else
-                                                e.DebugLog(e.StackTrace + e.Message);
-                                        }
-
-                                        return new Task(() => { });
-                                    }
-                                    catch (Exception)
-                                    {
-                                        return new Task(() => { });
-                                    }
-                                })
-                                .Start();
-                        }
-                        catch (OperationCanceledException)
-                        {
-                            throw new OperationCanceledException();
-                        }
-                        catch (AggregateException ae)
-                        {
-                            foreach (var e in ae.InnerExceptions)
+                            try
                             {
-                                if (e is TaskCanceledException || e is OperationCanceledException)
-                                    e.DebugLog("Cancellation requested before task completion!");
-                                else
-                                    e.DebugLog(e.StackTrace + e.Message);
+                                asyncAccount
+                                    .CheckStatusAsync(dominatorAccountModel, dominatorAccountModel.Token)
+                                    .ContinueWith(checkSucceeded =>
+                                    {
+                                        try
+                                        {
+                                            if (checkSucceeded.Result)
+                                            {
+                                                return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
+                                                    dominatorAccountModel.Token);
+                                            }
+
+                                            return new Task(() => { });
+                                        }
+                                        catch (OperationCanceledException)
+                                        {
+                                            return new Task(() => { });
+                                        }
+                                        catch (AggregateException ae)
+                                        {
+                                            foreach (var e in ae.InnerExceptions)
+                                            {
+                                                if (e is TaskCanceledException || e is OperationCanceledException)
+                                                    e.DebugLog("Cancellation requested before task completion!");
+                                                else
+                                                    e.DebugLog(e.StackTrace + e.Message);
+                                            }
+
+                                            return new Task(() => { });
+                                        }
+                                        catch (Exception)
+                                        {
+                                            return new Task(() => { });
+                                        }
+                                    })
+                                    .Start();
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                throw new OperationCanceledException();
+                            }
+                            catch (AggregateException ae)
+                            {
+                                foreach (var e in ae.InnerExceptions)
+                                {
+                                    if (e is TaskCanceledException || e is OperationCanceledException)
+                                        e.DebugLog("Cancellation requested before task completion!");
+                                    else
+                                        e.DebugLog(e.StackTrace + e.Message);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            ex.DebugLog();
+                            // TODO: Add on-deleted cancellation mechanics for non-async modules 
+                            var cancelUpdate = secondaryTaskStrategyReturningCancellation(() =>
+                            {
+                                accountFactory.CheckStatus(dominatorAccountModel);
+
+                                accountFactory.UpdateDetails(dominatorAccountModel);
+                            });
+                            dominatorAccountModel.Token.Register(cancelUpdate);
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        // TODO: Add on-deleted cancellation mechanics for non-async modules 
-                        var cancelUpdate = secondaryTaskStrategyReturningCancellation(() =>
-                        {
-                            accountFactory.CheckStatus(dominatorAccountModel);
-
-                            accountFactory.UpdateDetails(dominatorAccountModel);
-                        });
-                        dominatorAccountModel.Token.Register(cancelUpdate);
+                        ex.DebugLog();
                     }
                 }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
+            //}
         }
         public bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
@@ -1297,7 +1321,7 @@ namespace DominatorUIUtility.ViewModel
                 var network = item.AccountBaseModel.AccountNetwork.ToString();
 
                 dbOperations.Remove<AccountDetails>(user => user.AccountNetwork == network && user.UserName == item.UserName);
-              
+
                 GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
                 DeleteAccountFromCampaign(item);
                 item.NotifyCancelled();
@@ -1437,8 +1461,8 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status";
-            
+            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies";
+
             var filename = $"{exportPath}\\Accounts {ConstantVariable.DateasFileName}.csv";
 
             if (!File.Exists(filename))
@@ -1460,8 +1484,9 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.AccountProxy.ProxyIp + ","
                      + account.AccountBaseModel.AccountProxy.ProxyPort + ","
                      + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
-                     + account.AccountBaseModel.AccountProxy.ProxyPassword
-                     + "," + account.AccountBaseModel.Status;
+                     + account.AccountBaseModel.AccountProxy.ProxyPassword + ","
+                     + account.AccountBaseModel.Status + ","
+                     + JsonConvert.SerializeObject(account.CookieHelperList).Replace(",", "<>");
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1473,6 +1498,7 @@ namespace DominatorUIUtility.ViewModel
                     Console.WriteLine(ex.StackTrace);
                 }
             });
+            Dialog.ShowDialog("Export Accounts", $"Accounts Successfully exported to [ {filename} ]");
         }
 
         #endregion
@@ -1845,7 +1871,7 @@ namespace DominatorUIUtility.ViewModel
             lock (syncLoadAccounts)
             {
                 var accountList = AccountsFileManager.GetAll();
-              
+
                 var availablenetworks = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network);
 
                 var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));

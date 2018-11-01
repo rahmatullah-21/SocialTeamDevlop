@@ -1,10 +1,16 @@
 ﻿using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
+using System.ComponentModel;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
-    public class PublisherHomeViewModel : BindableBase
+    public interface IPublisherHomeViewModel : INotifyPropertyChanged
+    {
+
+    }
+
+    public class PublisherHomeViewModel : BindableBase, IPublisherHomeViewModel
     {
         private PublisherHomeModel _publisherHomeModel = new PublisherHomeModel();
 

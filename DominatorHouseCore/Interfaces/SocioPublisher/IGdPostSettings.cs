@@ -17,6 +17,9 @@
         bool IsTagUser { get; set; }
 
         string TagUserList { get; set; }
+        bool IsGeoLocationName { get; set; }
+
+        bool IsGeoLocationId { get; set; }
 
     }
 }

@@ -10,7 +10,7 @@ namespace DominatorHouseCore.ViewModel
 
         protected BaseTabViewModel(string titleResourceName, string templateName)
         {
-            Title = Application.Current.FindResource(titleResourceName)?.ToString();
+            Title = Application.Current?.FindResource(titleResourceName)?.ToString();
             TemplateName = templateName;
         }
     }

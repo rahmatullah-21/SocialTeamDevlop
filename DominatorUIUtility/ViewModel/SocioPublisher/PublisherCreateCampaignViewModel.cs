@@ -556,48 +556,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var CampaignStatusModel = PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId);
                 if (CampaignStatusModel != null)
                 {
-                    publisherCampaignStatusModel.PendingCount = CampaignStatusModel.PendingCount + PublisherCreateCampaignModel.PostCollection
-                        .Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
-                    publisherCampaignStatusModel.DraftCount = CampaignStatusModel.DraftCount + PublisherCreateCampaignModel.PostCollection
-                        .Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft);
-                    publisherCampaignStatusModel.PublishedCount = CampaignStatusModel.PublishedCount + PublisherCreateCampaignModel.PostCollection
-                                                                  .Count(x => x.PostQueuedStatus == PostQueuedStatus.Published);
-                    // Finding current items
-                    var currentItem = PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId);
-
-                    // Get the index of the current campaign
-                    var index = PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.IndexOf(currentItem);
-
-                    // Substutite with proper index
-                    PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels[index] = publisherCampaignStatusModel;
-
-                    var LstPublishedPostDetailsModels = PostlistFileManager.GetAll(publisherCampaignStatusModel.CampaignId);
-                    PublisherCreateCampaignModel.PostCollection.ForEach(post =>
-                    {
-
-                        var postlistModel = new PublisherPostlistModel
-                        {
-                            CampaignId = PublisherCreateCampaignModel.CampaignId,
-                            CreatedTime = DateTime.Now,
-                            PostSource = PostSource.NormalPost,
-                            PostQueuedStatus = post.PostQueuedStatus,
-                            PostRunningStatus = PostRunningStatus.Active,
-                            PostDescription = post.PostDescription,
-                            PdSourceUrl = post.PdSourceUrl,
-                            MediaList = post.MediaViewer.MediaList,
-                            FdSellLocation = post.FdSellLocation,
-                            PostId = post.PostDetailsId,
-                            PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
-                        };
-                        LstPublishedPostDetailsModels.Add(postlistModel);
-                    });
-                    
-                    // Update the post details to bin file
-                    PostlistFileManager.UpdatePostlists(PublisherCreateCampaignModel.CampaignId, LstPublishedPostDetailsModels);
-
-
-
-
+                    UpdateCampaign(publisherCampaignStatusModel, CampaignStatusModel);
                 }
                 else
                 {
@@ -678,6 +637,53 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 ex.DebugLog();
             }
+        }
+
+        private void UpdateCampaign(PublisherCampaignStatusModel publisherCampaignStatusModel,
+            PublisherCampaignStatusModel CampaignStatusModel)
+        {
+            publisherCampaignStatusModel.PendingCount = CampaignStatusModel.PendingCount + PublisherCreateCampaignModel
+                                                            .PostCollection
+                                                            .Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
+            publisherCampaignStatusModel.DraftCount = CampaignStatusModel.DraftCount + PublisherCreateCampaignModel
+                                                          .PostCollection
+                                                          .Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft);
+            publisherCampaignStatusModel.PublishedCount =
+                CampaignStatusModel.PublishedCount + PublisherCreateCampaignModel.PostCollection
+                    .Count(x => x.PostQueuedStatus == PostQueuedStatus.Published);
+            // Finding current items
+            var currentItem =
+                PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.FirstOrDefault(x =>
+                    x.CampaignId == PublisherCreateCampaignModel.CampaignId);
+
+            // Get the index of the current campaign
+            var index = PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.IndexOf(currentItem);
+
+            // Substutite with proper index
+            PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels[index] = publisherCampaignStatusModel;
+
+            var LstPublishedPostDetailsModels = PostlistFileManager.GetAll(publisherCampaignStatusModel.CampaignId);
+            PublisherCreateCampaignModel.PostCollection.ForEach(post =>
+            {
+                var postlistModel = new PublisherPostlistModel
+                {
+                    CampaignId = PublisherCreateCampaignModel.CampaignId,
+                    CreatedTime = DateTime.Now,
+                    PostSource = PostSource.NormalPost,
+                    PostQueuedStatus = post.PostQueuedStatus,
+                    PostRunningStatus = PostRunningStatus.Active,
+                    PostDescription = post.PostDescription,
+                    PdSourceUrl = post.PdSourceUrl,
+                    MediaList = post.MediaViewer.MediaList,
+                    FdSellLocation = post.FdSellLocation,
+                    PostId = post.PostDetailsId,
+                    PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+                };
+                LstPublishedPostDetailsModels.Add(postlistModel);
+            });
+
+            // Update the post details to bin file
+            PostlistFileManager.UpdatePostlists(PublisherCreateCampaignModel.CampaignId, LstPublishedPostDetailsModels);
         }
 
         /// <summary>
