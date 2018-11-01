@@ -53,9 +53,25 @@ namespace DominatorUIUtility.ScreenTipMode
                 run.Start();
             }
            
-            catch (Exception ex)
+            catch (Exception)
             {
-                //Log.Error("Tour.Start: Unhandled Exception.", ex);
+            }
+        }
+
+
+        public void Close()
+        {
+            var run = new ScreenTipRun(this,
+                ScreenTipHelper.VisualElementManager,
+                ScreenTipHelper.WindowManager,
+                ScreenTipHelper.PopupNavigator);
+            try
+            {
+                run.Close();
+            }
+            catch(Exception ex)
+            {
+
             }
         }
     }

@@ -31,7 +31,6 @@ namespace DominatorUIUtility.ScreenTip.PopUpstyle
             tour.Start();
         }
 
-
         public static void StartOverView(object sender)
         {
             var tour = new ScreenInfo
@@ -49,8 +48,13 @@ namespace DominatorUIUtility.ScreenTip.PopUpstyle
             tour.Start();
         }
 
+        public static void CloseView()
+        {
 
-        public static Action<object> StartModuleOverView<TViewModel>(TViewModel objview) where TViewModel : class
+        }
+
+
+        public static Action<object> StartModuleOverView<TViewModel>(TViewModel objview)where TViewModel : class
         {
             var tour = new ScreenInfo
             {
@@ -101,12 +105,10 @@ namespace DominatorUIUtility.ScreenTip.PopUpstyle
                     new Step("ComboBoxOption", "Select any Query", "Choose \"Keyword\" from the dropdown."),
                     new Step("TextBox", "Enter Value", "Please enter \"Flowers\" in the textbox."),
                     new Step("ButtonAdd", "Add Queries", "Click here to Add to List"),
-                  
                 }
             };
             tour.Start();
         }
-
 
         public static void StartAddingQuries(object sender)
         {
@@ -121,7 +123,7 @@ namespace DominatorUIUtility.ScreenTip.PopUpstyle
                     new Step("ButtonAdd", "Add Queries", "Click here to Add to List"),
                     new Step("ButtonDelete", "Delete Query", "You can Click to delete Queries") { ShowNextButton = true },//IsCheckQuery
                     new Step("IsCheckQuery", "Select Query", "Please select Query to Delete "){ ShowNextButton = true },
-                     new Step("ButtonAllDelete", "Delete Query", "You can Delete Selected Queries"),
+                    new Step("ButtonAllDelete", "Delete Query", "You can Delete Selected Queries"),
 
                 }
             };
