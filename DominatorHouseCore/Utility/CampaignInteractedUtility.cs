@@ -71,7 +71,7 @@ namespace DominatorHouseCore.Utility
                     }
                     else
                     {
-                        if (CampaignInteractionDataModel.InteractedData.All(x => x.Key != interactedData))
+                        //if (CampaignInteractionDataModel.InteractedData.All(x => x.Key != interactedData))
                             CampaignInteractionDataModel.InteractedData.Add(interactedData, DateTime.Now);
                     }
                     SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory()

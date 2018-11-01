@@ -148,7 +148,7 @@
                                              Minimum="{Binding Value, ElementName=MinJobFollowCount,UpdateSourceTrigger=PropertyChanged}" Name="MaxActivitiesPerJob"/>
                     <Label  VerticalAlignment="Center" Content="{Binding PerJobActivity}"  />
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                     <Label    VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerHourDisplayName}"  />
                     <controls:NumericUpDown Minimum="0" Maximum="{Binding ElementName=MaxActionsPerDay,Path=Value,UpdateSourceTrigger=PropertyChanged}"
@@ -172,7 +172,7 @@
 
                 </StackPanel>
 
-              
+
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="5,8,0,0">
                     <Label   VerticalAlignment="Center" Content="{Binding  JobConfiguration.ActivitiesPerWeekDisplayName}"  />
                     <controls:NumericUpDown Minimum="{Binding Value, ElementName=MaxActionsPerDay,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5,5,5,0"
@@ -226,6 +226,26 @@
                                     <Setter Property="CommandParameter" Value="{Binding}"/>
                                 </Style>
                             </controls:DropDownButton.ItemContainerStyle>
+                            <controls:DropDownButton.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                                Foreground="Black"
+                                                Background="Transparent" Command="{Binding Source={x:Reference MainGrid},
+                                                Path=DataContext.RemoveFavoriteTimeCommand}"
+                                                CommandParameter="{Binding}">
+                                            <Button.Content>
+                                                <Rectangle Fill="Black" Width="15" Height="20">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"></VisualBrush>
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </Button.Content>
+                                        </Button>
+                                        <TextBlock Text="{Binding DataContext.FavoriteTimeName,RelativeSource={RelativeSource FindAncestor,AncestorType=MenuItem}}" Foreground="Black" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </controls:DropDownButton.ItemTemplate>
                         </controls:DropDownButton>
                         <Button Content="Create Favorite" Background="{DynamicResource AccentBaseColorBrush}" 
                                 Height="30" Foreground="White" Name="BtnCreateFavorite" Click="BtnCreateFavorite_OnClick"/>
