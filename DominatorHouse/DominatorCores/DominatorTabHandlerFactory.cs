@@ -82,7 +82,7 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("LangKeyProxyManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => ProxyManager.GetProxyManagerControl(_strategies))
+                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<ProxyManager>())
                 },
                 //new TabItemTemplates
                 //{

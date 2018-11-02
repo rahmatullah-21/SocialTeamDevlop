@@ -303,7 +303,7 @@ namespace DominatorUIUtility.CustomControl
             var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
             if (dataContext != null)
-                DominatorAccountViewModel.DeleteAccountByContextMenu(sender);
+                DominatorAccountViewModel.DeleteAccountByContextMenu(dataContext);
 
         }
 
