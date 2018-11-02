@@ -566,7 +566,9 @@
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
+    <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
+    <Compile Include="Utility\EnumExtensions.cs" />
     <Compile Include="Utility\GlobalInteractedUtility.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />

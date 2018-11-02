@@ -1,4 +1,5 @@
-﻿using DominatorUIUtility.ViewModel;
+﻿using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.ViewModel.OtherConfigurations;
 using DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
 using DominatorUIUtility.ViewModel.OtherTools;
@@ -11,6 +12,10 @@ namespace DominatorUIUtility.IoC
     {
         protected override void Initialize()
         {
+            // Views
+            Container.RegisterSingleton<AccountGrowthControl>();
+
+            // View Models
             Container.RegisterSingleton<IOtherConfigurationViewModel, SoftwareSettingsViewModel>("SoftwareSettingsViewModel");
             Container.RegisterSingleton<IOtherConfigurationViewModel, SocinatorMacrosViewModel>("SocinatorMacrosViewModel");
             Container.RegisterSingleton<IOtherConfigurationViewModel, QuoraViewModel>("QuoraViewModel");
@@ -27,6 +32,7 @@ namespace DominatorUIUtility.IoC
 
             Container.RegisterSingleton<IDominatorAccountViewModel, DominatorAccountViewModel>();
 
+            Container.RegisterSingleton<IAccountGrowthControlViewModel, AccountGrowthControlViewModel>();
         }
     }
 }

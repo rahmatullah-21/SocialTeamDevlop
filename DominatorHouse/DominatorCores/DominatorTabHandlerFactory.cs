@@ -56,7 +56,7 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title="LangKeyAccountGrowth".FromResourceDictionary(),
-                    Content = new Lazy<UserControl>(() =>  AccountGrowthControl.GetAccountGrowthControl(SocialNetworks.Social,_strategies))
+                    Content = new Lazy<UserControl>(() =>  ServiceLocator.Current.GetInstance<AccountGrowthControl>())
                 },
 
                 new TabItemTemplates

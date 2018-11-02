@@ -16,7 +16,6 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.IoC;
-using LiveCharts;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -34,12 +33,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using BindableBase = Prism.Mvvm.BindableBase;
 
 namespace DominatorUIUtility.ViewModel
 {
     public interface IDominatorAccountViewModel
     {
-
+        ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; }
     }
 
     [ProtoContract]
@@ -91,72 +91,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
-        public string[] Labels { get; set; }
-        public Func<int, string> YFormatter { get; set; }
-
-        public SeriesCollection SeriesCollection
-        {
-            get
-            {
-                return _seriesCollection;
-            }
-            set
-            {
-                SetProperty(ref _seriesCollection, value);
-            }
-        }
-
-        public string GrowthChartAccountNumber
-        {
-            get
-            {
-                return _growthChartAccountNumber;
-            }
-            set
-            {
-                SetProperty(ref _growthChartAccountNumber, value);
-            }
-        }
-
-
-        public SocialNetworks GrowthChartAccountNetwork
-        {
-            get
-            {
-                return _growthChartAccountNetwork;
-            }
-            set
-            {
-                SetProperty(ref _growthChartAccountNetwork, value);
-            }
-        }
-
-        public string GrowthChartPeriod { get; set; }
-        public string GrowthChartProperty { get; set; }
-        public string GrowthChartType { get; set; }
-
-        public List<GrowthProperty> GrowthProperties
-        {
-            get
-            {
-                return _growthProperties;
-            }
-            set
-            {
-                SetProperty(ref _growthProperties, value);
-            }
-        }
-
-
-        public List<string> GrowthChartProperties { get; set; }
-        public List<string> GrowthChartPeriods { get; set; }
-        public List<string> GrowthChartTypes { get; set; }
-
-        public int? YMaxValue { get; set; }
-
-        public List<DailyStatisticsViewModel> GrowthList { get; set; }
-
         #endregion
 
         #region Command 
@@ -169,7 +103,6 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SelectAccountCommand { get; }
         public ICommand SelectAccountByStatusCommand { get; }
         public ICommand SelectAccountByGroupCommand { get; }
-        public ICommand SingleAccountEditCommand { get; }
         public ICommand SingleAccountDeleteCommand { get; }
         public ICommand UpdateAccountDetailsCommand { get; }
         public ICommand UpdateGroupCommand { get; }
@@ -197,7 +130,7 @@ namespace DominatorUIUtility.ViewModel
 
             LoadMultipleAccountsCommand = new BaseCommand<object>(LoadMultipleAccountsCanExecute, (o) => LoadMultipleAccountsExecute(o, this.strategyPack._determine_available, this.strategyPack._inform_warnings));
 
-            InfoCommand = new BaseCommand<object>(InfoCommandCanExecute, InfoCommandExecute);
+            InfoCommand = new DelegateCommand(InfoCommandExecute);
 
             ExportCommand = new BaseCommand<object>(ExportCanExecute, ExportExecute);
 
@@ -1318,9 +1251,7 @@ namespace DominatorUIUtility.ViewModel
 
         #region Help Methods
 
-        private bool InfoCommandCanExecute(object sender) => true;
-
-        private void InfoCommandExecute(object sender) => IsOpenHelpControl = true;
+        private void InfoCommandExecute() => IsOpenHelpControl = true;
 
         #endregion
 
@@ -1485,11 +1416,6 @@ namespace DominatorUIUtility.ViewModel
         ImmutableQueue<Action> _checkPendingList = ImmutableQueue<Action>.Empty;
 
         bool _allSelectedAccountsQueued;
-        private List<GrowthProperty> _growthProperties;
-        private string _growthChartAccountNumber;
-        private SocialNetworks _growthChartAccountNetwork;
-        private SeriesCollection _seriesCollection;
-
         public List<string> _updateAccountList { get; set; } = new List<string>();
 
         public object AccountUpdateLock { get; set; } = new object();

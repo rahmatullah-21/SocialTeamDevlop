@@ -252,6 +252,9 @@
     <Compile Include="CustomControl\AccountDetailsSelector.xaml.cs">
       <DependentUpon>AccountDetailsSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\AccountGrowthChartControl.xaml.cs">
+      <DependentUpon>AccountGrowthChartControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\AccountGrowthControl.xaml.cs">
       <DependentUpon>AccountGrowthControl.xaml</DependentUpon>
     </Compile>
@@ -340,6 +343,7 @@
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
+    <Compile Include="ViewModel\AccountGrowthControlViewModel.cs" />
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />
     <Compile Include="ViewModel\BlackListViewModel.cs" />
     <Compile Include="ViewModel\CampaignViewModel.cs" />
@@ -614,6 +618,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\AccountDetailsSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\AccountGrowthChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
