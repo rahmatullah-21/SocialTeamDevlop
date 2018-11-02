@@ -15,8 +15,6 @@
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:BooleanToVisibilityConverter IsInversed="True" x:Key="BooleanToVisibilityConverterInversed"/>
-        <converter:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
-        <converter:ListConvertor x:Key="ListConvertor"/>
         <converter:AlternationIndexConverter x:Key="AlternationIndexConverter"/>
         <converter:ProxyManagerSourceConverter x:Key="ProxyManagerSourceConverter"/>
         <converter:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>

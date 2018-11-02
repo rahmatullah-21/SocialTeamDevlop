@@ -16,25 +16,25 @@ namespace DominatorHouseCore.Converters
                 switch (network.Value)
                 {
                     case SocialNetworks.Facebook:
-                        return Application.Current.FindResource("appbar_social_facebook_variant");
+                        return Application.Current?.FindResource("appbar_social_facebook_variant");
                     case SocialNetworks.Instagram:
-                        return Application.Current.FindResource("Instagram");
+                        return Application.Current?.FindResource("Instagram");
                     case SocialNetworks.Twitter:
-                        return Application.Current.FindResource("appbar_twitter_bird");
+                        return Application.Current?.FindResource("appbar_twitter_bird");
                     case SocialNetworks.Pinterest:
-                        return Application.Current.FindResource("appbar_social_pinterest");
+                        return Application.Current?.FindResource("appbar_social_pinterest");
                     case SocialNetworks.LinkedIn:
-                        return Application.Current.FindResource("appbar_social_linkedin_variant");
+                        return Application.Current?.FindResource("appbar_social_linkedin_variant");
                     case SocialNetworks.Reddit:
-                        return Application.Current.FindResource("appbar_social_reddit");
+                        return Application.Current?.FindResource("appbar_social_reddit");
                     case SocialNetworks.Quora:
-                        return Application.Current.FindResource("Quora");
+                        return Application.Current?.FindResource("Quora");
                     case SocialNetworks.Gplus:
-                        return Application.Current.FindResource("appbar_googleplus");
+                        return Application.Current?.FindResource("appbar_googleplus");
                     case SocialNetworks.Youtube:
-                        return Application.Current.FindResource("appbar_youtube");
+                        return Application.Current?.FindResource("appbar_youtube");
                     case SocialNetworks.Tumblr:
-                        return Application.Current.FindResource("appbar_social_tumblr");
+                        return Application.Current?.FindResource("appbar_social_tumblr");
                     case SocialNetworks.Social:
                         return null;
                     default:

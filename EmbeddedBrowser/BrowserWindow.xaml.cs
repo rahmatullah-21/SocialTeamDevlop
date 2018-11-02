@@ -47,7 +47,7 @@ namespace EmbeddedBrowser
             {
                 CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
-            Browser.BrowserSettings.BackgroundColor = 010869014;
+            Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = new RequestHandlerCustom(this);
             var url = GetNetworksHomeUrl();
             Browser.Address = url;
@@ -1155,7 +1155,53 @@ namespace EmbeddedBrowser
                 return false;
             }
         }
+        internal class MenuHandler : IContextMenuHandler
+        {
+            private const int Refresh = 1;
+            private const int Back = 2;
+            private const int Forward = 3;
+            void IContextMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+            {
+                //To disable the menu then call clear
+                model.Clear();
 
+                //Removing existing menu item
+                //bool removed = model.Remove(CefMenuCommand.ViewSource); // Remove "View Source" option
+
+                //Add new custom menu items
+                model.AddItem((CefMenuCommand)Refresh, "Refresh");
+                model.AddItem((CefMenuCommand)Back, "Back");
+                model.AddItem((CefMenuCommand)Forward, "Forward");
+            }
+
+            bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+            {
+                if ((int)commandId == Refresh)
+                {
+                    browser.Reload();
+                }
+                if ((int)commandId == Back)
+                {
+                    browser.GoBack();
+                }
+                if ((int)commandId == Forward)
+                {
+                    browser.GoForward();
+                }
+               
+                return false;
+            }
+
+            void IContextMenuHandler.OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+            {
+
+            }
+
+            bool IContextMenuHandler.RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+            {
+                return false;
+            }
+        }
 
         private void ButtonBack_OnClick(object sender, RoutedEventArgs e)
         {

@@ -3,6 +3,7 @@ using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.ProxyServerManagment;
 using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
@@ -14,8 +15,8 @@ namespace DominatorHouseCore
         protected override void Initialize()
         {
             Container.RegisterSingleton<IGlobalDatabaseConnection, GlobalDatabaseConnection>();
-
             Container.RegisterSingleton<ILogViewModel, LogViewModel>();
+
             Container.RegisterSingleton<IAccountsCacheService, AccountsCacheService>();
             Container.RegisterSingleton<ITemplatesCacheService, TemplatesCacheService>();
 
@@ -24,6 +25,7 @@ namespace DominatorHouseCore
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();
+            Container.AddNewExtension<ProxyManagmentUnityExtension>();
         }
     }
 }

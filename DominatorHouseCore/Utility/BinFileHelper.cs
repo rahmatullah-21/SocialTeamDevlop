@@ -626,7 +626,7 @@ namespace DominatorHouseCore.Utility
         public static List<CampaignInteractionViewModel> GetCampaignInteractedDetails(SocialNetworks network)
         {
             return WithFile<CampaignInteractionViewModel, List<CampaignInteractionViewModel>>(file =>
-                ProtoBuffBase.DeserializeList<CampaignInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
+                ProtoBuffBase.DeserializeList<CampaignInteractionViewModel>(file + $"\\{network}CampaignInteractedData.bin"));
         }
 
 
@@ -636,7 +636,7 @@ namespace DominatorHouseCore.Utility
             try
             {
                 WithFile<CampaignInteractionViewModel, bool>(file =>
-                    ProtoBuffBase.SerializeList(campaignInteractedDatas, file + $"\\{network}InteractedData.bin"));
+                    ProtoBuffBase.SerializeList(campaignInteractedDatas, file + $"\\{network}CampaignInteractedData.bin"));
                 GlobusLogHelper.log.Debug("Campaigns interacted data's succesfully saved");
             }
             catch (Exception ex)

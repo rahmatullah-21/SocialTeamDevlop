@@ -562,6 +562,10 @@
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="AppResources\ApplicationResourceProvider.cs" />
+    <Compile Include="ProxyServerManagment\Models\ProxyParsingResult.cs" />
+    <Compile Include="ProxyServerManagment\ProxyManagmentUnityExtension.cs" />
+    <Compile Include="ProxyServerManagment\ProxyServerParserService.cs" />
+    <Compile Include="ProxyServerManagment\ProxyValidationService.cs" />
     <Compile Include="Settings\SoftwareSettings.cs" />
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />

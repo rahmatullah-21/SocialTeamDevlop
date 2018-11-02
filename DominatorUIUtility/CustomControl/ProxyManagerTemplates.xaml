@@ -9,8 +9,6 @@
     <ControlTemplate x:Key="ProxyManagerControlTemplate">
         <ControlTemplate.Resources>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <converters:ProxyPortToIpAddressConvertor x:Key="ProxyPortToIpAddressConvertor"/>
-            <converters:ListConvertor x:Key="ListConvertor"/>
             <converters:AlternationIndexConverter x:Key="AlternationIndexConverter"/>
             <ControlTemplate x:Key="ErrorTemplate">
                 <StackPanel Orientation="Vertical">
