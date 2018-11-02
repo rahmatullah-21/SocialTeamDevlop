@@ -34,10 +34,8 @@ using FluentScheduler;
 using DominatorHouseCore.Command;
 using System.Windows.Input;
 using DominatorUIUtility.Navigations;
-using DominatorUIUtility.ScreenTip.ViewModel;
-using DominatorUIUtility.ScreenTip.PopUpstyle;
+
 using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.ScreenTipMode;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -68,10 +66,9 @@ namespace DominatorUIUtility.CustomControl
             LoadedCommand = new BaseCommand<object>((sender) => true, (sender) => SetSelectedAccounts());
             SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
             StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
-            CmdStartModuleOverView = new BaseCommand<object>((sender) => true, StartModuleOverView);
+           
 
         }
-      
 
         private void CreateOrUpdateCampaign(object sender)
         {
@@ -125,7 +122,8 @@ namespace DominatorUIUtility.CustomControl
         {
             //if (queryControl == null) throw new ArgumentNullException(nameof(queryControl));
 
-            if (_initialized) return;
+            if (_initialized)
+                return;
 
             _headerControl = header;
             _footerControl = footer;
@@ -135,10 +133,6 @@ namespace DominatorUIUtility.CustomControl
             _moduleName = moduleName;
             _accountGrowthModeHeader = accountGrowthModeHeader;
             _initialized = true;
-          
-            FeatureTour.SetViewModelFactoryMethod(tourRun => new CustomTourViewModel(tourRun));
-
-            var navigator = FeatureTour.GetNavigator();
 
         }
 
@@ -406,7 +400,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #endregion
-        
 
         #region Create Campaign 
 
@@ -489,45 +482,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        #region ToolTip commands
-        public static void StartModuleOverView(object sender)
-        {
-            PopUpStarter.istutorial = false;
-            var tour = new ScreenInfo
-            {
-                Name = "Overview",
-                ShowNextButtonDefault = false,
-                Steps = new[]
-               {
-                    new Step("ModuleButtonOverView", "Welcome - Start your Tutorial", (TViewModel)Instances)
-                    {
-                        ContentDataTemplateKey = "SelectSearchQueryTemplate"
-                    },
-                }
-            };
-            tour.Start();
-        }
-
-
-        public static void StartSelectQueryIntro(object sender)
-        {
-            var tour = new ScreenInfo
-            {
-                Name = "Introduction",
-                ShowNextButtonDefault = true,
-                Steps = new[]
-                {
-                    new Step("SearchQuery", "SearchQuery", "Login with Accounts "),
-                     new Step("JobConfiguration", "JobConfiguration", "Shows you growth rate of accounts"),
-                      new Step("AfterFollow", "AfterFollow", "Shows you Info regarding dashboard"),
-                       new Step("OtherConfiguration", "AccountsActivityInfo", "Shows you Info regarding dashboard"),
-                        new Step("BlacklistUsers", "BlacklistUsers", "Shows you Info regarding dashboard"),
-
-                }
-            };
-            tour.Start();
-        }
-        #endregion
+     
 
         public void SaveTemplateToAccounts(string templateId, List<RunningTimes> runningTime)
         {
@@ -1898,6 +1853,7 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+
         public void CustomFilter()
         {
             try
@@ -1910,6 +1866,7 @@ namespace DominatorUIUtility.CustomControl
             }
 
         }
+
         public void SetSelectedAccounts()
         {
             try
@@ -1975,21 +1932,8 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+        
 
-
-
-        protected virtual void InitializeTutorial()
-        {
-            try
-            {
-                if (_queryControl.CurrentQuery.QueryType == "Keywords")
-                {
-
-                } 
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+       
     }
 }

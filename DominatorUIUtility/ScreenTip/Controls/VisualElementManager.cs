@@ -72,14 +72,18 @@ namespace DominatorUIUtility.Controls
             foreach (var visualElement in myVisualElements.ToArray())
             {
                 FrameworkElement element;
-                if (visualElement.TryGetElement(out element))
+                if (!string.IsNullOrEmpty(visualElement.ElementID))
                 {
-                    // Do only return loaded elements but do not remove unloaded elements
-                    // because it is possible that elements get temporary unloaded (e.g. on
-                    // a tab of a TabControl.
-                    if (element.IsLoaded || includeUnloaded)
-                        yield return visualElement;
+                    if (visualElement.TryGetElement(out element))
+                    {
+                        // Do only return loaded elements but do not remove unloaded elements
+                        // because it is possible that elements get temporary unloaded (e.g. on
+                        // a tab of a TabControl.
+                        if (element.IsLoaded)
+                            yield return visualElement;
+                    }
                 }
+               
             }
         }
 

@@ -365,6 +365,7 @@ namespace DominatorHouseCore.Process
         }
 
 
+
         public static bool IsStarted(string accountName, string templateId)
         {
             lock (SyncJobProcess)

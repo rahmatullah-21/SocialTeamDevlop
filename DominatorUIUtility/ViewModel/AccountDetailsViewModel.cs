@@ -153,7 +153,7 @@ namespace DominatorUIUtility.ViewModel
                         if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList, DominatorAccountModel.CookieHelperList))
                             DominatorAccountModel.CookieHelperList.Clear();
                     }
-
+                  
                     await asyncAccount.CheckStatusAsync(DominatorAccountModel, DominatorAccountModel.Token);
 
 
