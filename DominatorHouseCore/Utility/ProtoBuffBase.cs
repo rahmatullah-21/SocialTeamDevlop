@@ -116,21 +116,25 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                using (var stream = File.OpenRead(filePath))
+                 if (File.Exists(filePath))
                 {
-                    if (filePath.ToLower().Contains("account"))
-                        Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
+                    using (var stream = File.OpenRead(filePath))
+                    {
+                        if (filePath.ToLower().Contains("account"))
+                            Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
 
-                    var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);  
+                        var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);
 
-                    return wrapper.List ?? new List<T>();
+                        return wrapper.List ?? new List<T>();
+                    } 
                 }
             }
             catch (Exception ex)
             {
                 ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
                 return new List<T>();
-            }            
+            }
+            return new List<T>();
         }
 
         #endregion        

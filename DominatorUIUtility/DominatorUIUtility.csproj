@@ -366,6 +366,7 @@
     <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
     <Compile Include="ViewModel\SelectAccountViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\AccountDetailsSelectorViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\AdvancedSettings\FacebookViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherCreateCampaignViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherCreateDestinationsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherDefaultViewModel.cs" />
@@ -383,6 +384,7 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherScrapePostViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\SoftwareSettingsViewModel.cs" />
+    <Compile Include="ViewModel\SocioPublisher\SelectAccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\VerifyProxiesViewModel.cs" />
     <Compile Include="ViewModel\WhiteListViewModel.cs" />
     <Compile Include="Views\AccountManager.xaml.cs">
@@ -1173,6 +1175,7 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

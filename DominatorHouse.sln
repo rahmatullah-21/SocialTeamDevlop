@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouse", "DominatorHouse\DominatorHouse.csproj", "{C7B598E7-4B31-4A92-9B53-022A25E50002}"
 EndProject
@@ -64,6 +64,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouseCore.UnitTests", "Tests\DominatorHouseCore.UnitTests\DominatorHouseCore.UnitTests.csproj", "{AE5B9281-E0E6-40FC-8E3D-1DB2BCF37722}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouseCore.IntegrationTests", "Tests\DominatorHouseCore.IntegrationTests\DominatorHouseCore.IntegrationTests.csproj", "{64F2FD12-13C6-46FB-A2B9-1D28FB07CC21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QdUnitTest", "..\quoradominator-library\QdUnitTest\QdUnitTest.csproj", "{57D13829-2736-45FC-B2F0-BFC8C44B28BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -609,6 +611,24 @@ Global
 		{64F2FD12-13C6-46FB-A2B9-1D28FB07CC21}.Release|x64.Build.0 = Release|Any CPU
 		{64F2FD12-13C6-46FB-A2B9-1D28FB07CC21}.Release|x86.ActiveCfg = Release|Any CPU
 		{64F2FD12-13C6-46FB-A2B9-1D28FB07CC21}.Release|x86.Build.0 = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|x64.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|x86.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x64.ActiveCfg = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x64.Build.0 = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
