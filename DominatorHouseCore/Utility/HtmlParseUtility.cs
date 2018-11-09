@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HtmlAgilityPack;
 
 namespace DominatorHouseCore.Utility
@@ -112,6 +113,23 @@ namespace DominatorHouseCore.Utility
             .Descendants($"{innertag}")
             .ForEach(x => { lstInnerhtml.Add(x.InnerText.ToString()); });
             return lstInnerhtml;
+        }
+        public static string GetAllInnerTextFromTags(string pageSource)
+        {
+            var text = string.Empty;
+            var htmlDoc = new HtmlDocument();
+            try
+            {
+                htmlDoc.LoadHtml(pageSource);
+                text = htmlDoc.DocumentNode.InnerText;
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return text;
+
         }
     }
 }

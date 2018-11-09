@@ -122,7 +122,7 @@ namespace DominatorUIUtility.ViewModel
         {
 
 
-            DominatorAccountModel.CookieHelperList.ToList().ForEach(cookie =>
+            DominatorAccountModel.CookieHelperList?.ToList().ForEach(cookie =>
             {
                 if (string.IsNullOrEmpty(cookie.Name) || string.IsNullOrEmpty(cookie.Value))
                     DominatorAccountModel.CookieHelperList.Remove(cookie);
@@ -150,7 +150,7 @@ namespace DominatorUIUtility.ViewModel
                         || OldDominatorAccountModel.UserAgentWeb != DominatorAccountModel.UserAgentWeb)
                     {
                         if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList, DominatorAccountModel.CookieHelperList))
-                            DominatorAccountModel.CookieHelperList.Clear();
+                            DominatorAccountModel.CookieHelperList?.Clear();
                     }
 
                     await asyncAccount.CheckStatusAsync(DominatorAccountModel, DominatorAccountModel.Token);

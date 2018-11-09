@@ -155,7 +155,7 @@ namespace DominatorHouseCore.Utility
             catch (Exception)
             {
                 var keySubstring = resourceDictionaryKey.Substring("LangKey".Length);
-                return Regex.Replace(keySubstring, "(\\B[A-Z])", " $1");
+                return Regex.Replace(keySubstring, "(\\B[A-Z])", " $6");
             }
         }
 

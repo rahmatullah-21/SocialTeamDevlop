@@ -260,8 +260,9 @@ namespace DominatorHouseCore.Models
 
         #endregion
 
-        [ProtoMember(13)]
+       
         private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
+        [ProtoMember(13)]
         public HashSet<CookieHelper> CookieHelperList
         {
             get { return _cookieHelperList; }
@@ -291,13 +292,16 @@ namespace DominatorHouseCore.Models
             {
                 var cookieCollection = new CookieCollection();
 
-                foreach (var cookieHelper in _cookieHelperList)
-                    cookieCollection.Add(new Cookie()
-                    {
-                        Domain = cookieHelper.Domain,
-                        Name = cookieHelper.Name,
-                        Value = cookieHelper.Value
-                    });
+                if (_cookieHelperList != null)
+                {
+                    foreach (var cookieHelper in _cookieHelperList)
+                        cookieCollection.Add(new Cookie()
+                        {
+                            Domain = cookieHelper.Domain,
+                            Name = cookieHelper.Name,
+                            Value = cookieHelper.Value
+                        });
+                }
 
                 return cookieCollection;
             }

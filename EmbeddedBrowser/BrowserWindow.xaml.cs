@@ -708,7 +708,8 @@ namespace EmbeddedBrowser
                 var require = updatedHtml.Contains("choice_1") && updatedHtml.Contains("choice_0");
                 if (!require && !updatedHtml.Contains("Submit"))
                 {
-                    Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
+                    // Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
+                    Browser.ExecuteScriptAsync("document.getElementsByClassName(\"sqdOP\")[1].click()");
                     Thread.Sleep(2000);
                 }
 
@@ -1188,7 +1189,7 @@ namespace EmbeddedBrowser
                 {
                     browser.GoForward();
                 }
-               
+
                 return false;
             }
 

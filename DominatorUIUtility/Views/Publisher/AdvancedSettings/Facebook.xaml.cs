@@ -10,6 +10,7 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
+using DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -35,6 +36,8 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 ObjFacebook = new Facebook();
             return ObjFacebook;
         }
+
+
         private FacebookViewModel _facebookViewModel = new FacebookViewModel();
 
         public FacebookViewModel FacebookViewModel
@@ -64,7 +67,9 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var facebookModel = GenericFileManager.GetModuleDetails<FacebookModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            FacebookViewModel.FacebookModel = facebookModel ?? (facebookModel=new FacebookModel()) ;
+            FacebookViewModel.FacebookModel = facebookModel ?? (facebookModel = new FacebookModel());
         }
+
+        
     }
 }

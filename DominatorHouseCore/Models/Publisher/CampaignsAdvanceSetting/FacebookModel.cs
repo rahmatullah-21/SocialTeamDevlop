@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using DominatorHouseCore.Models.SocioPublisher;
 
 namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 {
@@ -508,6 +509,8 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
             {
                 if (_isAutoTagFriends == value)
                     return;
+                if (value)
+                    IsTagOptionChecked = true;
                 SetProperty(ref _isAutoTagFriends, value);
             }
         }
@@ -562,7 +565,232 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
             }
         }
 
+        private List<KeyValuePair<string, string>> _accountFriendsPair = new List<KeyValuePair<string, string>>();
+        
 
+        [ProtoMember(36)]
+        public List<KeyValuePair<string, string>> AccountFriendsPair
+        {
+            get
+            {
+                return _accountFriendsPair;
+            }
+            set
+            {
+                if (_accountFriendsPair == value)
+                    return;
+                SetProperty(ref _accountFriendsPair, value);
+            }
+        }
+
+
+        private bool _isTagSpecificFriends = false;
+
+        [ProtoMember(37)]
+        public bool IsTagSpecificFriends
+        {
+            get
+            {
+                return _isTagSpecificFriends;
+            }
+            set
+            {
+                if (_isTagSpecificFriends == value)
+                    return;
+                SetProperty(ref _isTagSpecificFriends, value);
+            }
+        }
+
+
+        private string _CustomTaggedUser = string.Empty;
+
+        [ProtoMember(38)]
+        public string CustomTaggedUser
+        {
+            get
+            {
+                return _CustomTaggedUser;
+            }
+            set
+            {
+                if (_CustomTaggedUser == value)
+                    return;
+                SetProperty(ref _CustomTaggedUser, value);
+            }
+        }
+
+        private List<string> _ListCustomTaggedUser = new List<string>();
+
+        [ProtoMember(39)]
+        public List<string> ListCustomTaggedUser
+        {
+            get
+            {
+                return _ListCustomTaggedUser;
+            }
+            set
+            {
+                if (_ListCustomTaggedUser == value)
+                    return;
+                SetProperty(ref _ListCustomTaggedUser, value);
+            }
+        }
+
+        private SelectAccountDetailsModel _selectFriendsDetailsModel = new SelectAccountDetailsModel();
+
+        [ProtoMember(40)]
+        public SelectAccountDetailsModel SelectFriendsDetailsModel
+        {
+            get
+            {
+                return _selectFriendsDetailsModel;
+            }
+            set
+            {
+                if (_selectFriendsDetailsModel == value)
+                    return;
+                SetProperty(ref _selectFriendsDetailsModel, value);
+            }
+        }
+
+        private bool _isPostAsPage = false;
+
+        [ProtoMember(41)]
+        public bool IsPostAsPage
+        {
+            get
+            {
+                return _isPostAsPage;
+            }
+            set
+            {
+                if (_isPostAsPage == value)
+                    return;
+                SetProperty(ref _isPostAsPage, value);
+            }
+        }
+
+        private bool _isPostAsOwnAccount = true;
+
+        [ProtoMember(42)]
+        public bool IsPostAsOwnAccount
+        {
+            get
+            {
+                return _isPostAsOwnAccount;
+            }
+            set
+            {
+                if (_isPostAsOwnAccount == value)
+                    return;
+                SetProperty(ref _isPostAsOwnAccount, value);
+            }
+        }
+
+
+        private bool _isReactAsPageOptionChecked = false;
+
+        [ProtoMember(43)]
+        public bool IsReactAsPageOptionChecked
+        {
+            get
+            {
+                return _isReactAsPageOptionChecked;
+            }
+            set
+            {
+                if (_isReactAsPageOptionChecked == value)
+                    return;
+                SetProperty(ref _isReactAsPageOptionChecked, value);
+            }
+        }
+
+
+        private string _CustomPageUrl = string.Empty;
+
+        [ProtoMember(44)]
+        public string CustomPageUrl
+        {
+            get
+            {
+                return _CustomPageUrl;
+            }
+            set
+            {
+                if (_CustomPageUrl == value)
+                    return;
+                SetProperty(ref _CustomPageUrl, value);
+            }
+        }
+
+        private List<string> _ListCustomPageUrl = new List<string>();
+
+        [ProtoMember(45)]
+        public List<string> ListCustomPageUrl
+        {
+            get
+            {
+                return _ListCustomPageUrl;
+            }
+            set
+            {
+                if (_ListCustomPageUrl == value)
+                    return;
+                SetProperty(ref _ListCustomPageUrl, value);
+            }
+        }
+
+        private SelectAccountDetailsModel _selectPageDetailsModel = new SelectAccountDetailsModel();
+
+        [ProtoMember(46)]
+        public SelectAccountDetailsModel SelectPageDetailsModel
+        {
+            get
+            {
+                return _selectPageDetailsModel;
+            }
+            set
+            {
+                if (_selectPageDetailsModel == value)
+                    return;
+                SetProperty(ref _selectPageDetailsModel, value);
+            }
+        }
+
+
+        private bool _IsTagOptionChecked = false;
+
+        [ProtoMember(47)]
+        public bool IsTagOptionChecked
+        {
+            get
+            {
+                return _IsTagOptionChecked;
+            }
+            set
+            {
+                if (_IsTagOptionChecked == value)
+                    return;
+                SetProperty(ref _IsTagOptionChecked, value);
+            }
+        }
+
+        private List<KeyValuePair<string, string>> _AccountPagesBoardsPair = new List<KeyValuePair<string, string>>();
+
+        [ProtoMember(48)]
+        public List<KeyValuePair<string, string>> AccountPagesBoardsPair
+        {
+            get
+            {
+                return _AccountPagesBoardsPair;
+            }
+            set
+            {
+                if (_AccountPagesBoardsPair == value)
+                    return;
+                SetProperty(ref _AccountPagesBoardsPair, value);
+            }
+        }
 
         public FacebookModel Clone()
         {

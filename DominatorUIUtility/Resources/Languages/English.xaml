@@ -3150,7 +3150,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySalesnavigatorCompanyscraper">Salesnavigator Companyscraper</system:String>
     <system:String x:Key="LangKeyEventUrl">Event Url</system:String>
     <system:String x:Key="LangKeyMutualFriend">Mutual Friend</system:String>
-    <system:String x:Key="LangKeyScrapThePagesWhichContainLikersBetween">Scrap the pages which contains Likers Between</system:String>
+    <system:String x:Key="LangKeyScrapThePagesWhichContainLikersBetween">Scrap/Like the pages which contains Likers Between</system:String>
     <system:String x:Key="LangKeyScrapUsersWhoMessagedUs">Scrap The User Who Messaged Us</system:String>
     <system:String x:Key="LangKeySocinatorUserScraperCampaign">UserScraper Campaign</system:String>
     <system:String x:Key="LangKeySocinatorTweetScraperCampaign">TweetScraper Campaign</system:String>
@@ -3221,4 +3221,20 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyTotalNumberMutualFriendsShouldBeSmallerThan">Total Number Mutual Friends Should be smaller than</system:String>
     <system:String x:Key="LangKeyPostUsingGeoLocationWithLocationName">Geo Location Name</system:String>
     <system:String x:Key="LangKeyPostUsingGeoLocationWithLocationId">Geo Location Id</system:String>
+
+    <system:String x:Key="LangKeyAutoTagSpecificPosts">Tag Specifix Posts</system:String>
+    <system:String x:Key="LangKeyPostAsPageOption">Post As Page Option (Only for posting to pages)</system:String>
+    <system:String x:Key="LangKeyPostAsOwnAccount">Post As Own Account</system:String>
+    <system:String x:Key="LangKeyPostAsPage">Post As Page</system:String>
+    <system:String x:Key="LangKeyPagePostComments">Page Post Comment(s)</system:String>
+    <system:String x:Key="LangKeyGroupPostComments">Group Post Comment(s)</system:String>
+    <system:String x:Key="LangKeyNewsFeedPosts">Newsfeed Post(s)</system:String>
+    <system:String x:Key="LangKeyLikePageAs">Like Page As</system:String>
+    <system:String x:Key="LangKeyCommentOnPageAs">Comment On Page As</system:String>
+    <system:String x:Key="LangKeySendUniqueMessageFromEachAccount">Send Unique Message From Each Account</system:String>
+    <system:String x:Key="LangKeySendUniqueCommentFromEachAccount">Send Unique Comment From Each Account</system:String>
+    <system:String x:Key="LangKeySendUniqueCommentForEachPost">Send Unique Comment For Each Post</system:String>
+    <system:String x:Key="LangKeySendMessageToNewFriends">Send Message To New Friends</system:String>
+    <system:String x:Key="LangKeySendUniqueMessageToEachUser">Send Unique Message To Each User</system:String>
+    <system:String x:Key="LangKeyTagFriendsOption">Tag Friends Option</system:String>
 </ResourceDictionary>

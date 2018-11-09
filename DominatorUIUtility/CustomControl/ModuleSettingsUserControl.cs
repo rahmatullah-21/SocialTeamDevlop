@@ -714,7 +714,7 @@ namespace DominatorUIUtility.CustomControl
             if (objErrorModelControl.Accounts.Count != 0)
                 warningWindow.ShowDialog();
 
-
+            this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
             if (needToCancel || _footerControl.list_SelectedAccounts.Count == 0)
             {
                 return false;

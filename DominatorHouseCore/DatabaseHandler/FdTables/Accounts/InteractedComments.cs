@@ -81,5 +81,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public DateTime InteractionDateTime { get; set; }
 
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string LikeAsPageId { get; set; }
     }
 }

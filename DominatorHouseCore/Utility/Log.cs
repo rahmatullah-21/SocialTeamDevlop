@@ -420,5 +420,12 @@ namespace DominatorHouseCore.Utility
         /// 3 = Error Details
         /// </summary>
         public static string PublishingFailedWithError { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyErrorWhilePublishingOn".FromResourceDictionary() + " {2}-[{3}] with error {4}\t" + CodeConstants.PublishingFailedWithError;
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = Varification type[Phone/Email]      
+        /// </summary>
+        public static string SentVerificationCodeForAutoVerify { get; set; } = "{0}\t {1}\t " + "LangKeyVerification".FromResourceDictionary() + "\t" + "LangKeyVerificationCodeHasBeenSentToRregistered".FromResourceDictionary() + " {2}. " + "\t" + CodeConstants.SentVerificationCode;
     }
 }

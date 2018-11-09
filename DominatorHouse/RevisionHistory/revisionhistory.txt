@@ -1,3 +1,40 @@
+Version[1.0.0.20],[3rd-November-18]
+New Features:-
+	Sociopublisher:-
+		Youtube => Added feature to uplaod video on your channel.
+		Instagram => Sociopublisher => createpost => settings => Added feature to post using geo loction, either by location id or location name 
+		Instagram => Sociopublisher => Monitor folder => Now you can use any randam geolocation to post which are seperated by ampersand symbol for location name and comma for location id.
+	Instagram:-
+		Instascrape => User Scraper:Now you can scraper email and contant number.
+	Facebook:-
+		Account Activity => Report => Added feature to delete the report data.
+	Pinterest:-
+		Pin Poster => Repin => Added feature to repin posts directly from Socinator Publisher Campaign.
+Fixed:-
+	Social:-
+		Accounts Manager => Import Multiple Accounts => Fixed Issue with Importing Multiple Accounts.
+	SocioPublisher:-
+		Linkedin => Fixed issue with => Post on group => It was not posting.
+		Facebook => Sociopublisher => Fixed issue with rss feed.
+		Facebook => Sociopublisher => Fixed issue with sharing on friend's timeline.
+		Facebook => Sociopublisher =>Fixed issue with showing details after publishing a post.
+	Instagram:-
+		Account => Account mangager => Fixed issue with showing account details showing status failed.
+		Growfollower => Follow => Fixed issue with following users.
+		Instaposte => Reposter => Fixed issue with reposting videos with orginal caption.
+		InstaLiker/Commenter => Comment => Fixed issue with showing filter not matched in the logger even if the filters were unchecked.
+	Facebook:-
+		Engage =>Fanpage liker => Fixed issue to like fanpages with filter condition which contains likers between X and Y.
+		Grow Group => Group UnJoiner => Fixed issue with unjoining groups followed outside the software.
+	Linkedin:-
+		Fixed issue with => connection request => Profile Url => It was not proceeding after sending one request.
+		Fixed issue with => connection request => search url => Software was not showing the actual result as same as the browser result.
+		Fixed issue with => Export connection => cutsom url => No more data available issue.
+	Twitter:-
+		Minor bug fixed and improvements.
+	Tumblr:-
+		Follow => Someone's Followings => Fixed issue with following the users followings.
+
 Version[1.0.0.19],[26th-October-18]
 New Features:-
 	Social:-
