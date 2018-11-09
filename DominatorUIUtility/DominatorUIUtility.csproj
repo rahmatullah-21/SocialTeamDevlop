@@ -345,6 +345,9 @@
     <Compile Include="CustomControl\SelectAccountControl.xaml.cs">
       <DependentUpon>SelectAccountControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\SelectAccountDetailsControl.xaml.cs">
+      <DependentUpon>SelectAccountDetailsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
@@ -772,6 +775,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\SelectAccountControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\SelectAccountDetailsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

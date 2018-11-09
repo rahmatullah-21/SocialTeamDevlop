@@ -1,0 +1,224 @@
+﻿using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums.FdQuery;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel.SocioPublisher;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace DominatorUIUtility.CustomControl
+{
+    /// <summary>
+    /// Interaction logic for SelectAccountDetailsControl.xaml
+    /// </summary>
+    public partial class SelectAccountDetailsControl : UserControl, INotifyPropertyChanged
+    {
+        public SelectAccountDetailsControl()
+        {
+            InitializeComponent();
+            SelectDetails.DataContext = SelectAccountDetailsViewModel;
+        }
+
+        public SelectAccountDetailsControl(List<FbEntityTypes> listColumnName, string selectedAccount, bool isSingleAccount, string pageHeaderText, bool isFanpage = false)
+        {
+            InitializeComponent();
+
+            if (isSingleAccount)
+            {
+                SelectAccountDetailsViewModel.IsSelectedSingleAccount = true;
+                SelectAccountDetailsViewModel.DisplayAccount = selectedAccount;
+            }
+            SelectAccountDetailsViewModel.InitializeDestinationList();
+
+            if (listColumnName.Contains(FbEntityTypes.Group))
+            {
+                SelectAccountDetailsViewModel.SelectAccountDetailsModel.GroupColWidth = "0";
+                SelectAccountDetailsViewModel.GroupColWidth = "0";
+            }
+
+            if (listColumnName.Contains(FbEntityTypes.Page))
+            {
+                SelectAccountDetailsViewModel.SelectAccountDetailsModel.PageColWidth = "0";
+                SelectAccountDetailsViewModel.PageColWidth = "0";
+            }
+
+            if (listColumnName.Contains(FbEntityTypes.Friend))
+            {
+                SelectAccountDetailsViewModel.SelectAccountDetailsModel.FriendColWidth = "0";
+                SelectAccountDetailsViewModel.FriendColWidth = "0";
+            }
+
+            if (!string.IsNullOrEmpty(pageHeaderText))
+            {
+                SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
+            }
+
+            SelectAccountDetailsViewModel.IsFanpage = isFanpage;
+
+
+            SelectDetails.DataContext = SelectAccountDetailsViewModel;
+        }
+
+        public SelectAccountDetailsControl(SelectAccountDetailsModel selctAccountDetailsModel, bool isFanpage = false)
+        {
+            InitializeComponent();
+
+            //SelectAccountDetailsViewModel = new SelectAccountDetailsViewModel();
+            SelectAccountDetailsViewModel.SelectAccountDetailsModel = selctAccountDetailsModel;
+
+            if (selctAccountDetailsModel.IsDisplaySingleAccount)
+                SelectAccountDetailsViewModel.RemoveUnnecessaryDestinationList();
+
+            SelectAccountDetailsViewModel.GroupColWidth = selctAccountDetailsModel.GroupColWidth;
+            SelectAccountDetailsViewModel.FriendColWidth = selctAccountDetailsModel.FriendColWidth;
+            SelectAccountDetailsViewModel.PageColWidth = selctAccountDetailsModel.PageColWidth;
+            SelectAccountDetailsViewModel.IsFanpage = isFanpage;
+            SelectAccountDetailsViewModel.EditDestination();
+            SelectDetails.DataContext = SelectAccountDetailsViewModel;
+        }
+
+        public SelectAccountDetailsControl(List<FbEntityTypes> hiddenColumnList, SelectAccountDetailsModel model
+            , bool isFanpage = false)
+        {
+            InitializeComponent();
+            SelectAccountDetailsViewModel.SelectAccountDetailsModel = model;
+
+            if (hiddenColumnList.Contains(FbEntityTypes.Group))
+            {
+                SelectAccountDetailsViewModel.SelectAccountDetailsModel.GroupColWidth = "0";
+                SelectAccountDetailsViewModel.GroupColWidth = "0";
+            }
+
+            if (hiddenColumnList.Contains(FbEntityTypes.Page))
+            {
+                SelectAccountDetailsViewModel.SelectAccountDetailsModel.PageColWidth = "0";
+                SelectAccountDetailsViewModel.PageColWidth = "0";
+            }
+
+            if (hiddenColumnList.Contains(FbEntityTypes.Friend))
+            {
+                SelectAccountDetailsViewModel.SelectAccountDetailsModel.FriendColWidth = "0";
+                SelectAccountDetailsViewModel.FriendColWidth = "0";
+            }
+
+            SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
+            
+
+
+            SelectAccountDetailsViewModel.IsFanpage = isFanpage;
+            SelectAccountDetailsViewModel.EditDestination();
+            SelectAccountDetailsViewModel.IsSelectedSingleAccount = false;
+
+            SelectDetails.DataContext = SelectAccountDetailsViewModel;
+        }
+
+        public SelectAccountDetailsViewModel SelectAccountDetailsViewModel
+        {
+            get
+            {
+                return _selectAccountDetailsViewModel;
+            }
+            set
+            {
+                _selectAccountDetailsViewModel = value;
+                OnPropertyChanged(nameof(SelectAccountDetailsViewModel));
+            }
+        }
+
+        private static SelectAccountDetailsControl _indexPage;
+        private SelectAccountDetailsViewModel _selectAccountDetailsViewModel = new SelectAccountDetailsViewModel();
+
+        public static SelectAccountDetailsControl Instance { get; set; }
+            = _indexPage ?? (_indexPage = new SelectAccountDetailsControl());
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void PublisherCreateDestination_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (!SelectAccountDetailsViewModel.IsSavedDestination)
+                return;
+        }
+
+        public static readonly RoutedEvent SaveDetailsChangedRoutedEvent = EventManager.RegisterRoutedEvent("SaveDetailsChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SelectAccountDetailsControl));
+        private List<FbEntityTypes> hiddenColumnList;
+        private SelectAccountDetailsModel model;
+
+        public event RoutedEventHandler SaveDetailsChanged
+        {
+            add { AddHandler(SaveDetailsChangedRoutedEvent, value); }
+            remove { RemoveHandler(SaveDetailsChangedRoutedEvent, value); }
+        }
+
+        public void SaveDetailsChangedEventHandler()
+        {
+            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(SaveDetailsChangedRoutedEvent);
+            RaiseEvent(objRoutedEventArgs);
+        }
+
+        private void Btn_SaveClick(object sender, RoutedEventArgs e)
+        {
+            SaveDetailsChangedEventHandler();
+        }
+
+
+        public SelectAccountDetailsModel GetGroupInviterDetails(SelectAccountDetailsModel model)
+        {
+            List<Tuple<string, string, string>> listGroupInviterDetails = new List<Tuple<string, string, string>>();
+            foreach (KeyValuePair<string, string> accountGroup in model.AccountGroupPair)
+            {
+                var accountFriendPair = SelectAccountDetailsViewModel.SelectAccountDetailsModel.AccountFriendsPair;
+                var friendList = accountFriendPair.Where(x => x.Key == accountGroup.Key).Select(y => y.Value).ToList();
+                friendList.ForEach(x =>
+                {
+                    Tuple<string, string, string> groupInviterDetail =
+                            new Tuple<string, string, string>(accountGroup.Key, accountGroup.Value, x);
+
+                    listGroupInviterDetails.Add(groupInviterDetail);
+                });
+            }
+
+            model.GroupInviterDetails = listGroupInviterDetails;
+
+            return model;
+        }
+
+        public SelectAccountDetailsModel GetPageInviterDetails(SelectAccountDetailsModel model)
+        {
+            List<Tuple<string, string, string>> listPageInviterDetails = new List<Tuple<string, string, string>>();
+            foreach (KeyValuePair<string, string> accountPage in
+                model.AccountPagesBoardsPair)
+            {
+                var accountFriendPair = SelectAccountDetailsViewModel.SelectAccountDetailsModel.AccountFriendsPair;
+                var friendList = accountFriendPair.Where(x => x.Key == accountPage.Key).Select(y => y.Value).ToList();
+                friendList.ForEach(x =>
+                {
+                    Tuple<string, string, string> pageInviterDetail =
+                            new Tuple<string, string, string>(accountPage.Key, accountPage.Value, x);
+
+                    listPageInviterDetails.Add(pageInviterDetail);
+                });
+            }
+
+            model.PageInviterDetails = listPageInviterDetails;
+
+            return model;
+        }
+
+
+        public SelectAccountDetailsModel GetSelectAccountModel()
+        {
+            return SelectAccountDetailsViewModel.SelectAccountDetailsModel;
+        }
+    }
+}
