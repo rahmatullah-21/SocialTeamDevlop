@@ -36,6 +36,8 @@ using System.Windows.Input;
 using DominatorUIUtility.Navigations;
 
 using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.ScreenTipMode;
+using DominatorUIUtility.ScreenTip.PopUpstyle;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -66,8 +68,7 @@ namespace DominatorUIUtility.CustomControl
             LoadedCommand = new BaseCommand<object>((sender) => true, (sender) => SetSelectedAccounts());
             SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
             StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
-           
-
+            CmdStartModuleOverView = new BaseCommand<object>((sender) => true, StartModuleOverView);
         }
 
         private void CreateOrUpdateCampaign(object sender)
@@ -87,14 +88,13 @@ namespace DominatorUIUtility.CustomControl
         public ICommand LoadedCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand StatusChangedCommand { get; set; }
-
         public ICommand CmdStartModuleOverView { get; set; }
      
         #endregion
 
         #region Properties
 
-        HeaderControl _headerControl;
+       public HeaderControl _headerControl;
         public FooterControl _footerControl;
         public SearchQueryControl _queryControl;
         Grid _mainGrid;
@@ -376,7 +376,6 @@ namespace DominatorUIUtility.CustomControl
         #endregion
 
         #region Set Data context
-
         protected virtual void SetDataContext()
         {
             IsEditCampaignName = true;
@@ -1932,8 +1931,45 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
-        
 
-       
+        #region ToolTip commands
+        public static void StartModuleOverView(object sender)
+        {
+            PopUpStarter.istutorial = false;
+            var tour = new ScreenInfo
+            {
+                Name = "Overview",
+                ShowNextButtonDefault = false,
+                Steps = new[]
+               {
+                    new Step("ModuleButtonOverView", "Welcome - Start your Tutorial", (TViewModel)Instances)
+                    {
+                        ContentDataTemplateKey = "SelectSearchQueryTemplate"
+                    },
+                }
+            };
+            tour.Start();
+        }
+
+        public static void StartSelectQueryIntro(object sender)
+        {
+            var tour = new ScreenInfo
+            {
+                Name = "Introduction",
+                ShowNextButtonDefault = true,
+                Steps = new[]
+                {
+                    new Step("SearchQuery", "SearchQuery", "Login with Accounts "),
+                     new Step("JobConfiguration", "JobConfiguration", "Shows you growth rate of accounts"),
+                      new Step("AfterFollow", "AfterFollow", "Shows you Info regarding dashboard"),
+                       new Step("OtherConfiguration", "AccountsActivityInfo", "Shows you Info regarding dashboard"),
+                        new Step("BlacklistUsers", "BlacklistUsers", "Shows you Info regarding dashboard"),
+
+                }
+            };
+            tour.Start();
+        }
+        #endregion
+
     }
 }

@@ -79,7 +79,7 @@ namespace DominatorUIUtility.Controls
                         // Do only return loaded elements but do not remove unloaded elements
                         // because it is possible that elements get temporary unloaded (e.g. on
                         // a tab of a TabControl.
-                        if (element.IsLoaded)
+                        if (element.IsLoaded || includeUnloaded)
                             yield return visualElement;
                     }
                 }

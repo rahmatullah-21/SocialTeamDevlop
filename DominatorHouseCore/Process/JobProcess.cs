@@ -469,7 +469,6 @@ namespace DominatorHouseCore.Process
             {
                 ex.DebugLog();
             }
-
             return false;
         }
 

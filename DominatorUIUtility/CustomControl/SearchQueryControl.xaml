@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"             
              mc:Ignorable="d" 
-              xmlns:Controls="clr-namespace:DominatorUIUtility.Controls"
+             xmlns:Controls="clr-namespace:DominatorUIUtility.Controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
 
     <UserControl.Resources>
@@ -27,6 +27,11 @@
                 <Grid Grid.Column="0">
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel.Resources>
+                            <Style TargetType="FrameworkElement" x:Key="ControlStyle">
+                            </Style>
+                        </StackPanel.Resources>
+                       
                         <StackPanel Orientation="Horizontal"    Margin="0,10">
                             <Label   VerticalAlignment="Top"  Content="{DynamicResource LangKeyQueryType}" HorizontalAlignment="Right" Height="25"/>
                             <ComboBox Name="ListComboBox"  ItemsSource="{Binding ListQueryType}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
@@ -36,7 +41,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="30,10,0,0">
                             <Label VerticalAlignment="Top" Content="{DynamicResource LangKeyQuery}" Height="25"/>
-                            <TextBox x:Name="TxtInputQuery" Width="200" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top"
+                            <TextBox x:Name="TxtInputQuery" Width="200" TextWrapping="Wrap"  AcceptsReturn="True"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top"
                                      Height="25" Text="{Binding CurrentQuery.QueryValue,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextChanged="TxtInputQuery_TextChanged"
                                      IsEnabled="{Binding IsEnable,Mode=TwoWay}" Controls:ScreenTipHelper.ElementID="TextBox"   Controls:ScreenTipHelper.Placement="BottomLeft" >
                                 <TextBox.InputBindings>
