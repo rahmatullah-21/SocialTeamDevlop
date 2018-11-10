@@ -61,24 +61,6 @@ namespace DominatorUIUtility.ViewModel
 
         #region Property
 
-        private List<string> _visibleColumns = new List<string>();
-
-        public IEnumerable<string> VisibleColumns
-        {
-            get
-            {
-                return _visibleColumns;
-            }
-            set
-            {
-                if (value != null && !value.SequenceEqual(_visibleColumns))
-                {
-                    _visibleColumns = value.ToList();
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private bool _isOpenHelpControl;
 
         public bool IsOpenHelpControl
