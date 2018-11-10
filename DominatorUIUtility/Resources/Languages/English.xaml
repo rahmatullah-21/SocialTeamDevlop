@@ -3150,7 +3150,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySalesnavigatorCompanyscraper">Salesnavigator Companyscraper</system:String>
     <system:String x:Key="LangKeyEventUrl">Event Url</system:String>
     <system:String x:Key="LangKeyMutualFriend">Mutual Friend</system:String>
-    <system:String x:Key="LangKeyScrapThePagesWhichContainLikersBetween">Scrap/Like the pages which contains Likers Between</system:String>
+    <system:String x:Key="LangKeyScrapThePagesWhichContainLikersBetween">Scrap the pages which contains Likers Between</system:String>
     <system:String x:Key="LangKeyScrapUsersWhoMessagedUs">Scrap The User Who Messaged Us</system:String>
     <system:String x:Key="LangKeySocinatorUserScraperCampaign">UserScraper Campaign</system:String>
     <system:String x:Key="LangKeySocinatorTweetScraperCampaign">TweetScraper Campaign</system:String>

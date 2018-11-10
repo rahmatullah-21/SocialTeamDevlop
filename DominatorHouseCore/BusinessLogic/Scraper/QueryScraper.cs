@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using DominatorHouseCore.BusinessLogic.Scheduler;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -83,8 +82,6 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
             try
             {
-                #region Query iteration
-
                 foreach (var query in _jobProcess.SavedQueries)
                 {
                     try
@@ -119,14 +116,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     }
 
                     usedQueries++;
-                } 
-                #endregion
+                }
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
-                {
                     GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks, _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
-                    DominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId, true);
-                }
             }
             catch (OperationCanceledException oce)
             {

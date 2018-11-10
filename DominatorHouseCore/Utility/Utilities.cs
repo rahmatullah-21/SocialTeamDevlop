@@ -155,7 +155,7 @@ namespace DominatorHouseCore.Utility
             catch (Exception)
             {
                 var keySubstring = resourceDictionaryKey.Substring("LangKey".Length);
-                return Regex.Replace(keySubstring, "(\\B[A-Z])", " $6");
+                return Regex.Replace(keySubstring, "(\\B[A-Z])", " $1");
             }
         }
 
@@ -314,7 +314,7 @@ namespace DominatorHouseCore.Utility
         }
         public static string ReplaceUniCode(string messeges)
         {
-            messeges= HttpUtility.HtmlDecode(messeges);
+            messeges = HttpUtility.HtmlDecode(messeges);
             Regex _regex = new Regex(@"\\u(?<Value>[a-zA-Z0-9]{4})", RegexOptions.Compiled);
             messeges = _regex.Replace(messeges,
                 m => ((char)int.Parse(m.Groups["Value"].Value, System.Globalization.NumberStyles.HexNumber)).ToString()

@@ -424,24 +424,24 @@ namespace DominatorUIUtility.CustomControl
                     try
                     {
                         new Thread(() =>
+                        {
+                            foreach (var account in accountDetails)
                             {
-                                foreach (var account in accountDetails)
+                                Action scheduleAccount = () =>
                                 {
-                                    Action scheduleAccount = () =>
-                                    {
-                                        DominatorScheduler.ScheduleNextActivity(account, _activityType);
-                                    };
-                                    schedulePending = schedulePending.Enqueue(scheduleAccount);
-                                }
+                                    DominatorScheduler.ScheduleNextActivity(account, _activityType);
+                                };
+                                schedulePending = schedulePending.Enqueue(scheduleAccount);
+                            }
 
-                                while (!schedulePending.IsEmpty)
-                                {
-                                    Action startSchedule;
-                                    schedulePending = schedulePending.Dequeue(out startSchedule);
-                                    startSchedule();
-                                }
+                            while (!schedulePending.IsEmpty)
+                            {
+                                Action startSchedule;
+                                schedulePending = schedulePending.Dequeue(out startSchedule);
+                                startSchedule();
+                            }
 
-                            })
+                        })
                         { IsBackground = true }.Start();
                     }
                     catch (Exception ex)
@@ -714,7 +714,7 @@ namespace DominatorUIUtility.CustomControl
             if (objErrorModelControl.Accounts.Count != 0)
                 warningWindow.ShowDialog();
 
-            this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+
             if (needToCancel || _footerControl.list_SelectedAccounts.Count == 0)
             {
                 return false;
@@ -1620,7 +1620,7 @@ namespace DominatorUIUtility.CustomControl
                 TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, $"{accountModel.AccountBaseModel.AccountId}-Configuration");
 
                 moduleConfiguration.TemplateId = TemplateId;
-             
+
                 var runningTime = (List<RunningTimes>)Model.JobConfiguration.RunningTime;
 
                 runningTime.ForEach(x =>

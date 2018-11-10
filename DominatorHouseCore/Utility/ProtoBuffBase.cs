@@ -28,7 +28,7 @@ namespace DominatorHouseCore.Utility
     {
         #region Serialize
 
-        
+
         /// <summary>
         /// SerializeObjects<T>() method is used to serialize the LIST of objects
         /// </summary>
@@ -42,23 +42,23 @@ namespace DominatorHouseCore.Utility
 
             if (!(list is IList))
                 throw new ArgumentException(nameof(list));
-            
+
             try
-            {                
+            {
                 DirectoryUtilities.CreateDirectory(Path.GetDirectoryName(filePath));
-                if (!File.Exists(filePath))                
+                if (!File.Exists(filePath))
                     File.Create(filePath).Close();
 
                 using (var stream = File.Open(filePath, FileMode.Truncate))
-                {                    
+                {
                     Serializer.Serialize(stream, new ListWrapper<T>(list));
                     stream.SetLength(stream.Position);
                 }
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");                
-                throw;        
+                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");
+                throw;
             }
 
 
@@ -112,21 +112,18 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
         internal static List<T> DeserializeList<T>(string filePath) where T : class
-            
+
         {
             try
             {
-                 if (File.Exists(filePath))
+                using (var stream = File.OpenRead(filePath))
                 {
-                    using (var stream = File.OpenRead(filePath))
-                    {
-                        if (filePath.ToLower().Contains("account"))
-                            Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
+                    if (filePath.ToLower().Contains("account"))
+                        Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
 
-                        var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);
+                    var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);
 
-                        return wrapper.List ?? new List<T>();
-                    } 
+                    return wrapper.List ?? new List<T>();
                 }
             }
             catch (Exception ex)
@@ -134,7 +131,6 @@ namespace DominatorHouseCore.Utility
                 ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
                 return new List<T>();
             }
-            return new List<T>();
         }
 
         #endregion        

@@ -31,11 +31,11 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public static JobConfiguration GetInstance(JobConfigurationModel jobConfigurationModel)
         {
-
             if (_jobConfiguration == null)
                 _jobConfiguration = new JobConfiguration(jobConfigurationModel);
             _jobConfiguration.CancelToken();
-            _jobConfiguration.LastPostCount = 0;
+            // _jobConfiguration.LastPostCount = 0;
+            _jobConfiguration.LastPostCount = jobConfigurationModel.LstTimer.Count;
             _jobConfiguration.JobConfigurations = jobConfigurationModel;
             _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
 

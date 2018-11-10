@@ -233,22 +233,22 @@ namespace DominatorUIUtility.ViewModel
                     || (string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyUsername) &&
                         !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))) return;
 
-                OldDominatorAccountModel.AccountBaseModel.AccountGroup.Content = newAccountBaseModel.AccountGroup.Content;
-                if (OldDominatorAccountModel.AccountBaseModel.UserName != newAccountBaseModel.UserName || OldDominatorAccountModel.AccountBaseModel.Password != newAccountBaseModel.Password)
-                {
-                    OldDominatorAccountModel.Cookies = new CookieCollection();
-                }
-                OldDominatorAccountModel.AccountBaseModel.AccountGroup = new ContentSelectGroup
-                {
-                    Content = newAccountBaseModel.AccountGroup.Content,
-                };
-                OldDominatorAccountModel.AccountBaseModel.UserName = newAccountBaseModel.UserName;
-                OldDominatorAccountModel.AccountBaseModel.Password = newAccountBaseModel.Password;
-                OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp = newAccountBaseModel.AccountProxy.ProxyIp;
-                OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort = newAccountBaseModel.AccountProxy.ProxyPort;
-                OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername = newAccountBaseModel.AccountProxy.ProxyUsername;
-                OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword = newAccountBaseModel.AccountProxy.ProxyPassword;
-                OldDominatorAccountModel.AccountBaseModel.AccountNetwork = newAccountBaseModel.AccountNetwork;
+               // OldDominatorAccountModel.AccountBaseModel.AccountGroup.Content = newAccountBaseModel.AccountGroup.Content;
+               // if (OldDominatorAccountModel.AccountBaseModel.UserName != newAccountBaseModel.UserName || OldDominatorAccountModel.AccountBaseModel.Password != newAccountBaseModel.Password)
+               // {
+               //     OldDominatorAccountModel.Cookies = new CookieCollection();
+               // }
+               // OldDominatorAccountModel.AccountBaseModel.AccountGroup = new ContentSelectGroup
+               // {
+               //     Content = newAccountBaseModel.AccountGroup.Content,
+               // };
+               // OldDominatorAccountModel.AccountBaseModel.UserName = newAccountBaseModel.UserName;
+               // OldDominatorAccountModel.AccountBaseModel.Password = newAccountBaseModel.Password;
+               // OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp = newAccountBaseModel.AccountProxy.ProxyIp;
+               // OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort = newAccountBaseModel.AccountProxy.ProxyPort;
+               // OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername = newAccountBaseModel.AccountProxy.ProxyUsername;
+               // OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword = newAccountBaseModel.AccountProxy.ProxyPassword;
+               // OldDominatorAccountModel.AccountBaseModel.AccountNetwork = newAccountBaseModel.AccountNetwork;
 
 
             }
@@ -390,7 +390,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-        
+
 
         private bool VerifyAccountCanExecute(object arg) => true;
         private void VerifyAccountExecute(object sender)
@@ -419,8 +419,8 @@ namespace DominatorUIUtility.ViewModel
                             Application.Current.Dispatcher.Invoke(
                                 () =>
                                 {
-                                  //  CodeSectionVisibility = Visibility.Collapsed;
-                                   
+                                    //  CodeSectionVisibility = Visibility.Collapsed;
+
                                 }
                             );
                         }
@@ -437,7 +437,7 @@ namespace DominatorUIUtility.ViewModel
         private void SendVerificationCodeExecute(object sender)
         {
             var button = (Button)sender;
-           
+
             try
             {
                 button.Visibility = Visibility.Collapsed;
@@ -474,7 +474,7 @@ namespace DominatorUIUtility.ViewModel
 
                                 });
                     }
-                    
+
 
                 });
             }
