@@ -77,11 +77,17 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
                     .ForEach(File.Delete);
             }
             // if directories are now empty, remove them
-            DirectoryInfo parent = null;
-            for (var dir = new DirectoryInfo(directory); dir.EnumerateDirectories().FirstOrDefault() == null && dir.EnumerateFiles().FirstOrDefault() == null; dir = parent)
+            try
             {
-                parent = dir.Parent;
-                dir.Delete();
+                DirectoryInfo parent = null;
+                for (var dir = new DirectoryInfo(directory); dir.EnumerateDirectories().FirstOrDefault() == null && dir.EnumerateFiles().FirstOrDefault() == null; dir = parent)
+                {
+                    parent = dir.Parent;
+                    dir.Delete();
+                }
+            }
+            catch (IOException)
+            {
             }
         }
 

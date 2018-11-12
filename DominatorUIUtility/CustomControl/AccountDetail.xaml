@@ -13,6 +13,7 @@
         <converters:StringLengthToBooleanConverter x:Key="LengthToBooleanConverter"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter"/>
+        <converters:IntToDateTimeConverter x:Key="IntToDateTimeConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid  Background="{DynamicResource AccentBaseColorBrush}" Height="40"  VerticalAlignment="Top">
@@ -387,6 +388,10 @@
                 </StackPanel>
                 <!--End of Auto verify Section-->
 
+                <StackPanel  Orientation="Horizontal" >
+                    <TextBlock Text="{DynamicResource LangLastSynchronizedAt}" Width="130" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding DominatorAccountModel.LastUpdateTime, Converter={StaticResource IntToDateTimeConverter}}" Margin="5" Width="220" />
+                </StackPanel>
                
                 <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" FontWeight="SemiBold"  Name="ChkAdvanceSetting" Margin="5"/>
                 

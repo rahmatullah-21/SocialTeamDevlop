@@ -5,6 +5,8 @@ using DominatorHouseCore.Utility;
 using System.Windows.Input;
 using DominatorHouseCore;
 using System;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -91,10 +93,40 @@ namespace DominatorUIUtility.CustomControl
                         InputCollection.Add(text);
 
                 }
+
                 InputText = string.Empty;
-                InputCollection.ForEach(x =>
+                //InputCollection.ForEach(x =>
+                //{
+                //    InputText = string.IsNullOrEmpty(InputText) ? x : InputText + "\r\n" + x;
+                //});
+
+                List<string> tmpLstInputs = InputCollection;
+
+                GlobusLogHelper.log.Info("Text uploading process has been started...");
+
+                ThreadFactory.Instance.Start(() =>
                 {
-                    InputText = string.IsNullOrEmpty(InputText) ? x : InputText + "\r\n" + x;
+
+                    for (int counter = 0; counter < tmpLstInputs.Count; counter++)
+                    {
+                        string input = tmpLstInputs[counter];
+
+                        if (!Application.Current.Dispatcher.CheckAccess())
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                InputText = string.IsNullOrEmpty(InputText) ? input : InputText + "\r\n" + input;
+                            });
+                        }
+                        else
+                        {
+                            InputText = string.IsNullOrEmpty(InputText) ? input : InputText + "\r\n" + input;
+                        }
+
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(20));
+                    }
+
+                    GlobusLogHelper.log.Info("Text uploading process has been completed");
                 });
             }
             catch (Exception ex)

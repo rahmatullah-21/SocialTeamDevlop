@@ -3237,4 +3237,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySendMessageToNewFriends">Send Message To New Friends</system:String>
     <system:String x:Key="LangKeySendUniqueMessageToEachUser">Send Unique Message To Each User</system:String>
     <system:String x:Key="LangKeyTagFriendsOption">Tag Friends Option</system:String>
+
+    <system:String x:Key="LangLastSynchronizedAt">Last Synchronized At :</system:String>
 </ResourceDictionary>

@@ -1,3 +1,38 @@
+Version[1.0.0.21],[13th-November-18]
+New Features:-
+	Sociopublisher:-
+		Instagram =>  Create Post => Settings : Added feature to post video as Story. 
+Fixed:-
+	SocioPublisher:-
+		Post Configuration => Advance settings => Facebook => Fixed issue with deleting the published post after x to y hours
+	Instagram:-
+		Campaigns. Issue fixed with running multiple campaigns with same account.
+		InstaPoster => Reposter => Issue fixed with posting original post caption for videos.
+		InstaPoster => Reposter => Custom Photos. Issue fixed with reposting videos.
+		InstaChat => Broadcase Messages => Issue fixed with adding queries through text file.
+		Grow Followers => Unfollower => Fixed issue with unfollowing users those are followed by software.
+		Accounts => Account Manager => Fixed issue with auto verification account.
+		Instaliker/Instacommenter => Comment => Custom Photos  => Fixed issue with multiple comment on same post after edit the campaign.
+	Facebook:-
+		Grow Friends => Fixed issue with sending friend request to users.
+		Grow Friends => Unfriend => Fixed issue with unfriending users which were added from the software or Outside the software
+		Grow Friends => Withdraw Sent Request => Fixed issue with cancelling the request which are sent from the software or Outside the software and not generating the report
+		Broadcast Message => Fixed issue with send direct messages to users.
+		Engage => Fanpage Liker => Fixed issue with liking fanpages.
+		Scraper => Profile Scraper => Fixed issue with extracting the users details with all the given query types.
+	LinkedIn:-
+		Grow Connection => Connection request => Fixed issue with sending improper note
+	Twitter:-
+		Reposter => Specific user tweets => Fixed issue with Reposter
+		Scrape tweet => Keyword => Fixed issue with tweet scraper.
+		Engage => Like => Keyword => Fixed issue with like for keyword.
+		Grow Followers => Unfollow => People followed by software => who donot follow back => Fixed issues with unfollow in reports for people followed by software.
+	Reddit:-
+		Account Manager => Fixed issue with loading accounts
+		Account Manager => details => Fixed issue with editing account details
+	YouTube:-
+		Watch video => View Increaser => Fixed issue with the view increase for custom urls.
+
 Version[1.0.0.20],[3rd-November-18]
 New Features:-
 	Sociopublisher:-
