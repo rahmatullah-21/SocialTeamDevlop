@@ -155,7 +155,7 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Subscribe = 51,
 
-        [Description("Facebook")]
+        [Description("Facebook,LinkedIn")]
         Share = 52,
 
         //[Description("Youtube")]

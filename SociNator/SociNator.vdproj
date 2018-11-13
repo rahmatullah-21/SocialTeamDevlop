@@ -238,12 +238,6 @@
         "Entry"
         {
         "MsmKey" = "8:_245B496BF0C9D19E6281C296728B17F1"
-        "OwnerKey" = "8:_D7D2E734AE48B3327F73FFC81E3E85B7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_245B496BF0C9D19E6281C296728B17F1"
         "OwnerKey" = "8:_0977E7AEB627AB774CA233DDFA33CCBC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -285,12 +279,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_284F0902C27460F0BBCB9924BC8D179A"
-        "OwnerKey" = "8:_CA01EBA1369134AA2D74701473B832DB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_2BC99AF5C1185217B13552812285D547"
         "OwnerKey" = "8:_3F700E0886AE44469B3C1B29F1A89F4B"
         "MsmSig" = "8:_UNDEFINED"
@@ -317,12 +305,6 @@
         {
         "MsmKey" = "8:_2CAC634F53DD09B4F27869F2AC3BB175"
         "OwnerKey" = "8:_08DEAE778882D07A1C7562EDA93D8847"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2CDCF8C98AD4B4C40AEBDB642EDA7256"
-        "OwnerKey" = "8:_D7D2E734AE48B3327F73FFC81E3E85B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2037,12 +2019,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CEEBA585568D24136DB8389AAE0DAD62"
-        "OwnerKey" = "8:_D7D2E734AE48B3327F73FFC81E3E85B7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_D0BCAAE2FDD8963191FB61F42487B994"
         "OwnerKey" = "8:_3F700E0886AE44469B3C1B29F1A89F4B"
         "MsmSig" = "8:_UNDEFINED"
@@ -2075,30 +2051,6 @@
         {
         "MsmKey" = "8:_D6C7A7596E304CA1235E800D3405FDCB"
         "OwnerKey" = "8:_3F700E0886AE44469B3C1B29F1A89F4B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D7D2E734AE48B3327F73FFC81E3E85B7"
-        "OwnerKey" = "8:_546C0E1FB578B75E25E35D972766C7D7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D7D2E734AE48B3327F73FFC81E3E85B7"
-        "OwnerKey" = "8:_BC14FAFDC4407DB33F41A1E70DEBFC2B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D7D2E734AE48B3327F73FFC81E3E85B7"
-        "OwnerKey" = "8:_769F24797406A504EF1F93C31A9FCED6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D7D2E734AE48B3327F73FFC81E3E85B7"
-        "OwnerKey" = "8:_41ABAF07277EE53C6C9266A36CD809E1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2344,6 +2296,12 @@
         "Entry"
         {
         "MsmKey" = "8:_E3E97439D99EEFDD9966BAE14AC69005"
+        "OwnerKey" = "8:_CA01EBA1369134AA2D74701473B832DB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E3E97439D99EEFDD9966BAE14AC69005"
         "OwnerKey" = "8:_08B67CADFBBF30174820D616AD212A80"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2459,6 +2417,30 @@
         {
         "MsmKey" = "8:_EC0598E7FD96C56B69A59377C8977985"
         "OwnerKey" = "8:_2CAC634F53DD09B4F27869F2AC3BB175"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EC0598E7FD96C56B69A59377C8977985"
+        "OwnerKey" = "8:_BC14FAFDC4407DB33F41A1E70DEBFC2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EC0598E7FD96C56B69A59377C8977985"
+        "OwnerKey" = "8:_769F24797406A504EF1F93C31A9FCED6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EC0598E7FD96C56B69A59377C8977985"
+        "OwnerKey" = "8:_546C0E1FB578B75E25E35D972766C7D7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EC0598E7FD96C56B69A59377C8977985"
+        "OwnerKey" = "8:_41ABAF07277EE53C6C9266A36CD809E1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2795,12 +2777,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_CA01EBA1369134AA2D74701473B832DB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_284F0902C27460F0BBCB9924BC8D179A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -4248,37 +4224,6 @@
                     }
                 }
             "SourcePath" = "8:System.Collections.Immutable.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_6C29D3BFF78E47E688668E95B0D0E82A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_284F0902C27460F0BBCB9924BC8D179A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:protobuf-net, Version=2.3.6.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_284F0902C27460F0BBCB9924BC8D179A"
-                    {
-                    "Name" = "8:protobuf-net.DLL"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:protobuf-net.DLL"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_6C29D3BFF78E47E688668E95B0D0E82A"
@@ -7705,37 +7650,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D7D2E734AE48B3327F73FFC81E3E85B7"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_D7D2E734AE48B3327F73FFC81E3E85B7"
-                    {
-                    "Name" = "8:System.ValueTuple.DLL"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:System.ValueTuple.DLL"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_6C29D3BFF78E47E688668E95B0D0E82A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DAB969918EA631C31A07F46E71EB1B15"
             {
             "AssemblyRegister" = "3:1"
@@ -8596,15 +8510,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SociNator"
-        "ProductCode" = "8:{76EB0EA4-3E7A-4CE0-B109-71860AD61A64}"
-        "PackageCode" = "8:{D5E5130B-9BB1-4229-BF89-7FB5FBDB5143}"
+        "ProductCode" = "8:{9370B1CE-A1F5-4391-9EEB-C4C49F178954}"
+        "PackageCode" = "8:{924AA84A-678F-4370-AEF9-BB3141F54E96}"
         "UpgradeCode" = "8:{7D398247-1AAF-432C-8330-B688947B7944}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0.21"
+        "ProductVersion" = "8:1.0.21"
         "Manufacturer" = "8:SociNator"
         "ARPHELPTELEPHONE" = "8:8818896388"
         "ARPHELPLINK" = "8:https://socinator.com/"
