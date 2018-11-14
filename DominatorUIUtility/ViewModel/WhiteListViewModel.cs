@@ -93,7 +93,7 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _whitelistUser, value);
             }
         }
-         List<BlackListUser> blackListUsers = new List<BlackListUser>();
+        List<BlackListUser> blackListUsers = new List<BlackListUser>();
         List<WhiteListUser> whiteListUser = new List<WhiteListUser>();
         private ObservableCollection<WhitelistUserModel> _lstWhiteListUsers = new ObservableCollection<WhitelistUserModel>();
 
@@ -115,7 +115,7 @@ namespace DominatorUIUtility.ViewModel
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
             dbOperations = new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser));
-           
+
             ThreadFactory.Instance.Start(() =>
             {
                 dbOperations.Get<WhiteListUser>()?.ForEach(user =>
@@ -135,33 +135,33 @@ namespace DominatorUIUtility.ViewModel
         {
             if (string.IsNullOrEmpty(WhitelistUser.Trim()))
             {
-                GlobusLogHelper.log.Info("Error:- Please enter an username to add to the Blacklist.");
+                GlobusLogHelper.log.Info("Error:- Please enter a username to add to the Whitelist.");
+                return;
             }
-            else
+
+            //DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
+            //dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
+            //var whiteListdbOperations = new DbOperations(dbContext);
+            //var whiteListUser = whiteListdbOperations.Get<WhiteListUser>();
+            Task.Factory.StartNew(() =>
             {
-                //DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-                //dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
-                //var whiteListdbOperations = new DbOperations(dbContext);
-                //var whiteListUser = whiteListdbOperations.Get<WhiteListUser>();
-                Task.Factory.StartNew(() =>
+                var lstuser = WhitelistUser.Split('\n');
+                WhitelistUser = string.Empty;
+                whiteListUser = new List<WhiteListUser>();
+                lstuser.ForEach(user =>
                 {
-                    var lstuser = WhitelistUser.Split('\n');
-                    WhitelistUser = string.Empty;
-                    whiteListUser = new List<WhiteListUser>();
-                    lstuser.ForEach(user =>
+                    var userName = user.Trim();
+                    if (!string.IsNullOrEmpty(userName))
                     {
-                        var userName = user.Trim();
-                        if (!string.IsNullOrEmpty(userName))
+                        if (!LstWhiteListUsers.Any(x => string.Compare(x.WhitelistUser, userName, StringComparison.InvariantCultureIgnoreCase) == 0)
+                                 && !blackListUsers.Any(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) == 0))
                         {
-                            if (!LstWhiteListUsers.Any(x => string.Compare(x.WhitelistUser, userName, StringComparison.InvariantCultureIgnoreCase) == 0)
-                                     && !blackListUsers.Any(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) == 0))
+                            Application.Current.Dispatcher.Invoke(() =>
                             {
-                                Application.Current.Dispatcher.Invoke(() =>
+                                whiteListUser.Add(new WhiteListUser()
                                 {
-                                    whiteListUser.Add(new WhiteListUser()
-                                    {
-                                        UserName = userName
-                                    });
+                                    UserName = userName
+                                });
                                     //LstWhiteListUsers.Add(new WhitelistUserModel()
                                     //{
                                     //    WhitelistUser = userName
@@ -173,21 +173,19 @@ namespace DominatorUIUtility.ViewModel
 
                                     //});
                                 }
-                            );
-                               // Thread.Sleep(50);
+                        );
+                                // Thread.Sleep(50);
                             }
-                            else
-                                GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, userName, UserType.BlackListedUser, $"{userName} already added to Blacklist/Whitelist");
+                        else
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, userName, UserType.BlackListedUser, $"{userName} already added to Blacklist/Whitelist");
 
-                        }
-                    });
-                    dbOperations.AddRange<WhiteListUser>(whiteListUser);
-                   // WhitelistUser = string.Empty;
-                    ToasterNotification.ShowSuccess($"Succesfully added {whiteListUser.Count} users. Click on refresh button to view updated list");
-
+                    }
                 });
-               
-            }
+                dbOperations.AddRange<WhiteListUser>(whiteListUser);
+                    // WhitelistUser = string.Empty;
+                    ToasterNotification.ShowSuccess($"Succesfully added {whiteListUser.Count} user{(whiteListUser.Count > 1 ? "s" : "")}. Click on refresh button to view updated list");
+
+            });
         }
         private void ClearUser(object sender)
         {
