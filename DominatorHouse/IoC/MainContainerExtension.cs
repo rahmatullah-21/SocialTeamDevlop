@@ -1,4 +1,5 @@
-﻿using DominatorHouse.ViewModels;
+﻿using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouse.ViewModels;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.ViewModel;
 using Unity;
@@ -10,8 +11,13 @@ namespace DominatorHouse.IoC
     {
         protected override void Initialize()
         {
+            // views
+
+            // view models
             Container.RegisterSingleton<IMainViewModel, MainViewModel>();
             Container.RegisterSingleton<IPerfCounterViewModel, PerfCounterViewModel>();
+            Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
+
             Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
         }
     }

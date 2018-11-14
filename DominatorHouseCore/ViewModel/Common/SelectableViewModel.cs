@@ -10,7 +10,7 @@ namespace DominatorHouseCore.ViewModel.Common
 {
     public interface ISelectableViewModel<T> : INotifyPropertyChanged
     {
-        T Selected { get; }
+        T Selected { get; set; }
         INotifyCollectionChanged ItemsCollection { get; }
         void Add(T item);
         void Renew(IEnumerable<T> items);

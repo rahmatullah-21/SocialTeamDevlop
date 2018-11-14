@@ -1,21 +1,7 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Models;
+using DominatorUIUtility.CustomControl;
+using System.Windows.Controls;
 
 namespace DominatorHouse.Social.Accounts
 {
@@ -30,7 +16,7 @@ namespace DominatorHouse.Social.Accounts
             this._strategies = strategies;
             InitializeComponent();
             DominatorAccountGrowthTab.DataContext = this;
-            SelectedUserControl = AccountGrowthControl.GetAccountGrowthControl(SocialNetworks.Social, _strategies);
+            SelectedUserControl = ServiceLocator.Current.GetInstance<AccountGrowthControl>();
         }
         public AccountGrowthControl SelectedUserControl { get; set; }
     }
