@@ -1775,7 +1775,7 @@ namespace DominatorUIUtility.CustomControl
                 if (_queryControl.CurrentQuery.QueryValue.Contains(","))
                 {
                     _queryControl.QueryCollection.Clear();
-                    _queryControl.QueryCollection.AddRange(_queryControl.CurrentQuery.QueryValue.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct());
+                    _queryControl.QueryCollection.AddRange(_queryControl.CurrentQuery.QueryValue.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Select(x => x.Trim()).Distinct());
                     _queryControl.CurrentQuery.QueryValue = String.Empty;
                 }
 
@@ -1825,6 +1825,8 @@ namespace DominatorUIUtility.CustomControl
                     var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
 
                     if (currentQuery == null) return;
+
+                    currentQuery.QueryValue = currentQuery.QueryValue.Trim();
 
                     currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
 
