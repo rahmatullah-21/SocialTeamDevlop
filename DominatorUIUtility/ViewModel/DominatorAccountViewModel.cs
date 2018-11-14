@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore;
+using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
@@ -31,6 +32,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using BindableBase = Prism.Mvvm.BindableBase;
@@ -76,6 +78,16 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
+
+        private ObservableCollection<GridViewColumn> _visibleColumns;
+
+        public ObservableCollection<GridViewColumn> VisibleColumns
+        {
+            get { return _visibleColumns; }
+            set { SetProperty(ref _visibleColumns, value); }
+        }
+
+
         #region Command 
 
         public ICommand AddSingleAccountCommand { get; }
@@ -102,6 +114,15 @@ namespace DominatorUIUtility.ViewModel
             BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
             LstDominatorAccountModel = new ObservableCollection<DominatorAccountModel>();
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, _syncLoadAccounts);
+
+            VisibleColumns = new ObservableCollection<GridViewColumn>(DominatorAccountCountFactory
+                .Instance.GetColumnSpecificationProvider().VisibleHeaders.Select((name, colIndex) => new GridViewColumn
+                {
+                    DisplayMemberBinding = new Binding($"DisplayColumnValue{colIndex + 1}"),
+                    Header = name,
+                    Width = 130
+                }));
+            BindingOperations.EnableCollectionSynchronization(VisibleColumns, _syncLoadAccounts);
 
             InitialAccountDetails();
 
@@ -135,6 +156,30 @@ namespace DominatorUIUtility.ViewModel
             UpdateUserCradCommand = new BaseCommand<object>((sender) => true, UpdateUserCradExecute);
 
             #endregion
+
+            SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+        }
+
+        private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)
+        {
+            if (e.HasValue)
+            {
+                var spec = (e == SocialNetworks.Social) ?
+                    DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider() :
+                    SocinatorInitialize.GetSocialLibrary(e.Value)
+                        .GetNetworkCoreFactory()
+                        .AccountCountFactory.GetColumnSpecificationProvider();
+                lock (_syncLoadAccounts)
+                {
+                    VisibleColumns.Clear();
+                    VisibleColumns.AddRange(spec.VisibleHeaders.Select((name, colIndex) => new GridViewColumn
+                    {
+                        DisplayMemberBinding = new Binding($"DisplayColumnValue{colIndex + 1}"),
+                        Header = name,
+                        Width = 130
+                    }));
+                }
+            }
         }
 
         #region Add accounts
