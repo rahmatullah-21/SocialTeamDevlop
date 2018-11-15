@@ -1,9 +1,8 @@
 ﻿using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -13,7 +12,7 @@ namespace DominatorHouseCore.FileManagers
 
         static TemplatesFileManager()
         {
-            TemplatesCacheService = IoC.Container.Resolve<ITemplatesCacheService>();
+            TemplatesCacheService = ServiceLocator.Current.GetInstance<ITemplatesCacheService>();
             TemplatesCacheService.GetTemplateModels();
         }
         // Updates Template with applying action to it and writes changes back to file

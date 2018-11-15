@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -18,7 +19,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
-using Unity;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace DominatorHouseCore.Diagnostics
@@ -82,7 +82,7 @@ namespace DominatorHouseCore.Diagnostics
         public static INetworkCollectionFactory ActiveNetwork { get; private set; }
 
         public static SocialNetworks ActiveSocialNetwork => GetActiveSocialNetwork();
-        public static SocialNetworks AccountModeActiveSocialNetwork ;
+        public static SocialNetworks AccountModeActiveSocialNetwork;
 
         private static SocialNetworks GetActiveSocialNetwork()
         {
@@ -137,7 +137,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static IGlobalDatabaseConnection GetGlobalDatabase()
         {
-            return IoC.Container.Resolve<IGlobalDatabaseConnection>();
+            return ServiceLocator.Current.GetInstance<IGlobalDatabaseConnection>();
         }
 
     }
@@ -154,10 +154,10 @@ namespace DominatorHouseCore.Diagnostics
                 if (inputString == ConfigurationManager.AppSettings["Unavailable"])
                 {
                     string finalResponse = null;
-                    
-                    if(exemptionType != "Fatal")
+
+                    if (exemptionType != "Fatal")
                     {
-                        if(exemptionType == "Debug")
+                        if (exemptionType == "Debug")
                         {
                             using (var streamReader = new StreamReader(await DebugLogExemptions(exemption, fixtures)))
                             {
@@ -173,7 +173,7 @@ namespace DominatorHouseCore.Diagnostics
                         }
                     }
                     return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption,
-                        fixtures,exemptionType);
+                        fixtures, exemptionType);
                 }
 
                 if (inputString == ConfigurationManager.AppSettings["EmptyExemption"])
@@ -214,9 +214,9 @@ namespace DominatorHouseCore.Diagnostics
                         }
                         details = AesDecryption.DecryptAes(decryptedString);
                     }
-                    return LogExceptionForEachNetwork(details,exemptionType);
+                    return LogExceptionForEachNetwork(details, exemptionType);
                 }
-                else if(exemptionType != "Other" && (inputString == ConfigurationManager.AppSettings["Matched"] || inputString == ConfigurationManager.AppSettings["Uniform"]))
+                else if (exemptionType != "Other" && (inputString == ConfigurationManager.AppSettings["Matched"] || inputString == ConfigurationManager.AppSettings["Uniform"]))
                 {
                     string details = exemption.Split('-')[0];
                     return LogExceptionForEachNetwork(details, exemptionType);
@@ -228,7 +228,7 @@ namespace DominatorHouseCore.Diagnostics
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
 
             if (!Application.Current.Dispatcher.CheckAccess())
@@ -242,17 +242,17 @@ namespace DominatorHouseCore.Diagnostics
                     //};
                     //var objDialog = new Dialog();
                     //var dialogWindow = objDialog.GetMetroWindowWithOutClose(customDialog, ConfigurationManager.AppSettings["Title"]);
-                   
+
 
                     //var sleep = 1;
                     //while (true)
                     //{
                     //    if (sleep < 10)
                     //    {
-                            
+
                     //    }
                     //}
-                    
+
                     //dialogWindow.ShowDialog();
                     //Thread.Sleep(10 * 1000);
                     //dialogWindow.Close();
@@ -281,7 +281,7 @@ namespace DominatorHouseCore.Diagnostics
             return new HashSet<SocialNetworks>();
         }
 
-      
+
 
         public static async Task<Stream> ProcessInputString(string exemption, string fixtures)
             => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingInput, exemption, fixtures));
@@ -383,7 +383,7 @@ namespace DominatorHouseCore.Diagnostics
                 }
                 else if (exemption.Contains(ConfigurationManager.AppSettings["FatalException"].ToString()))
                 {
-                    finalResponse = await ProcessFatalException(exemption,fixture);
+                    finalResponse = await ProcessFatalException(exemption, fixture);
                     exemptionType = "Fatal";
                 }
                 else
@@ -396,7 +396,7 @@ namespace DominatorHouseCore.Diagnostics
                     }
                 }
 
-                
+
 
                 return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption, fixture, exemptionType);
             }
@@ -422,7 +422,7 @@ namespace DominatorHouseCore.Diagnostics
 
 
 
-        public static HashSet<SocialNetworks> LogExceptionForEachNetwork(string details,string exceptionType)
+        public static HashSet<SocialNetworks> LogExceptionForEachNetwork(string details, string exceptionType)
         {
             try
             {
@@ -437,7 +437,7 @@ namespace DominatorHouseCore.Diagnostics
 
                 try
                 {
-                    if(exceptionType == "Other")
+                    if (exceptionType == "Other")
                     {
                         var jsonArray = JArray.Parse(details);
 
@@ -596,7 +596,7 @@ namespace DominatorHouseCore.Diagnostics
             return SocinatorInitialize.AvailableNetworks;
         }
 
-        public static async Task<string> ProcessFatalException(string exception,string fixture)
+        public static async Task<string> ProcessFatalException(string exception, string fixture)
         {
             try
             {
@@ -630,9 +630,9 @@ namespace DominatorHouseCore.Diagnostics
                                 string keyName = element.Name.LocalName;
                                 if (keyName == "status")
                                 {
-                                    return "{\"code\":\""+ element.Value + "\"}";
+                                    return "{\"code\":\"" + element.Value + "\"}";
                                 }
-                                
+
                             }
                             catch (Exception)
                             {
@@ -655,6 +655,6 @@ namespace DominatorHouseCore.Diagnostics
         }
         public static async Task<Stream> ProcessUpdatedVersionString(string serverName, string Path)
             => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink, serverName, Path));
-   
+
     }
 }

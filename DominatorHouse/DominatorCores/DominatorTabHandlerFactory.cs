@@ -1,10 +1,10 @@
-﻿using DominatorHouse.Social;
+﻿using CommonServiceLocator;
+using DominatorHouse.Social;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views;
 using DominatorUIUtility.Views.SocioPublisher;
 using Socinator.Social.AutoActivity.Views;
@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Unity;
 
 
 //using EmbeddedBrowser;
@@ -57,18 +56,18 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title="LangKeyAccountGrowth".FromResourceDictionary(),
-                    Content = new Lazy<UserControl>(() =>  AccountGrowthControl.GetAccountGrowthControl(SocialNetworks.Social,_strategies))
+                    Content = new Lazy<UserControl>(() =>  ServiceLocator.Current.GetInstance<AccountGrowthControl>())
                 },
 
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
-                   Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("Dashboard"))
+                   Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("Dashboard"))
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
-                    Content = new Lazy<UserControl>(() => DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social))
+                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<DominatorAutoActivity>())
                 },
                 //new TabItemTemplates
                 //{
@@ -83,7 +82,7 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("LangKeyProxyManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => ProxyManager.GetProxyManagerControl(_strategies))
+                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<ProxyManager>())
                 },
                 //new TabItemTemplates
                 //{
@@ -93,12 +92,12 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
-                      Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("OtherConfiguration"))
+                      Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration"))
                 },
                 new TabItemTemplates
                 {
                     Title = "LangKeyOtherTools".FromResourceDictionary(),
-                    Content=new Lazy<UserControl>(()=> DominatorHouseCore.IoC.Container.Resolve<TablifiedContentControl>("OtherTools"))
+                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherTools"))
                 }
             };
         }

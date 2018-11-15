@@ -5,7 +5,7 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -15,7 +15,7 @@ namespace DominatorHouseCore.FileManagers
 
         static AccountsFileManager()
         {
-            AccountsCacheService = IoC.Container.Resolve<IAccountsCacheService>();
+            AccountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
         }
 
 

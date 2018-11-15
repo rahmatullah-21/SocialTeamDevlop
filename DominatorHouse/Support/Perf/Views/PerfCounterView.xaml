@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Template>
         <ControlTemplate>
-            <Grid DataContext="{Binding ViewModel, RelativeSource={RelativeSource TemplatedParent}}">
+            <Grid>
                 <StatusBar Background="{DynamicResource AccentColorBrush}" Height="25" VerticalAlignment="Center" >
                     <StatusBar.ItemsPanel>
                         <ItemsPanelTemplate>

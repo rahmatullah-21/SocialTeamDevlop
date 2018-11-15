@@ -1,13 +1,14 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
+using Prism.Mvvm;
 using ProtoBuf;
 using System.Collections.Generic;
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class DominatorAccountBaseModel : BindableBase
+    public class DominatorAccountBaseModel : Prism.Mvvm.BindableBase
     {
 
         private SocialNetworks _accountNetwork = SocialNetworks.Facebook;
@@ -23,9 +24,6 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                
-                if (_accountNetwork == value)
-                    return;
                 SetProperty(ref _accountNetwork, value);
                 //SetGrowthProperties(_accountNetwork);
             }
@@ -40,137 +38,10 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (_growthProperties == value)
-                    return;
                 SetProperty(ref _growthProperties, value);
             }
         }
 
-        private void SetGrowthProperties(SocialNetworks accountNetwork)
-        {
-            this.GrowthProperties = new List<GrowthProperty>();
-
-            if (accountNetwork == SocialNetworks.Twitter)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Tweets", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Facebook)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Friends", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "JoinedGroups", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "OwnPages", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Quora)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Following", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Post", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Reddit)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Score", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Communities", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Post Karma", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Comment Karma", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Gplus)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Communities", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Instagram)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Uploads", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.LinkedIn)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Connections", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Groups", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Tumblr)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Channels", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Pinterest)
-            {
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                this.GrowthProperties.Add(new GrowthProperty { PropertyName = "Post", PropertyValue = 0 });
-            }
-
-        }
-
-        public List<GrowthProperty> GetGrowthProperties(SocialNetworks accountNetwork)
-        {
-            List<GrowthProperty> GrowthProperties = new List<GrowthProperty>();
-
-            if (accountNetwork == SocialNetworks.Twitter)
-            {
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Tweets", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Facebook)
-            {
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Friends", PropertyValue = 0 });
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "JoinedGroups", PropertyValue = 0 });
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "OwnPages", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Quora)
-            {
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Following", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Post", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Reddit)
-            {
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Score", PropertyValue = 0 });
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Communities", PropertyValue = 0 });
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Post Karma", PropertyValue = 0 });
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Comment Karma", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Gplus)
-            {
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Communities", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Instagram)
-            {
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Uploads", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.LinkedIn)
-            {
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Connections", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Groups", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Tumblr)
-            {
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Posts", PropertyValue = 0 });
-               GrowthProperties.Add(new GrowthProperty { PropertyName = "Channels", PropertyValue = 0 });
-            }
-            else if (accountNetwork == SocialNetworks.Pinterest)
-            {
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followers", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Followings", PropertyValue = 0 });
-                GrowthProperties.Add(new GrowthProperty { PropertyName = "Post", PropertyValue = 0 });
-            }
-            return GrowthProperties;
-        }
         private ContentSelectGroup _accountGroup = new ContentSelectGroup();
         /// <summary>
         /// To define the account is belongs to which group

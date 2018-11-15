@@ -26,7 +26,18 @@ namespace DominatorUIUtility.ViewModel
 {
     public interface IProxyManagerViewModel : ITabViewModel
     {
+        ObservableCollection<ProxyManagerModel> LstProxyManagerModel { get; }
+        ObservableCollection<AccountAssign> AccountsAlreadyAssigned { get; }
 
+        bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel, AccessorStrategies strategy);
+
+        void UpdateProxy(DominatorAccountBaseModel objAccountBaseModel, List<ProxyManagerModel> ProxyDetail,
+            AccessorStrategies strategy);
+
+        bool IsProxyAvailable(DominatorAccountBaseModel objAccountBaseModel, List<ProxyManagerModel> oldProxies,
+            DominatorAccountBaseModel oldAccount, AccessorStrategies strategy);
+
+        void AddProxyIfNotExist(DominatorAccountBaseModel objAccount, AccessorStrategies strategyPack);
     }
 
     public class ProxyManagerViewModel : BaseTabViewModel, IProxyManagerViewModel
@@ -908,7 +919,6 @@ namespace DominatorUIUtility.ViewModel
             DominatorAccountBaseModel oldAccount, AccessorStrategies strategy)
         {
             bool isProxyUpdated = false;
-            ProxyManager proxyManager = ProxyManager.GetProxyManagerControl(strategy);
             foreach (var proxy in oldProxies)
             {
                 #region If old proxy for account is updated
@@ -925,7 +935,7 @@ namespace DominatorUIUtility.ViewModel
                         proxy.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
 
                         await ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
-                        UpdateProxyList(proxy, proxyManager);
+                        UpdateProxyList(proxy);
                         ProxyFileManager.EditProxy(proxy);
                         break;
                     }
@@ -949,7 +959,7 @@ namespace DominatorUIUtility.ViewModel
                             proxy.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
                             proxy.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
                             await ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
-                            UpdateProxyList(proxy, proxyManager);
+                            UpdateProxyList(proxy);
                             //  ProxyFileManager.EditProxy(proxy);
                         }
 
@@ -983,7 +993,7 @@ namespace DominatorUIUtility.ViewModel
 
             return isProxyUpdated;
         }
-        public void UpdateProxyList(ProxyManagerModel proxy, ProxyManager proxyManager)
+        public void UpdateProxyList(ProxyManagerModel proxy)
         {
             try
             {

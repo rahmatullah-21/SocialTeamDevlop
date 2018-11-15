@@ -118,7 +118,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>7CA0403805573E3930EF5A62F40CEE09E849E52A</ManifestCertificateThumbprint>
@@ -176,13 +176,14 @@
       <HintPath>..\packages\NReco.VideoConverter.1.1.2\lib\net20\NReco.VideoConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -205,8 +206,7 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -234,8 +234,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Container.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Interception, Version=5.5.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Interception.5.5.5\lib\net46\Unity.Interception.dll</HintPath>
@@ -278,6 +277,8 @@
     <Compile Include="IoC\SocialContainerExtension.cs" />
     <Compile Include="IoC\MainDominatorModule.cs" />
     <Compile Include="Model\MainWindowModel.cs" />
+    <Compile Include="Modules\MainModule.cs" />
+    <Compile Include="Modules\SocialPrismModule.cs" />
     <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
       <DependentUpon>MigrationFromOldDominator.xaml</DependentUpon>
     </Compile>
@@ -288,9 +289,6 @@
     <Compile Include="Social\AutoActivity\ViewModels\DominatorAutoActivityViewModel.cs" />
     <Compile Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml.cs">
       <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Social\AutoActivity\Views\SocialAutoActivity.xaml.cs">
-      <DependentUpon>SocialAutoActivity.xaml</DependentUpon>
     </Compile>
     <Compile Include="Social\Settings\ViewModel\AppearanceViewModel.cs" />
     <Compile Include="Social\Settings\View\Appearance.xaml.cs">
@@ -338,10 +336,6 @@
     <Page Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Social\AutoActivity\Views\SocialAutoActivity.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Social\DashBoards\DashboardTemplates.xaml">
       <SubType>Designer</SubType>

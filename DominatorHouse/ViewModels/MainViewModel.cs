@@ -1,7 +1,8 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
-using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -20,7 +21,6 @@ using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
 using FluentScheduler;
 using MahApps.Metro.Controls.Dialogs;
-using Socinator.Social.AutoActivity.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +30,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Unity;
 
 namespace DominatorHouse.ViewModels
 {
@@ -43,7 +42,7 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<string> Languages { get; }
 
-        public SelectableViewModel<SocialNetworks?> AvailableNetworks { get; }
+        public ISelectedNetworkViewModel AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
 
@@ -63,7 +62,7 @@ namespace DominatorHouse.ViewModels
         }
         public ICommand WinActivateCommand { get; set; }
         public ICommand WinClosingCommand { get; set; }
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel)
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks)
         {
             FatalErrorDiagnosis();
 
@@ -72,8 +71,8 @@ namespace DominatorHouse.ViewModels
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
+            AvailableNetworks = availableNetworks;
             Languages = new SelectableViewModel<string>(new[] { "English" });
-            AvailableNetworks = new SelectableViewModel<SocialNetworks?>(new List<SocialNetworks?>());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;
@@ -277,7 +276,7 @@ namespace DominatorHouse.ViewModels
             try
             {
                 FeatureFlags.UpdateFeatures();
-                var modules = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>();
+                var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
                 foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                 {
                     var module = socialNetworkModule;
@@ -504,7 +503,7 @@ namespace DominatorHouse.ViewModels
                     _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
                         .LangKeyAccountsActivity))
                 {
-                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+                    ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
                 }
 
                 if (itemTemplate.Title ==
@@ -581,13 +580,13 @@ namespace DominatorHouse.ViewModels
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
                 TabItems.SelectByIndex(index);
-                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
+                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().NewAutoActivityObject(network, selectedAccount);
             }
             else
             {
                 TabItems.SelectByIndex(index);
-                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
-                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
+                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
+                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().NewAutoActivityObject(network, selectedAccount);
             }
         }
 

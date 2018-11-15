@@ -76,8 +76,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\CommonServiceLocator.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -111,10 +110,6 @@
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -136,13 +131,14 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.3.7.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.3.7\lib\net40\protobuf-net.dll</HintPath>
@@ -165,8 +161,7 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -192,8 +187,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Container.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Interception, Version=5.5.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Interception.5.5.5\lib\net46\Unity.Interception.dll</HintPath>
@@ -230,6 +224,7 @@
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\QueryScraper.cs" />
     <Compile Include="Command\BaseCommand.cs" />
+    <Compile Include="Converters\AccountsFilterConverter.cs" />
     <Compile Include="Converters\AverageConverter.cs" />
     <Compile Include="Converters\BooleanToStringSelectConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
@@ -257,6 +252,7 @@
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
+    <Compile Include="Converters\VisibleIfEqualConverter.cs" />
     <Compile Include="CoreUnityExtension.cs" />
     <Compile Include="Dal\DbConnection.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />
@@ -538,7 +534,6 @@
     <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\IRedditSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
-    <Compile Include="IoC.cs" />
     <Compile Include="Models\AccessorStrategies.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
@@ -579,7 +574,10 @@
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
+    <Compile Include="UIExtensions\GridViewExtension.cs" />
+    <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
+    <Compile Include="Utility\EnumExtensions.cs" />
     <Compile Include="Utility\GlobalInteractedUtility.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
