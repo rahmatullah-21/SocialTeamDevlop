@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Utility
         public string PhoneId { get; private set; }
 
         public string Useragent =>
-            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)this.AndroidVersion, (object)this.AndroidRelease, (object)this.Dpi, (object)this.Resolution, (object)this.ManufacturerBrand, (object)this.Model, (object)this.Device, (object)this.Cpu, (object)ConstantVariable.UseragentLocale);
+            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)this.AndroidVersion, (object)this.AndroidRelease, (object)this.Dpi, (object)this.Resolution, (object)this.ManufacturerBrand, (object)this.Model, (object)this.Device, (object)this.Cpu, (object)ConstantVariable.UseragentLocale+ "; 125398471");
 
         //"Instagram 10.33.0 Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})"
         //"Instagram 6.21.2 Android 23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom;en_US";
@@ -99,20 +99,9 @@ namespace DominatorHouseCore.Utility
         /// <returns>Return the any one from list of devices</returns>
         private static string GetRandomDevice()
         {
-
             // retrun any one from device items
             return ((IList<string>)new string[60]
             {
-
-                //23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom;en_US
-                /*Format : AndroidVersion/AndroidRelease; dpi; Resolutions; Manufacturer/Brand; Model; Device; CPU  */
-                //"24/7.0;380dpi;1080x1920;OnePlus;ONEPLUS A3010;OnePlus3T;qcom",
-                //"23/6.0.1;640dpi;1440x2392;LGE/lge;RS988;h1;h1",
-                //"24/7.0;640dpi;1440x2560;HUAWEI;LON-L29;HWLON;hi3660",
-                //"23/6.0.1;640dpi;1440x2560;ZTE;ZTE A2017U;ailsa_ii;qcom",
-                //"23/6.0.1;640dpi;1440x2560;samsung;SM-G935F;hero2lte;samsungexynos8890",
-                //"23/6.0.1;640dpi;1440x2560;samsung;SM-G930F;herolte;samsungexynos8890"
-               // "24/7.0; 640dpi; 1080x1920; OnePlus; ONEPLUS A3010; OnePlus3T; qcom;",
                 "23/6.0.1; 480dpi; 1080x1920; Samsung; GT - I5800L; GT - I5800L; qcom; en_US",
                 "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-N7000B;GT-N7000B; qcom; en_US",
                 "26/8.0.0; 480dpi; 1080x1920; Samsung;GT-P7300B;GT-P7300B; qcom; en_US",
@@ -173,8 +162,6 @@ namespace DominatorHouseCore.Utility
                 "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G930F; herolte; samsungexynos8890; en_US",
                 "23/6.0; 640dpi; 1920x1152; Yota; RN2; RN2; trident; en_US",
                 "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G935F; hero2lte; samsungexynos8890; en_US",
-
-
             }).GetRandomItem();
         }
 

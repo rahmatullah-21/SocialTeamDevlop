@@ -13,7 +13,8 @@ namespace DominatorHouseCore.Utility
 
         public static string UseragentLocale { get; } = "en_US";
 
-        public static string IgVersion { get; } = "40.33.0";
+        // public static string IgVersion { get; } = "40.33.0";
+        public static string IgVersion { get; } = "64.0.0.14.96";
 
         public static string ApiUrl => $"{(object)ConstantVariable.InstagramBaseUrl}api/v1/";
 
