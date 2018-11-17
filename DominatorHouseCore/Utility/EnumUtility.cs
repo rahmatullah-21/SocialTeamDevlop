@@ -72,7 +72,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetQueryFromEnum(Enum queryType)
         {
-            return Application.Current.FindResource(EnumUtility.GetDescriptionAttr(queryType)).ToString();
+            return Application.Current?.FindResource(queryType.GetDescriptionAttr())?.ToString();
         }
     }
 }
