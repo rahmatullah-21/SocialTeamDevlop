@@ -48,7 +48,7 @@
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
                 <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToBlacklist}" 
                             VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Red" Foreground="White"
-                           Command="{Binding AddtoBlackListCommand}"/>
+                           Command="{Binding AddToBlackListCommand}"/>
             </Grid>
         </GroupBox>
 

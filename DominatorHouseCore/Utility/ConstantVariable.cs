@@ -288,6 +288,8 @@ namespace DominatorHouseCore.Utility
         public static string UpdateVersionFilePath { get; set; } = "fd/setup/FDSetup.txt";
         public static string UpdateVersionLink { get; set; } =
               "http://{0}/{1}";
+
+        public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
     }
 
     public static class FileDirPath
