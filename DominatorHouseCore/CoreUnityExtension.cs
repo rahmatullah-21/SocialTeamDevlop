@@ -2,8 +2,8 @@
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Utility;
 using DominatorHouseCore.ProxyServerManagment;
+using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
@@ -22,6 +22,9 @@ namespace DominatorHouseCore
 
             Container.RegisterSingleton<IAccountGrowthPropertiesProvider, AccountGrowthPropertiesProvider>();
 
+            Container.RegisterSingleton<IWebService, WebService>();
+            Container.RegisterSingleton<IDateProvider, DateProvider>();
+            Container.RegisterSingleton<IFileSystemProvider, FileSystemProvider>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();

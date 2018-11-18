@@ -577,7 +577,9 @@
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
+    <Compile Include="Utility\DateProvider.cs" />
     <Compile Include="Utility\EnumExtensions.cs" />
+    <Compile Include="Utility\FileSystemProvider.cs" />
     <Compile Include="Utility\GlobalInteractedUtility.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
@@ -609,6 +611,7 @@
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
     <Compile Include="Utility\ToasterNotification.cs" />
+    <Compile Include="Utility\WebService.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GooglePlusViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\InstagramViewModel.cs" />

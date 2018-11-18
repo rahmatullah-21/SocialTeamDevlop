@@ -1,14 +1,14 @@
-﻿using System;
+﻿using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Utility;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Utility;
-using Newtonsoft.Json.Linq;
 
 namespace DominatorHouseCore.Request
 {
@@ -266,7 +266,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="jsonString">post data which will pass as bytes</param>
         /// <returns>post data in sequences of bytes</returns>
-        public byte[] GeneratePostData(string jsonString)
+        protected byte[] GeneratePostData(string jsonString)
         {
             var jobject = JObject.Parse(jsonString);
             var stringBuilder = new StringBuilder();
