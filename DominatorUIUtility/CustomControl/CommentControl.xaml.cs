@@ -159,7 +159,7 @@ namespace DominatorUIUtility.CustomControl
                         x.LstQueries = Comments.LstQueries;
                     }
                     return x;
-                });
+                }).ToList();
                 Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Isupdated = true;

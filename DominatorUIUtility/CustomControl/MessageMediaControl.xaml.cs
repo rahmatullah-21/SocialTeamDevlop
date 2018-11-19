@@ -191,9 +191,10 @@ namespace DominatorUIUtility.CustomControl
                     {
                         x.MessagesText = Messages.MessagesText;
                         x.LstQueries = Messages.LstQueries;
+                        x.MediaPath = Messages.MediaPath;
                     }
                     return x;
-                });
+                }).ToList();
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Isupdated = true;

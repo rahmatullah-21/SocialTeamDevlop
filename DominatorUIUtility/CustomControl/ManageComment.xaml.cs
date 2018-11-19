@@ -56,18 +56,26 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var currentItem = ((FrameworkElement)sender).DataContext as ManageCommentModel;
-                var editComment = new CommentControl();
-                editComment.btnAddCommentToList.Content = "Update Comment";
-                editComment.Comments = new ManageCommentModel
+                if (currentItem == null)
+                    throw new ArgumentNullException(nameof(currentItem));
+
+                var editComment = new CommentControl
                 {
-                    CommentText = currentItem.CommentText,
-                    LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
-                    CommentId = currentItem.CommentId,
-                    SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery)
+                    btnAddCommentToList = { Content = "Update Comment" },
+                    Comments = new ManageCommentModel
+                    {
+                        CommentText = currentItem.CommentText,
+                        LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
+                        CommentId = currentItem.CommentId,
+                        SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
+                        FilterText = currentItem.FilterText
+                    },
+                    LstManageCommentModel = this.LstManageCommentModel
                 };
 
                 editComment.Comments.LstQueries.ToList().ForEach(x =>
                 {
+                    x.IsContentSelected = false;
                     if (editComment.Comments.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
                         x.IsContentSelected = true;
                 });
@@ -82,6 +90,8 @@ namespace DominatorUIUtility.CustomControl
                         var indexToUpdate = LstManageCommentModel.IndexOf(currentItem);
                         LstManageCommentModel[indexToUpdate] = editComment.Comments;
                     }
+
+                    currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
                 };
             }
             catch (Exception ex)
