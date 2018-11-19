@@ -115,13 +115,13 @@ namespace DominatorUIUtility.ViewModel
             LstDominatorAccountModel = new ObservableCollection<DominatorAccountModel>();
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, _syncLoadAccounts);
 
-            VisibleColumns = new ObservableCollection<GridViewColumn>(DominatorAccountCountFactory
-                .Instance.GetColumnSpecificationProvider().VisibleHeaders.Select((name, colIndex) => new GridViewColumn
-                {
-                    DisplayMemberBinding = new Binding($"DisplayColumnValue{colIndex + 1}"),
-                    Header = name,
-                    Width = 130
-                }));
+            var visibleHeaders = DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider().VisibleHeaders;
+            VisibleColumns = new ObservableCollection<GridViewColumn>(visibleHeaders.Select((name, colIndex) => new GridViewColumn
+            {
+                DisplayMemberBinding = new Binding($"DisplayColumnValue{colIndex + 1}"),
+                Header = name,
+                Width = 130
+            }));
             BindingOperations.EnableCollectionSynchronization(VisibleColumns, _syncLoadAccounts);
 
             InitialAccountDetails();

@@ -31,9 +31,9 @@ namespace DominatorHouseCore.UIExtensions
             DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            if (d.GetType() == typeof(GridView))
+            GridView myGrid = d as GridView;
+            if (myGrid != null)
             {
-                GridView myGrid = d as GridView;
 
                 ObservableCollection<GridViewColumn> Columns =
                     (ObservableCollection<GridViewColumn>)e.NewValue;
@@ -42,6 +42,12 @@ namespace DominatorHouseCore.UIExtensions
                 {
 
                     var lastAddedColumns = new List<GridViewColumn>();
+                    foreach (GridViewColumn column
+                        in Columns)
+                    {
+                        myGrid.Columns.Add(column);
+                        lastAddedColumns.Add(column);
+                    }
 
                     Columns.CollectionChanged += delegate (object sender,
                         NotifyCollectionChangedEventArgs args)
