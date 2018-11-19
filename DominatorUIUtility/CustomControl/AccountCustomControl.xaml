@@ -315,6 +315,7 @@
                     <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
                         <Binding Path="LstDominatorAccountModel"/>
                         <Binding Path="SelectedNetworkViewModel.Selected"/>
+                        <Binding Path="LstDominatorAccountModel.Count"/>
                     </MultiBinding>
                 </ListView.ItemsSource>
                 <ListView.ItemContainerStyle>
