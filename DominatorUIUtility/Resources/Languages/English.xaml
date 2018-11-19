@@ -3234,9 +3234,26 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySendUniqueMessageFromEachAccount">Send Unique Message From Each Account</system:String>
     <system:String x:Key="LangKeySendUniqueCommentFromEachAccount">Send Unique Comment From Each Account</system:String>
     <system:String x:Key="LangKeySendUniqueCommentForEachPost">Send Unique Comment For Each Post</system:String>
-    <system:String x:Key="LangKeySendMessageToNewFriends">Send Message To New Friends</system:String>
+    <system:String x:Key="LangKeySendMessageToNewFriends">Message To New Friends</system:String>
     <system:String x:Key="LangKeySendUniqueMessageToEachUser">Send Unique Message To Each User</system:String>
     <system:String x:Key="LangKeyTagFriendsOption">Tag Friends Option</system:String>
+    <system:String x:Key="LangKeyMutualFriends">Mutual Friends</system:String>
+    <system:String x:Key="LangKeyFriendsShouldHaveBeenAddedBefore">Friends Should Have Been Added Before</system:String>
 
     <system:String x:Key="LangLastSynchronizedAt">Last Synchronized At :</system:String>
+
+    <system:String x:Key="LangKeyNumberOfSharesPerJob">Number Of Shares Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfSharesPerHour">Number Of Shares Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfSharesPerDay">Number Of Shares Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfSharesPerWeek">Number Of Shares Per Week</system:String>
+    <system:String x:Key="LangKeyMaxSharesPerDay">Max Shares Per Day</system:String>
+
+    <system:String x:Key="LangKeyBoards">Boards</system:String>
+    <system:String x:Key="LangKeyChannels">Channels</system:String>
+    
+    <system:String x:Key="LangKeyMuteFollowerAfterFollow">Mute Follower After Follow</system:String>
+    <system:String x:Key="LangKeyMuteFollowerPostAfterFollow">Mute Follower Post After Follow</system:String>
+    <system:String x:Key="LangKeyMuteFollowerStoryAfterFollow">Mute Follower Story After Follow</system:String>
+    <system:String x:Key="LangKeyMuteFollowerPostStoryAfterFollow">Mute Follower Post And Story After Follow</system:String>
+
 </ResourceDictionary>

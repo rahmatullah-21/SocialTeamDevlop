@@ -304,5 +304,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter")]
         TweetTo = 104,
 
+        [Description("Facebook")]
+        SendMessageToNewFriends = 105
     }
 }

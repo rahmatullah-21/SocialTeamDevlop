@@ -668,10 +668,19 @@ namespace DominatorHouseCore.Utility
             {
                 ex.DebugLog("Error, While update the datas to global interacted bin file");
             }
-        } 
+        }
 
         #endregion
 
+        public static void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class
+        {
+            ProtoBuffBase.SerializeList(friendsModelList, filePath);
+        }
+
+        public static List<T> GetFacebookEntity<T>() where T : class
+        {
+            return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetFacebookDetailsConfigFile());
+        }
     }
 
 }

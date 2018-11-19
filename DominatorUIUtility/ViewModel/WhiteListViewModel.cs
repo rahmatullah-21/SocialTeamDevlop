@@ -23,7 +23,7 @@ namespace DominatorUIUtility.ViewModel
     {
         public WhiteListViewModel()
         {
-            AddtoWhiteListCommand = new BaseCommand<object>((sender) => true, AddToWhiteList);
+            AddToWhiteListCommand = new BaseCommand<object>((sender) => true, AddToWhiteList);
             ClearCommand = new BaseCommand<object>((sender) => true, ClearUser);
             RefreshCommand = new BaseCommand<object>((sender) => true, Refresh);
             SelectCommand = new BaseCommand<object>((sender) => true, Select);
@@ -33,14 +33,16 @@ namespace DominatorUIUtility.ViewModel
 
 
         private static object _lock = new object();
-        public ICommand AddtoWhiteListCommand { get; set; }
+        public ICommand AddToWhiteListCommand { get; set; }
         public ICommand ClearCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
         public ICommand SelectCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
-        private DbOperations dbOperations { get; set; }
+        private DbOperations DbOperations { get; set; }
+
+        private DbOperations BlackListDbOperations { get; set; }
 
         private bool IsUnCheckedFromUser { get; set; }
 
@@ -93,8 +95,8 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _whitelistUser, value);
             }
         }
-        List<BlackListUser> blackListUsers = new List<BlackListUser>();
-        List<WhiteListUser> whiteListUser = new List<WhiteListUser>();
+
+        List<WhiteListUser> _whiteListUser = new List<WhiteListUser>();
         private ObservableCollection<WhitelistUserModel> _lstWhiteListUsers = new ObservableCollection<WhitelistUserModel>();
 
         public ObservableCollection<WhitelistUserModel> LstWhiteListUsers
@@ -114,11 +116,14 @@ namespace DominatorUIUtility.ViewModel
         public void InitializeData()
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            dbOperations = new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser));
+            DbOperations = new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser));
+
+            BlackListDbOperations =
+                new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser));
 
             ThreadFactory.Instance.Start(() =>
             {
-                dbOperations.Get<WhiteListUser>()?.ForEach(user =>
+                DbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
                         new WhitelistUserModel
@@ -139,52 +144,49 @@ namespace DominatorUIUtility.ViewModel
                 return;
             }
 
-            //DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
-            //dbContext = DataBaseConnectionGlb.GetDbContext(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
-            //var whiteListdbOperations = new DbOperations(dbContext);
-            //var whiteListUser = whiteListdbOperations.Get<WhiteListUser>();
             Task.Factory.StartNew(() =>
             {
                 var lstuser = WhitelistUser.Split('\n');
                 WhitelistUser = string.Empty;
-                whiteListUser = new List<WhiteListUser>();
+                _whiteListUser = new List<WhiteListUser>();
+
+                List<WhiteListUser> lstWhiteListUser = DbOperations.Get<WhiteListUser>();
+                List<BlackListUser> lstBlackListUser = BlackListDbOperations.Get<BlackListUser>();
+
                 lstuser.ForEach(user =>
                 {
                     var userName = user.Trim();
                     if (!string.IsNullOrEmpty(userName))
                     {
-                        if (!LstWhiteListUsers.Any(x => string.Compare(x.WhitelistUser, userName, StringComparison.InvariantCultureIgnoreCase) == 0)
-                                 && !blackListUsers.Any(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) == 0))
+                        if (lstWhiteListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
+                            && lstBlackListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0))
                         {
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                whiteListUser.Add(new WhiteListUser()
+                                _whiteListUser.Add(new WhiteListUser()
                                 {
                                     UserName = userName
                                 });
-                                    //LstWhiteListUsers.Add(new WhitelistUserModel()
-                                    //{
-                                    //    WhitelistUser = userName
-                                    //});
-                                    //dbOperations.Add<WhiteListUser>(new WhiteListUser()
-                                    //{
-                                    //    UserName = userName,
-                                    //    AddedDateTime = DateTime.Now,
-
-                                    //});
-                                }
-                        );
-                                // Thread.Sleep(50);
                             }
+                            );
+                        }
                         else
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, userName, UserType.BlackListedUser, $"{userName} already added to Blacklist/Whitelist");
-
+                        {
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,
+                                userName, UserType.WhiteListedUser,
+                                $"{userName} already added to Whitelist/Blacklist. Click on refresh button to view updated list.");
+                        }
                     }
                 });
-                dbOperations.AddRange<WhiteListUser>(whiteListUser);
-                    // WhitelistUser = string.Empty;
-                    ToasterNotification.ShowSuccess($"Succesfully added {whiteListUser.Count} user{(whiteListUser.Count > 1 ? "s" : "")}. Click on refresh button to view updated list");
 
+                // Remove duplicates
+                _whiteListUser = _whiteListUser.GroupBy(x => x.UserName).Select(y => y.First()).ToList();
+
+                DbOperations.AddRange<WhiteListUser>(_whiteListUser);
+
+                if (_whiteListUser.Count > 0)
+                    ToasterNotification.ShowSuccess(
+                        $"Successfully added {_whiteListUser.Count} distinct user{(_whiteListUser.Count > 1 ? "s" : "")}. Click on refresh button to view updated list");
             });
         }
         private void ClearUser(object sender)
@@ -196,7 +198,7 @@ namespace DominatorUIUtility.ViewModel
             LstWhiteListUsers.Clear();
             ThreadFactory.Instance.Start(() =>
             {
-                dbOperations.Get<WhiteListUser>()?.ForEach(user =>
+                DbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
                         new WhitelistUserModel
@@ -244,7 +246,7 @@ namespace DominatorUIUtility.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         LstWhiteListUsers.Remove(x);
-                        dbOperations.Remove<WhiteListUser>(user => user.UserName == x.WhitelistUser);
+                        DbOperations.Remove<WhiteListUser>(user => user.UserName == x.WhitelistUser);
                     });
                     Thread.Sleep(50);
                 });

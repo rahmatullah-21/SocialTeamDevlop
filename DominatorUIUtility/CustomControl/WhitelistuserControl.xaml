@@ -46,7 +46,7 @@
                               BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
                 <Button Grid.Row="1" Name="BtnAddtoWhitelist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToWhitelist}" 
                             VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Green" Foreground="White"
-                           Command="{Binding AddtoWhiteListCommand}"/>
+                           Command="{Binding AddToWhiteListCommand}"/>
             </Grid>
         </GroupBox>
 

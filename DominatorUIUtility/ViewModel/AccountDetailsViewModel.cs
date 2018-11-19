@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore.EmailService;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -84,14 +85,23 @@ namespace DominatorUIUtility.ViewModel
                 UserName = DominatorAccountModel.AccountBaseModel.UserName,
                 Password = DominatorAccountModel.AccountBaseModel.Password,
                 AccountId = DominatorAccountModel.AccountId,
+                AccountNetwork = DominatorAccountModel.AccountBaseModel.AccountNetwork,
                 AccountProxy =  {
                     ProxyIp = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp,
                     ProxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort,
                     ProxyUsername = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
                     ProxyPassword = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword
                 }
-
             };
+
+            OldDominatorAccountModel.MailCredentials = new MailCredentials
+            {
+                Username = DominatorAccountModel.MailCredentials.Username,
+                Password = DominatorAccountModel.MailCredentials.Password,
+                Hostname = DominatorAccountModel.MailCredentials.Hostname,
+                Port = DominatorAccountModel.MailCredentials.Port
+            };
+
             OldDominatorAccountModel.UserAgentWeb = DominatorAccountModel.UserAgentWeb;
             OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
             OldDominatorAccountModel.AccountId = DominatorAccountModel.AccountId;
@@ -120,8 +130,6 @@ namespace DominatorUIUtility.ViewModel
 
         private void SaveExecute(object sender)
         {
-
-
             DominatorAccountModel.CookieHelperList?.ToList().ForEach(cookie =>
             {
                 if (string.IsNullOrEmpty(cookie.Name) || string.IsNullOrEmpty(cookie.Value))
@@ -145,19 +153,17 @@ namespace DominatorUIUtility.ViewModel
                     var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
                     DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
-                    if (OldDominatorAccountModel.AccountBaseModel.UserName != DominatorAccountModel.AccountBaseModel.UserName
-                        || OldDominatorAccountModel.AccountBaseModel.Password != DominatorAccountModel.AccountBaseModel.Password
-                        || OldDominatorAccountModel.UserAgentWeb != DominatorAccountModel.UserAgentWeb)
-                    {
-                        if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList, DominatorAccountModel.CookieHelperList))
-                            DominatorAccountModel.CookieHelperList?.Clear();
-                    }
-
+                   
                     await asyncAccount.CheckStatusAsync(DominatorAccountModel, DominatorAccountModel.Token);
 
 
                     if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
+                    {
                         await asyncAccount.UpdateDetailsAsync(DominatorAccountModel, DominatorAccountModel.Token);
+                        new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                            .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+                            .SaveToBinFile();
+                    }
                     else
                     {
                         DominatorAccountModel.DisplayColumnValue1 = 0;
@@ -200,13 +206,8 @@ namespace DominatorUIUtility.ViewModel
                 OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
 
             });
-
-
+            
             #endregion
-
-
-            //   AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
-
         }
         private bool SaveCanExecute(object arg) => true;
         void EditAccount()
@@ -231,25 +232,19 @@ namespace DominatorUIUtility.ViewModel
                      string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))
                     || (string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyUsername) &&
                         !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))) return;
+                
 
-               // OldDominatorAccountModel.AccountBaseModel.AccountGroup.Content = newAccountBaseModel.AccountGroup.Content;
-               // if (OldDominatorAccountModel.AccountBaseModel.UserName != newAccountBaseModel.UserName || OldDominatorAccountModel.AccountBaseModel.Password != newAccountBaseModel.Password)
-               // {
-               //     OldDominatorAccountModel.Cookies = new CookieCollection();
-               // }
-               // OldDominatorAccountModel.AccountBaseModel.AccountGroup = new ContentSelectGroup
-               // {
-               //     Content = newAccountBaseModel.AccountGroup.Content,
-               // };
-               // OldDominatorAccountModel.AccountBaseModel.UserName = newAccountBaseModel.UserName;
-               // OldDominatorAccountModel.AccountBaseModel.Password = newAccountBaseModel.Password;
-               // OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp = newAccountBaseModel.AccountProxy.ProxyIp;
-               // OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort = newAccountBaseModel.AccountProxy.ProxyPort;
-               // OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername = newAccountBaseModel.AccountProxy.ProxyUsername;
-               // OldDominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword = newAccountBaseModel.AccountProxy.ProxyPassword;
-               // OldDominatorAccountModel.AccountBaseModel.AccountNetwork = newAccountBaseModel.AccountNetwork;
-
-
+                if (OldDominatorAccountModel.AccountBaseModel.UserName != DominatorAccountModel.AccountBaseModel.UserName
+                    || OldDominatorAccountModel.AccountBaseModel.Password != DominatorAccountModel.AccountBaseModel.Password
+                    || OldDominatorAccountModel.UserAgentWeb != DominatorAccountModel.UserAgentWeb)
+                {
+                    if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList,
+                        DominatorAccountModel.CookieHelperList))
+                    {
+                        DominatorAccountModel.CookieHelperList?.Clear();
+                        DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -268,39 +263,8 @@ namespace DominatorUIUtility.ViewModel
 
                 if (!proxyManagerViewModel.IsProxyAvailable(newAccountBaseModel, oldproxies, oldAccount, strategy))
                 {
-                    if (!proxyManagerViewModel.UpdateProxy(OldDominatorAccountModel.AccountBaseModel, strategy))
-                        proxyManagerViewModel.AddProxyIfNotExist(OldDominatorAccountModel.AccountBaseModel, strategy);
-                }
-
-                try
-                {
-                    OldDominatorAccountModel.Token.ThrowIfCancellationRequested();
-
-                    new SocinatorAccountBuilder(newAccountBaseModel.AccountId)
-                        .AddOrUpdateDominatorAccountBase(newAccountBaseModel)
-                        .AddOrUpdateCookies(DominatorAccountModel.Cookies)
-                        .AddOrUpdateUserAgentWeb(DominatorAccountModel.UserAgentWeb)
-                        .SaveToBinFile();
-
-
-                }
-                catch (OperationCanceledException)
-                {
-                    throw new System.OperationCanceledException();
-                }
-                catch (AggregateException ae)
-                {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            e.DebugLog("Cancellation requested before task completion!");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
+                    if (!proxyManagerViewModel.UpdateProxy(newAccountBaseModel, strategy))
+                        proxyManagerViewModel.AddProxyIfNotExist(newAccountBaseModel, strategy);
                 }
             }
 
@@ -334,9 +298,55 @@ namespace DominatorUIUtility.ViewModel
                     ex.DebugLog();
                 }
             }
-            GlobusLogHelper.log.Info(Log.AccountEdited, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName);
 
+            #region Save data into bin file
+
+            try
+            {
+                DominatorAccountModel.Token.ThrowIfCancellationRequested();
+
+                new SocinatorAccountBuilder(newAccountBaseModel.AccountId)
+                    .AddOrUpdateDominatorAccountBase(newAccountBaseModel)
+                    .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                    .AddOrUpdateUserAgentWeb(DominatorAccountModel.UserAgentWeb)
+                    .SaveToBinFile();
+
+                #region Save email creds
+
+                if (DominatorAccountModel.IsAutoVerifyByEmail && !ObjectComparer.Compare(
+                        OldDominatorAccountModel.MailCredentials,
+                        DominatorAccountModel.MailCredentials))
+                {
+                    new SocinatorAccountBuilder(newAccountBaseModel.AccountId)
+                        .AddOrUpdateMailCredentials(DominatorAccountModel.MailCredentials)
+                        .SaveToBinFile();
+                }
+
+                #endregion
+            }
+            catch (OperationCanceledException)
+            {
+                throw new System.OperationCanceledException();
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            #endregion
+
+            GlobusLogHelper.log.Info(Log.AccountEdited, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName);
         }
+
         private bool CancelCanExecute(object arg) => true;
         private void CancelExecute(object sender)
         {
