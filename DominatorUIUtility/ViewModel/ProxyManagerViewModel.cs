@@ -126,7 +126,7 @@ namespace DominatorUIUtility.ViewModel
             StartAddingItems();
         }
 
-
+     
         private void StartAddingItems()
         {
             ThreadFactory.Instance.Start(() =>
@@ -138,7 +138,12 @@ namespace DominatorUIUtility.ViewModel
                     {
                         lock (_lock)
                         {
-                            Application.Current.Dispatcher.InvokeAsync(() => LstProxyManagerModel.Add(proxy));
+                            Application.Current.Dispatcher.InvokeAsync(() =>
+                            {
+                                LstProxyManagerModel.Add(proxy);
+                                proxy.Index = LstProxyManagerModel.IndexOf(proxy) + 1;
+                            });
+                            
                             LstProxyManagerModel.ForEach(pr => ProxyManagerModel.Groups.Add(pr.AccountProxy.ProxyGroup));
                             proxy.AccountsAssignedto.ForEach(x =>
                             {
@@ -241,6 +246,7 @@ namespace DominatorUIUtility.ViewModel
                         ProxyFileManager.SaveProxy(givenProxy);
 
                         LstProxyManagerModel.Add(givenProxy);
+                        givenProxy.Index= LstProxyManagerModel.IndexOf(givenProxy)+1;
                         noOfProxyAdded++;
                     }
                     catch (Exception ex)
@@ -1059,6 +1065,7 @@ namespace DominatorUIUtility.ViewModel
                             y.AccountNetwork == objAccount.AccountNetwork));
                 });
                 LstProxyManagerModel.Add(ProxyManagerModel);
+                ProxyManagerModel.Index= LstProxyManagerModel.IndexOf(ProxyManagerModel)+1;
                 AccountsAlreadyAssigned.Add(
                     new AccountAssign
                     {

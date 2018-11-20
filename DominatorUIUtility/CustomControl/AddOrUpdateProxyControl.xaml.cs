@@ -82,7 +82,7 @@ namespace DominatorUIUtility.CustomControl
                     ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}{ProxyManagerModel.AccountProxy.ProxyPort}";
                 ProxyFileManager.SaveProxy(ProxyManagerModel);
                 ProxyManagerViewModel.LstProxyManagerModel.Add(ProxyManagerModel);
-
+                ProxyManagerModel.Index = ProxyManagerViewModel.LstProxyManagerModel.IndexOf(ProxyManagerModel) + 1;
                 GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
                                                                            ProxyManagerModel.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
                 Dialog.CloseDialog(sender);

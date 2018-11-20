@@ -341,7 +341,7 @@ namespace DominatorUIUtility.ViewModel
                         return;
                     GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
                     selectedCampaign.Status = "Paused";
-                    // return;
+                     return;
                 }
 
                 var isChecked = ((ToggleSwitch)sender).IsChecked;

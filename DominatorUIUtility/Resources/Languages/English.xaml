@@ -3255,5 +3255,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMuteFollowerPostAfterFollow">Mute Follower Post After Follow</system:String>
     <system:String x:Key="LangKeyMuteFollowerStoryAfterFollow">Mute Follower Story After Follow</system:String>
     <system:String x:Key="LangKeyMuteFollowerPostStoryAfterFollow">Mute Follower Post And Story After Follow</system:String>
-
+    <system:String x:Key="LangKeyAfterLikeFanPageAction">After FanPage Like Action</system:String>
+    <system:String x:Key="LangKeyLikeFanPagesLatestPosts">Like FanPages Latest Posts</system:String>
+    <system:String x:Key="LangKeyCommentOnFanPageLatestPosts">Comment On FanPages Latest Posts</system:String>
+    <system:String x:Key="LangKeyActionByAllOwnPages">Action By All Own Pages</system:String>
 </ResourceDictionary>

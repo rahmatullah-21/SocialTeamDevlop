@@ -103,8 +103,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding IsQuerySelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="9,0"
-                                                      Content="{Binding AlternationIndex,RelativeSource={RelativeSource AncestorType=DataGridRow},
-                                                      Converter={StaticResource IndexToRowNoConverter}}" Click="OnQuerySelect"/>
+                                                      Content="{Binding Index}" Click="OnQuerySelect"/>
 
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

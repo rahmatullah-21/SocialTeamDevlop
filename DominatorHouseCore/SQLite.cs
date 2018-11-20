@@ -1353,7 +1353,7 @@ namespace SQLite
             }
 
             var insertCmd = map.GetInsertCommand(this, extra);
-            int count;
+            int count=0;
 
             try
             {
@@ -1366,7 +1366,7 @@ namespace SQLite
                 {
                     throw NotNullConstraintViolationException.New(ex.Result, ex.Message, map, obj);
                 }
-                throw;
+              //  throw;
             }
 
             if (map.HasAutoIncPK)

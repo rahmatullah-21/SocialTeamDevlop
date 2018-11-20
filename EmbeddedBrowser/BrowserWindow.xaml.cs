@@ -570,7 +570,7 @@ namespace EmbeddedBrowser
 
         private void PinterestBrowserLogin(string html)
         {
-            if (!string.IsNullOrEmpty(html) && html.Contains("type=\"email\"") && html.Contains("type=\"password\""))
+            if (!string.IsNullOrEmpty(html) && html.Contains("type=\"email\"") || html.Contains("type=\"password\""))
             {
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
                 {
@@ -620,12 +620,15 @@ namespace EmbeddedBrowser
                     k.Type = KeyEventType.KeyDown;
                     Browser.GetBrowser().GetHost().SendKeyEvent(k);
                     Thread.Sleep(1000);
-
+                    if (!html.Contains("type=\"email\""))
+                        Browser.ExecuteScriptAsync("document.getElementsByClassName('red SignupButton active')[0].click()");
+                    else
                     Browser.ExecuteScriptAsync("document.getElementsByClassName('SignupButton')[0].click()");
                     Thread.Sleep(2000);
 
                 }
             }
+         
             var result = GetLoggedInPageSource();
 
             if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true"))

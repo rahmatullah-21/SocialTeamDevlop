@@ -1801,7 +1801,7 @@ namespace DominatorUIUtility.CustomControl
                         }
 
                         Model.SavedQueries.Add(currentQuery);
-
+                        currentQuery.Index = Model.SavedQueries.IndexOf(currentQuery) + 1;
                     });
                     if (queryValuIndex.Count > 0)
                     {
@@ -1833,7 +1833,7 @@ namespace DominatorUIUtility.CustomControl
                     if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
 
                     Model.SavedQueries.Add(currentQuery);
-
+                    currentQuery.Index = Model.SavedQueries.IndexOf(currentQuery) + 1;
                     _queryControl.CurrentQuery.QueryValue = string.Empty;
 
                 }

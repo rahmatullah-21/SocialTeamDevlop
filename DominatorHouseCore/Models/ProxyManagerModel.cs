@@ -10,6 +10,16 @@ namespace DominatorHouseCore.Models
     public class ProxyManagerModel : BindableBase
     {
 
+        private int _index;
+
+        public int Index
+        {
+            get { return _index; }
+            set
+            {
+                SetProperty(ref _index, value);
+            }
+        }
 
         private Proxy _accountProxy = new Proxy();
         [ProtoMember(1)]

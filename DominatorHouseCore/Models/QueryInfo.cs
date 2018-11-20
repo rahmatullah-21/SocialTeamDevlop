@@ -22,7 +22,16 @@ namespace DominatorHouseCore.Models
         private string _queryTypeDisplayName;
 
         public static readonly QueryInfo NoQuery = new QueryInfo();
+        private int _index;
 
+        public int Index
+        {
+            get { return _index; }
+            set
+            {
+                SetProperty(ref _index, value);
+            }
+        }
         /// <summary>
         /// Id is the unique id for the query, which contains guid without dashes
         /// </summary>

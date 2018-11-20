@@ -967,6 +967,7 @@ namespace DominatorUIUtility.ViewModel
                             y.AccountNetwork == objAccount.AccountNetwork));
                 });
                 _proxyManagerViewModel.LstProxyManagerModel.Add(ProxyManagerModel);
+                ProxyManagerModel.Index= _proxyManagerViewModel.LstProxyManagerModel.IndexOf(ProxyManagerModel)+1;
                 _proxyManagerViewModel.AccountsAlreadyAssigned.Add(
                     new AccountAssign
                     {
