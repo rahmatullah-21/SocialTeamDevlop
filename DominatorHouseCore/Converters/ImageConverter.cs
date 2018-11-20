@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore.Utility;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Windows.Data;
@@ -32,6 +33,7 @@ namespace DominatorHouseCore.Converters
 
         }
 
+        [ExcludeFromCodeCoverage]
         public object ConvertBack(
             object value, Type targetType, object parameter, CultureInfo culture)
         {

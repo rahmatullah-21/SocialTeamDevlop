@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace DominatorHouseCore.Converters
 {
@@ -10,7 +9,7 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-          
+
             try
             {
                 var sum = 0;
@@ -26,9 +25,10 @@ namespace DominatorHouseCore.Converters
                 return 0;
             }
 
-           
+
         }
 
+        [ExcludeFromCodeCoverage]
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             return null;

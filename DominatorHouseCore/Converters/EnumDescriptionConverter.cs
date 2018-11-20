@@ -1,10 +1,7 @@
-﻿using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Data;
 
 namespace DominatorHouseCore.Converters
@@ -26,19 +23,6 @@ namespace DominatorHouseCore.Converters
 
 
             return discription;
-
-            //if (value == null) return DependencyProperty.UnsetValue;
-
-            //try
-            //{
-            //    var v = (UserQueryParameters)Enum.Parse(typeof(UserQueryParameters), value.ToString());
-            //    var desc = GetDescription(v);
-            //    return desc.FromResourceDictionary();
-            //}
-            //catch(Exception)
-            //{
-            //    return value;
-            //}
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

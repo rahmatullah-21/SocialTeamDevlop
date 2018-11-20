@@ -2,6 +2,7 @@
 using DominatorHouseCore.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
@@ -28,6 +29,7 @@ namespace DominatorHouseCore.Converters
             return collection;
         }
 
+        [ExcludeFromCodeCoverage]
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
