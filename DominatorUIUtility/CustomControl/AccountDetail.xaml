@@ -43,6 +43,22 @@
                                         <Condition Binding="{Binding ElementName=txtPassword, Path=(Validation.HasError)}" Value="false" />
                                         <Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
                                         <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=AutoVerifyByEmail, Path=IsChecked}"  Value="false"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="true" />
+                                    <Setter Property="Control.Background" Value="Green"/>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=txtUserName, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtPassword, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
+                                        <Condition Binding="{Binding ElementName=AutoVerifyByEmail, Path=IsChecked}"  Value="true"/>
+                                        <Condition Binding="{Binding ElementName=TxtEmailUsername, Path=(Validation.HasError)}"  Value="false"/>
+                                        <Condition Binding="{Binding ElementName=TxtEmailPassword, Path=(Validation.HasError)}"  Value="false"/>
+                                        <Condition Binding="{Binding ElementName=TxtHostKey, Path=(Validation.HasError)}"  Value="false"/>
+                                        <Condition Binding="{Binding ElementName=TxtEmailPort, Path=(Validation.HasError)}"  Value="false"/>
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
                                     <Setter Property="Control.Background" Value="Green"/>
@@ -348,19 +364,32 @@
                     <StackPanel Visibility="{Binding DominatorAccountModel.IsAutoVerifyByEmail,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel  Orientation="Horizontal" >
                             <TextBlock Text="{DynamicResource LangKeyEmailID}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                            <TextBox Text="{Binding DominatorAccountModel.MailCredentials.Username}" controls:TextBoxHelper.Watermark="Enter Email Id" Width="230"
+                            <TextBox controls:TextBoxHelper.Watermark="Enter Email Id" Width="230" Name="TxtEmailUsername"
+                                     Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center" 
-                                     Height="30" KeyDown="OnKeyDown"/>
+                                     Height="30" KeyDown="OnKeyDown">
+                                <TextBox.Text>
+                                    <Binding Path="DominatorAccountModel.MailCredentials.Username" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:ValidationHelper Sender="TxtEmailUsername" ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                         </StackPanel>
 
                         <StackPanel  Orientation="Horizontal" >
                             <TextBlock  Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                            <PasswordBox  passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
-                                          Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                                          controls:TextBoxHelper.Watermark="Enter Password" Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" 
-                                          Foreground="Black" VerticalAlignment="Center"  Height="30" >
+                            <PasswordBox Name="TxtEmailPassword" passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
+                                         Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+                                         controls:TextBoxHelper.Watermark="Enter Password" Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" 
+                                         Foreground="Black" VerticalAlignment="Center"  Height="30" >
                                 <passwordHelper:PasswordBoxHelper.Password>
-                                    <Binding Path="DominatorAccountModel.MailCredentials.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay"/>
+                                    <Binding Path="DominatorAccountModel.MailCredentials.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                        <Binding.ValidationRules>
+                                            <validation:ValidationHelper Sender="TxtEmailPassword" ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
                                 </passwordHelper:PasswordBoxHelper.Password>
                             </PasswordBox>
 
@@ -368,10 +397,17 @@
 
                         <StackPanel  Orientation="Horizontal" >
                             <TextBlock Text="{DynamicResource LangKeyHostName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                            <TextBox  controls:TextBoxHelper.Watermark="Enter Host name" Width="230"
+                            <TextBox  controls:TextBoxHelper.Watermark="Enter Host name" Width="230" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                       FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
-                                      VerticalAlignment="Center"  Height="30" KeyDown="OnKeyDown"
-                                      Text="{Binding DominatorAccountModel.MailCredentials.Hostname}"/>
+                                      VerticalAlignment="Center"  Height="30" KeyDown="OnKeyDown" Name="TxtHostKey">
+                                <TextBox.Text>
+                                    <Binding Path="DominatorAccountModel.MailCredentials.Hostname" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:ValidationHelper Sender="TxtHostKey" ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                         </StackPanel>
 
                         <StackPanel  Orientation="Horizontal" >
@@ -379,7 +415,15 @@
                             <TextBox  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                       controls:TextBoxHelper.Watermark="Enter port" Width="230" FontSize="13"
                                       KeyDown="OnKeyDown" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
-                                      VerticalAlignment="Center"  Height="30"  Text="{Binding DominatorAccountModel.MailCredentials.Port}" />
+                                      VerticalAlignment="Center"  Height="30" Name="TxtEmailPort">
+                                <TextBox.Text>
+                                    <Binding Path="DominatorAccountModel.MailCredentials.Port" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:ValidationHelper Sender="TxtEmailPort" ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                         </StackPanel>
 
                         <CheckBox Content="{DynamicResource LangKeyUseSSL}" IsChecked="{Binding DominatorAccountModel.IsUseSSL}" FontWeight="SemiBold"  Margin="5"/>
@@ -422,8 +466,15 @@
                             <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                             <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
                                      controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" 
-                                     Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
-                                     Text="{Binding DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort}"/>
+                                     Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                                <TextBox.Text>
+                                    <Binding Path="DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:ValidationHelper Sender="txtProxyPort" ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                         </Grid>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>

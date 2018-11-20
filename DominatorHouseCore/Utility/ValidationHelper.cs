@@ -43,16 +43,40 @@ namespace DominatorHouseCore.Utility
                         }
                         break;
                     case "ProxyPort":
-                        if (!string.IsNullOrEmpty(ProxyAddress) && !string.IsNullOrEmpty(value?.ToString()))
-                        {
-                            if (!Models.Proxy.IsValidProxy(ProxyAddress, value.ToString()))
+                        //if (!string.IsNullOrEmpty(ProxyAddress) && !string.IsNullOrEmpty(value?.ToString()))
+                        //{
+                            if (!string.IsNullOrEmpty(value?.ToString()) && !Models.Proxy.IsValidProxyPort(value?.ToString()))
                             {
                                 return new ValidationResult(false, "Invalid Port");
                             }
+                       // }
+                        
+                        break;
+                    case "EmailUsername":
+                        if (string.IsNullOrEmpty(value?.ToString()))
+                        {
+                            return new ValidationResult(false, "*Required Field");
+                        }
+                        break;
+                    case "EmailPassword":
+                        if (string.IsNullOrEmpty(value?.ToString()))
+                        {
+                            return new ValidationResult(false, "*Required Field");
+                        }
+                        break;
+                    case "HostKey":
+                        if (string.IsNullOrEmpty(value?.ToString()))
+                        {
+                            return new ValidationResult(false, "*Required Field");
+                        }
+                        break;
+                    case "EmailPort":
+                        if (string.IsNullOrEmpty(value?.ToString()))
+                        {
+                            return new ValidationResult(false, "*Required Field");
                         }
                         break;
 
-                  
                 }
 
                 if (Sender == "DatePicker")

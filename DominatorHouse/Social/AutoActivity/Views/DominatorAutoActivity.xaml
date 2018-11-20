@@ -21,20 +21,19 @@
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.8*"/>
-                <RowDefinition Height="10*"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
-                    <Label  
-                                   HorizontalAlignment="Left"
+
+            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal" VerticalAlignment="Stretch">
+                <Label   HorizontalAlignment="Left"
                                    VerticalAlignment="Center" 
                                    FontSize="16"
                                    FontWeight="SemiBold" VerticalContentAlignment="Center"
                                    Foreground="White" Margin="5,0,0,0"
                                    Content="{DynamicResource LangKeyAccountsActivity}" />
-                </StackPanel>
-            </Grid>
+            </StackPanel>
+
             <ListView Grid.Row="1" 
                       x:Name="CampaignStatusList"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"                  

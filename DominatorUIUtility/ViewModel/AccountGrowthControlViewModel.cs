@@ -86,10 +86,10 @@ namespace DominatorUIUtility.ViewModel
             BindingOperations.EnableCollectionSynchronization(GrowthProperties, _syncObject);
 
             AxisXLabels = new ObservableCollection<string>();
-            BindingOperations.EnableCollectionSynchronization(GrowthProperties, _syncObject);
+            BindingOperations.EnableCollectionSynchronization(AxisXLabels, _syncObject);
 
             GrowthList = new ObservableCollection<DailyStatisticsViewModel>();
-            BindingOperations.EnableCollectionSynchronization(GrowthProperties, _syncObject);
+            BindingOperations.EnableCollectionSynchronization(GrowthList, _syncObject);
 
             GrowthPeriods = new SelectableViewModel<GrowthPeriod?>(Enum.GetValues(typeof(GrowthPeriod)).Cast<GrowthPeriod?>(), GrowthPeriod.Daily);
             GrowthPeriods.ItemSelected += GrowthPeriodsOnItemSelectionChanged;

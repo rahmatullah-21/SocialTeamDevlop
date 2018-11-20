@@ -674,6 +674,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PostRunningStatus = PostRunningStatus.Active,
                     PostDescription = post.PostDescription,
                     PdSourceUrl = post.PdSourceUrl,
+                    PublisherInstagramTitle = post.PublisherInstagramTitle,
                     MediaList = post.MediaViewer.MediaList,
                     FdSellLocation = post.FdSellLocation,
                     PostId = post.PostDetailsId,

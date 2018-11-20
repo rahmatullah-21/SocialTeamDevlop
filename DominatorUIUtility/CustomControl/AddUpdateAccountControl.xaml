@@ -139,8 +139,15 @@
                 <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                 <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
                          controls:TextBoxHelper.Watermark="Type Proxy Port..." Width="230" FontSize="13" FontWeight="SemiBold" 
-                         Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
-                         Text="{Binding AccountProxy.ProxyPort}"/>
+                         Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                    <TextBox.Text>
+                        <Binding Path=" AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validation:ValidationHelper Sender="txtProxyPort" ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
             </Grid>
             <Grid Grid.Row="2">
@@ -224,8 +231,8 @@
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding ElementName=txtUserName, Path=(Validation.HasError)}" Value="false" />
                                         <Condition Binding="{Binding ElementName=txtPassword, Path=(Validation.HasError)}" Value="false" />
-                                        <!--<Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />
-                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />-->
+                                        <!--<Condition Binding="{Binding ElementName=txtProxyAddress, Path=(Validation.HasError)}" Value="false" />-->
+                                        <Condition Binding="{Binding ElementName=txtProxyPort, Path=(Validation.HasError)}" Value="false" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="true" />
                                     <Setter Property="Control.Background" Value="Green"/>

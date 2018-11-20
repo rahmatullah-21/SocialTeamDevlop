@@ -376,7 +376,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                             ?.Status;
                         if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
                         {
-                            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Error",
+                            Dialog.ShowDialog("Error",
                                 $"This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
                             return false;
                         }

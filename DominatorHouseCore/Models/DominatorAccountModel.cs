@@ -290,14 +290,16 @@ namespace DominatorHouseCore.Models
             get
             {
                 var cookieCollection = new CookieCollection();
-
-                foreach (var cookieHelper in _cookieHelperList)
-                    cookieCollection.Add(new Cookie()
-                    {
-                        Domain = cookieHelper.Domain,
-                        Name = cookieHelper.Name,
-                        Value = cookieHelper.Value
-                    });
+                if (_cookieHelperList != null)
+                {
+                    foreach (var cookieHelper in _cookieHelperList)
+                        cookieCollection.Add(new Cookie()
+                        {
+                            Domain = cookieHelper.Domain,
+                            Name = cookieHelper.Name,
+                            Value = cookieHelper.Value
+                        });
+                }
 
                 return cookieCollection;
             }

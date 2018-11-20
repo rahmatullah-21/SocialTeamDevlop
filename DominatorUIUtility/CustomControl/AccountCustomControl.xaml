@@ -85,7 +85,7 @@
 
 
 
-            <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}" DockPanel.Dock="Right">
+            <Grid  Background="{DynamicResource AccentColorBrush}" DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
 
                     <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
@@ -297,7 +297,8 @@
             <ListView x:Name="AccountListView"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                 <ListView.ContextMenu>
-                    <ContextMenu DataContext="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource Self}}">
+                    <ContextMenu DataContext="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource Self}}" >
+                       
                         <MenuItem Header="Details" Click="ProfileDetails" Icon="{StaticResource DetailsIcon}"/>
                         <MenuItem Header="Delete Profile" Click="DeleteAccount" Icon="{StaticResource DeleteIcon}"/>
                         <MenuItem Header="Browser Login" Click="BrowserLogin" Icon="{StaticResource BrowseLoginIcon}"/>

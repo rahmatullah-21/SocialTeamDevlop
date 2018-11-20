@@ -220,7 +220,7 @@
             </StackPanel>
 
             <DataGrid Grid.Row="1" ItemsSource="{Binding LstProxyManagerModel, IsAsync=True}"
-                      AutoGenerateColumns="False" EnableRowVirtualization="True" 
+                      AutoGenerateColumns="False" EnableRowVirtualization="False" 
                       CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"

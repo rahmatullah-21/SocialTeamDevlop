@@ -57,6 +57,15 @@ namespace DominatorHouseCore.Utility
                         new GrowthProperty {PropertyName = "Followings", PropertyValue = 0},
                         new GrowthProperty {PropertyName = "Communities", PropertyValue = 0},
                     }
+                }
+                ,
+                {
+                    SocialNetworks.Youtube, new List<GrowthProperty>
+                    {
+                        new GrowthProperty {PropertyName = "Channels Count", PropertyValue = 0},
+                        new GrowthProperty {PropertyName = "Views Count", PropertyValue = 0},
+                        new GrowthProperty {PropertyName = "Support Links Count", PropertyValue = 0},
+                    }
                 },
                 {
                     SocialNetworks.Instagram, new List<GrowthProperty>

@@ -14,7 +14,7 @@ namespace DominatorHouseCore.EmailService
     public class MailCredentials : BindableBase
     {
         private string _hostname;
-        private int _port;
+        private int? _port;
         private string _username;
         private string _password;
 
@@ -30,7 +30,7 @@ namespace DominatorHouseCore.EmailService
         }
 
         [ProtoMember(2)]
-        public int Port
+        public int? Port
         {
             get { return _port; }
             set
@@ -207,7 +207,8 @@ namespace DominatorHouseCore.EmailService
         private static void ConnectToMailServer(MailCredentials mailCredentials, bool sslRequired, Pop3Client client)
         {
             // Connect to the server
-            client.Connect(mailCredentials.Hostname, mailCredentials.Port, sslRequired);
+            if (mailCredentials.Port != null)
+                client.Connect(mailCredentials.Hostname, mailCredentials.Port.Value, sslRequired);
 
             // Authenticate ourselves towards the server
             client.Authenticate(mailCredentials.Username, mailCredentials.Password, AuthenticationMethod.UsernameAndPassword);
