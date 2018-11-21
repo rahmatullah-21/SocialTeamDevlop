@@ -104,6 +104,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public string CommentId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string PostUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string Mentions { get; set; }
 
     }
 }

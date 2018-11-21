@@ -3259,4 +3259,17 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLikeFanPagesLatestPosts">Like FanPages Latest Posts</system:String>
     <system:String x:Key="LangKeyCommentOnFanPageLatestPosts">Comment On FanPages Latest Posts</system:String>
     <system:String x:Key="LangKeyActionByAllOwnPages">Action By All Own Pages</system:String>
+    <system:String x:Key="LangKeyUploadPostDescription">Upload Post Description</system:String>
+    <system:String x:Key="LangKeyUploadDescription">Upload Description</system:String>
+    <system:String x:Key="LangKeyMention">Mention</system:String>
+    <system:String x:Key="LangKeyRandomFriendsOnEachComment">Random Friends On Each Comment</system:String>
+    <system:String x:Key="LangKeyAlreadySavedFriends">Already Saved Friends</system:String>
+    <system:String x:Key="LangKeyCustomFriendList">Custom Friend List</system:String>
+    <system:String x:Key="LangKeyNoteWatchPartyInviter">Group Members (Note: Only for WatchParties Published on Group)</system:String>
+    <system:String x:Key="LangKeyEnterWtchPartyUrl">Enter WatchParty Url</system:String>
+    <system:String x:Key="LangKeyInviteForWatchPartyUrl">Invite For WatchParty Url(S)</system:String>
+    <system:String x:Key="LangKeyWatchPartyInviter">WatchParty Inviter</system:String>
+    <system:String x:Key="LangKeyEnableFacebookWatchPartyPost">Enable Watch Party Post</system:String>
+    <system:String x:Key="LangKeyDownloadAlbum">Download Album</system:String>
+    <system:String x:Key="LangKeyDownloadvideo">Download Video</system:String>
 </ResourceDictionary>

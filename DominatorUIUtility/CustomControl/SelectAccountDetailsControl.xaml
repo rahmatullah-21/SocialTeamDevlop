@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
-          
+
 
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
@@ -133,7 +133,7 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-          
+
             </StackPanel>
 
         </Grid>
@@ -162,7 +162,7 @@
 
                 </StackPanel>
 
-               
+
             </Grid>
 
             <ListView Grid.Row="1"
@@ -280,6 +280,24 @@
                                                     FontWeight="SemiBold"      
                                                     Command="{Binding Path=DataContext.GetSingleAccountFriendsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                     Background="Transparent"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="{Binding CustomColumnWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource LangKeyCustomFriendList}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <Button Cursor="Hand" Margin="6,2,6,2" 
+                                                Content="{Binding CustomDestinationSelectorText}" 
+                                                x:Name="ButtonSelectGroups" 
+                                                FontWeight="SemiBold"      
+                                                Command="{Binding Path=DataContext.AddCustomDestinationCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                                                Background="Transparent"/>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

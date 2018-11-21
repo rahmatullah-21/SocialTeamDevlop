@@ -240,8 +240,9 @@
                 </StackPanel>
 
                 <StackPanel Name="verificationSection" Visibility="{Binding VerificationSectionVisibility}">
-                  
-                    <RadioButton Content="{DynamicResource LangKeyPhoneVerifications}" Name="ChkPhoneVerification" Margin="5" FontWeight="Bold" >
+
+                    <RadioButton Content="{DynamicResource LangKeyPhoneVerifications}" Name="ChkPhoneVerification" Margin="5"
+                                 FontWeight="Bold" IsChecked="{Binding IsPhoneVerification}" GroupName="Verification">
                         <RadioButton.Style>
                             <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -257,7 +258,8 @@
                         </RadioButton.Style>
                     </RadioButton>
 
-                    <RadioButton Content="{DynamicResource LangKeyEmailVerifications}" Name="ChkEmailVerification" Margin="5" FontWeight="Bold" IsChecked="{Binding IsEmailVerification}">
+                    <RadioButton Content="{DynamicResource LangKeyEmailVerifications}" Name="ChkEmailVerification"
+                                 Margin="5" FontWeight="Bold" IsChecked="{Binding IsEmailVerification}" GroupName="Verification">
                         <RadioButton.Style>
                             <Style TargetType="RadioButton"  BasedOn="{StaticResource {x:Type RadioButton}}">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -280,22 +282,9 @@
                     </RadioButton>
 
 
-                    <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
+                    <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5" Visibility="{Binding BtnSendVerificationCodeVisibility}"
                         Command="{Binding SendVerificationCodeCommand}" Width="200" HorizontalAlignment="Left" CommandParameter="{Binding ElementName=BtnSendVerificationCode}">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=ChkEmailVerification,Path=IsChecked}" Value="True" >
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ElementName=ChkPhoneVerification,Path=IsChecked}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
+                       
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="15" Height="15" Fill="White">

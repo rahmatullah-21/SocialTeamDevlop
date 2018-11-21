@@ -92,7 +92,7 @@ namespace DominatorUIUtility.CustomControl
                         x.LstQueries = Messages.LstQueries;
                     }
                     return x;
-                });
+                }).ToList();
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Isupdated = true;

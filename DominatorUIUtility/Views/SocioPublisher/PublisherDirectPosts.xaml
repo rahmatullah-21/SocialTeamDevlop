@@ -93,9 +93,26 @@
 
             <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding PostDetailsModel.IsMultipleImagePost,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel>
-                    <CheckBox Name="CheckBoxUseFileNameAsDescription" Margin="2"
+                    <RadioButton Name="CheckBoxUseFileNameAsDescription" Margin="2" GroupName="Description"
                                   Content="{DynamicResource LangKeyUseFileNameAsPostDescription}"
                                   IsChecked="{Binding PostDetailsModel.IsUseFileNameAsDescription}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Margin="2" Content="{DynamicResource LangKeyUploadPostDescription}" GroupName="Description"
+                                 IsChecked="{Binding PostDetailsModel.IsUploadPostDescription}"  VerticalAlignment="Center"/>
+                        <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand" 
+                                Background="{DynamicResource AccentBaseColorBrush}"  Height="30"  VerticalAlignment="Center" 
+                                Command="{Binding UploadDescriptionCommand}" CommandParameter="SaveToDraft">
+                            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
+                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Left">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_upload}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyUploadDescription}"  Foreground="White"
+                                       FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                     <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource LangKeyAddOnlyUniquePost}"
                                   IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
                     <StackPanel Orientation="Horizontal">

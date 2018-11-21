@@ -41,6 +41,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private string _pageColWidth = "130";
         private string _groupColWidth = "130";
         private string _friendColWidth = "130";
+        private string _customDestinationColWidth = "130";
         private bool _isDisplaySingleAccount = false;
         private string _displayAccount = string.Empty;
 
@@ -268,6 +269,40 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        [ProtoMember(14)]
+        public string CustomDestinationColWidth
+        {
+            get
+            {
+                return _customDestinationColWidth;
+            }
+            set
+            {
+                if (_customDestinationColWidth == value)
+                    return;
+                _customDestinationColWidth = value;
+                OnPropertyChanged(nameof(CustomDestinationColWidth));
+            }
+        }
+
+        private List<KeyValuePair<string, PublisherCustomDestinationModel>> _customDestinations = new List<KeyValuePair<string, PublisherCustomDestinationModel>>();
+
+        [ProtoMember(15)]
+        public List<KeyValuePair<string, PublisherCustomDestinationModel>> CustomDestinations
+        {
+            get
+            {
+                return _customDestinations;
+            }
+            set
+            {
+                if (_customDestinations == value)
+                    return;
+                _customDestinations = value;
+                OnPropertyChanged(nameof(CustomDestinations));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -387,7 +422,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         [ProtoMember(15)]
-        public string PageColWidth 
+        public string PageColWidth
         {
             get
             {
@@ -402,9 +437,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-         
+
         [ProtoMember(16)]
-        public string GroupColWidth 
+        public string GroupColWidth
         {
             get
             {
@@ -422,7 +457,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         [ProtoMember(17)]
-        public string FriendColWidth 
+        public string FriendColWidth
         {
             get
             {

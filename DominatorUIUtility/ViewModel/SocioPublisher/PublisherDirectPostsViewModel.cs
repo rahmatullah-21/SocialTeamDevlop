@@ -34,8 +34,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
             SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, CanSaveSinglePost);
+            UploadDescriptionCommand = new BaseCommand<object>((sender)=>true, UploadDescription);
             LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
             BindingOperations.EnableCollectionSynchronization(LstPostDetailsModels, _lock);
+        }
+
+        private void UploadDescription(object obj)
+        {
+            var createCampaignModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                .PublisherCreateCampaignModel;
+            createCampaignModel.LstUploadPostDescription = FileUtilities.FileBrowseAndReader();
         }
 
         public PublisherDirectPostsViewModel(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl) : this()
@@ -69,25 +77,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// </summary>
         private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
 
-        /// <summary>
-        /// Opening mulitple post window
-        /// </summary>
-        public ICommand MultiplePostCommand { get; set; }
-
-        /// <summary>
-        /// Importing Posts from Csv
-        /// </summary>
-        public ICommand ImportFromCsvCommand { get; set; }
-
-        /// <summary>
-        /// Getting multiple image posts 
-        /// </summary>
-        public ICommand SearchCommand { get; set; }
-
-        /// <summary>
-        /// Saving posts to create campaign view model
-        /// </summary>
-        public ICommand SaveCurrentPostCommand { get; set; }
 
 
         private PostDetailsModel _postDetailsModel = new PostDetailsModel();
@@ -133,6 +122,29 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public List<string> MediaList { get; set; } = new List<string>();
 
 
+        #endregion
+
+        #region Command
+        /// <summary>
+        /// Opening mulitple post window
+        /// </summary>
+        public ICommand MultiplePostCommand { get; set; }
+
+        /// <summary>
+        /// Importing Posts from Csv
+        /// </summary>
+        public ICommand ImportFromCsvCommand { get; set; }
+
+        /// <summary>
+        /// Getting multiple image posts 
+        /// </summary>
+        public ICommand SearchCommand { get; set; }
+
+        /// <summary>
+        /// Saving posts to create campaign view model
+        /// </summary>
+        public ICommand SaveCurrentPostCommand { get; set; }
+        public ICommand UploadDescriptionCommand { get; set; } 
         #endregion
 
         #region Methods
@@ -477,9 +489,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         mediaUrl.ForEach(media =>
                         {
                             if (File.Exists(media))
-                                postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media));
-
-                        });
+                            {
+                                Application.Current.Dispatcher.InvokeAsync(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media)));
+                                Thread.Sleep(10);
+                            }
+                           
+                          });
 
                         #endregion
 

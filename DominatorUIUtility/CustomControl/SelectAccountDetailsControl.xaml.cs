@@ -53,6 +53,12 @@ namespace DominatorUIUtility.CustomControl
                 SelectAccountDetailsViewModel.FriendColWidth = "0";
             }
 
+            if (listColumnName.Contains(FbEntityTypes.CustomDestination))
+            {
+                SelectAccountDetailsViewModel.SelectAccountDetailsModel.CustomDestinationColWidth = "0";
+                SelectAccountDetailsViewModel.CustomColumnWidth = "0";
+            }
+
             if (!string.IsNullOrEmpty(pageHeaderText))
             {
                 SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
@@ -77,6 +83,7 @@ namespace DominatorUIUtility.CustomControl
             SelectAccountDetailsViewModel.GroupColWidth = selctAccountDetailsModel.GroupColWidth;
             SelectAccountDetailsViewModel.FriendColWidth = selctAccountDetailsModel.FriendColWidth;
             SelectAccountDetailsViewModel.PageColWidth = selctAccountDetailsModel.PageColWidth;
+            SelectAccountDetailsViewModel.CustomColumnWidth = selctAccountDetailsModel.CustomDestinationColWidth;
             SelectAccountDetailsViewModel.IsFanpage = isFanpage;
             SelectAccountDetailsViewModel.EditDestination();
             SelectDetails.DataContext = SelectAccountDetailsViewModel;
@@ -107,7 +114,7 @@ namespace DominatorUIUtility.CustomControl
             }
 
             SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
-            
+
 
 
             SelectAccountDetailsViewModel.IsFanpage = isFanpage;
@@ -179,12 +186,25 @@ namespace DominatorUIUtility.CustomControl
             {
                 var accountFriendPair = SelectAccountDetailsViewModel.SelectAccountDetailsModel.AccountFriendsPair;
                 var friendList = accountFriendPair.Where(x => x.Key == accountGroup.Key).Select(y => y.Value).ToList();
+                var customList = SelectAccountDetailsViewModel.SelectAccountDetailsModel.CustomDestinations;
+
+                List<string> accountCustomDestination = customList
+                    .Where(x => x.Key == accountGroup.Key && x.Value.DestinationType == "Friend")
+                    .Select(x => x.Value.DestinationValue).ToList();
                 friendList.ForEach(x =>
                 {
                     Tuple<string, string, string> groupInviterDetail =
                             new Tuple<string, string, string>(accountGroup.Key, accountGroup.Value, x);
 
                     listGroupInviterDetails.Add(groupInviterDetail);
+                });
+
+                accountCustomDestination.ForEach(x =>
+                {
+                    Tuple<string, string, string> customGroupInviterDetail =
+                        new Tuple<string, string, string>(accountGroup.Key, accountGroup.Value, x);
+
+                    listGroupInviterDetails.Add(customGroupInviterDetail);
                 });
             }
 

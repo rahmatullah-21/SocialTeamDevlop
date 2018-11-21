@@ -102,7 +102,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (!string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationValue) &&
                         !string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
                     {
-                        if (LstCustomDestination.All(x => x.DestinationType != publisherCustomDestinationModel.InputDestination.DestinationType && x.DestinationValue != publisherCustomDestinationModel.InputDestination.DestinationValue))
+                        if (!LstCustomDestination.Any(x => x.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType && x.DestinationValue == publisherCustomDestinationModel.InputDestination.DestinationValue))
                             LstCustomDestination.Add(publisherCustomDestinationModel.InputDestination);
                     }
                 }

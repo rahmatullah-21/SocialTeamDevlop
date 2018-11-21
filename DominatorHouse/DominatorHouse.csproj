@@ -34,8 +34,8 @@
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>130</ApplicationRevision>
-    <ApplicationVersion>1.0.0.130</ApplicationVersion>
+    <ApplicationRevision>132</ApplicationRevision>
+    <ApplicationVersion>1.0.0.132</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

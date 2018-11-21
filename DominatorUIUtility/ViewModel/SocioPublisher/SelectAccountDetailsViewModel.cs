@@ -12,6 +12,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -110,6 +111,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private string _pageColWidth = "130";
         private string _groupColWidth = "130";
         private string _friendColWidth = "130";
+        private string _customColWidth = "130";
 
         private bool _isPageMenuVisible = true;
         private bool _isGroupMenuVisible = true;
@@ -203,7 +205,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
-        
+
         public string GroupColWidth
         {
             get
@@ -238,6 +240,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(FriendColWidth));
                 if (value == "0")
                     FriendMenuVisible = false;
+            }
+        }
+
+
+
+
+        public string CustomColumnWidth
+        {
+            get
+            {
+                return _customColWidth;
+            }
+            set
+            {
+                if (_customColWidth == value)
+                    return;
+                _customColWidth = value;
+                OnPropertyChanged(nameof(CustomColumnWidth));
+
             }
         }
 
@@ -398,7 +419,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
 
             // Get the initial selector details and also passing the action for getting the group details
-            var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountGroupsDetails, 
+            var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountGroupsDetails,
                 allAccountDetailsSelectModel, false)
             {
                 AccountDetailsSelectorViewModel =
@@ -442,14 +463,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 var currentAccountId = string.Empty;
 
-                if(keyValuePairs.Count>0)
+                if (keyValuePairs.Count > 0)
                 {
                     currentAccountId = keyValuePairs[0].Key.ToString();
                 }
 
                 SelectAccountDetailsModel.ListSelectDestination.ForEach(x =>
                 {
-                    if(x.AccountId== currentAccountId)
+                    if (x.AccountId == currentAccountId)
                     {
                         x.SelectedGroups = keyValuePairs.Count;
                     }
@@ -644,7 +665,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var alreadySelectedFriends = valuePairs.Select(x => x.Value).ToList();
 
             // Get the initial selector details and also passing the action for getting the group details
-            var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountFriendsDetails, 
+            var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountFriendsDetails,
                 allAccountDetailsSelectModel, false)
             {
                 AccountDetailsSelectorViewModel =
@@ -753,7 +774,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
@@ -1151,7 +1172,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var accounts = AccountsFileManager.GetAll();
 
-            if(SelectAccountDetailsModel.IsDisplaySingleAccount)
+            if (SelectAccountDetailsModel.IsDisplaySingleAccount)
             {
                 accounts = accounts.Where
                     (x => x.AccountBaseModel.UserName == SelectAccountDetailsModel.DisplayAccount).ToList();
@@ -1214,13 +1235,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var accounts = AccountsFileManager.GetAll();
 
-            
+
             accounts.ForEach(x =>
             {
                 if (x.AccountBaseModel.UserName != SelectAccountDetailsModel.DisplayAccount)
                 {
                     if (!Application.Current.CheckAccess())
-                        Application.Current.Dispatcher.Invoke(() => 
+                        Application.Current.Dispatcher.Invoke(() =>
                         {
                             var account = SelectAccountDetailsModel.ListSelectDestination.FirstOrDefault(y => y.AccountName == SelectAccountDetailsModel.DisplayAccount);
                             SelectAccountDetailsModel.ListSelectDestination.Remove(account);
@@ -1230,7 +1251,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         var account = SelectAccountDetailsModel.ListSelectDestination.FirstOrDefault(y => y.AccountName == x.AccountBaseModel.UserName);
                         SelectAccountDetailsModel.ListSelectDestination.Remove(account);
                     }
-                        
+
 
                 }
             });
@@ -1276,74 +1297,74 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SaveDestinationExecute(object sender)
         {
-            
-                SelectAccountDetailsModel.SelectedAccountIds.Clear();
-                SelectAccountDetailsModel.PublishOwnWallAccount.Clear();
-                SelectAccountDetailsModel.AccountsWithNetwork.Clear();
 
-                var selectedAccountsCount =
-                    SelectAccountDetailsModel.ListSelectDestination.Count(x => x.IsAccountSelected);
+            SelectAccountDetailsModel.SelectedAccountIds.Clear();
+            SelectAccountDetailsModel.PublishOwnWallAccount.Clear();
+            SelectAccountDetailsModel.AccountsWithNetwork.Clear();
 
-                if (selectedAccountsCount == 0)
+            var selectedAccountsCount =
+                SelectAccountDetailsModel.ListSelectDestination.Count(x => x.IsAccountSelected);
+
+            if (selectedAccountsCount == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    "Warning", "Please select accounts, You have selected only destinations !");
+                return;
+            }
+
+            SelectAccountDetailsModel.ListSelectDestination.ForEach(x =>
+            {
+                // Check the account has been selected or not
+                if (x.IsAccountSelected)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "Warning", "Please select accounts, You have selected only destinations !");
-                    return;
-                }
+                    SelectAccountDetailsModel.SelectedAccountIds.Add(x.AccountId);
+                    SelectAccountDetailsModel.AccountsWithNetwork.Add(new KeyValuePair<SocialNetworks, string>(x.SocialNetworks, x.AccountId));
 
-                SelectAccountDetailsModel.ListSelectDestination.ForEach(x =>
+
+                }
+                else
                 {
-                    // Check the account has been selected or not
-                    if (x.IsAccountSelected)
-                    {
-                        SelectAccountDetailsModel.SelectedAccountIds.Add(x.AccountId);
-                        SelectAccountDetailsModel.AccountsWithNetwork.Add(new KeyValuePair<SocialNetworks, string>(x.SocialNetworks, x.AccountId));
+                    // If account has selected, remove from selected lists
+                    var unwantedGroups = SelectAccountDetailsModel.AccountGroupPair.Where(y => y.Key == x.AccountId).Select(y => y.Key);
+                    SelectAccountDetailsModel.AccountGroupPair.RemoveAll(z => unwantedGroups.Contains(z.Key));
 
-                        
-                    }
-                    else
-                    {
-                        // If account has selected, remove from selected lists
-                        var unwantedGroups = SelectAccountDetailsModel.AccountGroupPair.Where(y => y.Key == x.AccountId).Select(y => y.Key);
-                        SelectAccountDetailsModel.AccountGroupPair.RemoveAll(z => unwantedGroups.Contains(z.Key));
+                    var unwantedPages = SelectAccountDetailsModel.AccountPagesBoardsPair.Where(y => y.Key == x.AccountId).Select(y => y.Key);
+                    SelectAccountDetailsModel.AccountPagesBoardsPair.RemoveAll(z => unwantedPages.Contains(z.Key));
 
-                        var unwantedPages = SelectAccountDetailsModel.AccountPagesBoardsPair.Where(y => y.Key == x.AccountId).Select(y => y.Key);
-                        SelectAccountDetailsModel.AccountPagesBoardsPair.RemoveAll(z => unwantedPages.Contains(z.Key));
+                    SelectAccountDetailsModel.DestinationDetailsModels.RemoveAll(z =>
+                        z.AccountId == x.AccountId);
 
-                        SelectAccountDetailsModel.DestinationDetailsModels.RemoveAll(z =>
-                            z.AccountId == x.AccountId);
-                        
-                    }
-                });
-
-                SelectAccountDetailsModel.AccountGroupPair =
-                    SelectAccountDetailsModel.AccountGroupPair.Distinct().ToList();
-
-               
-                SelectAccountDetailsModel.SelectedAccountIds =
-                    SelectAccountDetailsModel.SelectedAccountIds.Distinct().ToList();
-
-                SelectAccountDetailsModel.AccountPagesBoardsPair =
-                    SelectAccountDetailsModel.AccountPagesBoardsPair.Distinct().ToList();
-
-                SelectAccountDetailsModel.AccountFriendsPair =
-                SelectAccountDetailsModel.AccountFriendsPair.Distinct().ToList();
-
-                if (SelectAccountDetailsModel.AccountGroupPair.Count == 0 &&
-                    SelectAccountDetailsModel.AccountPagesBoardsPair.Count == 0 &&
-                    SelectAccountDetailsModel.AccountFriendsPair.Count == 0 &&
-                    SelectAccountDetailsModel.PublishOwnWallAccount.Count == 0 
-                    )
-                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "Warning", "Please select destination!");
-                    return;
                 }
-                
-                InitializeProperties();
+            });
 
-                IsSavedDestination = true;
-            
+            SelectAccountDetailsModel.AccountGroupPair =
+                SelectAccountDetailsModel.AccountGroupPair.Distinct().ToList();
+
+
+            SelectAccountDetailsModel.SelectedAccountIds =
+                SelectAccountDetailsModel.SelectedAccountIds.Distinct().ToList();
+
+            SelectAccountDetailsModel.AccountPagesBoardsPair =
+                SelectAccountDetailsModel.AccountPagesBoardsPair.Distinct().ToList();
+
+            SelectAccountDetailsModel.AccountFriendsPair =
+            SelectAccountDetailsModel.AccountFriendsPair.Distinct().ToList();
+
+            if (SelectAccountDetailsModel.AccountGroupPair.Count == 0 &&
+                SelectAccountDetailsModel.AccountPagesBoardsPair.Count == 0 &&
+                SelectAccountDetailsModel.AccountFriendsPair.Count == 0 &&
+                SelectAccountDetailsModel.PublishOwnWallAccount.Count == 0
+                )
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
+                    "Warning", "Please select destination!");
+                return;
+            }
+
+            InitializeProperties();
+
+            IsSavedDestination = true;
+
         }
 
         #endregion
@@ -1368,7 +1389,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
@@ -1387,7 +1408,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
@@ -1488,7 +1509,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
@@ -1501,71 +1522,74 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void AddCustomDestinationExecute(object sender)
         {
-            //var allAccountDetailsSelectModel = sender as PublisherCreateDestinationSelectModel;
+            var allAccountDetailsSelectModel = sender as PublisherCreateDestinationSelectModel;
 
-            //if (allAccountDetailsSelectModel == null)
-            //    return;
+            if (allAccountDetailsSelectModel == null)
+                return;
 
-            //var valuePairs = SelectAccountDetailsModel.CustomDestinations.Where(x => x.Key == allAccountDetailsSelectModel.AccountId).ToList();
+            var valuePairs = SelectAccountDetailsModel.CustomDestinations.Where(x => x.Key == allAccountDetailsSelectModel.AccountId).ToList();
 
-            //var alreadySavedCustomDestination = new ObservableCollection<PublisherCustomDestinationModel>();
+            var alreadySavedCustomDestination = new ObservableCollection<PublisherCustomDestinationModel>();
 
-            //valuePairs.ForEach(x =>
-            //{
-            //    var publisherCustomDestinationModel = new PublisherCustomDestinationModel
-            //    {
-            //        DestinationType = x.Value.DestinationType,
-            //        DestinationValue = x.Value.DestinationValue
-            //    };
-            //    alreadySavedCustomDestination.Add(publisherCustomDestinationModel);
-            //});
+            valuePairs.ForEach(x =>
+            {
+                var publisherCustomDestinationModel = new PublisherCustomDestinationModel
+                {
+                    DestinationType = x.Value.DestinationType,
+                    DestinationValue = x.Value.DestinationValue
+                };
+                alreadySavedCustomDestination.Add(publisherCustomDestinationModel);
+            });
 
-            //var publisherAddCustomDestination = PublisherAddCustomDestination.GetPublisherAddCustomDestination(alreadySavedCustomDestination);
-            //var dialog = new Dialog();
-            //var window = dialog.GetMetroWindow(publisherAddCustomDestination, "Add Custom Destination");
+            var publisherAddCustomDestination = PublisherAddCustomDestination.GetPublisherAddCustomDestination(alreadySavedCustomDestination);
 
-            //publisherAddCustomDestination.ButtonSave.Click += (senders, args) =>
-            //{
-            //    var savedNewCustomDestination = publisherAddCustomDestination.GetSavedCustomDestination();
-            //    var createDestinationSelectModel = SelectAccountDetailsModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == allAccountDetailsSelectModel.AccountId);
+            publisherAddCustomDestination.PublisherCustomDestinationViewModel.InputDestination.DestinationType =
+                FbEntityTypes.Friend.ToString();
+            var dialog = new Dialog();
+            var window = dialog.GetMetroWindow(publisherAddCustomDestination, "Add Custom Destination");
 
-            //    SelectAccountDetailsModel.CustomDestinations.RemoveAll(x => x.Key == allAccountDetailsSelectModel.AccountId);
+            publisherAddCustomDestination.ButtonSave.Click += (senders, args) =>
+            {
+                var savedNewCustomDestination = publisherAddCustomDestination.GetSavedCustomDestination();
+                var createDestinationSelectModel = SelectAccountDetailsModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == allAccountDetailsSelectModel.AccountId);
 
-            //    SelectAccountDetailsModel.DestinationDetailsModels.RemoveAll(x =>
-            //        x.AccountId == allAccountDetailsSelectModel.AccountId && x.IsCustomDestintions);
+                SelectAccountDetailsModel.CustomDestinations.RemoveAll(x => x.Key == allAccountDetailsSelectModel.AccountId);
 
-            //    savedNewCustomDestination.ForEach(x =>
-            //    {
-            //        SelectAccountDetailsModel.CustomDestinations.Add(new KeyValuePair<string, PublisherCustomDestinationModel>(allAccountDetailsSelectModel.AccountId, x));
+                SelectAccountDetailsModel.DestinationDetailsModels.RemoveAll(x =>
+                    x.AccountId == allAccountDetailsSelectModel.AccountId && x.IsCustomDestintions);
 
-            //        SelectAccountDetailsModel.DestinationDetailsModels.Add(new PublisherDestinationDetailsModel
-            //        {
-            //            AccountId = allAccountDetailsSelectModel.AccountId,
-            //            DestinationType = x.DestinationType,
-            //            DestinationUrl = x.DestinationValue,
-            //            SocialNetworks = allAccountDetailsSelectModel.SocialNetworks,
-            //            PublisherPostlistModel = new PublisherPostlistModel(),
-            //            IsCustomDestintions = true,
-            //            DestinationGuid = Utilities.GetGuid(),
-            //            AccountName = allAccountDetailsSelectModel.AccountName
-            //        });
-            //    });
+                savedNewCustomDestination.ForEach(x =>
+                {
+                    SelectAccountDetailsModel.CustomDestinations.Add(new KeyValuePair<string, PublisherCustomDestinationModel>(allAccountDetailsSelectModel.AccountId, x));
 
-            //    publisherAddCustomDestination.ResetCurrectObject();
+                    SelectAccountDetailsModel.DestinationDetailsModels.Add(new PublisherDestinationDetailsModel
+                    {
+                        AccountId = allAccountDetailsSelectModel.AccountId,
+                        DestinationType = x.DestinationType,
+                        DestinationUrl = x.DestinationValue,
+                        SocialNetworks = allAccountDetailsSelectModel.SocialNetworks,
+                        PublisherPostlistModel = new PublisherPostlistModel(),
+                        IsCustomDestintions = true,
+                        DestinationGuid = Utilities.GetGuid(),
+                        AccountName = allAccountDetailsSelectModel.AccountName
+                    });
+                });
 
-            //    if (createDestinationSelectModel != null)
-            //    {
-            //        createDestinationSelectModel.CustomDestinationSelectorText = $"{ SelectAccountDetailsModel.CustomDestinations.Where(x => x.Key == allAccountDetailsSelectModel.AccountId).ToList().Count}";
-            //    }
-            //    window.Close();
-            //};
-            //publisherAddCustomDestination.ButtonCancel.Click += (senders, args) =>
-            //{
-            //    window.Close();
-            //};
+                publisherAddCustomDestination.ResetCurrectObject();
+
+                if (createDestinationSelectModel != null)
+                {
+                    createDestinationSelectModel.CustomDestinationSelectorText = $"{ SelectAccountDetailsModel.CustomDestinations.Where(x => x.Key == allAccountDetailsSelectModel.AccountId).ToList().Count}";
+                }
+                window.Close();
+            };
+            publisherAddCustomDestination.ButtonCancel.Click += (senders, args) =>
+            {
+                window.Close();
+            };
 
 
-            //window.Show();
+            window.Show();
         }
 
         #endregion
@@ -1575,7 +1599,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void EditDestination()
         {
             Title = "Edit Destination";
-            
+
             var saveDestination = SelectAccountDetailsModel.DeepCloneObject<SelectAccountDetailsModel>();
 
             InitializeDestinationList();
@@ -1600,12 +1624,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     savedDestination.TotalPagesOrBoards != currentAccountDetails.TotalPagesOrBoards)
                     savedDestination.StatusSyncContent = ConstantVariable.NeedUpdateStatusSync;
 
-               // currentAccountDetails = savedDestination;
+                // currentAccountDetails = savedDestination;
             }
 
-           SelectAccountDetailsModel = saveDestination;
+            SelectAccountDetailsModel = saveDestination;
 
-           // SelectAccountDetailsModel.UpdateDestination(saveDestination);
+            // SelectAccountDetailsModel.UpdateDestination(saveDestination);
 
             DestinationCollectionView = CollectionViewSource.GetDefaultView(SelectAccountDetailsModel.ListSelectDestination);
 

@@ -104,7 +104,7 @@
         <Grid Grid.Row="1">
             <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" Width="950" BorderThickness="0" BorderBrush="Transparent" 
                       ItemsSource="{Binding PostListsCollectionView,IsAsync=True}" Margin="2" HorizontalAlignment="Center"
-                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.IsVirtualizing="True" 
                       VirtualizingStackPanel.VirtualizationMode="Recycling" >
                 <ListView.Resources>
                     <ContextMenu x:Key="ItemContextMenu">
@@ -171,7 +171,7 @@
                                 </customControl:SocinatorTextBox>
                                 <customControl:PostContent x:Name="PostContentControl" HorizontalAlignment="Center" Foreground="Black"
                                                            PublisherPostSettings="{Binding PublisherPostSettings,Mode=TwoWay}" 
-                                                           customControl:MediaViewerAssist.MediaList="{Binding MediaViewer.MediaList,Mode=TwoWay}" 
+                                                           customControl:MediaViewerAssist.MediaList="{Binding MediaViewer.MediaList,Mode=TwoWay,IsAsync=True}" 
                                                            customControl:MediaViewerAssist.CurrentMediaUrl="{Binding MediaViewer.MediaUrl,Mode=TwoWay}"
                                                            customControl:MediaViewerAssist.MediaHeight="75"
                                                            customControl:MediaViewerAssist.MediaWidth="75"

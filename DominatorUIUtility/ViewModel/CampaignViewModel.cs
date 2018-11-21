@@ -534,6 +534,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
+                
                 if (CampaignModel.SelectedActivity == "All" || string.IsNullOrEmpty(CampaignModel.SelectedActivity))
                     CampaignCollection.Filter = (x) =>
                         ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;

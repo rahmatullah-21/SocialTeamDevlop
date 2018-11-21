@@ -110,5 +110,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string PostUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string Mentions { get; set; }
     }
 }

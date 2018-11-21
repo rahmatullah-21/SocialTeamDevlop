@@ -77,7 +77,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
             List<string> listAccountIds = AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook).Select(x => x.AccountId).ToList();
 
-            if (FacebookModel.AccountFriendsPair.Count==0)
+            if (FacebookModel.AccountFriendsPair.Count == 0)
             {
                 var selectedAccounts = FacebookModel.SelectFriendsDetailsModel.AccountFriendsPair.Select(y => y.Key).ToList();
 
@@ -89,7 +89,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
             {
                 SelectAccountDetailsControl = new SelectAccountDetailsControl(hiddenColumnList, model);
             }
-            
+
             var objDialog = new Dialog();
 
             var window = objDialog.GetMetroWindow(SelectAccountDetailsControl, "Select Account Details");
@@ -111,20 +111,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         {
                             FacebookModel.AccountFriendsPair.AddRange(accountFriendspair);
                             FacebookModel.ListCustomTaggedUser.AddRange(accountFriendspair.Select(z => z.Value).ToList());
-                            FacebookModel.ListCustomPageUrl = FacebookModel.ListCustomPageUrl.Distinct().ToList();
+                            FacebookModel.ListCustomTaggedUser = FacebookModel.ListCustomTaggedUser.Distinct().ToList();
                             FacebookModel.ListCustomTaggedUser.ForEach(z =>
                             {
                                 if (!FacebookModel.CustomTaggedUser.Contains(z))
                                     FacebookModel.CustomTaggedUser += z + "\r\n";
                             });
                         }
-                        else if(model.AccountFriendsPair.Any(y=> y.Key==x.AccountId))
+                        else if (model.AccountFriendsPair.Any(y => y.Key == x.AccountId))
                         {
                             GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", $"Destiation is selected but Account is not selected");
                         }
 
                     });
-                  
+
 
                     window.Close();
                 }
@@ -249,6 +249,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
         }
 
 
-        
+
     }
 }

@@ -686,6 +686,8 @@ namespace DominatorUIUtility.CustomControl
 
                     CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
                         account.AccountBaseModel.UserName);
+                    var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleSettings.TemplateId);
+                    campToUpdate.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
 
                     DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId, false);
 
@@ -1093,6 +1095,9 @@ namespace DominatorUIUtility.CustomControl
                             return;
                         CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
                             account.AccountBaseModel.UserName);
+
+                        var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleSettings.TemplateId);
+                        campToUpdate.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
 
                         moduleSettings.TemplateId = TemplateId;
                         moduleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleSettings);
@@ -1673,6 +1678,10 @@ namespace DominatorUIUtility.CustomControl
                 if (isTemplateMadeByCampaignMode)
                 {
                     CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
+
+                    var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == accountstemplateId);
+                    campToUpdate.SelectedAccountList.Remove(accountModel.AccountBaseModel.UserName);
+
                     AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
                 }
                 else

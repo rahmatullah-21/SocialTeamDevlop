@@ -165,10 +165,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(PageTitle));
             }
         }
-
-
-
-
+       
         public List<TabItemTemplates> PostTabItems { get; set; }
 
         #endregion
@@ -326,8 +323,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                                 // check whether user need to use File name as post description
                                 if (!post.IsUseFileNameAsDescription)
                                 {
-                                    // postData.PostDescription = string.Empty;
-                                    postData.PostDescription = "image " + (PublisherCreateCampaignModel.PostCollection.IndexOf(post) + 1);
+                                    int index = PublisherCreateCampaignModel.PostCollection.IndexOf(post);
+                                    if (index < PublisherCreateCampaignModel.LstUploadPostDescription.Count)
+                                        postData.PostDescription = PublisherCreateCampaignModel.LstUploadPostDescription[index];
+                                    else
+                                        postData.PostDescription = "image " + (index + 1);
+
                                 }
                                 // check whether user need to use unique post
                                 if (post.IsUniquePost)

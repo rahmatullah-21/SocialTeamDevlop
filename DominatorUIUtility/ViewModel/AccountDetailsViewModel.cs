@@ -34,7 +34,8 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (_isEmailVerification == value)
                     return;
-                SetProperty(ref _isEmailVerification, value);
+                if (SetProperty(ref _isEmailVerification, value))
+                    SetVerificationCodeVisibility(_isEmailVerification);
             }
         }
         private Visibility _verificationSectionVisibility;
@@ -62,7 +63,36 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _codeSectionVisibility, value);
             }
         }
+        private bool _isPhoneVerification;
 
+        public bool IsPhoneVerification
+        {
+            get { return _isPhoneVerification; }
+            set
+            {
+                if (SetProperty(ref _isPhoneVerification, value))
+                    SetVerificationCodeVisibility(_isPhoneVerification);
+            }
+        }
+        private Visibility _btnSendVerificationCodeVisibility = Visibility.Collapsed;
+
+
+        public Visibility BtnSendVerificationCodeVisibility
+        {
+            get { return _btnSendVerificationCodeVisibility; }
+            set
+            {
+                SetProperty(ref _btnSendVerificationCodeVisibility, value);
+            }
+        }
+        private void SetVerificationCodeVisibility(bool isVerification)
+        {
+            if (isVerification)
+            {
+                CodeSectionVisibility = Visibility.Collapsed;
+                BtnSendVerificationCodeVisibility= Visibility.Visible;
+            }
+        }
 
         public AccountDetailsViewModel()
         {
@@ -153,7 +183,7 @@ namespace DominatorUIUtility.ViewModel
                     var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
 
                     DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
-                   
+
                     await asyncAccount.CheckStatusAsync(DominatorAccountModel, DominatorAccountModel.Token);
 
 
@@ -206,7 +236,7 @@ namespace DominatorUIUtility.ViewModel
                 OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
 
             });
-            
+
             #endregion
         }
         private bool SaveCanExecute(object arg) => true;
@@ -232,7 +262,7 @@ namespace DominatorUIUtility.ViewModel
                      string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))
                     || (string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyUsername) &&
                         !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))) return;
-                
+
 
                 if (OldDominatorAccountModel.AccountBaseModel.UserName != DominatorAccountModel.AccountBaseModel.UserName
                     || OldDominatorAccountModel.AccountBaseModel.Password != DominatorAccountModel.AccountBaseModel.Password
@@ -446,11 +476,12 @@ namespace DominatorUIUtility.ViewModel
         private bool SendVerificationCodeCanExecute(object arg) => true;
         private void SendVerificationCodeExecute(object sender)
         {
-            var button = (Button)sender;
+           // var button = (Button)sender;
 
             try
             {
-                button.Visibility = Visibility.Collapsed;
+                BtnSendVerificationCodeVisibility = Visibility.Collapsed;
+              //  button.Visibility = Visibility.Collapsed;
                 var networkCoreFactory = SocinatorInitialize
                     .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
                     .GetNetworkCoreFactory();
@@ -478,7 +509,8 @@ namespace DominatorUIUtility.ViewModel
                             Application.Current.Dispatcher.Invoke(
                                 () =>
                                 {
-                                    button.Visibility = Visibility.Visible;
+                                   // button.Visibility = Visibility.Visible;
+                                    BtnSendVerificationCodeVisibility = Visibility.Visible;
                                     CodeSectionVisibility = Visibility.Collapsed;
                                     // GlobusLogHelper.log.Info(Log.FailedToSendVerificationCodeFaild, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
 
@@ -490,7 +522,8 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-                button.Visibility = Visibility.Visible;
+                BtnSendVerificationCodeVisibility = Visibility.Visible;
+               // button.Visibility = Visibility.Visible;
                 ex.DebugLog();
             }
         }

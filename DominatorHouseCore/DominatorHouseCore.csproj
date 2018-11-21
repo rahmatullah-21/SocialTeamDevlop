@@ -485,6 +485,7 @@
     <Compile Include="Interfaces\ICompany.cs" />
     <Compile Include="Interfaces\IDestinationSelectors.cs" />
     <Compile Include="Interfaces\IDatabaseConnection.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IGlobalInteractionDetails.cs" />
     <Compile Include="Interfaces\IJob.cs" />

@@ -303,8 +303,11 @@ namespace DominatorHouseCore.Enums
         SalesNavigatorCompanyScraper = 103,
         [Description("Twitter")]
         TweetTo = 104,
-
         [Description("Facebook")]
-        SendMessageToNewFriends = 105
+        SendMessageToNewFriends = 105,
+        [Description("Facebook")]
+        WatchPartyInviter = 106,
+        [Description("Facebook")]
+        MarketPlaceScraper = 107
     }
 }

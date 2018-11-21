@@ -967,7 +967,7 @@ namespace DominatorUIUtility.ViewModel
                             y.AccountNetwork == objAccount.AccountNetwork));
                 });
                 _proxyManagerViewModel.LstProxyManagerModel.Add(ProxyManagerModel);
-                ProxyManagerModel.Index= _proxyManagerViewModel.LstProxyManagerModel.IndexOf(ProxyManagerModel)+1;
+                ProxyManagerModel.Index = _proxyManagerViewModel.LstProxyManagerModel.IndexOf(ProxyManagerModel) + 1;
                 _proxyManagerViewModel.AccountsAlreadyAssigned.Add(
                     new AccountAssign
                     {
@@ -1585,29 +1585,32 @@ namespace DominatorUIUtility.ViewModel
         private void UpdateUserCradExecute(object sender)
         {
             var lstcred = FileUtilities.FileBrowseAndReader();
-            ToasterNotification.ShowInfomation("Credentials imported successfully.\nStart updating...");
-            foreach (var cred in lstcred)
+            if (lstcred.Count != 0)
             {
-                var data = cred.Split('\t');
-
-                if (data.Length < 7)
-                    continue;
-
-                var accountToUpdate = LstDominatorAccountModel.FirstOrDefault(x =>
-                           x.AccountBaseModel.AccountNetwork.ToString() == data[0] && x.AccountBaseModel.UserName == data[1]);
-                if (accountToUpdate != null)
+                ToasterNotification.ShowInfomation("Credentials imported successfully.\nStart updating...");
+                foreach (var cred in lstcred)
                 {
-                    accountToUpdate.MailCredentials.Username = data[2];
-                    accountToUpdate.MailCredentials.Password = data[3];
-                    accountToUpdate.MailCredentials.Hostname = data[4];
-                    accountToUpdate.MailCredentials.Port = int.Parse(data[5]);
-                    accountToUpdate.IsUseSSL = bool.Parse(data[6]);
-                    accountToUpdate.IsAutoVerifyByEmail = true;
-                }
+                    var data = cred.Split('\t');
 
+                    if (data.Length < 7)
+                        continue;
+
+                    var accountToUpdate = LstDominatorAccountModel.FirstOrDefault(x =>
+                               x.AccountBaseModel.AccountNetwork.ToString() == data[0] && x.AccountBaseModel.UserName == data[1]);
+                    if (accountToUpdate != null)
+                    {
+                        accountToUpdate.MailCredentials.Username = data[2];
+                        accountToUpdate.MailCredentials.Password = data[3];
+                        accountToUpdate.MailCredentials.Hostname = data[4];
+                        accountToUpdate.MailCredentials.Port = int.Parse(data[5]);
+                        accountToUpdate.IsUseSSL = bool.Parse(data[6]);
+                        accountToUpdate.IsAutoVerifyByEmail = true;
+                    }
+
+                }
+                AccountsFileManager.UpdateAccounts(LstDominatorAccountModel);
+                ToasterNotification.ShowSuccess("Credentials successfully updated.");
             }
-            AccountsFileManager.UpdateAccounts(LstDominatorAccountModel);
-            ToasterNotification.ShowSuccess("Credentials successfully updated.");
         }
 
 
