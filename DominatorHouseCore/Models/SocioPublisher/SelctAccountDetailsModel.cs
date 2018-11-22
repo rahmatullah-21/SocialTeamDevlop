@@ -269,39 +269,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        [ProtoMember(14)]
-        public string CustomDestinationColWidth
-        {
-            get
-            {
-                return _customDestinationColWidth;
-            }
-            set
-            {
-                if (_customDestinationColWidth == value)
-                    return;
-                _customDestinationColWidth = value;
-                OnPropertyChanged(nameof(CustomDestinationColWidth));
-            }
-        }
+      
 
-        private List<KeyValuePair<string, PublisherCustomDestinationModel>> _customDestinations = new List<KeyValuePair<string, PublisherCustomDestinationModel>>();
-
-        [ProtoMember(15)]
-        public List<KeyValuePair<string, PublisherCustomDestinationModel>> CustomDestinations
-        {
-            get
-            {
-                return _customDestinations;
-            }
-            set
-            {
-                if (_customDestinations == value)
-                    return;
-                _customDestinations = value;
-                OnPropertyChanged(nameof(CustomDestinations));
-            }
-        }
+      
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -539,8 +509,40 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        [ProtoMember(22)]
+        public string CustomDestinationColWidth
+        {
+            get
+            {
+                return _customDestinationColWidth;
+            }
+            set
+            {
+                if (_customDestinationColWidth == value)
+                    return;
+                _customDestinationColWidth = value;
+                OnPropertyChanged(nameof(CustomDestinationColWidth));
+            }
+        }
 
 
+        private List<KeyValuePair<string, PublisherCustomDestinationModel>> _customDestinations = new List<KeyValuePair<string, PublisherCustomDestinationModel>>();
+
+        [ProtoMember(23)]
+        public List<KeyValuePair<string, PublisherCustomDestinationModel>> CustomDestinations
+        {
+            get
+            {
+                return _customDestinations;
+            }
+            set
+            {
+                if (_customDestinations == value)
+                    return;
+                _customDestinations = value;
+                OnPropertyChanged(nameof(CustomDestinations));
+            }
+        }
     }
 
 

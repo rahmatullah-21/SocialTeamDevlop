@@ -54,5 +54,13 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string Status { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string TotalLike { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        public string TotalComment { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string PostLocation { get; set; }
     }
 }

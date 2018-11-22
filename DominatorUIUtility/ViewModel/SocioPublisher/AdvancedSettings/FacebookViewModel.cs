@@ -74,6 +74,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
             hiddenColumnList.Add(FbEntityTypes.Page);
             hiddenColumnList.Add(FbEntityTypes.Group);
+            hiddenColumnList.Add(FbEntityTypes.CustomDestination);
 
             List<string> listAccountIds = AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook).Select(x => x.AccountId).ToList();
 
@@ -150,7 +151,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
             hiddenColumnList.Add(FbEntityTypes.Friend);
             hiddenColumnList.Add(FbEntityTypes.Group);
-
+            hiddenColumnList.Add(FbEntityTypes.CustomDestination);
             List<string> listAccountIds = AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook).Select(x => x.AccountId).ToList();
 
             if (FacebookModel.SelectPageDetailsModel.AccountPagesBoardsPair.Count == 0)

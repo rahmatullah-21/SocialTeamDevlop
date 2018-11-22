@@ -11,7 +11,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
 
- 
+
     <UserControl.Resources>
         <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -28,11 +28,28 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-           <Grid.ColumnDefinitions>
-               <ColumnDefinition Width="*"/>
-               <ColumnDefinition Width="*"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
+            <StackPanel Orientation="Horizontal" Visibility="{Binding IsProgressVisibile}" VerticalAlignment="Center" Margin="5">
+                <mah:ProgressRing IsActive="{Binding IsProgressActive}" HorizontalAlignment="Left" Margin="15,0,5,0"  Height="25" Width="25" />
+                <Label Content="{DynamicResource LangKeyLoadingPostPleaseWait}"/>
+                <Button Background="Transparent"  Margin="5,0" Command="{Binding StopLoadingPostCommand}"  Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Fill="Red" Height="17" Width="15">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_control_stop}" Stretch="Fill"></VisualBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label Content="{DynamicResource LangKeyStop}" FontWeight="SemiBold" Foreground="Red" />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                 <Button Name="BtnDeleteAll" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}" 
                         Cursor="Hand" HorizontalAlignment="Center"  Height="30" VerticalAlignment="Center"
@@ -98,13 +115,13 @@
                 </Button>
 
             </StackPanel>
-           
+
         </Grid>
 
         <Grid Grid.Row="1">
             <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" Width="950" BorderThickness="0" BorderBrush="Transparent" 
                       ItemsSource="{Binding PostListsCollectionView,IsAsync=True}" Margin="2" HorizontalAlignment="Center"
-                      VirtualizingStackPanel.IsVirtualizing="True" 
+                      VirtualizingStackPanel.IsVirtualizing="True" Name="posts"
                       VirtualizingStackPanel.VirtualizationMode="Recycling" >
                 <ListView.Resources>
                     <ContextMenu x:Key="ItemContextMenu">

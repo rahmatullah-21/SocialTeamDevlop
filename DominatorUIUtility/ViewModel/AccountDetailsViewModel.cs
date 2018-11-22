@@ -35,7 +35,10 @@ namespace DominatorUIUtility.ViewModel
                 if (_isEmailVerification == value)
                     return;
                 if (SetProperty(ref _isEmailVerification, value))
-                    SetVerificationCodeVisibility(_isEmailVerification);
+                    if (!IsEmailVerificationCodeSent)
+                        SetVerificationCodeVisibility(_isEmailVerification);
+                    else if (IsEmailVerificationCodeSent && IsEmailVerification)
+                        SetVerificationCodeVisibility(false);
             }
         }
         private Visibility _verificationSectionVisibility;
@@ -71,7 +74,11 @@ namespace DominatorUIUtility.ViewModel
             set
             {
                 if (SetProperty(ref _isPhoneVerification, value))
-                    SetVerificationCodeVisibility(_isPhoneVerification);
+                    if (!IsPhoneVerificationCodeSent)
+                        SetVerificationCodeVisibility(_isPhoneVerification);
+                    else if (IsPhoneVerificationCodeSent && IsPhoneVerification)
+                     SetVerificationCodeVisibility(false);
+                  
             }
         }
         private Visibility _btnSendVerificationCodeVisibility = Visibility.Collapsed;
@@ -90,8 +97,27 @@ namespace DominatorUIUtility.ViewModel
             if (isVerification)
             {
                 CodeSectionVisibility = Visibility.Collapsed;
-                BtnSendVerificationCodeVisibility= Visibility.Visible;
+                BtnSendVerificationCodeVisibility = Visibility.Visible;
             }
+            else
+            {
+                CodeSectionVisibility = Visibility.Visible;
+                BtnSendVerificationCodeVisibility = Visibility.Collapsed;
+            }
+        }
+        private bool _isEmailVerificationCodeSent;
+
+        public bool IsEmailVerificationCodeSent
+        {
+            get { return _isEmailVerificationCodeSent; }
+            set { SetProperty(ref _isEmailVerificationCodeSent, value); }
+        }
+        private bool _isPhoneVerificationCodeSent;
+
+        public bool IsPhoneVerificationCodeSent
+        {
+            get { return _isPhoneVerificationCodeSent; }
+            set { SetProperty(ref _isPhoneVerificationCodeSent, value); }
         }
 
         public AccountDetailsViewModel()
@@ -476,12 +502,12 @@ namespace DominatorUIUtility.ViewModel
         private bool SendVerificationCodeCanExecute(object arg) => true;
         private void SendVerificationCodeExecute(object sender)
         {
-           // var button = (Button)sender;
-
             try
             {
+                IsEmailVerificationCodeSent = false;
+                IsPhoneVerificationCodeSent = false;
                 BtnSendVerificationCodeVisibility = Visibility.Collapsed;
-              //  button.Visibility = Visibility.Collapsed;
+
                 var networkCoreFactory = SocinatorInitialize
                     .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
                     .GetNetworkCoreFactory();
@@ -502,6 +528,10 @@ namespace DominatorUIUtility.ViewModel
                             Application.Current.Dispatcher.Invoke(
                                 () =>
                                 {
+                                    if (IsEmailVerification)
+                                        IsEmailVerificationCodeSent = true;
+                                    else
+                                        IsPhoneVerificationCodeSent = true;
                                     CodeSectionVisibility = Visibility.Visible;
                                     // GlobusLogHelper.log.Info(Log.SentVerificationCode, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
                                 });
@@ -509,7 +539,6 @@ namespace DominatorUIUtility.ViewModel
                             Application.Current.Dispatcher.Invoke(
                                 () =>
                                 {
-                                   // button.Visibility = Visibility.Visible;
                                     BtnSendVerificationCodeVisibility = Visibility.Visible;
                                     CodeSectionVisibility = Visibility.Collapsed;
                                     // GlobusLogHelper.log.Info(Log.FailedToSendVerificationCodeFaild, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
@@ -523,7 +552,6 @@ namespace DominatorUIUtility.ViewModel
             catch (Exception ex)
             {
                 BtnSendVerificationCodeVisibility = Visibility.Visible;
-               // button.Visibility = Visibility.Visible;
                 ex.DebugLog();
             }
         }

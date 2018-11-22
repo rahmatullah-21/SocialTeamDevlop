@@ -3272,4 +3272,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEnableFacebookWatchPartyPost">Enable Watch Party Post</system:String>
     <system:String x:Key="LangKeyDownloadAlbum">Download Album</system:String>
     <system:String x:Key="LangKeyDownloadvideo">Download Video</system:String>
+    <system:String x:Key="LangKeyDownloadPhotoAfterScrap">Download Photo After Scrap</system:String>
+    <system:String x:Key="LangKeyLoadingPostPleaseWait">Loading post please wait...</system:String>
 </ResourceDictionary>

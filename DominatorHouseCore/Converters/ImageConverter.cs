@@ -27,7 +27,7 @@ namespace DominatorHouseCore.Converters
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return new BitmapImage();
+                return new BitmapImage(new Uri(ConstantVariable.GetNotFoundImage()));
             }
 
         }

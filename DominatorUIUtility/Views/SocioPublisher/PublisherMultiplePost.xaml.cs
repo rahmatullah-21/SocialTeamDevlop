@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorUIUtility.ViewModel.SocioPublisher;
-using MahApps.Metro.Controls;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
@@ -23,6 +23,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             InitializeComponent();
             PublisherMultiplePostViewModel = new PublisherMultiplePostViewModel();
             MultiplePost.DataContext = PublisherMultiplePostViewModel;
+            posts.ItemContainerGenerator.StatusChanged += StatusChanged;
         }
 
 
@@ -90,6 +91,24 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
             }
 
+        }
+        void StatusChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (posts.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
+                {
+                    var info = posts.Items[posts.Items.Count - 1] as PostDetailsModel;
+                    if (info == null)
+                        return;
+
+                    posts.ScrollIntoView(info);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
     }
 }

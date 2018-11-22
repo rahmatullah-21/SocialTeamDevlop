@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
@@ -710,27 +711,35 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// </summary>
         public void InitializePostData()
         {
-            // Check whether media list contains items or not
-            IsPostListPresent = MediaList.Count > 0;
+            try
+            {
+                Thread.Sleep(1000);
+                // Check whether media list contains items or not
+                IsPostListPresent = MediaList.Count > 0;
 
-           // Update the process
-            if (IsPostListPresent)
-            {
-                ImagePointer = 0;
-                MediaCurrentPointer = 1;
-                CurrentMediaUrl = MediaList[ImagePointer];
-                TotalMediaCount = MediaList.Count;
-                NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
-                PreviousImageEnable = ImagePointer > 0;
+                // Update the process
+                if (IsPostListPresent)
+                {
+                    ImagePointer = 0;
+                    MediaCurrentPointer = 1;
+                    CurrentMediaUrl = MediaList[ImagePointer];
+                    TotalMediaCount = MediaList.Count;
+                    NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
+                    PreviousImageEnable = ImagePointer > 0;
+                }
+                else
+                {
+                    ImagePointer = 0;
+                    MediaCurrentPointer = 0;
+                    CurrentMediaUrl = string.Empty;
+                    TotalMediaCount = MediaList.Count;
+                    NextImageEnable = false;
+                    PreviousImageEnable = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ImagePointer = 0;
-                MediaCurrentPointer = 0;
-                CurrentMediaUrl = string.Empty;
-                TotalMediaCount = MediaList.Count;
-                NextImageEnable = false;
-                PreviousImageEnable = false;
+
             }
         }
 

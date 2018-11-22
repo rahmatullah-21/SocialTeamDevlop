@@ -456,23 +456,7 @@ namespace DominatorUIUtility.CustomControl
             });
         }
 
-        private void UpdateJobconfiguration()
-        {
-            string speed = Model.JobConfiguration.SelectedItem.ToString();
-            switch (speed)
-            {
-                case "Slow":
-
-                    Model.SlowSpeed.RunningTime = Model.JobConfiguration.RunningTime;
-                    Model.JobConfiguration = Model.SlowSpeed;
-                    break;
-                case "Fast":
-                    Model.FastSpeed.RunningTime = Model.JobConfiguration.RunningTime;
-                    Model.JobConfiguration = Model.FastSpeed;
-                    break;
-            }
-        }
-
+       
         public void SaveTemplateToAccounts(string templateId, List<RunningTimes> runningTime)
         {
             var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
@@ -687,7 +671,7 @@ namespace DominatorUIUtility.CustomControl
                     CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
                         account.AccountBaseModel.UserName);
                     var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleSettings.TemplateId);
-                    campToUpdate.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
+                    campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
 
                     DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId, false);
 
@@ -1097,7 +1081,7 @@ namespace DominatorUIUtility.CustomControl
                             account.AccountBaseModel.UserName);
 
                         var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleSettings.TemplateId);
-                        campToUpdate.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
+                        campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
 
                         moduleSettings.TemplateId = TemplateId;
                         moduleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleSettings);
@@ -1680,7 +1664,7 @@ namespace DominatorUIUtility.CustomControl
                     CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
 
                     var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == accountstemplateId);
-                    campToUpdate.SelectedAccountList.Remove(accountModel.AccountBaseModel.UserName);
+                    campToUpdate?.SelectedAccountList.Remove(accountModel.AccountBaseModel.UserName);
 
                     AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
                 }

@@ -100,6 +100,7 @@
                         <RadioButton Margin="2" Content="{DynamicResource LangKeyUploadPostDescription}" GroupName="Description"
                                  IsChecked="{Binding PostDetailsModel.IsUploadPostDescription}"  VerticalAlignment="Center"/>
                         <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand" 
+                                Visibility="{Binding PostDetailsModel.IsUploadPostDescription,Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Background="{DynamicResource AccentBaseColorBrush}"  Height="30"  VerticalAlignment="Center" 
                                 Command="{Binding UploadDescriptionCommand}" CommandParameter="SaveToDraft">
                             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">

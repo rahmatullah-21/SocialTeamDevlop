@@ -34,7 +34,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
             SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, CanSaveSinglePost);
-            UploadDescriptionCommand = new BaseCommand<object>((sender)=>true, UploadDescription);
+            UploadDescriptionCommand = new BaseCommand<object>((sender) => true, UploadDescription);
             LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
             BindingOperations.EnableCollectionSynchronization(LstPostDetailsModels, _lock);
         }
@@ -144,7 +144,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// Saving posts to create campaign view model
         /// </summary>
         public ICommand SaveCurrentPostCommand { get; set; }
-        public ICommand UploadDescriptionCommand { get; set; } 
+        public ICommand UploadDescriptionCommand { get; set; }
         #endregion
 
         #region Methods
@@ -415,15 +415,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (listPostDetailsModel.Count == 0)
                 return;
+            var publisherMultiplePost = new PublisherMultiplePost();
             try
             {
                 // Get all post details from campaign View model
-                LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels;
+                LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()?.PublisherCreateCampaignViewModel?
+                    .PublisherCreateCampaignModel?.LstPostDetailsModels;
 
                 // Get the object of multiple post UI
                 //   var publisherMultiplePost = new PublisherMultiplePost(LstPostDetailsModels);
-                var publisherMultiplePost = new PublisherMultiplePost();
+
                 publisherMultiplePost.Loaded += (s, e) =>
                 {
                     Task.Factory.StartNew(() =>
@@ -436,7 +437,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             });
                             Thread.Sleep(20);
                         });
+
                     });
+
 
                     // e.Handled = true;
                 };
@@ -466,11 +469,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
 
-            ThreadFactory.Instance.Start(() =>
+            Task.Factory.StartNew(() =>
             {
+                publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressVisibile = Visibility.Visible;
+                publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressActive = true;
+                Thread.Sleep(1000);
                 // Iterate selected file name
                 listPostDetailsModel.ForEach(x =>
                 {
+                    if (publisherMultiplePost.PublisherMultiplePostViewModel.IsStopLoadingPost)
+                        return;
                     PostDetailsModel postDetailsModel = new PostDetailsModel();
                     try
                     {
@@ -490,11 +498,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         {
                             if (File.Exists(media))
                             {
-                                Application.Current.Dispatcher.InvokeAsync(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media)));
+                                Application.Current.Dispatcher.Invoke(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media)));
                                 Thread.Sleep(10);
                             }
-                           
-                          });
+
+                        });
 
                         #endregion
 
@@ -531,7 +539,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         // Add to Collections
                         //postDetails.Add(postDetailsModel);
-                        Application.Current.Dispatcher.InvokeAsync(() => LstPostDetailsModels.Add(postDetailsModel));
+                        Application.Current.Dispatcher.Invoke(() => LstPostDetailsModels.Add(postDetailsModel));
                         Thread.Sleep(50);
                     }
                     catch (Exception ex)
@@ -540,6 +548,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
 
                 });
+                publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressVisibile = Visibility.Collapsed;
+                publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressActive = false;
+                publisherMultiplePost.PublisherMultiplePostViewModel.IsStopLoadingPost = false;
             });
 
             // If all post read, open and show in UI for Updation
