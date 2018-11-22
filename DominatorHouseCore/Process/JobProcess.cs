@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
 using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
-using DominatorHouseCore.Interfaces;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 
 namespace DominatorHouseCore.Process
 {
@@ -38,6 +37,7 @@ namespace DominatorHouseCore.Process
 
             // Get the Template Model from the given template id
           //  var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
+            var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
             var model = TemplatesFileManager.GetTemplateById(template);
 
             if (model != null)
@@ -176,6 +176,7 @@ namespace DominatorHouseCore.Process
                 if (template.Id == TemplateId)
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();
 
+            var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
             TemplatesFileManager.Save(lstTemplateModel);
         }
 
@@ -260,7 +261,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// To specify from which account the neccessary actions takes place.
         /// </summary>
-        public DominatorAccountModel DominatorAccountModel { get; set; }
+        public DominatorAccountModel DominatorAccountModel { get; }
 
         /// <summary>
         /// To get the job configurations from <see cref="DominatorHouseCore.Models.TemplateModel.ActivitySettings"/>
@@ -270,7 +271,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// To get the activity type
         /// </summary>
-        public ActivityType ActivityType { get; set; }
+        public ActivityType ActivityType { get; }
 
         /// <summary>
         /// To get the list of saved queries from <see cref="DominatorHouseCore.Models.TemplateModel.ActivitySettings"/>

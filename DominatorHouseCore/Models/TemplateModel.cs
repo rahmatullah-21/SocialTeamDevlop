@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
 using System.IO;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.Models
 {
@@ -69,8 +69,8 @@ namespace DominatorHouseCore.Models
 
 
                 // Serialize the template configuration to bin files
-                TemplatesFileManager.Add(newTemplate);
-                
+                ServiceLocator.Current.GetInstance<ITemplatesFileManager>().Add(newTemplate);
+
                 return newTemplate.Id;
             }
 

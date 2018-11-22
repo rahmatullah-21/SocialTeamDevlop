@@ -1,13 +1,16 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.BusinessLogic;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using MahApps.Metro.Controls.Dialogs;
@@ -17,21 +20,12 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.BusinessLogic.GlobalRoutines;
-using DominatorHouseCore.DatabaseHandler.CoreModels;
-using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.LogHelper;
-using FluentScheduler;
-using DominatorHouseCore.Command;
 using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
@@ -908,6 +902,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             // Update Template Details
+            var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
             TemplatesFileManager.ApplyFunc(template =>
             {
                 if (template.Id != TemplateId)
@@ -1493,6 +1488,7 @@ namespace DominatorUIUtility.CustomControl
 
                 if (moduleConfiguration != null)
                 {
+                    var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
                     var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
                     SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
                 }
@@ -1677,6 +1673,7 @@ namespace DominatorUIUtility.CustomControl
                 }
                 else
                 {
+                    var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
                     if (string.IsNullOrEmpty(accountstemplateId))
                         AddNewTemplate((TModel)Model, _accountGrowthModeHeader.SelectedItem, _activityType, accountModel);
 
@@ -1893,6 +1890,7 @@ namespace DominatorUIUtility.CustomControl
 
                 if (moduleConfiguration != null)
                 {
+                    var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
                     var templateDetails = TemplatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
                     SetModuleValues(moduleConfiguration.IsEnabled, templateDetails);
                 }
