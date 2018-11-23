@@ -29,7 +29,7 @@
                                  IsChecked="{Binding IsGeoLocationName}"/>
                     <RadioButton Name="RadioButtonForLocationId" Margin="10,2"  GroupName="GeoLocation" Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationId}"   
                                  IsChecked="{Binding IsGeoLocationId}"/>
-                    <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                    <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="15,2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
                 </StackPanel>
             </StackPanel>
             

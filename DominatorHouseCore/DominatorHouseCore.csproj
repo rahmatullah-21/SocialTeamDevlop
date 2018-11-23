@@ -301,12 +301,14 @@
     <Compile Include="DatabaseHandler\GplusTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedCommunities.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedGplusComments.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedCommunitiesReport.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedGplusCommentsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedUsersReport.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\Connections.cs" />

@@ -811,7 +811,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDestinationList()
         {
-            var accounts = AccountsFileManager.GetAll();
+            var accounts = AccountsFileManager.GetAll().Where(x=>x.AccountBaseModel.Status==AccountStatus.Success);
 
             if (!Application.Current.CheckAccess())
                 Application.Current.Dispatcher.Invoke(() => { PublisherCreateDestinationModel.ListSelectDestination.Clear(); });

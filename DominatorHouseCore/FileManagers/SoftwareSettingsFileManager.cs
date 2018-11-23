@@ -23,17 +23,17 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-               
+
                 ex.DebugLog();
                 return false;
             }
-           
+
         }
         public static SoftwareSettingsModel GetSoftwareSettings()
         {
             try
             {
-               using (var stream = File.OpenRead(ConstantVariable.GetOtherSoftwareSettingsFile()))
+                using (var stream = File.OpenRead(ConstantVariable.GetOtherSoftwareSettingsFile()))
                 {
                     return Serializer.Deserialize<SoftwareSettingsModel>(stream);
                 }

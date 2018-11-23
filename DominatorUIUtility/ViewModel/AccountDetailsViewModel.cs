@@ -129,40 +129,8 @@ namespace DominatorUIUtility.ViewModel
         {
             DominatorAccountModel = dataContext;
 
-            #region Backup of current account
-
-            OldDominatorAccountModel = new DominatorAccountModel();
-            OldDominatorAccountModel.AccountBaseModel = new DominatorAccountBaseModel
-            {
-                AccountGroup = new ContentSelectGroup
-                {
-                    Content = DominatorAccountModel.AccountBaseModel.AccountGroup.Content,
-                },
-                UserName = DominatorAccountModel.AccountBaseModel.UserName,
-                Password = DominatorAccountModel.AccountBaseModel.Password,
-                AccountId = DominatorAccountModel.AccountId,
-                AccountNetwork = DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                AccountProxy =  {
-                    ProxyIp = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp,
-                    ProxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort,
-                    ProxyUsername = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
-                    ProxyPassword = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword
-                }
-            };
-
-            OldDominatorAccountModel.MailCredentials = new MailCredentials
-            {
-                Username = DominatorAccountModel.MailCredentials.Username,
-                Password = DominatorAccountModel.MailCredentials.Password,
-                Hostname = DominatorAccountModel.MailCredentials.Hostname,
-                Port = DominatorAccountModel.MailCredentials.Port
-            };
-
-            OldDominatorAccountModel.UserAgentWeb = DominatorAccountModel.UserAgentWeb;
-            OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
-            OldDominatorAccountModel.AccountId = DominatorAccountModel.AccountId;
-
-            #endregion
+            // Take backup of current DominatorAccountModel object
+            UpdateOldDominatorAccountModel();
 
             SaveCommand = new BaseCommand<object>(SaveCanExecute, SaveExecute);
             CancelCommand = new BaseCommand<object>(CancelCanExecute, CancelExecute);
@@ -184,6 +152,7 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
+        private bool SaveCanExecute(object arg) => true;
         private void SaveExecute(object sender)
         {
             DominatorAccountModel.CookieHelperList?.ToList().ForEach(cookie =>
@@ -242,30 +211,11 @@ namespace DominatorUIUtility.ViewModel
                 {
                     ex.DebugLog();
                 }
-                OldDominatorAccountModel.AccountBaseModel = new DominatorAccountBaseModel
-                {
-                    AccountGroup = new ContentSelectGroup
-                    {
-                        Content = DominatorAccountModel.AccountBaseModel.AccountGroup.Content,
-                    },
-                    UserName = DominatorAccountModel.AccountBaseModel.UserName,
-                    Password = DominatorAccountModel.AccountBaseModel.Password,
-                    AccountId = DominatorAccountModel.AccountId,
-                    AccountProxy =  {
-                        ProxyIp = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp,
-                        ProxyPort = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort,
-                        ProxyUsername = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
-                        ProxyPassword = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword
-                    }
-                };
-                OldDominatorAccountModel.UserAgentWeb = DominatorAccountModel.UserAgentWeb;
-                OldDominatorAccountModel.CookieHelperList = DominatorAccountModel.CookieHelperList;
-
             });
 
             #endregion
         }
-        private bool SaveCanExecute(object arg) => true;
+      
         void EditAccount()
         {
 
@@ -379,6 +329,10 @@ namespace DominatorUIUtility.ViewModel
                 }
 
                 #endregion
+
+
+                // Update Old DominatorAccountModel object
+                UpdateOldDominatorAccountModel();
             }
             catch (OperationCanceledException)
             {
@@ -406,17 +360,12 @@ namespace DominatorUIUtility.ViewModel
         private bool CancelCanExecute(object arg) => true;
         private void CancelExecute(object sender)
         {
-            var controlToselect = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
-            var lstAccount = controlToselect.DominatorAccountViewModel.LstDominatorAccountModel;
-            var indexOfAccount = lstAccount.IndexOf(lstAccount.FirstOrDefault(x => x.AccountId == DominatorAccountModel.AccountId));
+            // Update current DominatorAccountModel
+            UpdateCurrentDominatorAccountModel();
 
-            lstAccount[indexOfAccount].AccountBaseModel.AccountGroup = OldDominatorAccountModel.AccountBaseModel.AccountGroup;
-            lstAccount[indexOfAccount].AccountBaseModel.UserName = OldDominatorAccountModel.UserName;
-            lstAccount[indexOfAccount].AccountBaseModel.Password = OldDominatorAccountModel.AccountBaseModel.Password;
-            lstAccount[indexOfAccount].UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;
-            lstAccount[indexOfAccount].CookieHelperList = OldDominatorAccountModel.CookieHelperList;
-
-            AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = controlToselect;
+            // Back to AccountManager module
+            var controlToSelect = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
+            AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = controlToSelect;
 
         }
         private bool AddNewCookiesCanExecute(object arg) => true;
@@ -553,6 +502,61 @@ namespace DominatorUIUtility.ViewModel
             {
                 BtnSendVerificationCodeVisibility = Visibility.Visible;
                 ex.DebugLog();
+            }
+        }
+
+        private void UpdateOldDominatorAccountModel(DominatorAccountModel accountModel = null)
+        {
+            if (accountModel == null)
+                accountModel = DominatorAccountModel;
+
+            OldDominatorAccountModel = new DominatorAccountModel();
+
+            OldDominatorAccountModel.AccountBaseModel = new DominatorAccountBaseModel
+            {
+                AccountGroup = new ContentSelectGroup
+                {
+                    Content = accountModel.AccountBaseModel.AccountGroup.Content,
+                },
+                UserName = accountModel.AccountBaseModel.UserName,
+                Password = accountModel.AccountBaseModel.Password,
+                AccountId = accountModel.AccountId,
+                AccountNetwork = accountModel.AccountBaseModel.AccountNetwork,
+                AccountProxy =  {
+                    ProxyIp = accountModel.AccountBaseModel.AccountProxy.ProxyIp,
+                    ProxyPort = accountModel.AccountBaseModel.AccountProxy.ProxyPort,
+                    ProxyUsername = accountModel.AccountBaseModel.AccountProxy.ProxyUsername,
+                    ProxyPassword = accountModel.AccountBaseModel.AccountProxy.ProxyPassword
+                }
+            };
+
+            OldDominatorAccountModel.MailCredentials = new MailCredentials
+            {
+                Username = accountModel.MailCredentials.Username,
+                Password = accountModel.MailCredentials.Password,
+                Hostname = accountModel.MailCredentials.Hostname,
+                Port = accountModel.MailCredentials.Port
+            };
+
+            OldDominatorAccountModel.UserAgentWeb = accountModel.UserAgentWeb;
+            accountModel.CookieHelperList.ForEach(x => { OldDominatorAccountModel.CookieHelperList.Add(x); });
+            OldDominatorAccountModel.AccountId = accountModel.AccountId;
+        }
+        private void UpdateCurrentDominatorAccountModel()
+        {
+            DominatorAccountModel.AccountBaseModel.UserName = OldDominatorAccountModel.AccountBaseModel.UserName;
+            DominatorAccountModel.AccountBaseModel.Password = OldDominatorAccountModel.AccountBaseModel.Password;
+            DominatorAccountModel.AccountBaseModel.AccountId = OldDominatorAccountModel.AccountBaseModel.AccountId;
+            DominatorAccountModel.AccountBaseModel.AccountNetwork = OldDominatorAccountModel.AccountBaseModel.AccountNetwork;
+            DominatorAccountModel.AccountBaseModel.AccountGroup.Content = OldDominatorAccountModel.AccountBaseModel.AccountGroup.Content;
+            DominatorAccountModel.AccountBaseModel.AccountProxy = OldDominatorAccountModel.AccountBaseModel.AccountProxy;
+
+            DominatorAccountModel.MailCredentials = OldDominatorAccountModel.MailCredentials;
+            DominatorAccountModel.UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;
+
+            if (ObjectComparer.Compare(DominatorAccountModel.CookieHelperList, OldDominatorAccountModel.CookieHelperList))
+            {
+                DominatorAccountModel.CookieHelperList = OldDominatorAccountModel.CookieHelperList;
             }
         }
     }

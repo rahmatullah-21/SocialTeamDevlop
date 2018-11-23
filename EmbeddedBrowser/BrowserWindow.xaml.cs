@@ -7,6 +7,8 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Markup;
 using CefSharp;
 using DominatorHouseCore;
@@ -55,27 +57,8 @@ namespace EmbeddedBrowser
 
         }
 
-
         public string TargetUrl { get; set; } = string.Empty;
-        //public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl)
-        //    : this()
-        //{
 
-        //    DominatorAccountModel = dominatorAccountModel;
-        //    TargetUrl = targetUrl;
-        //    InitializeComponent();
-
-        //    Browser.RequestContext = new RequestContext(new RequestContextSettings
-        //    {
-        //        CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
-        //    });
-
-        //    Browser.RequestHandler = new RequestHandlerCustom(this);
-        //    var url = GetNetworksHomeUrl();
-        //    Browser.Address = url;
-        //    Browser.IsBrowserInitializedChanged += LoadSettings;
-
-        //}
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl, bool CustomUse)
              : this()
         {
@@ -623,12 +606,12 @@ namespace EmbeddedBrowser
                     if (!html.Contains("type=\"email\""))
                         Browser.ExecuteScriptAsync("document.getElementsByClassName('red SignupButton active')[0].click()");
                     else
-                    Browser.ExecuteScriptAsync("document.getElementsByClassName('SignupButton')[0].click()");
+                        Browser.ExecuteScriptAsync("document.getElementsByClassName('SignupButton')[0].click()");
                     Thread.Sleep(2000);
 
                 }
             }
-         
+
             var result = GetLoggedInPageSource();
 
             if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true"))
@@ -711,7 +694,7 @@ namespace EmbeddedBrowser
                 var require = updatedHtml.Contains("choice_1") && updatedHtml.Contains("choice_0");
                 if (!require && !updatedHtml.Contains("Submit"))
                 {
-                   // Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
+                    // Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
                     Browser.ExecuteScriptAsync("document.getElementsByClassName(\"sqdOP\")[1].click()");
                     Thread.Sleep(2000);
                 }
@@ -920,6 +903,7 @@ namespace EmbeddedBrowser
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             Dispose();
+
         }
 
 
@@ -1168,14 +1152,23 @@ namespace EmbeddedBrowser
             {
                 //To disable the menu then call clear
                 model.Clear();
-
-                //Removing existing menu item
-                //bool removed = model.Remove(CefMenuCommand.ViewSource); // Remove "View Source" option
-
                 //Add new custom menu items
                 model.AddItem((CefMenuCommand)Refresh, "Refresh");
                 model.AddItem((CefMenuCommand)Back, "Back");
                 model.AddItem((CefMenuCommand)Forward, "Forward");
+                try
+                {
+                    ((ContextMenu)model).LostFocus += CloseMenu;
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            private void CloseMenu(object sender, RoutedEventArgs e)
+            {
+                
             }
 
             bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
@@ -1331,5 +1324,6 @@ namespace EmbeddedBrowser
             }
 
         }
+
     }
 }

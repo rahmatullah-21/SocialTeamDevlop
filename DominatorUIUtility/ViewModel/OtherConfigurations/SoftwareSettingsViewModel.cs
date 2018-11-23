@@ -17,13 +17,22 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         public SoftwareSettingsViewModel() : base("LangKeySoftwareSettings", "SoftwareSettingsControlTemplate")
         {
             SaveCmd = new DelegateCommand(Save);
-            SoftwareSettingsModel = SoftwareSettingsFileManager.GetSoftwareSettings() ?? new SoftwareSettingsModel();
+           SoftwareSettingsModel = SoftwareSettingsFileManager.GetSoftwareSettings();
+            if (SoftwareSettingsModel == null)
+            {
+                SoftwareSettingsModel = new SoftwareSettingsModel()
+                {
+                    IsEnableAdvancedUserMode = true
+                };
+                SoftwareSettingsFileManager.SaveSoftwareSettings(SoftwareSettingsModel);
+            }
         }
 
         private void Save()
         {
             if (SoftwareSettingsFileManager.SaveSoftwareSettings(SoftwareSettingsModel))
             {
+                var v = SoftwareSettingsFileManager.GetSoftwareSettings();
                 var result = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
                     "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", MessageDialogStyle.AffirmativeAndNegative,
                     Dialog.SetMetroDialogButton("Restart now", "Restart later"));

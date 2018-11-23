@@ -112,5 +112,12 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         public string PostUrl { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string Mentions { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string WatchPartInvitedTo { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string WatchPartInvitedToUserName { get; set; }
+
     }
 }

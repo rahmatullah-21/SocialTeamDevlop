@@ -568,7 +568,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isEnableAdvancedUserMode = true;
+        private bool _isEnableAdvancedUserMode;
         [ProtoMember(38)]
         public bool IsEnableAdvancedUserMode
         {

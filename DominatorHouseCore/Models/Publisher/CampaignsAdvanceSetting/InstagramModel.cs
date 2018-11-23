@@ -336,6 +336,8 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
 
         private string _hashtagsFromList2;
+        private bool _isLocationId;
+        private bool _isLocationName;
 
         [ProtoMember(22)]
         public string HashtagsFromList2
@@ -349,6 +351,36 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 if (_hashtagsFromList2 == value)
                     return;
                 SetProperty(ref _hashtagsFromList2, value);
+            }
+        }
+        [ProtoMember(23)]
+        public bool IsGeoLocationName
+        {
+            get
+            {
+                return _isLocationName;
+            }
+            set
+            {
+                if (_isLocationName == value)
+                    return;
+
+                SetProperty(ref _isLocationName, value);
+            }
+        }
+        [ProtoMember(24)]
+        public bool IsGeoLocationId
+        {
+            get
+            {
+                return _isLocationId;
+            }
+            set
+            {
+                if (_isLocationId == value)
+                    return;
+
+                SetProperty(ref _isLocationId, value);
             }
         }
         public InstagramModel Clone()
