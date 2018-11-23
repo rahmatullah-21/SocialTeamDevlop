@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouseCore", "DominatorHouseCore\DominatorHouseCore.csproj", "{F40A5C83-8EDA-43C5-88B9-DFAAB492A497}"
 EndProject
@@ -14,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouseCore.IntegrationTests", "Tests\DominatorHouseCore.IntegrationTests\DominatorHouseCore.IntegrationTests.csproj", "{64F2FD12-13C6-46FB-A2B9-1D28FB07CC21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedBrowser", "EmbeddedBrowser\EmbeddedBrowser.csproj", "{21F00635-AAF7-466B-9214-A830EA9C8963}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore", "..\twtdominator-library\TwtDominatorCore\TwtDominatorCore.csproj", "{E41BF7D2-231F-4D58-AD45-95F7146E1979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore.UnitTests", "..\twtdominator-library\Tests\TwtDominatorCore.UnitTests\TwtDominatorCore.UnitTests.csproj", "{0EA74034-2086-441A-B971-F52EFD23F5F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +122,42 @@ Global
 		{21F00635-AAF7-466B-9214-A830EA9C8963}.Release|x64.Build.0 = Release|x64
 		{21F00635-AAF7-466B-9214-A830EA9C8963}.Release|x86.ActiveCfg = Release|x86
 		{21F00635-AAF7-466B-9214-A830EA9C8963}.Release|x86.Build.0 = Release|x86
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug|x64.Build.0 = Debug|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug|x86.Build.0 = Debug|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug-fast-test|Any CPU.ActiveCfg = Debug-fast-test|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug-fast-test|Any CPU.Build.0 = Debug-fast-test|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug-fast-test|x64.ActiveCfg = Debug-fast-test|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug-fast-test|x64.Build.0 = Debug-fast-test|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug-fast-test|x86.ActiveCfg = Debug-fast-test|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Debug-fast-test|x86.Build.0 = Debug-fast-test|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Release|x64.ActiveCfg = Release|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Release|x64.Build.0 = Release|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Release|x86.ActiveCfg = Release|Any CPU
+		{E41BF7D2-231F-4D58-AD45-95F7146E1979}.Release|x86.Build.0 = Release|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug|x64.Build.0 = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Release|x64.ActiveCfg = Release|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Release|x64.Build.0 = Release|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{0EA74034-2086-441A-B971-F52EFD23F5F8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +165,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AE5B9281-E0E6-40FC-8E3D-1DB2BCF37722} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
 		{64F2FD12-13C6-46FB-A2B9-1D28FB07CC21} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
+		{0EA74034-2086-441A-B971-F52EFD23F5F8} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07AA924D-BF78-434F-AFBA-BF57AABD0EF4}
