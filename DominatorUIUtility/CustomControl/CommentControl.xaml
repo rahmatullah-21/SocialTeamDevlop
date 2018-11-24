@@ -14,7 +14,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <TextBlock FontWeight="Bold" Margin="0,10" FontSize="16" Text="{DynamicResource LangKeyCommentText}" VerticalAlignment="Center"/>
-                <local:InputBoxControl x:Name="InputComment" InputText="{Binding Comments.CommentText}"/>
+                <local:InputBoxControl x:Name="InputComment" InputText="{Binding Comments.CommentText}" SaveVisiblity="Collapsed"/>
             </StackPanel>
             <Grid Margin="10,30" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
                 <Grid.RowDefinitions>

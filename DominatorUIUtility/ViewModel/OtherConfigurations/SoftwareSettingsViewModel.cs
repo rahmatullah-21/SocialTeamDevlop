@@ -5,7 +5,9 @@ using DominatorHouseCore.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System;
+using System.Diagnostics;
 using System.Windows;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
@@ -17,7 +19,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         public SoftwareSettingsViewModel() : base("LangKeySoftwareSettings", "SoftwareSettingsControlTemplate")
         {
             SaveCmd = new DelegateCommand(Save);
-           SoftwareSettingsModel = SoftwareSettingsFileManager.GetSoftwareSettings();
+            SoftwareSettingsModel = SoftwareSettingsFileManager.GetSoftwareSettings();
             if (SoftwareSettingsModel == null)
             {
                 SoftwareSettingsModel = new SoftwareSettingsModel()
@@ -32,14 +34,23 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             if (SoftwareSettingsFileManager.SaveSoftwareSettings(SoftwareSettingsModel))
             {
-                var v = SoftwareSettingsFileManager.GetSoftwareSettings();
                 var result = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
                     "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", MessageDialogStyle.AffirmativeAndNegative,
                     Dialog.SetMetroDialogButton("Restart now", "Restart later"));
                 if (result == MessageDialogResult.Affirmative)
                 {
                     Application.Current.Shutdown();
-                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                    Process.Start(Application.ResourceAssembly.Location);
+                    //var clickonceApp = Environment.GetFolderPath(Environment.SpecialFolder.Programs) + "\\" + Constants.ProductName + "\\" + Constants.ClickOnceFileName;
+                    //try
+                    //{
+                    //    Process.Start(clickonceApp);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    ex.DebugLog();
+                    //    Process.Start(Application.ResourceAssembly.Location);
+                    //}
                     Environment.Exit(0);
 
                 }

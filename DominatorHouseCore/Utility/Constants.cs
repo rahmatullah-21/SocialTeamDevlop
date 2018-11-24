@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace DominatorHouseCore.Utility
 {
@@ -30,7 +31,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static string ApiUrl => $"{(object) INSTAGRAM_BASE_URL}api/v1/";
+        public static string ApiUrl => $"{(object)INSTAGRAM_BASE_URL}api/v1/";
 
         public static string ApplicationName => "GramDominator 3.0";
 
@@ -271,7 +272,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-   
+
         public static string ACCEPT_LANGUAGE
         {
             get
@@ -298,8 +299,26 @@ namespace DominatorHouseCore.Utility
 
         public static int FLOOD_WAIT { get; set; } = 5000;
 
+        public static int AppVersion
+        {
+            get
+            {
+                try
+                {
+                    string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                    return Int32.Parse(version.Substring(version.LastIndexOf(".") + 1));
+                }
+                catch (Exception e)
+                {
+                    e.DebugLog();
+                }
+                return 0;
+            }
+        }
 
-        //X_IG_Connection_Type
+        public static string ProductName = "Socinator";
+        public static string ClickOnceFileName = "Socinator.appref-ms";
+
 
     }
 }

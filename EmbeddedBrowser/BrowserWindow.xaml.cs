@@ -7,8 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Markup;
 using CefSharp;
 using DominatorHouseCore;
@@ -1153,24 +1151,11 @@ namespace EmbeddedBrowser
                 //To disable the menu then call clear
                 model.Clear();
                 //Add new custom menu items
-                model.AddItem((CefMenuCommand)Refresh, "Refresh");
-                model.AddItem((CefMenuCommand)Back, "Back");
-                model.AddItem((CefMenuCommand)Forward, "Forward");
-                try
-                {
-                    ((ContextMenu)model).LostFocus += CloseMenu;
-                }
-                catch (Exception ex)
-                {
-
-                }
+                //model.AddItem((CefMenuCommand)Refresh, "Refresh");
+                //model.AddItem((CefMenuCommand)Back, "Back");
+                //model.AddItem((CefMenuCommand)Forward, "Forward");
+              
             }
-
-            private void CloseMenu(object sender, RoutedEventArgs e)
-            {
-                
-            }
-
             bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
             {
                 if ((int)commandId == Refresh)
