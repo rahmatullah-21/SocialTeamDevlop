@@ -3222,7 +3222,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPostUsingGeoLocationWithLocationName">Geo Location Name</system:String>
     <system:String x:Key="LangKeyPostUsingGeoLocationWithLocationId">Geo Location Id</system:String>
 
-    <system:String x:Key="LangKeyAutoTagSpecificPosts">Tag Specifix Posts</system:String>
+    <system:String x:Key="LangKeyAutoTagSpecificPosts">Tag Specific Posts</system:String>
     <system:String x:Key="LangKeyPostAsPageOption">Post As Page Option (Only for posting to pages)</system:String>
     <system:String x:Key="LangKeyPostAsOwnAccount">Post As Own Account</system:String>
     <system:String x:Key="LangKeyPostAsPage">Post As Page</system:String>

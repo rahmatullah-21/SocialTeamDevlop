@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Models
 
         public static readonly QueryInfo NoQuery = new QueryInfo();
         private int _index;
-
+        [ProtoMember(10)]
         public int Index
         {
             get { return _index; }

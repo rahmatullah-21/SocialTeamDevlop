@@ -152,7 +152,7 @@
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
-                            <RadioButton GroupName="TagFriends" Content="{DynamicResource LangKeyAutoTagSpecificPosts}"
+                            <RadioButton GroupName="TagFriends" Content="{DynamicResource LangKeyTagSpecificUsersInYourPost}"
                           VerticalAlignment="Center" Margin="5,5,5,10"
                           IsChecked="{Binding FacebookModel.IsTagSpecificFriends}"/>
                             <StackPanel Margin="25,5" Visibility="{Binding FacebookModel.IsTagSpecificFriends,

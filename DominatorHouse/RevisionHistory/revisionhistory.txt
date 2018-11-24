@@ -1,3 +1,61 @@
+Version[1.0.0.22],[24th-November-18]
+New Features:-
+	Sociopublisher:-
+		Facebook => Sociopublisher => Advance Settings => Added feature to post as Own Page.
+		Instagram => Social publisher => Added feature you can provide geo location in album post.
+		Instagram => Social publisher => Added feature you can post album as story.
+		Instagram => Social publisher => Now you can post video as story.
+		Facebook => Sociopublisher => Advance Settings => Added feature to tag specific people on post.
+	Instagram:-
+		Instachat =>   Now you can send direct message  to new followers.
+		Growfollower => follow => Now you can  mute followings after follow.
+		Instalike/comment => mention users => Now you can mention users without comment.
+		Instascrape => Download photos => Now you can download photos with like/comment count , date and time and also location of posting.
+		Instalike/comment => comment =>  New feature added  => Now you can upload huge data file for comment action => performance enhanced than previous.
+	Facebook:-
+		Grow Friend => Send Friend Request => Added feature to do After Sent Request Action activity.
+		Grow Friend => Unfriend => Added feature to unfriend Mutual friends.
+		Broadcast Message => Other Configurations => Added Feature to Send Unique Messages To Each User.
+		Broadcast Message => Added feature to send Messages To New Friends.
+		Engage => Fanpage Liker => Added feature to do After Fanpage Like Action activity.
+		Engage => Post Like => Added feature to React on page post by both "Own Account" and "Own Page".
+		Engage => Post Comment => Added feature to React on page post by both "Own Account" and "Own Page".
+		Engage => Post Comment => Added feature to mention friends on each comment.
+		Engage => Comment Liker => Added feature to React on page post by both "Own Account" and "Own Page".
+		Engage => Reply To Comments => Added feature to React on page post by both "Own Account" and "Own Page".
+		Engage => Reply To Comments => Added feature to mention friends on each comment.
+		FB Inviter => Added feature to invite friends for WatchParty.
+		FB Inviter => Group Inviter => Added feature to invite custom friend list.
+	Linkedin:-
+		Engage => Added submodule share someone or connection's post.
+		Grow Connection => Export Connection => Added feature to save connections in PDF format.
+Fixed:-
+	Sociopublisher:-
+		Issue fixed with publishing Instagram posts.
+		Issue fixed with publishing Instagram posts using geo location.
+	Instagram:-
+		InstaLiker/InstaCommenter => Like => Issue fixed with filter counts while multiple queries added.
+		InstaLiker/InstaCommenter => Like => Issue fixed with Hashtag users posts. Issue fixed with showing "No more data found".
+		Settings => Issue fixed with adding users to black/white list.
+		Account Manager => Issue fixed with not showing friendship count.
+	Facebook:-
+		Grow friend => Send Friend Request => Fixed issue with sending friend request to group members with and without applying filter condition.
+		Grow friend => Send Friend Request => Fixed issue with sending friend request to fanpage likers.
+		Grow Group => Grouop Joiner => Fixed issue with joining groups by applying filter conditions.
+		Broadcast Message => Fixed issue with sending message to fanpage likers.
+		Scraper => Profile Scraper => Fixed issue with scraping group members with genger as both male and female in the filter condition.
+		Scraper => Profile Scraper => Fixed issue with scraping users through graph search urls.
+	Linkedin:-
+		Account => Fixed issue with embeded browser.
+		Salesnavigator Scraper =>  Company Scraper => Fixed issue with not scraping company data.
+	Pinterest:-
+		Create board => Fixed issue in creating board without description.
+		Add account => Fixed issue with adding account not displaying.
+		Repin => custom board => fixed issue with custom board repin.
+		Pin messenger => Fixed issue whenever we start a campaign to send message to new followers.
+		Account is failed but while selecting account for repin campaign i am able to select that account and its board this is fixed.
+		Fixed with crashing issue when we add 20 account through .txt.
+
 Version[1.0.0.21],[13th-November-18]
 New Features:-
 	Sociopublisher:-

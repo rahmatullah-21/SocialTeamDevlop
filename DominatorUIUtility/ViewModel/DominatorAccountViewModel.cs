@@ -1118,6 +1118,8 @@ namespace DominatorUIUtility.ViewModel
                 if (moduleConfiguration.IsTemplateMadeByCampaignMode)
                 {
                     CampaignsFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
+                    var campToUpdate = Campaigns.GetCampaignsInstance(account.AccountBaseModel.AccountNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId);
+                    campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
                 }
             }
         }

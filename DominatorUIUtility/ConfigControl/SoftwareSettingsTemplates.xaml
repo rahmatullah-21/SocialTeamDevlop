@@ -82,7 +82,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
-                        <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
+                        <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
                     </StackPanel>
                     <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
