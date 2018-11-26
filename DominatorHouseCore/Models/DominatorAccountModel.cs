@@ -1,14 +1,15 @@
-﻿using System.Net;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.EmailService;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
-using ProtoBuf;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DominatorHouseCore.Request;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading;
-using DominatorHouseCore.EmailService;
 
 namespace DominatorHouseCore.Models
 {
@@ -20,6 +21,7 @@ namespace DominatorHouseCore.Models
     public sealed class DominatorAccountModel : BindableBase
     {
         private DominatorAccountBaseModel _accountBaseModel;
+        private IHttpHelper _httpHelper;
 
         /// <summary>
         /// AccountBaseModel contains the base information of the account
@@ -105,7 +107,9 @@ namespace DominatorHouseCore.Models
         public bool UseMobileRequestOnly { get; set; } = false;
 
         [ProtoIgnore]
-        public HttpHelper HttpHelper { get; set; } = new HttpHelper();
+        public IHttpHelper HttpHelper => (_httpHelper =
+            (_httpHelper ??
+             ServiceLocator.Current.GetInstance<IHttpHelper>(AccountBaseModel.AccountNetwork.ToString())));
 
         [ProtoIgnore]
         public bool IsloggedinWithPhone { get; set; }
@@ -260,8 +264,9 @@ namespace DominatorHouseCore.Models
 
         #endregion
 
-        [ProtoMember(13)]
+
         private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
+        [ProtoMember(13)]
         public HashSet<CookieHelper> CookieHelperList
         {
             get { return _cookieHelperList; }
@@ -290,6 +295,7 @@ namespace DominatorHouseCore.Models
             get
             {
                 var cookieCollection = new CookieCollection();
+
                 if (_cookieHelperList != null)
                 {
                     foreach (var cookieHelper in _cookieHelperList)
@@ -380,6 +386,7 @@ namespace DominatorHouseCore.Models
             }
         }
         private bool _isUseSSL;
+
         [ProtoMember(24)]
         public bool IsUseSSL
         {

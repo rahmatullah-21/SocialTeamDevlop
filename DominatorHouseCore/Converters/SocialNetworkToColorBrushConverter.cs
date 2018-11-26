@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -46,6 +47,7 @@ namespace DominatorHouseCore.Converters
             return null;
         }
 
+        [ExcludeFromCodeCoverage]
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

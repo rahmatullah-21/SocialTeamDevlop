@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Interfaces
@@ -15,6 +16,10 @@ namespace DominatorHouseCore.Interfaces
         IResponseParameter GetRequest(string url);
         IResponseParameter GetRequest(string url, IRequestParameters requestParameters);
         IResponseParameter PostRequest(string url, string postData);
+        IResponseParameter PostRequest(string url, byte[] postData);
         IResponseParameter PostRequest(string url, string postData, IRequestParameters requestParameters);
+
+        Task<IResponseParameter> PostRequestAsync(string url, string postData, CancellationToken cancellationToken);
+        HttpWebRequest Request { get; }
     }
 }

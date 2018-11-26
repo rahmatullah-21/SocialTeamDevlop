@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Windows;
-using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Utility
 {
@@ -126,7 +124,7 @@ namespace DominatorHouseCore.Utility
                 }
                 return string.Empty;
             }
-            catch (Exception ex)
+            catch
             {
                 return string.Empty;
             }

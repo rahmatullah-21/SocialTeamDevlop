@@ -1,4 +1,12 @@
-﻿using System;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls.Dialogs;
+using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,16 +14,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls.Dialogs;
-using ProtoBuf;
 using System.Windows.Input;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Patterns;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -36,7 +35,7 @@ namespace DominatorUIUtility.CustomControl
         private void RemoveFavoriteTimeExecute(object sender)
         {
             var itemTodelete = sender as string;
-            LstFavoriteTime.Remove(LstFavoriteTime.FirstOrDefault(x=>x.FavoriteTimeName==itemTodelete));
+            LstFavoriteTime.Remove(LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == itemTodelete));
             GenericFileManager.UpdateModuleDetails<FavoriteTime>(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
 
         }
