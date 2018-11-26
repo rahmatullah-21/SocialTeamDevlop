@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Scheduler;
@@ -28,7 +15,20 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -222,6 +222,7 @@ namespace DominatorUIUtility.ViewModel
 
                 reportControl.ReportModel.ModuleType = campName.SubModule;
 
+                var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
                 var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
                 var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);

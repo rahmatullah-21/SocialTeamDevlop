@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 {
@@ -53,9 +53,9 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 
 
             // Serialize the template configuration to bin files
-            TemplatesFileManager.Add(newTemplate);
+            ServiceLocator.Current.GetInstance<ITemplatesFileManager>().Add(newTemplate);
 
-            return newTemplate;            
+            return newTemplate;
         }
 
 
@@ -100,7 +100,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         /// Runs when user clicks Create Campaign
         /// </summary>
         /// <param name="newCampaign"></param>
-        public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)                
+        public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)
         {
             string activitySettingsJson = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettings);
             SocialNetworks socialNetwork = SocinatorInitialize.ActiveSocialNetwork;
