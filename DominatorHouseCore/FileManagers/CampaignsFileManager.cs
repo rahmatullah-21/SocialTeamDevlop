@@ -1,39 +1,57 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.FileManagers
-{    
-    public static class CampaignsFileManager
-    {        
-        // Updates Campaigns with applying action to it and writes changes back to file
-        public static void ApplyAction(Action<CampaignDetails> actionToApply)
-        {
-            var campaigns = BinFileHelper.GetCampaignDetail();
+{
 
-            foreach (var c in campaigns)
+    public interface ICampaignsFileManager : IEnumerable<CampaignDetails>
+    {
+        void ApplyAction(Action<CampaignDetails> actionToApply);
+        void ApplyFunc(Func<CampaignDetails, bool> funcToApply);
+        void DeleteSelectedAccount(string templateId, string accountName);
+        CampaignDetails GetCampaignById(string id);
+        void UpdateCampaigns(IList<CampaignDetails> libraryCampaign);
+        void Add(CampaignDetails campaign);
+        void Delete(CampaignDetails campaign);
+        void Edit(CampaignDetails campaign);
+        List<CampaignDetails> GetCampaignByNetwork(SocialNetworks network);
+    }
+
+    public class CampaignsFileManager : ICampaignsFileManager
+    {
+        private readonly List<CampaignDetails> _campaignDetailses;
+
+        public CampaignsFileManager()
+        {
+            _campaignDetailses = BinFileHelper.GetCampaignDetail();
+        }
+        // Updates Campaigns with applying action to it and writes changes back to file
+        public void ApplyAction(Action<CampaignDetails> actionToApply)
+        {
+            foreach (var c in _campaignDetailses)
                 actionToApply(c);
 
-            BinFileHelper.UpdateCampaigns(campaigns);       
+            BinFileHelper.UpdateCampaigns(_campaignDetailses);
         }
 
         // Same as above, but Func must return true if file needs to be overwritten        
-        public static void ApplyFunc(Func<CampaignDetails, bool> funcToApply)
+        public void ApplyFunc(Func<CampaignDetails, bool> funcToApply)
         {
-            var campaigns = BinFileHelper.GetCampaignDetail();
             bool updated = false;
 
-            foreach (var c in campaigns)
+            foreach (var c in _campaignDetailses)
                 updated |= funcToApply(c);
 
-            BinFileHelper.UpdateCampaigns(campaigns);
+            BinFileHelper.UpdateCampaigns(_campaignDetailses);
         }
 
 
-        public static void DeleteSelectedAccount(string templateId, string accountName)
+        public void DeleteSelectedAccount(string templateId, string accountName)
         {
             ApplyAction(campaign =>
             {
@@ -42,29 +60,14 @@ namespace DominatorHouseCore.FileManagers
             });
         }
 
-        // NOTE: further optimization may be needed to store campaigns in memory.
-        public static List<CampaignDetails> Get()
+        public CampaignDetails GetCampaignById(string id)
         {
-            var result = BinFileHelper.GetCampaignDetail();
-            
-            return result;
+            return _campaignDetailses.FirstOrDefault(x => x.CampaignId == id);
         }
 
-        public static CampaignDetails GetCampaignById(string id)
+        public void UpdateCampaigns(IList<CampaignDetails> libraryCampaign)
         {
-            return Get().FirstOrDefault(x => x.CampaignId == id);
-        }
-
-        public static void Save(List<CampaignDetails> campaigns)
-        {
-            BinFileHelper.UpdateCampaigns(campaigns);
-        }
-
-
-
-        public static void UpdateCampaigns(IList<CampaignDetails> libraryCampaign)
-        {
-            var all = BinFileHelper.GetCampaignDetail();
+            var all = _campaignDetailses;
 
             // Update all entries that exists in libraryAccount, and add that does not exists
             for (int i = 0; i < libraryCampaign.Count; i++)
@@ -80,34 +83,51 @@ namespace DominatorHouseCore.FileManagers
             BinFileHelper.UpdateCampaigns(all);
         }
 
-        public static void Add(CampaignDetails campaign) => BinFileHelper.Append(campaign);
+        public void Add(CampaignDetails campaign)
+        {
+            _campaignDetailses.Add(campaign);
+            BinFileHelper.Append(campaign);
+        }
 
         // finds by id and delete
-        public static void Delete(CampaignDetails campaign) 
+        public void Delete(CampaignDetails campaign)
         {
-            var campaigns = Get();
-            CampaignDetails toDelete = campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
-            if (toDelete != null)                
+            CampaignDetails toDelete = _campaignDetailses.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
+            if (toDelete != null)
             {
-                campaigns.Remove(toDelete);
-                Save(campaigns);                
-            }
-        }
-        
-        public static void Edit(CampaignDetails campaign)
-        {
-            var campaigns = Get();
-            var index = campaigns.FindIndex(c => c.CampaignId == campaign.CampaignId);
-            if (index != -1)
-            {
-                campaigns[index] = campaign;
-                Save(campaigns);
+                _campaignDetailses.Remove(toDelete);
+                Save(_campaignDetailses);
             }
         }
 
-        public static List<CampaignDetails> GetCampaignByNetwork(SocialNetworks network)
+        public void Edit(CampaignDetails campaign)
         {
-            return Get().Where(x => x.SocialNetworks == network).ToList();
+            var index = _campaignDetailses.FindIndex(c => c.CampaignId == campaign.CampaignId);
+            if (index != -1)
+            {
+                _campaignDetailses[index] = campaign;
+                Save(_campaignDetailses);
+            }
+        }
+
+        public List<CampaignDetails> GetCampaignByNetwork(SocialNetworks network)
+        {
+            return _campaignDetailses.Where(x => x.SocialNetworks == network).ToList();
+        }
+
+        public IEnumerator<CampaignDetails> GetEnumerator()
+        {
+            return _campaignDetailses.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        private void Save(List<CampaignDetails> campaigns)
+        {
+            BinFileHelper.UpdateCampaigns(campaigns);
         }
     }
 }

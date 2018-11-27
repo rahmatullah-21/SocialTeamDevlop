@@ -28,6 +28,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IDateProvider, DateProvider>();
             Container.RegisterSingleton<IFileSystemProvider, FileSystemProvider>();
             Container.RegisterSingleton<IJobActivityConfigurationManager, JobActivityConfigurationManager>();
+            Container.RegisterSingleton<ICampaignsFileManager, CampaignsFileManager>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();

@@ -356,6 +356,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var accountModel = AccountsFileManager.GetAccountById(accountId);
 
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                 var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, activityType];
 
                 var accountstemplateId = moduleConfiguration?.TemplateId;
@@ -367,7 +368,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     try
                     {
-                        var campaignStatus = CampaignsFileManager.Get()
+                        var campaignStatus = campaignFileManager
                             .FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId)
                             ?.Status;
                         if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)

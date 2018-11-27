@@ -121,9 +121,10 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
             var account = AccountsFileManager.GetAccountById(currentDataContext.AccountId);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             var currentAccountActivity =
                 jobActivityConfigurationManager[account.AccountId, currentDataContext.Title];
-            var campaignStatus = CampaignsFileManager.Get()?.FirstOrDefault(x => x.TemplateId == currentAccountActivity?.TemplateId)?.Status;
+            var campaignStatus = campaignFileManager.FirstOrDefault(x => x.TemplateId == currentAccountActivity?.TemplateId)?.Status;
             if (campaignStatus == "Paused" && currentDataContext.Status)
             {
                 Dialog.ShowDialog("Error", $"This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");

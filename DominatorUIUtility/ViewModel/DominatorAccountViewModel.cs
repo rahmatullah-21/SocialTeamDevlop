@@ -1112,12 +1112,13 @@ namespace DominatorUIUtility.ViewModel
         {
             account = AccountsFileManager.GetAccount(account.UserName, account.AccountBaseModel.AccountNetwork);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
             {
                 DominatorScheduler.StopActivity(account, moduleConfiguration.ActivityType.ToString(), moduleConfiguration.TemplateId, false);
                 if (moduleConfiguration.IsTemplateMadeByCampaignMode)
                 {
-                    CampaignsFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
+                    campaignFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
                     var campToUpdate = Campaigns.GetCampaignsInstance(account.AccountBaseModel.AccountNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId);
                     campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
                 }

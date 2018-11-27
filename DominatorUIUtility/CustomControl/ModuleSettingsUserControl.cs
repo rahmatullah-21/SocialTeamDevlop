@@ -507,7 +507,8 @@ namespace DominatorUIUtility.CustomControl
 
             DataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
-            CampaignsFileManager.Add(campaignDetails);
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            campaignFileManager.Add(campaignDetails);
 
             //Updating Campaign UI
             Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.Add(campaignDetails);
@@ -634,6 +635,7 @@ namespace DominatorUIUtility.CustomControl
                     return;
                 }
 
+                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                 accountDetails.ForEach(account =>
                 {
                     var moduleSettings = _jobActivityConfigurationManager[account.AccountId, _activityType];
@@ -641,7 +643,7 @@ namespace DominatorUIUtility.CustomControl
                     if (moduleSettings == null)
                         return;
 
-                    CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
+                    campaignFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
                         account.AccountBaseModel.UserName);
                     var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleSettings.TemplateId);
                     campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
@@ -807,14 +809,15 @@ namespace DominatorUIUtility.CustomControl
             if (!ValidateExtraProperty())
                 return;
 
-            var currentCampaign = CampaignsFileManager.Get().FirstOrDefault(camp => camp.TemplateId == TemplateId);
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            var currentCampaign = campaignFileManager.FirstOrDefault(camp => camp.TemplateId == TemplateId);
 
             try
             {
                 var newlyAddedAccounts = _footerControl.list_SelectedAccounts.Except(currentCampaign?.SelectedAccountList).ToList();
                 var existingAccounts = _footerControl.list_SelectedAccounts.Except(newlyAddedAccounts).ToList();
                 var removedAccounts = currentCampaign?.SelectedAccountList.Except(existingAccounts).ToList();
-                if (newlyAddedAccounts.Count != 0)
+                if (newlyAddedAccounts.Count() != 0)
                 {
                     if (!UpdateNewlyAddedAccounts(newlyAddedAccounts)) return;
                 }
@@ -898,7 +901,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             // Update Campaign Details
-            CampaignsFileManager.ApplyAction(campaign =>
+            campaignFileManager.ApplyAction(campaign =>
             {
 
                 if (campaign.TemplateId == TemplateId)
@@ -1028,6 +1031,7 @@ namespace DominatorUIUtility.CustomControl
 
                     #region Update already existing account setting
 
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     accountDetails.ForEach(account =>
                     {
                         if (!selectedAccount.Contains(account.AccountBaseModel.UserName))
@@ -1037,7 +1041,7 @@ namespace DominatorUIUtility.CustomControl
 
                         if (moduleSettings == null)
                             return;
-                        CampaignsFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
+                        campaignFileManager.DeleteSelectedAccount(moduleSettings.TemplateId,
                             account.AccountBaseModel.UserName);
 
                         var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleSettings.TemplateId);
@@ -1379,7 +1383,8 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.IsEnabled = isStart;
                 try
                 {
-                    var campaignStatus = CampaignsFileManager.Get()
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                    var campaignStatus = campaignFileManager
                         .FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId)
                         ?.Status;
                     if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
@@ -1605,7 +1610,8 @@ namespace DominatorUIUtility.CustomControl
             {
                 if (isTemplateMadeByCampaignMode)
                 {
-                    CampaignsFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                    campaignFileManager.DeleteSelectedAccount(accountstemplateId, _accountGrowthModeHeader.SelectedItem);
 
                     var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == accountstemplateId);
                     campToUpdate?.SelectedAccountList.Remove(accountModel.AccountBaseModel.UserName);

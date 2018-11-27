@@ -54,11 +54,11 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var lstOfCampaign = CampaignsFileManager.Get();
+                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                 Task.Factory.StartNew(() =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Clear());
-                    lstOfCampaign.ForEach(camp =>
+                    campaignFileManager.ForEach(camp =>
                     {
                         Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Add(camp));
                         Thread.Sleep(50);
@@ -364,7 +364,8 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 CampaignDetails campName = sender as CampaignDetails;
-                CampaignsFileManager.GetCampaignById(campName.CampaignId).
+                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                campaignFileManager.GetCampaignById(campName.CampaignId).
                     CampaignName = campName.CampaignName.
                                        Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
@@ -408,7 +409,8 @@ namespace DominatorUIUtility.ViewModel
                         return;
                     var selectedAccount = campaign.SelectedAccountList;
 
-                    CampaignsFileManager.Delete(campaign);
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                    campaignFileManager.Delete(campaign);
 
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
@@ -449,12 +451,13 @@ namespace DominatorUIUtility.ViewModel
                     if (dialogResult != MessageDialogResult.Affirmative)
                         return;
                     var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         campaign.ForEach(camp =>
                         {
                             var selectedAccount = camp.SelectedAccountList;
-                            CampaignsFileManager.Delete(camp);
+                            campaignFileManager.Delete(camp);
 
                             UpdateAccount(allAccounts, camp, selectedAccount);
                             LstCampaignDetails.Remove(
@@ -618,7 +621,8 @@ namespace DominatorUIUtility.ViewModel
                         GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
                     }
 
-                    CampaignsFileManager.UpdateCampaigns(LstCampaignDetails.ToList());
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                    campaignFileManager.UpdateCampaigns(LstCampaignDetails.ToList());
                 }
 
                 catch (Exception ex)
