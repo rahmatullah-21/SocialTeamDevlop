@@ -23,5 +23,6 @@ namespace DominatorHouseCore.Interfaces
         Task<IResponseParameter> PostRequestAsync(string url, byte[] postData, CancellationToken cancellationToken);
         IResponseParameter PostApiRequest(string url, byte[] postData);
         HttpWebRequest Request { get; }
+        HttpWebResponse Response { get; }
     }
 }

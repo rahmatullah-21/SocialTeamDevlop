@@ -189,7 +189,7 @@ namespace DominatorUIUtility.CustomControl
                 {
 
                     favoriteTimeName = Dialog.GetInputDialog("Favorite Time", "Enter Favorite time", favoriteTimeName, "Save", "Cancel");
-                    if (!string.IsNullOrEmpty(favoriteTimeName))
+                    if (!string.IsNullOrEmpty(favoriteTimeName?.Trim()))
                     {
                         if (!LstFavoriteTime.Any(x => x.FavoriteTimeName == favoriteTimeName))
                         {
@@ -218,6 +218,11 @@ namespace DominatorUIUtility.CustomControl
                     }
                     else
                     {
+                        var result = Dialog.ShowCustomDialog("Error", $"Favorite Time should not empty.\nPlease type some name.", "Ok", "Cancel");
+                        if (result == MessageDialogResult.Affirmative)
+                        continue;
+                        
+
                         break;
                     }
                 }

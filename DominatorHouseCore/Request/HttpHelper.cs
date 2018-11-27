@@ -33,7 +33,7 @@ namespace DominatorHouseCore.Request
 
         protected HttpWebRequest _request;
 
-        public HttpWebResponse Response;
+        public HttpWebResponse Response { get; set; }
 
         /// <summary>
         /// Validate the server certificates

@@ -559,6 +559,9 @@
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ProfileSuspended}" >
                                                         <Setter Property="Text" Value="{DynamicResource LangKeyProfileSuspended}" />
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TwoFactorLoginAttempt}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyTwoFactorLoginAttempt}" />
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>

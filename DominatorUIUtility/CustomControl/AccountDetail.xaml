@@ -129,7 +129,7 @@
                              FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
                              KeyDown="OnKeyDown"/>
                 </StackPanel>
-                
+
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <TextBox Name="TxtAccountName" Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="Enter Account Name" Width="230"
@@ -232,7 +232,10 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyAddPhoneNumberToYourAccount}" />
                                         <Setter Property="Foreground" Value="Aqua" />
                                     </DataTrigger>
-
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.TwoFactorLoginAttempt}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyTwoFactorLoginAttempt}" />
+                                        <Setter Property="Foreground" Value="#b22222" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
@@ -281,10 +284,9 @@
                         </RadioButton.Style>
                     </RadioButton>
 
-
                     <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5" Visibility="{Binding BtnSendVerificationCodeVisibility}"
                         Command="{Binding SendVerificationCodeCommand}" Width="200" HorizontalAlignment="Left" CommandParameter="{Binding ElementName=BtnSendVerificationCode}">
-                       
+
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="15" Height="15" Fill="White">
@@ -296,9 +298,8 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>
-                    
-                    <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="{Binding CodeSectionVisibility}">
 
+                    <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="{Binding CodeSectionVisibility}">
                         <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterVerificationCode}"
                               Width="230" Text="{Binding DominatorAccountModel.VarificationCode}"  Name="TxtVarificationCode"
                               FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
@@ -334,7 +335,7 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
-                
+
                 <!--Auto verify Section-->
                 <StackPanel>
                     <StackPanel.Style>
@@ -344,7 +345,7 @@
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                
+
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
@@ -425,9 +426,9 @@
                     <TextBlock Text="{DynamicResource LangLastSynchronizedAt}" Width="130" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding DominatorAccountModel.LastUpdateTime, Converter={StaticResource IntToDateTimeConverter}}" Margin="5" Width="220" />
                 </StackPanel>
-               
+
                 <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" FontWeight="SemiBold"  Name="ChkAdvanceSetting" Margin="5"/>
-                
+
                 <StackPanel  Visibility="{Binding ElementName=ChkAdvanceSetting,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid Margin="0,0,0,10" >
                         <Grid.RowDefinitions>

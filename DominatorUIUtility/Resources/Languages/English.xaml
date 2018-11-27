@@ -3275,4 +3275,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyDownloadPhotoAfterScrap">Download Photo After Scrap</system:String>
     <system:String x:Key="LangKeyLoadingPostPleaseWait">Loading post please wait...</system:String>
     <system:String x:Key="LangKeyCommentPlusoneBetween">Comment's Likes Count Between</system:String>
+    <system:String x:Key="LangKeyTwoFactorLoginAttempt">Two Factor Login Attempt</system:String>
 </ResourceDictionary>

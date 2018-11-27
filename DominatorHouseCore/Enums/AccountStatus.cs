@@ -24,7 +24,9 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyRetypePhoneNumber")]
         ReTypePhoneNumber,
         [Description("LangKeyProfileSuspended")]
-        ProfileSuspended
+        ProfileSuspended,
+        [Description("LangKeyTwoFactorLoginAttempt")]
+        TwoFactorLoginAttempt
 
     }
 }
