@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +10,6 @@ namespace DominatorHouseCore.FileManagers
 
     public interface ICampaignsFileManager : IEnumerable<CampaignDetails>
     {
-        void ApplyAction(Action<CampaignDetails> actionToApply);
-        void ApplyFunc(Func<CampaignDetails, bool> funcToApply);
         void DeleteSelectedAccount(string templateId, string accountName);
         CampaignDetails GetCampaignById(string id);
         void UpdateCampaigns(IList<CampaignDetails> libraryCampaign);
@@ -30,30 +27,10 @@ namespace DominatorHouseCore.FileManagers
         {
             _campaignDetailses = BinFileHelper.GetCampaignDetail();
         }
-        // Updates Campaigns with applying action to it and writes changes back to file
-        public void ApplyAction(Action<CampaignDetails> actionToApply)
-        {
-            foreach (var c in _campaignDetailses)
-                actionToApply(c);
-
-            BinFileHelper.UpdateCampaigns(_campaignDetailses);
-        }
-
-        // Same as above, but Func must return true if file needs to be overwritten        
-        public void ApplyFunc(Func<CampaignDetails, bool> funcToApply)
-        {
-            bool updated = false;
-
-            foreach (var c in _campaignDetailses)
-                updated |= funcToApply(c);
-
-            BinFileHelper.UpdateCampaigns(_campaignDetailses);
-        }
-
 
         public void DeleteSelectedAccount(string templateId, string accountName)
         {
-            ApplyAction(campaign =>
+            this.ForEach(campaign =>
             {
                 if (campaign.TemplateId == templateId)
                     campaign.SelectedAccountList.Remove(accountName);

@@ -901,7 +901,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             // Update Campaign Details
-            campaignFileManager.ApplyAction(campaign =>
+            campaignFileManager.ForEach(campaign =>
             {
 
                 if (campaign.TemplateId == TemplateId)
