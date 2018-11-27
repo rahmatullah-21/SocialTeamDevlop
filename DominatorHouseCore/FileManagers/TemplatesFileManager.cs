@@ -18,6 +18,10 @@ namespace DominatorHouseCore.FileManagers
         void Delete(TemplateModel template);
         void Delete(Func<TemplateModel, bool> match);
         void Edit(TemplateModel template);
+        TemplateModel this[string template]
+        {
+            get;
+        }
     }
 
     public class TemplatesFileManager : ITemplatesFileManager
@@ -121,5 +125,7 @@ namespace DominatorHouseCore.FileManagers
                 Save(templates);
             }
         }
+
+        public TemplateModel this[string template] => _templatesCacheService[template];
     }
 }

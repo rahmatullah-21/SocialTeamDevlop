@@ -1,11 +1,12 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
-using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
@@ -118,7 +119,10 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         private void ChangeActivityStatus(ActivityDetailsModel currentDataContext)
         {
 
-            var currentAccountActivity = AccountsFileManager.GetAccountById(currentDataContext.AccountId).ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == currentDataContext.Title);
+            var account = AccountsFileManager.GetAccountById(currentDataContext.AccountId);
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var currentAccountActivity =
+                jobActivityConfigurationManager[account.AccountId, currentDataContext.Title];
             var campaignStatus = CampaignsFileManager.Get()?.FirstOrDefault(x => x.TemplateId == currentAccountActivity?.TemplateId)?.Status;
             if (campaignStatus == "Paused" && currentDataContext.Status)
             {
@@ -194,13 +198,14 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                 .GetImportantActivityTypes();
                             try
                             {
+                                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                                 foreach (var x in activities)
                                 {
                                     try
                                     {
                                         // get the activity details                    
-                                        var activityData = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(y =>
-                                            y.ActivityType == x);
+                                        var activityData =
+                                            jobActivityConfigurationManager[account.AccountId, x];
 
                                         // if activity present then add to list with status
                                         if (activityData != null)

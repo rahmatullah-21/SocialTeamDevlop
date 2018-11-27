@@ -1111,8 +1111,8 @@ namespace DominatorUIUtility.ViewModel
         private void DeleteAccountFromCampaign(DominatorAccountModel account)
         {
             account = AccountsFileManager.GetAccount(account.UserName, account.AccountBaseModel.AccountNetwork);
-            var moduleConfigurations = account.ActivityManager.LstModuleConfiguration;
-            foreach (var moduleConfiguration in moduleConfigurations)
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
             {
                 DominatorScheduler.StopActivity(account, moduleConfiguration.ActivityType.ToString(), moduleConfiguration.TemplateId, false);
                 if (moduleConfiguration.IsTemplateMadeByCampaignMode)
@@ -1533,14 +1533,13 @@ namespace DominatorUIUtility.ViewModel
             {
                 selectedAccounts.ForEach(account =>
                 {
-                    var accountToUpdate = AccountsFileManager.GetAccountById(account.AccountId);
-                    accountToUpdate.ActivityManager.LstModuleConfiguration.ForEach(x =>
+                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                    jobActivityConfigurationManager[account.AccountId].ForEach(x =>
                     {
                         x.IsEnabled = false;
                         DominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
                     });
-                    account.ActivityManager.LstModuleConfiguration =
-                        accountToUpdate.ActivityManager.LstModuleConfiguration;
+
                     account?.NotifyCancelled();
                     GlobusLogHelper.log.Info(Log.StopAllActivitiesOfAccount,
                          account.AccountBaseModel.AccountNetwork,

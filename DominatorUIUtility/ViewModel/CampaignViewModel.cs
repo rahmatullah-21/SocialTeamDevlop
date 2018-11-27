@@ -342,7 +342,7 @@ namespace DominatorUIUtility.ViewModel
                         return;
                     GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
                     selectedCampaign.Status = "Paused";
-                     return;
+                    return;
                 }
 
                 var isChecked = ((ToggleSwitch)sender).IsChecked;
@@ -535,7 +535,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                
+
                 if (CampaignModel.SelectedActivity == "All" || string.IsNullOrEmpty(CampaignModel.SelectedActivity))
                     CampaignCollection.Filter = (x) =>
                         ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
@@ -637,8 +637,8 @@ namespace DominatorUIUtility.ViewModel
 
             try
             {
-                var moduleConfiguration = account.ActivityManager.LstModuleConfiguration
-                       .FirstOrDefault(y => y.ActivityType == module);
+                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var moduleConfiguration = jobActivityConfigurationManager[account.AccountId, module];
 
                 if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
                     moduleConfiguration.IsEnabled = isToggleSwitchSelected;
@@ -666,19 +666,22 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), camp.SubModule);
+                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 // remove template from each account
                 allAccounts.ForEach(x =>
                 {
-                    var moduleConfig =
-                        x.ActivityManager.LstModuleConfiguration.FirstOrDefault(mc => mc.TemplateId == camp.TemplateId);
-
+                    var moduleConfig = jobActivityConfigurationManager[x.AccountId].FirstOrDefault(mc => mc.TemplateId == camp.TemplateId);
                     if (moduleConfig != null)
                     {
                         // Stop active task related to campaign
                         JobProcess.Stop(x.AccountId, camp.TemplateId);
 
                         // Remove task from list
-                        x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == camp.TemplateId);
+                        foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId))
+                        {
+                            jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
+                        }
+
                         var socinatorAccountBuilder = new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
                             .RemoveModuleSettings(module)
                             .SaveToBinFile();

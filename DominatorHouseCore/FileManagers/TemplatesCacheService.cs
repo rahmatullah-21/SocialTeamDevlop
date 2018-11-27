@@ -1,10 +1,7 @@
-﻿using System;
+﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -13,6 +10,10 @@ namespace DominatorHouseCore.FileManagers
         IReadOnlyCollection<TemplateModel> GetTemplateModels();
         bool UpsertTemplates(params TemplateModel[] accounts);
         bool Delete(params TemplateModel[] accounts);
+        TemplateModel this[string template]
+        {
+            get;
+        }
     }
     public class TemplatesCacheService : ITemplatesCacheService
     {
@@ -28,7 +29,7 @@ namespace DominatorHouseCore.FileManagers
 
         public static TemplatesCacheService GetTemplatesCacheService()
         {
-            return _templatesCacheService??(_templatesCacheService = new TemplatesCacheService());
+            return _templatesCacheService ?? (_templatesCacheService = new TemplatesCacheService());
         }
         public IReadOnlyCollection<TemplateModel> GetTemplateModels()
         {
@@ -93,6 +94,19 @@ namespace DominatorHouseCore.FileManagers
                 return result;
             }
         }
+
+        public TemplateModel this[string template]
+        {
+            get
+            {
+                lock (_syncContext)
+                    if (_cache.ContainsKey(template))
+                        return _cache[template];
+                    else
+                        return null;
+            }
+        }
+
         private void UpsertData(IDictionary<string, TemplateModel> target, params TemplateModel[] source)
         {
             lock (_syncContext)
