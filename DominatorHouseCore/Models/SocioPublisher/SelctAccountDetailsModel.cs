@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -18,11 +19,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
     [ProtoContract]
     public class SelectAccountDetailsModel : INotifyPropertyChanged
     {
+        private readonly IBinFileHelper _binFileHelper;
+
+
         public SelectAccountDetailsModel()
         {
-
+            _binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
         }
-        public SelectAccountDetailsModel(bool isDisplaySingleAccount)
+
+        public SelectAccountDetailsModel(bool isDisplaySingleAccount) : this()
         {
             this.IsDisplaySingleAccount = isDisplaySingleAccount;
         }
@@ -307,7 +312,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <param name="publisherCreateDestinationModel">pass parameter as filled default value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></param>
         /// <returns></returns>
         public bool AddDestination(PublisherCreateDestinationModel publisherCreateDestinationModel)
-            => BinFileHelper.AddDestination(publisherCreateDestinationModel);
+            => _binFileHelper.AddDestination(publisherCreateDestinationModel);
 
         /// <summary>
         /// To update the given destination to list
@@ -315,7 +320,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <param name="publisherCreateDestinationModel">pass parameter as update value of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></param>
         /// <returns></returns>
         public bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestinationModel)
-            => BinFileHelper.UpdateDestination(publisherCreateDestinationModel);
+            => _binFileHelper.UpdateDestination(publisherCreateDestinationModel);
 
         /// <summary>
         /// To get the destination details
@@ -324,7 +329,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <returns>returns as matched condition of  <see cref="DominatorHouseCore.Models.SocioPublisher.PublisherCreateDestinationModel"/></returns>
         public PublisherCreateDestinationModel GetDestination(string destinationId)
         {
-            var publisherCreateDestinationModel = BinFileHelper.GetDestination(destinationId);
+            var publisherCreateDestinationModel = _binFileHelper.GetDestination(destinationId);
 
             if (publisherCreateDestinationModel == null || publisherCreateDestinationModel.Count == 0)
                 return new PublisherCreateDestinationModel();

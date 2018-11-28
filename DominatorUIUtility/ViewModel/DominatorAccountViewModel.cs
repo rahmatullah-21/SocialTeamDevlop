@@ -1547,6 +1547,7 @@ namespace DominatorUIUtility.ViewModel
                          account.AccountBaseModel.UserName);
                 });
 
+                var BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
                 BinFileHelper.UpdateAllAccounts(LstDominatorAccountModel.ToList());
 
             });

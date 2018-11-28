@@ -1,20 +1,20 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using FluentScheduler;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Enums.SocioPublisher;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
-using FluentScheduler;
-using Newtonsoft.Json;
 
 namespace DominatorHouseCore.Process
 {
@@ -317,7 +317,8 @@ namespace DominatorHouseCore.Process
                         publisherPostFetchModel.SelectedDestinations.ToList().ForEach(destinationId =>
                         {
                             // Get the details of Destination Id
-                            var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+                            var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                            var destinationDetails = binFileHelper.GetSingleDestination(destinationId);
 
                             // Itereate the destination
                             destinationDetails.AccountsWithNetwork.ForEach(networkWithAccount =>

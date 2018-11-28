@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.LogHelper;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System;
@@ -8,6 +9,12 @@ namespace DominatorHouseCore.FileManagers
 {
     public static class PostFileManager
     {
+        private static readonly IBinFileHelper BinFileHelper;
+
+        static PostFileManager()
+        {
+            BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+        }
         public static bool SavePost<T>(T post) where T : class
         {
             try
@@ -27,7 +34,10 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
-        public static void EditPost(AddPostModel post) => BinFileHelper.UpdatePost(post);
+        public static void EditPost(AddPostModel post)
+        {
+            BinFileHelper.UpdatePost(post);
+        }
 
         public static void Delete(Predicate<AddPostModel> match)
         {

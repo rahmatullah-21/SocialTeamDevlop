@@ -12,7 +12,46 @@ using System.Linq;
 
 namespace DominatorHouseCore.Utility
 {
-    public class BinFileHelper
+    public interface IBinFileHelper
+    {
+        List<CampaignDetails> GetCampaignDetail();
+        void UpdateCampaigns(List<CampaignDetails> campaignList);
+        bool Append<T>(T obj);
+        bool AddDestination(PublisherCreateDestinationModel publisherCreateDestination);
+        bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestination);
+        List<PublisherCreateDestinationModel> GetDestination(string destinationId);
+        List<DominatorAccountModel> GetAccountDetails();
+        bool UpdateAllAccounts<T>(List<T> accountDetailsList) where T : class;
+        void SaveConfig(Configuration config);
+        List<Configuration> GetConfigDetails<T>();
+        void SavePosts<T>(T PostModel) where T : class;
+        List<AddPostModel> GetPostDetails();
+        bool UpdatePost(AddPostModel post);
+        bool UpdateAllPosts(List<AddPostModel> postDetailsList);
+        void SaveProxy(ProxyManagerModel model);
+        List<ProxyManagerModel> GetProxyDetails();
+        bool UpdateProxy(ProxyManagerModel proxy);
+        bool UpdateAllProxy(List<ProxyManagerModel> proxyDetailsList);
+        List<PublisherManageDestinationModel> GetPublisherManageDestinationModels();
+        bool UpdateAllManageDestination(List<PublisherManageDestinationModel> publisherDestinationList);
+        bool UpdateAllPostlists(string campaignId, List<PublisherPostlistModel> publisherPostlist);
+        List<PublisherPostlistModel> GetPublisherPostListModels(string campaignId);
+        bool UpdateAllPostListSettings(List<PublisherPostlistSettingsModel> publisherDestinationList);
+        List<PublisherPostlistSettingsModel> GetPublisherPostListSettingsModels();
+        PublisherCreateDestinationModel GetSingleDestination(string destinationId);
+        List<TemplateModel> GetTemplateDetails();
+        List<CampaignInteractionViewModel> GetCampaignInteractedDetails(SocialNetworks network);
+
+        void UpdateCampaignInteractedDetails(List<CampaignInteractionViewModel> campaignInteractedDatas,
+            SocialNetworks network);
+
+        void UpdateGlobalInteractedDetails(List<GlobalInteractionViewModel> globalInteractedDatas,
+            SocialNetworks network);
+
+        List<GlobalInteractionViewModel> GetGlobalInteractedDetails(SocialNetworks network);
+    }
+
+    public class BinFileHelper : IBinFileHelper
     {
         //private static readonly object _accountDetailsFileLocker = new object();
         //private static readonly object _campaignsFileLocker = new object();
@@ -21,11 +60,11 @@ namespace DominatorHouseCore.Utility
         //private static readonly object _postFileLocker = new object();
         //private static readonly object _configFileLocker = new object();
 
-        public static ObservableCollection<string> GetUsers<T>() where T : class
+        public ObservableCollection<string> GetUsers<T>() where T : class
             => new ObservableCollection<string>(GetAccountDetailsFor<T>().Select(x => (x as dynamic).UserName as string)
                 .ToList());
 
-        private static Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType =
+        private Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType =
             new Dictionary<Type, Tuple<object, Func<string>>>
             {
                 {
@@ -50,7 +89,7 @@ namespace DominatorHouseCore.Utility
                     typeof(PublisherPostlistModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherCreatePostlistFolder)
                 },
-                
+
                 {
                     typeof(PublisherManageDestinationModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherDestinationsFile)
@@ -81,14 +120,14 @@ namespace DominatorHouseCore.Utility
         /// <typeparam name="R">return type</typeparam>
         /// <param name="act">action to perform</param>
         /// <returns>repeats the action returned value</returns>
-        static R WithFile<T, R>(Func<string, R> act)
+        private R WithFile<T, R>(Func<string, R> act)
         {
             Tuple<object, Func<string>> typeConfig;
             // first, try the actual type
             if (!__lockAndFileByType.TryGetValue(typeof(T), out typeConfig))
             {
                 // second, try to see if it's an assignable type
-                var presentBaseClass = __lockAndFileByType.Keys.Except(new Type[] {typeof(object)}).FirstOrDefault(
+                var presentBaseClass = __lockAndFileByType.Keys.Except(new Type[] { typeof(object) }).FirstOrDefault(
                     candidateBase => candidateBase.IsAssignableFrom(typeof(T)));
                 if (presentBaseClass == default(Type))
                 {
@@ -102,7 +141,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static bool Append<T>(T obj)
+        public bool Append<T>(T obj)
         {
             try
             {
@@ -120,7 +159,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static List<DominatorAccountModel> GetAccountDetails()
+        public List<DominatorAccountModel> GetAccountDetails()
         {
             return WithFile<DominatorAccountModel, List<DominatorAccountModel>>(indexAccountPath =>
                 File.Exists(indexAccountPath)
@@ -133,14 +172,14 @@ namespace DominatorHouseCore.Utility
 
         // TODO: back compatibility for account models of PD, TWD etc.
         // Modify index account path. Uses only for testing purposes of PD, TWD and others.
-        public static List<T> GetAccountDetailsFor<T>() where T : class
+        public List<T> GetAccountDetailsFor<T>() where T : class
         {
             return WithFile<T, List<T>>(file => ProtoBuffBase.DeserializeList<T>(file));
         }
 
 
         // Get all campigns 
-        public static List<CampaignDetails> GetCampaignDetail()
+        public List<CampaignDetails> GetCampaignDetail()
         {
             return WithFile<CampaignDetails, List<CampaignDetails>>(file =>
                 ProtoBuffBase.DeserializeList<CampaignDetails>(file));
@@ -148,19 +187,19 @@ namespace DominatorHouseCore.Utility
 
 
         // Get all templates 
-        public static List<TemplateModel> GetTemplateDetails()
+        public List<TemplateModel> GetTemplateDetails()
         {
             return WithFile<TemplateModel, List<TemplateModel>>(file =>
                 ProtoBuffBase.DeserializeList<TemplateModel>(file));
         }
 
-        public static int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
+        public int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
         {
             return accounts.FindIndex(candidate => candidate.AccountId == id);
         }
 
         [Obsolete("This method is not safe")]
-        public static int FindAccountIndex<T>(List<T> accounts, string id)
+        public int FindAccountIndex<T>(List<T> accounts, string id)
         {
             return typeof(T) == typeof(DominatorAccountModel)
                 ? accounts.FindIndex(a => (a as DominatorAccountModel).AccountBaseModel.AccountId == id)
@@ -172,7 +211,7 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         /// <param name="accountModel"></param>
         /// <returns></returns>
-        public static bool UpdateAccount(DominatorAccountModel accountModel)
+        public bool UpdateAccount(DominatorAccountModel accountModel)
         {
             try
             {
@@ -207,7 +246,7 @@ namespace DominatorHouseCore.Utility
 
         // TODO: backward compatibility
         [Obsolete("This code is unsafe")]
-        internal static bool UpdateAccount<T>(T accountModel) where T : class
+        internal bool UpdateAccount<T>(T accountModel) where T : class
         {
             try
             {
@@ -236,14 +275,8 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static bool UpdateAllAccounts(List<DominatorAccountModel> accountDetailsList)
-        {
-            return UpdateAllAccounts<DominatorAccountModel>(accountDetailsList);
-        }
-
-
         // TODO: back compatibility to save old AccountModel. Have to be replaced with IList<DominatorAccountModel>
-        public static bool UpdateAllAccounts<T>(List<T> accountDetailsList) where T : class
+        public bool UpdateAllAccounts<T>(List<T> accountDetailsList) where T : class
         {
             try
             {
@@ -256,14 +289,14 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                
+
                 ex.DebugLog();
                 return false;
             }
         }
 
 
-        public static void UpdateCampaigns(List<CampaignDetails> campaignList)
+        public void UpdateCampaigns(List<CampaignDetails> campaignList)
         {
             try
             {
@@ -277,7 +310,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static void UpdateTemplates(List<TemplateModel> templatesList)
+        public void UpdateTemplates(List<TemplateModel> templatesList)
         {
             try
             {
@@ -290,7 +323,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static void SaveProxy(ProxyManagerModel model)
+        public void SaveProxy(ProxyManagerModel model)
         {
             WithFile<ProxyManagerModel, bool>(file =>
             {
@@ -299,20 +332,20 @@ namespace DominatorHouseCore.Utility
             });
         }
 
-        public static List<ProxyManagerModel> GetProxyDetails()
+        public List<ProxyManagerModel> GetProxyDetails()
         {
             return WithFile<ProxyManagerModel, List<ProxyManagerModel>>(file =>
                 ProtoBuffBase.DeserializeList<ProxyManagerModel>(file));
         }
 
-        public static int FindProxyIndex<T>(List<T> proxy, string ProxyId)
+        public int FindProxyIndex<T>(List<T> proxy, string ProxyId)
         {
             return typeof(T) == typeof(ProxyManagerModel)
                 ? proxy.FindIndex(a => (a as ProxyManagerModel).AccountProxy.ProxyId == ProxyId)
                 : proxy.FindIndex(a => (a as dynamic).AccountProxy.ProxyId == ProxyId);
         }
 
-        internal static bool UpdateProxy(ProxyManagerModel proxy)
+        public bool UpdateProxy(ProxyManagerModel proxy)
         {
             try
             {
@@ -334,13 +367,13 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-               
+
                 ex.DebugLog();
                 return false;
             }
         }
 
-        public static bool UpdateAllProxy(List<ProxyManagerModel> proxyDetailsList)
+        public bool UpdateAllProxy(List<ProxyManagerModel> proxyDetailsList)
         {
             try
             {
@@ -353,24 +386,24 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-              
+
                 ex.DebugLog();
                 return false;
             }
         }
 
-        public static void SavePosts<T>(T PostModel) where T : class
+        public void SavePosts<T>(T PostModel) where T : class
         {
             ProtoBuffBase.AppendObject(PostModel, ConstantVariable.GetOtherPostsFile());
         }
 
-        public static List<AddPostModel> GetPostDetails()
+        public List<AddPostModel> GetPostDetails()
         {
             return WithFile<AddPostModel, List<AddPostModel>>(file =>
                 ProtoBuffBase.DeserializeList<AddPostModel>(file));
         }
 
-        internal static bool UpdatePost(AddPostModel post)
+        public bool UpdatePost(AddPostModel post)
         {
             try
             {
@@ -392,13 +425,13 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-               
+
                 ex.DebugLog();
                 return false;
             }
         }
 
-        public static bool UpdateAllPosts(List<AddPostModel> postDetailsList)
+        public bool UpdateAllPosts(List<AddPostModel> postDetailsList)
         {
             try
             {
@@ -411,20 +444,20 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                
+
                 ex.DebugLog();
                 return false;
             }
         }
 
-        public static int FindPostIndex<T>(List<T> posts, string CampaignName)
+        public int FindPostIndex<T>(List<T> posts, string CampaignName)
         {
             return typeof(T) == typeof(AddPostModel)
                 ? posts.FindIndex(a => (a as AddPostModel).CampaignDetails.CampaignName == CampaignName)
                 : posts.FindIndex(a => (a as dynamic).AccountProxy.ProxyName == CampaignName);
         }
 
-        public static void SaveConfig(Configuration config)
+        public void SaveConfig(Configuration config)
         {
             WithFile<Configuration, bool>(file =>
             {
@@ -433,7 +466,7 @@ namespace DominatorHouseCore.Utility
             });
         }
 
-        public static List<Configuration> GetConfigDetails<T>()
+        public List<Configuration> GetConfigDetails<T>()
         {
             try
             {
@@ -457,7 +490,7 @@ namespace DominatorHouseCore.Utility
         #region Publisher
 
 
-        public static bool AddDestination(PublisherCreateDestinationModel publisherCreateDestination)
+        public bool AddDestination(PublisherCreateDestinationModel publisherCreateDestination)
         {
             try
             {
@@ -477,7 +510,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestination)
+        public bool UpdateDestination(PublisherCreateDestinationModel publisherCreateDestination)
         {
             try
             {
@@ -498,7 +531,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-               
+
                 ex.DebugLog();
                 return false;
             }
@@ -506,14 +539,14 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static List<PublisherCreateDestinationModel> GetDestination(string destinationId)
+        public List<PublisherCreateDestinationModel> GetDestination(string destinationId)
             => ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
                 $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
 
 
-        public static PublisherCreateDestinationModel GetSingleDestination(string destinationId)
+        public PublisherCreateDestinationModel GetSingleDestination(string destinationId)
         {
-            var lists= ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
+            var lists = ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
                 $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
 
             if (lists.Count > 0)
@@ -522,13 +555,13 @@ namespace DominatorHouseCore.Utility
             return null;
         }
 
-        public static void DeleteDestinationFile(string destinationId)
+        public void DeleteDestinationFile(string destinationId)
         {
-            
+
         }
 
 
-        public static List<PublisherManageDestinationModel> GetPublisherManageDestinationModels()
+        public List<PublisherManageDestinationModel> GetPublisherManageDestinationModels()
         {
             return WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(
                 publisherDestinationPath => File.Exists(publisherDestinationPath)
@@ -536,7 +569,7 @@ namespace DominatorHouseCore.Utility
                     : new List<PublisherManageDestinationModel>());
         }
 
-        public static List<PublisherPostlistSettingsModel> GetPublisherPostListSettingsModels()
+        public List<PublisherPostlistSettingsModel> GetPublisherPostListSettingsModels()
         {
             return WithFile<PublisherPostlistSettingsModel, List<PublisherPostlistSettingsModel>>(
                 publisherPostListPath => File.Exists(publisherPostListPath)
@@ -545,7 +578,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static List<PublisherPostlistModel> GetPublisherPostListModels(string campaignId)
+        public List<PublisherPostlistModel> GetPublisherPostListModels(string campaignId)
         {
             return WithFile<PublisherPostlistModel, List<PublisherPostlistModel>>(
                 publisherPostListPath => File.Exists($"{publisherPostListPath}\\{campaignId}.bin")
@@ -553,7 +586,7 @@ namespace DominatorHouseCore.Utility
                     : new List<PublisherPostlistModel>());
         }
 
-        public static bool UpdateAllPostlists(string campaignId ,List<PublisherPostlistModel> publisherPostlist)
+        public bool UpdateAllPostlists(string campaignId, List<PublisherPostlistModel> publisherPostlist)
         {
             try
             {
@@ -566,18 +599,18 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                
+
                 ex.DebugLog();
                 return false;
             }
         }
 
-        public static bool UpdateAllManageDestination(List<PublisherManageDestinationModel> publisherDestinationList)
+        public bool UpdateAllManageDestination(List<PublisherManageDestinationModel> publisherDestinationList)
         {
             return UpdateAllPublisherDestination(publisherDestinationList);
         }
 
-        public static bool UpdateAllPublisherDestination<T>(List<T> publishDestinations) where T : class
+        public bool UpdateAllPublisherDestination<T>(List<T> publishDestinations) where T : class
         {
             try
             {
@@ -590,18 +623,18 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-             
+
                 ex.DebugLog();
                 return false;
             }
         }
 
-        public static bool UpdateAllPostListSettings(List<PublisherPostlistSettingsModel> publisherDestinationList)
+        public bool UpdateAllPostListSettings(List<PublisherPostlistSettingsModel> publisherDestinationList)
         {
             return Updates(publisherDestinationList);
         }
 
-        public static bool Updates<T>(List<T> itemColletion) where T : class
+        public bool Updates<T>(List<T> itemColletion) where T : class
         {
             try
             {
@@ -623,14 +656,14 @@ namespace DominatorHouseCore.Utility
 
         #region CampaignInteractedData
 
-        public static List<CampaignInteractionViewModel> GetCampaignInteractedDetails(SocialNetworks network)
+        public List<CampaignInteractionViewModel> GetCampaignInteractedDetails(SocialNetworks network)
         {
             return WithFile<CampaignInteractionViewModel, List<CampaignInteractionViewModel>>(file =>
                 ProtoBuffBase.DeserializeList<CampaignInteractionViewModel>(file + $"\\{network}CampaignInteractedData.bin"));
         }
 
 
-        public static void UpdateCampaignInteractedDetails(List<CampaignInteractionViewModel> campaignInteractedDatas,
+        public void UpdateCampaignInteractedDetails(List<CampaignInteractionViewModel> campaignInteractedDatas,
             SocialNetworks network)
         {
             try
@@ -649,13 +682,13 @@ namespace DominatorHouseCore.Utility
 
         #region GlobalInteractedData
 
-        public static List<GlobalInteractionViewModel> GetGlobalInteractedDetails(SocialNetworks network)
+        public List<GlobalInteractionViewModel> GetGlobalInteractedDetails(SocialNetworks network)
         {
             return WithFile<GlobalInteractionViewModel, List<GlobalInteractionViewModel>>(file =>
                 ProtoBuffBase.DeserializeList<GlobalInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
         }
 
-        public static void UpdateGlobalInteractedDetails(List<GlobalInteractionViewModel> globalInteractedDatas,
+        public void UpdateGlobalInteractedDetails(List<GlobalInteractionViewModel> globalInteractedDatas,
             SocialNetworks network)
         {
             try
@@ -672,12 +705,12 @@ namespace DominatorHouseCore.Utility
 
         #endregion
 
-        public static void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class
+        public void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class
         {
             ProtoBuffBase.SerializeList(friendsModelList, filePath);
         }
 
-        public static List<T> GetFacebookEntity<T>() where T : class
+        public List<T> GetFacebookEntity<T>() where T : class
         {
             return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetFacebookDetailsConfigFile());
         }

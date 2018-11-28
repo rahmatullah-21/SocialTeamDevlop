@@ -265,7 +265,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var moduleConfiguration = jobActivityConfigurationManager[item.AccountId, moduleType];
                 if (moduleConfiguration != null)
                 {
-                    var activitySetting = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels()
+                    var activitySetting = ServiceLocator.Current.GetInstance<ITemplatesCacheService>().GetTemplateModels()
                         .FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
 
                     dynamic obj = JsonConvert.DeserializeObject(activitySetting);

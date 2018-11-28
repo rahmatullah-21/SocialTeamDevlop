@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -13,6 +14,13 @@ namespace DominatorHouseCore.FileManagers
 {
     public static class ProxyFileManager
     {
+        private static readonly IBinFileHelper BinFileHelper;
+
+        static ProxyFileManager()
+        {
+            BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+        }
+
         public static bool SaveProxy(ProxyManagerModel proxy)
         {
             try

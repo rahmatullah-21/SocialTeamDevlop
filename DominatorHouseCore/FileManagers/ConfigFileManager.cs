@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.LogHelper;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using MahApps.Metro;
@@ -15,18 +16,20 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                BinFileHelper.SaveConfig(config);
+                var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                binFileHelper.SaveConfig(config);
                 GlobusLogHelper.log.Debug($"Configuration successfully saved");
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
-            }         
+            }
         }
         public static IEnumerable<Configuration> GetAllConfig()
         {
-            return BinFileHelper.GetConfigDetails<Configuration>();
+            var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+            return binFileHelper.GetConfigDetails<Configuration>();
         }
         public static Configuration GetConfigWithType(string ConfigType)
         {

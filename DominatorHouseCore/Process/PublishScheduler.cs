@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -14,6 +9,12 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Process
 {
@@ -313,7 +314,8 @@ namespace DominatorHouseCore.Process
                 publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                 {
                     // Get destination details
-                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+                    var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                    var destinationDetails = binFileHelper.GetSingleDestination(destinationId);
 
                     // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
                     if (destinationDetails == null)
@@ -362,7 +364,7 @@ namespace DominatorHouseCore.Process
 
                 #region Random Destinations
 
-                if (!advancedSettings.IsWhenPublishingSendOnePostChecked  && campaignStatusModel.IsTakeRandomDestination)
+                if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination)
                 {
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)
@@ -540,7 +542,8 @@ namespace DominatorHouseCore.Process
                 publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                 {
                     // Get destination details
-                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+                    var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                    var destinationDetails = binFileHelper.GetSingleDestination(destinationId);
 
                     // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
                     if (destinationDetails == null)
@@ -571,7 +574,7 @@ namespace DominatorHouseCore.Process
 
                 // Check any destinations has been deleted
                 if (deletedDestinationCount > 0)
-                    GlobusLogHelper.log.Info(Log.CustomMessage,SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                         $"{deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} Destination has been deleted from {campaignStatusModel.CampaignName}");
 
                 var destinations = UpdatePostDetails(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, allDestination, post, allDestinaionGuid);

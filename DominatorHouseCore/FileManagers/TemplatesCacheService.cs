@@ -19,25 +19,21 @@ namespace DominatorHouseCore.FileManagers
     {
         private readonly object _syncContext = new object();
         private readonly Dictionary<string, TemplateModel> _cache;
+        private readonly IBinFileHelper _binFileHelper;
 
-        public TemplatesCacheService()
+        public TemplatesCacheService(IBinFileHelper binFileHelper)
         {
+            _binFileHelper = binFileHelper;
             _cache = new Dictionary<string, TemplateModel>();
         }
 
-        private static TemplatesCacheService _templatesCacheService;
-
-        public static TemplatesCacheService GetTemplatesCacheService()
-        {
-            return _templatesCacheService ?? (_templatesCacheService = new TemplatesCacheService());
-        }
         public IReadOnlyCollection<TemplateModel> GetTemplateModels()
         {
             lock (_syncContext)
             {
                 if (_cache.Count == 0)
                 {
-                    foreach (var template in BinFileHelper.GetTemplateDetails())
+                    foreach (var template in _binFileHelper.GetTemplateDetails())
                     {
                         _cache.Add(template.Id, template);
                     }
@@ -53,7 +49,7 @@ namespace DominatorHouseCore.FileManagers
             {
                 var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
                 UpsertData(cacheCopy, accounts);
-                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                var result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
                     _cache.Clear();
@@ -82,7 +78,7 @@ namespace DominatorHouseCore.FileManagers
                     }
                 }
 
-                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                var result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
                     _cache.Clear();

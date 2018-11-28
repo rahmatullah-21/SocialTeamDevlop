@@ -172,7 +172,7 @@ namespace DominatorHouseCore.Process
         {
             Stop();
 
-            var lstTemplateModel = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().ToList();
+            var lstTemplateModel = ServiceLocator.Current.GetInstance<ITemplatesCacheService>().GetTemplateModels().ToList();
             foreach (var template in lstTemplateModel)
                 if (template.Id == TemplateId)
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();

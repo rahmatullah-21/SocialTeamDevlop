@@ -22,10 +22,12 @@ namespace DominatorHouseCore.FileManagers
     public class CampaignsFileManager : ICampaignsFileManager
     {
         private readonly List<CampaignDetails> _campaignDetailses;
+        private readonly IBinFileHelper _binFileHelper;
 
-        public CampaignsFileManager()
+        public CampaignsFileManager(IBinFileHelper binFileHelper)
         {
-            _campaignDetailses = BinFileHelper.GetCampaignDetail();
+            _binFileHelper = binFileHelper;
+            _campaignDetailses = _binFileHelper.GetCampaignDetail();
         }
 
         public void DeleteSelectedAccount(string templateId, string accountName)
@@ -47,9 +49,8 @@ namespace DominatorHouseCore.FileManagers
             var all = _campaignDetailses;
 
             // Update all entries that exists in libraryAccount, and add that does not exists
-            for (int i = 0; i < libraryCampaign.Count; i++)
+            foreach (var campaign in libraryCampaign)
             {
-                var campaign = libraryCampaign[i];
                 var ix = all.FindIndex(a => campaign.CampaignId == a.CampaignId);
                 if (ix == -1)
                     all.Add(campaign);
@@ -57,13 +58,13 @@ namespace DominatorHouseCore.FileManagers
                     all[ix] = campaign;
             }
 
-            BinFileHelper.UpdateCampaigns(all);
+            _binFileHelper.UpdateCampaigns(all);
         }
 
         public void Add(CampaignDetails campaign)
         {
             _campaignDetailses.Add(campaign);
-            BinFileHelper.Append(campaign);
+            _binFileHelper.Append(campaign);
         }
 
         // finds by id and delete
@@ -104,7 +105,7 @@ namespace DominatorHouseCore.FileManagers
 
         private void Save(List<CampaignDetails> campaigns)
         {
-            BinFileHelper.UpdateCampaigns(campaigns);
+            _binFileHelper.UpdateCampaigns(campaigns);
         }
     }
 }

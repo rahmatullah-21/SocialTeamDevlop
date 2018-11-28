@@ -1,21 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DominatorHouseCore.FileManagers
 {
     public static class PostlistFileManager
     {
+        private static readonly IBinFileHelper BinFileHelper;
+
+        static PostlistFileManager()
+        {
+            BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+        }
+
         // Saves all destinations. Have to work Only in Social library. Otherwise use UpdateDestinations() method to update PublisherDestinations.bin
         // NOTE: make sure lstPublisherDetails contains all destinations
         internal static void SaveAll(string campaignId, List<PublisherPostlistModel> lstPublisherDetails)
         {
             // Warning: make sure lstPublisherDetails contains all publisher            
-            BinFileHelper.UpdateAllPostlists(campaignId,lstPublisherDetails);
+            BinFileHelper.UpdateAllPostlists(campaignId, lstPublisherDetails);
             GlobusLogHelper.log.Debug($"{lstPublisherDetails.Count} Destination successfully saved");
         }
 

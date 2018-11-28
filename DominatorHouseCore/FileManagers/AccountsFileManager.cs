@@ -1,11 +1,10 @@
-﻿using DominatorHouseCore.Enums;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -79,7 +78,7 @@ namespace DominatorHouseCore.FileManagers
         public static bool Add<AModel>(AModel account) where AModel : class
         {
             throw new Exception("this method should be deleted");
-            return BinFileHelper.Append(account);
+            //return BinFileHelper.Append(account);
         }
 
         public static void DeleteSelected(List<DominatorAccountModel> accs)

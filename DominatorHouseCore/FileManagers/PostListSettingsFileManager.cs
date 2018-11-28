@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DominatorHouseCore.FileManagers
 {
     public static class PostListSettingsFileManager
     {
+        private static readonly IBinFileHelper BinFileHelper;
+
+        static PostListSettingsFileManager()
+        {
+            BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+        }
+
         internal static void SaveAll(List<PublisherPostlistSettingsModel> lstPublisherSettings)
         {
             // Warning: make sure lstPublisherSettings contains all settings            
