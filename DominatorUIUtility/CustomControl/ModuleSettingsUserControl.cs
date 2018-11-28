@@ -615,7 +615,7 @@ namespace DominatorUIUtility.CustomControl
 
                 if (moduleSettings != null)
                 {
-                    objErrorModelControl.Accounts.Add(new ErrorModelControl { UserName = account.AccountBaseModel.UserName });
+                    objErrorModelControl.Accounts.Add(new AccountDetails { UserName = account.AccountBaseModel.UserName });
                 }
             });
 
@@ -1021,7 +1021,7 @@ namespace DominatorUIUtility.CustomControl
 
                     if (moduleSettings != null)
                     {
-                        objErrorModelControl.Accounts.Add(new ErrorModelControl
+                        objErrorModelControl.Accounts.Add(new AccountDetails
                         {
                             UserName = account.AccountBaseModel.UserName
                         });

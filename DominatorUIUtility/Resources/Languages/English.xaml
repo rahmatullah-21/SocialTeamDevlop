@@ -3276,4 +3276,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLoadingPostPleaseWait">Loading post please wait...</system:String>
     <system:String x:Key="LangKeyCommentPlusoneBetween">Comment's Likes Count Between</system:String>
     <system:String x:Key="LangKeyTwoFactorLoginAttempt">Two Factor Login Attempt</system:String>
+    <system:String x:Key="LangKeyWouldYouStillLikeToProceed">Would you still like to proceed ?</system:String>
 </ResourceDictionary>

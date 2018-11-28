@@ -22,6 +22,7 @@ namespace DominatorUIUtility.ViewModel
 {
     public class AccountDetailsViewModel : BindableBase
     {
+        #region Properties
         public DominatorAccountModel DominatorAccountModel { get; set; }
         public DominatorAccountModel OldDominatorAccountModel { get; set; }
         private AccessorStrategies strategy;
@@ -36,9 +37,24 @@ namespace DominatorUIUtility.ViewModel
                     return;
                 if (SetProperty(ref _isEmailVerification, value))
                     if (!IsEmailVerificationCodeSent)
-                        SetVerificationCodeVisibility(IsEmailVerification);
+                        SetVerificationCodeVisibility(true);
                     else if (IsEmailVerificationCodeSent && IsEmailVerification)
                         SetVerificationCodeVisibility(false);
+            }
+        }
+        private bool _isPhoneVerification;
+
+        public bool IsPhoneVerification
+        {
+            get { return _isPhoneVerification; }
+            set
+            {
+                if (SetProperty(ref _isPhoneVerification, value))
+                    if (!IsPhoneVerificationCodeSent)
+                        SetVerificationCodeVisibility(true);
+                    else if (IsPhoneVerificationCodeSent && IsPhoneVerification)
+                        SetVerificationCodeVisibility(false);
+
             }
         }
         private Visibility _verificationSectionVisibility;
@@ -66,21 +82,7 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _codeSectionVisibility, value);
             }
         }
-        private bool _isPhoneVerification;
-
-        public bool IsPhoneVerification
-        {
-            get { return _isPhoneVerification; }
-            set
-            {
-                if (SetProperty(ref _isPhoneVerification, value))
-                    if (!IsPhoneVerificationCodeSent)
-                        SetVerificationCodeVisibility(IsPhoneVerification);
-                    else if (IsPhoneVerificationCodeSent && IsPhoneVerification)
-                     SetVerificationCodeVisibility(false);
-                  
-            }
-        }
+     
         private Visibility _btnSendVerificationCodeVisibility = Visibility.Collapsed;
 
 
@@ -120,6 +122,9 @@ namespace DominatorUIUtility.ViewModel
             set { SetProperty(ref _isPhoneVerificationCodeSent, value); }
         }
 
+        #endregion
+
+        #region Constructors
         public AccountDetailsViewModel()
         {
 
@@ -139,7 +144,8 @@ namespace DominatorUIUtility.ViewModel
             VerifyAccountCommand = new BaseCommand<object>(VerifyAccountCanExecute, VerifyAccountExecute);
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
 
-        }
+        } 
+        #endregion
 
         #region Commands
 
@@ -215,7 +221,7 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
         }
-      
+
         void EditAccount()
         {
 
@@ -425,20 +431,10 @@ namespace DominatorUIUtility.ViewModel
                         if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, verificationType,
                             DominatorAccountModel.Token).Result)
                             Application.Current.Dispatcher.Invoke(
-                                () => VerificationSectionVisibility = Visibility.Collapsed
-                            );
-
-                        else
-                        {
-                            DominatorAccountModel.VarificationCode = string.Empty;
-                            Application.Current.Dispatcher.Invoke(
-                                () =>
-                                {
-                                    //  CodeSectionVisibility = Visibility.Collapsed;
-
-                                }
-                            );
-                        }
+                                    () => VerificationSectionVisibility = Visibility.Collapsed
+                                );
+                        DominatorAccountModel.VarificationCode = string.Empty;
+                       
                     });
 
                 }

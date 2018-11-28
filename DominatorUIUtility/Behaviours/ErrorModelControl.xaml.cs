@@ -1,8 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorHouseCore;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Behaviours
@@ -16,10 +20,10 @@ namespace DominatorUIUtility.Behaviours
         {
             InitializeComponent();
             MainGrid.DataContext = this;
+           
         }
 
         #region Properties
-
 
         /// <summary>
         /// Implement the INotifyPropertyChanged
@@ -34,11 +38,9 @@ namespace DominatorUIUtility.Behaviours
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 
+        private ObservableCollection<AccountDetails> _accounts = new ObservableCollection<AccountDetails>();
 
-
-        private ObservableCollection<ErrorModelControl> _accounts = new ObservableCollection<ErrorModelControl>();
-
-        public ObservableCollection<ErrorModelControl> Accounts
+        public ObservableCollection<AccountDetails> Accounts
         {
             get
             {
@@ -46,41 +48,33 @@ namespace DominatorUIUtility.Behaviours
             }
             set
             {
-                _accounts = value; OnPropertyChanged(nameof(Accounts));
+                if (_accounts == value)
+                    return;
+                _accounts = value;
+                OnPropertyChanged(nameof(Accounts));
             }
         }
 
 
-        private string _userName;
+        private bool _isAllAccountSelectedFromList;
+        private bool _isAllAccountSelected;
 
-        public string UserName
+        public bool IsAllAccountSelected
         {
             get
             {
-                return _userName;
+                return _isAllAccountSelected;
             }
             set
             {
-                _userName = value; OnPropertyChanged(nameof(UserName));
+                if (_isAllAccountSelected == value)
+                    return;
+                _isAllAccountSelected = value;
+                OnPropertyChanged(nameof(IsAllAccountSelected));
+                SelectAllAccount(IsAllAccountSelected);
+                _isAllAccountSelectedFromList = false;
             }
         }
-
-
-
-        private bool _isChecked;
-
-        public bool IsChecked
-        {
-            get
-            {
-                return _isChecked;
-            }
-            set
-            {
-                _isChecked = value; OnPropertyChanged(nameof(IsChecked));
-            }
-        }
-
         public string WarningText
         {
             get
@@ -92,7 +86,40 @@ namespace DominatorUIUtility.Behaviours
                 SetValue(WarningTextProperty, value);
             }
         }
+        private void SelectAllAccount(bool isAllProxySelected)
+        {
+            if (_isAllAccountSelectedFromList)
+                return;
 
+            Accounts.Select(account =>
+            {
+                account.IsChecked = isAllProxySelected;
+                return account;
+            }).ToList();
+
+        }
+        private void SelectInividual()
+        {
+            try
+            {
+                // To check whether all destinations are selected, then make the tick mark on column header
+
+                if (Accounts.All(x => x.IsChecked))
+                    IsAllAccountSelected = true;
+                else
+                {
+                    if (IsAllAccountSelected)
+                        _isAllAccountSelectedFromList = true;
+
+                    IsAllAccountSelected = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
         public static readonly DependencyProperty WarningTextProperty =
             DependencyProperty.Register("WarningText", typeof(string), typeof(ErrorModelControl), new FrameworkPropertyMetadata()
             {
@@ -155,5 +182,59 @@ namespace DominatorUIUtility.Behaviours
         #endregion
 
 
+        private void AccountChecked(object sender, RoutedEventArgs e)
+        {
+            SelectInividual();
+        }
+    }
+
+    public class AccountDetails : INotifyPropertyChanged
+    {
+        private string _userName;
+
+        public string UserName
+        {
+            get
+            {
+                return _userName;
+            }
+            set
+            {
+                if (_userName == value)
+                    return;
+                _userName = value;
+                OnPropertyChanged(nameof(UserName));
+            }
+        }
+
+        private bool _isChecked;
+
+        public bool IsChecked
+        {
+            get
+            {
+                return _isChecked;
+            }
+            set
+            {
+                if (_isChecked == value)
+                    return;
+                _isChecked = value;
+                OnPropertyChanged(nameof(IsChecked));
+               
+            }
+        }
+
+        /// <summary>
+        /// Implement the INotifyPropertyChanged
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// OnPropertyChanged is used to notify that some property are changed 
+        /// </summary>
+        /// <param name="propertyName">property name</param>        
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
