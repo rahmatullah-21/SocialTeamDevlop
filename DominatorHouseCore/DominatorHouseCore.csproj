@@ -586,6 +586,7 @@
     <Compile Include="Utility\EnumExtensions.cs" />
     <Compile Include="Utility\FileSystemProvider.cs" />
     <Compile Include="Utility\GlobalInteractedUtility.cs" />
+    <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
