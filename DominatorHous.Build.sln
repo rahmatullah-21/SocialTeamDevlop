@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouseCore", "DominatorHouseCore\DominatorHouseCore.csproj", "{F40A5C83-8EDA-43C5-88B9-DFAAB492A497}"
 EndProject
@@ -24,6 +24,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditDominatorCore", "..\reddit-dominator-library\RedditDominatorCore\RedditDominatorCore.csproj", "{6D1BC42E-FFEA-4F4A-9375-328D0DE7269D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditDominatorCore.UnitTests", "..\reddit-dominator-library\RedditDominatorCore.UnitTests\RedditDominatorCore.UnitTests.csproj", "{BCF71ABB-FB1E-4D33-A488-5DDBA68DFA60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorCore", "..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj", "{21B1D90E-F201-4EF0-B4E9-A99315945F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorCore.UnitTest", "..\quoradominator-library\QuoraDominatorCore.UnitTest\QuoraDominatorCore.UnitTest.csproj", "{57D13829-2736-45FC-B2F0-BFC8C44B28BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -218,6 +222,42 @@ Global
 		{BCF71ABB-FB1E-4D33-A488-5DDBA68DFA60}.Release|x64.Build.0 = Release|Any CPU
 		{BCF71ABB-FB1E-4D33-A488-5DDBA68DFA60}.Release|x86.ActiveCfg = Release|Any CPU
 		{BCF71ABB-FB1E-4D33-A488-5DDBA68DFA60}.Release|x86.Build.0 = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|x64.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|x64.ActiveCfg = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|x64.Build.0 = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{21B1D90E-F201-4EF0-B4E9-A99315945F1D}.Release|x86.Build.0 = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|x64.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug|x86.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x64.ActiveCfg = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x64.Build.0 = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +268,7 @@ Global
 		{0EA74034-2086-441A-B971-F52EFD23F5F8} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
 		{3DEBDD7B-B004-4ADB-BDF8-58D6D65B8E57} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
 		{BCF71ABB-FB1E-4D33-A488-5DDBA68DFA60} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07AA924D-BF78-434F-AFBA-BF57AABD0EF4}
