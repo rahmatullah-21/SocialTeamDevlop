@@ -24,7 +24,29 @@ namespace DominatorHouseCore.Utility
         }
     }
 
-    internal class ProtoBuffBase
+    public interface IProtoBuffBase
+    {
+        /// <summary>
+        /// SerializeObjects<T>() method is used to serialize the LIST of objects
+        /// </summary>
+        /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
+        /// <param name="objectType">The object which is going to serialize</param>
+        /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
+        bool SerializeList<T>(List<T> list, string filePath) where T : class;
+
+        void AppendObject<T>(T obj, string filePath);
+
+        /// <summary>
+        /// DeserializeObjects<T>() Method is used to deserialize the file and return  List ofType(T)
+        /// </summary>
+        /// <typeparam name="T">Class which is goes convert back</typeparam>
+        /// <param name="filePath">Source of the file </param>
+        /// <returns>List of Type T</returns>
+        List<T> DeserializeList<T>(string filePath) where T : class;
+    }
+
+
+    internal class ProtoBuffBase : IProtoBuffBase
     {
         #region Serialize
 
@@ -35,7 +57,7 @@ namespace DominatorHouseCore.Utility
         /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
         /// <param name="objectType">The object which is going to serialize</param>
         /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
-        internal static bool SerializeList<T>(List<T> list, string filePath) where T : class
+        public bool SerializeList<T>(List<T> list, string filePath) where T : class
         {
             if (list == null)
                 throw new ArgumentNullException(nameof(list));
@@ -66,7 +88,7 @@ namespace DominatorHouseCore.Utility
         }
 
         // Method to append new object to file
-        internal static void AppendObject<T>(T obj, string filePath)
+        public void AppendObject<T>(T obj, string filePath)
         {
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
@@ -111,7 +133,7 @@ namespace DominatorHouseCore.Utility
         /// <typeparam name="T">Class which is goes convert back</typeparam>
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
-        internal static List<T> DeserializeList<T>(string filePath) where T : class
+        public List<T> DeserializeList<T>(string filePath) where T : class
 
         {
             try

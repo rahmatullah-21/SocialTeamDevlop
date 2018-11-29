@@ -54,10 +54,12 @@ namespace DominatorHouseCore.Utility
     public class BinFileHelper : IBinFileHelper
     {
         private readonly ILockFileConfigProvider _lockFileConfigProvider;
+        private readonly IProtoBuffBase _protoBuffBase;
 
-        public BinFileHelper(ILockFileConfigProvider lockFileConfigProvider)
+        public BinFileHelper(ILockFileConfigProvider lockFileConfigProvider, IProtoBuffBase protoBuffBase)
         {
             _lockFileConfigProvider = lockFileConfigProvider;
+            _protoBuffBase = protoBuffBase;
         }
 
         public ObservableCollection<string> GetUsers<T>() where T : class
@@ -72,7 +74,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<T, bool>(filePath =>
                 {
-                    ProtoBuffBase.AppendObject<T>(obj, filePath);
+                    _protoBuffBase.AppendObject<T>(obj, filePath);
                     return true;
                 });
             }
@@ -88,7 +90,7 @@ namespace DominatorHouseCore.Utility
         {
             return _lockFileConfigProvider.WithFile<DominatorAccountModel, List<DominatorAccountModel>>(indexAccountPath =>
                 File.Exists(indexAccountPath)
-                    ? ProtoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath)
+                    ? _protoBuffBase.DeserializeList<DominatorAccountModel>(indexAccountPath)
                     : new List<DominatorAccountModel>());
         }
 
@@ -99,7 +101,7 @@ namespace DominatorHouseCore.Utility
         // Modify index account path. Uses only for testing purposes of PD, TWD and others.
         public List<T> GetAccountDetailsFor<T>() where T : class
         {
-            return _lockFileConfigProvider.WithFile<T, List<T>>(file => ProtoBuffBase.DeserializeList<T>(file));
+            return _lockFileConfigProvider.WithFile<T, List<T>>(file => _protoBuffBase.DeserializeList<T>(file));
         }
 
 
@@ -107,7 +109,7 @@ namespace DominatorHouseCore.Utility
         public List<CampaignDetails> GetCampaignDetail()
         {
             return _lockFileConfigProvider.WithFile<CampaignDetails, List<CampaignDetails>>(file =>
-                ProtoBuffBase.DeserializeList<CampaignDetails>(file));
+                _protoBuffBase.DeserializeList<CampaignDetails>(file));
         }
 
 
@@ -115,7 +117,7 @@ namespace DominatorHouseCore.Utility
         public List<TemplateModel> GetTemplateDetails()
         {
             return _lockFileConfigProvider.WithFile<TemplateModel, List<TemplateModel>>(file =>
-                ProtoBuffBase.DeserializeList<TemplateModel>(file));
+                _protoBuffBase.DeserializeList<TemplateModel>(file));
         }
 
         public int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
@@ -156,7 +158,7 @@ namespace DominatorHouseCore.Utility
                         accountDetailsList = new List<DominatorAccountModel>();
                         accountDetailsList.Add(accountModel);
                     }
-                    bool result = ProtoBuffBase.SerializeList(accountDetailsList, file);
+                    bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
                     return result;
@@ -186,7 +188,7 @@ namespace DominatorHouseCore.Utility
 
                     accountDetailsList[indexOfAccountToUpdate] = accountModel;
 
-                    bool result = ProtoBuffBase.SerializeList(accountDetailsList, file);
+                    bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
 
                     GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
                     return result;
@@ -207,7 +209,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
-                    bool result = ProtoBuffBase.SerializeList(accountDetailsList, file);
+                    bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
                     GlobusLogHelper.log.Debug("Accounts succesfully saved");
                     return result;
                 });
@@ -226,7 +228,7 @@ namespace DominatorHouseCore.Utility
             try
             {
                 _lockFileConfigProvider.WithFile<CampaignDetails, bool>(file =>
-                    ProtoBuffBase.SerializeList(campaignList, file));
+                    _protoBuffBase.SerializeList(campaignList, file));
                 GlobusLogHelper.log.Debug("Campaigns succesfully saved");
             }
             catch (Exception ex)
@@ -240,7 +242,7 @@ namespace DominatorHouseCore.Utility
             try
             {
                 _lockFileConfigProvider.WithFile<TemplateModel, bool>(file =>
-                    ProtoBuffBase.SerializeList(templatesList, file));
+                    _protoBuffBase.SerializeList(templatesList, file));
             }
             catch (Exception ex)
             {
@@ -252,7 +254,7 @@ namespace DominatorHouseCore.Utility
         {
             _lockFileConfigProvider.WithFile<ProxyManagerModel, bool>(file =>
             {
-                ProtoBuffBase.AppendObject(model, file);
+                _protoBuffBase.AppendObject(model, file);
                 return true;
             });
         }
@@ -260,7 +262,7 @@ namespace DominatorHouseCore.Utility
         public List<ProxyManagerModel> GetProxyDetails()
         {
             return _lockFileConfigProvider.WithFile<ProxyManagerModel, List<ProxyManagerModel>>(file =>
-                ProtoBuffBase.DeserializeList<ProxyManagerModel>(file));
+                _protoBuffBase.DeserializeList<ProxyManagerModel>(file));
         }
 
         public int FindProxyIndex<T>(List<T> proxy, string ProxyId)
@@ -284,7 +286,7 @@ namespace DominatorHouseCore.Utility
 
                     proxyDetailsList[indexOfProxyToUpdate] = proxy;
 
-                    bool result = ProtoBuffBase.SerializeList(proxyDetailsList, file);
+                    bool result = _protoBuffBase.SerializeList(proxyDetailsList, file);
 
                     GlobusLogHelper.log.Trace($"Update Proxy - [{result}]");
                     return result;
@@ -304,7 +306,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<ProxyManagerModel, bool>(file =>
                 {
-                    bool result = ProtoBuffBase.SerializeList(proxyDetailsList, file);
+                    bool result = _protoBuffBase.SerializeList(proxyDetailsList, file);
                     GlobusLogHelper.log.Debug("Proxy succesfully saved");
                     return result;
                 });
@@ -319,13 +321,13 @@ namespace DominatorHouseCore.Utility
 
         public void SavePosts<T>(T PostModel) where T : class
         {
-            ProtoBuffBase.AppendObject(PostModel, ConstantVariable.GetOtherPostsFile());
+            _protoBuffBase.AppendObject(PostModel, ConstantVariable.GetOtherPostsFile());
         }
 
         public List<AddPostModel> GetPostDetails()
         {
             return _lockFileConfigProvider.WithFile<AddPostModel, List<AddPostModel>>(file =>
-                ProtoBuffBase.DeserializeList<AddPostModel>(file));
+                _protoBuffBase.DeserializeList<AddPostModel>(file));
         }
 
         public bool UpdatePost(AddPostModel post)
@@ -342,7 +344,7 @@ namespace DominatorHouseCore.Utility
 
                     postDetailsList[indexOfPostToUpdate] = post;
 
-                    bool result = ProtoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+                    bool result = _protoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
 
                     GlobusLogHelper.log.Trace($"Update Posts - [{result}]");
                     return result;
@@ -362,7 +364,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<AddPostModel, bool>(file =>
                 {
-                    bool result = ProtoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+                    bool result = _protoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
                     GlobusLogHelper.log.Debug("Posts succesfully saved");
                     return result;
                 });
@@ -386,7 +388,7 @@ namespace DominatorHouseCore.Utility
         {
             _lockFileConfigProvider.WithFile<Configuration, bool>(file =>
             {
-                ProtoBuffBase.AppendObject(config, file);
+                _protoBuffBase.AppendObject(config, file);
                 return true;
             });
         }
@@ -399,7 +401,7 @@ namespace DominatorHouseCore.Utility
                 {
                     if (File.Exists(file))
                     {
-                        return ProtoBuffBase.DeserializeList<Configuration>(file);
+                        return _protoBuffBase.DeserializeList<Configuration>(file);
                     }
                     return new List<Configuration>();
                 });
@@ -422,7 +424,7 @@ namespace DominatorHouseCore.Utility
                 return _lockFileConfigProvider.WithFile<PublisherCreateDestinationModel, bool>(filePath =>
                 {
                     DirectoryUtilities.CreateDirectory(filePath);
-                    ProtoBuffBase.AppendObject(publisherCreateDestination,
+                    _protoBuffBase.AppendObject(publisherCreateDestination,
                         filePath + $"{publisherCreateDestination.DestinationId}.bin");
                     return true;
                 });
@@ -439,14 +441,14 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                var data = ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
+                var data = _protoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
                     $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
 
                 if (data != null)
                 {
                     data[0] = publisherCreateDestination;
 
-                    bool result = ProtoBuffBase.SerializeList(data,
+                    bool result = _protoBuffBase.SerializeList(data,
                         $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
 
                     GlobusLogHelper.log.Trace($"Update Destination - [{result}]");
@@ -465,13 +467,13 @@ namespace DominatorHouseCore.Utility
 
 
         public List<PublisherCreateDestinationModel> GetDestination(string destinationId)
-            => ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
+            => _protoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
                 $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
 
 
         public PublisherCreateDestinationModel GetSingleDestination(string destinationId)
         {
-            var lists = ProtoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
+            var lists = _protoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
                 $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
 
             if (lists.Count > 0)
@@ -490,7 +492,7 @@ namespace DominatorHouseCore.Utility
         {
             return _lockFileConfigProvider.WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(
                 publisherDestinationPath => File.Exists(publisherDestinationPath)
-                    ? ProtoBuffBase.DeserializeList<PublisherManageDestinationModel>(publisherDestinationPath)
+                    ? _protoBuffBase.DeserializeList<PublisherManageDestinationModel>(publisherDestinationPath)
                     : new List<PublisherManageDestinationModel>());
         }
 
@@ -498,7 +500,7 @@ namespace DominatorHouseCore.Utility
         {
             return _lockFileConfigProvider.WithFile<PublisherPostlistSettingsModel, List<PublisherPostlistSettingsModel>>(
                 publisherPostListPath => File.Exists(publisherPostListPath)
-                    ? ProtoBuffBase.DeserializeList<PublisherPostlistSettingsModel>(publisherPostListPath)
+                    ? _protoBuffBase.DeserializeList<PublisherPostlistSettingsModel>(publisherPostListPath)
                     : new List<PublisherPostlistSettingsModel>());
         }
 
@@ -507,7 +509,7 @@ namespace DominatorHouseCore.Utility
         {
             return _lockFileConfigProvider.WithFile<PublisherPostlistModel, List<PublisherPostlistModel>>(
                 publisherPostListPath => File.Exists($"{publisherPostListPath}\\{campaignId}.bin")
-                    ? ProtoBuffBase.DeserializeList<PublisherPostlistModel>($"{publisherPostListPath}\\{campaignId}.bin")
+                    ? _protoBuffBase.DeserializeList<PublisherPostlistModel>($"{publisherPostListPath}\\{campaignId}.bin")
                     : new List<PublisherPostlistModel>());
         }
 
@@ -517,7 +519,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<PublisherPostlistModel, bool>(file =>
                 {
-                    bool result = ProtoBuffBase.SerializeList(publisherPostlist, $"{file}\\{campaignId}.bin");
+                    bool result = _protoBuffBase.SerializeList(publisherPostlist, $"{file}\\{campaignId}.bin");
                     GlobusLogHelper.log.Debug("Publisher Post list saved");
                     return result;
                 });
@@ -541,7 +543,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
-                    bool result = ProtoBuffBase.SerializeList(publishDestinations, file);
+                    bool result = _protoBuffBase.SerializeList(publishDestinations, file);
                     GlobusLogHelper.log.Debug("Publisher destination saved");
                     return result;
                 });
@@ -565,7 +567,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
-                    bool result = ProtoBuffBase.SerializeList(itemColletion, file);
+                    bool result = _protoBuffBase.SerializeList(itemColletion, file);
                     return result;
                 });
             }
@@ -584,7 +586,7 @@ namespace DominatorHouseCore.Utility
         public List<CampaignInteractionViewModel> GetCampaignInteractedDetails(SocialNetworks network)
         {
             return _lockFileConfigProvider.WithFile<CampaignInteractionViewModel, List<CampaignInteractionViewModel>>(file =>
-                ProtoBuffBase.DeserializeList<CampaignInteractionViewModel>(file + $"\\{network}CampaignInteractedData.bin"));
+                _protoBuffBase.DeserializeList<CampaignInteractionViewModel>(file + $"\\{network}CampaignInteractedData.bin"));
         }
 
 
@@ -594,7 +596,7 @@ namespace DominatorHouseCore.Utility
             try
             {
                 _lockFileConfigProvider.WithFile<CampaignInteractionViewModel, bool>(file =>
-                    ProtoBuffBase.SerializeList(campaignInteractedDatas, file + $"\\{network}CampaignInteractedData.bin"));
+                    _protoBuffBase.SerializeList(campaignInteractedDatas, file + $"\\{network}CampaignInteractedData.bin"));
                 GlobusLogHelper.log.Debug("Campaigns interacted data's succesfully saved");
             }
             catch (Exception ex)
@@ -610,7 +612,7 @@ namespace DominatorHouseCore.Utility
         public List<GlobalInteractionViewModel> GetGlobalInteractedDetails(SocialNetworks network)
         {
             return _lockFileConfigProvider.WithFile<GlobalInteractionViewModel, List<GlobalInteractionViewModel>>(file =>
-                ProtoBuffBase.DeserializeList<GlobalInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
+                _protoBuffBase.DeserializeList<GlobalInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
         }
 
         public void UpdateGlobalInteractedDetails(List<GlobalInteractionViewModel> globalInteractedDatas,
@@ -619,7 +621,7 @@ namespace DominatorHouseCore.Utility
             try
             {
                 _lockFileConfigProvider.WithFile<GlobalInteractionViewModel, bool>(file =>
-                    ProtoBuffBase.SerializeList(globalInteractedDatas, file + $"\\{network}InteractedData.bin"));
+                    _protoBuffBase.SerializeList(globalInteractedDatas, file + $"\\{network}InteractedData.bin"));
                 GlobusLogHelper.log.Debug("Global interacted data's succesfully saved");
             }
             catch (Exception ex)
@@ -632,12 +634,12 @@ namespace DominatorHouseCore.Utility
 
         public void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class
         {
-            ProtoBuffBase.SerializeList(friendsModelList, filePath);
+            _protoBuffBase.SerializeList(friendsModelList, filePath);
         }
 
         public List<T> GetFacebookEntity<T>() where T : class
         {
-            return ProtoBuffBase.DeserializeList<T>(ConstantVariable.GetFacebookDetailsConfigFile());
+            return _protoBuffBase.DeserializeList<T>(ConstantVariable.GetFacebookDetailsConfigFile());
         }
     }
 

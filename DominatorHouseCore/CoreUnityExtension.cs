@@ -31,6 +31,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ICampaignsFileManager, CampaignsFileManager>();
             Container.RegisterSingleton<IBinFileHelper, BinFileHelper>();
             Container.RegisterSingleton<ILockFileConfigProvider, LockFileConfigProvider>();
+            Container.RegisterSingleton<IProtoBuffBase, ProtoBuffBase>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();

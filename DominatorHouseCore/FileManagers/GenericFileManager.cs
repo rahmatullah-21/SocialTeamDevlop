@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
@@ -9,12 +6,23 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using FacebookModel = DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.FacebookModel;
 
 namespace DominatorHouseCore.FileManagers
 {
     public class GenericFileManager
     {
+        private static readonly IProtoBuffBase ProtoBuffBase;
+
+        static GenericFileManager()
+        {
+            ProtoBuffBase = ServiceLocator.Current.GetInstance<IProtoBuffBase>();
+        }
+
         /// <summary>
         /// To holds the lock for specific file types
         /// </summary>
@@ -165,7 +173,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-               
+
                 ex.DebugLog();
                 return false;
             }
@@ -217,7 +225,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-               
+
                 ex.DebugLog();
                 return false;
             }
@@ -267,7 +275,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                
+
                 ex.DebugLog();
                 return false;
             }
