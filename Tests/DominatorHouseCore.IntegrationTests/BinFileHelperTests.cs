@@ -21,7 +21,6 @@ namespace DominatorHouseCore.IntegrationTests
             container.RegisterInstance<ILockFileConfigProvider>(_lockFileConfigProvider);
         }
 
-
         [TestMethod]
         [DeploymentItem("TestData", "TestData")]
         public void should_deserialize_campaigns()
@@ -40,6 +39,26 @@ namespace DominatorHouseCore.IntegrationTests
 
             // assert
             campaigns.Count.Should().Be(8);
+        }
+
+        [TestMethod]
+        [DeploymentItem("TestData", "TestData")]
+        public void should_deserialize_templates()
+        {
+            // arrange
+            List<TemplateModel> templates = null;
+
+            _lockFileConfigProvider.WithFile<TemplateModel, List<TemplateModel>>(Arg.Do(
+                (Func<string, List<TemplateModel>> func) =>
+                {
+                    templates = func.Invoke(@"TestData\Template.bin");
+                }));
+
+            // act
+            Sut.GetTemplateDetails();
+
+            // assert
+            templates.Count.Should().Be(8);
         }
     }
 }
