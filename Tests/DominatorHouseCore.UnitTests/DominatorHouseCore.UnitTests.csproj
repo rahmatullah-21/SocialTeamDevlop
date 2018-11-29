@@ -70,6 +70,7 @@
     <Compile Include="Tests\Converters\SocialNetworkToColorBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />
+    <Compile Include="Tests\FileManagers\CampaignsFileManagerTests.cs" />
     <Compile Include="Tests\Models\JobActivityConfigurationManagerTests.cs" />
     <Compile Include="Tests\ProxyServerManagment\ProxyServerParserServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,9 +82,7 @@
       <Name>DominatorHouseCore</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestData\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
