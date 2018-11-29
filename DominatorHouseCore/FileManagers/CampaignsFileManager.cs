@@ -42,6 +42,8 @@ namespace DominatorHouseCore.FileManagers
                 if (campaign.TemplateId == templateId)
                     campaign.SelectedAccountList.Remove(accountName);
             });
+
+            Save(_campaignDetailses.Value);
         }
 
         public CampaignDetails GetCampaignById(string id)
@@ -68,8 +70,8 @@ namespace DominatorHouseCore.FileManagers
 
         public void Add(CampaignDetails campaign)
         {
-            _campaignDetailses.Value.Add(campaign);
             _binFileHelper.Append(campaign);
+            _campaignDetailses.Value.Add(campaign);
         }
 
         // finds by id and delete
