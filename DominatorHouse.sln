@@ -85,7 +85,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominator.Tests.Utils", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore.UnitTests", "..\twtdominator-library\Tests\TwtDominatorCore.UnitTests\TwtDominatorCore.UnitTests.csproj", "{0EA74034-2086-441A-B971-F52EFD23F5F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorCore.UnitTest", "..\quoradominator-library\QuoraDominatorCore.UnitTest\QuoraDominatorCore.UnitTest.csproj", "{57D13829-2736-45FC-B2F0-BFC8C44B28BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorCore.UnitTests", "..\quoradominator-library\QuoraDominatorCore.UnitTests\QuoraDominatorCore.UnitTests.csproj", "{57D13829-2736-45FC-B2F0-BFC8C44B28BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -846,9 +846,10 @@ Global
 		{6FDF8626-FE70-475B-8DC6-7153AF70ED99} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{3DEBDD7B-B004-4ADB-BDF8-58D6D65B8E57} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{0EA74034-2086-441A-B971-F52EFD23F5F8} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
+		{57D13829-2736-45FC-B2F0-BFC8C44B28BA} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal
