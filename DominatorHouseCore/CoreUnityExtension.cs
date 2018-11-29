@@ -30,6 +30,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IJobActivityConfigurationManager, JobActivityConfigurationManager>();
             Container.RegisterSingleton<ICampaignsFileManager, CampaignsFileManager>();
             Container.RegisterSingleton<IBinFileHelper, BinFileHelper>();
+            Container.RegisterSingleton<ILockFileConfigProvider, LockFileConfigProvider>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();
