@@ -15,12 +15,14 @@ namespace DominatorHouseCore.Request
         {
             // call to valid the certificates
             ValidateServerCertificate();
+            Request = _request;
         }
 
         public HttpHelper(IRequestParameters requestParameters)
         {
             // set the web header details      
             SetRequestParameter(requestParameters);
+            Request  = _request;
         }
 
 
@@ -29,7 +31,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         protected virtual IRequestParameters RequestParameters { get; set; } = new RequestParameters();
 
-        public HttpWebRequest Request => _request;
+        public HttpWebRequest Request { get; set; } 
 
         protected HttpWebRequest _request;
 

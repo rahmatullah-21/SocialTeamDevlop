@@ -314,6 +314,7 @@ namespace EmbeddedBrowser
             {
                 try
                 {
+                    if(!AskingForRecoveryEmail())
                     Browser.ExecuteScriptAsync("document.getElementById('identifierId').value= '" +
                                                DominatorAccountModel.AccountBaseModel.UserName + "'");
                 }
@@ -380,6 +381,39 @@ namespace EmbeddedBrowser
                         LoadPostPage(true);
                 }
             }
+        }
+
+        private bool AskingForRecoveryEmail()
+        {
+            try
+            {
+                if (_dominatorAccountModel.IsUserLoggedIn) return false;
+
+                var pageText = Browser.GetTextAsync().Result;
+
+                if (
+                    (pageText.Contains("English (") /*Google, Set with English Language*/ &&
+                     pageText.Contains("Confirm the recovery email address that you added to your account:"))
+                    ||
+                    (pageText.Contains("Español (España)") /*Google, Set with Español (España) Language*/ &&
+                     pageText.Contains(
+                         "Confirma la dirección de correo electrónico alternativa que has añadido a tu cuenta:"))
+                    ||
+                    (pageText.Contains("Português (Brasil)?") /*Google, Set with Português (Brasil)? Language*/ &&
+                     pageText.Contains("Confirme o endereço de e-mail de recuperação adicionado à sua conta:"))
+                )
+                {
+                    DominatorAccountModel.IsUserLoggedIn = false;
+                    DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return false;
         }
 
         private bool IsGoogleAccountLoginFailed()

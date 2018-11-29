@@ -34,8 +34,8 @@
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>140</ApplicationRevision>
-    <ApplicationVersion>1.0.0.140</ApplicationVersion>
+    <ApplicationRevision>141</ApplicationRevision>
+    <ApplicationVersion>1.0.0.141</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -160,9 +160,6 @@
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -510,6 +507,22 @@
       <Project>{317a142c-6ae2-4cc1-90a7-5752b9ed76f3}</Project>
       <Name>GramDominatorUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorCore\LinkedDominatorCore.csproj">
+      <Project>{9df3cac5-0c31-49f0-a71e-27b9cefc6553}</Project>
+      <Name>LinkedDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\linkeddominator-library\LinkedDominatorUI\LinkedDominatorUI.csproj">
+      <Project>{8a858cd7-7834-4365-8f4d-4faa0361de7f}</Project>
+      <Name>LinkedDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pindominator-library\PinDominatorCore\PinDominatorCore.csproj">
+      <Project>{68ef34bf-36c9-4e33-9acd-7b9d7b746f29}</Project>
+      <Name>PinDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pindominator-library\PinDominator\PinDominatorUI.csproj">
+      <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
+      <Name>PinDominatorUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
       <Project>{21b1d90e-f201-4ef0-b4e9-a99315945f1d}</Project>
       <Name>QuoraDominatorCore</Name>
@@ -541,6 +554,14 @@
     <ProjectReference Include="..\..\twtdominator-library\TwtDominatorUI\TwtDominatorUI.csproj">
       <Project>{b91d5616-eafd-4bf8-aaf5-051675592714}</Project>
       <Name>TwtDominatorUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\youtubedominator-library\YoutubeDominatorCore\YoutubeDominatorCore.csproj">
+      <Project>{9c42c9b5-331e-4ec5-b47f-ae9da1c89ad6}</Project>
+      <Name>YoutubeDominatorCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\youtubedominator-library\YoutubeDominatorUI\YoutubeDominatorUI.csproj">
+      <Project>{7a02118a-50ac-4ed5-8247-0899782ddd2f}</Project>
+      <Name>YoutubeDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
@@ -592,32 +613,32 @@
   <ItemGroup>
     <PublishFile Include="CefSharp.Core.dll">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="CefSharp.dll">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="CefSharp.Wpf">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

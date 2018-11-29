@@ -497,7 +497,8 @@ namespace DominatorUIUtility.ViewModel
                 Status = string.IsNullOrEmpty(objDominatorAccountBaseModel.Status.ToString())
                     ? AccountStatus.NotChecked : objDominatorAccountBaseModel.Status,
                 AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
-                AccountId = objDominatorAccountBaseModel.AccountId
+                AccountId = objDominatorAccountBaseModel.AccountId,
+                IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin
             };
 
             var dominatorAccountModel = new DominatorAccountModel

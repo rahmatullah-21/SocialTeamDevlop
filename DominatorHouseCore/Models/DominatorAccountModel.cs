@@ -400,7 +400,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(25)]
         public Dictionary<string, string> PaginationId { get; set; }
             = new Dictionary<string, string>();
-
+        public string two_factor_identifier { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {

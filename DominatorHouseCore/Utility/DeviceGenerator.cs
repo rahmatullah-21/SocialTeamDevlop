@@ -24,7 +24,7 @@ namespace DominatorHouseCore.Utility
         public string Device { get; private set; }
 
         [ProtoMember(2)]
-        public string DeviceId { get; private set; }
+        public string DeviceId { get;  set; }
 
         [ProtoMember(3)]
         public string Manufacturer { get; private set; }

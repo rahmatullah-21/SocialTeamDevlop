@@ -552,6 +552,11 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                if (!ListQueryInfo.Any(x => x.IsQuerySelected))
+                {
+                    Dialog.ShowDialog("Error", "Please select atleast one query.");
+                    return;
+                }
                 SaveFileDialog saveFiledialog = new SaveFileDialog
                 {
                     Filter = "CSV file (.csv)|*.csv",
@@ -561,7 +566,6 @@ namespace DominatorUIUtility.CustomControl
                 if (saveFiledialog.ShowDialog() == true)
                 {
                     string filename = saveFiledialog.FileName;
-                    var csvData = new List<string>();
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
                         ListQueryInfo.ForEach(x =>
@@ -572,6 +576,7 @@ namespace DominatorUIUtility.CustomControl
                             }
 
                         });
+                        ToasterNotification.ShowSuccess("Query exported successfully.");
                     }
 
                 }
