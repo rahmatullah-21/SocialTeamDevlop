@@ -1,9 +1,11 @@
 ﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FacebookModel = DominatorHouseCore.Models.FacebookModel;
 
 namespace DominatorHouseCore.Utility
 {
@@ -22,13 +24,22 @@ namespace DominatorHouseCore.Utility
                     typeof(CampaignDetails),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexCampaignFile)
                 },
-                {typeof(TemplateModel), Tuple.Create(new object(), (Func<string>) ConstantVariable.GetTemplatesFile)},
+                {
+                    typeof(TemplateModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetTemplatesFile)
+                },
                 {
                     typeof(ProxyManagerModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherProxyFile)
                 },
-                {typeof(AddPostModel), Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherPostsFile)},
-                {typeof(Configuration), Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherConfigFile)},
+                {
+                    typeof(AddPostModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherPostsFile)
+                },
+                {
+                    typeof(Configuration),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherConfigFile)
+                },
 
                 //Todo: Following line need to delete
                 {
@@ -61,7 +72,38 @@ namespace DominatorHouseCore.Utility
                     typeof(GlobalInteractionViewModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetConfigurationDir)
                 },
-                {typeof(object), Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexAccountFile)}
+                {
+                    typeof(FacebookModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
+                },
+                {
+                    typeof(GeneralModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
+                },
+                {
+                    typeof(GooglePlusModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
+                },
+                {
+                    typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
+                },
+                {
+                    typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
+                },
+                {
+                    typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
+                },
+                {
+                    typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
+                },
+                {
+                    typeof(object),
+                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexAccountFile)
+                }
             };
 
         /// <summary>

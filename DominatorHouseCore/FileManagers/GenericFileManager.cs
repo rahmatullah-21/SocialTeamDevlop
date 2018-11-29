@@ -1,146 +1,24 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using FacebookModel = DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.FacebookModel;
 
 namespace DominatorHouseCore.FileManagers
 {
     public class GenericFileManager
     {
         private static readonly IProtoBuffBase ProtoBuffBase;
+        private static readonly ILockFileConfigProvider LockFileConfigProvider;
 
         static GenericFileManager()
         {
             ProtoBuffBase = ServiceLocator.Current.GetInstance<IProtoBuffBase>();
+            LockFileConfigProvider = ServiceLocator.Current.GetInstance<ILockFileConfigProvider>();
         }
 
-        /// <summary>
-        /// To holds the lock for specific file types
-        /// </summary>
-        private static Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType =
-          new Dictionary<Type, Tuple<object, Func<string>>>
-          {
-                {
-                    typeof(CampaignDetails),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexCampaignFile)
-                },
-              {
-                  typeof(TemplateModel),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetTemplatesFile)
-              },
-                {
-                    typeof(ProxyManagerModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherProxyFile)
-                },
-              {
-                  typeof(AddPostModel), Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherPostsFile)
-              },
-              {
-                  typeof(Configuration),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetOtherConfigFile)
-              },
-
-                //Todo: Following line need to delete
-                {
-                    typeof(PublisherAccountDetails),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherFile)
-                },
-
-                {
-                    typeof(PublisherPostlistModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherCreatePostlistFolder)
-                },
-
-                {
-                    typeof(PublisherManageDestinationModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherDestinationsFile)
-                },
-                {
-                    typeof(PublisherCreateDestinationModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherCreateDestinationsFolder)
-                },
-                {
-                    typeof(PublisherPostlistSettingsModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherPostlistSettingsFile)
-                },
-                {
-                    typeof(CampaignInteractionViewModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetConfigurationDir)
-                }
-              ,
-              {
-                  typeof(FacebookModel),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-              }
-              ,
-              {
-                  typeof(GeneralModel),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-              }
-              ,
-              {
-                  typeof(GooglePlusModel),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-              }
-              ,
-              {
-                  typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-              } ,
-              {
-                  typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-              },
-              {
-                  typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-              },
-              {
-                  typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-              },
-              {
-                  typeof(object),
-                  Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexAccountFile)
-              }
-          };
-
-        /// <summary>
-        /// Do something while locking the file that is the repository for the corresponding class
-        /// </summary>
-        /// <typeparam name="T">subject</typeparam>
-        /// <typeparam name="R">return type</typeparam>
-        /// <param name="act">action to perform</param>
-        /// <returns>repeats the action returned value</returns>
-        static R WithFile<T, R>(Func<string, R> act)
-        {
-            Tuple<object, Func<string>> typeConfig;
-            // first, try the actual type
-            if (!__lockAndFileByType.TryGetValue(typeof(T), out typeConfig))
-            {
-                // second, try to see if it's an assignable type
-                var presentBaseClass = __lockAndFileByType.Keys.Except(new Type[] { typeof(object) }).FirstOrDefault(
-                    candidateBase => candidateBase.IsAssignableFrom(typeof(T)));
-                if (presentBaseClass == default(Type))
-                {
-                    presentBaseClass = typeof(object);
-                }
-                typeConfig = __lockAndFileByType[presentBaseClass];
-            }
-            lock (typeConfig.Item1)
-            {
-                return act(typeConfig.Item2());
-            }
-        }
 
         /// <summary>
         /// To get the file details for given bin files
@@ -163,7 +41,7 @@ namespace DominatorHouseCore.FileManagers
             try
             {
                 // Fetch the file path from lock with type object
-                return WithFile<T, bool>(file =>
+                return LockFileConfigProvider.WithFile<T, bool>(file =>
                 {
                     // serialize the file
                     bool result = ProtoBuffBase.SerializeList(detailsList, file);
