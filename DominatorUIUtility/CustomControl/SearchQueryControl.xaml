@@ -118,11 +118,11 @@
                                         <TextBlock Text="{DynamicResource LangKeyQuery}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn  Width="*"  FontSize="12"   Binding="{Binding IsCustomFilterSelected}" IsReadOnly="True">
+                                <!--<DataGridTextColumn  Width="*"  FontSize="12"   Binding="{Binding IsCustomFilterSelected}" IsReadOnly="True">
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="{DynamicResource LangKeyCustomFilters}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
+                                </DataGridTextColumn>-->
                                 <DataGridTemplateColumn Width="*" IsReadOnly="True">
                                     <DataGridTemplateColumn.HeaderTemplate>
                                         <DataTemplate>

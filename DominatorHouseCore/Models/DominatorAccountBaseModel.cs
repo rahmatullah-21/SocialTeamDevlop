@@ -230,6 +230,21 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _profileId, value);
             }
         }
+        private bool _isChkTwoFactorLogin;
+        [ProtoMember(12)]
+        public bool IsChkTwoFactorLogin
+        {
+            get
+            {
+                return _isChkTwoFactorLogin;
+            }
+            set
+            {
+                if (_isChkTwoFactorLogin == value)
+                    return;
+                SetProperty(ref _isChkTwoFactorLogin, value);
+            }
+        }
         public override string ToString()
         {
             return string.Format("{0} on {1}", _userName, _accountNetwork);
