@@ -1,13 +1,15 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Models;
+using System;
 using System.Globalization;
 using System.Linq;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Utility
 {
+
     public static class DateTimeUtilities
     {
+        private static readonly DateTime DateUtc1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// GetCurrentEpochTime is used to get the epoch value for given date time
@@ -16,14 +18,12 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static int GetCurrentEpochTime(this DateTime date)
         {
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            return Convert.ToInt32(Math.Floor((date.ToUniversalTime() - dateTime).TotalSeconds));
+            return Convert.ToInt32(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalSeconds));
         }
 
         public static int ConvertToEpoch(this DateTime date)
         {
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            return Convert.ToInt32(Math.Floor((date.ToUniversalTime() - dateTime).TotalSeconds));
+            return Convert.ToInt32(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalSeconds));
         }
 
         /// <summary>
@@ -32,12 +32,14 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static DayOfWeek GetDayOfWeek()
         {
-            return DateTime.Now.DayOfWeek;
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            return dateProvider.Now().DayOfWeek;
         }
 
         public static TimeSpan GetTimeSpanCurrentHourMinute()
         {
-            DateTime now = DateTime.Now;
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            DateTime now = dateProvider.Now();
             return new TimeSpan(now.Hour, now.Minute, 0);
         }
 
@@ -49,16 +51,16 @@ namespace DominatorHouseCore.Utility
 
         public static DateTime EpochToDateTimeUtc(this int epoch)
         {
-            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((double)epoch);
+            return DateUtc1970.AddSeconds((double)epoch);
         }
 
         public static DateTime EpochToDateTimeUtc(this Int64 epoch)
         {
-            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds((double)epoch);
+            return DateUtc1970.AddMilliseconds((double)epoch);
         }
         public static DateTime EpochToDateTimeUtc(this double epoch)
         {
-            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
+            return DateUtc1970.AddSeconds(
                 (double)epoch);
         }
 
@@ -69,20 +71,20 @@ namespace DominatorHouseCore.Utility
 
         public static int GetEpochTime()
         {
-            return (int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            return (int)(dateProvider.UtcNow() - DateUtc1970).TotalSeconds;
         }
-
-
-
 
         public static double GetEpochTimeMicroSecs()
         {
-            return (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            return (dateProvider.UtcNow() - DateUtc1970).TotalSeconds;
         }
 
         public static int GetTimezoneOffset()
         {
-            return (int)TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalSeconds;
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            return (int)TimeZoneInfo.Local.GetUtcOffset(dateProvider.Now()).TotalSeconds;
         }
 
         public static string ReadableDateTime(this DateTime time)
@@ -112,10 +114,6 @@ namespace DominatorHouseCore.Utility
             if (num < 0)
                 num += 7;
             var nextWeekStartDate = (date.AddDays((double)(-1 * num)).Date).AddDays(dayCount);
-            if (dayCount == 1)
-            {
-                var NextWeekStartDate = date.AddDays(1).Date;
-            }
 
             foreach (var runningTime in moduleConfiguration.LstRunningTimes)
             {
@@ -133,7 +131,8 @@ namespace DominatorHouseCore.Utility
 
                 if (dayCount == 0)
                 {
-                    var currentDateTime = DateTime.Now.AddSeconds(30);
+                    var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+                    var currentDateTime = dateProvider.Now().AddSeconds(30);
                     var availableTimingRanges = timings.Where(x => DateTime.Today.Date.Add(x.StartTime) > currentDateTime).ToList();
                     availableTimingRanges.Sort(new RunningTimeComparer());
                     nextWeekStartDate = startTime.Add(availableTimingRanges[0].StartTime);
@@ -175,8 +174,6 @@ namespace DominatorHouseCore.Utility
         public static DateTime GetStartTimeOfTomorrow(ModuleConfiguration moduleConfiguration)
         {
             var startTimeOfTomorrow = DateTime.Today.AddDays(1);
-            //Get date for tomorrow with default time
-            int num = DayOfWeek.Sunday - DateTime.Today.DayOfWeek;
 
             for (int i = 1; i < 8; i++)
             {
@@ -206,7 +203,8 @@ namespace DominatorHouseCore.Utility
                     delay = (int)delayBetweenJob;
 
                 //Calculate the start time of next job normally
-                var startTimeOfNextJob = DateTime.Now.AddMinutes(delay);
+                var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+                var startTimeOfNextJob = dateProvider.Now().AddMinutes(delay);
 
                 //Get the available running time for today
                 var today = DateTime.Today.DayOfWeek;
@@ -222,7 +220,6 @@ namespace DominatorHouseCore.Utility
                     availableTimingRanges.Sort(new RunningTimeComparer());
                     var calculatedStartTime = DateTime.Today.Add(availableTimingRanges[0].StartTime);
                     if (calculatedStartTime > startTimeOfNextJob) startTimeOfNextJob = calculatedStartTime;
-                    //if (moduleConfiguration.NextRun > startTimeOfNextJob) startTimeOfNextJob = moduleConfiguration.NextRun;
                 }
                 else
                 {
@@ -232,14 +229,15 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
                 return DateTime.MinValue;
             }
         }
 
         public static DateTime GetStartTimeForHourly(ModuleConfiguration moduleConfiguration, int? delayBetweenJob = null)
         {
-            var minutes = 60 - DateTime.Now.Minute; //To get the remaining minutes for completion of current hour.
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            var minutes = 60 - dateProvider.Now().Minute; //To get the remaining minutes for completion of current hour.
             return GetStartTimeOfNextJob(moduleConfiguration, minutes);
         }
 
@@ -264,14 +262,14 @@ namespace DominatorHouseCore.Utility
         }
         public static Int64 GetCurrentEpochTimeMilliSeconds(this DateTime date)
         {
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            return Convert.ToInt64(Math.Floor((date.ToUniversalTime() - dateTime).TotalMilliseconds));
+            return Convert.ToInt64(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalMilliseconds));
         }
 
         public static DateTime GetNextStartTime(ModuleConfiguration moduleConfiguration,
             ReachedLimitType reachedLimitType, int? delayBetweenJob = null)
         {
-            var nextStartTime = DateTime.Now;
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            var nextStartTime = dateProvider.Now();
             switch (reachedLimitType)
             {
                 case ReachedLimitType.Weekly:
@@ -312,7 +310,8 @@ namespace DominatorHouseCore.Utility
         }
         public static DateTime EpochToDateTimeLocal(this int epoch)
         {
-            return EpochToDateTimeUtc(epoch) + (DateTime.Now - DateTime.UtcNow);
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            return EpochToDateTimeUtc(epoch) + (dateProvider.Now() - dateProvider.UtcNow());
         }
     }
 
