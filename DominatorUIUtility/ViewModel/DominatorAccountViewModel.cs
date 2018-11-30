@@ -1112,13 +1112,14 @@ namespace DominatorUIUtility.ViewModel
         private void DeleteAccountFromCampaign(DominatorAccountModel account)
         {
             account = AccountsFileManager.GetAccount(account.UserName, account.AccountBaseModel.AccountNetwork);
-            var moduleConfigurations = account.ActivityManager.LstModuleConfiguration;
-            foreach (var moduleConfiguration in moduleConfigurations)
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
             {
                 DominatorScheduler.StopActivity(account, moduleConfiguration.ActivityType.ToString(), moduleConfiguration.TemplateId, false);
                 if (moduleConfiguration.IsTemplateMadeByCampaignMode)
                 {
-                    CampaignsFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
+                    campaignFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
                     var campToUpdate = Campaigns.GetCampaignsInstance(account.AccountBaseModel.AccountNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId);
                     campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
                 }
@@ -1534,20 +1535,20 @@ namespace DominatorUIUtility.ViewModel
             {
                 selectedAccounts.ForEach(account =>
                 {
-                    var accountToUpdate = AccountsFileManager.GetAccountById(account.AccountId);
-                    accountToUpdate.ActivityManager.LstModuleConfiguration.ForEach(x =>
+                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                    jobActivityConfigurationManager[account.AccountId].ForEach(x =>
                     {
                         x.IsEnabled = false;
                         DominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
                     });
-                    account.ActivityManager.LstModuleConfiguration =
-                        accountToUpdate.ActivityManager.LstModuleConfiguration;
+
                     account?.NotifyCancelled();
                     GlobusLogHelper.log.Info(Log.StopAllActivitiesOfAccount,
                          account.AccountBaseModel.AccountNetwork,
                          account.AccountBaseModel.UserName);
                 });
 
+                var BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
                 BinFileHelper.UpdateAllAccounts(LstDominatorAccountModel.ToList());
 
             });

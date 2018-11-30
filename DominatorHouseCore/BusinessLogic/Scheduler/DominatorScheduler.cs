@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Diagnostics;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
@@ -6,13 +7,11 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
-using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -20,6 +19,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
 
         private static IJobProcessFactory _activeJobProcessFactory;
+        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
 
         public static object RunStopActivityLocker = new object();
 
@@ -34,7 +34,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-
                 _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
 
                 var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
@@ -105,7 +104,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="activityType"></param>
         internal static void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork, ActivityType activityType)
         {
-            var moduleConfiguration = dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
             if (moduleConfiguration != null && !moduleConfiguration.IsEnabled)
                 return;
 
@@ -261,14 +261,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             var runningTime = new List<RunningTimes>();
             try
             {
-                var moduleConfiguration = item.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == moduleType);
+                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var moduleConfiguration = jobActivityConfigurationManager[item.AccountId, moduleType];
                 if (moduleConfiguration != null)
                 {
-                    //ITemplatesCacheService TemplatesCacheService;
-                       //var TemplatesCacheService = new TemplatesCacheService();
-                    var activitySetting = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels()
+                    var activitySetting = ServiceLocator.Current.GetInstance<ITemplatesCacheService>().GetTemplateModels()
                         .FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
-                    //var activitySetting = BinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
 
                     dynamic obj = JsonConvert.DeserializeObject(activitySetting);
                     runningTime = obj.JobConfiguration.RunningTime;
@@ -357,12 +355,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 var accountModel = AccountsFileManager.GetAccountById(accountId);
 
-                var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
+                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, activityType];
 
-                if (moduleConfiguration == null)
-                    return false;
-
-                var accountstemplateId = moduleConfiguration.TemplateId;
+                var accountstemplateId = moduleConfiguration?.TemplateId;
                 if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
                 {
                     return false;
@@ -371,7 +368,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     try
                     {
-                        var campaignStatus = CampaignsFileManager.Get()
+                        var campaignStatus = campaignFileManager
                             .FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId)
                             ?.Status;
                         if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
@@ -444,8 +441,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-                var moduleConfigurations = account.ActivityManager.LstModuleConfiguration;
-                foreach (var moduleConfiguration in moduleConfigurations)
+                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
                 {
                     ScheduleNextActivity(account, moduleConfiguration.ActivityType);
                 }
@@ -459,7 +456,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public static void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, SocialNetworks netowork,
             ActivityType activityType)
         {
-            var moduleConfiguration = dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
             if (moduleConfiguration == null || !moduleConfiguration.IsEnabled)
                 return;
 

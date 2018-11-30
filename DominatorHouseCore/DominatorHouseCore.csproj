@@ -548,6 +548,7 @@
     <Compile Include="Models\Config\URLShortnerServicesModel.cs" />
     <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
+    <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
@@ -585,6 +586,7 @@
     <Compile Include="Utility\EnumExtensions.cs" />
     <Compile Include="Utility\FileSystemProvider.cs" />
     <Compile Include="Utility\GlobalInteractedUtility.cs" />
+    <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />

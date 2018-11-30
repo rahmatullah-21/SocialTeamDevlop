@@ -29,6 +29,7 @@ namespace DominatorHouseCore.Process
         public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             DominatorAccountModel = AccountsFileManager.GetAccount(account, network);
 
             SocialNetworks = network;
@@ -58,7 +59,7 @@ namespace DominatorHouseCore.Process
             }
 
             TemplateId = template;
-            CampaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
+            CampaignId = campaignFileManager.FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
             ActivityType = activityType;
 
             InitializeActivityCount(account);
@@ -171,7 +172,7 @@ namespace DominatorHouseCore.Process
         {
             Stop();
 
-            var lstTemplateModel = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().ToList();
+            var lstTemplateModel = ServiceLocator.Current.GetInstance<ITemplatesCacheService>().GetTemplateModels().ToList();
             foreach (var template in lstTemplateModel)
                 if (template.Id == TemplateId)
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();
@@ -195,7 +196,7 @@ namespace DominatorHouseCore.Process
 
                 var scraper = scraperFactory.Create(this);
 
-                if (SavedQueries==null || SavedQueries?.Count == 0)
+                if (SavedQueries == null || SavedQueries?.Count == 0)
                     scraper.ScrapeWithoutQueries(ActivityType.ToString());
                 else
                     scraper.ScrapeWithQueries();

@@ -17,6 +17,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
     /// </summary>
     public class CampaignGlobalRoutines
     {
+        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         static CampaignGlobalRoutines _instance = new CampaignGlobalRoutines();
         public static CampaignGlobalRoutines Instance => _instance;
 
@@ -28,7 +29,10 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         };
 
 
-        private CampaignGlobalRoutines() { }
+        private CampaignGlobalRoutines()
+        {
+            _jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+        }
 
 
         /// <summary>
@@ -73,9 +77,8 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
             var allAccounts = AccountsFileManager.GetAll();
 
             List<DominatorAccountModel> accountsWithRunningActivity =
-                        allAccounts.Where(
-                            x => x.ActivityManager.LstModuleConfiguration.FirstOrDefault(y => y.ActivityType == activityType)
-                                                     ?.TemplateId != null)?.ToList() ?? new List<DominatorAccountModel>();
+            allAccounts.Where(
+                x => _jobActivityConfigurationManager[x.AccountId, activityType]?.TemplateId != null).ToList();
 
             if (accountsWithRunningActivity.Count == 0)
                 return true;

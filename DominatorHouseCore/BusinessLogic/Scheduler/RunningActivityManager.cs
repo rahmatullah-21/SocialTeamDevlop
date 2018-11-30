@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -48,9 +49,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         }
         public static void StartNextRound(DominatorAccountModel accountModel)
         {
-
-            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.Where(arg => arg.IsEnabled && arg.LstRunningTimes != null)
-                .OrderByDescending(PickNextActivity).FirstOrDefault();
+            var jobActivityConfigurationManager =
+                ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = jobActivityConfigurationManager
+                .AllEnabled()
+                .OrderByDescending(PickNextActivity)
+                .FirstOrDefault();
             if (moduleConfiguration == null) return;
             //Check if any job process is already scheduled before to run after this activity.
             var schedules = JobManager.AllSchedules;

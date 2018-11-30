@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,26 +16,23 @@ namespace DominatorHouseCore.FileManagers
     public class AccountsCacheService : IAccountsCacheService
     {
         private readonly object _syncContext = new object();
-        private readonly Dictionary<string, DominatorAccountModel> _cache;
+        private readonly Lazy<Dictionary<string, DominatorAccountModel>> _cache;
+        private readonly IBinFileHelper _binFileHelper;
 
-        public AccountsCacheService()
+        public AccountsCacheService(IBinFileHelper binFileHelper)
         {
-            _cache = new Dictionary<string, DominatorAccountModel>();
+            _binFileHelper = binFileHelper;
+            _cache = new Lazy<Dictionary<string, DominatorAccountModel>>(() =>
+            {
+                return _binFileHelper.GetAccountDetails().ToDictionary(a => a.AccountId, a => a);
+            });
         }
 
         public IReadOnlyCollection<DominatorAccountModel> GetAccountDetails()
         {
             lock (_syncContext)
             {
-                if (_cache.Count == 0)
-                {
-                    foreach (var account in BinFileHelper.GetAccountDetails())
-                    {
-                        _cache.Add(account.AccountId, account);
-                    }
-                }
-
-                return _cache.Values;
+                return _cache.Value.Values;
             }
         }
 
@@ -42,15 +40,15 @@ namespace DominatorHouseCore.FileManagers
         {
             lock (_syncContext)
             {
-                var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
+                var cacheCopy = _cache.Value.ToDictionary(a => a.Key, a => a.Value);
                 UpsertData(cacheCopy, accounts);
-                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                var result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
-                    _cache.Clear();
+                    _cache.Value.Clear();
                     foreach (var model in cacheCopy)
                     {
-                        _cache.Add(model.Key, model.Value);
+                        _cache.Value.Add(model.Key, model.Value);
                     }
                 }
 
@@ -62,19 +60,19 @@ namespace DominatorHouseCore.FileManagers
         {
             lock (_syncContext)
             {
-                var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
+                var cacheCopy = _cache.Value.ToDictionary(a => a.Key, a => a.Value);
                 foreach (var model in accounts)
                 {
                     if (cacheCopy.ContainsKey(model.AccountId))
                         cacheCopy.Remove(model.AccountId);
                 }
-                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                var result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
-                    _cache.Clear();
+                    _cache.Value.Clear();
                     foreach (var model in cacheCopy)
                     {
-                        _cache.Add(model.Key, model.Value);
+                        _cache.Value.Add(model.Key, model.Value);
                     }
                 }
                 return result;

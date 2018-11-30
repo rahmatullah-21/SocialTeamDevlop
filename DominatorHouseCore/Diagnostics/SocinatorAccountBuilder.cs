@@ -1,60 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.EmailService;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorHouseCore.EmailService;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 
 namespace DominatorHouseCore.Diagnostics
 {
     public class SocinatorAccountBuilder
     {
+        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         private DominatorAccountModel DominatorAccountModel { get; set; }
 
         public SocinatorAccountBuilder(string accountId)
         {
             var account = AccountsFileManager.GetAccountById(accountId);
             DominatorAccountModel = account;
+            _jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
         }
 
         public SocinatorAccountBuilder AddOrUpdateModuleSettings(ActivityType activityType,
             ModuleConfiguration moduleConfiguration)
         {
-            var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
-
-            if (moduleSettings == null)
-                DominatorAccountModel.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
-            else
-            {
-                try
-                {
-                    //if(!moduleConfiguration.IsEnabled)
-                    //DominatorScheduler.StopActivity(DominatorAccountModel.AccountBaseModel.AccountId,
-                    //           activityType.ToString(), moduleSettings.TemplateId);
-
-                    DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-                    DominatorAccountModel.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-
+            var accountId = DominatorAccountModel.AccountBaseModel.AccountId;
+            _jobActivityConfigurationManager.AddOrUpdate(accountId, activityType, moduleConfiguration);
             return this;
         }
 
 
         public SocinatorAccountBuilder RemoveModuleSettings(ActivityType activityType)
         {
-            var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
-
-            if (moduleSettings != null)
-                DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-
+            var accountId = DominatorAccountModel.AccountBaseModel.AccountId;
+            _jobActivityConfigurationManager.Delete(accountId, activityType);
             return this;
         }
 

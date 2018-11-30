@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using System;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -9,12 +9,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         private static string GetTemplateId(TimingRange timing, DominatorAccountModel dominatorAccount)
         {
-            var templateId = string.Empty;
-
             var gdModule = (ActivityType)Enum.Parse(typeof(ActivityType), timing.Module);
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, gdModule];
 
             // Returns TemplateId for particular module
-            return dominatorAccount.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == gdModule).TemplateId;
+            return moduleConfiguration?.TemplateId;
         }
     }
 
