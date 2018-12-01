@@ -79,13 +79,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditDominatorCore.UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TumblrDominatorCore.UnitTests", "..\tumblrdominator-library\TumblrDominatorCore.UnitTests\TumblrDominatorCore.UnitTests.csproj", "{33E27CC8-7FE6-4936-B57F-57298532F175}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeDominatorCore.UnitTests", "..\youtubedominator-library\YoutubeDominatorCore.UnitTests\YoutubeDominatorCore.UnitTests.csproj", "{6FDF8626-FE70-475B-8DC6-7153AF70ED99}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominator.Tests.Utils", "Tests\Dominator.Tests.Utils\Dominator.Tests.Utils.csproj", "{3DEBDD7B-B004-4ADB-BDF8-58D6D65B8E57}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore.UnitTests", "..\twtdominator-library\Tests\TwtDominatorCore.UnitTests\TwtDominatorCore.UnitTests.csproj", "{0EA74034-2086-441A-B971-F52EFD23F5F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoraDominatorCore.UnitTests", "..\quoradominator-library\QuoraDominatorCore.UnitTests\QuoraDominatorCore.UnitTests.csproj", "{57D13829-2736-45FC-B2F0-BFC8C44B28BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeDominatorCore.UnitTests", "..\youtubedominator-library\YoutubeDominatorCore.UnitTests\YoutubeDominatorCore.UnitTests.csproj", "{61A5E2CE-2404-4D16-A5BD-CD839DA38314}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -757,24 +757,6 @@ Global
 		{33E27CC8-7FE6-4936-B57F-57298532F175}.Release|x64.Build.0 = Release|Any CPU
 		{33E27CC8-7FE6-4936-B57F-57298532F175}.Release|x86.ActiveCfg = Release|Any CPU
 		{33E27CC8-7FE6-4936-B57F-57298532F175}.Release|x86.Build.0 = Release|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug|x64.Build.0 = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug|x86.Build.0 = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Release|x64.ActiveCfg = Release|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Release|x64.Build.0 = Release|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Release|x86.ActiveCfg = Release|Any CPU
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99}.Release|x86.Build.0 = Release|Any CPU
 		{3DEBDD7B-B004-4ADB-BDF8-58D6D65B8E57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3DEBDD7B-B004-4ADB-BDF8-58D6D65B8E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DEBDD7B-B004-4ADB-BDF8-58D6D65B8E57}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -829,6 +811,24 @@ Global
 		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x64.Build.0 = Release|Any CPU
 		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x86.ActiveCfg = Release|Any CPU
 		{57D13829-2736-45FC-B2F0-BFC8C44B28BA}.Release|x86.Build.0 = Release|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug|x64.Build.0 = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug|x86.Build.0 = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Release|x64.ActiveCfg = Release|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Release|x64.Build.0 = Release|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Release|x86.ActiveCfg = Release|Any CPU
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -843,13 +843,13 @@ Global
 		{CBB97B17-2F67-417E-9EFA-95751A785BA2} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{BCF71ABB-FB1E-4D33-A488-5DDBA68DFA60} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{33E27CC8-7FE6-4936-B57F-57298532F175} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
-		{6FDF8626-FE70-475B-8DC6-7153AF70ED99} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{3DEBDD7B-B004-4ADB-BDF8-58D6D65B8E57} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{0EA74034-2086-441A-B971-F52EFD23F5F8} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{57D13829-2736-45FC-B2F0-BFC8C44B28BA} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
+		{61A5E2CE-2404-4D16-A5BD-CD839DA38314} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
+		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 	EndGlobalSection
 EndGlobal
