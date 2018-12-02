@@ -160,13 +160,13 @@ namespace DominatorHouseCore.Utility
 
         public static void ExportReports(string fileName, string csvHeader, List<string> csvData)
         {
-            using (var streamWriter = new StreamWriter(fileName, true))
+            using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
                 streamWriter.WriteLine(csvHeader);
             try
             {
                 foreach (var item in csvData)
                 {
-                    using (var streamWriter = new StreamWriter(fileName, true))
+                    using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
                     {
                         streamWriter.WriteLine(item);
                     }

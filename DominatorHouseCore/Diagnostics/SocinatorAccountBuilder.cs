@@ -1,9 +1,6 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.EmailService;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.EmailService;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,30 +10,12 @@ namespace DominatorHouseCore.Diagnostics
 {
     public class SocinatorAccountBuilder
     {
-        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         private DominatorAccountModel DominatorAccountModel { get; set; }
 
         public SocinatorAccountBuilder(string accountId)
         {
             var account = AccountsFileManager.GetAccountById(accountId);
             DominatorAccountModel = account;
-            _jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-        }
-
-        public SocinatorAccountBuilder AddOrUpdateModuleSettings(ActivityType activityType,
-            ModuleConfiguration moduleConfiguration)
-        {
-            var accountId = DominatorAccountModel.AccountBaseModel.AccountId;
-            _jobActivityConfigurationManager.AddOrUpdate(accountId, activityType, moduleConfiguration);
-            return this;
-        }
-
-
-        public SocinatorAccountBuilder RemoveModuleSettings(ActivityType activityType)
-        {
-            var accountId = DominatorAccountModel.AccountBaseModel.AccountId;
-            _jobActivityConfigurationManager.Delete(accountId, activityType);
-            return this;
         }
 
         public SocinatorAccountBuilder AddOrUpdateCookies(CookieCollection cookies)

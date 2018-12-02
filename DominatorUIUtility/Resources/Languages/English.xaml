@@ -3279,4 +3279,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWouldYouStillLikeToProceed">Would you still like to proceed ?</system:String>
     <system:String x:Key="LangKeyTwoFactorLoginRequired">Two Factor Login Required</system:String>
     <system:String x:Key="LangKeyCancelPrivateRequest">Cancel Private Request</system:String>
+    <system:String x:Key="LangKeyAddFacebookVideoUrls">Add Facebook Video Urls</system:String>
+    <system:String x:Key="LangKeyAddVideoUrlsFromPages">Add Video Urls From Pages</system:String>
+    <system:String x:Key="LangKeyMentionSpecificUsers">Mention Specific Users in Post</system:String>
 </ResourceDictionary>

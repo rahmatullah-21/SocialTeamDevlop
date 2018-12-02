@@ -49,6 +49,9 @@ namespace DominatorHouseCore.Utility
             SocialNetworks network);
 
         List<GlobalInteractionViewModel> GetGlobalInteractedDetails(SocialNetworks network);
+        List<T> GetFacebookEntity<T>() where T : class, new();
+
+        void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class, new();
     }
 
     public class BinFileHelper : IBinFileHelper
@@ -615,6 +618,7 @@ namespace DominatorHouseCore.Utility
                 _protoBuffBase.DeserializeList<GlobalInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
         }
 
+      
         public void UpdateGlobalInteractedDetails(List<GlobalInteractionViewModel> globalInteractedDatas,
             SocialNetworks network)
         {
@@ -632,12 +636,12 @@ namespace DominatorHouseCore.Utility
 
         #endregion
 
-        public void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class
+        public void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class, new()
         {
             _protoBuffBase.SerializeList(friendsModelList, filePath);
         }
 
-        public List<T> GetFacebookEntity<T>() where T : class
+        public List<T> GetFacebookEntity<T>() where T : class, new()
         {
             return _protoBuffBase.DeserializeList<T>(ConstantVariable.GetFacebookDetailsConfigFile());
         }

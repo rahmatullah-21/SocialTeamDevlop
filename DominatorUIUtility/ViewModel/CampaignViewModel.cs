@@ -642,14 +642,14 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                 var moduleConfiguration = jobActivityConfigurationManager[account.AccountId, module];
 
                 if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
                     moduleConfiguration.IsEnabled = isToggleSwitchSelected;
 
-                var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                    .AddOrUpdateModuleSettings(module, moduleConfiguration)
-                    .SaveToBinFile();
+                jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                accountsCacheService.UpsertAccounts(account);
                 if (isToggleSwitchSelected)
                 {
                     DominatorScheduler.ScheduleNextActivity(account, module);
@@ -671,6 +671,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), camp.SubModule);
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                 // remove template from each account
                 allAccounts.ForEach(x =>
                 {
@@ -685,13 +686,11 @@ namespace DominatorUIUtility.ViewModel
                         {
                             jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
                         }
-
-                        var socinatorAccountBuilder = new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                            .RemoveModuleSettings(module)
-                            .SaveToBinFile();
                     }
 
+
                 });
+                accountsCacheService.UpsertAccounts(allAccounts.ToArray());
 
             }
             catch (Exception ex)

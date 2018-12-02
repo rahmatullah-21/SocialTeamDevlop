@@ -36,7 +36,7 @@ namespace DominatorUIUtility.ViewModel
                 if (_isEmailVerification == value)
                     return;
                 if (SetProperty(ref _isEmailVerification, value))
-                    if (!IsEmailVerificationCodeSent)
+                    if (!IsEmailVerificationCodeSent && IsEmailVerification)
                         SetVerificationCodeVisibility(true);
                     else if (IsEmailVerificationCodeSent && IsEmailVerification)
                         SetVerificationCodeVisibility(false);
@@ -50,7 +50,7 @@ namespace DominatorUIUtility.ViewModel
             set
             {
                 if (SetProperty(ref _isPhoneVerification, value))
-                    if (!IsPhoneVerificationCodeSent)
+                    if (!IsPhoneVerificationCodeSent && IsPhoneVerification)
                         SetVerificationCodeVisibility(true);
                     else if (IsPhoneVerificationCodeSent && IsPhoneVerification)
                         SetVerificationCodeVisibility(false);
