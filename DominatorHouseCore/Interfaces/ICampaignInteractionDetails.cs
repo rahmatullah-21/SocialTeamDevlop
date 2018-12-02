@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -12,5 +13,7 @@ namespace DominatorHouseCore.Interfaces
         void ReadInteractedData();
 
         Dictionary<string, CampaignInteractionDataModel> CampaignInteractedCollections { get; set; }
+
+        CampaignInteractedUtility CampaignInteractedUtility { get; }
     }
 }

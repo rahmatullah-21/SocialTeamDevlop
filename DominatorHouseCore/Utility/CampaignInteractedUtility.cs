@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DominatorHouseCore.Diagnostics;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
+using System;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Utility
 {
     public class CampaignInteractedUtility
     {
 
+        private readonly ICampaignInteractionDetails _campaignInteractionDetails;
         public SocialNetworks SocialNetworks { get; set; }
 
         public CampaignInteractedUtility(SocialNetworks networks)
         {
+            _campaignInteractionDetails = ServiceLocator.Current.GetInstance<ICampaignInteractionDetails>(networks.ToString());
             SocialNetworks = networks;
         }
 
@@ -28,11 +30,8 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-
-                CampaignInteractionDataModel = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory()
-                               .CampaignInteractionDetails.CampaignInteractedCollections[campaignId] ??
-                           new CampaignInteractionDataModel();
-                return CampaignInteractionDataModel;
+                lock (Synclock)
+                    return _campaignInteractionDetails.CampaignInteractedCollections[campaignId] ?? new CampaignInteractionDataModel();
             }
             catch
             {
@@ -52,7 +51,7 @@ namespace DominatorHouseCore.Utility
                     {
                         var hashsetValue = new SortedList<string, DateTime> { { interactedData, DateTime.Now } };
 
-                        var collections = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.CampaignInteractedCollections;
+                        var collections = _campaignInteractionDetails.CampaignInteractedCollections;
 
                         if (collections.ContainsKey(campaignId))
                         {
@@ -72,10 +71,9 @@ namespace DominatorHouseCore.Utility
                     else
                     {
                         //if (CampaignInteractionDataModel.InteractedData.All(x => x.Key != interactedData))
-                            CampaignInteractionDataModel.InteractedData.Add(interactedData, DateTime.Now);
+                        CampaignInteractionDataModel.InteractedData.Add(interactedData, DateTime.Now);
                     }
-                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory()
-                        .CampaignInteractionDetails.UpdateInteractedData();
+                    _campaignInteractionDetails.UpdateInteractedData();
 
                 }
             }
@@ -126,7 +124,7 @@ namespace DominatorHouseCore.Utility
                     if (IsInteractedDataAvailable(campaignId, interactedData))
                     {
                         CampaignInteractionDataModel.InteractedData.Remove(interactedData);
-                        SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().CampaignInteractionDetails.UpdateInteractedData();
+                        _campaignInteractionDetails.UpdateInteractedData();
                     }
                 }
                 catch (Exception ex)

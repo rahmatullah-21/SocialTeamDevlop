@@ -90,11 +90,6 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
-        public NetworkCoreLibraryBuilder AddCampaignInteractedDetailsFactory(ICampaignInteractionDetails campaignInteractionDetails)
-        {
-            NetworkCoreFactory.CampaignInteractionDetails = campaignInteractionDetails;
-            return this;
-        }
         public NetworkCoreLibraryBuilder AddGlobalInteractedDetailsFactory(IGlobalInteractionDetails globalInteractionDetails)
         {
             NetworkCoreFactory.GlobalInteractionDetails = globalInteractionDetails;
