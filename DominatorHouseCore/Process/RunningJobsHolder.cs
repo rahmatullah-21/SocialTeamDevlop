@@ -6,7 +6,7 @@ namespace DominatorHouseCore.Process
     {
         bool IsRunning(JobKey id);
         bool Stop(JobKey id);
-        bool StartIfNotRunning(JobKey id, JobProcess jobProcess);
+        bool StartIfNotRunning(JobKey id, IJobProcess jobProcess);
         bool IsActivityRunningForAccount(string accountId);
     }
 
@@ -15,7 +15,7 @@ namespace DominatorHouseCore.Process
     /// </summary>
     public class RunningJobsHolder : IRunningJobsHolder
     {
-        private readonly Dictionary<JobKey, JobProcess> _runningJobProcesses = new Dictionary<JobKey, JobProcess>();
+        private readonly Dictionary<JobKey, IJobProcess> _runningJobProcesses = new Dictionary<JobKey, IJobProcess>();
         private readonly HashSet<string> _runningAccounts = new HashSet<string>();
         private readonly object _syncJobProcess = new object();
 
@@ -42,7 +42,7 @@ namespace DominatorHouseCore.Process
             return false;
         }
 
-        public bool StartIfNotRunning(JobKey id, JobProcess jobProcess)
+        public bool StartIfNotRunning(JobKey id, IJobProcess jobProcess)
         {
             lock (_syncJobProcess)
             {

@@ -19,15 +19,27 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Process
 {
+    public interface IJobProcess
+    {
+        void Stop();
+    }
+
     /// <summary>
     ///     Base abstract class for other jobs: FollowProcess, LikeProcess
     ///     Contains: account, job configuration (schedule), activity type (follow, unfollow, etc),
     ///     other helper objects.
     ///     Derived class have to implement PostScrapeProcess
     /// </summary>
-    public abstract class JobProcess
+    public abstract class JobProcess : IJobProcess
     {
         private readonly IRunningJobsHolder _runningJobsHolder;
+
+        [Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
+        public JobProcess()
+        {
+
+        }
+
         protected JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
