@@ -3,6 +3,7 @@ using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Process;
 using DominatorHouseCore.ProxyServerManagment;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
@@ -32,6 +33,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IBinFileHelper, BinFileHelper>();
             Container.RegisterSingleton<ILockFileConfigProvider, LockFileConfigProvider>();
             Container.RegisterSingleton<IProtoBuffBase, ProtoBuffBase>();
+            Container.RegisterSingleton<IRunningJobsHolder, RunningJobsHolder>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();
