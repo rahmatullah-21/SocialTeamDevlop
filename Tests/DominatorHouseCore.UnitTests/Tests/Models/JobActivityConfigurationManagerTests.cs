@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace DominatorHouseCore.UnitTests.Tests.Models
 {
-    [TestClass, Ignore("Ignored for a while")]
+    [TestClass]
     public class JobActivityConfigurationManagerTests
     {
         private IJobActivityConfigurationManager _sut;
@@ -24,28 +24,33 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
         }
 
         [TestMethod]
-        public void should_add_new_item()
+        public void should_add_new_item_in_cache_and_account()
         {
             // arrange
             var config = new ModuleConfiguration(); ;
             var accountId = "123";
             var activityType = ActivityType.Delete;
+            var account = new DominatorAccountModel();
+            _accountsCacheService[accountId].Returns(account);
 
             // act
             _sut.AddOrUpdate(accountId, activityType, config);
 
             // assert
             _sut[accountId, activityType].Should().Be(config);
+            account.ActivityManager.LstModuleConfiguration.Single().Should().Be(config);
         }
 
         [TestMethod]
-        public void should_update()
+        public void should_update_in_cache_and_account()
         {
             // arrange
-            var config = new ModuleConfiguration(); ;
-            var config1 = new ModuleConfiguration(); ;
+            var config = new ModuleConfiguration() { ActivityType = ActivityType.Delete };
+            var config1 = new ModuleConfiguration() { ActivityType = ActivityType.Delete }; ;
             var accountId = "123";
             var activityType = ActivityType.Delete;
+            var account = new DominatorAccountModel();
+            _accountsCacheService[accountId].Returns(account);
             _sut.AddOrUpdate(accountId, activityType, config);
 
             // act
@@ -53,15 +58,18 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
 
             // assert
             _sut[accountId, activityType].Should().Be(config1);
+            account.ActivityManager.LstModuleConfiguration.Single().Should().Be(config1);
         }
 
         [TestMethod]
-        public void should_delete()
+        public void should_delete_in_cache_and_account()
         {
             // arrange
-            var config = new ModuleConfiguration(); ;
-            var accountId = "123";
             var activityType = ActivityType.Delete;
+            var config = new ModuleConfiguration() { ActivityType = activityType };
+            var accountId = "123";
+            var account = new DominatorAccountModel();
+            _accountsCacheService[accountId].Returns(account);
             _sut.AddOrUpdate(accountId, activityType, config);
 
             // act
@@ -69,6 +77,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
 
             // assert
             _sut[accountId, activityType].Should().BeNull();
+            account.ActivityManager.LstModuleConfiguration.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -76,6 +85,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
         {
             // arrange
             var accountId = "123";
+            var account = new DominatorAccountModel();
+            _accountsCacheService[accountId].Returns(account);
 
             // act
             var result = _sut[accountId];
@@ -91,6 +102,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
             var config = new ModuleConfiguration(); ;
             var accountId = "123";
             var activityType = ActivityType.Delete;
+            var account = new DominatorAccountModel();
+            _accountsCacheService[accountId].Returns(account);
             _sut.AddOrUpdate(accountId, activityType, config);
 
             // act
@@ -111,6 +124,9 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
                 LstRunningTimes = new List<RunningTimes>()
 
             };
+            _accountsCacheService["1"].Returns(new DominatorAccountModel());
+            _accountsCacheService["2"].Returns(new DominatorAccountModel());
+            _accountsCacheService["3"].Returns(new DominatorAccountModel());
             _sut.AddOrUpdate("1", ActivityType.Delete, enabledConfig);
             _sut.AddOrUpdate("2", ActivityType.AcceptConnectionRequest, new ModuleConfiguration { IsEnabled = true, LstRunningTimes = null });
             _sut.AddOrUpdate("3", ActivityType.AnswersScraper, new ModuleConfiguration

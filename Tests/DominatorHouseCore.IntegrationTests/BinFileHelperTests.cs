@@ -41,7 +41,7 @@ namespace DominatorHouseCore.IntegrationTests
             campaigns.Count.Should().Be(8);
         }
 
-        [TestMethod, Ignore("Ignored for a while")]
+        [TestMethod]
         [DeploymentItem("TestData", "TestData")]
         public void should_deserialize_templates()
         {
@@ -58,7 +58,7 @@ namespace DominatorHouseCore.IntegrationTests
             Sut.GetTemplateDetails();
 
             // assert
-            templates.Count.Should().Be(8);
+            templates.Count.Should().Be(13);
         }
     }
 }

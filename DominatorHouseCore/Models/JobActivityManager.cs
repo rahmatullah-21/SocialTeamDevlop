@@ -30,7 +30,7 @@ namespace DominatorHouseCore.Models
         public void AddOrUpdateModuleConfig(ModuleConfiguration moduleConfiguration)
         {
             var index = FindIndexByActivityType(moduleConfiguration.ActivityType);
-            if (index > 0)
+            if (index >= 0)
             {
                 _lstModuleConfiguration[index] = moduleConfiguration;
             }
@@ -44,7 +44,7 @@ namespace DominatorHouseCore.Models
         public void DeleteModuleConfig(ActivityType activityType)
         {
             var index = FindIndexByActivityType(activityType);
-            if (index > 0)
+            if (index >= 0)
             {
                 _lstModuleConfiguration.RemoveAt(index);
             }
