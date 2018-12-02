@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System.Collections.Generic;
 
@@ -6,13 +7,13 @@ namespace DominatorHouseCore.Interfaces
 {
     public interface ICampaignInteractionDetails
     {
-        void InitializeInteraction();
+        void InitializeInteraction(SocialNetworks networks);
 
-        void UpdateInteractedData();
+        void UpdateInteractedData(SocialNetworks networks);
 
-        void ReadInteractedData();
+        void ReadInteractedData(SocialNetworks networks);
 
-        Dictionary<string, CampaignInteractionDataModel> CampaignInteractedCollections { get; set; }
+        Dictionary<string, CampaignInteractionDataModel> CampaignInteractedCollections { get; }
 
         CampaignInteractedUtility CampaignInteractedUtility { get; }
     }

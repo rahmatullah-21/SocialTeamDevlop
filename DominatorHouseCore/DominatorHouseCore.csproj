@@ -462,6 +462,7 @@
     <Compile Include="Enums\VerificationType.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
     <Compile Include="FileManagers\AccountsCacheService.cs" />
+    <Compile Include="FileManagers\CampaignInteractionDetails.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\GenericFileManager.cs" />

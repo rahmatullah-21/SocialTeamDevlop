@@ -15,7 +15,7 @@ namespace DominatorHouseCore.Utility
 
         public CampaignInteractedUtility(SocialNetworks networks)
         {
-            _campaignInteractionDetails = ServiceLocator.Current.GetInstance<ICampaignInteractionDetails>(networks.ToString());
+            _campaignInteractionDetails = ServiceLocator.Current.GetInstance<ICampaignInteractionDetails>();
             SocialNetworks = networks;
         }
 
@@ -73,7 +73,7 @@ namespace DominatorHouseCore.Utility
                         //if (CampaignInteractionDataModel.InteractedData.All(x => x.Key != interactedData))
                         CampaignInteractionDataModel.InteractedData.Add(interactedData, DateTime.Now);
                     }
-                    _campaignInteractionDetails.UpdateInteractedData();
+                    _campaignInteractionDetails.UpdateInteractedData(SocialNetworks);
 
                 }
             }
@@ -124,7 +124,7 @@ namespace DominatorHouseCore.Utility
                     if (IsInteractedDataAvailable(campaignId, interactedData))
                     {
                         CampaignInteractionDataModel.InteractedData.Remove(interactedData);
-                        _campaignInteractionDetails.UpdateInteractedData();
+                        _campaignInteractionDetails.UpdateInteractedData(SocialNetworks);
                     }
                 }
                 catch (Exception ex)

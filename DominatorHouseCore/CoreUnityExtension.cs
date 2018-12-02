@@ -34,6 +34,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ILockFileConfigProvider, LockFileConfigProvider>();
             Container.RegisterSingleton<IProtoBuffBase, ProtoBuffBase>();
             Container.RegisterSingleton<IRunningJobsHolder, RunningJobsHolder>();
+            Container.RegisterSingleton<ICampaignInteractionDetails, CampaignInteractionDetails>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();
