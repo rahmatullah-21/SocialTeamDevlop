@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Process
 {
@@ -26,10 +27,12 @@ namespace DominatorHouseCore.Process
     /// </summary>
     public abstract class JobProcess
     {
-        public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
+        private readonly IRunningJobsHolder _runningJobsHolder;
+        protected JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             DominatorAccountModel = AccountsFileManager.GetAccount(account, network);
 
             SocialNetworks = network;
@@ -37,7 +40,7 @@ namespace DominatorHouseCore.Process
             CurrentJobTimeRange = currentJobTimeRange;
 
             // Get the Template Model from the given template id
-          //  var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
+            //  var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
             var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
             var model = TemplatesFileManager.GetTemplateById(template);
 
@@ -106,16 +109,8 @@ namespace DominatorHouseCore.Process
             }
             else
             {
-                if (RunningJobProcesses != null)
-                {
-                    foreach (var jobProcess in RunningJobProcesses.Values)
-                    {
-                        if (jobProcess.Id.Contains(AccountId + "-------"))
-                        {
-                            return;
-                        }
-                    }
-                }
+                if (_runningJobsHolder.IsActivityRunningForAccount(AccountId))
+                    return;
                 RunningActivityManager.StartNextRound(DominatorAccountModel);
             }
 
@@ -304,34 +299,28 @@ namespace DominatorHouseCore.Process
 
         #region Job Process workflow routines
 
-
-        // stores all running job processes. Key - TemplateId
-        public static readonly Dictionary<string, JobProcess> RunningJobProcesses = new Dictionary<string, JobProcess>();
-
         private static readonly object SyncJobProcess = new object();
 
-        public string Id => AsId(AccountId, TemplateId);
+        public JobKey Id => AsId(AccountId, TemplateId);
 
-        public static string AsId(string account, string templateId)
+        public static JobKey AsId(string account, string templateId)
         {
-            return $"{account}-------{templateId}";
+            return new JobKey(account, templateId);
         }
 
         /// <summary>
         ///     Main method to start process in thread
         /// </summary>
         /// <returns></returns>
-        public void StartProcessAsync()
+        public Task StartProcessAsync()
         {
             lock (SyncJobProcess)
             {
-                if (RunningJobProcesses.ContainsKey(Id)) return;
+                if (!_runningJobsHolder.StartIfNotRunning(Id, this)) return Task.CompletedTask;
 
                 Debug.Assert(JobCancellationTokenSource == null);
 
                 JobCancellationTokenSource = new CancellationTokenSource();
-
-                RunningJobProcesses.Add(Id, this);
 
                 var task = ThreadFactory.Instance.Start(() =>
                 {
@@ -363,15 +352,8 @@ namespace DominatorHouseCore.Process
                 {
                     Console.WriteLine("Cancellation requested!");
                 });
-            }
-        }
 
-
-        public static bool IsStarted(string accountName, string templateId)
-        {
-            lock (SyncJobProcess)
-            {
-                return RunningJobProcesses.ContainsKey(AsId(accountName, templateId));
+                return task;
             }
         }
 
@@ -379,19 +361,9 @@ namespace DominatorHouseCore.Process
         {
             lock (SyncJobProcess)
             {
-                if (JobCancellationTokenSource == null ||
-                    !RunningJobProcesses.ContainsKey(Id))
-                    return;
-
-
-                //DominatorAccountModel.NotifyCancelled();
-                JobCancellationTokenSource.Cancel();
-
+                JobCancellationTokenSource?.Cancel();
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
                     DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
-
-                RunningJobProcesses.Remove(Id);
-                //JobCancellationTokenSource = null;
             }
         }
 
@@ -399,17 +371,14 @@ namespace DominatorHouseCore.Process
         {
             try
             {
-                lock (SyncJobProcess)
+                var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
+                var id = new JobKey(accountName, templateId);
+                if (!runningJobsHolder.Stop(id))
                 {
-                    var id = AsId(accountName, templateId);
-                    if (!RunningJobProcesses.ContainsKey(id))
-                    {
-                        GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
-                        return false;
-                    }
-                    var jobProcess = RunningJobProcesses[id];
-                    jobProcess.Stop();
+                    GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
+                    return false;
                 }
+
                 return true;
             }
             catch (Exception ex)

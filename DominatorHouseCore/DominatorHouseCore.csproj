@@ -568,8 +568,10 @@
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
     <Compile Include="Models\SocioPublisher\SelctAccountDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
+    <Compile Include="Process\JobKey.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="AppResources\ApplicationResourceProvider.cs" />
+    <Compile Include="Process\RunningJobsHolder.cs" />
     <Compile Include="ProxyServerManagment\Models\ProxyParsingResult.cs" />
     <Compile Include="ProxyServerManagment\ProxyManagmentUnityExtension.cs" />
     <Compile Include="ProxyServerManagment\ProxyServerParserService.cs" />

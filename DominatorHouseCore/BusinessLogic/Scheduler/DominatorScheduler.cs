@@ -19,7 +19,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
 
         private static IJobProcessFactory _activeJobProcessFactory;
-        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
 
         public static object RunStopActivityLocker = new object();
 
@@ -105,12 +104,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         internal static void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork, ActivityType activityType)
         {
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
             if (moduleConfiguration != null && !moduleConfiguration.IsEnabled)
                 return;
 
             // Check if activity with the same id already running
-            if (JobProcess.IsStarted(dominatorAccount.AccountId, moduleConfiguration.TemplateId))
+            if (runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
             {
                 GlobusLogHelper.log.Debug($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
                 return;
@@ -457,12 +457,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             ActivityType activityType)
         {
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
             if (moduleConfiguration == null || !moduleConfiguration.IsEnabled)
                 return;
 
             // Check if activity with the same id already running
-            if (JobProcess.IsStarted(dominatorAccount.AccountId, moduleConfiguration.TemplateId))
+            if (runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
             {
                 GlobusLogHelper.log.Info($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
                 return;
@@ -526,16 +527,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             else
             {
-                if (JobProcess.RunningJobProcesses.Count != 0)
-                {
-                    foreach (var jobProcess in JobProcess.RunningJobProcesses.Values)
-                    {
-                        if (jobProcess.Id.Contains(dominatorAccountModel.AccountId + "-------"))
-                        {
-                            return;
-                        }
-                    }
-                }
+                var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
+                if (runningJobsHolder.IsActivityRunningForAccount(dominatorAccountModel.AccountId))
+                    return;
+
                 RunningActivityManager.StartNextRound(dominatorAccountModel);
             }
 
