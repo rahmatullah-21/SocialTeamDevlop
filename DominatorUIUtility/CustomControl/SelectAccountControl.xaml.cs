@@ -90,17 +90,29 @@ namespace DominatorUIUtility.CustomControl
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            switch (cmbSearchFilter.SelectedIndex)
+            FilterAccount();
+        }
+
+        private void FilterAccount()
+        {
+            try
             {
-                case 0:
-                    _objAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
-                    break;
-                case 1:
-                    _objAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
-                    break;
-                default:
-                    _objAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
-                    break;
+                switch (cmbSearchFilter.SelectedIndex)
+                {
+                    case 0:
+                        _objAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
+                        break;
+                    case 1:
+                        _objAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
+                        break;
+                    default:
+                        _objAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -245,6 +257,11 @@ namespace DominatorUIUtility.CustomControl
             AllAccount.Unchecked -= AllAccount_OnUnchecked;
             _objAccountViewModel.IsAllAccountSelected = false;
             AllAccount.Unchecked += AllAccount_OnUnchecked;
+        }
+
+        private void Filter(object sender, SelectionChangedEventArgs e)
+        {
+            FilterAccount();
         }
     }
 }

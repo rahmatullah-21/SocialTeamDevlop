@@ -3283,4 +3283,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAddVideoUrlsFromPages">Add Video Urls From Pages</system:String>
     <system:String x:Key="LangKeyMentionSpecificUsers">Mention Specific Users in Post</system:String>
     <system:String x:Key="LangKeyAddMultipleCommentsSeparatedByNewLine">Add Multiple Comments Separated By New Line</system:String>
+    <system:String x:Key="LangKeyUserShouldHaveSpecifiedWordsInBioDescription">User Should Have Specified Words In Bio Description</system:String>
 </ResourceDictionary>

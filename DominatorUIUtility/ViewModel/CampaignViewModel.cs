@@ -641,7 +641,7 @@ namespace DominatorUIUtility.ViewModel
                         JobProcess.Stop(x.AccountId, camp.TemplateId);
 
                         // Remove task from list
-                        foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId))
+                        foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId).ToList())
                         {
                             jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
                         }
