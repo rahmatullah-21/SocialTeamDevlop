@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Utility
                         if (!string.IsNullOrEmpty(value?.ToString()))
                         {
                             ProxyAddress = value.ToString();
-                            if (!Models.Proxy.IsValidProxyIp(value.ToString()))
+                            if (!Proxy.IsValidProxyIp(value.ToString()))
                             {
                                 return new ValidationResult(false, "Invalid Address");
                             }
@@ -45,7 +45,7 @@ namespace DominatorHouseCore.Utility
                     case "ProxyPort":
                         //if (!string.IsNullOrEmpty(ProxyAddress) && !string.IsNullOrEmpty(value?.ToString()))
                         //{
-                            if (!string.IsNullOrEmpty(value?.ToString()) && !Models.Proxy.IsValidProxyPort(value?.ToString()))
+                            if (!string.IsNullOrEmpty(value?.ToString()) && !Proxy.IsValidProxyPort(value?.ToString()))
                             {
                                 return new ValidationResult(false, "Invalid Port");
                             }
@@ -117,7 +117,7 @@ namespace DominatorHouseCore.Utility
                         else
                         {
                             ProxyAddress = value.ToString();
-                            if (!Models.Proxy.IsValidProxyIp(value.ToString()))
+                            if (!Proxy.IsValidProxyIp(value.ToString()))
                             {
                                 return new ValidationResult(false, "Invalid Address");
                             }
@@ -135,7 +135,7 @@ namespace DominatorHouseCore.Utility
                             //    return new ValidationResult(false, "Invalid Port");
                             //}
 
-                            if (!Models.Proxy.IsValidProxyPort(value.ToString()))
+                            if (!Proxy.IsValidProxyPort(value.ToString()))
                             {
                                 return new ValidationResult(false, "Invalid Port");
                             }
@@ -158,7 +158,7 @@ namespace DominatorHouseCore.Utility
             try
             {
                 var proxy = (value as MultiBindingExpression).BindingGroup.Items[1] as Proxy;
-                if (!Models.Proxy.IsValidProxy(proxy.ProxyIp, proxy.ProxyPort))
+                if (!Proxy.IsValidProxy(proxy.ProxyIp, proxy.ProxyPort))
                     return new ValidationResult(false, "Invalid IP address");
 
 

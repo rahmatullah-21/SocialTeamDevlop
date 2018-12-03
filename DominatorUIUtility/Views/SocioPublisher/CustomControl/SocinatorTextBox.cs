@@ -269,7 +269,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 }
             }
 
-            this.GotFocus += SocinatorTextBox_GotFocus;
+            GotFocus += SocinatorTextBox_GotFocus;
 
             var popUpControl = Template.FindName(SuggestionPopUp, this) as Popup;
 
@@ -634,7 +634,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public string Evaluate(object dataItem)
         {
-            this.DataContext = dataItem;
+            DataContext = dataItem;
             SetBinding(ValueProperty, ValueBinding);
             return Value;
         }

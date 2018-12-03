@@ -744,7 +744,7 @@ namespace EmbeddedBrowser
         {
             if (html != null && html.Contains("js-username-field email-input js-initial-focus") && html.Contains("js-password-field"))
             {
-                this.Browser.ExecuteScriptAsync(
+                Browser.ExecuteScriptAsync(
                     "document.getElementsByClassName('js-username-field email-input js-initial-focus')[0].value= '" +
                     DominatorAccountModel.AccountBaseModel.UserName + "'");
 
@@ -752,7 +752,7 @@ namespace EmbeddedBrowser
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('js-password-field')[0].value= '" +
                                            DominatorAccountModel.AccountBaseModel.Password.Replace("'", "\\'") + "'");
                 Thread.Sleep(2000);
-                this.Browser.ExecuteScriptAsync(
+                Browser.ExecuteScriptAsync(
                     "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");
                 Thread.Sleep(4000);
 

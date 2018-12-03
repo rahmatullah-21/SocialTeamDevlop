@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Utility
         public string PhoneId { get; private set; }
 
         public string Useragent =>
-            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)this.AndroidVersion, (object)this.AndroidRelease, (object)this.Dpi, (object)this.Resolution, (object)this.ManufacturerBrand, (object)this.Model, (object)this.Device, (object)this.Cpu, (object)ConstantVariable.UseragentLocale+ "; 125398471");
+            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)AndroidVersion, (object)AndroidRelease, (object)Dpi, (object)Resolution, (object)ManufacturerBrand, (object)Model, (object)Device, (object)Cpu, (object)ConstantVariable.UseragentLocale+ "; 125398471");
 
         //"Instagram 10.33.0 Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})"
         //"Instagram 6.21.2 Android 23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom;en_US";
@@ -55,9 +55,9 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(this.Brand))
-                    return this.Manufacturer;
-                return string.Format("{0}/{1}", (object)this.Manufacturer, (object)this.Brand);
+                if (string.IsNullOrWhiteSpace(Brand))
+                    return Manufacturer;
+                return string.Format("{0}/{1}", (object)Manufacturer, (object)Brand);
             }
         }
 
@@ -71,26 +71,26 @@ namespace DominatorHouseCore.Utility
 
         public void GenerateDetails()
         {
-            var splitDeviceDetails = DeviceGenerator.GetRandomDevice().Split(';');
+            var splitDeviceDetails = GetRandomDevice().Split(';');
             var splitAndroidDetails = splitDeviceDetails[0].Split('/');
-            this.AndroidVersion = splitAndroidDetails[0];
-            this.AndroidRelease = splitAndroidDetails[1];
+            AndroidVersion = splitAndroidDetails[0];
+            AndroidRelease = splitAndroidDetails[1];
 
-            this.Dpi = splitDeviceDetails[1];
-            this.Resolution = splitDeviceDetails[2];
+            Dpi = splitDeviceDetails[1];
+            Resolution = splitDeviceDetails[2];
 
             var splitManufacture = splitDeviceDetails[3].Split('/');
-            this.Manufacturer = splitManufacture[0];
+            Manufacturer = splitManufacture[0];
             if (splitManufacture.Length == 2)
-                this.Brand = splitManufacture[1];
+                Brand = splitManufacture[1];
 
-            this.Model = splitDeviceDetails[4];
-            this.Device = splitDeviceDetails[5];
-            this.Cpu = splitDeviceDetails[6];
-            this.PhoneId = Utilities.GetGuid(true); ;
-            this.DeviceId = Utilities.GetMobileDeviceId();
-            this.AdId = Utilities.GetGuid(true);
-            this.Guid = Utilities.GetGuid(true);
+            Model = splitDeviceDetails[4];
+            Device = splitDeviceDetails[5];
+            Cpu = splitDeviceDetails[6];
+            PhoneId = Utilities.GetGuid(true); ;
+            DeviceId = Utilities.GetMobileDeviceId();
+            AdId = Utilities.GetGuid(true);
+            Guid = Utilities.GetGuid(true);
         }
 
         /// <summary>

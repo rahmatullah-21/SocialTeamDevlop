@@ -52,14 +52,14 @@ namespace Socinator.Social.Settings.ViewModel
 
             if (config == null)
             {
-                this.selectedTheme = this.lstThemeCollection.FirstOrDefault();
-                this.selectedAccentColor = this.lstColorsCollection.FirstOrDefault();
+                selectedTheme = lstThemeCollection.FirstOrDefault();
+                selectedAccentColor = lstColorsCollection.FirstOrDefault();
             }
             else
             {
                 var Theme = Newtonsoft.Json.JsonConvert.DeserializeObject<Themes>(config.ConfigurationSetting);
-                this.selectedTheme = this.lstThemeCollection.FirstOrDefault(theme => theme.Name == Theme.SelectedTheme.Name && theme.Value == Theme.SelectedTheme.Value);
-                this.selectedAccentColor = this.lstColorsCollection.FirstOrDefault(color => color.Name == Theme.SelectedAccentColor.Name && color.Value == Theme.SelectedAccentColor.Value);
+                selectedTheme = lstThemeCollection.FirstOrDefault(theme => theme.Name == Theme.SelectedTheme.Name && theme.Value == Theme.SelectedTheme.Value);
+                selectedAccentColor = lstColorsCollection.FirstOrDefault(color => color.Name == Theme.SelectedAccentColor.Name && color.Value == Theme.SelectedAccentColor.Value);
             }
 
         }
@@ -119,13 +119,13 @@ namespace Socinator.Social.Settings.ViewModel
         {
             get
             {
-                return this.selectedTheme;
+                return selectedTheme;
             }
             set
             {
-                if (this.selectedTheme != null && value == this.selectedTheme)
+                if (selectedTheme != null && value == selectedTheme)
                     return;
-                SetProperty(ref this.selectedTheme, value);
+                SetProperty(ref selectedTheme, value);
             }
 
         }
@@ -136,13 +136,13 @@ namespace Socinator.Social.Settings.ViewModel
 
             get
             {
-                return this.selectedAccentColor;
+                return selectedAccentColor;
             }
             set
             {
-                if (this.selectedAccentColor != null && value == this.selectedAccentColor)
+                if (selectedAccentColor != null && value == selectedAccentColor)
                     return;
-                SetProperty(ref this.selectedAccentColor, value);
+                SetProperty(ref selectedAccentColor, value);
             }
 
         }
@@ -153,13 +153,13 @@ namespace Socinator.Social.Settings.ViewModel
 
             get
             {
-                return this.selectedRecentColor;
+                return selectedRecentColor;
             }
             set
             {
-                if (this.selectedRecentColor != null && value == this.selectedRecentColor)
+                if (selectedRecentColor != null && value == selectedRecentColor)
                     return;
-                SetProperty(ref this.selectedRecentColor, value);
+                SetProperty(ref selectedRecentColor, value);
             }
 
         }

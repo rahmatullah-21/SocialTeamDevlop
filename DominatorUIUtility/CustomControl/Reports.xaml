@@ -21,19 +21,35 @@
         </Grid.RowDefinitions>
         <Grid>
             <CheckBox Content="{DynamicResource LangKeyFilter}" x:Name="ChkFilter" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentColorBrush3}" Margin="10" x:Name="ExportReport"
+            <StackPanel Orientation="Horizontal">
+                <Button  Background="{DynamicResource AccentBaseColorBrush}" Click="RefreshReport"
+                     Foreground="White" Margin="0,0,5,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="15" Height="15" Fill="White"  Margin="10,0" VerticalAlignment="Center"
+                                   x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Margin="5,0" Text="{DynamicResource LangKeyRefresh}"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Background="{DynamicResource AccentColorBrush3}" Margin="10" x:Name="ExportReport"
                     x:FieldModifier="public" Click="ExportReport_Click">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}"></VisualBrush>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                        <TextBlock Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="White"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_inbox_out}"></VisualBrush>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Text="{DynamicResource LangKeyExport}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
@@ -63,11 +79,11 @@
             </ComboBox>
         </StackPanel>
 
-        <ListView ItemsSource="{Binding ReportModel.ReportCollection}" Margin="10" Name="ReportsListView" Grid.Row="2" Foreground="{DynamicResource AccentBaseColorBrush}">
+        <ListView ItemsSource="{Binding ReportModel.ReportCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,IsAsync=True}" Margin="10" Name="ReportsListView" Grid.Row="2" Foreground="{DynamicResource AccentBaseColorBrush}">
             <ListView.View>
                 <GridView utility:GridViewColumns.ColumnHeader="ColumnHeaderText"
                           utility:GridViewColumns.ColumnBinding="ColumnBindingText" 
-                          utility:GridViewColumns.ColumnValues="{Binding ReportModel.GridViewColumn}"/>
+                          utility:GridViewColumns.ColumnValues="{Binding ReportModel.GridViewColumn,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
             </ListView.View>
         </ListView>
 

@@ -6,9 +6,9 @@ namespace DominatorHouseCore.Request
     {
         public FileData(NameValueCollection headers, string fileName, byte[] contents)
         {
-            this.Headers = headers;
-            this.FileName = fileName;
-            this.Contents = contents;
+            Headers = headers;
+            FileName = fileName;
+            Contents = contents;
         }
 
         public byte[] Contents { get; }

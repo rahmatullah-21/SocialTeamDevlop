@@ -13,9 +13,9 @@ namespace DominatorHouseCore.Models
         // Constructor for initialize the start time and end time to local property
         public TimingRange(TimeSpan startTime, TimeSpan endTime)
         {
-            this.StartTime = startTime;
-            this.EndTime = endTime;
-            this.TimeId = Guid.NewGuid().ToString();
+            StartTime = startTime;
+            EndTime = endTime;
+            TimeId = Guid.NewGuid().ToString();
             Module = string.Empty;
         }
 

@@ -6,7 +6,7 @@ namespace DominatorHouseCore.Dal
     {
         protected virtual SQLiteConnection GetConnection(string path)
         {
-            var dbConnection = new SQLite.SQLiteConnection(path);
+            var dbConnection = new SQLiteConnection(path);
             return dbConnection;
         }
     }

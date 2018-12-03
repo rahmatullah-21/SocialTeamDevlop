@@ -19,7 +19,7 @@ namespace DominatorHouseCore.Utility
             }
 
             storage = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             return true;
         }
 

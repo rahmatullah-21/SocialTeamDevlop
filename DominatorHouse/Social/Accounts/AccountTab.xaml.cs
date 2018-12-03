@@ -30,7 +30,7 @@ namespace Socinator.Social.Accounts
 
         public AccountTab(AccessorStrategies strategies)
         {
-            this._strategies = strategies;
+            _strategies = strategies;
             InitializeComponent();
             DominatorAccountTab.DataContext = this;
             SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _strategies);

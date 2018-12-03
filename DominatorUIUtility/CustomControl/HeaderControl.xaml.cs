@@ -96,7 +96,7 @@ namespace DominatorUIUtility.CustomControl
 
         void RaiseInfoEventHandler()
         {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(HeaderControl.InfoRoutedEvent);
+            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(InfoRoutedEvent);
             RaiseEvent(objRoutedEventArgs);
         }
 
@@ -110,7 +110,7 @@ namespace DominatorUIUtility.CustomControl
 
         void CancelEditClickHandler()
         {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(HeaderControl.CancelEditRoutedEvent);
+            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(CancelEditRoutedEvent);
             RaiseEvent(objRoutedEventArgs);
         }
 
@@ -131,7 +131,7 @@ namespace DominatorUIUtility.CustomControl
                 BindsTwoWayByDefault = true
             });
 
-        private void Info_OnMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Info_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             RaiseInfoEventHandler();
         }

@@ -239,7 +239,7 @@ namespace DominatorHouse.ViewModels
                 return true;
             }
             IsCancelFromLicenceValidationState = false;
-            var fatalErrorHandler = new DominatorHouseCore.Models.FatalErrorHandler
+            var fatalErrorHandler = new FatalErrorHandler
             {
                 FatalErrorMessage = fatalError,
                 FatalErrorAddedDate = DateTime.Now,
@@ -342,7 +342,7 @@ namespace DominatorHouse.ViewModels
 
                 FeatureFlags.UpdateFeatures();
 
-                var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
+                var softWareSettings = new Utilities.SoftwareSettings();
                 ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(Strategies); });
 
                 var softWareSetting = new DominatorHouseCore.Settings.SoftwareSettings();

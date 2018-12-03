@@ -31,9 +31,14 @@ namespace DominatorHouseCore.Request
         /// </summary>
         protected virtual IRequestParameters RequestParameters { get; set; } = new RequestParameters();
 
-        public HttpWebRequest Request { get; set; } 
+        public HttpWebRequest Request
+        {
+            get { return _request; }
+            set { _request = value; }
+        }
 
         protected HttpWebRequest _request;
+       
 
         public HttpWebResponse Response { get; set; }
 
@@ -202,7 +207,7 @@ namespace DominatorHouseCore.Request
         {
             try
             {
-                var postBuffer = System.Text.Encoding.UTF8.GetBytes(postData);
+                var postBuffer = Encoding.UTF8.GetBytes(postData);
                 WritePostData(ref webRequest, postBuffer);
             }
             catch (Exception ex)
@@ -620,7 +625,7 @@ namespace DominatorHouseCore.Request
 
         public virtual IResponseParameter GetApiRequest(string url)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             String test = String.Empty;
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
@@ -644,7 +649,7 @@ namespace DominatorHouseCore.Request
 
         public virtual IResponseParameter PostApiRequest(string url, byte[] postData)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.Host = "api.socinator.com";
             request.ContentType = "application/x-www-form-urlencoded";
@@ -681,7 +686,7 @@ namespace DominatorHouseCore.Request
 
         public virtual IResponseParameter PostApiRequest(string url, string postData)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.Host = "api.socinator.com";
             request.ContentType = "application/json";

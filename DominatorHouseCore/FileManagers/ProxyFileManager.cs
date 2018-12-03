@@ -106,7 +106,7 @@ namespace DominatorHouseCore.FileManagers
                 }
             }
 
-            ProxyFileManager.EditProxy(currentProxyManager);
+            EditProxy(currentProxyManager);
 
         }
     }

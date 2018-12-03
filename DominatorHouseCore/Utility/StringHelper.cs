@@ -594,7 +594,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetSha256(string randomString, byte[] key = null)
         {
-            return StringHelper.ByteToString(StringHelper.GetSha256Raw(randomString, key)).ToLower();
+            return ByteToString(GetSha256Raw(randomString, key)).ToLower();
         }
 
         public static byte[] GetSha256Raw(string randomString, byte[] key = null)

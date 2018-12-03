@@ -12,9 +12,9 @@ namespace DominatorHouseCore.Models
 
         public IncreaseActivityRange(int increaseActivityCount, int untilMaxCountReached, bool isIncreaseCount) : this()
         {
-            this.IncreaseActivityCount = increaseActivityCount;
-            this.UntilMaxCountReached = untilMaxCountReached;
-            this.IsIncreaseCountChecked = isIncreaseCount;
+            IncreaseActivityCount = increaseActivityCount;
+            UntilMaxCountReached = untilMaxCountReached;
+            IsIncreaseCountChecked = isIncreaseCount;
         }
 
         private int _increaseActivityCount;

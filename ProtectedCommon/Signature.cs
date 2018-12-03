@@ -24,7 +24,7 @@ namespace ProtectedCommon
             // append the date
             var signed_at = DateTime.UtcNow.ToString("o");
             text += "/" + signed_at;
-            var rsa = RSACryptoServiceProvider.Create();
+            var rsa = RSA.Create();
             rsa.FromXmlString(_xml_parameters);
             var bytes = rsa.SignData(Encoding.Unicode.GetBytes(text), HashAlgorithmName.SHA1, RSASignaturePadding.Pkcs1);
             return signed_at + "/" + Convert.ToBase64String(bytes);
@@ -48,7 +48,7 @@ namespace ProtectedCommon
                     if (Math.Abs((serverTime - DateTime.UtcNow).TotalSeconds) < 90) {
                         var signature_bytes = Convert.FromBase64String(signature);
                         var trial_bytes = Encoding.Unicode.GetBytes(proposed_result + "/" + date_time);
-                        var rsa = RSACryptoServiceProvider.Create();
+                        var rsa = RSA.Create();
                         rsa.FromXmlString(_xml_parameters);
                         if (rsa.VerifyData(trial_bytes, signature_bytes, HashAlgorithmName.SHA1, RSASignaturePadding.Pkcs1))
                         {
@@ -61,13 +61,13 @@ namespace ProtectedCommon
         }
         public static string CreateClientConfig()
         {
-            var rsa = RSACryptoServiceProvider.Create();
+            var rsa = RSA.Create();
             rsa.FromXmlString(_xml_parameters);
             return "Configure a client with the following data: \n" + rsa.ToXmlString(false);
         }
         public static string CreateKeyPair()
         {
-            var rsa = RSACryptoServiceProvider.Create();
+            var rsa = RSA.Create();
             string result = "For clients use ";
             result += rsa.ToXmlString(false);
             result += "\nand for the server use ";

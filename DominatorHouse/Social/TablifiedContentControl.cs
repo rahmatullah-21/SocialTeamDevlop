@@ -20,7 +20,7 @@ namespace DominatorHouse.Social
     {
         public TablifiedContentControl(IUnityContainer container) : base()
         {
-            this.DataContext = container.Resolve<ITablifiedContentControlViewModel<T>>();
+            DataContext = container.Resolve<ITablifiedContentControlViewModel<T>>();
         }
     }
 }

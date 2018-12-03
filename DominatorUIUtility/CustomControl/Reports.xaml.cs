@@ -7,6 +7,7 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
 using System.Text.RegularExpressions;
+using System.Windows.Data;
 using DominatorHouseCore.Enums;
 using MahApps.Metro.Controls.Dialogs;
 using DominatorHouseCore;
@@ -24,9 +25,12 @@ namespace DominatorUIUtility.CustomControl
             MainGrid.DataContext = this;
         }
 
-        public Reports(ReportModel ReportModel) : this()
+        public Reports(CampaignDetails campaign) : this()
         {
-            this.ReportModel = ReportModel;
+            Campaign = campaign;
+           // ReportModel = new ReportModel();
+            ReportModel.CampaignId = campaign.CampaignId;
+            ReportModel.ActivityType = (ActivityType)Enum.Parse(typeof(ActivityType), campaign.SubModule);
             MainGrid.DataContext = this;
         }
         public CampaignDetails Campaign { get; set; }
@@ -36,18 +40,26 @@ namespace DominatorUIUtility.CustomControl
             Campaign = campaign;
             MainGrid.DataContext = this;
         }
+        private ReportModel _reportModel=new ReportModel();
+
         public ReportModel ReportModel
         {
-            get { return (ReportModel)GetValue(ReportModelProperty); }
-            set { SetValue(ReportModelProperty, value); }
+            get { return _reportModel; }
+            set { _reportModel = value; }
         }
 
-        // Using a DependencyProperty as the backing store for ReportModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ReportModelProperty =
-            DependencyProperty.Register("ReportModel", typeof(ReportModel), typeof(Reports), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-            {
-                BindsTwoWayByDefault = true
-            });
+        //public ReportModel ReportModel
+        //{
+        //    get { return (ReportModel)GetValue(ReportModelProperty); }
+        //    set { SetValue(ReportModelProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for ReportModel.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty ReportModelProperty =
+        //    DependencyProperty.Register("ReportModel", typeof(ReportModel), typeof(Reports), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+        //    {
+        //        BindsTwoWayByDefault = true
+        //    });
 
 
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -82,6 +94,14 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
 
             }
+        }
+
+        private void RefreshReport(object sender, RoutedEventArgs e)
+        {
+
+            var result=SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory
+                .GetReportDetail(ReportModel , ReportModel.LstCurrentQueries, Campaign);
+           
         }
     }
 }

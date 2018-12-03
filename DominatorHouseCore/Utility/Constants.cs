@@ -131,7 +131,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                return string.Format("{0}\\{1}\\save", (object)Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), (object)Constants.ApplicationName);
+                return string.Format("{0}\\{1}\\save", (object)Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), (object)ApplicationName);
             }
         }
 

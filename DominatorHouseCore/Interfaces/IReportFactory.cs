@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Interfaces
         ObservableCollection<QueryInfo> GetSavedQuery(ActivityType subModuleName, string activitySettings);
 
         int GetReportDetail(ReportModel reportModel, List<KeyValuePair<string, string>> queryDetails, CampaignDetails campaignDetails);
-       
+       // object RefreshReportDetails(ReportModel reportModel);
         void ExportReports(ActivityType activityType, string fileName, ReportType reportType);
     }
 }

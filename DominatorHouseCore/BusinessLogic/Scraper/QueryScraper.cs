@@ -61,7 +61,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 catch (Exception ex)
                 {
                     ex.DebugLog(
-                        $"{this.GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
+                        $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
                 }
             }
             catch (KeyNotFoundException ex)
@@ -113,7 +113,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     catch (Exception ex)
                     {
                         ex.DebugLog(
-                            $"{this.GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
+                            $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
                     }
 
                     usedQueries++;

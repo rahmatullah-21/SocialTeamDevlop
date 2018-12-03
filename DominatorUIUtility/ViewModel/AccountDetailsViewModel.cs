@@ -293,7 +293,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 catch (OperationCanceledException)
                 {
-                    throw new System.OperationCanceledException();
+                    throw new OperationCanceledException();
                 }
                 catch (AggregateException ae)
                 {
@@ -342,7 +342,7 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (OperationCanceledException)
             {
-                throw new System.OperationCanceledException();
+                throw new OperationCanceledException();
             }
             catch (AggregateException ae)
             {

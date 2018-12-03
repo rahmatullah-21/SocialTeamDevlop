@@ -216,13 +216,13 @@ namespace DominatorUIUtility.CustomControl
 
                         }
                     }
+                    else if(favoriteTimeName==null)
+                        break;
                     else
                     {
                         var result = Dialog.ShowCustomDialog("Error", $"Favorite Time should not empty.\nPlease type some name.", "Ok", "Cancel");
                         if (result == MessageDialogResult.Affirmative)
                         continue;
-                        
-
                         break;
                     }
                 }
@@ -254,7 +254,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var lstFavoriteTimes = GenericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
 
-                App.Current.Dispatcher.Invoke((Action)delegate
+                Application.Current.Dispatcher.Invoke((Action)delegate
                 {
                     LstFavoriteTime.Clear();
                     lstFavoriteTimes.ForEach(x =>

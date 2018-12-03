@@ -29,7 +29,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public SelectAccountDetailsModel(bool isDisplaySingleAccount) : this()
         {
-            this.IsDisplaySingleAccount = isDisplaySingleAccount;
+            IsDisplaySingleAccount = isDisplaySingleAccount;
         }
 
         private List<KeyValuePair<string, string>> _accountPagesBoardsPair = new List<KeyValuePair<string, string>>();

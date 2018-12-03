@@ -49,7 +49,7 @@ namespace DominatorUIUtility.CustomControl
         public AccountDetail(DominatorAccountModel dataContext) : this()
         {
             AccountDetailsViewModel = new AccountDetailsViewModel(dataContext);
-            this.DataContext = AccountDetailsViewModel;
+            DataContext = AccountDetailsViewModel;
             AccountDetailsViewModel.CodeSectionVisibility= dataContext.AccountBaseModel.Status == AccountStatus.TwoFactorLoginAttempt ? Visibility.Visible : Visibility.Collapsed;
         }
         private void OnKeyDown(object sender, KeyEventArgs e)

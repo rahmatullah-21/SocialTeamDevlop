@@ -63,43 +63,43 @@ namespace DominatorHouseCore.Converters
     public class TwoListSynchronizer : IWeakEventListener
     {
 
-        private static readonly TwoListSynchronizer.IListItemConverter DefaultConverter = (TwoListSynchronizer.IListItemConverter)new TwoListSynchronizer.DoNothingListItemConverter();
+        private static readonly IListItemConverter DefaultConverter = (IListItemConverter)new DoNothingListItemConverter();
         private readonly IList _masterList;
-        private readonly TwoListSynchronizer.IListItemConverter _masterTargetConverter;
+        private readonly IListItemConverter _masterTargetConverter;
         private readonly IList _targetList;
 
-        public TwoListSynchronizer(IList masterList, IList targetList, TwoListSynchronizer.IListItemConverter masterTargetConverter)
+        public TwoListSynchronizer(IList masterList, IList targetList, IListItemConverter masterTargetConverter)
         {
-            this._masterList = masterList;
-            this._targetList = targetList;
-            this._masterTargetConverter = masterTargetConverter;
+            _masterList = masterList;
+            _targetList = targetList;
+            _masterTargetConverter = masterTargetConverter;
         }
 
         public TwoListSynchronizer(IList masterList, IList targetList)
-          : this(masterList, targetList, TwoListSynchronizer.DefaultConverter)
+          : this(masterList, targetList, DefaultConverter)
         {
         }
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
         {
-            this.HandleCollectionChanged((object)(sender as IList), e as NotifyCollectionChangedEventArgs);
+            HandleCollectionChanged((object)(sender as IList), e as NotifyCollectionChangedEventArgs);
             return true;
         }
 
         public void StartSynchronizing()
         {
-            this.ListenForChangeEvents(this._masterList);
-            this.ListenForChangeEvents(this._targetList);
-            this.SetListValuesFromSource(this._masterList, this._targetList, new Converter<object, object>(this.ConvertFromMasterToTarget));
-            if (this.TargetAndMasterCollectionsAreEqual())
+            ListenForChangeEvents(_masterList);
+            ListenForChangeEvents(_targetList);
+            SetListValuesFromSource(_masterList, _targetList, new Converter<object, object>(ConvertFromMasterToTarget));
+            if (TargetAndMasterCollectionsAreEqual())
                 return;
-            this.SetListValuesFromSource(this._targetList, this._masterList, new Converter<object, object>(this.ConvertFromTargetToMaster));
+            SetListValuesFromSource(_targetList, _masterList, new Converter<object, object>(ConvertFromTargetToMaster));
         }
 
         public void StopSynchronizing()
         {
-            this.StopListeningForChangeEvents(this._masterList);
-            this.StopListeningForChangeEvents(this._targetList);
+            StopListeningForChangeEvents(_masterList);
+            StopListeningForChangeEvents(_targetList);
         }
 
         protected void ListenForChangeEvents(IList list)
@@ -131,15 +131,15 @@ namespace DominatorHouseCore.Converters
 
         private object ConvertFromMasterToTarget(object masterListItem)
         {
-            if (this._masterTargetConverter != null)
-                return this._masterTargetConverter.Convert(masterListItem);
+            if (_masterTargetConverter != null)
+                return _masterTargetConverter.Convert(masterListItem);
             return masterListItem;
         }
 
         private object ConvertFromTargetToMaster(object targetListItem)
         {
-            if (this._masterTargetConverter != null)
-                return this._masterTargetConverter.ConvertBack(targetListItem);
+            if (_masterTargetConverter != null)
+                return _masterTargetConverter.ConvertBack(targetListItem);
             return targetListItem;
         }
 
@@ -149,42 +149,42 @@ namespace DominatorHouseCore.Converters
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    this.PerformActionOnAllLists(new TwoListSynchronizer.ChangeListAction(this.AddItems), sourceList, e);
+                    PerformActionOnAllLists(new ChangeListAction(AddItems), sourceList, e);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    this.PerformActionOnAllLists(new TwoListSynchronizer.ChangeListAction(this.RemoveItems), sourceList, e);
+                    PerformActionOnAllLists(new ChangeListAction(RemoveItems), sourceList, e);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    this.PerformActionOnAllLists(new TwoListSynchronizer.ChangeListAction(this.ReplaceItems), sourceList, e);
+                    PerformActionOnAllLists(new ChangeListAction(ReplaceItems), sourceList, e);
                     break;
                 case NotifyCollectionChangedAction.Move:
-                    this.PerformActionOnAllLists(new TwoListSynchronizer.ChangeListAction(this.MoveItems), sourceList, e);
+                    PerformActionOnAllLists(new ChangeListAction(MoveItems), sourceList, e);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    this.UpdateListsFromSource(sender as IList);
+                    UpdateListsFromSource(sender as IList);
                     break;
             }
         }
 
         private void MoveItems(IList list, NotifyCollectionChangedEventArgs e, Converter<object, object> converter)
         {
-            this.RemoveItems(list, e, converter);
-            this.AddItems(list, e, converter);
+            RemoveItems(list, e, converter);
+            AddItems(list, e, converter);
         }
 
-        private void PerformActionOnAllLists(TwoListSynchronizer.ChangeListAction action, IList sourceList, NotifyCollectionChangedEventArgs collectionChangedArgs)
+        private void PerformActionOnAllLists(ChangeListAction action, IList sourceList, NotifyCollectionChangedEventArgs collectionChangedArgs)
         {
-            if (sourceList == this._masterList)
-                this.PerformActionOnList(this._targetList, action, collectionChangedArgs, new Converter<object, object>(this.ConvertFromMasterToTarget));
+            if (sourceList == _masterList)
+                PerformActionOnList(_targetList, action, collectionChangedArgs, new Converter<object, object>(ConvertFromMasterToTarget));
             else
-                this.PerformActionOnList(this._masterList, action, collectionChangedArgs, new Converter<object, object>(this.ConvertFromTargetToMaster));
+                PerformActionOnList(_masterList, action, collectionChangedArgs, new Converter<object, object>(ConvertFromTargetToMaster));
         }
 
-        private void PerformActionOnList(IList list, TwoListSynchronizer.ChangeListAction action, NotifyCollectionChangedEventArgs collectionChangedArgs, Converter<object, object> converter)
+        private void PerformActionOnList(IList list, ChangeListAction action, NotifyCollectionChangedEventArgs collectionChangedArgs, Converter<object, object> converter)
         {
-            this.StopListeningForChangeEvents(list);
+            StopListeningForChangeEvents(list);
             action(list, collectionChangedArgs, converter);
-            this.ListenForChangeEvents(list);
+            ListenForChangeEvents(list);
         }
 
         private void RemoveItems(IList list, NotifyCollectionChangedEventArgs e, Converter<object, object> converter)
@@ -196,30 +196,30 @@ namespace DominatorHouseCore.Converters
 
         private void ReplaceItems(IList list, NotifyCollectionChangedEventArgs e, Converter<object, object> converter)
         {
-            this.RemoveItems(list, e, converter);
-            this.AddItems(list, e, converter);
+            RemoveItems(list, e, converter);
+            AddItems(list, e, converter);
         }
 
         private void SetListValuesFromSource(IList sourceList, IList targetList, Converter<object, object> converter)
         {
-            this.StopListeningForChangeEvents(targetList);
+            StopListeningForChangeEvents(targetList);
             targetList.Clear();
             foreach (object source in (IEnumerable)sourceList)
                 targetList.Add(converter(source));
-            this.ListenForChangeEvents(targetList);
+            ListenForChangeEvents(targetList);
         }
 
         private bool TargetAndMasterCollectionsAreEqual()
         {
-            return this._masterList.Cast<object>().SequenceEqual<object>(this._targetList.Cast<object>().Select<object, object>((Func<object, object>)(item => this.ConvertFromTargetToMaster(item))));
+            return _masterList.Cast<object>().SequenceEqual<object>(_targetList.Cast<object>().Select<object, object>((Func<object, object>)(item => ConvertFromTargetToMaster(item))));
         }
 
         private void UpdateListsFromSource(IList sourceList)
         {
-            if (sourceList == this._masterList)
-                this.SetListValuesFromSource(this._masterList, this._targetList, new Converter<object, object>(this.ConvertFromMasterToTarget));
+            if (sourceList == _masterList)
+                SetListValuesFromSource(_masterList, _targetList, new Converter<object, object>(ConvertFromMasterToTarget));
             else
-                this.SetListValuesFromSource(this._targetList, this._masterList, new Converter<object, object>(this.ConvertFromTargetToMaster));
+                SetListValuesFromSource(_targetList, _masterList, new Converter<object, object>(ConvertFromTargetToMaster));
         }
 
         private delegate void ChangeListAction(IList list, NotifyCollectionChangedEventArgs e, Converter<object, object> converter);
@@ -231,7 +231,7 @@ namespace DominatorHouseCore.Converters
             object ConvertBack(object targetListItem);
         }
 
-        internal class DoNothingListItemConverter : TwoListSynchronizer.IListItemConverter
+        internal class DoNothingListItemConverter : IListItemConverter
         {
             public object Convert(object masterListItem)
             {

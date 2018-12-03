@@ -9,7 +9,7 @@ namespace DominatorHouseCore.Interfaces
         WebHeaderCollection Headers { get; set; }
 
         // To assign the Cookies for request
-        System.Net.CookieCollection Cookies { get;  set;}
+        CookieCollection Cookies { get;  set;}
 
         // To specify the media type of the body of the http request
         string ContentType { get; set; }

@@ -312,7 +312,9 @@ namespace DominatorHouseCore.Utility
                 var line = String.Empty;
                 while ((line = file.ReadLine()) != null)
                 {
-                    csvSplitList.Add(ImageExtracter.CheckUrlValid(line) ? line : line.Replace(":", "\t"));
+                    var data = line.Trim();
+                    if(!string.IsNullOrEmpty(data))
+                    csvSplitList.Add(ImageExtracter.CheckUrlValid(data) ? data : data.Replace(":", "\t"));
 
                 }
                 return csvSplitList;

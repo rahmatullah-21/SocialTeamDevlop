@@ -314,7 +314,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
 
 
-            this.Loaded += PostContentLoad;
+            Loaded += PostContentLoad;
 
         }
 

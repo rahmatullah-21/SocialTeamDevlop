@@ -41,7 +41,7 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
-                              TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding BlacklistUser}"
+                              TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding BlacklistUser,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                               ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 

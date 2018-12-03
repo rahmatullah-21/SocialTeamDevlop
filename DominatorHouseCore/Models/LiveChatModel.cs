@@ -304,7 +304,7 @@ namespace DominatorHouseCore.Models
             {
                 if (value == _IsRecieved) return;
                 _IsRecieved = value;
-                this.OnPropertyChanged("IsRecieved");
+                OnPropertyChanged("IsRecieved");
               
             }
         }
