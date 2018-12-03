@@ -58,7 +58,7 @@ namespace DominatorHouseCore.IntegrationTests
             Sut.GetTemplateDetails();
 
             // assert
-            templates.Count.Should().Be(8);
+            templates.Count.Should().Be(13);
         }
     }
 }

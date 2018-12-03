@@ -1,6 +1,8 @@
 ﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,14 +22,17 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class JobActivityConfigurationManager : BindableBase, IJobActivityConfigurationManager
     {
-        private readonly Dictionary<string, Dictionary<ActivityType, ModuleConfiguration>> _configurations;
+        private readonly Lazy<Dictionary<string, Dictionary<ActivityType, ModuleConfiguration>>> _configurations;
+        private readonly IAccountsCacheService _accountsCacheService;
         private readonly object _syncObject = new object();
 
-        public JobActivityConfigurationManager()
+        public JobActivityConfigurationManager(IAccountsCacheService accountsCacheService)
         {
-            _configurations = new Dictionary<string, Dictionary<ActivityType, ModuleConfiguration>>();
-        }
+            _accountsCacheService = accountsCacheService;
+            _configurations = new Lazy<Dictionary<string, Dictionary<ActivityType, ModuleConfiguration>>>(GetModuleConfigurationAsDictionary);
 
+            _accountsCacheService.CacheUpdated += OnAccountsCacheUpdated;
+        }
 
         public ModuleConfiguration this[string accountId, ActivityType activityType]
         {
@@ -35,11 +40,11 @@ namespace DominatorHouseCore.Models
             {
                 lock (_syncObject)
                 {
-                    if (_configurations.ContainsKey(accountId))
+                    if (_configurations.Value.ContainsKey(accountId))
                     {
-                        if (_configurations[accountId].ContainsKey(activityType))
+                        if (_configurations.Value[accountId].ContainsKey(activityType))
                         {
-                            return _configurations[accountId][activityType];
+                            return _configurations.Value[accountId][activityType];
                         }
                     }
 
@@ -54,9 +59,9 @@ namespace DominatorHouseCore.Models
             {
                 lock (_syncObject)
                 {
-                    if (_configurations.ContainsKey(accountId))
+                    if (_configurations.Value.ContainsKey(accountId))
                     {
-                        return _configurations[accountId].Values;
+                        return _configurations.Value[accountId].Values;
                     }
                     else
                     {
@@ -71,24 +76,26 @@ namespace DominatorHouseCore.Models
         {
             lock (_syncObject)
             {
-                if (_configurations.ContainsKey(accountId))
+                if (_configurations.Value.ContainsKey(accountId))
                 {
-                    if (_configurations[accountId].ContainsKey(activityType))
+                    if (_configurations.Value[accountId].ContainsKey(activityType))
                     {
-                        _configurations[accountId][activityType] = value;
+                        _configurations.Value[accountId][activityType] = value;
                     }
                     else
                     {
-                        _configurations[accountId].Add(activityType, value);
+                        _configurations.Value[accountId].Add(activityType, value);
                     }
                 }
                 else
                 {
-                    _configurations.Add(accountId, new Dictionary<ActivityType, ModuleConfiguration>
+                    _configurations.Value.Add(accountId, new Dictionary<ActivityType, ModuleConfiguration>
                     {
                         {activityType, value}
                     });
                 }
+
+                _accountsCacheService[accountId].ActivityManager.AddOrUpdateModuleConfig(value);
             }
         }
 
@@ -96,11 +103,12 @@ namespace DominatorHouseCore.Models
         {
             lock (_syncObject)
             {
-                if (_configurations.ContainsKey(accountId))
+                if (_configurations.Value.ContainsKey(accountId))
                 {
-                    if (_configurations[accountId].ContainsKey(activityType))
+                    if (_configurations.Value[accountId].ContainsKey(activityType))
                     {
-                        _configurations[accountId].Remove(activityType);
+                        _configurations.Value[accountId].Remove(activityType);
+                        _accountsCacheService[accountId].ActivityManager.DeleteModuleConfig(activityType);
                     }
                 }
             }
@@ -110,9 +118,27 @@ namespace DominatorHouseCore.Models
         {
             lock (_syncObject)
             {
-                return _configurations.Values.SelectMany(a => a.Values)
+                return _configurations.Value.Values.SelectMany(a => a.Values)
                     .Where(a => a.IsEnabled && a.LstRunningTimes != null).ToList();
             }
+        }
+
+        private void OnAccountsCacheUpdated(object sender, IEnumerable<DominatorAccountModel> e)
+        {
+            lock (_syncObject)
+            {
+                _configurations.Value.Clear();
+                foreach (var value in GetModuleConfigurationAsDictionary())
+                {
+                    _configurations.Value.Add(value.Key, value.Value);
+                }
+            }
+        }
+
+        private Dictionary<string, Dictionary<ActivityType, ModuleConfiguration>> GetModuleConfigurationAsDictionary()
+        {
+            return _accountsCacheService.GetAccountDetails().ToDictionary(a => a.AccountBaseModel.AccountId,
+                a => a.ActivityManager.LstModuleConfiguration.GroupBy(b => b.ActivityType).ToDictionary(b => b.Key, b => b.Last()));
         }
     }
 }

@@ -11,6 +11,8 @@ namespace DominatorHouseCore.FileManagers
         IReadOnlyCollection<DominatorAccountModel> GetAccountDetails();
         bool UpsertAccounts(params DominatorAccountModel[] accounts);
         bool Delete(params DominatorAccountModel[] accounts);
+        event EventHandler<IEnumerable<DominatorAccountModel>> CacheUpdated;
+        DominatorAccountModel this[string accountId] { get; }
     }
 
     public class AccountsCacheService : IAccountsCacheService
@@ -18,6 +20,16 @@ namespace DominatorHouseCore.FileManagers
         private readonly object _syncContext = new object();
         private readonly Lazy<Dictionary<string, DominatorAccountModel>> _cache;
         private readonly IBinFileHelper _binFileHelper;
+        public event EventHandler<IEnumerable<DominatorAccountModel>> CacheUpdated;
+
+        public DominatorAccountModel this[string accountId]
+        {
+            get
+            {
+                lock (_syncContext) return _cache.Value[accountId];
+            }
+        }
+
 
         public AccountsCacheService(IBinFileHelper binFileHelper)
         {
@@ -50,7 +62,10 @@ namespace DominatorHouseCore.FileManagers
                     {
                         _cache.Value.Add(model.Key, model.Value);
                     }
+
+                    OnCacheUpdated(_cache.Value.Values);
                 }
+
 
                 return result;
             }
@@ -74,7 +89,10 @@ namespace DominatorHouseCore.FileManagers
                     {
                         _cache.Value.Add(model.Key, model.Value);
                     }
+
+                    OnCacheUpdated(_cache.Value.Values);
                 }
+
                 return result;
             }
         }
@@ -95,6 +113,11 @@ namespace DominatorHouseCore.FileManagers
                     }
                 }
             }
+        }
+
+        protected virtual void OnCacheUpdated(IEnumerable<DominatorAccountModel> e)
+        {
+            CacheUpdated?.Invoke(this, e);
         }
     }
 }

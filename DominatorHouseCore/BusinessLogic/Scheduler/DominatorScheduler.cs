@@ -356,6 +356,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var accountModel = AccountsFileManager.GetAccountById(accountId);
 
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                 var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                 var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, activityType];
 
@@ -393,9 +394,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     //DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
 
-                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountModel.AccountBaseModel.AccountId)
-                                                .AddOrUpdateModuleSettings(activityType, moduleConfiguration)
-                                                .SaveToBinFile();
+                jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, activityType, moduleConfiguration);
+                accountsCacheService.UpsertAccounts(accountModel);
 
                 //AccountsFileManager.Edit(accountModel);
 
