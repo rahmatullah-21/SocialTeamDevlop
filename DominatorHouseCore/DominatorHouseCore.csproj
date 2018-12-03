@@ -729,7 +729,6 @@
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Models\UserFilterModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
-    <Compile Include="Utility\CampaignInteractedUtility.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseHandler.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />

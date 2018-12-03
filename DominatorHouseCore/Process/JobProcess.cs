@@ -98,7 +98,6 @@ namespace DominatorHouseCore.Process
                 try
                 {
                     DataBaseConnectionCampaign = networkCoreFactory.CampaignDatabase;
-                    ServiceLocator.Current.GetInstance<ICampaignInteractionDetails>().InitializeInteraction(SocialNetworks);
                     networkCoreFactory.GlobalInteractionDetails.InitializeInteraction();
                 }
                 catch (Exception ex)
