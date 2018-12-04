@@ -93,21 +93,7 @@ namespace DominatorHouseCore.Process
         private void InitializeDatabaseConnection()
         {
             var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory();
-            if (CampaignId != null)
-            {
-                try
-                {
-                    DataBaseConnectionCampaign = networkCoreFactory.CampaignDatabase;
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-
             DataBaseConnectionAccount = networkCoreFactory.AccountDatabase;
-
-            //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
@@ -290,8 +276,6 @@ namespace DominatorHouseCore.Process
         public TimingRange CurrentJobTimeRange { get; set; }
 
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
-
-        protected IDatabaseConnection DataBaseConnectionCampaign { get; set; }
 
         protected IDatabaseConnection DataBaseConnectionAccount { get; set; }
 
