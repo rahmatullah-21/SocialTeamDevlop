@@ -4,7 +4,6 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -87,13 +86,6 @@ namespace DominatorHouseCore.Process
             MaxNoOfActionPerHour = JobConfiguration.ActivitiesPerHour.GetRandom();
             MaxNoOfActionPerDay = JobConfiguration.ActivitiesPerDay.GetRandom();
             MaxNoOfActionPerWeek = JobConfiguration.ActivitiesPerWeek.GetRandom();
-            InitializeDatabaseConnection();
-        }
-
-        private void InitializeDatabaseConnection()
-        {
-            var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory();
-            DataBaseConnectionAccount = networkCoreFactory.AccountDatabase;
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
@@ -276,8 +268,6 @@ namespace DominatorHouseCore.Process
         public TimingRange CurrentJobTimeRange { get; set; }
 
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
-
-        protected IDatabaseConnection DataBaseConnectionAccount { get; set; }
 
         public string AccountName => DominatorAccountModel?.UserName;
 
