@@ -27,7 +27,7 @@ namespace DominatorHouseCore.FileManagers
                 a => a, a => new Lazy<Dictionary<ActivityType, GlobalInteractionDataModel>>(
                     () =>
                     {
-                        var saveData = _binFileHelper.GetGlobalInteractedDetails(SocialNetworks.Twitter);
+                        var saveData = _binFileHelper.GetGlobalInteractedDetails(a);
                         if (saveData?.Count > 0)
                             return saveData[0].GlobalInteractedCollections;
 
@@ -101,7 +101,7 @@ namespace DominatorHouseCore.FileManagers
 
             var globalInteractedDatas = new List<GlobalInteractionViewModel> { globalInteractionViewModel };
 
-            _binFileHelper.UpdateGlobalInteractedDetails(globalInteractedDatas, SocialNetworks.Twitter);
+            _binFileHelper.UpdateGlobalInteractedDetails(globalInteractedDatas, networks);
         }
     }
 }
