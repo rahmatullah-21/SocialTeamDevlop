@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Models;
@@ -11,13 +13,14 @@ using System.Windows.Data;
 using DominatorHouseCore.Enums;
 using MahApps.Metro.Controls.Dialogs;
 using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for Reports.xaml
     /// </summary>
-    public partial class Reports : UserControl
+    public partial class Reports : UserControl, INotifyPropertyChanged
     {
         public Reports()
         {
@@ -28,7 +31,6 @@ namespace DominatorUIUtility.CustomControl
         public Reports(CampaignDetails campaign) : this()
         {
             Campaign = campaign;
-           // ReportModel = new ReportModel();
             ReportModel.CampaignId = campaign.CampaignId;
             ReportModel.ActivityType = (ActivityType)Enum.Parse(typeof(ActivityType), campaign.SubModule);
             MainGrid.DataContext = this;
@@ -40,33 +42,29 @@ namespace DominatorUIUtility.CustomControl
             Campaign = campaign;
             MainGrid.DataContext = this;
         }
-        private ReportModel _reportModel=new ReportModel();
 
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private ReportModel _reportModel = new ReportModel();
         public ReportModel ReportModel
         {
-            get { return _reportModel; }
-            set { _reportModel = value; }
+            get
+            {
+                return _reportModel;
+            }
+            set
+            {
+                if (_reportModel == value)
+                    return;
+                _reportModel = value;
+                OnPropertyChanged(nameof(ReportModel));
+            }
         }
-
-        //public ReportModel ReportModel
-        //{
-        //    get { return (ReportModel)GetValue(ReportModelProperty); }
-        //    set { SetValue(ReportModelProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for ReportModel.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty ReportModelProperty =
-        //    DependencyProperty.Register("ReportModel", typeof(ReportModel), typeof(Reports), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-        //    {
-        //        BindsTwoWayByDefault = true
-        //    });
-
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
-        }
-
         private void ExportReport_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -98,10 +96,12 @@ namespace DominatorUIUtility.CustomControl
 
         private void RefreshReport(object sender, RoutedEventArgs e)
         {
+            var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory();
+            networkCoreFactory.ReportFactory.GetReportDetail(ReportModel, ReportModel.LstCurrentQueries, Campaign);
 
-            var result=SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory
-                .GetReportDetail(ReportModel , ReportModel.LstCurrentQueries, Campaign);
-           
+            //var result=SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory
+            //    .GetReportDetail(ReportModel , ReportModel.LstCurrentQueries, Campaign);
+
         }
     }
 }

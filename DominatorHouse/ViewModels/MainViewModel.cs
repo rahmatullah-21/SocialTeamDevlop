@@ -86,7 +86,7 @@ namespace DominatorHouse.ViewModels
                 //TODO : it's awful! (use dymanic for it) change it later!
                 var selectedTabObject = TabItems.Selected?.Content.Value;
 
-                ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
+                ((dynamic)selectedTabObject)?.SetIndex((int)subTabIndex);
             };
 
             // Go to campaign from respective module after campaign saved

@@ -202,15 +202,15 @@
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyNeedsVerification}" />
-                                        <Setter Property="Foreground" Value=" #701f28" />
+                                        <Setter Property="Foreground" Value="#701f28" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.EmailVerification}">
                                         <Setter Property="Content" Value="{DynamicResource LangKeyEmailVerification}" />
-                                        <Setter Property="Foreground" Value=" #701f28" />
+                                        <Setter Property="Foreground" Value="#701f28" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.PhoneVerification}">
                                         <Setter Property="Content" Value="{DynamicResource LangKeyPhoneVerification}" />
-                                        <Setter Property="Foreground" Value=" #701f28" />
+                                        <Setter Property="Foreground" Value="#701f28" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotChecked}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyNotChecked}" />
@@ -236,6 +236,10 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyTwoFactorLoginAttempt}" />
                                         <Setter Property="Foreground" Value="#b22222" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"  Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyRetypePhoneNumber}" />
+                                        <Setter Property="Foreground" Value="#701f28" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
@@ -256,6 +260,9 @@
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </RadioButton.Style>
@@ -274,9 +281,6 @@
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypeEmail}" >
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>

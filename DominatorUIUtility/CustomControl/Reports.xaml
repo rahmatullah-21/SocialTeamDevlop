@@ -21,13 +21,13 @@
         </Grid.RowDefinitions>
         <Grid>
             <CheckBox Content="{DynamicResource LangKeyFilter}" x:Name="ChkFilter" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button  Background="{DynamicResource AccentBaseColorBrush}" Click="RefreshReport"
                      Foreground="White" Margin="0,0,5,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="15" Height="15" Fill="White"  Margin="10,0" VerticalAlignment="Center"
-                                   x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
+                            <Rectangle Width="12" Height="15" Fill="White"  VerticalAlignment="Center"
+                                       ToolTip="{DynamicResource LangKeyRefresh}">
                                 <Rectangle.OpacityMask>
                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
                                 </Rectangle.OpacityMask>
