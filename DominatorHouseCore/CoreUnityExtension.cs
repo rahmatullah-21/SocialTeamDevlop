@@ -35,6 +35,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IProtoBuffBase, ProtoBuffBase>();
             Container.RegisterSingleton<IRunningJobsHolder, RunningJobsHolder>();
             Container.RegisterSingleton<ICampaignInteractionDetails, CampaignInteractionDetails>();
+            Container.RegisterSingleton<IGlobalInteractionDetails, GlobalInteractionDetails>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();

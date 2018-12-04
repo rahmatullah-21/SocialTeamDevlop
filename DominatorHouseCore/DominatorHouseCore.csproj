@@ -466,6 +466,7 @@
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\GenericFileManager.cs" />
+    <Compile Include="FileManagers\GlobalInteractionDetails.cs" />
     <Compile Include="FileManagers\IGFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
@@ -588,7 +589,6 @@
     <Compile Include="Utility\DateProvider.cs" />
     <Compile Include="Utility\EnumExtensions.cs" />
     <Compile Include="Utility\FileSystemProvider.cs" />
-    <Compile Include="Utility\GlobalInteractedUtility.cs" />
     <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
