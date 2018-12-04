@@ -60,7 +60,11 @@ namespace DominatorUIUtility.ViewModel
                     Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Clear());
                     campaignFileManager.ForEach(camp =>
                     {
-                        Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Add(camp));
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            if (LstCampaignDetails.All(x => x.CampaignId != camp.CampaignId))
+                                LstCampaignDetails.Add(camp);
+                        });
                         Thread.Sleep(50);
                     });
                 });
@@ -214,13 +218,8 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 CampaignDetails campName = sender as CampaignDetails;
-
-                ReportModel reportModel = new ReportModel();
-                Reports reportControl = new Reports(reportModel, campName);
-
+                Reports reportControl = new Reports(campName);
                 Dialog objDialog = new Dialog();
-
-                reportControl.ReportModel.ModuleType = campName.SubModule;
 
                 var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
                 var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
@@ -231,12 +230,9 @@ namespace DominatorUIUtility.ViewModel
 
                 ObservableCollection<QueryInfo> lstSavedQuery = networkCoreFactory.ReportFactory.GetSavedQuery(activityType, ActivitySettings);
 
-                List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
-
-
                 lstSavedQuery?.ToList().ForEach(x =>
                 {
-                    lstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
+                    reportControl.ReportModel.LstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
                     #region Update QueryList for combobox
 
                     if (reportControl.ReportModel.QueryList.Any(query => query.Content == x.QueryType) == false)
@@ -245,8 +241,6 @@ namespace DominatorUIUtility.ViewModel
                     #endregion
 
                 });
-
-
                 try
                 {
                     #region Update AccountList & StatusList for combobox
@@ -273,11 +267,9 @@ namespace DominatorUIUtility.ViewModel
                     });
                     #endregion
 
-                    var dataBase = new DbOperations(campName.CampaignId, SocialNetworks, ConstantVariable.GetCampaignDb);
-
-                    if (networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel, lstCurrentQueries, campName) == 0)
+                    if (networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel, reportControl.ReportModel.LstCurrentQueries, campName) == 0)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
+                        Dialog.ShowDialog("Report", "Reports for " + campName.CampaignName + " Campaign not available");
                         return;
                     }
                 }
@@ -288,40 +280,6 @@ namespace DominatorUIUtility.ViewModel
 
                 Window win = objDialog.GetMetroWindow(reportControl, "Reports");
                 win.Owner = Application.Current.MainWindow;
-
-                #region Commented
-                //reportControl.ExportReport.Click += (senders, events) =>
-                //{
-                //    try
-                //    {
-                //        var exportPath = FileUtilities.GetExportPath(win);
-
-                //        if (string.IsNullOrEmpty(exportPath))
-                //            return;
-
-                //        var filename = Regex.Replace(
-                //            input: $"{ campName.CampaignName }-Reports[{DateTimeUtilities.GetEpochTime()}]",
-                //            pattern: "[\\/:*?<>|\"]",
-                //            replacement: "-");
-
-                //        filename = $"{exportPath}\\{filename}.csv";
-                //        //TODO
-
-                //        SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
-                //        Dialog.ShowDialog("Sucess", "Sucessfully Exported to " + filename);
-                //        GlobusLogHelper.log.Info(Log.CustomMessage, campName.SocialNetworks, activityType, campName.CampaignName, "Sucessfully Exported to " + filename);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fail",
-                //            "Export fail !!");
-                //        ex.DebugLog();
-
-                //    }
-
-                //}; 
-                #endregion
-
                 win.ShowDialog();
             }
             catch (Exception ex)
@@ -641,6 +599,7 @@ namespace DominatorUIUtility.ViewModel
 
             try
             {
+
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                 var moduleConfiguration = jobActivityConfigurationManager[account.AccountId, module];
@@ -682,7 +641,7 @@ namespace DominatorUIUtility.ViewModel
                         JobProcess.Stop(x.AccountId, camp.TemplateId);
 
                         // Remove task from list
-                        foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId))
+                        foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId).ToList())
                         {
                             jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
                         }

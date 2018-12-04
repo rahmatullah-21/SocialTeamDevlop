@@ -18,7 +18,7 @@ namespace DominatorHouseCore.Interfaces
 
         public ColumnSpecificationAdapter(IColumnSpecificationProvider prov1, IColumnSpecificationProvider prov2)
         {
-            this.names = prov1.VisibleHeaders
+            names = prov1.VisibleHeaders
                 .Concat(prov2.VisibleHeaders)
                 .GroupBy(k => k)
                 .Select(grp => grp.Key)

@@ -43,6 +43,7 @@ namespace DominatorUIUtility.CustomControl
         private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         private readonly IAccountsCacheService _accountsCacheService;
 
+
         #region Constructor
 
         protected ModuleSettingsUserControl()
@@ -67,6 +68,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void CreateOrUpdateCampaign(object sender)
         {
+
             var control = sender as FooterControl;
             if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
@@ -374,7 +376,7 @@ namespace DominatorUIUtility.CustomControl
 
             _footerControl.CampaignManager = ConstantVariable.CreateCampaign;
 
-            this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+            SelectedAccountCount = ConstantVariable.NoAccountSelected;
 
             ObjViewModel = new TViewModel();
 
@@ -674,7 +676,7 @@ namespace DominatorUIUtility.CustomControl
             if (objErrorModelControl.Accounts.Count != 0)
                 warningWindow.ShowDialog();
 
-            this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+            SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
             if (needToCancel || _footerControl.list_SelectedAccounts.Count == 0)
             {
                 return false;
@@ -751,12 +753,12 @@ namespace DominatorUIUtility.CustomControl
                     if (selectedAccount.Count > 0)
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
-                        this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                        SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
                         GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _footerControl.list_SelectedAccounts.Count, CampaignName);
                     }
                     else
                     {
-                        this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        SelectedAccountCount = ConstantVariable.NoAccountSelected;
                         _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
@@ -783,12 +785,12 @@ namespace DominatorUIUtility.CustomControl
             if (listOfSelectedAccounts.Count > 0)
             {
                 _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
-                this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
                 GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, "", _footerControl.list_SelectedAccounts.Count, _activityType);
             }
             else
             {
-                this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                SelectedAccountCount = ConstantVariable.NoAccountSelected;
                 _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
             }
         }
@@ -1091,7 +1093,7 @@ namespace DominatorUIUtility.CustomControl
                 #endregion
             }
             #endregion
-            this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+            SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
             if (_footerControl.list_SelectedAccounts.Count == 0 || needToCancel) return false;
             return isProcessSuccessful;
         }
@@ -1651,7 +1653,7 @@ namespace DominatorUIUtility.CustomControl
                 }
                 accountModuleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(accountModuleSettings);
                 _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, accountModuleSettings);
-                _accountsCacheService.UpsertAccounts(account);  
+                _accountsCacheService.UpsertAccounts(account);
             }
             catch (Exception ex)
             {
@@ -1679,12 +1681,12 @@ namespace DominatorUIUtility.CustomControl
                     if (selectedAccount.Count > 0)
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
-                        this.SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                        SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
                         GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _footerControl.list_SelectedAccounts.Count, CampaignName);
                     }
                     else
                     {
-                        this.SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        SelectedAccountCount = ConstantVariable.NoAccountSelected;
                         _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();

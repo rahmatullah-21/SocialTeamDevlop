@@ -69,7 +69,7 @@ namespace DominatorUIUtility.CustomControl
                         SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
                         MediaPath = currentItem.MediaPath
                     },
-                    LstManageMessagesModel = this.LstManageMessagesModel
+                    LstManageMessagesModel = LstManageMessagesModel
                 };
 
 

@@ -298,7 +298,19 @@
                             </StackPanel>
                         </Button.Content>
                     </Button>
-
+                    <CheckBox Content="{DynamicResource LangKeyTwoFactorLoginRequired}" IsChecked="{Binding DominatorAccountModel.AccountBaseModel.IsChkTwoFactorLogin}"
+                              Width="180" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="6,0,0,5">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Instagram}" >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
                     <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="{Binding CodeSectionVisibility}">
                         <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterVerificationCode}"
                               Width="230" Text="{Binding DominatorAccountModel.VarificationCode}"  Name="TxtVarificationCode"

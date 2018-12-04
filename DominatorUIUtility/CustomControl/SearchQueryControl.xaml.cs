@@ -307,7 +307,7 @@ namespace DominatorUIUtility.CustomControl
             RaiseEvent(routedEventArgs);
         }
 
-        private void DeleteSingle_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DeleteSingle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             CurrentQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
             DeleteQueryEventHandler();

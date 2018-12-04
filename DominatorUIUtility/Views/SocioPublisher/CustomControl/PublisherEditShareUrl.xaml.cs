@@ -38,7 +38,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             currentPostData = currentPost.DeepClone();
             this.lstPublisherPostlist = lstPublisherPostlist;
-            this.DataContext = currentPostData;
+            DataContext = currentPostData;
         }
 
         private void PublisherEditSourceUrl_OnLoaded(object sender, RoutedEventArgs e)

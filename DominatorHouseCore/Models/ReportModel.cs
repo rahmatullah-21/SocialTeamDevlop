@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Models
 {
     public class ReportModel : BindableBase
     {
- 
-        public ObservableCollection<ContentSelectGroup> AccountList { get; set; } =new ObservableCollection<ContentSelectGroup>();
+
+        public ObservableCollection<ContentSelectGroup> AccountList { get; set; } = new ObservableCollection<ContentSelectGroup>();
 
         public ObservableCollection<ContentSelectGroup> QueryList { get; set; } = new ObservableCollection<ContentSelectGroup>();
 
@@ -17,10 +19,17 @@ namespace DominatorHouseCore.Models
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-        public ICollectionView ReportCollection { get; set; }
+        private ICollectionView _reportCollection;
+        public ICollectionView ReportCollection
+        {
+            get { return _reportCollection; }
+            set { SetProperty(ref _reportCollection, value); }
+        }
 
-        public string ModuleType { get; set; } = "";
-        public ObservableCollection<GridViewColumnDescriptor> GridViewColumn { get; set; }  = new ObservableCollection<GridViewColumnDescriptor>();
-
+        public ActivityType ActivityType { get; set; }
+        public ObservableCollection<GridViewColumnDescriptor> GridViewColumn { get; set; } = new ObservableCollection<GridViewColumnDescriptor>();
+        public List<KeyValuePair<string, string>> LstCurrentQueries = new List<KeyValuePair<string, string>>();
+      
+        public string CampaignId { get; set; } = string.Empty;
     }
 }

@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Request
         /// <summary>
         /// To assign the Cookies for request
         /// </summary>
-        public virtual System.Net.CookieCollection Cookies { get; set; }
+        public virtual CookieCollection Cookies { get; set; }
 
         /// <summary>
         /// To assign the Http header
@@ -348,7 +348,7 @@ namespace DominatorHouseCore.Request
 
                 //AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
 
-                this.ContentType = $"multipart/form-data; boundary={multipartBoundary}";
+                ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
         }
@@ -397,7 +397,7 @@ namespace DominatorHouseCore.Request
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
                 //   AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
-                this.ContentType = $"multipart/form-data; boundary={multipartBoundary}";
+                ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
         }
@@ -454,7 +454,7 @@ namespace DominatorHouseCore.Request
                 memoryStream.Write(bytes1, 0, bytes1.Length);
 
                 //AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
-                this.ContentType = $"multipart/form-data; boundary={multipartBoundary}";
+                ContentType = $"multipart/form-data; boundary={multipartBoundary}";
                 return memoryStream.ToArray();
             }
         }

@@ -19,10 +19,10 @@ namespace DominatorUIUtility.CustomControl
         }
         public SingleAccountControl(SingleAccountModel objSingleAccountModelBinding) : this()
         {
-            this.objSingleAccountModel = objSingleAccountModelBinding;
+            objSingleAccountModel = objSingleAccountModelBinding;
 
 
-            this.DataContext = objSingleAccountModel;
+            DataContext = objSingleAccountModel;
         }
     }
 

@@ -503,8 +503,8 @@ namespace DominatorHouseCore.Models.Publisher
         // Constructor for initialize the start time and end time to local property
         public TimeRange(TimeSpan startTime, TimeSpan endTime)
         {
-            this.StartTime = startTime;
-            this.EndTime = endTime;
+            StartTime = startTime;
+            EndTime = endTime;
 
         }
         /// <summary>

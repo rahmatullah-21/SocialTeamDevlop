@@ -70,7 +70,7 @@ namespace DominatorUIUtility.CustomControl
                         SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
                         FilterText = currentItem.FilterText
                     },
-                    LstManageCommentModel = this.LstManageCommentModel
+                    LstManageCommentModel = LstManageCommentModel
                 };
 
                 editComment.Comments.LstQueries.ToList().ForEach(x =>

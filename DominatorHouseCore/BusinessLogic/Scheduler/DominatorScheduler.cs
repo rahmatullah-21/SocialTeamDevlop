@@ -237,7 +237,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                                 foreach (var timingRange in timing.Timings)
                                     timingRange.Module = activity.ToString();
 
-                            DominatorScheduler.ScheduleTodayJobs(account, network, activity);
+                            ScheduleTodayJobs(account, network, activity);
                         }
                     }
                 }
@@ -384,7 +384,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         ex.DebugLog();
                     }
                     moduleConfiguration.IsEnabled = true;
-                    DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
+                    ScheduleNextActivity(accountModel, activityType);
                 }
                 else
                 {

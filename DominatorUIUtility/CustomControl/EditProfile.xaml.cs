@@ -32,7 +32,7 @@ namespace DominatorUIUtility.CustomControl
         public EditProfile(EditProfileModel editProfileModel) :this()
         {
             EditProfileViewModel.EditProfileModel = editProfileModel;
-            this.DataContext = EditProfileViewModel;
+            DataContext = EditProfileViewModel;
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)

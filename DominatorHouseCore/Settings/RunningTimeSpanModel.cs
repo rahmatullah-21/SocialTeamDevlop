@@ -120,8 +120,8 @@ namespace DominatorHouseCore.Settings
             // Constructor for initialize the start time and end time to local property
             public TimingRange(TimeSpan startTime, TimeSpan endTime)
             {
-                this.StartTime = startTime;
-                this.EndTime = endTime;
+                StartTime = startTime;
+                EndTime = endTime;
             }
 
             private TimingRange()

@@ -54,11 +54,11 @@ namespace DominatorHouseCore.Models
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name can't be empty");
             name = name.ToLower();
-            if (GenderGuesser.MaleNames.Contains(name))
+            if (MaleNames.Contains(name))
                 return Gender.Male;
-            if (GenderGuesser.FemaleNames.Contains(name))
+            if (FemaleNames.Contains(name))
                 return Gender.Female;
-            return !GenderGuesser.UnisexNames.Contains(name) ? Gender.Unknown : Gender.Unisex;
+            return !UnisexNames.Contains(name) ? Gender.Unknown : Gender.Unisex;
         }
     }
 }

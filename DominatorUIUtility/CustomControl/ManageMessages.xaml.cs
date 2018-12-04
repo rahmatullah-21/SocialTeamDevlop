@@ -63,7 +63,7 @@ namespace DominatorUIUtility.CustomControl
                         MessageId = currentItem.MessageId,
                         SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
                     },
-                    LstManageMessagesModel = this.LstManageMessagesModel
+                    LstManageMessagesModel = LstManageMessagesModel
                 };
                 editMessage.Messages.LstQueries.ToList().ForEach(x =>
                 {

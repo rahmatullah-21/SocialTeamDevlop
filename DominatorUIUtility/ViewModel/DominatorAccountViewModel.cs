@@ -109,7 +109,7 @@ namespace DominatorUIUtility.ViewModel
         {
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
-            this.strategyPack = mainViewModel.Strategies;
+            strategyPack = mainViewModel.Strategies;
             Groups = new ObservableCollection<ContentSelectGroup>();
             BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
             LstDominatorAccountModel = new ObservableCollection<DominatorAccountModel>();
@@ -133,7 +133,7 @@ namespace DominatorUIUtility.ViewModel
 
             AddSingleAccountCommand = new DelegateCommand(AddSingleAccountExecute);
 
-            LoadMultipleAccountsCommand = new DelegateCommand(() => LoadMultipleAccountsExecute(this.strategyPack._determine_available, this.strategyPack._inform_warnings));
+            LoadMultipleAccountsCommand = new DelegateCommand(() => LoadMultipleAccountsExecute(strategyPack._determine_available, strategyPack._inform_warnings));
 
             InfoCommand = new DelegateCommand(InfoCommandExecute);
 

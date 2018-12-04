@@ -64,8 +64,11 @@ namespace DominatorUIUtility.CustomControl
                 {
 
                     if (TimeSpan.Compare(objSchedulerControl.StartTimePicker.SelectedTime.Value, objSchedulerControl
-                            .EndTimePicker.SelectedTime.Value) > 0)
+                            .EndTimePicker.SelectedTime.Value) >= 0)
+                    {
+                        ToasterNotification.ShowWarning("End time should be more then Start time");
                         return;
+                    }
 
                     var isAlreadyGivenTimeAdded = true;
 

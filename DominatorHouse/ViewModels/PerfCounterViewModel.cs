@@ -125,7 +125,7 @@ namespace DominatorHouse.ViewModels
         public void Dispose()
         {
             _timer.Elapsed -= OnElapsed;
-            this._timer.Stop();
+            _timer.Stop();
         }
     }
 }

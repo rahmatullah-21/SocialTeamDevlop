@@ -114,13 +114,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
                     var oldInstagramModel = ObjCampaignsAdvanceSetting.AdvanceSetting.InstagramModel;
                     var newInstagramModel = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel;
                     newInstagramModel =
-                        ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(oldInstagramModel,
+                        ObjectComparer.CompareAndGetChangedObject<InstagramModel>(oldInstagramModel,
                             newInstagramModel);
                     if (newInstagramModel != null)
                     {
                         newInstagramModel.CampaignId = campaignId;
                         var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
-                        var lstInstagramModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(file);
+                        var lstInstagramModels = GenericFileManager.GetModuleDetails<InstagramModel>(file);
                         var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newInstagramModel, lstInstagramModels, file, SocialNetworks.Instagram);
                         GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Instagram, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
@@ -132,13 +132,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     var oldPinterestModel = ObjCampaignsAdvanceSetting.AdvanceSetting.PinterestModel;
                     var newPinterestModel = Pinterest.GetSingeltonPinterestObject().PinterestViewModel.PinterestModel;
-                    newPinterestModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(oldPinterestModel, newPinterestModel);
+                    newPinterestModel = ObjectComparer.CompareAndGetChangedObject<PinterestModel>(oldPinterestModel, newPinterestModel);
 
                     if (newPinterestModel != null)
                     {
                         newPinterestModel.CampaignId = campaignId;
                         var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
-                        var lstPinterestModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(file);
+                        var lstPinterestModels = GenericFileManager.GetModuleDetails<PinterestModel>(file);
                         var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newPinterestModel, lstPinterestModels, file, SocialNetworks.Pinterest);
                         GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
@@ -151,13 +151,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
                     var oldTumblrModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TumblrModel;
                     var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
                     newTumblrModel =
-                        ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(oldTumblrModel,
+                        ObjectComparer.CompareAndGetChangedObject<TumblrModel>(oldTumblrModel,
                             newTumblrModel);
                     if (newTumblrModel != null)
                     {
                         newTumblrModel.CampaignId = campaignId;
                         var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
-                        var lstTumblrModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(file);
+                        var lstTumblrModels = GenericFileManager.GetModuleDetails<TumblrModel>(file);
                         var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
                         GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Tumblr, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
@@ -170,13 +170,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     var oldTwitterModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TwitterModel;
                     var newTwitterModel = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel;
-                    newTwitterModel = ObjectComparer.CompareAndGetChangedObject<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(oldTwitterModel, newTwitterModel);
+                    newTwitterModel = ObjectComparer.CompareAndGetChangedObject<TwitterModel>(oldTwitterModel, newTwitterModel);
 
                     if (newTwitterModel != null)
                     {
                         newTwitterModel.CampaignId = campaignId;
                         var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
-                        var lstTwitterModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(file);
+                        var lstTwitterModels = GenericFileManager.GetModuleDetails<TwitterModel>(file);
                         var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTwitterModel, lstTwitterModels, file, SocialNetworks.Twitter);
                         GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
@@ -195,7 +195,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                     {
                         newRedditModel.CampaignId = campaignId;
                         var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
-                        var lstRedditModels = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.RedditModel>(file);
+                        var lstRedditModels = GenericFileManager.GetModuleDetails<RedditModel>(file);
                         var moduleToUpdate = lstRedditModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newRedditModel, lstRedditModels, file, SocialNetworks.Reddit);
                         GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Reddit, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");

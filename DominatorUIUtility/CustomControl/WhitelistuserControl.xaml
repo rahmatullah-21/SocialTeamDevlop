@@ -39,7 +39,7 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
-                              TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding WhitelistUser}"
+                              TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding WhitelistUser,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                               ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToWhitelistedOneUsernamePerLine}"  
                               Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 

@@ -85,19 +85,19 @@ namespace DominatorHouseCore.Utility
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
-                    typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel),
+                    typeof(Models.Publisher.CampaignsAdvanceSetting.InstagramModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
-                    typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel),
+                    typeof(Models.Publisher.CampaignsAdvanceSetting.PinterestModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
-                    typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel),
+                    typeof(Models.Publisher.CampaignsAdvanceSetting.TumblrModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {
-                    typeof(DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel),
+                    typeof(Models.Publisher.CampaignsAdvanceSetting.TwitterModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
                 {

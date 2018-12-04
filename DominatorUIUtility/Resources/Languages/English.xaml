@@ -3061,7 +3061,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCustomProfileUrl">Custom Profile Url</system:String>
 
     <system:String x:Key="LangKeyFilenameFormat">Custom Html Filename Format</system:String>
-    <system:String x:Key="LangKeyWaterMarkTextFilenameFormat">Input Filename As Eg: {FirstName}_{MiddleName}_{LastName}_{PhoneNumber}_{EmailAddress}_{ProfileUrl}</system:String>
+    <system:String x:Key="LangKeyWaterMarkTextFilenameFormat">Input Filename As Eg: {FirstName}_{MiddleName}_{LastName}_{PhoneNumber}_{EmailAddress}_{ProfileUrl}_{FromAccountEmail}</system:String>
     <system:String x:Key="LangKeyDownloadPdf">Download Pdf</system:String>
 
     <system:String x:Key="LangKeyNumberOfBlockFollowersPerDay">Number Of Block Followers Per Day</system:String>
@@ -3282,4 +3282,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAddFacebookVideoUrls">Add Facebook Video Urls</system:String>
     <system:String x:Key="LangKeyAddVideoUrlsFromPages">Add Video Urls From Pages</system:String>
     <system:String x:Key="LangKeyMentionSpecificUsers">Mention Specific Users in Post</system:String>
+    <system:String x:Key="LangKeyAddMultipleCommentsSeparatedByNewLine">Add Multiple Comments Separated By New Line</system:String>
+    <system:String x:Key="LangKeyUserShouldHaveSpecifiedWordsInBioDescription">User Should Have Specified Words In Bio Description</system:String>
+    <system:String x:Key="LangKeyIgnoreConnectionSource">Ignore Connection Source</system:String>
 </ResourceDictionary>

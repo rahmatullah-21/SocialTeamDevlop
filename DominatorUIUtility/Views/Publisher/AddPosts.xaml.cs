@@ -115,7 +115,7 @@ namespace DominatorUIUtility.Views.Publisher
 
         private void btnPhotos_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Multiselect = true,
                 Filter = "Jpg images|*.jpg|Png images|*.png|All files (*.*)|*.*"
@@ -131,7 +131,7 @@ namespace DominatorUIUtility.Views.Publisher
 
         private void btnVideo_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Multiselect = true,
                 Filter = "Mp4 videos|*.mp4|Avi videos|*.avi|All files (*.*)|*.*"

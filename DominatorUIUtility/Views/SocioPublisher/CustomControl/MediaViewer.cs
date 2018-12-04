@@ -189,7 +189,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         // Using a DependencyProperty as the backing store for DeleteMenuVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DeleteMenuVisibilityProperty =
-            DependencyProperty.Register("DeleteMenuVisibility", typeof(Visibility), typeof(MediaViewer), new PropertyMetadata(System.Windows.Visibility.Collapsed));
+            DependencyProperty.Register("DeleteMenuVisibility", typeof(Visibility), typeof(MediaViewer), new PropertyMetadata(Visibility.Collapsed));
 
         public int ImagePointer
         {

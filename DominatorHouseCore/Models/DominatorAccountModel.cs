@@ -110,7 +110,8 @@ namespace DominatorHouseCore.Models
         public IHttpHelper HttpHelper => (_httpHelper =
             (_httpHelper ??
              ServiceLocator.Current.GetInstance<IHttpHelper>(AccountBaseModel.AccountNetwork.ToString())));
-
+        [ProtoIgnore]
+        public IHttpHelper HttpHelpNonServLoc { get; set; }
         [ProtoIgnore]
         public bool IsloggedinWithPhone { get; set; }
 
@@ -156,7 +157,7 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                this.ModulePrivateDetails = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                ModulePrivateDetails = Newtonsoft.Json.JsonConvert.SerializeObject(model);
             }
             catch (Exception Ex)
             {
@@ -169,9 +170,9 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                JObject jObject = JObject.Parse(this.ModulePrivateDetails);
+                JObject jObject = JObject.Parse(ModulePrivateDetails);
                 jObject[PropertyName] = value.ToString();
-                this.ModulePrivateDetails = jObject.ToString();
+                ModulePrivateDetails = jObject.ToString();
             }
             catch (Exception Ex)
             {
@@ -404,7 +405,7 @@ namespace DominatorHouseCore.Models
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {
-            return (DominatorAccountModel)this.MemberwiseClone();
+            return (DominatorAccountModel)MemberwiseClone();
         }
     }
 }

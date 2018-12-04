@@ -19,7 +19,7 @@ namespace DominatorHouseCore.Dal
         {
             lock (_syncObject)
             {
-                var conn = base.GetConnection(path);
+                var conn = GetConnection(path);
                 DbMigration.RunMigration(conn);
 
                 return conn;

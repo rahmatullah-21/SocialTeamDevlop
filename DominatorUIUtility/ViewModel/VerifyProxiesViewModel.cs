@@ -41,7 +41,7 @@ namespace DominatorUIUtility.ViewModel
 
         public async Task Verify(params ProxyManagerModel[] models)
         {
-            await this.ExecuteSynchronized(VerifyInternal, models);
+            await ExecuteSynchronized(VerifyInternal, models);
         }
 
         private async Task VerifyInternal(params ProxyManagerModel[] models)

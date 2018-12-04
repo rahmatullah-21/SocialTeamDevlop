@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Utility
         // public static string IgVersion { get; } = "40.33.0";
         public static string IgVersion { get; } = "64.0.0.14.96";
 
-        public static string ApiUrl => $"{(object)ConstantVariable.InstagramBaseUrl}api/v1/";
+        public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
 
         public static string InstagramBaseUrl { get; } = "https://i.instagram.com/";
 

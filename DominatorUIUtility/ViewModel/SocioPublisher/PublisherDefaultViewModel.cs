@@ -475,46 +475,46 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                   
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
-                    var instagramModel = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var instagramModel = GenericFileManager.GetModuleDetails<InstagramModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (instagramModel != null)
                     {
                         instagramModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.InstagramModel>(instagramModel, file);
+                        GenericFileManager.AddModule<InstagramModel>(instagramModel, file);
                     }
                  
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
-                    var pinterestModel = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var pinterestModel = GenericFileManager.GetModuleDetails<PinterestModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (pinterestModel != null)
                     {
                         pinterestModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.PinterestModel>(pinterestModel, file);
+                        GenericFileManager.AddModule<PinterestModel>(pinterestModel, file);
                     }
                  
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
-                    var tumblrModel = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var tumblrModel = GenericFileManager.GetModuleDetails<TumblrModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (tumblrModel != null)
                     {
                         tumblrModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TumblrModel>(tumblrModel, file);
+                        GenericFileManager.AddModule<TumblrModel>(tumblrModel, file);
                     }
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
-                    var twitterModel = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var twitterModel = GenericFileManager.GetModuleDetails<TwitterModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (twitterModel != null)
                     {
                         twitterModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.TwitterModel>(twitterModel, file);
+                        GenericFileManager.AddModule<TwitterModel>(twitterModel, file);
                     }
                 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
-                    var redditModel = GenericFileManager.GetModuleDetails<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.RedditModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var redditModel = GenericFileManager.GetModuleDetails<RedditModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (redditModel != null)
                     {
                         redditModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.RedditModel>(redditModel, file);
+                        GenericFileManager.AddModule<RedditModel>(redditModel, file);
                     }
                  
 

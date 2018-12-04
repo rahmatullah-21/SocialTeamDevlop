@@ -48,7 +48,7 @@
                     <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" 
                               VerticalAlignment="Center" Height="30"  HorizontalAlignment="Left" Width="150"
                               Style="{StaticResource SearchMetroTextBox}" Name="txtSearch" TextChanged="txtSearch_TextChanged"/>
-                    <ComboBox Margin="10,0"  Controls:TextBoxHelper.ClearTextButton="True" SelectedIndex="0" Width="150" 
+                    <ComboBox Margin="10,0"  Controls:TextBoxHelper.ClearTextButton="True" SelectedIndex="0" Width="150" SelectionChanged="Filter"
                               VerticalAlignment="Center" HorizontalAlignment="Right" Height="30"  Name="cmbSearchFilter" >
                         <ComboBoxItem Content="{DynamicResource LangKeyByGroupName}"/>
                         <ComboBoxItem Content="{DynamicResource LangKeyByAccount}"/>

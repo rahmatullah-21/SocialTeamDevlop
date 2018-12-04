@@ -26,7 +26,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             this.LstPostListModel = LstPostListModel;
             PostlistModel = publisherPostlistModel.DeepClone();
-            this.DataContext = PostlistModel;
+            DataContext = PostlistModel;
         }
 
         private void PublisherEditPost_OnLoaded(object sender, RoutedEventArgs e)
