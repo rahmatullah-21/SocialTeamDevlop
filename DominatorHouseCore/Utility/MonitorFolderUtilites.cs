@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-
-using System.Net;
 using System.Text.RegularExpressions;
 
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using Shell32;
@@ -139,6 +136,7 @@ namespace DominatorHouseCore.Utility
                     try
                     {
 
+                        // ReSharper disable once RedundantAssignment
                         var postTitle = string.Empty;
 
                         if (postDetailsModel.IsRandomlyPickTitleFromList)
@@ -253,6 +251,7 @@ namespace DominatorHouseCore.Utility
                                         !string.IsNullOrEmpty(objDetailedFileInfo.Value) ?
                                             objDetailedFileInfo.Value : string.Empty;
                                     break;
+                                // ReSharper disable once RedundantEmptySwitchSection
                                 default:
                                     break;
                             }

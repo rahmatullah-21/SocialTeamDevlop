@@ -300,7 +300,7 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + $"\\Chat.bin";
-        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + $"\\Friend.bin";
+        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Chat.bin";
+        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Friend.bin";
     }
 }

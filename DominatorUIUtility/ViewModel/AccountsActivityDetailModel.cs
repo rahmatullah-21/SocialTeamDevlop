@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
 
 namespace DominatorUIUtility.ViewModel
 {

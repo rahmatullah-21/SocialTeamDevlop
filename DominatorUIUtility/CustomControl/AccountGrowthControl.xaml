@@ -4,13 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" 
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
-             xmlns:dhenums="clr-namespace:DominatorHouseCore.Enums.DHEnum;assembly=DominatorHouseCore"
-             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              Name="AccountModule"
@@ -27,12 +22,12 @@
         <VisualBrush x:Key="ArrowDownVisualBrush" Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
         <converters:BoolToValueConverter x:Key="BoolToValueConverterArrowBrush" TrueValue="{StaticResource GreenBrush}" FalseValue="{StaticResource RedBrush}" NullValue="{StaticResource RedBrush}"/>
         <converters:BoolToValueConverter x:Key="BoolToValueConverterArrowType" TrueValue="{StaticResource ArrowUpVisualBrush}" FalseValue="{StaticResource ArrowDownVisualBrush}" NullValue="{StaticResource ArrowDownVisualBrush}"/>
-        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+        <!--<ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
                         ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="dhenums:GrowthPeriod"/>
             </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        </ObjectDataProvider>-->
         <ControlTemplate x:Key="ArrowCellControlTemplate">
             <Rectangle Fill="{Binding Converter={StaticResource BoolToValueConverterArrowBrush}}" Width="20" Height="20" 
                        OpacityMask="{Binding Converter={StaticResource BoolToValueConverterArrowType}}"/>
@@ -107,10 +102,7 @@
                                                                 <Setter Property="Content">
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                           <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -279,7 +271,7 @@
                     <Grid Grid.Row="1">
                         <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Left" >
                             <StackPanel Orientation="Horizontal"    Margin="0,0,0,0">
-                                <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin = "5">
+                                <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin = "5">
                                     <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties}" Focusable="False" Foreground="Black">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>

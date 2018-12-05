@@ -28,7 +28,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             var directoryName = ConstantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
             DirectoryUtilities.CreateDirectory(directoryName);
-            var connectionString = directoryName + $"\\Global.db";
+            var connectionString = directoryName + "\\Global.db";
             return GetSqlConnectionAndRunMigration(connectionString);
         }
 

@@ -7,7 +7,6 @@ using Prism.Commands;
 using System;
 using System.Diagnostics;
 using System.Windows;
-using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {

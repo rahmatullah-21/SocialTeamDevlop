@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Models
 {

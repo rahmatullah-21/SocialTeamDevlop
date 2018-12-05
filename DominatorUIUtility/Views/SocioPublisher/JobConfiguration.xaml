@@ -5,20 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"            
              xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
-             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
-        <ControlTemplate x:Key="ErrorTemplate">
+        <!--<ControlTemplate x:Key="ErrorTemplate">
             <StackPanel>
                 <AdornedElementPlaceholder x:Name="ErrorHolder" >
                     <Border BorderBrush="red" BorderThickness="1" />
                 </AdornedElementPlaceholder>
                 <TextBlock  VerticalAlignment="Center" FontWeight="Bold" Text="{Binding ElementName=ErrorHolder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" Foreground="Red"/>
             </StackPanel>
-        </ControlTemplate>
+        </ControlTemplate>-->
 
 
     </UserControl.Resources>

@@ -202,7 +202,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         }
                         catch (Exception ex)
                         {
-                            return;
+                            ex.DebugLog();
                         }
                     });
                     cancellectionToken.Token.ThrowIfCancellationRequested();

@@ -1,6 +1,4 @@
 ﻿using SQLite;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using static DominatorHouseCore.DatabaseHandler.GplusTables.Accounts.Communities;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Campaigns

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -9,9 +8,7 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
 using System.Text.RegularExpressions;
-using System.Windows.Data;
 using DominatorHouseCore.Enums;
-using MahApps.Metro.Controls.Dialogs;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 

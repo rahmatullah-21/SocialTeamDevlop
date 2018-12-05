@@ -2,14 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher" x:Name="CreateDestination"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             x:Name="CreateDestination"
              mc:Ignorable="d"  
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              Loaded="PublisherCreateDestination_OnLoaded"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
              xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
@@ -291,10 +290,7 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="#003569" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                           <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -306,9 +302,6 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="Red" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
                                                                             <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
@@ -321,10 +314,7 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                             <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -336,9 +326,6 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="Red" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
                                                                             <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
@@ -351,9 +338,6 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="Red" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
                                                                             <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
@@ -368,10 +352,7 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                             <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -383,10 +364,7 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                             <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -397,10 +375,7 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                             <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -412,10 +387,7 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                             <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -427,10 +399,7 @@
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                           <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>

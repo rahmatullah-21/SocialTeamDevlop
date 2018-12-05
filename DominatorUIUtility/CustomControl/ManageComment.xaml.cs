@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.Models;
-using DominatorUIUtility.Behaviours;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;

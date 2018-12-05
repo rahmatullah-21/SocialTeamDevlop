@@ -22,7 +22,7 @@ namespace DominatorHouseCore.Models
         {
             HasCredentials = false;
             HasProxy = false;
-            ProxyId = Utilities.GetGuid(true);
+            ProxyId = Utilities.GetGuid();
         }
 
         [ProtoMember(10)]
@@ -149,8 +149,8 @@ namespace DominatorHouseCore.Models
 
         public void ChangeProxy()
         {
-            ProxyIp = (string)null;
-            ProxyPort = (string)null;
+            ProxyIp = null;
+            ProxyPort = null;
             HasProxy = false;
             SetProxyCredentials();
         }
@@ -168,8 +168,8 @@ namespace DominatorHouseCore.Models
 
         private void SetProxyCredentials()
         {
-            ProxyUsername = (string)null;
-            ProxyPassword = (string)null;
+            ProxyUsername = null;
+            ProxyPassword = null;
             HasCredentials = false;
         }
 
@@ -193,9 +193,9 @@ namespace DominatorHouseCore.Models
                 var webClientExtended = new WebClientExtended();
                 var webProxy1 = new WebProxy(GetProxy(), true);
                 if (HasCredentials)
-                    webProxy1.Credentials = (ICredentials)new NetworkCredential(ProxyUsername, ProxyPassword);
+                    webProxy1.Credentials = new NetworkCredential(ProxyUsername, ProxyPassword);
                 var webProxy2 = webProxy1;
-                webClientExtended.Proxy = (IWebProxy)webProxy2;
+                webClientExtended.Proxy = webProxy2;
                 var address = "http://google.com/";
                 webClientExtended.DownloadString(address);
                 return true;
@@ -246,7 +246,7 @@ namespace DominatorHouseCore.Models
                 int num2 = 0;
                 webRequest.KeepAlive = num2 != 0;
                 webRequest.ServicePoint.SetTcpKeepAlive(false, 1000, 5000);
-                return (WebRequest)webRequest;
+                return webRequest;
             }
         }
 

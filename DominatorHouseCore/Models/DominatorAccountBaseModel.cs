@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using Prism.Mvvm;
 using ProtoBuf;
 using System.Collections.Generic;
 
@@ -172,7 +171,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private string _accountId = Utilities.GetGuid(true);
+        private string _accountId = Utilities.GetGuid();
         /// <summary>
         /// To access the account with unique Id
         /// </summary>

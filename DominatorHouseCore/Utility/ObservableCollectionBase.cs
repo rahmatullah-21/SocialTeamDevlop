@@ -37,7 +37,7 @@ namespace DominatorHouseCore.Utility
 
         public ObservableCollectionBase()
         {
-            _inputCollection = (IList<TType>)new List<TType>();
+            _inputCollection = new List<TType>();
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -84,7 +84,7 @@ namespace DominatorHouseCore.Utility
                     if (collection != null)
                         _syncRoot = collection.SyncRoot;
                     else
-                        Interlocked.CompareExchange<object>(ref _syncRoot, new object(), (object)null);
+                        Interlocked.CompareExchange<object>(ref _syncRoot, new object(), null);
                 }
                 return _syncRoot;
             }
@@ -110,7 +110,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                return (object)this[index];
+                return this[index];
             }
             set
             {
@@ -125,7 +125,7 @@ namespace DominatorHouseCore.Utility
                 _inputCollection.Add(item);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (object)item));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
             }
         }
 
@@ -133,10 +133,10 @@ namespace DominatorHouseCore.Utility
         {
             lock (_listLocker)
             {
-                ((List<TType>)_inputCollection).AddRange((IEnumerable<TType>)objects);
+                ((List<TType>)_inputCollection).AddRange(objects);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (object)objects));
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, objects));
             }
         }
 
@@ -178,7 +178,7 @@ namespace DominatorHouseCore.Utility
                     return false;
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)item));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
                 return true;
             }
         }
@@ -189,12 +189,12 @@ namespace DominatorHouseCore.Utility
             {
                 var collection = (List<TType>)_inputCollection;
                 var predicate1 = (Func<TType, bool>)(x => predicate(x));
-                var objs = collection.Where<TType>(predicate1);
+                var objs = collection.Where(predicate1);
                 var match = predicate;
                 collection.RemoveAll(match);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)objs));
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, objs));
             }
         }
 
@@ -206,7 +206,7 @@ namespace DominatorHouseCore.Utility
                 _inputCollection.RemoveAt(index);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)obj));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, obj));
             }
         }
 
@@ -223,7 +223,7 @@ namespace DominatorHouseCore.Utility
                 var range = collection.GetRange(index2, count2);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (IList)range));
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, range));
             }
         }
 
@@ -260,7 +260,7 @@ namespace DominatorHouseCore.Utility
         IEnumerator IEnumerable.GetEnumerator()
         {
             lock (_listLocker)
-                return (IEnumerator)_inputCollection.GetEnumerator();
+                return _inputCollection.GetEnumerator();
         }
 
         int IList.IndexOf(object value)
@@ -295,11 +295,11 @@ namespace DominatorHouseCore.Utility
                 return;
 
             if (Application.Current.Dispatcher.Thread != Thread.CurrentThread)
-                Application.Current.Dispatcher.BeginInvoke(new Action(delegate { handler((object) this, args); }));
+                Application.Current.Dispatcher.BeginInvoke(new Action(delegate { handler(this, args); }));
 
                // Application.Current.Dispatcher.BeginInvoke((Delegate)(() => handler((object)this, args)));
             else
-                handler((object)this, args);
+                handler(this, args);
 
         }
 
@@ -318,16 +318,16 @@ namespace DominatorHouseCore.Utility
                 if (Application.Current.Dispatcher.Thread != Thread.CurrentThread)
                     Application.Current.Dispatcher.BeginInvoke
                     (view != null
-                        ? new Action(delegate { view.Refresh(); })
+                        ? delegate { view.Refresh(); }
                         : new Action(delegate
                         {
-                            collectionChanged((object) this, e);
+                            collectionChanged(this, e);
                         }));
                 // Application.Current.Dispatcher.BeginInvoke(view != null ? (Delegate)(() => view.Refresh()) : (Delegate)(() => collectionChanged((object)this, e)));
                 else if (view != null)
                     view.Refresh();
                 else
-                    collectionChanged((object) this, e);
+                    collectionChanged(this, e);
             }
         }
 
@@ -337,7 +337,7 @@ namespace DominatorHouseCore.Utility
             if (propertyChanged == null)
                 return;
             var e = new PropertyChangedEventArgs(propertyName);
-            propertyChanged((object)this, e);
+            propertyChanged(this, e);
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using DominatorHouseCore.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts

@@ -9,7 +9,7 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null && value.ToString().Equals("Active") ? true : false;
+            return value != null && value.ToString().Equals("Active");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

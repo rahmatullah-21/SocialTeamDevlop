@@ -15,8 +15,8 @@ namespace DominatorUIUtility.CustomControl
             var endTime = "23:59:59";
 
             InitializeComponent();
-            StartTimePicker.SelectedTime = new TimeSpan?(Convert.ToDateTime(startTime).TimeOfDay);
-            EndTimePicker.SelectedTime = new TimeSpan?(Convert.ToDateTime(endTime).TimeOfDay);
+            StartTimePicker.SelectedTime = Convert.ToDateTime(startTime).TimeOfDay;
+            EndTimePicker.SelectedTime = Convert.ToDateTime(endTime).TimeOfDay;
         }
     }
 }

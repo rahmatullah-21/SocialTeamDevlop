@@ -249,9 +249,12 @@
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
     <Compile Include="Converters\SocialNetworkToColorBrushConverter.cs" />
     <Compile Include="Converters\SocialNetworkToVisualBrushConverter.cs" />
+    <Compile Include="Converters\StringLengthToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
+    <Compile Include="Converters\StringToPasswordConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
+    <Compile Include="Converters\TwoListSynchronizer.cs" />
     <Compile Include="Converters\VisibleIfEqualConverter.cs" />
     <Compile Include="CoreUnityExtension.cs" />
     <Compile Include="Dal\DbConnection.cs" />

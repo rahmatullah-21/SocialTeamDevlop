@@ -10,7 +10,7 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null && ((IEnumerable)value).Cast<object>().ToList().Count > 1 ? true : false;
+            return value != null && ((IEnumerable)value).Cast<object>().ToList().Count > 1;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

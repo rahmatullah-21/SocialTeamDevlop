@@ -33,20 +33,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
             }
         }
-        public static void InitializeSingleAccount(DominatorAccountModel account)
-        {
-            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
-            {
-                // everything is allowed
 
-                DominatorScheduler.ScheduleEachActivity(account);
-            }
-            else
-            {
-                // be picky - only one per account (choose wisely)
-                StartNextRound(account);
-            }
-        }
         public static void StartNextRound(DominatorAccountModel accountModel)
         {
             var jobActivityConfigurationManager =
@@ -64,7 +51,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             if (ofScheduledJobs.Any())
             {
                 var latestScheduledJob = ofScheduledJobs.OrderBy(x => x.NextRun).FirstOrDefault();
-                if (moduleConfiguration != null && (latestScheduledJob != null && latestScheduledJob.NextRun < moduleConfiguration.NextRun))
+                if ((latestScheduledJob != null && latestScheduledJob.NextRun < moduleConfiguration.NextRun))
                 {
                     return;
                 }
@@ -74,25 +61,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
             }
             DominatorScheduler.ScheduleActivityForNextJob(accountModel, accountModel.AccountBaseModel.AccountNetwork, moduleConfiguration.ActivityType);
-        }
-
-        /// <summary>
-        /// Scores a configuration
-        /// </summary>
-        /// <param name="arg">the configuration</param>
-        /// <returns>an opaque number where greater is better candidate for running now</returns>
-        private static int PonderConfiguration(ModuleConfiguration arg)
-        {
-            int score = 0; // start from zero
-            score += 100 - (int)arg.ActivityType; // a lower type gets you more points
-            if (arg.Status == "Active") score += 50; // prefer an active-status campaign
-            var wd = (int)DateTime.Today.DayOfWeek;
-            score += 50 * arg.LstRunningTimes?
-                .Where(rt => rt.IsEnabled) // only if enabled
-                .Select(rt => (7 + wd - (int)rt.DayOfWeek) % 7) // how many days ago
-                .FirstOrDefault() ?? 0; // the closest (0 today or none enabled)
-
-            return score;
         }
 
         private static int PickNextActivity(ModuleConfiguration arg)

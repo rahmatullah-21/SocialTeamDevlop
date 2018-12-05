@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class QueryInfo : BindableBase, ICloneable
     {
-        private string _id = Utilities.GetGuid(true);
+        private string _id = Utilities.GetGuid();
 
         private string _queryValue;
         private bool _isCustomFilterSelected;

@@ -3,18 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
-        xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
         mc:Ignorable="d" Name="MultiplePost"
           Height="600" Width="950" Loaded="PublisherMultiplePost_OnLoaded"
         xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
-
-
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>
         <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <DataTemplate x:Key="MacroTemplate">
             <Grid>
                 <TextBlock Text="{Binding Path=Key}"/>

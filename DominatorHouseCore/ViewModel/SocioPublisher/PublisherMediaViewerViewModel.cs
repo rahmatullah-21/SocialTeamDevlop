@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.ViewModel.SocioPublisher
 {

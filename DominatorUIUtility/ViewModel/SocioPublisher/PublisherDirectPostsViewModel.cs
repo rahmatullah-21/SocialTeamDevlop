@@ -11,7 +11,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -289,7 +288,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (!isLoggerNeeded)
                     return;
 
-                var loggerMessage = new Func<string>(Application.Current.FindResource($@"LangKeyPostSaved").ToString).Invoke();
+                var loggerMessage = new Func<string>(Application.Current.FindResource(@"LangKeyPostSaved").ToString).Invoke();
                 if (Application.Current != null)
                 {
                     if (!string.IsNullOrEmpty(loggerMessage))
@@ -357,6 +356,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
                         .PublisherCreateCampaignModel.LstMultipleImagePostCollection.Clear();
                     // Re intialize post lists
+                    // ReSharper disable once ConstantConditionalAccessQualifier
                     mediaViewer?.Initialize();
                     return;
                 }
@@ -394,6 +394,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 mediaViewer.MediaList = PostDetailsModel.MediaList;
                 // Re intialize post lists
+                // ReSharper disable once ConstantConditionalAccessQualifier
                 mediaViewer?.Initialize();
             }
             catch (Exception ex)

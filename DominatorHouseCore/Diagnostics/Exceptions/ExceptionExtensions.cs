@@ -13,7 +13,7 @@ namespace DominatorHouseCore
         public static string ToUnhandledString(this Exception ex)
         {
             return string.Format("Unhandled exception of type '{0}' has been thrown\r\n\r\nMessage: {1}\r\n\r\nStack Trace:\r\n{2}",
-                ex.GetType().ToString(), ex.Message, ex.StackTrace);
+                ex.GetType(), ex.Message, ex.StackTrace);
         }
 
 
@@ -27,14 +27,14 @@ namespace DominatorHouseCore
         public static string ToUserString(this Exception ex, string userMessage, params object[] args)
         {
             return string.Format("Exception of type '{0}' has been thrown\r\n\r\nMessage: {1}\r\n\r\nMessage Details: {2}",
-                ex.GetType().ToString(), ex.Message, string.Format(userMessage, args));
+                ex.GetType(), ex.Message, string.Format(userMessage, args));
         }
 
         public static string ToUserStringWithStack(this Exception ex, string userMessage, params object[] args)
         {
             return string.Format("Exception of type '{0}' has been thrown\r\n\r\nMessage: {1}" +
                                  "\r\n\r\nMessage Details: {2}\r\n\r\nStack Trace: {3}",
-                                ex.GetType().ToString(), ex.Message, string.Format(userMessage, args), ex.StackTrace);
+                                ex.GetType(), ex.Message, string.Format(userMessage, args), ex.StackTrace);
         }
 
         public static void TraceLog(this Exception ex)

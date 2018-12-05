@@ -2,7 +2,6 @@
 using ExcelDataReader;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -45,6 +44,7 @@ namespace DominatorHouseCore.Utility
                             fileData.AddRange(GetCsvFileContent(fileName));
                         else if (extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetTextFileContent(fileName));
+                        // ReSharper disable once RedundantJumpStatement
                         else continue;
 
                         //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
@@ -97,6 +97,7 @@ namespace DominatorHouseCore.Utility
                             fileData.AddRange(GetCsvFileContent(fileName));
                         else if (extension.Contains(".txt"))
                             fileData.AddRange(GetTextFileContent(fileName));
+                        // ReSharper disable once RedundantJumpStatement
                         else continue;
 
                         //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
@@ -278,7 +279,7 @@ namespace DominatorHouseCore.Utility
                         string rowContent = String.Empty;
                         int columnCount = 0;
                         bool hasColumn = true;
-                        string columnValue = String.Empty;
+                        string columnValue;
 
                         while (hasColumn)
                         {
@@ -309,7 +310,7 @@ namespace DominatorHouseCore.Utility
             using (StreamReader file = new StreamReader(fileName))
             {
                 List<string> csvSplitList = new List<string>();
-                var line = String.Empty;
+                string line;
                 while ((line = file.ReadLine()) != null)
                 {
                     var data = line.Trim();

@@ -27,7 +27,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _profilePicPath = value;
-                OnPropertyChanged("ProfilePicPath");
+                OnPropertyChanged();
             }
         }
         [ProtoMember(2)]
@@ -53,7 +53,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _username = value;
-                OnPropertyChanged("Username");
+                OnPropertyChanged();
             }
         }
         [ProtoMember(4)]
@@ -66,7 +66,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _externalUrl = value;
-                OnPropertyChanged("ExternalUrl");
+                OnPropertyChanged();
             }
         }
         [ProtoMember(5)]
@@ -79,7 +79,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _bio = value;
-                OnPropertyChanged("Bio");
+                OnPropertyChanged();
             }
         }
         [ProtoMember(6)]
@@ -92,7 +92,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _email = value;
-                OnPropertyChanged("Email");
+                OnPropertyChanged();
             }
         }
         [ProtoMember(7)]
@@ -105,7 +105,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _phoneNumber = value;
-                OnPropertyChanged("PhoneNumber");
+                OnPropertyChanged();
             }
         }
         [ProtoMember(8)]
@@ -118,7 +118,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _isMaleChecked = value;
-                OnPropertyChanged("IsMaleChecked");
+                OnPropertyChanged();
             }
         }
         [ProtoMember(9)]
@@ -131,7 +131,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _isFemaleChecked = value;
-                OnPropertyChanged("IsFemaleChecked");
+                OnPropertyChanged();
             }
         }
         [ProtoMember(10)]
@@ -144,7 +144,7 @@ namespace DominatorHouseCore.Models
             set
             {
                 _isNonSpecifiedChecked = value;
-                OnPropertyChanged("IsNonSpecifiedChecked");
+                OnPropertyChanged();
             }
         }
     }

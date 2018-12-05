@@ -148,6 +148,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         }
                         else
+                            // ReSharper disable once RedundantAssignment
                             itemToUpdate = PublisherMonitorFolderModel;
                     }
                     PublisherMonitorFolderModel = new PublisherMonitorFolderModel();

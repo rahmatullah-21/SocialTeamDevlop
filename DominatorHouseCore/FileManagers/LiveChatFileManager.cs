@@ -31,7 +31,7 @@ namespace DominatorHouseCore.FileManagers
                 { }
                 stream.Close();
           
-                GlobusLogHelper.log.Debug($"Chat successfully saved");
+                GlobusLogHelper.log.Debug("Chat successfully saved");
                 return true;
             }
             catch (Exception )
@@ -41,13 +41,13 @@ namespace DominatorHouseCore.FileManagers
         }
         public static Dictionary<string, ObservableCollection<ChatDetails>> GetAllChatDetails()
         {
-            Stream stream = null;
+            Stream stream;
             string filePath = ConstantVariable.GetLiveChatFile();
             if (!File.Exists(filePath))
                 stream = File.Create(filePath);
             else
                 stream = File.OpenRead(filePath);
-            Dictionary<string, ObservableCollection<ChatDetails>> dict = null;
+            Dictionary<string, ObservableCollection<ChatDetails>> dict;
             lock (_liveChatFileLocker)
                 dict = Serializer.Deserialize<Dictionary<string, ObservableCollection<ChatDetails>>>(stream);
             stream.Close();

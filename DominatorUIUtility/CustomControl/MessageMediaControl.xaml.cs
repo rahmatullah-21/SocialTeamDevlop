@@ -137,10 +137,9 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-
                 OpenFileDialog opf = new OpenFileDialog();
                 opf.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
-                if (opf.ShowDialog().Value == true)
+                if (opf.ShowDialog().Value)
                 {
                     Messages.MediaPath = opf.FileName;
                 }
@@ -205,12 +204,10 @@ namespace DominatorUIUtility.CustomControl
                 AddCommentToListEventHandler();
             }
         }
-
-
-
+        
         public object CommandParameter
         {
-            get { return (object)GetValue(CommandParameterProperty); }
+            get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
         }
 

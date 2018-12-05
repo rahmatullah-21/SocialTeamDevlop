@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.Interfaces;
-using DominatorUIUtility.ViewModel;
 using Socinator.DominatorCores;
 
 namespace Socinator.Factories

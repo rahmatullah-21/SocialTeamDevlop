@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using ProtoBuf;
 using System.Text;
 
@@ -57,7 +56,7 @@ namespace DominatorHouseCore.Utility
             {
                 if (string.IsNullOrWhiteSpace(Brand))
                     return Manufacturer;
-                return string.Format("{0}/{1}", (object)Manufacturer, (object)Brand);
+                return string.Format("{0}/{1}", Manufacturer, Brand);
             }
         }
 
@@ -87,10 +86,10 @@ namespace DominatorHouseCore.Utility
             Model = splitDeviceDetails[4];
             Device = splitDeviceDetails[5];
             Cpu = splitDeviceDetails[6];
-            PhoneId = Utilities.GetGuid(true); ;
+            PhoneId = Utilities.GetGuid(); ;
             DeviceId = Utilities.GetMobileDeviceId();
-            AdId = Utilities.GetGuid(true);
-            Guid = Utilities.GetGuid(true);
+            AdId = Utilities.GetGuid();
+            Guid = Utilities.GetGuid();
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace DominatorHouseCore.Utility
         private static string GetRandomDevice()
         {
             // retrun any one from device items
-            return ((IList<string>)new string[60]
+            return new[]
             {
                 "23/6.0.1; 480dpi; 1080x1920; Samsung; GT - I5800L; GT - I5800L; qcom; en_US",
                 "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-N7000B;GT-N7000B; qcom; en_US",
@@ -162,7 +161,7 @@ namespace DominatorHouseCore.Utility
                 "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G930F; herolte; samsungexynos8890; en_US",
                 "23/6.0; 640dpi; 1920x1152; Yota; RN2; RN2; trident; en_US",
                 "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G935F; hero2lte; samsungexynos8890; en_US",
-            }).GetRandomItem();
+            }.GetRandomItem();
         }
 
 

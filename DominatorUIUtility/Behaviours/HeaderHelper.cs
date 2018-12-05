@@ -14,7 +14,7 @@ namespace DominatorUIUtility.Behaviours
                 for (int i = 0; i < VisualTreeHelper.GetChildrenCount(usercontrol); i++)
                 {
                     DependencyObject userControlChild = VisualTreeHelper.GetChild(usercontrol, i);
-                    if (userControlChild != null && userControlChild is T)
+                    if (userControlChild is T)
                     {
                         yield return (T)userControlChild;
                     }

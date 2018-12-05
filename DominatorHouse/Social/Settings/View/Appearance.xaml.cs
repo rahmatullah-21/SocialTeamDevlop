@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.LogHelper;
 using MahApps.Metro;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.FileManagers;
@@ -49,12 +48,12 @@ namespace Socinator.Social.Settings.View
         {
             try
             {
-                var ThemeName = String.Empty;
-                Accent newAccent = null;
-                AppTheme newAppTheme = null;
-                string ColorName = string.Empty;
-                ColorsCollection SelectedItem = null;
-                string AccentColor = string.Empty;
+                string ThemeName;
+                Accent newAccent;
+                AppTheme newAppTheme;
+                string ColorName;
+                ColorsCollection SelectedItem;
+                string AccentColor;
 
                 try
                 {

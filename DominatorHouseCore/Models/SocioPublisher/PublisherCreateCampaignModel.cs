@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
     {
         public PublisherCreateCampaignModel()
         {
-            CampaignId = Utilities.GetGuid(true);
+            CampaignId = Utilities.GetGuid();
             JobConfigurations = new JobConfigurationModel();
         }
         /// <summary>

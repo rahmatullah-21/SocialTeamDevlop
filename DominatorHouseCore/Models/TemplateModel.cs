@@ -14,7 +14,7 @@ namespace DominatorHouseCore.Models
     {
         public TemplateModel()
         {
-            Id = Utilities.GetGuid(true);
+            Id = Utilities.GetGuid();
         }
 
 

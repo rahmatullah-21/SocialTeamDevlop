@@ -9,7 +9,7 @@ namespace DominatorHouseCore.Models
     {
         public ManageMessagesModel()
         {
-            MessageId = Utilities.GetGuid(true);
+            MessageId = Utilities.GetGuid();
         }
         private string _messageId;
 

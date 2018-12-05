@@ -33,7 +33,7 @@ namespace DominatorHouseCore.Interfaces
                     if (chat.SenderId == chatDetails.SenderId && chat.MessegesId == chatDetails.MessegesId)
                     {
                         isPresent = true;
-                        if (!ObjectComparer.Compare<ChatDetails>(chat, chatDetails))
+                        if (!ObjectComparer.Compare(chat, chatDetails))
                         {
                             #region Updating UI
 
@@ -79,12 +79,12 @@ namespace DominatorHouseCore.Interfaces
                         liveChatModel.LstChat.Add(chatDetails);
                     });
                     //liveChatModel.LstChat.Add(chatDetails);
-                    GenericFileManager.AddModule<ChatDetails>(chatDetails,
+                    GenericFileManager.AddModule(chatDetails,
                         FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
                 else if (requireUpdate)
                 {
-                    GenericFileManager.UpdateModuleDetails<ChatDetails>(oldData,
+                    GenericFileManager.UpdateModuleDetails(oldData,
                         FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
             }
@@ -113,7 +113,7 @@ namespace DominatorHouseCore.Interfaces
                     if (friends.SenderId == friendDetail.SenderId)
                     {
                         isPresent = true;
-                        if (!ObjectComparer.Compare<SenderDetails>(friends, friendDetail))
+                        if (!ObjectComparer.Compare(friends, friendDetail))
                         {
                             #region Update UI
 
@@ -157,12 +157,12 @@ namespace DominatorHouseCore.Interfaces
                         liveChatModel.LstSender.Add(friendDetail);
                     });
 
-                    GenericFileManager.AddModule<SenderDetails>(friendDetail,
+                    GenericFileManager.AddModule(friendDetail,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
                 else if (requireUpdate)
                 {
-                    GenericFileManager.UpdateModuleDetails<SenderDetails>(oldData,
+                    GenericFileManager.UpdateModuleDetails(oldData,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
             }

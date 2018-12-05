@@ -183,7 +183,7 @@ namespace DominatorUIUtility.ViewModel
                 // Remove duplicates
                 _blackListUser = _blackListUser.GroupBy(x => x.UserName).Select(y => y.First()).ToList();
 
-                DbOperations.AddRange<BlackListUser>(_blackListUser);
+                DbOperations.AddRange(_blackListUser);
 
                 if (_blackListUser.Count > 0)
                     ToasterNotification.ShowSuccess(

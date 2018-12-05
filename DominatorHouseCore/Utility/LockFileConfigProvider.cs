@@ -120,7 +120,7 @@ namespace DominatorHouseCore.Utility
             if (!__lockAndFileByType.TryGetValue(typeof(T), out typeConfig))
             {
                 // second, try to see if it's an assignable type
-                var presentBaseClass = __lockAndFileByType.Keys.Except(new Type[] { typeof(object) }).FirstOrDefault(
+                var presentBaseClass = __lockAndFileByType.Keys.Except(new[] { typeof(object) }).FirstOrDefault(
                     candidateBase => candidateBase.IsAssignableFrom(typeof(T)));
                 if (presentBaseClass == default(Type))
                 {

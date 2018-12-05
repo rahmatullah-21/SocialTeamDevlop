@@ -1,5 +1,4 @@
-﻿using System;
-using DominatorHouseCore.BusinessLogic.Scheduler;
+﻿using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;

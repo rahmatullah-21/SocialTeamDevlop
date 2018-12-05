@@ -4,15 +4,11 @@ using DominatorHouseCore.Utility;
 using System.Windows.Input;
 using System;
 using DominatorUIUtility.CustomControl;
-using DominatorHouseCore.Models.SocioPublisher;
 using System.Collections.Generic;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using System.Linq;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Enums.FdQuery;
-using System.Windows;
-using MahApps.Metro.Controls.Dialogs;
 using DominatorHouseCore.LogHelper;
 using System.Text.RegularExpressions;
 
@@ -66,7 +62,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
         private void SelectFriendsCommandExecute(object obj)
         {
-            SelectAccountDetailsControl SelectAccountDetailsControl = null;
+            SelectAccountDetailsControl SelectAccountDetailsControl;
 
             var model = FacebookModel.SelectFriendsDetailsModel;
 
@@ -82,6 +78,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
             {
                 var selectedAccounts = FacebookModel.SelectFriendsDetailsModel.AccountFriendsPair.Select(y => y.Key).ToList();
 
+                // ReSharper disable once RedundantAssignment
                 listAccountIds = listAccountIds.Where(x => selectedAccounts.All(y => y == x)).ToList();
 
                 SelectAccountDetailsControl = new SelectAccountDetailsControl(hiddenColumnList, string.Empty, false, "Pages");
@@ -121,7 +118,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         }
                         else if (model.AccountFriendsPair.Any(y => y.Key == x.AccountId))
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", $"Destiation is selected but Account is not selected");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "Destiation is selected but Account is not selected");
                         }
 
                     });
@@ -143,7 +140,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
         private void SelectPagesCommandExecute(object obj)
         {
-            SelectAccountDetailsControl SelectAccountDetailsControl = null;
+            SelectAccountDetailsControl SelectAccountDetailsControl;
 
             var model = FacebookModel.SelectPageDetailsModel;
 
@@ -158,6 +155,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
             {
                 var selectedAccounts = FacebookModel.SelectPageDetailsModel.AccountPagesBoardsPair.Select(y => y.Key).ToList();
 
+                // ReSharper disable once RedundantAssignment
                 listAccountIds = listAccountIds.Where(x => selectedAccounts.All(y => y == x)).ToList();
 
                 SelectAccountDetailsControl = new SelectAccountDetailsControl(hiddenColumnList, string.Empty, false, "Pages", true);
@@ -197,7 +195,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         }
                         else if (model.AccountPagesBoardsPair.Any(y => y.Key == x.AccountId))
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", $"Destiation is selected but Account is not selected");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "Destiation is selected but Account is not selected");
                         }
 
                     });

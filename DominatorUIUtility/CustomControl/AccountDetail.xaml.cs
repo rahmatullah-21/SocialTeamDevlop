@@ -1,21 +1,11 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl

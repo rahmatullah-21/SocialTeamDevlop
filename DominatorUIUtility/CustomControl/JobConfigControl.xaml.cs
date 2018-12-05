@@ -36,7 +36,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var itemTodelete = sender as string;
             LstFavoriteTime.Remove(LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == itemTodelete));
-            GenericFileManager.UpdateModuleDetails<FavoriteTime>(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
+            GenericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
 
         }
 
@@ -128,7 +128,7 @@ namespace DominatorUIUtility.CustomControl
 
                 if (JobConfiguration.SelectedItem == "Slow")
                 {
-                    var slowSpeed = ((dynamic)model).SlowSpeed;
+                    var slowSpeed = model.SlowSpeed;
                     JobConfiguration.ActivitiesPerDay = slowSpeed.ActivitiesPerDay;
                     JobConfiguration.ActivitiesPerHour = slowSpeed.ActivitiesPerHour;
                     JobConfiguration.ActivitiesPerWeek = slowSpeed.ActivitiesPerWeek;
@@ -138,7 +138,7 @@ namespace DominatorUIUtility.CustomControl
                 }
                 else if (JobConfiguration.SelectedItem == "Medium")
                 {
-                    var mediumSpeed = ((dynamic)model).MediumSpeed;
+                    var mediumSpeed = model.MediumSpeed;
                     JobConfiguration.ActivitiesPerDay = mediumSpeed.ActivitiesPerDay;
                     JobConfiguration.ActivitiesPerHour = mediumSpeed.ActivitiesPerHour;
                     JobConfiguration.ActivitiesPerWeek = mediumSpeed.ActivitiesPerWeek;
@@ -148,7 +148,7 @@ namespace DominatorUIUtility.CustomControl
                 }
                 else if (JobConfiguration.SelectedItem == "Fast")
                 {
-                    var fastSpeed = ((dynamic)model).FastSpeed;
+                    var fastSpeed = model.FastSpeed;
                     JobConfiguration.ActivitiesPerDay = fastSpeed.ActivitiesPerDay;
                     JobConfiguration.ActivitiesPerHour = fastSpeed.ActivitiesPerHour;
                     JobConfiguration.ActivitiesPerWeek = fastSpeed.ActivitiesPerWeek;
@@ -158,7 +158,7 @@ namespace DominatorUIUtility.CustomControl
                 }
                 else if (JobConfiguration.SelectedItem == "Superfast")
                 {
-                    var superfastSpeed = ((dynamic)model).SuperfastSpeed;
+                    var superfastSpeed = model.SuperfastSpeed;
                     JobConfiguration.ActivitiesPerDay = superfastSpeed.ActivitiesPerDay;
                     JobConfiguration.ActivitiesPerHour = superfastSpeed.ActivitiesPerHour;
                     JobConfiguration.ActivitiesPerWeek = superfastSpeed.ActivitiesPerWeek;
@@ -198,7 +198,7 @@ namespace DominatorUIUtility.CustomControl
                                 FavoriteTimeName = favoriteTimeName,
                                 LstFavoriteTimes = JobConfiguration.RunningTime.DeepCloneObject()
                             };
-                            GenericFileManager.AddModule<FavoriteTime>(favoriteTime, ConstantVariable.GetFavoriteTimeFile());
+                            GenericFileManager.AddModule(favoriteTime, ConstantVariable.GetFavoriteTimeFile());
                             LstFavoriteTime.Add(favoriteTime);
 
                             break;
@@ -210,7 +210,7 @@ namespace DominatorUIUtility.CustomControl
                             {
                                 var oldLstFavoriteTime = LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == favoriteTimeName);
                                 oldLstFavoriteTime.LstFavoriteTimes = JobConfiguration.RunningTime;
-                                GenericFileManager.UpdateModuleDetails<FavoriteTime>(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
+                                GenericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
                                 break;
                             }
 
@@ -220,7 +220,7 @@ namespace DominatorUIUtility.CustomControl
                         break;
                     else
                     {
-                        var result = Dialog.ShowCustomDialog("Error", $"Favorite Time should not empty.\nPlease type some name.", "Ok", "Cancel");
+                        var result = Dialog.ShowCustomDialog("Error", "Favorite Time should not empty.\nPlease type some name.", "Ok", "Cancel");
                         if (result == MessageDialogResult.Affirmative)
                         continue;
                         break;
@@ -254,7 +254,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var lstFavoriteTimes = GenericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
 
-                Application.Current.Dispatcher.Invoke((Action)delegate
+                Application.Current.Dispatcher.Invoke(delegate
                 {
                     LstFavoriteTime.Clear();
                     lstFavoriteTimes.ForEach(x =>

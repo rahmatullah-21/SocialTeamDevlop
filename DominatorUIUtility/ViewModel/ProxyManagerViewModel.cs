@@ -530,6 +530,7 @@ namespace DominatorUIUtility.ViewModel
                             $"Proxy with Ip {currentProxy.AccountProxy.ProxyIp} port {currentProxy.AccountProxy.ProxyPort} is already Exist.");
                         currentProxy.AccountProxy = oldProxy.AccountProxy;
                         isAvailable = true;
+                        // ReSharper disable once RedundantJumpStatement
                         return;
                     }
 
@@ -857,7 +858,7 @@ namespace DominatorUIUtility.ViewModel
                                         });
                                         var proxyToUpdate = LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == oldAccount.AccountProxy.ProxyIp
                                                                                                                                         && x.AccountProxy.ProxyPort == oldAccount.AccountProxy.ProxyPort);
-                                        proxyToUpdate?.AccountsAssignedto.Remove(proxyToUpdate?.AccountsAssignedto.FirstOrDefault(x => x.UserName == oldAccount.UserName && x.AccountNetwork == oldAccount.AccountNetwork));
+                                        proxyToUpdate?.AccountsAssignedto.Remove(proxyToUpdate.AccountsAssignedto.FirstOrDefault(x => x.UserName == oldAccount.UserName && x.AccountNetwork == oldAccount.AccountNetwork));
 
                                         proxyToUpdate = LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == objAccountBaseModel.AccountProxy.ProxyIp
                                                                                                                                     && x.AccountProxy.ProxyPort == objAccountBaseModel.AccountProxy.ProxyPort);

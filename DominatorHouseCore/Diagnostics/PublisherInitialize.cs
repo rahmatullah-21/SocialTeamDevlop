@@ -8,7 +8,6 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
 

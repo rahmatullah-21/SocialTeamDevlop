@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-
-namespace DominatorHouseCore.FileManagers
+﻿namespace DominatorHouseCore.FileManagers
 {
     public static class PublisherFileManager
     {

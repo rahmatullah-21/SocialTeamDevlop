@@ -59,7 +59,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     var oldGeneralModel = ObjCampaignsAdvanceSetting.AdvanceSetting.GeneralModel;
                     var newGeneralModel = General.GetSingeltonGeneralObject().GeneralViewModel.GeneralModel;
-                    newGeneralModel = ObjectComparer.CompareAndGetChangedObject<GeneralModel>(oldGeneralModel, newGeneralModel);
+                    newGeneralModel = ObjectComparer.CompareAndGetChangedObject(oldGeneralModel, newGeneralModel);
                     if (newGeneralModel != null)
                     {
                         newGeneralModel.CampaignId = campaignId;
@@ -77,7 +77,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     var oldFacebookModel = ObjCampaignsAdvanceSetting.AdvanceSetting.FacebookModel;
                     var newFacebookModel = Facebook.GetSingeltonFacebookObject().FacebookViewModel.FacebookModel;
-                    newFacebookModel = ObjectComparer.CompareAndGetChangedObject<FacebookModel>(oldFacebookModel, newFacebookModel);
+                    newFacebookModel = ObjectComparer.CompareAndGetChangedObject(oldFacebookModel, newFacebookModel);
                     if (newFacebookModel != null)
                     {
                         newFacebookModel.CampaignId = campaignId;
@@ -95,7 +95,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     var oldGooglePlusModel = ObjCampaignsAdvanceSetting.AdvanceSetting.GooglePlusModel;
                     var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
-                    newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject<GooglePlusModel>(oldGooglePlusModel, newGooglePlusModel);
+                    newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject(oldGooglePlusModel, newGooglePlusModel);
 
                     if (newGooglePlusModel != null)
                     {
@@ -114,7 +114,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                     var oldInstagramModel = ObjCampaignsAdvanceSetting.AdvanceSetting.InstagramModel;
                     var newInstagramModel = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel;
                     newInstagramModel =
-                        ObjectComparer.CompareAndGetChangedObject<InstagramModel>(oldInstagramModel,
+                        ObjectComparer.CompareAndGetChangedObject(oldInstagramModel,
                             newInstagramModel);
                     if (newInstagramModel != null)
                     {
@@ -132,7 +132,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     var oldPinterestModel = ObjCampaignsAdvanceSetting.AdvanceSetting.PinterestModel;
                     var newPinterestModel = Pinterest.GetSingeltonPinterestObject().PinterestViewModel.PinterestModel;
-                    newPinterestModel = ObjectComparer.CompareAndGetChangedObject<PinterestModel>(oldPinterestModel, newPinterestModel);
+                    newPinterestModel = ObjectComparer.CompareAndGetChangedObject(oldPinterestModel, newPinterestModel);
 
                     if (newPinterestModel != null)
                     {
@@ -151,7 +151,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                     var oldTumblrModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TumblrModel;
                     var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
                     newTumblrModel =
-                        ObjectComparer.CompareAndGetChangedObject<TumblrModel>(oldTumblrModel,
+                        ObjectComparer.CompareAndGetChangedObject(oldTumblrModel,
                             newTumblrModel);
                     if (newTumblrModel != null)
                     {
@@ -170,7 +170,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     var oldTwitterModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TwitterModel;
                     var newTwitterModel = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel;
-                    newTwitterModel = ObjectComparer.CompareAndGetChangedObject<TwitterModel>(oldTwitterModel, newTwitterModel);
+                    newTwitterModel = ObjectComparer.CompareAndGetChangedObject(oldTwitterModel, newTwitterModel);
 
                     if (newTwitterModel != null)
                     {
@@ -189,7 +189,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     var oldRedditModel = ObjCampaignsAdvanceSetting.AdvanceSetting.RedditModel;
                     var newRedditModel = Reddit.GetSingeltonRedditObject().RedditViewModel.RedditModel;
-                    newRedditModel = ObjectComparer.CompareAndGetChangedObject<RedditModel>(oldRedditModel, newRedditModel);
+                    newRedditModel = ObjectComparer.CompareAndGetChangedObject(oldRedditModel, newRedditModel);
 
                     if (newRedditModel != null)
                     {

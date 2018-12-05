@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Models
     {
         public CampaignDetails()
         {
-            CampaignId = Utilities.GetGuid(true);
+            CampaignId = Utilities.GetGuid();
         }
 
         [ProtoMember(10)]

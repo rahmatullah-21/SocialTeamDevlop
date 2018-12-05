@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace DominatorUIUtility.Behaviours
@@ -59,7 +54,7 @@ namespace DominatorUIUtility.Behaviours
             PasswordBox passwordBox = sender as PasswordBox;
             passwordBox.PasswordChanged -= PasswordChanged;
 
-            if (!(bool)GetIsPasswordUpdating(passwordBox))
+            if (!GetIsPasswordUpdating(passwordBox))
             {
                 passwordBox.Password = (string)e.NewValue;
             }

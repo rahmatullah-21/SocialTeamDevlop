@@ -49,15 +49,15 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         private static string GetDirectory(DatabaseType? databaseType)
         {
-            string directoryName = string.Empty;
+            string directoryName;
 
             switch (databaseType)
             {
                 case DatabaseType.CampaignType:
-                    directoryName = ConstantVariable.GetIndexCampaignDir() + $"\\DB";
+                    directoryName = ConstantVariable.GetIndexCampaignDir() + "\\DB";
                     break;
                 case DatabaseType.AccountType:
-                    directoryName = ConstantVariable.GetIndexAccountDir() + $"\\DB";
+                    directoryName = ConstantVariable.GetIndexAccountDir() + "\\DB";
                     break;
                 default:
                     directoryName = ConstantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
@@ -79,7 +79,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             // if directories are now empty, remove them
             try
             {
-                DirectoryInfo parent = null;
+                DirectoryInfo parent;
                 for (var dir = new DirectoryInfo(directory); dir.EnumerateDirectories().FirstOrDefault() == null && dir.EnumerateFiles().FirstOrDefault() == null; dir = parent)
                 {
                     parent = dir.Parent;

@@ -197,7 +197,7 @@ namespace DominatorHouseCore.FileManagers
             try
             {
                 //Call for Append
-                ProtoBuffBase.AppendObject<T>(moduleToSave, filePath);
+                ProtoBuffBase.AppendObject(moduleToSave, filePath);
                 return true;
             }
             catch (Exception ex)
@@ -220,7 +220,7 @@ namespace DominatorHouseCore.FileManagers
             // Remove all matches
             moduleDetails.RemoveAll(match);
             // Update the bin files
-            UpdateModuleDetails<T>(moduleDetails, filePath);
+            UpdateModuleDetails(moduleDetails, filePath);
         }
 
         /// <summary>

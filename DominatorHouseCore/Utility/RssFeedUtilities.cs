@@ -9,7 +9,6 @@ using System.Threading;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Request;
 using HtmlAgilityPack;
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
@@ -217,6 +216,7 @@ namespace DominatorHouseCore.Utility
 
                 var htmlResponse = Encoding.UTF8.GetString(pageSource);
 
+                // ReSharper disable once RedundantAssignment
                 var postlists = new List<PublisherPostlistModel>();
 
                 var htmlDoc = new HtmlDocument();
@@ -243,8 +243,8 @@ namespace DominatorHouseCore.Utility
                                  let innerHtml = node.InnerHtml
                                  let title = RemoveCdata(node.Element("title").InnerHtml)
                                  let content = WebUtility.HtmlDecode(RemoveCdata(node.Element("content").InnerHtml))
-                                 let descriptionDetails = Regex.Matches(content.ToString(), "(<p|<p>)(.*?)(<h2|<div)", RegexOptions.Singleline)
-                                 let descriptionDetailsNew = descriptionDetails == null || descriptionDetails.Count == 0 ? null : Regex.Matches(content.ToString(), "(<p|<p>)(.*)(</p>)", RegexOptions.Singleline)
+                                 let descriptionDetails = Regex.Matches(content, "(<p|<p>)(.*?)(<h2|<div)", RegexOptions.Singleline)
+                                 let descriptionDetailsNew = descriptionDetails == null || descriptionDetails.Count == 0 ? null : Regex.Matches(content, "(<p|<p>)(.*)(</p>)", RegexOptions.Singleline)
                                  let description = descriptionDetailsNew == null || descriptionDetailsNew.Count == 0 ? String.Empty : descriptionDetailsNew[0].Groups[0].ToString()
                                  let link = RemoveCdata(node.Element("link").InnerText)
                                  let newLink = string.IsNullOrEmpty(link) ? Utilities.GetBetween(node.Element("link").OuterHtml, "href=\"", "\"") : link

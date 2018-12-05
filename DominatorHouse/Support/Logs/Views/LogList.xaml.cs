@@ -45,7 +45,7 @@ namespace DominatorHouse.Support.Logs.Views
 
         public object SyncObject
         {
-            get { return (object)GetValue(SyncObjectProperty); }
+            get { return GetValue(SyncObjectProperty); }
             set { SetValue(SyncObjectProperty, value); }
         }
 

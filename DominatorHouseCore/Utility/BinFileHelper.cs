@@ -77,7 +77,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<T, bool>(filePath =>
                 {
-                    _protoBuffBase.AppendObject<T>(obj, filePath);
+                    _protoBuffBase.AppendObject(obj, filePath);
                     return true;
                 });
             }
@@ -123,86 +123,86 @@ namespace DominatorHouseCore.Utility
                 _protoBuffBase.DeserializeList<TemplateModel>(file));
         }
 
-        public int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
-        {
-            return accounts.FindIndex(candidate => candidate.AccountId == id);
-        }
+        //public int FindAccountIndex(List<DominatorAccountModel> accounts, string id)
+        //{
+        //    return accounts.FindIndex(candidate => candidate.AccountId == id);
+        //}
 
-        [Obsolete("This method is not safe")]
-        public int FindAccountIndex<T>(List<T> accounts, string id)
-        {
-            return typeof(T) == typeof(DominatorAccountModel)
-                ? accounts.FindIndex(a => (a as DominatorAccountModel).AccountBaseModel.AccountId == id)
-                : accounts.FindIndex(a => (a as dynamic).AccountId == id);
-        }
+        //[Obsolete("This method is not safe")]
+        //public int FindAccountIndex<T>(List<T> accounts, string id)
+        //{
+        //    return typeof(T) == typeof(DominatorAccountModel)
+        //        ? accounts.FindIndex(a => (a as DominatorAccountModel).AccountBaseModel.AccountId == id)
+        //        : accounts.FindIndex(a => (a as dynamic).AccountId == id);
+        //}
 
         /// <summary>
         /// Overwrites AccountDetails.bin with updated account
         /// </summary>
         /// <param name="accountModel"></param>
         /// <returns></returns>
-        public bool UpdateAccount(DominatorAccountModel accountModel)
-        {
-            try
-            {
-                return _lockFileConfigProvider.WithFile<DominatorAccountModel, bool>(file =>
-                {
-                    int indexOfAccountToUpdate = 0;
-                    var accountDetailsList = GetAccountDetails();
+        //public bool UpdateAccount(DominatorAccountModel accountModel)
+        //{
+        //    try
+        //    {
+        //        return _lockFileConfigProvider.WithFile<DominatorAccountModel, bool>(file =>
+        //        {
+        //            int indexOfAccountToUpdate;
+        //            var accountDetailsList = GetAccountDetails();
 
-                    if (accountDetailsList != null)
-                    {
-                        indexOfAccountToUpdate =
-                            FindAccountIndex(accountDetailsList, accountModel.AccountBaseModel.AccountId);
-                        accountDetailsList[indexOfAccountToUpdate] = accountModel;
-                    }
-                    else
-                    {
-                        accountDetailsList = new List<DominatorAccountModel>();
-                        accountDetailsList.Add(accountModel);
-                    }
-                    bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
+        //            if (accountDetailsList != null)
+        //            {
+        //                indexOfAccountToUpdate =
+        //                    FindAccountIndex(accountDetailsList, accountModel.AccountBaseModel.AccountId);
+        //                accountDetailsList[indexOfAccountToUpdate] = accountModel;
+        //            }
+        //            else
+        //            {
+        //                accountDetailsList = new List<DominatorAccountModel>();
+        //                accountDetailsList.Add(accountModel);
+        //            }
+        //            bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
 
-                    GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
-                    return result;
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return false;
-            }
-        }
+        //            GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
+        //            return result;
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //        return false;
+        //    }
+        //}
 
         // TODO: backward compatibility
         [Obsolete("This code is unsafe")]
-        internal bool UpdateAccount<T>(T accountModel) where T : class
-        {
-            try
-            {
-                return _lockFileConfigProvider.WithFile<T, bool>(file =>
-                {
-                    List<T> accountDetailsList = GetAccountDetailsFor<T>();
-                    int indexOfAccountToUpdate =
-                        FindAccountIndex(accountDetailsList, (accountModel as dynamic).AccountId);
+        //internal bool UpdateAccount<T>(T accountModel) where T : class
+        //{
+        //    try
+        //    {
+        //        return _lockFileConfigProvider.WithFile<T, bool>(file =>
+        //        {
+        //            List<T> accountDetailsList = GetAccountDetailsFor<T>();
+        //            int indexOfAccountToUpdate =
+        //                FindAccountIndex(accountDetailsList, (accountModel as dynamic).AccountId);
 
-                    if (indexOfAccountToUpdate == -1)
-                        return false;
+        //            if (indexOfAccountToUpdate == -1)
+        //                return false;
 
-                    accountDetailsList[indexOfAccountToUpdate] = accountModel;
+        //            accountDetailsList[indexOfAccountToUpdate] = accountModel;
 
-                    bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
+        //            bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
 
-                    GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
-                    return result;
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return false;
-            }
-        }
+        //            GlobusLogHelper.log.Trace($"Update Accounts - [{result}]");
+        //            return result;
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.DebugLog();
+        //        return false;
+        //    }
+        //}
 
 
         // TODO: back compatibility to save old AccountModel. Have to be replaced with IList<DominatorAccountModel>

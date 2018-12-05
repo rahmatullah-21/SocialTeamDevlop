@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Utility
@@ -49,17 +48,17 @@ namespace DominatorHouseCore.Utility
 
         public static DateTime EpochToDateTimeUtc(this int epoch)
         {
-            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((double)epoch);
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(epoch);
         }
 
         public static DateTime EpochToDateTimeUtc(this Int64 epoch)
         {
-            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds((double)epoch);
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(epoch);
         }
         public static DateTime EpochToDateTimeUtc(this double epoch)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
-                (double)epoch);
+                epoch);
         }
 
         public static TimeSpan EpochToTimeSpan(this int epoch)
@@ -87,7 +86,7 @@ namespace DominatorHouseCore.Utility
 
         public static string ReadableDateTime(this DateTime time)
         {
-            return time.ToString("MM/dd/yyyy HH:mm:ss", (IFormatProvider)CultureInfo.InvariantCulture);
+            return time.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         }
 
         public static DateTime StartOfWeekOld(this DateTime date, DayOfWeek day)
@@ -95,7 +94,7 @@ namespace DominatorHouseCore.Utility
             int num = date.DayOfWeek - day;
             if (num < 0)
                 num += 7;
-            return date.AddDays((double)(-1 * num)).Date;
+            return date.AddDays(-1 * num).Date;
         }
 
         public static DateTime GetStartOfWeek(this DateTime date)
@@ -103,7 +102,7 @@ namespace DominatorHouseCore.Utility
             int num = date.DayOfWeek - DayOfWeek.Sunday;
             if (num < 0)
                 num += 7;
-            return date.AddDays((double)(-1 * num)).Date;
+            return date.AddDays(-1 * num).Date;
         }
 
         public static DateTime GetNextStartTime(this DateTime date, ModuleConfiguration moduleConfiguration, int dayCount)
@@ -111,7 +110,7 @@ namespace DominatorHouseCore.Utility
             int num = date.DayOfWeek - DayOfWeek.Sunday;
             if (num < 0)
                 num += 7;
-            var nextWeekStartDate = (date.AddDays((double)(-1 * num)).Date).AddDays(dayCount);
+            var nextWeekStartDate = (date.AddDays(-1 * num).Date).AddDays(dayCount);
             if (dayCount == 1)
             {
                 var NextWeekStartDate = date.AddDays(1).Date;
@@ -154,7 +153,7 @@ namespace DominatorHouseCore.Utility
             int num = DateTime.Today.DayOfWeek - DayOfWeek.Sunday;
             if (num < 0)
                 num += 7;
-            var nextWeekStartDate = (DateTime.Today.AddDays((double)(-1 * num)).Date).AddDays(7);
+            var nextWeekStartDate = (DateTime.Today.AddDays(-1 * num).Date).AddDays(7);
             foreach (var runningTime in moduleConfiguration.LstRunningTimes)
             {
                 if (!runningTime.IsEnabled)
@@ -260,7 +259,7 @@ namespace DominatorHouseCore.Utility
             int num = date.DayOfWeek - day;
             if (num < 0)
                 num += 7;
-            return date.AddDays((double)(-1 * num)).Date;
+            return date.AddDays(-1 * num).Date;
         }
         public static Int64 GetCurrentEpochTimeMilliSeconds(this DateTime date)
         {
