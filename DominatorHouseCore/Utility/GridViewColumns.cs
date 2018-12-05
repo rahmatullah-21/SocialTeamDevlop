@@ -44,7 +44,7 @@ namespace DominatorHouseCore.Utility
         [AttachedPropertyBrowsableForType(typeof(GridView))]
         public static object GetColumnValues(DependencyObject obj)
         {
-            return (object)obj.GetValue(ColumnValuesProperty);
+            return obj.GetValue(ColumnValuesProperty);
         }
 
         public static void SetColumnValues(DependencyObject obj, object value)
@@ -210,6 +210,7 @@ namespace DominatorHouseCore.Utility
                         CreateColumns(gridView, sender as ICollectionView);
                     }
                     break;
+                // ReSharper disable once RedundantEmptySwitchSection
                 default:
                     break;
             }

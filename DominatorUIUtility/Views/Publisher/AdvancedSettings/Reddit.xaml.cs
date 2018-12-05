@@ -60,7 +60,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var redditModel = GenericFileManager.GetModuleDetails<RedditModel>
                 (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            RedditViewModel.RedditModel = redditModel ?? (redditModel = new RedditModel());
+            RedditViewModel.RedditModel = redditModel ?? (new RedditModel());
         }
     }
 }

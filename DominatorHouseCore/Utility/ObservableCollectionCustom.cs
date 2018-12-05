@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Utility
 
         public ObservableCollectionCustom()
         {
-            collection = (IList<T>)new List<T>();
+            collection = new List<T>();
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -78,7 +78,7 @@ namespace DominatorHouseCore.Utility
                     if (collection != null)
                         syncRoot = collection.SyncRoot;
                     else
-                        Interlocked.CompareExchange<object>(ref syncRoot, new object(), (object)null);
+                        Interlocked.CompareExchange<object>(ref syncRoot, new object(), null);
                 }
                 return syncRoot;
             }
@@ -110,7 +110,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                return (object)this[index];
+                return this[index];
             }
             set
             {
@@ -125,7 +125,7 @@ namespace DominatorHouseCore.Utility
                 collection.Add(item);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (object)item));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
             }
         }
 
@@ -133,10 +133,10 @@ namespace DominatorHouseCore.Utility
         {
             lock (listLock)
             {
-                ((List<T>)collection).AddRange((IEnumerable<T>)objects);
+                ((List<T>)collection).AddRange(objects);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (object)objects));
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, objects));
             }
         }
 
@@ -178,7 +178,7 @@ namespace DominatorHouseCore.Utility
                     return false;
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)item));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
                 return true;
             }
         }
@@ -188,11 +188,11 @@ namespace DominatorHouseCore.Utility
             lock (listLock)
             {
                 List<T> collection = (List<T>)this.collection;
-                IEnumerable<T> objs = collection.Where<T>((Func<T, bool>)(x => predicate(x)));
+                IEnumerable<T> objs = collection.Where(x => predicate(x));
                 collection.RemoveAll(predicate);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)objs));
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, objs));
             }
         }
 
@@ -204,7 +204,7 @@ namespace DominatorHouseCore.Utility
                 collection.RemoveAt(index);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)obj));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, obj));
             }
         }
 
@@ -217,7 +217,7 @@ namespace DominatorHouseCore.Utility
                 List<T> range = collection.GetRange(begin, end);
                 OnPropertyChanged("Count");
                 OnPropertyChanged("Item[]");
-                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (IList)range));
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, range));
             }
         }
 
@@ -254,7 +254,7 @@ namespace DominatorHouseCore.Utility
         IEnumerator IEnumerable.GetEnumerator()
         {
             lock (listLock)
-                return (IEnumerator)collection.GetEnumerator();
+                return collection.GetEnumerator();
         }
 
         int IList.IndexOf(object value)
@@ -286,9 +286,9 @@ namespace DominatorHouseCore.Utility
             if (handler == null)
                 return;
             if (Application.Current.Dispatcher.Thread != Thread.CurrentThread)
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => handler((object)this, args)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => handler(this, args)));
             else
-                handler((object)this, args);
+                handler(this, args);
         }
 
         private void OnCollectionChangedMultiItem(NotifyCollectionChangedEventArgs e)
@@ -301,11 +301,11 @@ namespace DominatorHouseCore.Utility
             {
                 CollectionView view = invocation.Target as CollectionView;
                 if (Application.Current.Dispatcher.Thread != Thread.CurrentThread)
-                    Application.Current.Dispatcher.BeginInvoke(view != null ? (new Action(() => view.Refresh())) : (new Action(() => collectionChanged((object)this, e))));
+                    Application.Current.Dispatcher.BeginInvoke(view != null ? (() => view.Refresh()) : (new Action(() => collectionChanged(this, e))));
                 else if (view != null)
                     view.Refresh();
                 else
-                    collectionChanged((object)this, e);
+                    collectionChanged(this, e);
             }
         }
 
@@ -315,7 +315,7 @@ namespace DominatorHouseCore.Utility
             PropertyChangedEventHandler propertyChanged = PropertyChanged;
             if (propertyChanged == null)
                 return;
-            propertyChanged((object)this, new PropertyChangedEventArgs(propertyName));
+            propertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

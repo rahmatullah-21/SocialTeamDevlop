@@ -34,7 +34,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static void Error(Exception ex, string message)
         {            
-            Error($"{message}\r\n{ex.ToString()}");            
+            Error($"{message}\r\n{ex}");            
         }
 
         public static void Error(Exception ex)

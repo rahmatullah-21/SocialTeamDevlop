@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 using System;
 using System.Collections.Generic;
@@ -154,6 +153,7 @@ namespace DominatorUIUtility.CustomControl
         private void PublisherCreateDestination_OnLoaded(object sender, RoutedEventArgs e)
         {
             if (!SelectAccountDetailsViewModel.IsSavedDestination)
+                // ReSharper disable once RedundantJumpStatement
                 return;
         }
 

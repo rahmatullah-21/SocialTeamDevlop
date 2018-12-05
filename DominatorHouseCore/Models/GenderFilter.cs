@@ -36,15 +36,15 @@ namespace DominatorHouseCore.Models
 
     public static class GenderGuesser
     {
-        private static readonly HashSet<string> FemaleNames = new HashSet<string>((IEnumerable<string>)Resources.femaleNames.Split(new string[1]
+        private static readonly HashSet<string> FemaleNames = new HashSet<string>(Resources.femaleNames.Split(new[]
         {
             Environment.NewLine
         }, StringSplitOptions.RemoveEmptyEntries));
-        private static readonly HashSet<string> MaleNames = new HashSet<string>((IEnumerable<string>)Resources.maleNames.Split(new string[1]
+        private static readonly HashSet<string> MaleNames = new HashSet<string>(Resources.maleNames.Split(new[]
         {
             Environment.NewLine
         }, StringSplitOptions.RemoveEmptyEntries));
-        private static readonly HashSet<string> UnisexNames = new HashSet<string>((IEnumerable<string>)Resources.unisexNames.Split(new string[1]
+        private static readonly HashSet<string> UnisexNames = new HashSet<string>(Resources.unisexNames.Split(new[]
         {
             Environment.NewLine
         }, StringSplitOptions.RemoveEmptyEntries));

@@ -328,7 +328,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.", MessageDialogStyle.Affirmative);
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.");
                 return false;
             }
             //Check Query
@@ -342,8 +342,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one time range when to run and stop the activity.",
-                    MessageDialogStyle.Affirmative);
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one time range when to run and stop the activity.");
                 return false;
             }
             return true;
@@ -356,8 +355,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (Model.SavedQueries.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.",
-                    MessageDialogStyle.Affirmative);
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.");
                 return false;
             }
 
@@ -740,8 +738,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
 
-                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts,
-                    filterForActiveSocialNetwork: true);
+                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts);
 
                 var objDialog = new Dialog();
 
@@ -1385,7 +1382,7 @@ namespace DominatorUIUtility.CustomControl
                         ?.Status;
                     if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", $"This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                        DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
                         return false;
                     }
                 }
@@ -1668,8 +1665,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts,
-                    filterForActiveSocialNetwork: true);
+                var objSelectAccountControl = new SelectAccountControl(_footerControl.list_SelectedAccounts);
 
                 var objDialog = new Dialog();
 

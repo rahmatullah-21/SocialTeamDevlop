@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;

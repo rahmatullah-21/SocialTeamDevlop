@@ -1,28 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces.SocioPublisher;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -456,6 +443,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                         case SocialNetworks.Gplus:
                         case SocialNetworks.Youtube:
                             break;
+                        // ReSharper disable once RedundantEmptySwitchSection
                         default:
                             break;
                     }

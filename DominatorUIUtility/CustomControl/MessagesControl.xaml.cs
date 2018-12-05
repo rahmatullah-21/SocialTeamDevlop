@@ -7,7 +7,6 @@ using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
-using System;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -187,7 +186,7 @@ namespace DominatorUIUtility.CustomControl
 
         public object CommandParameter
         {
-            get { return (object)GetValue(CommandParameterProperty); }
+            get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
         }
 

@@ -3,14 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.LogHelper;
-using MahApps.Metro;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.FileManagers;
-using Socinator.Social.Settings.ViewModel;
 using DominatorHouseCore;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using MahApps.Metro;
+using Socinator.Social.Settings.ViewModel;
 
-namespace Socinator.Social.Settings.View
+namespace DominatorHouse.Social.Settings.View
 {
     /// <summary>
     /// Interaction logic for Appearance.xaml
@@ -49,12 +48,12 @@ namespace Socinator.Social.Settings.View
         {
             try
             {
-                var ThemeName = String.Empty;
-                Accent newAccent = null;
-                AppTheme newAppTheme = null;
-                string ColorName = string.Empty;
-                ColorsCollection SelectedItem = null;
-                string AccentColor = string.Empty;
+                string ThemeName;
+                Accent newAccent;
+                AppTheme newAppTheme;
+                string ColorName;
+                ColorsCollection SelectedItem;
+                string AccentColor;
 
                 try
                 {

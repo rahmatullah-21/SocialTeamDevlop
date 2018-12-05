@@ -5,8 +5,6 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.ConfigControl;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
@@ -130,8 +128,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                     case SocialNetworks.Quora:
                     case SocialNetworks.Gplus:
                     case SocialNetworks.Youtube:
-                        break;
-                    default:
                         break;
                 }
             }

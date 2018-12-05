@@ -14,7 +14,6 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
@@ -420,7 +419,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             // Get the initial selector details and also passing the action for getting the group details
             var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountGroupsDetails,
-                allAccountDetailsSelectModel, false)
+                allAccountDetailsSelectModel)
             {
                 AccountDetailsSelectorViewModel =
                 {
@@ -666,7 +665,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             // Get the initial selector details and also passing the action for getting the group details
             var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountFriendsDetails,
-                allAccountDetailsSelectModel, false)
+                allAccountDetailsSelectModel)
             {
                 AccountDetailsSelectorViewModel =
                 {
@@ -856,7 +855,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
 
-            var accountDetailsSelector = new AccountDetailsSelector(UpdateAllGroupsDetails, false)
+            var accountDetailsSelector = new AccountDetailsSelector(UpdateAllGroupsDetails)
             {
                 AccountDetailsSelectorViewModel =
                 {
@@ -1055,7 +1054,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var alreadySelectedFriends = valuePairs.Select(x => x.Value).ToList();
 
-            var accountDetailsSelector = new AccountDetailsSelector(UpdateAllFriendsDetails, false)
+            var accountDetailsSelector = new AccountDetailsSelector(UpdateAllFriendsDetails)
             {
                 AccountDetailsSelectorViewModel =
                 {
@@ -1154,13 +1153,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : $"No row(s) found !";
+                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
                 });
             }
             else
             {
                 accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : $"No row(s) found !";
+                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
             }
         }
 
@@ -1600,7 +1599,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             Title = "Edit Destination";
 
-            var saveDestination = SelectAccountDetailsModel.DeepCloneObject<SelectAccountDetailsModel>();
+            var saveDestination = SelectAccountDetailsModel.DeepCloneObject();
 
             InitializeDestinationList();
 

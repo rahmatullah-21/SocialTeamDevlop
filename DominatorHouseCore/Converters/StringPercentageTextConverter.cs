@@ -10,7 +10,7 @@ namespace DominatorHouseCore.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)
-                return value.ToString() + " %";
+                return value + " %";
             return null;
         }
 

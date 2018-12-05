@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using DominatorHouseCore;
 using DominatorHouseCore.Utility;
@@ -143,7 +135,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public object LoadingContent
         {
-            get { return (object)GetValue(LoadingContentProperty); }
+            get { return GetValue(LoadingContentProperty); }
             set { SetValue(LoadingContentProperty, value); }
         }
 
@@ -168,7 +160,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public object SelectedItem
         {
-            get { return (object)GetValue(SelectedItemProperty); }
+            get { return GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 
@@ -438,7 +430,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SocinatorTextBox socinatorTextBox = null;
+            SocinatorTextBox socinatorTextBox;
             socinatorTextBox = d as SocinatorTextBox;
             if (socinatorTextBox != null)
             {

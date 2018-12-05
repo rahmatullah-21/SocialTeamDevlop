@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,7 +9,6 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;

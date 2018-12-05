@@ -1,5 +1,4 @@
 ﻿using System;
-using DominatorHouseCore.LogHelper;
 using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;

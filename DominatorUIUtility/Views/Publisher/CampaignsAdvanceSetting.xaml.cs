@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
-using FacebookModel = DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting.FacebookModel;
 
 namespace DominatorUIUtility.Views.Publisher
 {
@@ -274,14 +268,14 @@ namespace DominatorUIUtility.Views.Publisher
             List<T> lstModels, string file, SocialNetworks networks) where T : class
         {
             if (moduleToUpdate == null)
-                GenericFileManager.AddModule<T>(updatedModel,
+                GenericFileManager.AddModule(updatedModel,
                     ConstantVariable.GetPublisherOtherConfigFile(networks));
             else
             {
                 var moduleToUpdateIndex = lstModels.IndexOf(moduleToUpdate);
                 lstModels[moduleToUpdateIndex] = updatedModel;
 
-                GenericFileManager.UpdateModuleDetails<T>(lstModels, file);
+                GenericFileManager.UpdateModuleDetails(lstModels, file);
             }
 
         }

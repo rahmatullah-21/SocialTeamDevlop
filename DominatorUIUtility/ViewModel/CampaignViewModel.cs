@@ -4,7 +4,6 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Converters;
-using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -280,6 +279,11 @@ namespace DominatorUIUtility.ViewModel
 
                 Window win = objDialog.GetMetroWindow(reportControl, "Reports");
                 win.Owner = Application.Current.MainWindow;
+                win.WindowStartupLocation = WindowStartupLocation.Manual;
+
+                win.ContentRendered += ContentRendered;
+                win.GotFocus += OnFocus;
+
                 win.ShowDialog();
             }
             catch (Exception ex)
@@ -288,6 +292,22 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        private void ContentRendered(object sender, EventArgs e)
+        {
+            var win = sender as MetroWindow;
+            win.Focus();
+        }
+
+        private void OnFocus(object sender, RoutedEventArgs e)
+        {
+            var win = sender as MetroWindow;
+            win.WindowStartupLocation = WindowStartupLocation.Manual;
+            var v = Application.Current.MainWindow;
+            var width = v.Width;
+            var height = v.Height;
+            win.Top = (height - win.Height) / 2;
+            win.Left = (width - win.Width) / 2;
+        }
         private void StatusChangeExecute(object sender)
         {
             try
@@ -520,8 +540,6 @@ namespace DominatorUIUtility.ViewModel
                 ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
                 var lstAccountDetails = AccountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
-                if (selectedCampaign == null)
-                    return;
 
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 
@@ -672,7 +690,7 @@ namespace DominatorUIUtility.ViewModel
 
         public object Data
         {
-            get { return (object)GetValue(DataProperty); }
+            get { return GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 

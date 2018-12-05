@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 

@@ -36,7 +36,7 @@ namespace DominatorHouseCore.Utility
         {
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(pageSource);
-            return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']").InnerHtml.ToString();
+            return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']").InnerHtml;
         }
 
         public static List<string> GetListInnerHtmlFromTagName(string pageSource, string tagName, string attributeName,
@@ -64,7 +64,7 @@ namespace DominatorHouseCore.Utility
         {
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(pageSource);
-            return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']").OuterHtml.ToString();
+            return htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']").OuterHtml;
         }
 
         public static List<string> GetListInnerHtmlFromPartialTagName(string pageSource, string tagName, string attributeName,

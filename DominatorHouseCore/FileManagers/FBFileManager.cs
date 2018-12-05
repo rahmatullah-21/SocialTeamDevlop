@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;

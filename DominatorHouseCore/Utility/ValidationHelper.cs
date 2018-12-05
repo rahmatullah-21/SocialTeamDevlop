@@ -45,6 +45,7 @@ namespace DominatorHouseCore.Utility
                     case "ProxyPort":
                         //if (!string.IsNullOrEmpty(ProxyAddress) && !string.IsNullOrEmpty(value?.ToString()))
                         //{
+                        // ReSharper disable once ConstantConditionalAccessQualifier
                             if (!string.IsNullOrEmpty(value?.ToString()) && !Proxy.IsValidProxyPort(value?.ToString()))
                             {
                                 return new ValidationResult(false, "Invalid Port");

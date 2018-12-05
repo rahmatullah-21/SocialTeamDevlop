@@ -3,7 +3,6 @@ using Prism.Commands;
 using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Management;
 using System.Timers;
 using System.Windows;
@@ -61,7 +60,7 @@ namespace DominatorHouse.ViewModels
         public PerfCounterViewModel()
         {
             Process currentProcess = Process.GetCurrentProcess();
-            _cpuCounter = new PerformanceCounter("Process", "% Processor Time", currentProcess?.ProcessName);
+            _cpuCounter = new PerformanceCounter("Process", "% Processor Time", currentProcess.ProcessName);
             LogViewHeight = new GridLength(3, GridUnitType.Star);
             LoadedMemory = GetRamsize();
             ShowHideLogCmd = new DelegateCommand(ShowHideLog);

@@ -453,7 +453,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if(generalModels!=null)
                     {
                         generalModels.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<GeneralModel>(generalModels, file);
+                        GenericFileManager.AddModule(generalModels, file);
                     }
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook);
@@ -461,7 +461,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (facebookModel != null)
                     {
                         facebookModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<FacebookModel>(facebookModel, file);
+                        GenericFileManager.AddModule(facebookModel, file);
                     }
 
 
@@ -470,7 +470,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (googlePlusModel != null)
                     {
                         googlePlusModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<GooglePlusModel>(googlePlusModel, file);
+                        GenericFileManager.AddModule(googlePlusModel, file);
                     }
                   
 
@@ -479,7 +479,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (instagramModel != null)
                     {
                         instagramModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<InstagramModel>(instagramModel, file);
+                        GenericFileManager.AddModule(instagramModel, file);
                     }
                  
 
@@ -488,7 +488,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (pinterestModel != null)
                     {
                         pinterestModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<PinterestModel>(pinterestModel, file);
+                        GenericFileManager.AddModule(pinterestModel, file);
                     }
                  
 
@@ -497,7 +497,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (tumblrModel != null)
                     {
                         tumblrModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<TumblrModel>(tumblrModel, file);
+                        GenericFileManager.AddModule(tumblrModel, file);
                     }
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
@@ -505,7 +505,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (twitterModel != null)
                     {
                         twitterModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<TwitterModel>(twitterModel, file);
+                        GenericFileManager.AddModule(twitterModel, file);
                     }
                 
 
@@ -514,7 +514,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (redditModel != null)
                     {
                         redditModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule<RedditModel>(redditModel, file);
+                        GenericFileManager.AddModule(redditModel, file);
                     }
                  
 
@@ -774,7 +774,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GenericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
 
-                GlobusLogHelper.log.Info($"Campaign deletion operation completed!");
+                GlobusLogHelper.log.Info("Campaign deletion operation completed!");
             }
         }
 

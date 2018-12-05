@@ -78,6 +78,7 @@ namespace DominatorHouseCore.Process
                 AttachedActionCounts.AddOrUpdate(campaignId, runningCount, (id, count) =>
                 {
                     if (count < 0)
+                        // ReSharper disable once RedundantAssignment
                         count = 0;
                     count = runningCount;
                     return count;

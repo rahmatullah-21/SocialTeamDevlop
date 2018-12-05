@@ -25,9 +25,6 @@ namespace Socinator
     /// </summary>
     public partial class MainWindow : IMainWindow
     {
-
-        private readonly IMainViewModel _mainViewModel;
-
         private bool IsClickedFromMainWindow { get; set; } = true;
 
 
@@ -41,8 +38,8 @@ namespace Socinator
 
                 SocinatorInitialize.LogInitializer(this);
 
-                _mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
-                SocinatorWindow.DataContext = _mainViewModel;
+                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
                     GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");

@@ -1,7 +1,4 @@
-﻿using System.Net.Mime;
-using System.Windows;
-
-namespace DominatorHouseCore.Utility
+﻿namespace DominatorHouseCore.Utility
 {
     public static class Log
     {

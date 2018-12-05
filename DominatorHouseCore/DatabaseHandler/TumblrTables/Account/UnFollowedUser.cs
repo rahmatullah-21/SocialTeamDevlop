@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 {

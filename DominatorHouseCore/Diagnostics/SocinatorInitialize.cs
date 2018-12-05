@@ -372,7 +372,7 @@ namespace DominatorHouseCore.Diagnostics
 
                 string finalResponse;
                 string exemptionType;
-                if (exemption.Contains(ConfigurationManager.AppSettings["DebugType"].ToString()))
+                if (exemption.Contains(ConfigurationManager.AppSettings["DebugType"]))
                 {
                     var responseStream = await ProcessDebugTypeString(exemption, fixture);
                     using (var streamReader = new StreamReader(responseStream))
@@ -381,7 +381,7 @@ namespace DominatorHouseCore.Diagnostics
                         exemptionType = "Debug";
                     }
                 }
-                else if (exemption.Contains(ConfigurationManager.AppSettings["FatalException"].ToString()))
+                else if (exemption.Contains(ConfigurationManager.AppSettings["FatalException"]))
                 {
                     finalResponse = await ProcessFatalException(exemption, fixture);
                     exemptionType = "Fatal";
@@ -567,7 +567,7 @@ namespace DominatorHouseCore.Diagnostics
                             SocinatorInitialize.AvailableNetworks.Clear();
                             FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
                             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
-                            var exemptionDescription = ConfigurationManager.AppSettings[details].ToString();
+                            var exemptionDescription = ConfigurationManager.AppSettings[details];
                             var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), exemptionDescription);
                             SocinatorInitialize.AvailableNetworks.Add(networks);
                             SocinatorInitialize.MaximumAccountCount = 10000;

@@ -6,8 +6,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
-using System.Windows.Input;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -75,7 +73,7 @@ namespace DominatorUIUtility.CustomControl
 
                 editMessage.Messages.LstQueries.ToList().ForEach(x =>
                 {
-                    x.IsContentSelected = false || editMessage.Messages.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType);
+                    x.IsContentSelected = editMessage.Messages.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType);
                 });
 
                 editMessage.MainGrid.Margin = new Thickness(20);

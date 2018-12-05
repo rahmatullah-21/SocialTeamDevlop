@@ -4,17 +4,13 @@ using DominatorHouseCore.Utility;
 using System.Windows.Input;
 using System;
 using DominatorUIUtility.CustomControl;
-using DominatorHouseCore.Models.SocioPublisher;
 using System.Collections.Generic;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using System.Linq;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Enums.FdQuery;
-using System.Windows;
-using MahApps.Metro.Controls.Dialogs;
 using DominatorHouseCore.LogHelper;
 using System.Text.RegularExpressions;
+using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 {
@@ -24,8 +20,91 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
         {
             SelectFriendsCommand = new BaseCommand<object>(SelectFriendsCanExecute, SelectFriendsCommandExecute);
             SelectPagesCommand = new BaseCommand<object>(SelectPagesCanExecute, SelectPagesCommandExecute);
-            SaveFriendCommad = new BaseCommand<object>(SelectPagesCanExecute, SaveFriendExecute);
-            SavePageCommad = new BaseCommand<object>(SelectPagesCanExecute, SavePageExecute);
+            SelectMentionCommand = new BaseCommand<object>(SelectMentionCanExecute, SelectMentionCommandExecute);
+            SaveFriendCommad = new BaseCommand<object>(SavePagesCanExecute, SaveFriendExecute);
+            SavePageCommad = new BaseCommand<object>(SaveFriendCanExecute, SavePageExecute);
+            SaveMentionCommad = new BaseCommand<object>(SaveMentionCanExecute, SaveMentionCommandExecute);
+        }
+
+        private void SaveMentionCommandExecute(object obj)
+        {
+            try
+            {
+                var mentionUrlList = Regex.Split(FacebookModel.CustomMentionUser, "\r\n");
+                mentionUrlList.ForEach(x =>
+                {
+                    FacebookModel.ListCustomMentionUser.Add(x);
+                });
+
+                FacebookModel.ListCustomMentionUser = FacebookModel.ListCustomMentionUser.Distinct().ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void SelectMentionCommandExecute(object obj)
+        {
+            var model = FacebookModel.SelectFriendsDetailsModelForMention;
+
+            List<FbEntityTypes> hiddenColumnList = new List<FbEntityTypes>
+            {
+                FbEntityTypes.Page, FbEntityTypes.Group, FbEntityTypes.CustomDestination
+            };
+
+
+            var selectAccountDetailsControl = FacebookModel.SelectFriendsDetailsModelForMention.AccountFriendsPair.Count == 0 ?
+                new SelectAccountDetailsControl(hiddenColumnList, string.Empty, false, "Pages", true) :
+                new SelectAccountDetailsControl(hiddenColumnList, model, true);
+
+            var objDialog = new Dialog();
+
+            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "Select Account Details");
+
+            selectAccountDetailsControl.BtnSave.Click += (senders, events) =>
+            {
+                try
+                {
+                    FacebookModel.AccountMentionPair.Clear();
+                    FacebookModel.ListCustomMentionUser.Clear();
+
+                    model = selectAccountDetailsControl.SelectAccountDetailsViewModel.SelectAccountDetailsModel;
+
+                    model.ListSelectDestination.ForEach(x =>
+                    {
+                        var accountMentionpair = model.AccountFriendsPair.Where(y => y.Key == x.AccountId).ToList();
+
+                        if (x.IsAccountSelected)
+                        {
+                            FacebookModel.AccountMentionPair.AddRange(accountMentionpair);
+                            FacebookModel.ListCustomMentionUser.AddRange(accountMentionpair.Select(z => z.Value).ToList());
+                            FacebookModel.ListCustomMentionUser = FacebookModel.ListCustomMentionUser.Distinct().ToList();
+                            FacebookModel.ListCustomMentionUser.ForEach(z =>
+                            {
+                                if (!FacebookModel.CustomMentionUser.Contains(z))
+                                    FacebookModel.CustomMentionUser += z + "\r\n";
+                            });
+                        }
+                        else if (model.AccountFriendsPair.Any(y => y.Key == x.AccountId))
+                        {
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", $"Destiation is selected but Account is not selected");
+                        }
+
+                    });
+
+
+                    window.Close();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            };
+
+            window.ShowDialog();
+
+            FacebookModel.SelectFriendsDetailsModelForMention = selectAccountDetailsControl.GetSelectAccountModel();
         }
 
         private void SavePageExecute(object sender)
@@ -42,7 +121,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 
@@ -60,49 +139,35 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
             }
             catch (Exception ex)
             {
-
+                ex.DebugLog();
             }
         }
 
         private void SelectFriendsCommandExecute(object obj)
         {
-            SelectAccountDetailsControl SelectAccountDetailsControl = null;
-
             var model = FacebookModel.SelectFriendsDetailsModel;
 
-            List<FbEntityTypes> hiddenColumnList = new List<FbEntityTypes>();
-
-            hiddenColumnList.Add(FbEntityTypes.Page);
-            hiddenColumnList.Add(FbEntityTypes.Group);
-            hiddenColumnList.Add(FbEntityTypes.CustomDestination);
-
-            List<string> listAccountIds = AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook).Select(x => x.AccountId).ToList();
-
-            if (FacebookModel.AccountFriendsPair.Count == 0)
+            List<FbEntityTypes> hiddenColumnList = new List<FbEntityTypes>
             {
-                var selectedAccounts = FacebookModel.SelectFriendsDetailsModel.AccountFriendsPair.Select(y => y.Key).ToList();
+                FbEntityTypes.Page, FbEntityTypes.Group, FbEntityTypes.CustomDestination
+            };
 
-                listAccountIds = listAccountIds.Where(x => selectedAccounts.All(y => y == x)).ToList();
-
-                SelectAccountDetailsControl = new SelectAccountDetailsControl(hiddenColumnList, string.Empty, false, "Pages");
-            }
-            else
-            {
-                SelectAccountDetailsControl = new SelectAccountDetailsControl(hiddenColumnList, model);
-            }
+            var selectAccountDetailsControl = FacebookModel.SelectFriendsDetailsModel.AccountFriendsPair.Count == 0 ?
+                new SelectAccountDetailsControl(hiddenColumnList, string.Empty, false, "Pages") :
+                new SelectAccountDetailsControl(hiddenColumnList, model);
 
             var objDialog = new Dialog();
 
-            var window = objDialog.GetMetroWindow(SelectAccountDetailsControl, "Select Account Details");
+            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "Select Account Details");
 
-            SelectAccountDetailsControl.BtnSave.Click += (senders, Events) =>
+            selectAccountDetailsControl.BtnSave.Click += (senders, events) =>
             {
                 try
                 {
                     FacebookModel.AccountFriendsPair.Clear();
                     FacebookModel.ListCustomTaggedUser.Clear();
 
-                    model = SelectAccountDetailsControl.SelectAccountDetailsViewModel.SelectAccountDetailsModel;
+                    model = selectAccountDetailsControl.SelectAccountDetailsViewModel.SelectAccountDetailsModel;
 
                     model.ListSelectDestination.ForEach(x =>
                     {
@@ -131,54 +196,44 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                 }
                 catch (Exception ex)
                 {
-
+                    ex.DebugLog();
                 }
             };
 
             window.ShowDialog();
 
-            FacebookModel.SelectFriendsDetailsModel = SelectAccountDetailsControl.GetSelectAccountModel();
+            FacebookModel.SelectFriendsDetailsModel = selectAccountDetailsControl.GetSelectAccountModel();
         }
 
 
         private void SelectPagesCommandExecute(object obj)
         {
-            SelectAccountDetailsControl SelectAccountDetailsControl = null;
+            SelectAccountDetailsControl selectAccountDetailsControl;
 
             var model = FacebookModel.SelectPageDetailsModel;
 
-            List<FbEntityTypes> hiddenColumnList = new List<FbEntityTypes>();
-
-            hiddenColumnList.Add(FbEntityTypes.Friend);
-            hiddenColumnList.Add(FbEntityTypes.Group);
-            hiddenColumnList.Add(FbEntityTypes.CustomDestination);
-            List<string> listAccountIds = AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook).Select(x => x.AccountId).ToList();
-
-            if (FacebookModel.SelectPageDetailsModel.AccountPagesBoardsPair.Count == 0)
+            List<FbEntityTypes> hiddenColumnList = new List<FbEntityTypes>
             {
-                var selectedAccounts = FacebookModel.SelectPageDetailsModel.AccountPagesBoardsPair.Select(y => y.Key).ToList();
+                FbEntityTypes.Friend, FbEntityTypes.Group, FbEntityTypes.CustomDestination
+            };
 
-                listAccountIds = listAccountIds.Where(x => selectedAccounts.All(y => y == x)).ToList();
 
-                SelectAccountDetailsControl = new SelectAccountDetailsControl(hiddenColumnList, string.Empty, false, "Pages", true);
-            }
-            else
-            {
-                SelectAccountDetailsControl = new SelectAccountDetailsControl(hiddenColumnList, model, true);
-            }
+            selectAccountDetailsControl = FacebookModel.SelectPageDetailsModel.AccountPagesBoardsPair.Count == 0
+                ? new SelectAccountDetailsControl(hiddenColumnList, string.Empty, false, "Pages", true)
+                : new SelectAccountDetailsControl(hiddenColumnList, model, true);
 
             var objDialog = new Dialog();
 
-            var window = objDialog.GetMetroWindow(SelectAccountDetailsControl, "Select Account Details");
+            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "Select Account Details");
 
-            SelectAccountDetailsControl.BtnSave.Click += (senders, Events) =>
+            selectAccountDetailsControl.BtnSave.Click += (senders, events) =>
             {
                 try
                 {
                     FacebookModel.AccountPagesBoardsPair.Clear();
                     FacebookModel.ListCustomPageUrl.Clear();
 
-                    model = SelectAccountDetailsControl.SelectAccountDetailsViewModel.SelectAccountDetailsModel;
+                    model = selectAccountDetailsControl.SelectAccountDetailsViewModel.SelectAccountDetailsModel;
 
                     model.ListSelectDestination.ForEach(x =>
                     {
@@ -207,16 +262,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                 }
                 catch (Exception ex)
                 {
-
+                    ex.DebugLog();
                 }
             };
 
             window.ShowDialog();
 
-            FacebookModel.SelectPageDetailsModel = SelectAccountDetailsControl.GetSelectAccountModel();
+            FacebookModel.SelectPageDetailsModel = selectAccountDetailsControl.GetSelectAccountModel();
         }
 
         private bool SelectFriendsCanExecute(object arg) => true;
+
+        private bool SelectMentionCanExecute(object arg) => true;
 
         private bool SelectPagesCanExecute(object arg) => true;
 
@@ -224,6 +281,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
         private bool SaveFriendCanExecute(object arg) => true;
 
+        private bool SaveMentionCanExecute(object arg) => true;
+
+        public ICommand SelectMentionCommand { get; set; }
 
         public ICommand SelectFriendsCommand { get; set; }
 
@@ -232,6 +292,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
         public ICommand SaveFriendCommad { get; set; }
 
         public ICommand SavePageCommad { get; set; }
+
+        public ICommand SaveMentionCommad { get; set; }
 
         private FacebookModel _facebookModel = new FacebookModel();
 

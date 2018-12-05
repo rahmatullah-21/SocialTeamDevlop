@@ -182,7 +182,7 @@ namespace DominatorUIUtility.ViewModel
                 // Remove duplicates
                 _whiteListUser = _whiteListUser.GroupBy(x => x.UserName).Select(y => y.First()).ToList();
 
-                DbOperations.AddRange<WhiteListUser>(_whiteListUser);
+                DbOperations.AddRange(_whiteListUser);
 
                 if (_whiteListUser.Count > 0)
                     ToasterNotification.ShowSuccess(

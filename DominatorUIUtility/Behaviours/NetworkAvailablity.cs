@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Behaviours

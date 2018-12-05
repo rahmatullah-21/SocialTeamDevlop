@@ -2,15 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
-    <UserControl.Resources>
-        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </UserControl.Resources>
-    <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+   <GroupBox Background="{DynamicResource AccentBaseColorBrush}">
         <GroupBox.Header>
             <Grid>
                 <Label Content="{DynamicResource LangKeyConfiguration}" HorizontalAlignment="Left" Foreground="White"/>

@@ -79,6 +79,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         if (needRestart)
                             ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
+                        // ReSharper disable once RedundantJumpStatement
                         return;
                     }
 
@@ -316,7 +317,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             if ((firstRunningTime == null && secondRunningTime != null) || (secondRunningTime == null && firstRunningTime != null))
                 return false;
-            else if (firstRunningTime == null && secondRunningTime == null)
+            else if (firstRunningTime == null)
                 return true;
 
             if (firstRunningTime.Count != secondRunningTime.Count)
@@ -340,6 +341,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     if (!newRunningTime.Timings.Contains(oldtime))
                         return false;
+                    // ReSharper disable once RedundantAssignment
                     IsEqual = true;
                 }
 
@@ -375,7 +377,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
                         {
                             Dialog.ShowDialog("Error",
-                                $"This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                                "This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
                             return false;
                         }
                     }

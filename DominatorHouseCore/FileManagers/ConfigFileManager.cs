@@ -18,7 +18,7 @@ namespace DominatorHouseCore.FileManagers
             {
                 var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
                 binFileHelper.SaveConfig(config);
-                GlobusLogHelper.log.Debug($"Configuration successfully saved");
+                GlobusLogHelper.log.Debug("Configuration successfully saved");
                 return true;
             }
             catch (Exception)
@@ -49,7 +49,7 @@ namespace DominatorHouseCore.FileManagers
                     if (Themes == null)
                         return;
 
-                    Accent newAccent = null;
+                    Accent newAccent;
 
                     AppTheme newAppTheme = ThemeManager.GetAppTheme("Base" + Themes.SelectedTheme.Name);
 

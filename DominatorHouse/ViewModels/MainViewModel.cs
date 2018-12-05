@@ -86,7 +86,7 @@ namespace DominatorHouse.ViewModels
                 //TODO : it's awful! (use dymanic for it) change it later!
                 var selectedTabObject = TabItems.Selected?.Content.Value;
 
-                ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
+                ((dynamic)selectedTabObject)?.SetIndex((int)subTabIndex);
             };
 
             // Go to campaign from respective module after campaign saved
@@ -158,21 +158,22 @@ namespace DominatorHouse.ViewModels
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (!Application.Current.Dispatcher.CheckAccess())
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        Application.Current.Shutdown();
-                        Process.GetCurrentProcess().Kill();
-                    });
-                }
-                else
-                {
-                    Application.Current.Shutdown();
-                    Process.GetCurrentProcess().Kill();
-                }
+                ex.DebugLog();
+                //if (!Application.Current.Dispatcher.CheckAccess())
+                //{
+                //    Application.Current.Dispatcher.Invoke(() =>
+                //    {
+                //        Application.Current.Shutdown();
+                //        Process.GetCurrentProcess().Kill();
+                //    });
+                //}
+                //else
+                //{
+                //    Application.Current.Shutdown();
+                //    Process.GetCurrentProcess().Kill();
+                //}
             }
         }
 
@@ -193,7 +194,9 @@ namespace DominatorHouse.ViewModels
                     {
                         fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
                         if (await IsProcessFatalError(fatalError))
+                            // ReSharper disable once RedundantJumpStatement
                             continue;
+                        // ReSharper disable once RedundantIfElseBlock
                         else break;
                     }
                     catch (Exception ex)
@@ -208,6 +211,7 @@ namespace DominatorHouse.ViewModels
                     {
                         fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License");
                         if (await IsProcessFatalError(fatalError))
+                            // ReSharper disable once RedundantJumpStatement
                             continue;
                         else break;
                     }

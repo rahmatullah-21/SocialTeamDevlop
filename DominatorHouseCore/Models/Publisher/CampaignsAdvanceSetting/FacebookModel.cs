@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -566,7 +562,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
 
         private List<KeyValuePair<string, string>> _accountFriendsPair = new List<KeyValuePair<string, string>>();
-        
+
 
         [ProtoMember(36)]
         public List<KeyValuePair<string, string>> AccountFriendsPair
@@ -778,6 +774,96 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         private List<KeyValuePair<string, string>> _AccountPagesBoardsPair = new List<KeyValuePair<string, string>>();
 
         [ProtoMember(48)]
+        public List<KeyValuePair<string, string>> AccountMentionPair
+        {
+            get
+            {
+                return _AccountMentionPair;
+            }
+            set
+            {
+                if (_AccountMentionPair == value)
+                    return;
+                SetProperty(ref _AccountMentionPair, value);
+            }
+        }
+
+
+        private string _CustomMentionUser = string.Empty;
+
+        [ProtoMember(49)]
+        public string CustomMentionUser
+        {
+            get
+            {
+                return _CustomMentionUser;
+            }
+            set
+            {
+                if (_CustomMentionUser == value)
+                    return;
+                SetProperty(ref _CustomMentionUser, value);
+            }
+        }
+
+
+        private List<string> _ListCustomMentionUser = new List<string>();
+
+        [ProtoMember(50)]
+        public List<string> ListCustomMentionUser
+        {
+            get
+            {
+                return _ListCustomMentionUser;
+            }
+            set
+            {
+                if (_ListCustomMentionUser == value)
+                    return;
+                SetProperty(ref _ListCustomMentionUser, value);
+            }
+        }
+
+
+
+        private bool _IsMentionSpecificFriends;
+
+        [ProtoMember(51)]
+        public bool IsMentionSpecificFriends
+        {
+            get
+            {
+                return _IsMentionSpecificFriends;
+            }
+            set
+            {
+                if (_IsMentionSpecificFriends == value)
+                    return;
+                SetProperty(ref _IsMentionSpecificFriends, value);
+            }
+        }
+
+        private SelectAccountDetailsModel _selectFriendsDetailsModelForMention = new SelectAccountDetailsModel();
+
+        [ProtoMember(52)]
+        public SelectAccountDetailsModel SelectFriendsDetailsModelForMention
+        {
+            get
+            {
+                return _selectFriendsDetailsModelForMention;
+            }
+            set
+            {
+                if (_selectFriendsDetailsModelForMention == value)
+                    return;
+                SetProperty(ref _selectFriendsDetailsModelForMention, value);
+            }
+        }
+
+
+        private List<KeyValuePair<string, string>> _AccountMentionPair = new List<KeyValuePair<string, string>>();
+
+        [ProtoMember(53)]
         public List<KeyValuePair<string, string>> AccountPagesBoardsPair
         {
             get
@@ -791,6 +877,45 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
                 SetProperty(ref _AccountPagesBoardsPair, value);
             }
         }
+
+
+        private RangeUtilities _MentionUsersForEachPost = new RangeUtilities(2, 5);
+
+        [ProtoMember(54)]
+        public RangeUtilities MentionUsersForEachPost
+        {
+            get
+            {
+                return _MentionUsersForEachPost;
+            }
+            set
+            {
+                if (_MentionUsersForEachPost == value)
+                    return;
+                SetProperty(ref _MentionUsersForEachPost, value);
+            }
+        }
+
+
+        private bool _isPostAsSamePage;
+
+        [ProtoMember(55)]
+        public bool IsPostAsSamePage
+        {
+            get
+            {
+                return _isPostAsSamePage;
+            }
+            set
+            {
+                if (_isPostAsSamePage == value)
+                    return;
+                SetProperty(ref _isPostAsSamePage, value);
+                if (value)
+                    IsPostAsOwnAccount = false;
+            }
+        }
+
 
         public FacebookModel Clone()
         {

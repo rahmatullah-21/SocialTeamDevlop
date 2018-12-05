@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts

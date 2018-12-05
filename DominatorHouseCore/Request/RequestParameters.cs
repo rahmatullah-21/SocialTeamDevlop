@@ -253,7 +253,7 @@ namespace DominatorHouseCore.Request
             {
                 stringBuilder.Append(keyValuePair.Key);
                 stringBuilder.Append("=");
-                stringBuilder.Append((object)keyValuePair.Value);
+                stringBuilder.Append(keyValuePair.Value);
                 stringBuilder.Append("&");
             }
             --stringBuilder.Length;
@@ -274,7 +274,7 @@ namespace DominatorHouseCore.Request
             {
                 stringBuilder.Append(keyValuePair.Key);
                 stringBuilder.Append("=");
-                stringBuilder.Append((object)keyValuePair.Value);
+                stringBuilder.Append(keyValuePair.Value);
                 stringBuilder.Append("&");
             }
             foreach (KeyValuePair<string, string> postItem in PostDataParameters)
@@ -298,7 +298,7 @@ namespace DominatorHouseCore.Request
             var stringBuilder = new StringBuilder();
             var max = "-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".Length - 1;
             for (var index = 0; index < 30; ++index)
-                stringBuilder.Append("-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomUtilties.GetRandomNumber(max, 0)]);
+                stringBuilder.Append("-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomUtilties.GetRandomNumber(max)]);
             return stringBuilder.ToString();
         }
 

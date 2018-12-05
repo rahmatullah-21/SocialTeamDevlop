@@ -3285,4 +3285,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAddMultipleCommentsSeparatedByNewLine">Add Multiple Comments Separated By New Line</system:String>
     <system:String x:Key="LangKeyUserShouldHaveSpecifiedWordsInBioDescription">User Should Have Specified Words In Bio Description</system:String>
     <system:String x:Key="LangKeyIgnoreConnectionSource">Ignore Connection Source</system:String>
+    <system:String x:Key="LangKeyEnableAutoFollow">Enable Auto Follow</system:String>
+    <system:String x:Key="LangKeyEnableAutoUnfollow">Enable Auto Unfollow</system:String>
+    <system:String x:Key="LangKeySavePagination">Save Pagination</system:String>
+    <system:String x:Key="LangKeyLikeOnSpecificComment">Like On Specific Comment of Post</system:String>
+    <system:String x:Key="LangKeyPostAsSamePage">Post As Same Page (For Ex:- Post on Socinator Page with Socinator account)</system:String>
+    <system:String x:Key="LangKeySendGreetingsToFriends">Send Greetings To Friends</system:String>
+    <system:String x:Key="LangKeyTodaysBirthdays">Today's Birthdays</system:String>
+    <system:String x:Key="LangKeyUpcomingBirthdays">Upcoming Birthdays</system:String>
 </ResourceDictionary>

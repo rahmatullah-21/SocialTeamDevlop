@@ -1,11 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.Views.Publisher

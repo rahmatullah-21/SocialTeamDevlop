@@ -4,8 +4,5 @@ namespace DominatorHouse.AutoMapping
 {
     public class MainMapperProfile : Profile
     {
-        public MainMapperProfile()
-        {
-        }
     }
 }

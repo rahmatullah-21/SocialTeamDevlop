@@ -5,7 +5,6 @@ using DominatorHouseCore;
 using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
 using Prism.Unity;
 using System;
 using System.Windows;
@@ -60,12 +59,6 @@ namespace Socinator
         protected override IModuleCatalog CreateModuleCatalog()
         {
             return new ConfigurationModuleCatalog();
-        }
-
-        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
-        {
-            base.ConfigureRegionAdapterMappings(regionAdapterMappings);
-            //regionAdapterMappings.RegisterMapping(typeof(StackPanel), Container.Resolve<StackPanelRegionAdapter>());
         }
     }
 }

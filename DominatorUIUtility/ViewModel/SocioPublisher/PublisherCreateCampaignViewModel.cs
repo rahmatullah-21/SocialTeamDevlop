@@ -22,7 +22,6 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
-using DominatorUIUtility.Views.Publisher.AdvancedSettings;
 using Newtonsoft.Json;
 using JobConfiguration = DominatorUIUtility.Views.SocioPublisher.JobConfiguration;
 
@@ -600,7 +599,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
 
-                    if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
+                    if (GenericFileManager.UpdateModuleDetails(lstCampaign,
                         ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully updated.");
 
@@ -613,7 +612,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #region Save the campaigns
                 else
                 {
-                    if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
+                    if (GenericFileManager.AddModule(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
 
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);

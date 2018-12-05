@@ -26,19 +26,15 @@ namespace DominatorHouseCore.Settings
             get
             {
                 return
-                    Enum.GetValues(typeof(DayOfWeek))
-                    ?.
-                    Cast<DayOfWeek>()
-                    ?.
-                    Select((Func<DayOfWeek, RunningTimeSpanModel>)
-                    (day =>
-                    {
-                        var model = new RunningTimeSpanModel
+                    Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>().Select(day =>
                         {
-                            Day = day
-                        };
-                        return model;
-                    }))
+                            var model = new RunningTimeSpanModel
+                            {
+                                Day = day
+                            };
+                            return model;
+                        })
+                        // ReSharper disable once ConstantConditionalAccessQualifier
                     ?.ToList();
             }
 

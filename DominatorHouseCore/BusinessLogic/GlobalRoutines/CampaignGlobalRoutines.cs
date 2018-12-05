@@ -111,6 +111,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 
             // Check existing activities and overwrite them if selected account already has running activity with the same type
             if (!CheckExistingActivities(activityType, selectedAccounts))
+                // ReSharper disable once RedundantJumpStatement
                 return;
 
             // Save 

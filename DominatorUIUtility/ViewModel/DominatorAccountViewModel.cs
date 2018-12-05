@@ -568,7 +568,7 @@ namespace DominatorUIUtility.ViewModel
 
                 #region Saving Account detail to AccountDetails database
 
-                globalDbOperation.Add<AccountDetails>(new AccountDetails
+                globalDbOperation.Add(new AccountDetails
                 {
                     AccountNetwork = objDominatorAccountBaseModel.AccountNetwork.ToString(),
                     AccountId = objDominatorAccountBaseModel.AccountId,
@@ -754,6 +754,7 @@ namespace DominatorUIUtility.ViewModel
                                         });
                                         var proxyToUpdate = _proxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == oldAccount.AccountProxy.ProxyIp
                                                                                                                                         && x.AccountProxy.ProxyPort == oldAccount.AccountProxy.ProxyPort);
+                                        // ReSharper disable once ConstantConditionalAccessQualifier
                                         proxyToUpdate?.AccountsAssignedto.Remove(proxyToUpdate?.AccountsAssignedto.FirstOrDefault(x => x.UserName == oldAccount.UserName && x.AccountNetwork == oldAccount.AccountNetwork));
 
                                         proxyToUpdate = _proxyManagerViewModel.LstProxyManagerModel.FirstOrDefault(x => x.AccountProxy.ProxyIp == objAccountBaseModel.AccountProxy.ProxyIp
@@ -1058,7 +1059,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 //collect the selected account
-                var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected == true).ToList();
+                var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
 
                 if (selectAccounts.Count == 0)
                 {
@@ -1128,7 +1129,7 @@ namespace DominatorUIUtility.ViewModel
 
         public void DeleteAccountByContextMenu(DominatorAccountModel selectedRow)
         {
-            var selectedAccount = LstDominatorAccountModel.FirstOrDefault<DominatorAccountModel>(x => selectedRow != null && x.AccountBaseModel.AccountId == selectedRow.AccountBaseModel.AccountId);
+            var selectedAccount = LstDominatorAccountModel.FirstOrDefault(x => selectedRow != null && x.AccountBaseModel.AccountId == selectedRow.AccountBaseModel.AccountId);
 
             if (selectedAccount == null)
                 return;
@@ -1147,7 +1148,7 @@ namespace DominatorUIUtility.ViewModel
         private void ExportExecute()
         {
 
-            var selectedAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected == true).ToList();
+            var selectedAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
             if (selectedAccounts.Count == 0)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
@@ -1378,6 +1379,8 @@ namespace DominatorUIUtility.ViewModel
         {
             var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
 
+            // ReSharper disable once HeuristicUnreachableCode
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (selectedAccount == null) return;
 
             if (selectedAccount.Count == 0)
@@ -1542,6 +1545,7 @@ namespace DominatorUIUtility.ViewModel
                         DominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
                     });
 
+                    // ReSharper disable once ConstantConditionalAccessQualifier
                     account?.NotifyCancelled();
                     GlobusLogHelper.log.Info(Log.StopAllActivitiesOfAccount,
                          account.AccountBaseModel.AccountNetwork,

@@ -129,6 +129,7 @@ namespace DominatorHouseCore.ViewModel
                     var senders = GenericFileManager.GetModuleDetails<ChatDetails>(
                         FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.SenderId == LiveChatModel.SenderDetails.SenderId);
                     Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
+                    // ReSharper disable once ConstantConditionalAccessQualifier
                     senders?.ForEach(chat =>
                     {
                         Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Add(chat));
@@ -190,6 +191,7 @@ namespace DominatorHouseCore.ViewModel
                 var senders = GenericFileManager.GetModuleDetails<SenderDetails>(
                     FileDirPath.GetFriendDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.AccountId == LiveChatModel.DominatorAccountModel.AccountId);
                 Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
+                // ReSharper disable once ConstantConditionalAccessQualifier
                 senders?.ForEach(sender =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Add(sender));

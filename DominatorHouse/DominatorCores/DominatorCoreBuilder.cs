@@ -1,11 +1,9 @@
-﻿using Socinator.Social.AutoActivity.Views;
-using DominatorHouseCore.BusinessLogic.Factories;
+﻿using DominatorHouseCore.BusinessLogic.Factories;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
-using DominatorUIUtility.ViewModel;
 using DominatorHouseCore.Models;
 
 namespace Socinator.DominatorCores

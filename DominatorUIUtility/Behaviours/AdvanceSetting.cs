@@ -1,13 +1,6 @@
 ﻿using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DominatorUIUtility.ViewModel.SocioPublisher;
 using DominatorUIUtility.Views.Publisher.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
-using ProtoBuf;
 
 namespace DominatorUIUtility.Behaviours
 {

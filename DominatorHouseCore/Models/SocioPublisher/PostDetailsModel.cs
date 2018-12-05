@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
-using System.Windows;
 using DominatorHouseCore.Enums.SocioPublisher;
 using ProtoBuf;
 

@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using DominatorHouseCore.DatabaseHandler.CoreModels;
-using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
 
 namespace DominatorUIUtility.Behaviours
 {

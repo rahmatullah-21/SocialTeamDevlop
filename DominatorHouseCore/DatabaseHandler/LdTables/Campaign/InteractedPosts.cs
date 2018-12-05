@@ -2,8 +2,6 @@
 using DominatorHouseCore.Enums;
 using SQLite;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
 {

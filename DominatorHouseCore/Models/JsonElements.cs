@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace DominatorHouseCore.Models
+﻿namespace DominatorHouseCore.Models
 {
     //public class JsonElements
     //{

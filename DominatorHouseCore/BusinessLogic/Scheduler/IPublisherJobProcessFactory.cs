@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
 

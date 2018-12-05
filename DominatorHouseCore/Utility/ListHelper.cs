@@ -15,7 +15,7 @@ namespace DominatorHouseCore.Utility
         public static void Shuffle<T>(this IList<T> list)
         {
             for (int index = 0; index < list.Count; ++index)
-                list.Swap<T>(index, RandomUtilties.GetRandomNumber(list.Count - 1, index));
+                list.Swap(index, RandomUtilties.GetRandomNumber(list.Count - 1, index));
         }
         
         /// <summary>
@@ -57,6 +57,7 @@ namespace DominatorHouseCore.Utility
                 lstAccount.AddRange(redditAccountList);
             }
 
+            // ReSharper disable once RedundantAssignment
             list = lstAccount;
 
         }

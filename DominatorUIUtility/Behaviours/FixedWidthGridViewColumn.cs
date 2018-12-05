@@ -7,7 +7,7 @@ namespace DominatorUIUtility.Behaviours
     {
         static FixedWidthGridViewColumn()
         {
-            WidthProperty.OverrideMetadata(typeof(FixedWidthGridViewColumn), new FrameworkPropertyMetadata(null, new CoerceValueCallback(OnCoerceWidth)));
+            WidthProperty.OverrideMetadata(typeof(FixedWidthGridViewColumn), new FrameworkPropertyMetadata(null, OnCoerceWidth));
         }
 
         private static object OnCoerceWidth(DependencyObject o, object baseValue)
@@ -27,7 +27,7 @@ namespace DominatorUIUtility.Behaviours
         }
 
         public static readonly DependencyProperty FixedWidthProperty = DependencyProperty.Register("FixedWidth", typeof(double), typeof(FixedWidthGridViewColumn),
-            new FrameworkPropertyMetadata(double.NaN, new PropertyChangedCallback(OnFixedWidthChanged)));
+            new FrameworkPropertyMetadata(double.NaN, OnFixedWidthChanged));
 
         private static void OnFixedWidthChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {

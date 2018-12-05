@@ -1,18 +1,14 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Management;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace DominatorHouse.Model

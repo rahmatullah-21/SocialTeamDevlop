@@ -60,7 +60,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var pinterestModel = GenericFileManager.GetModuleDetails<PinterestModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            PinterestViewModel.PinterestModel = pinterestModel ?? (pinterestModel = new PinterestModel());
+            PinterestViewModel.PinterestModel = pinterestModel ?? (new PinterestModel());
         }
     }
 }

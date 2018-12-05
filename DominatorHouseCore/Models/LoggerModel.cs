@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Models
@@ -18,7 +13,7 @@ namespace DominatorHouseCore.Models
             get { return _dateTime; }
             set
             {
-                if (_dateTime != null && value == _dateTime)
+                if (value == _dateTime)
                     return;
                 SetProperty(ref _dateTime, value);
             }
