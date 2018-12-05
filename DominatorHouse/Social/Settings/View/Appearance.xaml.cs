@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using MahApps.Metro;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.FileManagers;
-using Socinator.Social.Settings.ViewModel;
 using DominatorHouseCore;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using MahApps.Metro;
+using Socinator.Social.Settings.ViewModel;
 
-namespace Socinator.Social.Settings.View
+namespace DominatorHouse.Social.Settings.View
 {
     /// <summary>
     /// Interaction logic for Appearance.xaml

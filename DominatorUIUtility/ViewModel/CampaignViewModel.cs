@@ -277,23 +277,25 @@ namespace DominatorUIUtility.ViewModel
                     ex.DebugLog();
                 }
 
-               Window win =objDialog.GetMetroWindow(reportControl, "Reports");
+                Window win = objDialog.GetMetroWindow(reportControl, "Reports");
                 win.Owner = Application.Current.MainWindow;
-               win.WindowStartupLocation = WindowStartupLocation.Manual;
-               // win.Loaded += Onload;
+                win.WindowStartupLocation = WindowStartupLocation.Manual;
+
+                win.ContentRendered += ContentRendered;
                 win.GotFocus += OnFocus;
-                //var width =SystemParameters.PrimaryScreenWidth;
-                //var height = SystemParameters.PrimaryScreenHeight;
-                //win.HorizontalAlignment = HorizontalAlignment.Stretch;
-                //win.VerticalAlignment = VerticalAlignment.Stretch;
-                //win.Top = (height - win.MaxHeight) / 2;
-                //win.Left = (width - win.MaxWidth) / 2;
+
                 win.ShowDialog();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+        }
+
+        private void ContentRendered(object sender, EventArgs e)
+        {
+            var win = sender as MetroWindow;
+            win.Focus();
         }
 
         private void OnFocus(object sender, RoutedEventArgs e)
@@ -306,20 +308,6 @@ namespace DominatorUIUtility.ViewModel
             win.Top = (height - win.Height) / 2;
             win.Left = (width - win.Width) / 2;
         }
-
-        private void Onload(object sender, RoutedEventArgs e)
-        {
-            var win = sender as MetroWindow;
-            win.WindowStartupLocation = WindowStartupLocation.Manual;
-            var v = Application.Current.MainWindow;
-            var width =v.Width;
-            var height = v.Height;
-            win.Top = (height - win.Height) / 2;
-            win.Left = (width - win.Width) / 2;
-           
-           
-        }
-
         private void StatusChangeExecute(object sender)
         {
             try

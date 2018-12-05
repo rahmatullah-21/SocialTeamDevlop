@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using DominatorHouseCore.Models;
 
-namespace Socinator.Social.Settings.View
+namespace DominatorHouse.Social.Settings.View
 {
     /// <summary>
     /// Interaction logic for Home.xaml
@@ -18,7 +18,7 @@ namespace Socinator.Social.Settings.View
                 new TabItemTemplates
                 {
                     Title=FindResource("LangKeyAppearance").ToString(),
-                    Content=new Lazy<UserControl>(()=>new Appearance())
+                    Content=new Lazy<UserControl>(()=>new DominatorHouse.Social.Settings.View.Appearance())
                 },
             };
             SettingTabControls.ItemsSource = TabItems;

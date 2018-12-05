@@ -12,6 +12,7 @@ namespace DominatorHouse.Modules
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
+            // ReSharper disable once UnusedVariable
             var regionManager = containerProvider.Resolve<IRegionManager>();
         }
     }

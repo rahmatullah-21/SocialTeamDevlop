@@ -525,6 +525,7 @@
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
     <Compile Include="Interfaces\IPage.cs" />
+    <Compile Include="Interfaces\IPostComment.cs" />
     <Compile Include="Interfaces\IPublisherCollectionFactory.cs" />
     <Compile Include="Interfaces\IPublisherCoreFactory.cs" />
     <Compile Include="Interfaces\IPublisherPostScraper.cs" />
