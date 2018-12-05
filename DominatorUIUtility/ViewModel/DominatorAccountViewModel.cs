@@ -48,6 +48,7 @@ namespace DominatorUIUtility.ViewModel
     public class DominatorAccountViewModel : BindableBase, IDominatorAccountViewModel
     {
         private readonly IProxyManagerViewModel _proxyManagerViewModel;
+        private readonly ISoftwareSettings _softwareSettings;
         private DbOperations _dbOperations { get; }
 
         public ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; }
@@ -105,10 +106,11 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
 
-        public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel)
+        public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings)
         {
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
+            _softwareSettings = softwareSettings;
             strategyPack = mainViewModel.Strategies;
             Groups = new ObservableCollection<ContentSelectGroup>();
             BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
@@ -592,7 +594,7 @@ namespace DominatorUIUtility.ViewModel
             #endregion
             //if (dominatorAccountBaseModel.Status != AccountStatus.Success)
             //{
-            if (!(bool)SoftwareSettings.Settings?.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
+            if (!(bool)_softwareSettings.Settings.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
             {
                 try
                 {

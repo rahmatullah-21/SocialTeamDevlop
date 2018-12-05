@@ -5,6 +5,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.ProxyServerManagment;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using Unity;
@@ -25,6 +26,8 @@ namespace DominatorHouseCore
 
             Container.RegisterSingleton<IAccountGrowthPropertiesProvider, AccountGrowthPropertiesProvider>();
 
+            Container.RegisterSingleton<ISoftwareSettings, SoftwareSettings>();
+
             Container.RegisterSingleton<IWebService, WebService>();
             Container.RegisterSingleton<IDateProvider, DateProvider>();
             Container.RegisterSingleton<IFileSystemProvider, FileSystemProvider>();
@@ -36,6 +39,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IRunningJobsHolder, RunningJobsHolder>();
             Container.RegisterSingleton<ICampaignInteractionDetails, CampaignInteractionDetails>();
             Container.RegisterSingleton<IGlobalInteractionDetails, GlobalInteractionDetails>();
+            Container.RegisterSingleton<ISoftwareSettingsFileManager, SoftwareSettingsFileManager>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();

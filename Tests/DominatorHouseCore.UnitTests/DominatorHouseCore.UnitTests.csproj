@@ -103,6 +103,7 @@
     <Compile Include="Tests\ProxyServerManagment\ProxyServerParserServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\ProxyServerManagment\ProxyValidationServiceTests.cs" />
+    <Compile Include="Tests\Settings\SoftwareSettingsTests.cs" />
     <Compile Include="Tests\Utility\DateTimeUtilitiesTests.cs" />
   </ItemGroup>
   <ItemGroup>

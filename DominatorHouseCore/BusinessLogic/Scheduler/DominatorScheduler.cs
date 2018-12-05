@@ -5,6 +5,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Newtonsoft.Json;
@@ -523,7 +524,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public static void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType)
         {
-            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 ScheduleActivityForNextJob(dominatorAccountModel, dominatorAccountModel.AccountBaseModel.AccountNetwork, activityType);
             }

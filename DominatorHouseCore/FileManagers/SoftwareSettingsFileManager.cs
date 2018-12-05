@@ -1,23 +1,27 @@
-﻿using System;
-using System.IO;
-using DominatorHouseCore.LogHelper;
+﻿using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
+using System.IO;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public class SoftwareSettingsFileManager
+    public interface ISoftwareSettingsFileManager
     {
-        public static bool SaveSoftwareSettings(SoftwareSettingsModel softwareSetting)
+        bool SaveSoftwareSettings(SoftwareSettingsModel softwareSetting);
+        SoftwareSettingsModel GetSoftwareSettings();
+
+    }
+    public class SoftwareSettingsFileManager : ISoftwareSettingsFileManager
+    {
+        public bool SaveSoftwareSettings(SoftwareSettingsModel softwareSetting)
         {
             try
             {
                 using (var stream = File.Create(ConstantVariable.GetOtherSoftwareSettingsFile()))
                 {
                     Serializer.Serialize(stream, softwareSetting);
-                    SoftwareSettings.Settings = softwareSetting;
                     return true;
                 }
             }
@@ -29,7 +33,7 @@ namespace DominatorHouseCore.FileManagers
             }
 
         }
-        public static SoftwareSettingsModel GetSoftwareSettings()
+        public SoftwareSettingsModel GetSoftwareSettings()
         {
             try
             {

@@ -10,6 +10,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.ViewModel.Common;
@@ -349,8 +350,7 @@ namespace DominatorHouse.ViewModels
                 var softWareSettings = new Utilities.SoftwareSettings();
                 ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(Strategies); });
 
-                var softWareSetting = new DominatorHouseCore.Settings.SoftwareSettings();
-                ThreadFactory.Instance.Start(() => { softWareSetting.InitializeOnLoadConfigurations(); });
+                ThreadFactory.Instance.Start(() => { ServiceLocator.Current.GetInstance<ISoftwareSettings>().InitializeOnLoadConfigurations(); });
 
                 // For Every day backup
                 ThreadFactory.Instance.Start(() =>

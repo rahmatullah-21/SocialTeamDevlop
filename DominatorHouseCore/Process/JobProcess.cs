@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DominatorHouseCore.Settings;
 
 namespace DominatorHouseCore.Process
 {
@@ -91,7 +92,8 @@ namespace DominatorHouseCore.Process
         protected void ScheduleNextJob(DateTime dateTime)
         {
             //Stop();
-            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, DominatorAccountModel.AccountBaseModel.AccountNetwork, ActivityType);
             }
