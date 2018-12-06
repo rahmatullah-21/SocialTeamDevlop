@@ -31,11 +31,13 @@ namespace DominatorHouseCore.FileManagers
     {
         private readonly IProtoBuffBase _protoBuffBase;
         private readonly ILockFileConfigProvider _lockFileConfigProvider;
+        private readonly IFileSystemProvider _fileSystemProvider;
 
-        public GenericFileManager(IProtoBuffBase protoBuffBase, ILockFileConfigProvider lockFileConfigProvider)
+        public GenericFileManager(IProtoBuffBase protoBuffBase, ILockFileConfigProvider lockFileConfigProvider, IFileSystemProvider fileSystemProvider)
         {
             _protoBuffBase = protoBuffBase;
             _lockFileConfigProvider = lockFileConfigProvider;
+            _fileSystemProvider = fileSystemProvider;
         }
 
 
@@ -46,7 +48,7 @@ namespace DominatorHouseCore.FileManagers
         /// <param name="filePath">file path</param>
         /// <returns></returns>
         public List<T> GetModuleDetails<T>(string filePath) where T : class
-            => File.Exists(filePath) ? _protoBuffBase.DeserializeList<T>(filePath) : new List<T>();
+            => _fileSystemProvider.Exists(filePath) ? _protoBuffBase.DeserializeList<T>(filePath) : new List<T>();
 
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace DominatorHouseCore.FileManagers
             try
             {
 
-                using (var stream = File.Create(file))
+                using (var stream = _fileSystemProvider.Create(file))
                 {
                     // Call for serialize
                     Serializer.Serialize(stream, model);
@@ -139,7 +141,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Open(filePath, FileMode.Open))
+                using (var stream = _fileSystemProvider.Open(filePath))
                 {
                     // Call for deserialize
                     return Serializer.Deserialize<T>(stream);
