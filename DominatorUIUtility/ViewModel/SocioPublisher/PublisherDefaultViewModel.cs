@@ -1,34 +1,37 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Patterns;
+using DominatorHouseCore.Process;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher;
+using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
-using System.Windows.Controls;
-using DominatorHouseCore;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Enums.SocioPublisher;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Patterns;
-using DominatorHouseCore.Process;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherDefaultViewModel : BindableBase
     {
-        public PublisherDefaultViewModel()
+        private readonly IGenericFileManager _genericFileManager;
+        public PublisherDefaultViewModel(IGenericFileManager genericFileManager)
         {
+            _genericFileManager = genericFileManager;
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             SelectionCommand = new BaseCommand<object>(SelectionCanExecute, SelectionExecute);
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
@@ -285,11 +288,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var createCampign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
 
                     // collect the binding model
-                    var currentCampaign = GenericFileManager
+                    var currentCampaign = _genericFileManager
                         .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
                         .FirstOrDefault(campaign =>
                             campaign.CampaignId == (sender as PublisherCampaignStatusModel).CampaignId);
-                    
+
                     // Clear already saved model
                     createCampign.PublisherCreateCampaignViewModel.ClearCurrentCampaigns();
 
@@ -449,88 +452,88 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     #region Saving Advance setting
 
                     var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social);
-                    var generalModels = GenericFileManager.GetModuleDetails<GeneralModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if(generalModels!=null)
+                    var generalModels = _genericFileManager.GetModuleDetails<GeneralModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    if (generalModels != null)
                     {
                         generalModels.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule(generalModels, file);
+                        _genericFileManager.AddModule(generalModels, file);
                     }
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook);
-                    var facebookModel = GenericFileManager.GetModuleDetails<FacebookModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var facebookModel = _genericFileManager.GetModuleDetails<FacebookModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (facebookModel != null)
                     {
                         facebookModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule(facebookModel, file);
+                        _genericFileManager.AddModule(facebookModel, file);
                     }
 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
-                    var googlePlusModel = GenericFileManager.GetModuleDetails<GooglePlusModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (googlePlusModel != null)
                     {
                         googlePlusModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule(googlePlusModel, file);
+                        _genericFileManager.AddModule(googlePlusModel, file);
                     }
-                  
+
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
-                    var instagramModel = GenericFileManager.GetModuleDetails<InstagramModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var instagramModel = _genericFileManager.GetModuleDetails<InstagramModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (instagramModel != null)
                     {
                         instagramModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule(instagramModel, file);
+                        _genericFileManager.AddModule(instagramModel, file);
                     }
-                 
+
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
-                    var pinterestModel = GenericFileManager.GetModuleDetails<PinterestModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var pinterestModel = _genericFileManager.GetModuleDetails<PinterestModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (pinterestModel != null)
                     {
                         pinterestModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule(pinterestModel, file);
+                        _genericFileManager.AddModule(pinterestModel, file);
                     }
-                 
+
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
-                    var tumblrModel = GenericFileManager.GetModuleDetails<TumblrModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var tumblrModel = _genericFileManager.GetModuleDetails<TumblrModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (tumblrModel != null)
                     {
                         tumblrModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule(tumblrModel, file);
+                        _genericFileManager.AddModule(tumblrModel, file);
                     }
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
-                    var twitterModel = GenericFileManager.GetModuleDetails<TwitterModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (twitterModel != null)
                     {
                         twitterModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule(twitterModel, file);
+                        _genericFileManager.AddModule(twitterModel, file);
                     }
-                
+
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
-                    var redditModel = GenericFileManager.GetModuleDetails<RedditModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    var redditModel = _genericFileManager.GetModuleDetails<RedditModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
                     if (redditModel != null)
                     {
                         redditModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        GenericFileManager.AddModule(redditModel, file);
+                        _genericFileManager.AddModule(redditModel, file);
                     }
-                 
+
 
 
                     #endregion
 
                     // get post fetcher model
                     var publisherPostFetchModel =
-                        GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                        _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                             .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
 
                     // Save all manage destinations
                     PublisherManageDestinationModel.AddCampaignToDestinationList(publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
 
                     // Enable the post fetcher options
-                    var allFetchDetails = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    var allFetchDetails = _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaignStatus.CampaignId);
 
                     var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
@@ -543,7 +546,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     });
 
                     // Add to bin file for post fetcher
-                    GenericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
+                    _genericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
 
                     var publisherPostFetcher = new PublisherPostFetcher();
                     publisherPostFetcher.FetchPostsForCampaign(clonedCampaignStatus.CampaignId);
@@ -591,7 +594,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
 
                         var publisherPostFetchModel =
-                            GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                            _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                                 .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
                         // Save all manage destinations
@@ -599,7 +602,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             publisherPostFetchModel?.SelectedDestinations, clonedCampaignStatus.CampaignId);
 
                         // get post fetcher model
-                        var allFetchDetails = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                        var allFetchDetails = _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                             .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaign.CampaignId);
 
                         var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
@@ -613,7 +616,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         });
 
                         // Add to bin file for post fetcher
-                        GenericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
+                        _genericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
 
                         var publisherPostFetcher = new PublisherPostFetcher();
 
@@ -637,7 +640,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 // Get the saved campaign detail
-                var duplicatedCampaign = GenericFileManager
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                var duplicatedCampaign = genericFileManager
                        .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
                        .FirstOrDefault(campaign => campaign.CampaignId == campaignId);
 
@@ -651,7 +655,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 duplicatedCampaign.JobConfigurations.CampaignStartDate = clonedCampaignStatus.StartDate;
 
                 // Add to bin file
-                GenericFileManager.AddModule(duplicatedCampaign, ConstantVariable.GetPublisherCampaignFile());
+                genericFileManager.AddModule(duplicatedCampaign, ConstantVariable.GetPublisherCampaignFile());
 
                 // Add the campaign name to campaign list 
                 PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
@@ -700,7 +704,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 // Delete the campaign from bin file
-                GenericFileManager.Delete<PublisherCreateCampaignModel>(y => campaign.CampaignId == y.CampaignId,
+                _genericFileManager.Delete<PublisherCreateCampaignModel>(y => campaign.CampaignId == y.CampaignId,
                     ConstantVariable.GetPublisherCampaignFile());
 
                 // remove from campaign Ui
@@ -709,7 +713,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
                 // Delete the post fetcher
-                GenericFileManager.Delete<PublisherPostFetchModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
+                _genericFileManager.Delete<PublisherPostFetchModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
 
                 // Stop publishing the post
                 PublishScheduler.StopPublishingPosts(campaign.CampaignId);
@@ -718,13 +722,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherManageDestinationModel.RemoveDestinationFromCampaign(campaign.CampaignId);
 
                 // Stop publishing delete model
-                GenericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
+                _genericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
 
                 // stop fetching posts for a campaign
                 PublisherPostFetcher.StopFetchingPostsByCampaignId(campaign.CampaignId);
 
                 // Delete the post list bin file for the campaign
-                GenericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
+                _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
 
                 GlobusLogHelper.log.Info($"{campaign.CampaignName} deleted Successfully!");
 
@@ -746,7 +750,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                GenericFileManager.Delete<PublisherCreateCampaignModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
+                _genericFileManager.Delete<PublisherCreateCampaignModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherCampaignFile());
 
                 publisherCampaignStatusModels.ForEach(x =>
@@ -762,16 +766,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherManageDestinationModel.RemoveDestinationFromCampaign(x.CampaignId);
 
                     // Stop publishing delete model
-                    GenericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
+                    _genericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId, ConstantVariable.GetDeletePublisherPostModel);
 
                     // stop fetching posts for a campaign
                     PublisherPostFetcher.StopFetchingPostsByCampaignId(x.CampaignId);
 
                     // Delete the post list bin file for the campaign
-                    GenericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{x.CampaignId}.bin");
+                    _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{x.CampaignId}.bin");
                 });
 
-                GenericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
+                _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
 
                 GlobusLogHelper.log.Info("Campaign deletion operation completed!");

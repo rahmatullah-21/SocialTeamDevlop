@@ -1,26 +1,29 @@
-﻿using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using System.Collections.Generic;
-using System.Windows.Input;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Command;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Windows;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using System.Windows;
+using System.Windows.Input;
 
 namespace DominatorHouseCore.ViewModel
 {
     public class LiveChatViewModel : BindableBase, IDisposable
     {
+        private readonly IGenericFileManager _genericFileManager;
         public SocialNetworks SocialNetworks { get; set; }
 
         public LiveChatViewModel()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             SendMessageCommand = new BaseCommand<object>((sender) => true, SendMessageExecute);
             UserSelectionChangedCommand = new BaseCommand<object>((sender) => true, UserSelectionChangedExecute);
             FriendSelectionChangedCommand = new BaseCommand<object>((sender) => true, FriendSelectionChangedExecute);
@@ -126,7 +129,7 @@ namespace DominatorHouseCore.ViewModel
                 try
                 {
                     CancelPriviousTask();
-                    var senders = GenericFileManager.GetModuleDetails<ChatDetails>(
+                    var senders = _genericFileManager.GetModuleDetails<ChatDetails>(
                         FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.SenderId == LiveChatModel.SenderDetails.SenderId);
                     Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
                     // ReSharper disable once ConstantConditionalAccessQualifier
@@ -188,7 +191,7 @@ namespace DominatorHouseCore.ViewModel
             try
             {
                 CancelPriviousTask();
-                var senders = GenericFileManager.GetModuleDetails<SenderDetails>(
+                var senders = _genericFileManager.GetModuleDetails<SenderDetails>(
                     FileDirPath.GetFriendDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.AccountId == LiveChatModel.DominatorAccountModel.AccountId);
                 Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
                 // ReSharper disable once ConstantConditionalAccessQualifier

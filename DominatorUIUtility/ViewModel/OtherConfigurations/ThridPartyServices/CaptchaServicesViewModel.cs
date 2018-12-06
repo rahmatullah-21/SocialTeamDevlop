@@ -10,18 +10,20 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
 {
     public class CaptchaServicesViewModel : BaseTabViewModel, IThridPartyServicesViewModel
     {
+        private readonly IGenericFileManager _genericFileManager;
         public CaptchaServicesModel CaptchaServicesModel { get; }
         public DelegateCommand SaveCmd { get; private set; }
 
-        public CaptchaServicesViewModel() : base("LangKeyCaptchaServices", "CaptchaServicesControlTemplate")
+        public CaptchaServicesViewModel(IGenericFileManager genericFileManager) : base("LangKeyCaptchaServices", "CaptchaServicesControlTemplate")
         {
-            CaptchaServicesModel = GenericFileManager.GetModel<CaptchaServicesModel>(ConstantVariable.GetCaptchaServicesFile()) ?? new CaptchaServicesModel();
+            _genericFileManager = genericFileManager;
+            CaptchaServicesModel = _genericFileManager.GetModel<CaptchaServicesModel>(ConstantVariable.GetCaptchaServicesFile()) ?? new CaptchaServicesModel();
             SaveCmd = new DelegateCommand(Save);
         }
 
         private void Save()
         {
-            if (GenericFileManager.Save(CaptchaServicesModel, ConstantVariable.GetCaptchaServicesFile()))
+            if (_genericFileManager.Save(CaptchaServicesModel, ConstantVariable.GetCaptchaServicesFile()))
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
                     "Captcha Services sucessfully saved !!");
         }

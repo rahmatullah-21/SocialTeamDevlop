@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -19,6 +20,8 @@ namespace DominatorHouseCore.Process
 {
     public abstract class PublisherJobProcess
     {
+        protected readonly IGenericFileManager GenericFileManager;
+
         #region Constructor
 
         protected PublisherJobProcess(string campaignId, 
@@ -30,6 +33,7 @@ namespace DominatorHouseCore.Process
             bool isPublishOnOwnWall,
             CancellationTokenSource campaignCancellationToken)
         {
+            GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             // assign campaign Id
             CampaignId = campaignId;
 

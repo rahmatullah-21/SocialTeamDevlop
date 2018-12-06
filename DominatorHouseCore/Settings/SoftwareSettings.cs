@@ -16,11 +16,13 @@ namespace DominatorHouseCore.Settings
     {
         private readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
         private readonly IFileSystemProvider _fileSystemProvider;
+        private readonly IGenericFileManager _genericFileManager;
 
-        public SoftwareSettings(ISoftwareSettingsFileManager softwareSettingsFileManager, IFileSystemProvider fileSystemProvider)
+        public SoftwareSettings(ISoftwareSettingsFileManager softwareSettingsFileManager, IFileSystemProvider fileSystemProvider, IGenericFileManager genericFileManager)
         {
             _softwareSettingsFileManager = softwareSettingsFileManager;
             _fileSystemProvider = fileSystemProvider;
+            _genericFileManager = genericFileManager;
         }
 
         public SoftwareSettingsModel Settings { get; private set; }
@@ -35,7 +37,7 @@ namespace DominatorHouseCore.Settings
             if (_fileSystemProvider.Exists(ConstantVariable.GetURLShortnerServicesFile()))
             {
                 var shortnerServices =
-                GenericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile());
+                    _genericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile());
                 ConstantVariable.BitlyLogin = shortnerServices.Login;
                 ConstantVariable.BitlyApiKey = shortnerServices.ApiKey;
             }

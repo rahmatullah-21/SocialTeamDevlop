@@ -8,19 +8,21 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
     public class LinkedInViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {
+        private readonly IGenericFileManager _genericFileManager;
         public LinkedInModel LinkedInModel { get; }
         public DelegateCommand SaveCmd { get; }
-        public LinkedInViewModel() : base("LangKeyLinkedIn", "LinkedInControlTemplate")
+        public LinkedInViewModel(IGenericFileManager genericFileManager) : base("LangKeyLinkedIn", "LinkedInControlTemplate")
         {
+            _genericFileManager = genericFileManager;
             SaveCmd = new DelegateCommand(Save);
             LinkedInModel =
-                GenericFileManager.GetModel<LinkedInModel>(ConstantVariable.GetOtherLinkedInSettingsFile()) ??
+                _genericFileManager.GetModel<LinkedInModel>(ConstantVariable.GetOtherLinkedInSettingsFile()) ??
                 new LinkedInModel();
         }
 
         private void Save()
         {
-            if (GenericFileManager.Overrride(LinkedInModel, ConstantVariable.GetOtherLinkedInSettingsFile()))
+            if (_genericFileManager.Overrride(LinkedInModel, ConstantVariable.GetOtherLinkedInSettingsFile()))
                 Dialog.ShowDialog("Success", "LinkedIn Configuration sucessfully saved !!");
         }
     }

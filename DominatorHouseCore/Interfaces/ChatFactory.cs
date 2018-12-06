@@ -1,17 +1,25 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 
 namespace DominatorHouseCore.Interfaces
 {
+    // TODO: check if this class has implementation elsewhere
     public abstract class ChatFactory
     {
+        private readonly IGenericFileManager _genericFileManager;
+        protected ChatFactory()
+        {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+        }
+
         public virtual void UpdateFriendList(LiveChatModel liveChatModel, CancellationToken cancellation) { }
         public virtual void UpdateCurrentChat(LiveChatModel liveChatModel, CancellationToken cancellation) { }
 
@@ -20,7 +28,7 @@ namespace DominatorHouseCore.Interfaces
 
         public void SaveChatDetails(LiveChatModel liveChatModel, ChatDetails chatDetails, CancellationToken cancellation)
         {
-            var oldData = GenericFileManager.GetModuleDetails<ChatDetails>(
+            var oldData = _genericFileManager.GetModuleDetails<ChatDetails>(
                 FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
             bool isPresent = false;
             bool requireUpdate = false;
@@ -79,18 +87,18 @@ namespace DominatorHouseCore.Interfaces
                         liveChatModel.LstChat.Add(chatDetails);
                     });
                     //liveChatModel.LstChat.Add(chatDetails);
-                    GenericFileManager.AddModule(chatDetails,
+                    _genericFileManager.AddModule(chatDetails,
                         FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
                 else if (requireUpdate)
                 {
-                    GenericFileManager.UpdateModuleDetails(oldData,
+                    _genericFileManager.UpdateModuleDetails(oldData,
                         FileDirPath.GetChatDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
             }
             catch (OperationCanceledException)
             {
-               
+
             }
             catch (Exception ex)
             {
@@ -101,7 +109,7 @@ namespace DominatorHouseCore.Interfaces
         public void SaveFriendDetails(LiveChatModel liveChatModel, SenderDetails friendDetail, CancellationToken cancellation)
         {
             cancellation.ThrowIfCancellationRequested();
-            var oldData = GenericFileManager.GetModuleDetails<SenderDetails>(
+            var oldData = _genericFileManager.GetModuleDetails<SenderDetails>(
                 FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
             bool isPresent = false;
             bool requireUpdate = false;
@@ -157,12 +165,12 @@ namespace DominatorHouseCore.Interfaces
                         liveChatModel.LstSender.Add(friendDetail);
                     });
 
-                    GenericFileManager.AddModule(friendDetail,
+                    _genericFileManager.AddModule(friendDetail,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
                 else if (requireUpdate)
                 {
-                    GenericFileManager.UpdateModuleDetails(oldData,
+                    _genericFileManager.UpdateModuleDetails(oldData,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }
             }
@@ -174,7 +182,7 @@ namespace DominatorHouseCore.Interfaces
         }
     }
 
-   
+
     namespace DominatorHouseCore.Interfaces
     {
     }
