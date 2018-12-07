@@ -1,3 +1,61 @@
+Version[1.0.0.23],[6th-December-18]
+New Features:-
+		Social:-
+			Socialpublisher => Advance setting => facebook => added featuer to mendion specific user in post. 
+		Instagram:-
+			Instascraper => Added a feature to scrape post like count, post comment count, posted date and time and post location.
+			Instaliker/InstaCommenter => Added a feature to like comments of posts.
+			GrowFollowers => Unfollower => Added a feature to cancel sent request to private users.
+		Facebook:- 
+			Broadcast Messages => Broadcast message => Added feature to Send Greetings your Friends.
+			Search Query => Added option keyword in Post liker and Post scraper.
+			Search query => Added one query of user follower.
+		Linkedin:-
+			Grow connection => Accept connection rquest => Added feature to ignore incoming connection request.
+			Grow connection => Export connection => added feature to save account email as a file name.
+			User Filter => Added must have specific word.
+			Salesnavigator => added save pagination feature to  scrape data.
+		Twitter:-
+			Accounts => Accounts Manager => Accont Details => Email Verification.
+			Accounts=> Accounts Manager => Accont Details => Phone Verification.
+			All campaigns => Campaigns => Report => Refesh Button.
+			Messenger => Message to new followers => other configuration => message unique users from each account.
+		GPlus:-
+			Scraper => Comment Scraper.
+Fixed:-
+	Instagram:-
+		Account Manager => Issue fixed with sending verification code.
+		Account Manager => Issue fixed with showing you have entered wrong code even after providing correct for verification.
+		Instascrape => Other Configuration => Issue fixed with scraping "Required Data".
+	Facebook:-
+		Grow Friends => Send friends Request => fixed issue with send friend request .
+		Broadcast Messages => Broadcast message => Fixed issue with broadcast message.
+		Profile Scraper => fanpage Scraper=> Fixed issue with fanpage scraper.
+		Profile Scraper => Group member Scraper => Fixed issue with group member scraper.
+		Fb inviter => Page inviter => Fixed issue with invite people who liked your own page post.
+		Scraper => Comment Scraper => Fixed issue with not scraping the whole comment of the post.
+	Linkedin:-
+		Salesnavigator Scraper => Fixed issue with salesnavigator scraper
+		Broadcast message => Fixed issue with to show query in broadcast message.
+		Broadcast message => Fixed issue with to show query in broadcast message.
+		Campaign => Fixed issue  with create two campaign at a time.
+		Grow connection => Fixed issue with send connection request using profile URL.
+	Twitter:-
+		Engage => Like => After like action => Fixed issue with missing text in Upload Comment section.
+		Accounts => Account Manager => Details =>Status.
+		Setting => Blacklisted => User => Clear users list.
+		Accounts activity => Like => Someones following => Skip Retweets.
+	Pinterest:-
+		Pin messenger => Fixed issue in send message to the new followers then at the moment you click on start software get crashed.
+	Tumblr:-
+		Growfollower => follower => Fixed issue with keywords for following .
+		Fixed issue in Pintry/Pincommenter => Add a query and when you try to choose it you will unable to see it in choice tab.
+		Fixed issue in Account => Add a new account and then go to pin poster and click on select account you will be unable to see that new added account unless and until you restart your software.
+		Fixed issue in Repin => Select account => In repin go to select account then select the board and click  on save then you will see count used to be 1/1 if i again open it and save it then it shows 2/1. The number of times i do it the count used to get changed in the same namber.
+	Youtube:-
+		Engage => Like => Custom channel => Fixed issue with liking videos in custom channel link.
+		Engage => Fixed issue with not liking/commenting for Custom channels.
+		
 Version[1.0.0.22],[24th-November-18]
 New Features:-
 	Sociopublisher:-

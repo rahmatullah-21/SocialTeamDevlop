@@ -451,7 +451,7 @@ namespace DominatorUIUtility.ViewModel
         {
             #region Check account limits
 
-            if (LstDominatorAccountModel.Count > SocinatorInitialize.MaximumAccountCount)
+            if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
             {
                 return;
             }
@@ -1343,18 +1343,23 @@ namespace DominatorUIUtility.ViewModel
                 try
                 {
                     LstDominatorAccountModel.Clear();
-                    savedAccounts.ForEach(account =>
+                    foreach (var account in savedAccounts)
                     {
                         if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel.AccountNetwork))
                         {
-                            if (LstDominatorAccountModel.Count > SocinatorInitialize.MaximumAccountCount)
+                            if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
                             {
                                 GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
-                                return;
+                                break;
                             }
                             LstDominatorAccountModel.Add(account);
                         }
-                    });
+
+                    }
+                    //savedAccounts.ForEach(account =>
+                    //{
+                       
+                    //});
                 }
                 catch (Exception ex)
                 {

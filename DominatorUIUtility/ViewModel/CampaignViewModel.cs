@@ -540,13 +540,18 @@ namespace DominatorUIUtility.ViewModel
                 ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
                 var lstAccountDetails = AccountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
-
+                var addedAccountDetails = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel.Where(x => x.AccountBaseModel.AccountNetwork == selectedCampaign.SocialNetworks);
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 
                 lstAccountDetails.ForEach(account =>
                 {
                     try
                     {
+                        if (!addedAccountDetails.Any(x => x.AccountId == account.AccountId))
+                        {
+                            return;
+                        }
+
                         updatingAccountsBinFiles = updatingAccountsBinFiles.Enqueue(() =>
                          {
                              UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);

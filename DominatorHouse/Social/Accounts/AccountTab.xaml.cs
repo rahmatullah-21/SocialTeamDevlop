@@ -11,9 +11,9 @@ namespace Socinator.Social.Accounts
     {
         public AccountTab(AccessorStrategies strategies)
         {
-            InitializeComponent();
-            DominatorAccountTab.DataContext = this;
-            SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, strategies);
+            //InitializeComponent();
+            //DominatorAccountTab.DataContext = this;
+            //SelectedUserControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, strategies);
         }
 
         public AccountCustomControl SelectedUserControl { get; set; }

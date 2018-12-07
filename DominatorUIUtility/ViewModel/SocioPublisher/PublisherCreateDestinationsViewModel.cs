@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
@@ -810,7 +811,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDestinationList()
         {
-            var accounts = AccountsFileManager.GetAll().Where(x=>x.AccountBaseModel.Status==AccountStatus.Success);
+            var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
+            var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
+            // var accounts = AccountsFileManager.GetAll().Where(x=>x.AccountBaseModel.Status==AccountStatus.Success);
 
             if (!Application.Current.CheckAccess())
                 Application.Current.Dispatcher.Invoke(() => { PublisherCreateDestinationModel.ListSelectDestination.Clear(); });

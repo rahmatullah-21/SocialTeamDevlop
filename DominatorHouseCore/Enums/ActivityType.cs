@@ -308,6 +308,10 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         WatchPartyInviter = 106,
         [Description("Facebook")]
-        MarketPlaceScraper = 107
+        MarketPlaceScraper = 107,
+        [Description("Facebook")]
+        SendGreetingsToFriends = 108,
+        [Description("Facebook")]
+        WebPostLikeComment = 109,
     }
 }

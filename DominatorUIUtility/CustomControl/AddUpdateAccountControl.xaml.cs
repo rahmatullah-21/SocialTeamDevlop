@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -60,7 +61,8 @@ namespace DominatorUIUtility.CustomControl
 
             if (socialNetwork == SocialNetworks.Social.ToString())
             {
-                foreach (var item in ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network))
+                //foreach (var item in ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network))
+                foreach (var item in SocinatorInitialize.AvailableNetworks)
                 {
                     if (item == SocialNetworks.Social)
                         continue;

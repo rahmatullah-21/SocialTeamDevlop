@@ -170,8 +170,9 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         private void InitializeAccounts()
         {
             // read from bin file for getting all accounts
-            var accounts = AccountsFileManager.GetAll();
-
+           // var accounts = AccountsFileManager.GetAll();
+            var accounts = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
+           
             // if accounts count more than one means generate the activities
             lock (_syncObject)
             {

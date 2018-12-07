@@ -29,7 +29,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace DominatorHouse.ViewModels
 {
@@ -60,8 +59,6 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
-        public ICommand WinActivateCommand { get; set; }
-        public ICommand WinClosingCommand { get; set; }
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks)
         {
             FatalErrorDiagnosis();
@@ -306,7 +303,7 @@ namespace DominatorHouse.ViewModels
                 SetActiveNetwork(SocialNetworks.Social);
                 ThreadFactory.Instance.Start(() =>
                 {
-                    JobManager.AddJob(() => InitializeJobCores(_fatalError), x => x.ToRunNow());
+                    JobManager.AddJob(() => InitializeJobCores(), x => x.ToRunNow());
                 });
 
                 //Init UI delegates            
@@ -330,8 +327,7 @@ namespace DominatorHouse.ViewModels
         }
 
 
-
-        public void InitializeJobCores(string license)
+        private void InitializeJobCores()
         {
             try
             {
@@ -339,7 +335,7 @@ namespace DominatorHouse.ViewModels
                 {
                     var nextDayTime = DateTime.Now.AddDays(1);
 
-                    JobManager.AddJob(() => InitializeJobCores(license),
+                    JobManager.AddJob(InitializeJobCores,
                         x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
                             .AndEvery(1).Days());
                 });

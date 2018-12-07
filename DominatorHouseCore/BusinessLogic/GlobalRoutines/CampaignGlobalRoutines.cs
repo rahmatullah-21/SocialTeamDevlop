@@ -99,22 +99,22 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         }
 
 
-        /// <summary>
-        /// Runs when user clicks Create Campaign
-        /// </summary>
-        /// <param name="newCampaign"></param>
-        public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)
-        {
-            string activitySettingsJson = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettings);
-            SocialNetworks socialNetwork = SocinatorInitialize.ActiveSocialNetwork;
-            TemplateModel template = CreateTempale(activitySettingsJson, activityType.ToString(), socialNetwork, templateName: campaignName);
+        ///// <summary>
+        ///// Runs when user clicks Create Campaign
+        ///// </summary>
+        ///// <param name="newCampaign"></param>
+        //public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)
+        //{
+        //    string activitySettingsJson = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettings);
+        //    SocialNetworks socialNetwork = SocinatorInitialize.ActiveSocialNetwork;
+        //    TemplateModel template = CreateTempale(activitySettingsJson, activityType.ToString(), socialNetwork, templateName: campaignName);
 
-            // Check existing activities and overwrite them if selected account already has running activity with the same type
-            if (!CheckExistingActivities(activityType, selectedAccounts))
-                // ReSharper disable once RedundantJumpStatement
-                return;
+        //    // Check existing activities and overwrite them if selected account already has running activity with the same type
+        //    if (!CheckExistingActivities(activityType, selectedAccounts))
+        //        // ReSharper disable once RedundantJumpStatement
+        //        return;
 
-            // Save 
-        }
+        //    // Save 
+        //}
     }
 }

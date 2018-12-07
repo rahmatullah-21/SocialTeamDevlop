@@ -87,9 +87,10 @@ namespace DominatorHouseCore.Diagnostics
                    
                     HandleGlobalException(e.ExceptionObject as Exception, o.ToString());
                 }
-                catch
+                catch(Exception ex)
                 {
-
+                    ex.DebugLog();
+                    
                 }
             };            
 
@@ -100,8 +101,11 @@ namespace DominatorHouseCore.Diagnostics
                     e.SetObserved();
                     //HandleGlobalException(e.Exception, o.ToString());
                 }
-                catch
-                { }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+
+                }
             };
 
             // Exception within jobs
@@ -111,7 +115,11 @@ namespace DominatorHouseCore.Diagnostics
                 {
                     HandleGlobalException(job.Exception, job.Name);
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+
+                }
             };
         }
 

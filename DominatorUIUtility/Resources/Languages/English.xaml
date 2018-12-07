@@ -3293,4 +3293,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySendGreetingsToFriends">Send Greetings To Friends</system:String>
     <system:String x:Key="LangKeyTodaysBirthdays">Today's Birthdays</system:String>
     <system:String x:Key="LangKeyUpcomingBirthdays">Upcoming Birthdays</system:String>
+    <system:String x:Key="LangKeywebpagecomment">Webpost Comment</system:String>
+    <system:String x:Key="LangKeywebpagereplycomments">Webpost Re-Comment</system:String>
+    <system:String x:Key="LangKeyWebPostsliker">Web Posts Liker</system:String>
+    <system:String x:Key="LangKeyWebPostscommenter">Web Posts Commenter</system:String>
+    <system:String x:Key="LangKeyNewFollowersToSendMessage">New Followers To Send Message</system:String>
+    
 </ResourceDictionary>

@@ -18,7 +18,7 @@ namespace DominatorHouse.Social.Settings.View
                 new TabItemTemplates
                 {
                     Title=FindResource("LangKeyAppearance").ToString(),
-                    Content=new Lazy<UserControl>(()=>new DominatorHouse.Social.Settings.View.Appearance())
+                    Content=new Lazy<UserControl>(()=>new Appearance())
                 },
             };
             SettingTabControls.ItemsSource = TabItems;

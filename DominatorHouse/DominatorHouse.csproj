@@ -28,14 +28,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://169.50.161.212/soctest/</InstallUrl>
-    <UpdateUrl>http://169.50.161.212/soctest/</UpdateUrl>
+    <InstallUrl>http://169.50.161.212/socinator/</InstallUrl>
+    <UpdateUrl>http://169.50.161.212/socinator/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>146</ApplicationRevision>
-    <ApplicationVersion>1.0.0.146</ApplicationVersion>
+    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationVersion>1.0.0.23</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -273,7 +273,6 @@
     <Compile Include="IoC\MainContainerExtension.cs" />
     <Compile Include="IoC\SocialContainerExtension.cs" />
     <Compile Include="IoC\MainDominatorModule.cs" />
-    <Compile Include="Model\MainWindowModel.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Modules\SocialPrismModule.cs" />
     <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
@@ -305,6 +304,7 @@
       <DependentUpon>PerfCounterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\AccountDetailsUpdation.cs" />
+    <Compile Include="Utilities\ScrapAdsDetails.cs" />
     <Compile Include="Utilities\SoftwareSettings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PerfCounterViewModel.cs" />
@@ -643,7 +643,9 @@
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

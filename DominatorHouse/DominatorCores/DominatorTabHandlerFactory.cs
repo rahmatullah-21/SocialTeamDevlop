@@ -38,7 +38,6 @@ namespace Socinator.DominatorCores
 
         public void UpdateAccountCustomControl(SocialNetworks networks)
         {
-            //  NetworkTabs[0].Content = new Lazy<UserControl>(() => new AccountTab(_strategies));
             NetworkTabs[0].Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager", null, SocialNetworks.Social));
         }
 
@@ -51,14 +50,12 @@ namespace Socinator.DominatorCores
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsManager") == null? "Account Manager" : Application.Current.FindResource("LangKeyAccountsManager")?.ToString(),
                     Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager",null,SocialNetworks.Social))
-                   // Content = new Lazy<UserControl>(() => new AccountTab(_strategies))
                 },
                 new TabItemTemplates
                 {
                     Title="LangKeyAccountGrowth".FromResourceDictionary(),
                     Content = new Lazy<UserControl>(() =>  ServiceLocator.Current.GetInstance<AccountGrowthControl>())
                 },
-
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
@@ -86,13 +83,13 @@ namespace Socinator.DominatorCores
                 },
                 //new TabItemTemplates
                 //{
-                //    Title = Application.Current.FindResource("langSettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),
-                //    Content = new Lazy<UserControl>(() => new Social.Settings.View.Home())
+                //    Title = Application.Current.FindResource("LangKeySettings") == null? "Settings" : Application.Current.FindResource("langSettings")?.ToString(),
+                //    Content = new Lazy<UserControl>(() => new Home())
                 //},
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
-                      Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration"))
+                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration"))
                 },
                 new TabItemTemplates
                 {

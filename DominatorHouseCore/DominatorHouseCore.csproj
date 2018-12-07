@@ -212,6 +212,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\ActivitiesWorkflow\ILoginProcessAsync.cs" />
     <Compile Include="BusinessLogic\Factories\DominatorAccountCountFactory.cs" />
     <Compile Include="BusinessLogic\GlobalRoutines\CampaignGlobalRoutines.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />

@@ -13,10 +13,10 @@ namespace DominatorHouse.Social.Accounts
         private AccessorStrategies _strategies;
         public AccountGrowthTab(AccessorStrategies strategies)
         {
-            _strategies = strategies;
-            InitializeComponent();
-            DominatorAccountGrowthTab.DataContext = this;
-            SelectedUserControl = ServiceLocator.Current.GetInstance<AccountGrowthControl>();
+            //_strategies = strategies;
+            //InitializeComponent();
+            //DominatorAccountGrowthTab.DataContext = this;
+            //SelectedUserControl = ServiceLocator.Current.GetInstance<AccountGrowthControl>();
         }
         public AccountGrowthControl SelectedUserControl { get; set; }
     }

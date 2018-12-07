@@ -449,10 +449,7 @@ namespace DominatorHouseCore.Process
 
                 GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
-                if (ActivityType == ActivityType.ExportConnection)
-                {
-                    DominatorAccountModel.IsUserLoggedIn = false;
-                }
+               
                 if (!DominatorAccountModel.IsUserLoggedIn || (DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies == null))
                 {
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
