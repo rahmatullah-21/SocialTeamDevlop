@@ -23,7 +23,7 @@ namespace DominatorHouseCore.FileManagers
                 GlobusLogHelper.log.Debug("Post successfully saved");
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
@@ -42,7 +42,6 @@ namespace DominatorHouseCore.FileManagers
         public static void Delete(Predicate<AddPostModel> match)
         {
             var posts = BinFileHelper.GetPostDetails();
-            var toDelete = posts.FindAll(match);
             posts.RemoveAll(match);
             BinFileHelper.UpdateAllPosts(posts);
         }

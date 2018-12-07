@@ -3298,5 +3298,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWebPostsliker">Web Posts Liker</system:String>
     <system:String x:Key="LangKeyWebPostscommenter">Web Posts Commenter</system:String>
     <system:String x:Key="LangKeyNewFollowersToSendMessage">New Followers To Send Message</system:String>
+    <system:String x:Key="LangKeyImageCaptchaServices">Image Captcha Services</system:String>
+    <system:String x:Key="LangKeyReplyToPendingPageMessages">Reply To Pending Page Messages</system:String>
     
 </ResourceDictionary>

@@ -2,9 +2,7 @@
 using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
-using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
 {
@@ -22,8 +20,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
         private void Save()
         {
             if (GenericFileManager.Save(CaptchaServicesModel, ConstantVariable.GetCaptchaServicesFile()))
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Captcha Services sucessfully saved !!");
+                Dialog.ShowDialog("Success","Captcha Services sucessfully saved !!");
         }
     }
 }

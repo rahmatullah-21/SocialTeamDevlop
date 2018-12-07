@@ -37,7 +37,7 @@ namespace DominatorHouseCore.Process
             CurrentJobTimeRange = currentJobTimeRange;
 
             // Get the Template Model from the given template id
-          //  var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
+            //  var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
             var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
             var model = TemplatesFileManager.GetTemplateById(template);
 
@@ -102,7 +102,7 @@ namespace DominatorHouseCore.Process
             //Stop();
             if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
             {
-                DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, DominatorAccountModel.AccountBaseModel.AccountNetwork, ActivityType);
+                DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, ActivityType);
             }
             else
             {
@@ -449,7 +449,7 @@ namespace DominatorHouseCore.Process
 
                 GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
-               
+
                 if (!DominatorAccountModel.IsUserLoggedIn || (DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies == null))
                 {
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);

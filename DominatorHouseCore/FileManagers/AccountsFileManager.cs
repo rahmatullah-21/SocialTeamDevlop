@@ -20,12 +20,12 @@ namespace DominatorHouseCore.FileManagers
 
         // Saves all accounts. Have to work Only in Social library. Otherwise use UpdateAccounts() method to update AccountDetails.bin
         // NOTE: make sure lstAccountModel contains all accounts
-        internal static void SaveAll(List<DominatorAccountModel> lstAccountModel)
-        {
-            // Warning: make sure lstAccountModel contains all accounts            
-            AccountsCacheService.UpsertAccounts(lstAccountModel.ToArray());
-            GlobusLogHelper.log.Debug($"{lstAccountModel.Count} Accounts successfully saved");
-        }
+        //internal static void SaveAll(List<DominatorAccountModel> lstAccountModel)
+        //{
+        //    // Warning: make sure lstAccountModel contains all accounts            
+        //    AccountsCacheService.UpsertAccounts(lstAccountModel.ToArray());
+        //    GlobusLogHelper.log.Debug($"{lstAccountModel.Count} Accounts successfully saved");
+        //}
 
 
         // Update account entries and save to AccountDetails.bin        
@@ -75,16 +75,16 @@ namespace DominatorHouseCore.FileManagers
         }
 
         // backward compatibility for TD, PD
-        public static bool Add<AModel>(AModel account) where AModel : class
-        {
-            throw new Exception("this method should be deleted");
-            //return BinFileHelper.Append(account);
-        }
+        //public static bool Add<AModel>(AModel account) where AModel : class
+        //{
+        //    throw new Exception("this method should be deleted");
+        //    //return BinFileHelper.Append(account);
+        //}
 
-        public static void DeleteSelected(List<DominatorAccountModel> accs)
-        {
-            AccountsCacheService.Delete(accs.ToArray());
-        }
+        //public static void DeleteSelected(List<DominatorAccountModel> accs)
+        //{
+        //    AccountsCacheService.Delete(accs.ToArray());
+        //}
 
         public static void Delete(Func<DominatorAccountModel, bool> match)
         {
@@ -92,12 +92,12 @@ namespace DominatorHouseCore.FileManagers
             AccountsCacheService.Delete(accs.Where(match).ToArray());
         }
 
-        public static DominatorAccountModel GetAccount(string userName)
-        {
-            var accounts = GetAll();
-            var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName);
-            return result;
-        }
+        //public static DominatorAccountModel GetAccount(string userName)
+        //{
+        //    var accounts = GetAll();
+        //    var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName);
+        //    return result;
+        //}
 
         public static DominatorAccountModel GetAccountById(string accountId)
 

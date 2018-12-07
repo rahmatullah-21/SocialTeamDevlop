@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace DominatorHouseCore.Utility
 {
-    public sealed class ObservableCollectionCustom<T> : IList, ICollection, IEnumerable, IList<T>, ICollection<T>, IEnumerable<T>, INotifyPropertyChanged, INotifyCollectionChanged, IReadOnlyCollection<T>
+    public sealed class ObservableCollectionCustom<T> : IList, IList<T>, INotifyPropertyChanged, INotifyCollectionChanged, IReadOnlyCollection<T>
     {
         private readonly object listLock = new object();
         private readonly IList<T> collection;

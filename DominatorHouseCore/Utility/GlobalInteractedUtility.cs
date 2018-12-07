@@ -39,6 +39,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        // ReSharper disable once UnusedParameter.Global
         public void CheckAndAddInteractedData(string campaignId, string interactedData, ActivityType activityType)
         {
             lock (Synclock)

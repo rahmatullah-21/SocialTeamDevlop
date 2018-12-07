@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Diagnostics;
 
 namespace DominatorHouseCore.Utility
 {
@@ -24,7 +23,6 @@ namespace DominatorHouseCore.Utility
         private static volatile int i;
         public static void Compress()
         {
-                var sw = Stopwatch.StartNew();
             try
             {
                 var extractPath =

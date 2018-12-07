@@ -24,6 +24,7 @@ namespace DominatorUIUtility.IoC
 
             Container.RegisterSingleton<IThridPartyServicesViewModel, CaptchaServicesViewModel>("CaptchaServicesViewModel");
             Container.RegisterSingleton<IThridPartyServicesViewModel, UrlShortnerServicesViewModel>("UrlShortnerServicesViewModel");
+            Container.RegisterSingleton<IThridPartyServicesViewModel, ImageCaptchaServicesViewModel>("ImageCaptchaServicesViewModel");
 
             Container.RegisterSingleton<IOtherToolsViewModel, MediaGeneratorViewModel>("MediaGeneratorViewModel");
 

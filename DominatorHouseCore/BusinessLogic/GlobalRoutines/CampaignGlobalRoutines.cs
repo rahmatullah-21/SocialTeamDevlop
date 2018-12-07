@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
@@ -35,68 +34,68 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         }
 
 
-        /// <summary>
-        /// Creates and saves new template: ActiviySettings as json, activity type 
-        /// </summary>
-        /// <param name="activitySettingsJson"></param>
-        /// <param name="activityType"></param>
-        /// <param name="socialNetworks"></param>
-        /// <param name="templateName"></param>
-        /// <returns></returns>
-        private TemplateModel CreateTempale(string activitySettingsJson, string activityType, SocialNetworks socialNetworks, string templateName)
-        {
-            // Initialize and assign the values to TemplateModel for store in bin files
-            TemplateModel newTemplate = new TemplateModel
-            {
-                ActivityType = activityType,
-                ActivitySettings = activitySettingsJson,
-                CreationDate = DateTime.Now.GetCurrentEpochTime(),
-                Name = templateName,
-                SocialNetwork = socialNetworks,
-            };
+        ///// <summary>
+        ///// Creates and saves new template: ActiviySettings as json, activity type 
+        ///// </summary>
+        ///// <param name="activitySettingsJson"></param>
+        ///// <param name="activityType"></param>
+        ///// <param name="socialNetworks"></param>
+        ///// <param name="templateName"></param>
+        ///// <returns></returns>
+        //private TemplateModel CreateTempale(string activitySettingsJson, string activityType, SocialNetworks socialNetworks, string templateName)
+        //{
+        //    // Initialize and assign the values to TemplateModel for store in bin files
+        //    TemplateModel newTemplate = new TemplateModel
+        //    {
+        //        ActivityType = activityType,
+        //        ActivitySettings = activitySettingsJson,
+        //        CreationDate = DateTime.Now.GetCurrentEpochTime(),
+        //        Name = templateName,
+        //        SocialNetwork = socialNetworks,
+        //    };
 
 
-            // Serialize the template configuration to bin files
-            ServiceLocator.Current.GetInstance<ITemplatesFileManager>().Add(newTemplate);
+        //    // Serialize the template configuration to bin files
+        //    ServiceLocator.Current.GetInstance<ITemplatesFileManager>().Add(newTemplate);
 
-            return newTemplate;
-        }
+        //    return newTemplate;
+        //}
 
 
 
-        /// <summary>
-        /// Checks wheter running activities exists for selected users. Asks to overwrite them.
-        /// </summary>
-        /// <param name="activityType"></param>
-        /// <param name="selectedAccounts"></param>
-        /// <returns>false - user choose to stop execution</returns>
-        private bool CheckExistingActivities(ActivityType activityType, List<string> selectedAccounts)
-        {
-            Debug.Assert(selectedAccounts.Count > 0);
+        ///// <summary>
+        ///// Checks wheter running activities exists for selected users. Asks to overwrite them.
+        ///// </summary>
+        ///// <param name="activityType"></param>
+        ///// <param name="selectedAccounts"></param>
+        ///// <returns>false - user choose to stop execution</returns>
+        //private bool CheckExistingActivities(ActivityType activityType, List<string> selectedAccounts)
+        //{
+        //    Debug.Assert(selectedAccounts.Count > 0);
 
-            var allAccounts = AccountsFileManager.GetAll();
+        //    var allAccounts = AccountsFileManager.GetAll();
 
-            List<DominatorAccountModel> accountsWithRunningActivity =
-            allAccounts.Where(
-                x => _jobActivityConfigurationManager[x.AccountId, activityType]?.TemplateId != null).ToList();
+        //    List<DominatorAccountModel> accountsWithRunningActivity =
+        //    allAccounts.Where(
+        //        x => _jobActivityConfigurationManager[x.AccountId, activityType]?.TemplateId != null).ToList();
 
-            if (accountsWithRunningActivity.Count == 0)
-                return true;
+        //    if (accountsWithRunningActivity.Count == 0)
+        //        return true;
 
-            var selectedAccountsWithRunningActivity = accountsWithRunningActivity.Where(a => selectedAccounts.Contains(a.UserName)).ToList();
-            if (selectedAccountsWithRunningActivity.Count == 0)
-                return true;
+        //    var selectedAccountsWithRunningActivity = accountsWithRunningActivity.Where(a => selectedAccounts.Contains(a.UserName)).ToList();
+        //    if (selectedAccountsWithRunningActivity.Count == 0)
+        //        return true;
 
-            // Asks for select and overwriting through UI
-            string accs = string.Join(", ", selectedAccountsWithRunningActivity.Select(a => a.UserName));
-            string msg = $"{selectedAccountsWithRunningActivity.Count} account(s) already set up to run {activityType} activity." +
-                          $"Would you like to overwrite settings of those accounts?\r\n{accs}";
+        //    // Asks for select and overwriting through UI
+        //    string accs = string.Join(", ", selectedAccountsWithRunningActivity.Select(a => a.UserName));
+        //    string msg = $"{selectedAccountsWithRunningActivity.Count} account(s) already set up to run {activityType} activity." +
+        //                  $"Would you like to overwrite settings of those accounts?\r\n{accs}";
 
-            if (ConfirmDialog(msg))
-                return true;
+        //    if (ConfirmDialog(msg))
+        //        return true;
 
-            return false;
-        }
+        //    return false;
+        //}
 
 
         ///// <summary>

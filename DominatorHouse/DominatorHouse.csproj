@@ -278,10 +278,6 @@
     <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
       <DependentUpon>MigrationFromOldDominator.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Social\Accounts\AccountGrowthTab.xaml.cs" />
-    <Compile Include="Social\Accounts\AccountTab.xaml.cs">
-      <DependentUpon>AccountTab.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Social\AutoActivity\ViewModels\DominatorAutoActivityViewModel.cs" />
     <Compile Include="Social\AutoActivity\Views\DominatorAutoActivity.xaml.cs">
       <DependentUpon>DominatorAutoActivity.xaml</DependentUpon>
@@ -320,14 +316,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="OtherConfiguration\MigrationFromOldDominator.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Social\Accounts\AccountGrowthTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Social\Accounts\AccountTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

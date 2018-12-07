@@ -73,27 +73,11 @@
         /// </summary>
         public static string JobPaused { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyStoppedCurrentJobTo".FromResourceDictionary() + " {2} " + "LangKeyAs".FromResourceDictionary() + "\t" + CodeConstants.JobPaused;
 
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = CampaignName
-        /// </summary>
-        public static string SavedCampaign { get; set; } = "{0}\t {1}\t Campaign \t " + "LangKeySuccessfullySaved".FromResourceDictionary() + "\t" + CodeConstants.SavedCampaign;
-
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
         /// </summary>
         public static string CampaignDeleted { get; set; } = "{0}\t {1}\t Campaign\t " + "LangKeySuccessfullyDeleted".FromResourceDictionary() + "\t" + CodeConstants.CampaignDeleted;
-
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = CampaignName
-        /// </summary>
-        public static string CampaignUpdated { get; set; } = "{0}\t {1}\t Campaign\t " + "LangKeySuccessfullyUpdated".FromResourceDictionary() + "\t" + CodeConstants.CampaignUpdated;
-
 
         /// <summary>
         /// 0 = Account's SocialNetwork

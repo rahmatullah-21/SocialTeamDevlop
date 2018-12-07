@@ -414,8 +414,6 @@ namespace DominatorUIUtility.CustomControl
                     SaveTemplateToAccounts(TemplateId);
                     SaveTemplateToCampaigns();
 
-
-
                     var accountDetails =
                         AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
@@ -518,71 +516,6 @@ namespace DominatorUIUtility.CustomControl
 
         #region Createcampaign Method without errorMessage and runningTime
 
-        //protected void CreateCampaign()
-        //{
-        //    if (!ValidateCampaign())
-        //        return;
-
-        //    if (!ValidateExtraProperty())
-        //        return;
-
-        //    var schedulePending = ImmutableQueue<Action>.Empty;
-
-        //    bool allScheduleQueued;
-
-        //    if (IsNeedToSaveTemplate())
-        //    {
-        //        TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork, CampaignName);
-
-        //        SaveTemplateToAccounts(TemplateId);
-
-        //        SaveTemplateToCampaigns();
-
-        //        var accountDetails = AccountsFileManager.GetAll(_footerControl.list_SelectedAccounts);
-
-        //        allScheduleQueued = false;
-
-        //        try
-        //        {
-        //            new Thread(() =>
-        //            {
-        //                while (!allScheduleQueued)
-        //                {
-        //                    Thread.Sleep(50);
-        //                    while (!schedulePending.IsEmpty)
-        //                    {
-        //                        Action startSchedule;
-        //                        schedulePending = schedulePending.Dequeue(out startSchedule);
-        //                        startSchedule();
-        //                    }
-        //                }
-        //            })
-        //            { IsBackground = true }.Start();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            ex.DebugLog();
-        //        }
-
-        //        Thread.Sleep(50);
-
-        //        foreach (var account in accountDetails)
-        //        {
-        //            Action scheduleAccount = () =>
-        //            {
-        //                DominatorScheduler.ScheduleTodayJobs(account, SocialNetwork, _activityType);
-        //                DominatorScheduler.ScheduleForEachModule(_activityType, account, SocialNetwork);
-        //            };
-        //            schedulePending = schedulePending.Enqueue(scheduleAccount);
-        //        }
-
-        //        allScheduleQueued = true;
-
-        //        SetDataContext();
-
-        //        TabSwitcher.GoToCampaign();
-        //    }
-        //}
         public bool IsNeedToSaveTemplate()
         {
             bool needToCancel = false;
@@ -939,7 +872,6 @@ namespace DominatorUIUtility.CustomControl
             var accountDetails = AccountsFileManager.GetAll(SocialNetwork);
             if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
                 ToasterNotification.ShowSuccess($"Campaign:- {CampaignName } updated successfully");
-            // DialogCoordinator.Instance.ShowModalMessageExternal(this, "Update", "Update Successfull", MessageDialogStyle.Affirmative);
 
 
             SetDataContext();
@@ -1538,8 +1470,7 @@ namespace DominatorUIUtility.CustomControl
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
                 DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
-
+                ToasterNotification.ShowSuccess("Successfully Saved !!!");
                 #endregion
             }
             else

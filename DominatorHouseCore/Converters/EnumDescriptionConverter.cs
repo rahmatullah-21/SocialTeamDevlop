@@ -8,8 +8,8 @@ namespace DominatorHouseCore.Converters
 {
     public class EnumDescriptionConverter : IValueConverter
     {
-        static EnumDescriptionConverter _instance;
-        static EnumDescriptionConverter Instance => _instance ?? (_instance = new EnumDescriptionConverter());
+        //static EnumDescriptionConverter _instance;
+        //static EnumDescriptionConverter Instance => _instance ?? (_instance = new EnumDescriptionConverter());
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

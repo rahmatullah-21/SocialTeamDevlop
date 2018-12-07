@@ -8,7 +8,7 @@ namespace DominatorHouseCore.Utility
 {
     public class FeatureFlags : Dictionary<string, bool>
     {
-        public static FeatureFlags Instance = null;
+        public static FeatureFlags Instance;
         public static bool Check(string key, Action whenEnabled = null, Action whenDisabled = null)
         {
             if (!Instance.ContainsKey(key))

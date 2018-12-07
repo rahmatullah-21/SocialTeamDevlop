@@ -169,19 +169,19 @@ namespace DominatorHouseCore.Utility
         /// Generate a unique id for each device
         /// </summary>
         /// <returns></returns>
-        public static string GenerateGuid()
-        {
-            var rand = new System.Random();
-            return string.Format("{0}{1}-{2}-{3}-{4}-{5}{6}{7}",
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(16384, 20479).ToString("x4"),
-                rand.Next(32768, 49151).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"));
-        }
+        //public static string GenerateGuid()
+        //{
+        //    var rand = new System.Random();
+        //    return string.Format("{0}{1}-{2}-{3}-{4}-{5}{6}{7}",
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(16384, 20479).ToString("x4"),
+        //        rand.Next(32768, 49151).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"));
+        //}
 
 
         /// <summary>

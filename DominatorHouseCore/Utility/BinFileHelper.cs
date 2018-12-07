@@ -485,12 +485,6 @@ namespace DominatorHouseCore.Utility
             return null;
         }
 
-        public void DeleteDestinationFile(string destinationId)
-        {
-
-        }
-
-
         public List<PublisherManageDestinationModel> GetPublisherManageDestinationModels()
         {
             return _lockFileConfigProvider.WithFile<PublisherManageDestinationModel, List<PublisherManageDestinationModel>>(
@@ -618,7 +612,7 @@ namespace DominatorHouseCore.Utility
                 _protoBuffBase.DeserializeList<GlobalInteractionViewModel>(file + $"\\{network}InteractedData.bin"));
         }
 
-      
+
         public void UpdateGlobalInteractedDetails(List<GlobalInteractionViewModel> globalInteractedDatas,
             SocialNetworks network)
         {

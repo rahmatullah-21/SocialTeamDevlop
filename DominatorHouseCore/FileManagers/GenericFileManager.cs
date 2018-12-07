@@ -57,28 +57,28 @@ namespace DominatorHouseCore.FileManagers
             }
         }
 
-        /// <summary>
-        /// To save all the details of the give object to respective file type's objects
-        /// </summary>
-        /// <typeparam name="T">Target type</typeparam>
-        /// <param name="lstModel">List of objects which is present after saved in bin file</param>
-        internal static void SaveAll<T>(List<T> lstModel) where T : class
-        {
-            UpdateModuleDetails(lstModel);
-            GlobusLogHelper.log.Debug("Details successfully saved");
-        }
+        ///// <summary>
+        ///// To save all the details of the give object to respective file type's objects
+        ///// </summary>
+        ///// <typeparam name="T">Target type</typeparam>
+        ///// <param name="lstModel">List of objects which is present after saved in bin file</param>
+        //internal static void SaveAll<T>(List<T> lstModel) where T : class
+        //{
+        //    UpdateModuleDetails(lstModel);
+        //    GlobusLogHelper.log.Debug("Details successfully saved");
+        //}
 
-        /// <summary>
-        /// To save the details with given file 
-        /// </summary>
-        /// <typeparam name="T">Targer type</typeparam>
-        /// <param name="lstModel">List of details</param>
-        /// <param name="file">saving file path</param>
-        internal static void SaveAll<T>(List<T> lstModel, string file) where T : class
-        {
-            UpdateModuleDetails(lstModel, file);
-            GlobusLogHelper.log.Debug("Details successfully saved");
-        }
+        ///// <summary>
+        ///// To save the details with given file 
+        ///// </summary>
+        ///// <typeparam name="T">Targer type</typeparam>
+        ///// <param name="lstModel">List of details</param>
+        ///// <param name="file">saving file path</param>
+        //internal static void SaveAll<T>(List<T> lstModel, string file) where T : class
+        //{
+        //    UpdateModuleDetails(lstModel, file);
+        //    GlobusLogHelper.log.Debug("Details successfully saved");
+        //}
 
         /// <summary>
         /// Save the details to specified file

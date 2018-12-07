@@ -89,7 +89,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         FanpageScraper = 28,
 
-        [Description("Facebook,Gplus")]
+        [Description("Facebook,Gplus,Instagram")]
         CommentScraper = 29,
 
         [Description("Facebook,Gplus,Youtube,Instagram")]

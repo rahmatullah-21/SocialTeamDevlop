@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace DominatorHouseCore.Utility
 {
-    public class ObservableCollectionBase<TType> : IList, ICollection, IEnumerable, IList<TType>, ICollection<TType>, IEnumerable<TType>, INotifyPropertyChanged, INotifyCollectionChanged, IReadOnlyCollection<TType>
+    public class ObservableCollectionBase<TType> : IList, IList<TType>, INotifyPropertyChanged, INotifyCollectionChanged, IReadOnlyCollection<TType>
     {
 
         /// <summary>

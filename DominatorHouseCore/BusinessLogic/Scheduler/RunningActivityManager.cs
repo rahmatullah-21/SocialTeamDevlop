@@ -60,7 +60,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     JobManager.RemoveJob(scheduledJob.Name);
                 }
             }
-            DominatorScheduler.ScheduleActivityForNextJob(accountModel, accountModel.AccountBaseModel.AccountNetwork, moduleConfiguration.ActivityType);
+            DominatorScheduler.ScheduleActivityForNextJob(accountModel, moduleConfiguration.ActivityType);
         }
 
         private static int PickNextActivity(ModuleConfiguration arg)

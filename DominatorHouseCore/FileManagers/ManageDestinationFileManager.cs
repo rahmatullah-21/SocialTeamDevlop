@@ -11,7 +11,7 @@ namespace DominatorHouseCore.FileManagers
 {
     public static class ManageDestinationFileManager
     {
-        private static List<PublisherManageDestinationModel> _allDestinationsCache = new List<PublisherManageDestinationModel>();
+      //  private static List<PublisherManageDestinationModel> _allDestinationsCache = new List<PublisherManageDestinationModel>();
         private static readonly IBinFileHelper BinFileHelper;
 
         static ManageDestinationFileManager()

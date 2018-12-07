@@ -8,10 +8,8 @@ using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl

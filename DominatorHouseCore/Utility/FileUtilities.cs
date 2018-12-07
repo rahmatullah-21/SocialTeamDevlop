@@ -121,6 +121,7 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         /// <param name="fileName">given input file</param>
         /// <returns>Unique file details</returns>
+        // ReSharper disable once UnusedMember.Global
         public static List<string> GetFileContent(string fileName)
         {
             const int bufferSize = 16384;

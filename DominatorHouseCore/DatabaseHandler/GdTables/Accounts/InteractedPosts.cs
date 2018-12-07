@@ -60,5 +60,10 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string PostLocation { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string CommentOwnerName { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string CommentOwnerId { get; set; }
     }
 }

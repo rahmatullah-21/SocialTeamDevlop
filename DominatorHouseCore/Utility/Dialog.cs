@@ -153,20 +153,7 @@ namespace DominatorHouseCore.Utility
             return MetroWindow;
         }
 
-        [Obsolete("SetMetroDialogButton without parameter is deprecated, please use SetMetroDialogButton(AffirmativeText,NegativeText) instead.")]
-        public static MetroDialogSettings SetMetroDialogButton()
-        {
-            var metroDialogButton = new MetroDialogSettings()
-            {
-                AffirmativeButtonText = "Yes",
-                NegativeButtonText = "No",
-                AnimateShow = true,
-                AnimateHide = false,
-                DefaultButtonFocus = MessageDialogResult.Affirmative
-            };
-            return metroDialogButton;
-        }
-        public static MetroDialogSettings SetMetroDialogButton(string affirmativeText, string negativeText)
+       public static MetroDialogSettings SetMetroDialogButton(string affirmativeText, string negativeText)
         {
             var metroDialogButton = new MetroDialogSettings()
             {

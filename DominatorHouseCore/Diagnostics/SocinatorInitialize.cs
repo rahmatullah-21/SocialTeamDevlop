@@ -305,10 +305,10 @@ namespace DominatorHouseCore.Diagnostics
         private static async Task<Stream> DebugLogExemptions(string exemption, string fixtures)
             => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugLogExemptions, exemption, fixtures));
 
-        private static async Task<Stream> LogDebugExemption(string exemption, string fixtures)
-        {
-            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.LogDebugExemption, exemption, fixtures));
-        }
+        //private static async Task<Stream> LogDebugExemption(string exemption, string fixtures)
+        //{
+        //    return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.LogDebugExemption, exemption, fixtures));
+        //}
 
         public static string GetFixtures()
         {
@@ -602,8 +602,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 WebClient webClient = new WebClient();
                 NameValueCollection form = new NameValueCollection();
-                string message = string.Empty;
-
+               
                 var exceptionLogger = ConfigurationManager.AppSettings["ExceptionLogger"];
                 form.Add(ConfigurationManager.AppSettings["ExceptionParameter"], exception);
                 form.Add(ConfigurationManager.AppSettings["ExceptionEndPoint"], fixture);

@@ -550,6 +550,7 @@
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\Config\CaptchaServicesModel.cs" />
+    <Compile Include="Models\Config\ImageCaptchaServicesModel.cs" />
     <Compile Include="Models\Config\URLShortnerServicesModel.cs" />
     <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
@@ -734,7 +735,6 @@
     <Compile Include="Utility\CampaignInteractedUtility.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseHandler.cs" />
-    <Compile Include="Utility\DateTimeHelper.cs" />
     <Compile Include="Utility\Dialog.cs" />
     <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\FeatureFlags.cs" />

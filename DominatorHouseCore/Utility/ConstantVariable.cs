@@ -176,6 +176,7 @@ namespace DominatorHouseCore.Utility
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
         public static string GetURLShortnerServicesFile() => GetOtherDir() + @"\URLShortnerServices.bin";
         public static string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
+        public static string GetImageCaptchaServicesFile() => GetOtherDir() + @"\ImageCaptchaServices.bin";
         public static string SaveAction { get; set; } = "Save";
 
         public static string UpdateAction { get; set; } = "Update";
