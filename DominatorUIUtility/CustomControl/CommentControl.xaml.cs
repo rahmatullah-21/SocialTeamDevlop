@@ -126,7 +126,7 @@ namespace DominatorUIUtility.CustomControl
                     Comments.SelectedQuery.Add(query);
             });
         }
-        public bool Isupdated { get; set; } = false;
+        public bool Isupdated { get; set; }
 
         public ICommand AddCommentsCommand
         {

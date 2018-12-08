@@ -98,7 +98,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
     }
 
     [Flags]
-    public enum FollowType : int
+    public enum FollowType
     {
         Following = 1,
         FollowingBack  = 2,

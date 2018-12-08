@@ -2,7 +2,6 @@
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
@@ -46,7 +45,7 @@ namespace DominatorUIUtility.CustomControl
             AccountModule.DataContext = DominatorAccountViewModel;
         }
 
-        private static AccountCustomControl _accountCustomInstance = null;
+        private static AccountCustomControl _accountCustomInstance;
 
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNetworks, AccessorStrategies strategies)
         {
@@ -125,11 +124,9 @@ namespace DominatorUIUtility.CustomControl
                 DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
                 DominatorAccountViewModel.AccountBrowserLogin(dominatorAccountModel);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                GlobusLogHelper.log.Error(exception.Message);
-                //MessageBox.Show(exception.Message);
-                Console.WriteLine(exception);
+                ex.DebugLog();
             }
         }
 
@@ -142,9 +139,9 @@ namespace DominatorUIUtility.CustomControl
                 DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
                 DominatorAccountViewModel.ActionCheckAccount(dominatorAccountModel);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
+                ex.DebugLog();
             }
         }
 
@@ -155,9 +152,9 @@ namespace DominatorUIUtility.CustomControl
                 DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
                 DominatorAccountViewModel.ActionUpdateAccount(dominatorAccountModel);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
+                ex.DebugLog();
             }
         }
 
@@ -169,9 +166,9 @@ namespace DominatorUIUtility.CustomControl
 
                 DominatorAccountViewModel.EditProfile(dominatorAccountModel);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
+                ex.DebugLog();
             }
         }
 
@@ -180,15 +177,11 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-                DominatorAccountModel objDominatorAccountModel =
-                    ((FrameworkElement)sender).DataContext as DominatorAccountModel;
                 DominatorAccountViewModel.ActionCheckAccount(dominatorAccountModel);
-
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
-                throw;
+                ex.DebugLog();
             }
         }
 
@@ -199,9 +192,9 @@ namespace DominatorUIUtility.CustomControl
                 DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
                 DominatorAccountViewModel.RemovePhoneVerification(dominatorAccountModel);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
+                ex.DebugLog();
             }
         }
 

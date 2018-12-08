@@ -38,10 +38,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             var jobActivityConfigurationManager =
                 ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var moduleConfiguration = jobActivityConfigurationManager
-                .AllEnabled()
+            var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId].Where(x => x.IsEnabled)
                 .OrderByDescending(PickNextActivity)
                 .FirstOrDefault();
+            //var moduleConfiguration = jobActivityConfigurationManager
+            //    .AllEnabled()
+            //    .OrderByDescending(PickNextActivity)
+            //    .FirstOrDefault();
             if (moduleConfiguration == null) return;
             //Check if any job process is already scheduled before to run after this activity.
             var schedules = JobManager.AllSchedules;

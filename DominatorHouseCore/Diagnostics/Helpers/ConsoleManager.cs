@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace Socinator.Helpers
+namespace DominatorHouseCore.Diagnostics.Helpers
 {
     /// <summary>
     /// Utility class to attach console to application for viewing logs at runtime

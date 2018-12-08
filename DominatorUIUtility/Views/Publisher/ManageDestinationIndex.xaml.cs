@@ -25,7 +25,7 @@ namespace DominatorUIUtility.Views.Publisher
             }
         }
 
-        private static ManageDestinationIndex _instance = null;
+        private static ManageDestinationIndex _instance;
 
         public static ManageDestinationIndex Instance { get; set; }
             = _instance ?? (_instance=new ManageDestinationIndex());

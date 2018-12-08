@@ -133,29 +133,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        public void ChangeProxy(string proxyIp, string proxyPort)
-        {
-            if (string.IsNullOrWhiteSpace(proxyIp) || string.IsNullOrWhiteSpace(proxyPort))
-                throw new ArgumentException("Invalid proxy format.");
-            if (!IsValidProxy(proxyIp, proxyPort))
-                throw new ArgumentException("Invalid proxy format.");
-            ProxyIp = proxyIp;
-            ProxyPort = proxyPort;
-            HasProxy = true;
-            SetProxyCredentials();
-        }
-
-
-
-        public void ChangeProxy()
-        {
-            ProxyIp = null;
-            ProxyPort = null;
-            HasProxy = false;
-            SetProxyCredentials();
-        }
-
-
+      
 
         public void SetProxyCredentials(string proxyUsername, string proxyPassword)
         {
@@ -163,17 +141,6 @@ namespace DominatorHouseCore.Models
             ProxyPassword = proxyPassword;
             HasCredentials = true;
         }
-
-
-
-        private void SetProxyCredentials()
-        {
-            ProxyUsername = null;
-            ProxyPassword = null;
-            HasCredentials = false;
-        }
-
-
 
         public string GetProxy()
         {
@@ -184,6 +151,7 @@ namespace DominatorHouseCore.Models
         }
 
 
+        // ReSharper disable once UnusedMember.Global
         public bool TestProxy()
         {
             if (ProxyIp == null && ProxyPort == null)
@@ -209,7 +177,6 @@ namespace DominatorHouseCore.Models
 
         public static bool IsValidProxy(string ip, string port)
         {
-
             return Regex.IsMatch(ip + ":" + port, "^\\d{1,3}(\\.\\d{1,3}){3}:\\d{1,5}$");
         }
 
@@ -217,22 +184,12 @@ namespace DominatorHouseCore.Models
         public static bool IsValidProxyIp(string proxyAddress)
         {
             return ProxyIpValidationRegex.IsMatch(proxyAddress);
-
         }
 
         public static bool IsValidProxyPort(string proxyPort)
         {
             return ProxyPortValidationRegex.IsMatch(proxyPort);
         }
-
-
-        // [return: TupleElementNames(new string[] { "username", "password" })]
-        public ValueTuple<string, string> GetCredentials()
-        {
-            return new ValueTuple<string, string>(ProxyUsername, ProxyPassword);
-        }
-
-
 
         private class WebClientExtended : WebClient
         {

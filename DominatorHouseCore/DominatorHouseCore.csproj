@@ -147,6 +147,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -430,6 +431,7 @@
     <Compile Include="Diagnostics\NetworkCoreLibraryBuilder.cs" />
     <Compile Include="Diagnostics\PublisherInitialize.cs" />
     <Compile Include="Diagnostics\SocinatorAccountBuilder.cs" />
+    <Compile Include="Diagnostics\UtilityManager.cs" />
     <Compile Include="EmailService\MailCredentials.cs" />
     <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Enums\ActivitySpeed.cs" />

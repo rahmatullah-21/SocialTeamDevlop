@@ -1207,6 +1207,7 @@ namespace DominatorHouseCore.Process
                 if (CampaignsCancellationTokens.ContainsKey(campaignId))
                 {
                     CampaignsCancellationTokens.Remove(campaignId);
+                    // ReSharper disable once NotAccessedVariable
                     var deletedList = new LinkedList<Action>();
                     PublisherActionList.TryRemove(campaignId, out deletedList);
                     DecreasePublishingCount(campaignId);

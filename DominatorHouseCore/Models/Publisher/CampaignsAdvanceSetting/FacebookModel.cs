@@ -527,7 +527,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
             }
         }
 
-        private bool _isTagUniqueFriends = false;
+        private bool _isTagUniqueFriends;
 
         [ProtoMember(34)]
         public bool IsTagUniqueFriends
@@ -580,7 +580,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
 
 
-        private bool _isTagSpecificFriends = false;
+        private bool _isTagSpecificFriends;
 
         [ProtoMember(37)]
         public bool IsTagSpecificFriends
@@ -649,7 +649,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
             }
         }
 
-        private bool _isPostAsPage = false;
+        private bool _isPostAsPage;
 
         [ProtoMember(41)]
         public bool IsPostAsPage
@@ -684,7 +684,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
 
 
-        private bool _isReactAsPageOptionChecked = false;
+        private bool _isReactAsPageOptionChecked;
 
         [ProtoMember(43)]
         public bool IsReactAsPageOptionChecked
@@ -754,7 +754,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
 
 
-        private bool _IsTagOptionChecked = false;
+        private bool _IsTagOptionChecked;
 
         [ProtoMember(47)]
         public bool IsTagOptionChecked

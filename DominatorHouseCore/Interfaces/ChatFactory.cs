@@ -174,9 +174,4 @@ namespace DominatorHouseCore.Interfaces
         }
     }
 
-   
-    namespace DominatorHouseCore.Interfaces
-    {
-    }
-
 }

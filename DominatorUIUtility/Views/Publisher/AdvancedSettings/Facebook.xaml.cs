@@ -25,7 +25,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             FacebookViewModel.FacebookModel.CampaignId = "";
         }
 
-        static Facebook ObjFacebook = null;
+        static Facebook ObjFacebook;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

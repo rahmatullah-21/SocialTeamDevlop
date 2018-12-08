@@ -116,7 +116,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private bool _isGroupMenuVisible = true;
         private bool _isFriendMenuVisible = true;
 
-        private bool _isFanpage = false;
+        private bool _isFanpage;
 
         private bool _IsHeaderNeeded = true;
 
@@ -293,7 +293,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private bool _isSelectedSingleAccount = false;
+        private bool _isSelectedSingleAccount;
 
         public bool IsSelectedSingleAccount
         {

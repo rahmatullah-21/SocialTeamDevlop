@@ -92,7 +92,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
     }
 
     
-    public enum FollowType : int
+    public enum FollowType
     {
         Following = 1,
         Followers  = 2,

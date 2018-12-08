@@ -4,7 +4,7 @@ using System.IO.Compression;
 
 namespace DominatorHouseCore.Utility
 {
-   public class DirectoryUtilities
+    public class DirectoryUtilities
     {
         public static void CreateDirectory(string folder)
         {
@@ -16,11 +16,10 @@ namespace DominatorHouseCore.Utility
             catch (IOException ex)
             {
                 ex.DebugLog();
-                throw;        
+                throw;
             }
         }
 
-        private static volatile int i;
         public static void Compress()
         {
             try

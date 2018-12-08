@@ -56,10 +56,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string OwnerId
         { get; set; }
 
-
-
-
-        public enum JoinType : int
+        public enum JoinType
         {
             Joined, NotJoined, UnJoined
         }

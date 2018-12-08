@@ -24,7 +24,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             MainGrid.DataContext = GeneralViewModel;
         }
 
-        static General ObjGeneral = null;
+        static General ObjGeneral;
         public static General GetSingeltonGeneralObject()
         {
             if (ObjGeneral == null)

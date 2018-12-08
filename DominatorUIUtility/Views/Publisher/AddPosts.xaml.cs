@@ -71,7 +71,7 @@ namespace DominatorUIUtility.Views.Publisher
             //manageDraft.Visibility = Visibility.Visible;
             //Campaigns.Visibility = Visibility.Collapsed;
         }
-        static AddPosts ObjAddPosts = null;
+        static AddPosts ObjAddPosts;
         public static AddPosts GetSingeltonAddPosts()
         {
             if (ObjAddPosts == null)

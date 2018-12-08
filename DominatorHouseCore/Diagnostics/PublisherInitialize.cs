@@ -364,6 +364,7 @@ namespace DominatorHouseCore.Diagnostics
         /// <param name="accountId">Account ID</param>
         /// <param name="network">Social Networks</param>
         /// <param name="groupUrl">groups</param>
+        // ReSharper disable once UnusedMember.Global
         public static void RemoveGroupsFromDestination(string destinationId, string accountId, SocialNetworks network, string groupUrl)
         {
             // Get create destination objects

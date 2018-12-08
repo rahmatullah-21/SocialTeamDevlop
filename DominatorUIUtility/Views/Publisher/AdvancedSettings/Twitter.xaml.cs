@@ -23,7 +23,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             InitializeComponent();
             MainGrid.DataContext = TwitterViewModel;
         }
-        static Twitter ObjTwitter = null;
+        static Twitter ObjTwitter;
         public static Twitter GetSingletonTwitterObject()
         {
             if (ObjTwitter == null)

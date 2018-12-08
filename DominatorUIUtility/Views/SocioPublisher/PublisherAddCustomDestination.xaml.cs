@@ -19,7 +19,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             CustomDestination.DataContext = PublisherCustomDestinationViewModel;
         }
 
-        private static PublisherAddCustomDestination _publisherAddCustomDestination = null;
+        private static PublisherAddCustomDestination _publisherAddCustomDestination;
 
 
         public static PublisherAddCustomDestination GetPublisherAddCustomDestination(ObservableCollection<PublisherCustomDestinationModel> alreadySavedDestination)

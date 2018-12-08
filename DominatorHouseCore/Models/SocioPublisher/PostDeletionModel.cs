@@ -33,7 +33,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public string DestinationUrl { get; set; }
 
         [ProtoMember(9)]
-        public bool IsDeletedAlready { get; set; } = false;
+        public bool IsDeletedAlready { get; set; }
 
     }
 }

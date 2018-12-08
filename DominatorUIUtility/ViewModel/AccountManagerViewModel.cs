@@ -11,7 +11,7 @@ namespace DominatorUIUtility.ViewModel
 {
     public class AccountManagerViewModel : BindableBase
     {
-        private static AccountManagerViewModel ObjAccountManagerViewModel { get; set; } = null;
+        private static AccountManagerViewModel ObjAccountManagerViewModel { get; set; }
 
         public static AccountManagerViewModel GetSingletonAccountManagerViewModel()
             => ObjAccountManagerViewModel ?? (ObjAccountManagerViewModel = new AccountManagerViewModel());

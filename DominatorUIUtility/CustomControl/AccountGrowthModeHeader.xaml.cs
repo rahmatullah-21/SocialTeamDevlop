@@ -68,6 +68,7 @@ namespace DominatorUIUtility.CustomControl
        });
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
+            // ReSharper disable once UnusedVariable
             var newValue = e.NewValue;
         }
         static readonly RoutedEvent SelectionChangedRoutedEvent = EventManager.RegisterRoutedEvent("SelectionChangedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(AccountGrowthModeHeader));
@@ -102,6 +103,8 @@ namespace DominatorUIUtility.CustomControl
             RaiseEvent(rountedargs);
 
         }
+        // ReSharper disable once UnusedParameter.Local
+        // ReSharper disable once UnusedParameter.Local
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
             SaveEventArgsHandler();

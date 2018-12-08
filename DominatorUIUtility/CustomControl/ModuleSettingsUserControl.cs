@@ -97,7 +97,7 @@ namespace DominatorUIUtility.CustomControl
         string _moduleName;
         protected SocialNetworks SocialNetwork = SocinatorInitialize.ActiveSocialNetwork;
 
-        bool _initialized = false;
+        bool _initialized;
         private bool _isCancelledUpdate = false;
 
         #endregion

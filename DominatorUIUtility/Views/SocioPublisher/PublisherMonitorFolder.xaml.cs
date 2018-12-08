@@ -21,7 +21,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             tabItemsControl.PublisherMonitorFolderViewModel = PublisherMonitorFolderViewModel;
             MainGrid.DataContext = PublisherMonitorFolderViewModel;
         }
-        private static PublisherMonitorFolder _instance = null;
+        private static PublisherMonitorFolder _instance;
 
         public static PublisherMonitorFolder GetPublisherMonitorFolder(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl)
         {

@@ -23,7 +23,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             InitializeComponent();
             MainGrid.DataContext = PinterestViewModel;
         }
-        static Pinterest ObjPinterest = null;
+        static Pinterest ObjPinterest;
         public static Pinterest GetSingeltonPinterestObject()
         {
             if (ObjPinterest == null)

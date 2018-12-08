@@ -23,7 +23,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             InitializeComponent();
             MainGrid.DataContext = TumblrViewModel;
         }
-        static Tumblr ObjTumblr = null;
+        static Tumblr ObjTumblr;
         public static Tumblr GetSingeltonTumblr()
         {
             if (ObjTumblr == null)

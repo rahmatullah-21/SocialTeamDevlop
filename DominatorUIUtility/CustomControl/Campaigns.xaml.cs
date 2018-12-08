@@ -35,14 +35,14 @@ namespace DominatorUIUtility.CustomControl
             CampaignViewModel.SetActivityTypes();
             Campaign.DataContext = CampaignViewModel;
             CampaignViewModel.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignViewModel.LstCampaignDetails);
-            instance = this;
+            _instance = this;
         }
 
-        private static Campaigns instance = null;
+        private static Campaigns _instance;
 
         public static Campaigns GetCampaignsInstance(SocialNetworks socialNetworks)
         {
-            return instance ?? (instance = new Campaigns(socialNetworks));
+            return _instance ?? (_instance = new Campaigns(socialNetworks));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

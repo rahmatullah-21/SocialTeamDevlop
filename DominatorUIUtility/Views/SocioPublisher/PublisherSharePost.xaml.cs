@@ -23,7 +23,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             MainGrid.DataContext = PublisherSharePostViewModel;
 
         }
-        private static PublisherSharePost _instance = null;
+        private static PublisherSharePost _instance;
 
         public static PublisherSharePost GetPublisherSharePost(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl)
         {

@@ -99,7 +99,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
     }
 
 
-    public enum ConnectionType : int
+    public enum ConnectionType
     {
         FirstDegree = 1,
         SeondDegree = 2,

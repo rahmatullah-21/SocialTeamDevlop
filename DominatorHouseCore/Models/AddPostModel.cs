@@ -121,7 +121,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-      
+
         private string _campaign;
         [ProtoMember(31)]
         public string Campaign
@@ -137,7 +137,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaign, value);
             }
         }
-       
+
         private string _importedText;
         [ProtoMember(41)]
         public string ImportedText
@@ -153,7 +153,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _importedText, value);
             }
         }
-        private DateTime _campaignStartDate=new DateTime();
+        private DateTime _campaignStartDate;
         [ProtoMember(42)]
         public DateTime CampaignStartDate
         {
@@ -168,7 +168,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _campaignStartDate, value);
             }
         }
-        private DateTime _campaignEndDate = new DateTime();
+        private DateTime _campaignEndDate;
         [ProtoMember(43)]
         public DateTime CampaignEndDate
         {
@@ -259,7 +259,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-       
+
         private bool _isExpireDateChecked;
         [ProtoMember(50)]
         public bool IsExpireDateChecked
@@ -518,7 +518,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _postStatus, value);
             }
         }
-        private JobConfigurationModel _jobConfigurations=new JobConfigurationModel();
+        private JobConfigurationModel _jobConfigurations = new JobConfigurationModel();
         [ProtoMember(67)]
         public JobConfigurationModel JobConfigurations
         {
@@ -616,7 +616,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _lstMediaSources, value);
             }
         }
-       
+
     }
 
 

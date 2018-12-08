@@ -47,7 +47,6 @@ namespace DominatorHouseCore.FileManagers
         public static void Delete(Predicate<ProxyManagerModel> match)
         {
             var proxy = BinFileHelper.GetProxyDetails();
-            var toDelete = proxy.FindAll(match);
             proxy.RemoveAll(match);
             BinFileHelper.UpdateAllProxy(proxy);
         }

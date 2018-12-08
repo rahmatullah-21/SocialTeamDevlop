@@ -9,44 +9,7 @@ namespace DominatorHouseCore.Utility
 {
     public class Dialog
     {
-        public Window GetCustomDialog(BaseMetroDialog dialog)
-        {
-            var dialogWindow = new MetroWindow
-            {
-                ShowInTaskbar = true,
-                ShowActivated = true,
-                Topmost = false,
-                ResizeMode = ResizeMode.NoResize,
-                WindowStyle = WindowStyle.SingleBorderWindow,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                ShowTitleBar = true,
-                ShowCloseButton = true,
-                WindowTransitionsEnabled = false,
-                Background = dialog.Background,
-                BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
-            };
-
-
-
-            try
-            {
-                dialogWindow.GlowBrush = dialogWindow.FindResource("AccentColorBrush") as SolidColorBrush;
-            }
-            catch (Exception)
-            {
-
-            }
-            dialogWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 4.0;
-            dialogWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
-            dialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
-            dialogWindow.Content = dialog;
-            return dialogWindow;
-        }
-
-
-        public Window GetCustomDialog(BaseMetroDialog dialog, string title)
+        public Window GetCustomDialog(BaseMetroDialog dialog, string title = "")
         {
             var dialogWindow = new MetroWindow
             {
@@ -153,7 +116,7 @@ namespace DominatorHouseCore.Utility
             return MetroWindow;
         }
 
-       public static MetroDialogSettings SetMetroDialogButton(string affirmativeText, string negativeText)
+        public static MetroDialogSettings SetMetroDialogButton(string affirmativeText, string negativeText)
         {
             var metroDialogButton = new MetroDialogSettings()
             {
@@ -201,7 +164,7 @@ namespace DominatorHouseCore.Utility
                     AffirmativeButtonText = firstButtonContent,
                     NegativeButtonText = secondButtonContent
                 };
-              return  DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, title, message, settings);
+                return DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, title, message, settings);
             }
             catch (Exception ex)
             {

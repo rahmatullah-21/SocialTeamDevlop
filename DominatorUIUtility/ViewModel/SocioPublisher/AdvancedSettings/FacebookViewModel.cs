@@ -88,7 +88,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         }
                         else if (model.AccountFriendsPair.Any(y => y.Key == x.AccountId))
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", $"Destiation is selected but Account is not selected");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "Destiation is selected but Account is not selected");
                         }
 
                     });
@@ -186,7 +186,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         }
                         else if (model.AccountFriendsPair.Any(y => y.Key == x.AccountId))
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", $"Destiation is selected but Account is not selected");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "Destiation is selected but Account is not selected");
                         }
 
                     });
@@ -252,7 +252,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         }
                         else if (model.AccountPagesBoardsPair.Any(y => y.Key == x.AccountId))
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", $"Destiation is selected but Account is not selected");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "Destiation is selected but Account is not selected");
                         }
 
                     });

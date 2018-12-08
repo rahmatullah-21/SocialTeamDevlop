@@ -173,8 +173,6 @@ namespace DominatorHouseCore.Utility
         public static DateTime GetStartTimeOfTomorrow(ModuleConfiguration moduleConfiguration)
         {
             var startTimeOfTomorrow = DateTime.Today.AddDays(1);
-            //Get date for tomorrow with default time
-            int num = DayOfWeek.Sunday - DateTime.Today.DayOfWeek;
 
             for (int i = 1; i < 8; i++)
             {
@@ -230,7 +228,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
                 return DateTime.MinValue;
             }
         }

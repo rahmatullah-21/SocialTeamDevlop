@@ -198,7 +198,7 @@ namespace DominatorUIUtility.ViewModel
             };
 
             var objDialog = new Dialog();
-            var dialogWindow = objDialog.GetCustomDialog(customDialog);
+            var dialogWindow = objDialog.GetCustomDialog(customDialog, "LangKeyAddAccount".FromResourceDictionary());
 
             objAddUpdateAccountControl.btnSave.Click += (senders, events) =>
             {
@@ -1694,7 +1694,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private bool _headerVisible = false;
+        private bool _headerVisible;
 
         public bool HeaderVisible
         {

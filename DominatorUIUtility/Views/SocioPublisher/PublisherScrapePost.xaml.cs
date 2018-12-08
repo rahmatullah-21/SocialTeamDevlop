@@ -22,7 +22,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             MainGrid.DataContext = PublisherScrapePostViewModel;
 
         }
-        private static PublisherScrapePost _instance = null;
+        private static PublisherScrapePost _instance;
 
         public static PublisherScrapePost GetPublisherScrapePost(PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl)
         {

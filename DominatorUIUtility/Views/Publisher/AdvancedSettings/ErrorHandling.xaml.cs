@@ -11,7 +11,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
         {
             InitializeComponent();
         }
-        private static ErrorHandling ObjErrorHandling = null;
+        private static ErrorHandling ObjErrorHandling;
         public static ErrorHandling GetSingeltonErrorHandlingObject()
         {
             if (ObjErrorHandling == null)

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace DominatorHouseCore.Diagnostics
+namespace DominatorHouseCore.Diagnostics.Exceptions
 {
     class GlobusExceptionHandler
     {
@@ -13,11 +13,11 @@ namespace DominatorHouseCore.Diagnostics
         [Flags]
         public enum ErrorModes : uint
         {
-            SYSTEM_DEFAULT = 0x0,
-            SEM_FAILCRITICALERRORS = 0x0001,
-            SEM_NOALIGNMENTFAULTEXCEPT = 0x0004,
+            //SYSTEM_DEFAULT = 0x0,
+            //SEM_FAILCRITICALERRORS = 0x0001,
+            //SEM_NOALIGNMENTFAULTEXCEPT = 0x0004,
             SEM_NOGPFAULTERRORBOX = 0x0002,
-            SEM_NOOPENFILEERRORBOX = 0x8000
+            //SEM_NOOPENFILEERRORBOX = 0x8000
         }
 
         // Call to disable error report dialogs over App

@@ -18,7 +18,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class MessageMediaControl : UserControl
     {
-        public bool Isupdated { get; set; } = false;
+        public bool Isupdated { get; set; }
         public MessageMediaControl()
         {
             InitializeComponent();

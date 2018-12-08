@@ -1,12 +1,6 @@
 ﻿using CommonServiceLocator;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 {

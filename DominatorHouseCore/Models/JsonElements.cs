@@ -1,6 +1,6 @@
-﻿namespace DominatorHouseCore.Models
-{
-    //public class JsonElements
+﻿//namespace DominatorHouseCore.Models
+//{
+//    //public class JsonElements
     //{
     //    [JsonProperty(PropertyName = "action")]
     //    public string Action { get; set; }
@@ -336,4 +336,4 @@
     //        public int SourceWidth { get; set; }
     //    }
     //}
-}
+//}

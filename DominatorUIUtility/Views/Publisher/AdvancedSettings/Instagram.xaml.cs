@@ -23,7 +23,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             InitializeComponent();
             MainGrid.DataContext = InstagramViewModel;
         }
-        static Instagram ObjInstagram = null;
+        static Instagram ObjInstagram;
         public static Instagram GetSingeltonInstagramObject()
         {
             if (ObjInstagram == null)

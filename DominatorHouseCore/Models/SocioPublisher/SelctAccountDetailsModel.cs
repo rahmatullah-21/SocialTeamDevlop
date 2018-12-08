@@ -47,7 +47,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         private string _groupColWidth = "130";
         private string _friendColWidth = "130";
         private string _customDestinationColWidth = "130";
-        private bool _isDisplaySingleAccount = false;
+        private bool _isDisplaySingleAccount;
         private string _displayAccount = string.Empty;
 
         /// <summary>

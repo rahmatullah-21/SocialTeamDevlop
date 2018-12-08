@@ -104,7 +104,7 @@ namespace DominatorHouseCore.Models
         public string UserAgentMobile { get; set; } = string.Empty;
 
         [ProtoMember(11)]
-        public bool UseMobileRequestOnly { get; set; } = false;
+        public bool UseMobileRequestOnly { get; set; }
 
         [ProtoIgnore]
         public IHttpHelper HttpHelper => (_httpHelper =

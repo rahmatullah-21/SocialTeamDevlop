@@ -133,7 +133,7 @@ namespace DominatorUIUtility.CustomControl
             CheckUncheckAll(sender, false);
         }
 
-        public bool Isupdated { get; set; } = false;
+        public bool Isupdated { get; set; }
 
 
 

@@ -23,7 +23,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             InitializeComponent();
             MainGrid.DataContext = GooglePlusViewModel;
         }
-        static GooglePlus ObJGooglePlus = null;
+        static GooglePlus ObJGooglePlus;
         public static GooglePlus GetSingeltonGooglePlusObject()
         {
             if (ObJGooglePlus == null)

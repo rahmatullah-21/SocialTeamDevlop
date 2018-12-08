@@ -22,7 +22,6 @@ namespace DominatorUIUtility.CustomControl
         public Reports()
         {
             InitializeComponent();
-            MainGrid.DataContext = this;
         }
 
         public Reports(CampaignDetails campaign) : this()
@@ -33,12 +32,6 @@ namespace DominatorUIUtility.CustomControl
             MainGrid.DataContext = this;
         }
         public CampaignDetails Campaign { get; set; }
-        public Reports(ReportModel ReportModel, CampaignDetails campaign) : this()
-        {
-            this.ReportModel = ReportModel;
-            Campaign = campaign;
-            MainGrid.DataContext = this;
-        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -95,10 +88,6 @@ namespace DominatorUIUtility.CustomControl
         {
             var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory();
             networkCoreFactory.ReportFactory.GetReportDetail(ReportModel, ReportModel.LstCurrentQueries, Campaign);
-
-            //var result=SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory
-            //    .GetReportDetail(ReportModel , ReportModel.LstCurrentQueries, Campaign);
-
         }
     }
 }

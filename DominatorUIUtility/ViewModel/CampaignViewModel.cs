@@ -217,74 +217,73 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 CampaignDetails campName = sender as CampaignDetails;
-                Reports reportControl = new Reports(campName);
-                Dialog objDialog = new Dialog();
-
-                var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
-                var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
-
-                var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);
-
-                var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory();
-
-                ObservableCollection<QueryInfo> lstSavedQuery = networkCoreFactory.ReportFactory.GetSavedQuery(activityType, ActivitySettings);
-
-                lstSavedQuery?.ToList().ForEach(x =>
+                if (campName != null)
                 {
-                    reportControl.ReportModel.LstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
-                    #region Update QueryList for combobox
+                    Reports reportControl = new Reports(campName);
+                    Dialog objDialog = new Dialog();
 
-                    if (reportControl.ReportModel.QueryList.Any(query => query.Content == x.QueryType) == false)
-                        reportControl.ReportModel.QueryList.Add(new ContentSelectGroup() { IsContentSelected = false, Content = x.QueryType });
+                    var templatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
 
-                    #endregion
+                    var activitySettings = templatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-                });
-                try
-                {
-                    #region Update AccountList & StatusList for combobox
+                    var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);
 
-                    campName.SelectedAccountList.ToList().ForEach(acc =>
+                    var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory();
+
+                    ObservableCollection<QueryInfo> lstSavedQuery = networkCoreFactory.ReportFactory.GetSavedQuery(activityType, activitySettings);
+
+                    lstSavedQuery?.ToList().ForEach(x =>
                     {
-                        DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc, campName.SocialNetworks);
+                        reportControl.ReportModel.LstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
+                        #region Update QueryList for combobox
 
-                        reportControl.ReportModel.AccountList.Add(new ContentSelectGroup()
-                        {
-                            IsContentSelected = false,
-                            Content = objDominatorAccountModel.AccountBaseModel.UserName
-                        });
+                        if (reportControl.ReportModel.QueryList.All(query => query.Content != x.QueryType))
+                            reportControl.ReportModel.QueryList.Add(new ContentSelectGroup() { Content = x.QueryType });
 
-                        if (reportControl.ReportModel.StatusList.Count > 1 &&
-                            reportControl.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status.ToString()) ==
-                            false)
-                            reportControl.ReportModel.StatusList.Add(new ContentSelectGroup()
-                            {
-                                IsContentSelected = false,
-                                Content = objDominatorAccountModel.AccountBaseModel.Status.ToString()
-                            });
+                        #endregion
 
                     });
-                    #endregion
-
-                    if (networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel, reportControl.ReportModel.LstCurrentQueries, campName) == 0)
+                    try
                     {
-                        Dialog.ShowDialog("Report", "Reports for " + campName.CampaignName + " Campaign not available");
-                        return;
+                        #region Update AccountList & StatusList for combobox
+
+                        campName.SelectedAccountList.ToList().ForEach(acc =>
+                        {
+                            DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc, campName.SocialNetworks);
+
+                            reportControl.ReportModel.AccountList.Add(new ContentSelectGroup()
+                            {
+                                IsContentSelected = false,
+                                Content = objDominatorAccountModel.AccountBaseModel.UserName
+                            });
+
+                            if (reportControl.ReportModel.StatusList.Count > 1 &&
+                                reportControl.ReportModel.StatusList.All(status => status.Content != objDominatorAccountModel.AccountBaseModel.Status.ToString()))
+                                reportControl.ReportModel.StatusList.Add(new ContentSelectGroup()
+                                {
+                                    IsContentSelected = false,
+                                    Content = objDominatorAccountModel.AccountBaseModel.Status.ToString()
+                                });
+
+                        });
+                        #endregion
+
+                        if (networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel, reportControl.ReportModel.LstCurrentQueries, campName) == 0)
+                        {
+                            Dialog.ShowDialog("Report", "Reports for " + campName.CampaignName + " Campaign not available");
+                            return;
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                    Window win = objDialog.GetMetroWindow(reportControl, "Reports");
+                    win.Owner = Application.Current.MainWindow;
+                    win.GotFocus += OnFocus;
+                    win.ShowDialog();
                 }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
 
-                Window win = objDialog.GetMetroWindow(reportControl, "Reports");
-                win.Owner = Application.Current.MainWindow;
-                win.WindowStartupLocation = WindowStartupLocation.Manual;
-
-                win.ContentRendered += ContentRendered;
-                win.GotFocus += OnFocus;
-
-                win.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -292,19 +291,13 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private void ContentRendered(object sender, EventArgs e)
-        {
-            var win = sender as MetroWindow;
-            win.Focus();
-        }
-
         private void OnFocus(object sender, RoutedEventArgs e)
         {
             var win = sender as MetroWindow;
             win.WindowStartupLocation = WindowStartupLocation.Manual;
-            var v = Application.Current.MainWindow;
-            var width = v.Width;
-            var height = v.Height;
+            var mainWindow = Application.Current.MainWindow;
+            var width = mainWindow.Width;
+            var height = mainWindow.Height;
             win.Top = (height - win.Height) / 2;
             win.Left = (width - win.Width) / 2;
         }
@@ -440,15 +433,13 @@ namespace DominatorUIUtility.ViewModel
                             UpdateAccount(allAccounts, camp, selectedAccount);
                             LstCampaignDetails.Remove(
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
-                            //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
                         });
                         if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
                             IsAllCampaignChecked = false;
 
                     });
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
-
-
+                    
                 }
                 catch (Exception ex)
                 {

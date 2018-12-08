@@ -62,11 +62,11 @@ namespace DominatorHouseCore.Process
             CampaignId = campaignFileManager.FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
             ActivityType = activityType;
 
-            InitializeActivityCount(account);
+            InitializeActivityCount();
 
         }
 
-        protected void InitializeActivityCount(string account)
+        protected void InitializeActivityCount()
         {
             MaxNoOfActionPerJob = JobConfiguration.ActivitiesPerJob.GetRandom();
             MaxNoOfActionPerHour = JobConfiguration.ActivitiesPerHour.GetRandom();
@@ -333,7 +333,7 @@ namespace DominatorHouseCore.Process
 
                 RunningJobProcesses.Add(Id, this);
 
-                var task = ThreadFactory.Instance.Start(() =>
+                ThreadFactory.Instance.Start(() =>
                 {
 
                     GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);

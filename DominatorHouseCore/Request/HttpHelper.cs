@@ -522,6 +522,7 @@ namespace DominatorHouseCore.Request
         /// <param name="postData">post data in byte array which while pass with url</param>
         /// <param name="requestParamater"><see cref="IRequestParameters"/></param>
         /// <returns><see cref="IResponseParameter"/></returns>
+        // ReSharper disable once UnusedMemberHierarchy.Global
         public virtual IResponseParameter PostRequest(string url, byte[] postData, IRequestParameters requestParamater)
         {
             _request = (HttpWebRequest)WebRequest.Create(url);
@@ -627,7 +628,6 @@ namespace DominatorHouseCore.Request
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
-            String test = String.Empty;
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
                 var responseStream = response.GetResponseStream();

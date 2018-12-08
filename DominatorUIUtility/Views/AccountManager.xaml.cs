@@ -31,7 +31,7 @@ namespace DominatorUIUtility.Views
             AccountManagerPage.DataContext = AccountManagerViewModel;
         }
 
-        public static AccountManager ObjAccountManager = null;
+        public static AccountManager ObjAccountManager;
         private AccountManagerViewModel _accountManagerViewModel;
 
         public static AccountManager GetSingletonAccountManager(string controlType, [CanBeNull] DominatorAccountModel dominatorAccountModel, SocialNetworks network)
