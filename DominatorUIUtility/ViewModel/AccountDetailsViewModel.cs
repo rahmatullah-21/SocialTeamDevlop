@@ -2,6 +2,7 @@
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.EmailService;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
@@ -16,12 +17,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore.EmailService;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class AccountDetailsViewModel : BindableBase
     {
+        private readonly IAccountsFileManager _accountsFileManager;
         #region Properties
         public DominatorAccountModel DominatorAccountModel { get; set; }
         public DominatorAccountModel OldDominatorAccountModel { get; set; }
@@ -82,7 +83,7 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _codeSectionVisibility, value);
             }
         }
-     
+
         private Visibility _btnSendVerificationCodeVisibility = Visibility.Collapsed;
 
 
@@ -125,13 +126,10 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
         #region Constructors
-        public AccountDetailsViewModel()
-        {
-
-        }
 
         public AccountDetailsViewModel(DominatorAccountModel dataContext)
         {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             DominatorAccountModel = dataContext;
 
             // Take backup of current DominatorAccountModel object
@@ -144,7 +142,7 @@ namespace DominatorUIUtility.ViewModel
             VerifyAccountCommand = new BaseCommand<object>(VerifyAccountCanExecute, VerifyAccountExecute);
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
 
-        } 
+        }
         #endregion
 
         #region Commands
@@ -271,7 +269,7 @@ namespace DominatorUIUtility.ViewModel
             if (!string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyIp) &&
                 !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort))
             {
-                var oldAccount = AccountsFileManager.GetAccountById(OldDominatorAccountModel.AccountId).AccountBaseModel;
+                var oldAccount = _accountsFileManager.GetAccountById(OldDominatorAccountModel.AccountId).AccountBaseModel;
 
                 if (!proxyManagerViewModel.IsProxyAvailable(newAccountBaseModel, oldproxies, oldAccount, strategy))
                 {
@@ -434,7 +432,7 @@ namespace DominatorUIUtility.ViewModel
                                     () => VerificationSectionVisibility = Visibility.Collapsed
                                 );
                         DominatorAccountModel.VarificationCode = string.Empty;
-                       
+
                     });
 
                 }

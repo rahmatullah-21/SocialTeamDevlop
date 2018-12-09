@@ -6,6 +6,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,7 +16,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DominatorHouseCore.Settings;
 
 namespace DominatorHouseCore.Process
 {
@@ -44,8 +44,9 @@ namespace DominatorHouseCore.Process
         {
             // Get the current account details 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
-            DominatorAccountModel = AccountsFileManager.GetAccount(account, network);
+            DominatorAccountModel = accountsFileManager.GetAccount(account, network);
 
             SocialNetworks = network;
 

@@ -33,8 +33,10 @@ namespace DominatorUIUtility.ViewModel
 {
     public class CampaignViewModel : INotifyPropertyChanged
     {
+        private readonly IAccountsFileManager _accountsFileManager;
         public CampaignViewModel()
         {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             SettingCommand = new BaseCommand<object>((sender) => true, SettingExecute);
             DeleteCommand = new BaseCommand<object>((sender) => true, DeleteExecute);
             EditCommand = new BaseCommand<object>((sender) => true, EditExecute);
@@ -246,7 +248,7 @@ namespace DominatorUIUtility.ViewModel
 
                     campName.SelectedAccountList.ToList().ForEach(acc =>
                     {
-                        DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc, campName.SocialNetworks);
+                        DominatorAccountModel objDominatorAccountModel = _accountsFileManager.GetAccount(acc, campName.SocialNetworks);
 
                         reportControl.ReportModel.AccountList.Add(new ContentSelectGroup()
                         {
@@ -392,7 +394,7 @@ namespace DominatorUIUtility.ViewModel
 
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
-                    var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+                    var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
                     UpdateAccount(allAccounts, campaign, selectedAccount);
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork,
                         campaign.CampaignName);
@@ -428,7 +430,7 @@ namespace DominatorUIUtility.ViewModel
                         Dialog.SetMetroDialogButton("Delete Anyway", "Cancel"));
                     if (dialogResult != MessageDialogResult.Affirmative)
                         return;
-                    var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+                    var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     Application.Current.Dispatcher.InvokeAsync(() =>
                     {
@@ -539,7 +541,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
-                var lstAccountDetails = AccountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
+                var lstAccountDetails = _accountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
 
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 

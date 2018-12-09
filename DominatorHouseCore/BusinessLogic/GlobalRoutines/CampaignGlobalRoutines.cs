@@ -28,9 +28,12 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
             return false;
         };
 
+        private IAccountsFileManager _accountsFileManager;
+
 
         private CampaignGlobalRoutines()
         {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             _jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
         }
 
@@ -74,7 +77,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         {
             Debug.Assert(selectedAccounts.Count > 0);
 
-            var allAccounts = AccountsFileManager.GetAll();
+            var allAccounts = _accountsFileManager.GetAll();
 
             List<DominatorAccountModel> accountsWithRunningActivity =
             allAccounts.Where(

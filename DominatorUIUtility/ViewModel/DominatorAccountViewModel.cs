@@ -49,6 +49,7 @@ namespace DominatorUIUtility.ViewModel
     {
         private readonly IProxyManagerViewModel _proxyManagerViewModel;
         private readonly ISoftwareSettings _softwareSettings;
+        private readonly IAccountsFileManager _accountsFileManager;
         private DbOperations _dbOperations { get; }
 
         public ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; }
@@ -106,11 +107,12 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
 
-        public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings)
+        public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager)
         {
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
             _softwareSettings = softwareSettings;
+            _accountsFileManager = accountsFileManager;
             strategyPack = mainViewModel.Strategies;
             Groups = new ObservableCollection<ContentSelectGroup>();
             BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
@@ -537,7 +539,7 @@ namespace DominatorUIUtility.ViewModel
 
 
             //serialize the given account, if its success then add to account model list
-            if (AccountsFileManager.Add(dominatorAccountModel))
+            if (_accountsFileManager.Add(dominatorAccountModel))
             {
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
@@ -691,7 +693,7 @@ namespace DominatorUIUtility.ViewModel
             bool isProxyUpdated = false;
             try
             {
-                var oldAccount = AccountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
+                var oldAccount = _accountsFileManager.GetAccount(objDominatorAccountBaseModel.UserName, objDominatorAccountBaseModel.AccountNetwork).AccountBaseModel;
 
                 isProxyUpdated = IsProxyUpdated(objDominatorAccountBaseModel, oldproxies, oldAccount);
             }
@@ -943,7 +945,7 @@ namespace DominatorUIUtility.ViewModel
 
             ProxyFileManager.GetAllProxy().ForEach(proxy =>
             {
-                AccountsFileManager.GetAll().ForEach(acc =>
+                _accountsFileManager.GetAll().ForEach(acc =>
                 {
                     if (proxy.AccountsAssignedto.Any(x =>
                         x.UserName == acc.UserName && x.AccountNetwork == acc.AccountBaseModel.AccountNetwork))
@@ -1104,7 +1106,7 @@ namespace DominatorUIUtility.ViewModel
 
 
             // remove from file
-            AccountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
+            _accountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
             DeleteAccountFromProxy(selectAccounts.ToList());
 
             //also delete the associated files
@@ -1114,7 +1116,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void DeleteAccountFromCampaign(DominatorAccountModel account)
         {
-            account = AccountsFileManager.GetAccount(account.UserName, account.AccountBaseModel.AccountNetwork);
+            account = _accountsFileManager.GetAccount(account.UserName, account.AccountBaseModel.AccountNetwork);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
@@ -1335,7 +1337,7 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (_syncLoadAccounts)
             {
-                var accountList = AccountsFileManager.GetAll();
+                var accountList = _accountsFileManager.GetAll();
 
                 var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
 
@@ -1618,7 +1620,7 @@ namespace DominatorUIUtility.ViewModel
                     }
 
                 }
-                AccountsFileManager.UpdateAccounts(LstDominatorAccountModel);
+                _accountsFileManager.UpdateAccounts(LstDominatorAccountModel);
                 ToasterNotification.ShowSuccess("Credentials successfully updated.");
             }
         }

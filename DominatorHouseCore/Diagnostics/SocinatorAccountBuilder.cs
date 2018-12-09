@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.EmailService;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.EmailService;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using System;
@@ -10,12 +11,13 @@ namespace DominatorHouseCore.Diagnostics
 {
     public class SocinatorAccountBuilder
     {
+        private readonly IAccountsFileManager _accountsFileManager;
         private DominatorAccountModel DominatorAccountModel { get; set; }
 
         public SocinatorAccountBuilder(string accountId)
         {
-            var account = AccountsFileManager.GetAccountById(accountId);
-            DominatorAccountModel = account;
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            DominatorAccountModel = _accountsFileManager.GetAccountById(accountId);
         }
 
         public SocinatorAccountBuilder AddOrUpdateCookies(CookieCollection cookies)
@@ -143,6 +145,6 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
         public bool SaveToBinFile()
-            => AccountsFileManager.Edit(DominatorAccountModel);
+            => _accountsFileManager.Edit(DominatorAccountModel);
     }
 }

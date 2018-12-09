@@ -26,6 +26,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
     public class DominatorAutoActivityViewModel : BindableBase, IDominatorAutoActivityViewModel
     {
         private readonly object _syncObject = new object();
+        private readonly IAccountsFileManager _accountsFileManager;
 
 
         private UserControl _selectedUserControl;
@@ -60,6 +61,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         public DominatorAutoActivityViewModel()
         {
             _selectedUserControl = new UserControl();
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             AccountsCollection = new ObservableCollection<AccountsActivityDetailModel>();
             BindingOperations.EnableCollectionSynchronization(AccountsCollection, _syncObject);
             GoToToolsCmd = new DelegateCommand<AccountsActivityDetailModel>(GoToTools);
@@ -119,7 +121,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         private void ChangeActivityStatus(ActivityDetailsModel currentDataContext)
         {
 
-            var account = AccountsFileManager.GetAccountById(currentDataContext.AccountId);
+            var account = _accountsFileManager.GetAccountById(currentDataContext.AccountId);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             var currentAccountActivity =
@@ -170,7 +172,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         private void InitializeAccounts()
         {
             // read from bin file for getting all accounts
-            var accounts = AccountsFileManager.GetAll();
+            var accounts = _accountsFileManager.GetAll();
 
             // if accounts count more than one means generate the activities
             lock (_syncObject)

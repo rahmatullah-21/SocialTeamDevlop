@@ -24,6 +24,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ITemplatesCacheService, TemplatesCacheService>();
             Container.RegisterSingleton<ITemplatesFileManager, TemplatesFileManager>();
             Container.RegisterSingleton<IGenericFileManager, GenericFileManager>();
+            Container.RegisterSingleton<IAccountsFileManager, AccountsFileManager>();
 
             Container.RegisterSingleton<IAccountGrowthPropertiesProvider, AccountGrowthPropertiesProvider>();
 

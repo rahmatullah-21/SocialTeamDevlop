@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -11,6 +6,12 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -28,9 +29,10 @@ namespace DominatorUIUtility.CustomControl
 
             DataContext = _objAccountViewModel;
 
+            var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             var accountModels = filterForActiveSocialNetwork
-                ? AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork)
-                : AccountsFileManager.GetAll();
+                ? accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork)
+                : accountsFileManager.GetAll();
 
             _objAccountViewModel.LstSelectAccount.Clear();
 
@@ -68,7 +70,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void chkgroup_Checked(object sender, RoutedEventArgs e)
         {
-            
+
             SelectDeselectAccountByGroup(true);
             AccountGroupSelected();
         }

@@ -355,8 +355,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-
-                var accountModel = AccountsFileManager.GetAccountById(accountId);
+                var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+                var accountModel = accountsFileManager.GetAccountById(accountId);
 
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();

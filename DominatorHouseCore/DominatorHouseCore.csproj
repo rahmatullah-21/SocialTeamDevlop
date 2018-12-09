@@ -464,6 +464,7 @@
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
     <Compile Include="Enums\VerificationType.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
+    <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
     <Compile Include="FileManagers\AccountsCacheService.cs" />
     <Compile Include="FileManagers\CampaignInteractionDetails.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
