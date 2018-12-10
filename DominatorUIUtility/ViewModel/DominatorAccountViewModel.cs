@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -113,6 +114,8 @@ namespace DominatorUIUtility.ViewModel
             Groups = new ObservableCollection<ContentSelectGroup>();
             BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
             LstDominatorAccountModel = new ObservableCollection<DominatorAccountModel>();
+            var view = (CollectionView)CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
+            view.SortDescriptions.Add(new SortDescription("AccountBaseModel.AccountNetwork", ListSortDirection.Ascending));
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, _syncLoadAccounts);
 
             var visibleHeaders = DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider().VisibleHeaders;

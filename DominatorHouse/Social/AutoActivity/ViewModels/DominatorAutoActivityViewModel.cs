@@ -10,6 +10,7 @@ using DominatorUIUtility.ViewModel;
 using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -61,6 +62,9 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
         {
             _selectedUserControl = new UserControl();
             AccountsCollection = new ObservableCollection<AccountsActivityDetailModel>();
+
+            var view = (CollectionView)CollectionViewSource.GetDefaultView(AccountsCollection);
+            view.SortDescriptions.Add(new SortDescription("AccountNetwork", ListSortDirection.Ascending));
             BindingOperations.EnableCollectionSynchronization(AccountsCollection, _syncObject);
             GoToToolsCmd = new DelegateCommand<AccountsActivityDetailModel>(GoToTools);
             ChangeActivityStatusCmd = new DelegateCommand<ActivityDetailsModel>(ChangeActivityStatus);
