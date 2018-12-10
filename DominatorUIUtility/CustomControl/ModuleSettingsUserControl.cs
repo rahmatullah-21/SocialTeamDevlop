@@ -42,6 +42,7 @@ namespace DominatorUIUtility.CustomControl
     {
         private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         private readonly IAccountsCacheService _accountsCacheService;
+        private readonly IAccountsFileManager _accountsFileManager;
 
 
         #region Constructor
@@ -50,6 +51,7 @@ namespace DominatorUIUtility.CustomControl
         {
             _jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             _accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             CreateCampaignCommand = new BaseCommand<object>((sender) => true, CreateOrUpdateCampaign);
             SelectAccountCommand = new BaseCommand<object>((sender) => true, (sender) => SelectAccount());
             CancelEditCommand = new BaseCommand<object>((sender) => true, (sender) =>
@@ -415,7 +417,7 @@ namespace DominatorUIUtility.CustomControl
                     SaveTemplateToCampaigns();
 
                     var accountDetails =
-                        AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
+                        _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
                     try
                     {
@@ -455,7 +457,7 @@ namespace DominatorUIUtility.CustomControl
 
         public void SaveTemplateToAccounts(string templateId, List<RunningTimes> runningTime)
         {
-            var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
+            var accountDetails = _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
             accountDetails.ForEach(account =>
             {
@@ -521,7 +523,7 @@ namespace DominatorUIUtility.CustomControl
             bool needToCancel = false;
             #region Get the accounts which holds template Id
 
-            var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
+            var accountDetails = _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
             var accountHavingTemplates = accountDetails.Where(x => _jobActivityConfigurationManager[x.AccountId, _activityType]?.TemplateId != null).ToList();
 
@@ -617,7 +619,7 @@ namespace DominatorUIUtility.CustomControl
         public void SaveTemplateToAccounts(string templateId)
         {
             List<RunningTimes> runningTime = Model.JobConfiguration.RunningTime;
-            var accountDetails = AccountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
+            var accountDetails = _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
             accountDetails.ForEach(account =>
             {
@@ -753,7 +755,7 @@ namespace DominatorUIUtility.CustomControl
                     if (!UpdateNewlyAddedAccounts(newlyAddedAccounts)) return;
                 }
 
-                var accountToRemoveModuleConfiguration = AccountsFileManager.GetAllAccounts(removedAccounts, SocialNetwork);
+                var accountToRemoveModuleConfiguration = _accountsFileManager.GetAllAccounts(removedAccounts, SocialNetwork);
 
                 #region Remove TemplateId from removed account from campaign selected account list
 
@@ -805,7 +807,7 @@ namespace DominatorUIUtility.CustomControl
                 {
                     try
                     {
-                        var lstAccountDetails = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+                        var lstAccountDetails = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
 
                         foreach (var accountModel in lstAccountDetails.Where(x =>
                             _footerControl.list_SelectedAccounts.Contains(x.AccountBaseModel.UserName)))
@@ -869,7 +871,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             // Update Account Detail
-            var accountDetails = AccountsFileManager.GetAll(SocialNetwork);
+            var accountDetails = _accountsFileManager.GetAll(SocialNetwork);
             if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
                 ToasterNotification.ShowSuccess($"Campaign:- {CampaignName } updated successfully");
 
@@ -899,7 +901,7 @@ namespace DominatorUIUtility.CustomControl
             bool needToCancel = false;
             #region Get the accounts which holds template Id
 
-            var accountDetails = AccountsFileManager.GetAllAccounts(newlyAddedAccounts, SocialNetwork);
+            var accountDetails = _accountsFileManager.GetAllAccounts(newlyAddedAccounts, SocialNetwork);
 
             var accountHavingTemplates = accountDetails.Where(x => _jobActivityConfigurationManager[x.AccountId, _activityType]?.TemplateId != null).ToList();
 
@@ -1296,7 +1298,7 @@ namespace DominatorUIUtility.CustomControl
 
             try
             {
-                var accountModel = AccountsFileManager.GetAccount(selectedAccount, socialNetworks);
+                var accountModel = _accountsFileManager.GetAccount(selectedAccount, socialNetworks);
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, _activityType];
                 if (moduleConfiguration?.TemplateId == null || moduleConfiguration.LstRunningTimes == null)
@@ -1349,7 +1351,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 SocialNetwork = network;
 
-                var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, network);
+                var accountDetails = _accountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, network);
 
                 SocinatorInitialize.GetSocialLibrary(network)
                      .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = _accountGrowthModeHeader.SelectedItem;
@@ -1382,7 +1384,7 @@ namespace DominatorUIUtility.CustomControl
         [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter", true)]
         public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
         {
-            var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+            var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
 
             _accountGrowthModeHeader.AccountItemSource = accounts;
 
@@ -1424,7 +1426,7 @@ namespace DominatorUIUtility.CustomControl
 
         public void SetSelectedAccounts(SocialNetworks networks)
         {
-            var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+            var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
 
             _accountGrowthModeHeader.AccountItemSource = accounts;
 
@@ -1444,7 +1446,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (!ValidateRunningTime()) return;
 
-            var accountModel = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, SocialNetwork);
+            var accountModel = _accountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, SocialNetwork);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, _activityType];
             if (moduleConfiguration?.TemplateId != null)
@@ -1726,7 +1728,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var networks = SocinatorInitialize.AccountModeActiveSocialNetwork;
-                var accounts = new ObservableCollectionBase<string>(AccountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
 
                 _accountGrowthModeHeader.AccountItemSource = accounts;
 
@@ -1747,7 +1749,7 @@ namespace DominatorUIUtility.CustomControl
                 var network = SocinatorInitialize.AccountModeActiveSocialNetwork;
                 SocialNetwork = network;
 
-                var accountDetails = AccountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, network);
+                var accountDetails = _accountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, network);
 
                 SocinatorInitialize.GetSocialLibrary(network)
                      .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = _accountGrowthModeHeader.SelectedItem;

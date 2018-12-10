@@ -41,11 +41,10 @@ namespace Socinator.DominatorCores
 
         public IViewCampaignsFactory ViewCampaigns { get; set; }
 
-        public ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
-
         public IAccountVerificationFactory AccountVerificationFactory { get; set; }
         public ProfileFactory ProfileFactory { get; set; }
         public ChatFactory ChatFactory { get; set; }
         public IGlobalInteractionDetails GlobalInteractionDetails { get; set; }
+        public IAdScraperFactory AdScraperFactory { get; set; }
     }
 }

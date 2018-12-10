@@ -8,18 +8,20 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
     public class QuoraViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {
+        private readonly IGenericFileManager _genericFileManager;
         public QuoraModel QuoraModel { get; }
         public DelegateCommand SaveCmd { get; }
-        public QuoraViewModel() : base("LangKeyQuora", "QuoraControlTemplate")
+        public QuoraViewModel(IGenericFileManager genericFileManager) : base("LangKeyQuora", "QuoraControlTemplate")
         {
+            _genericFileManager = genericFileManager;
             SaveCmd = new DelegateCommand(Save);
-            QuoraModel = GenericFileManager.GetModel<QuoraModel>(ConstantVariable.GetOtherQuoraSettingsFile()) ??
+            QuoraModel = _genericFileManager.GetModel<QuoraModel>(ConstantVariable.GetOtherQuoraSettingsFile()) ??
                          new QuoraModel();
         }
 
         private void Save()
         {
-            if (GenericFileManager.Overrride(QuoraModel, ConstantVariable.GetOtherQuoraSettingsFile()))
+            if (_genericFileManager.Overrride(QuoraModel, ConstantVariable.GetOtherQuoraSettingsFile()))
                 Dialog.ShowDialog("Success", "Quora Configuration sucessfully saved !!");
         }
     }

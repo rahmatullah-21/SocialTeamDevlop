@@ -95,11 +95,17 @@
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />
     <Compile Include="Tests\FileManagers\AccountsCacheServiceTests.cs" />
+    <Compile Include="Tests\FileManagers\GenericFileManagerTests.cs" />
+    <Compile Include="Tests\FileManagers\GlobalInteractionDetailsTests.cs" />
+    <Compile Include="Tests\FileManagers\CampaignInteractionDetailsTests.cs" />
     <Compile Include="Tests\FileManagers\CampaignsFileManagerTests.cs" />
     <Compile Include="Tests\Models\JobActivityConfigurationManagerTests.cs" />
+    <Compile Include="Tests\Process\RunningJobsHolderTests.cs" />
     <Compile Include="Tests\ProxyServerManagment\ProxyServerParserServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\ProxyServerManagment\ProxyValidationServiceTests.cs" />
+    <Compile Include="Tests\Settings\SoftwareSettingsTests.cs" />
+    <Compile Include="Tests\Utility\DateTimeUtilitiesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DominatorHouseCore\DominatorHouseCore.csproj">

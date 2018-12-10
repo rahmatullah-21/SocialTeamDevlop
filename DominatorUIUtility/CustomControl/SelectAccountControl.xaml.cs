@@ -5,12 +5,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using CommonServiceLocator;
+
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -27,8 +35,10 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
 
             DataContext = _objAccountViewModel;
+
             var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
             var savedAccounts = accountList.Where(x => x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork);
+
             _objAccountViewModel.LstSelectAccount.Clear();
             savedAccounts.ForEach(x =>
             {

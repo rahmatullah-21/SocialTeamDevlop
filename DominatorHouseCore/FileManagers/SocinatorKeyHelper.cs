@@ -1,8 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
+using System.IO;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -29,7 +30,8 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                return GenericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                return genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
                 //using (var stream = File.OpenRead(ConstantVariable.GetConfigurationKey()))
                 //{
                 //    return Serializer.Deserialize<FatalErrorHandler>(stream);

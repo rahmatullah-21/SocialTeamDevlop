@@ -1,5 +1,4 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.LogHelper;
+﻿using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System;
@@ -8,15 +7,37 @@ using System.IO;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public class GenericFileManager
+    public interface IGenericFileManager
     {
-        private static readonly IProtoBuffBase ProtoBuffBase;
-        private static readonly ILockFileConfigProvider LockFileConfigProvider;
+        List<T> GetModuleDetails<T>(string filePath) where T : class;
+        bool UpdateModuleDetails<T>(List<T> detailsList) where T : class;
+       // void SaveAll<T>(List<T> lstModel) where T : class;
+       // void SaveAll<T>(List<T> lstModel, string file) where T : class;
+        bool Save<T>(T model, string file) where T : class;
+        T GetModel<T>(string filePath) where T : class, new();
+        bool UpdateModuleDetails<T>(List<T> detailsList, string file) where T : class;
 
-        static GenericFileManager()
+        bool AddRangeModule<T>(List<T> moduleToSave, string filePath) where T : class;
+
+        bool AddModule<T>(T moduleToSave, string filePath) where T : class;
+
+        void Delete<T>(Predicate<T> match, string filePath) where T : class;
+        bool DeleteBinFiles(string filepath);
+        bool Overrride<T>(T instance, string filePath) where T : class;
+        bool UpdateAdvancedSettingDetails<T>(List<T> detailsList, string fileType) where T : class;
+    }
+
+    public class GenericFileManager : IGenericFileManager
+    {
+        private readonly IProtoBuffBase _protoBuffBase;
+        private readonly ILockFileConfigProvider _lockFileConfigProvider;
+        private readonly IFileSystemProvider _fileSystemProvider;
+
+        public GenericFileManager(IProtoBuffBase protoBuffBase, ILockFileConfigProvider lockFileConfigProvider, IFileSystemProvider fileSystemProvider)
         {
-            ProtoBuffBase = ServiceLocator.Current.GetInstance<IProtoBuffBase>();
-            LockFileConfigProvider = ServiceLocator.Current.GetInstance<ILockFileConfigProvider>();
+            _protoBuffBase = protoBuffBase;
+            _lockFileConfigProvider = lockFileConfigProvider;
+            _fileSystemProvider = fileSystemProvider;
         }
 
 
@@ -26,8 +47,8 @@ namespace DominatorHouseCore.FileManagers
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="filePath">file path</param>
         /// <returns></returns>
-        public static List<T> GetModuleDetails<T>(string filePath) where T : class
-            => File.Exists(filePath) ? ProtoBuffBase.DeserializeList<T>(filePath) : new List<T>();
+        public List<T> GetModuleDetails<T>(string filePath) where T : class
+            => _fileSystemProvider.Exists(filePath) ? _protoBuffBase.DeserializeList<T>(filePath) : new List<T>();
 
 
         /// <summary>
@@ -36,15 +57,15 @@ namespace DominatorHouseCore.FileManagers
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="detailsList">List of file details</param>
         /// <returns></returns>
-        public static bool UpdateModuleDetails<T>(List<T> detailsList) where T : class
+        public bool UpdateModuleDetails<T>(List<T> detailsList) where T : class
         {
             try
             {
                 // Fetch the file path from lock with type object
-                return LockFileConfigProvider.WithFile<T, bool>(file =>
+                return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
                     // serialize the file
-                    bool result = ProtoBuffBase.SerializeList(detailsList, file);
+                    bool result = _protoBuffBase.SerializeList(detailsList, file);
                     GlobusLogHelper.log.Debug("Details successfully saved");
                     return result;
                 });
@@ -56,6 +77,7 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
+
 
         ///// <summary>
         ///// To save all the details of the give object to respective file type's objects
@@ -80,6 +102,7 @@ namespace DominatorHouseCore.FileManagers
         //    GlobusLogHelper.log.Debug("Details successfully saved");
         //}
 
+
         /// <summary>
         /// Save the details to specified file
         /// </summary>
@@ -87,12 +110,12 @@ namespace DominatorHouseCore.FileManagers
         /// <param name="model">Details</param>
         /// <param name="file">file path</param>
         /// <returns></returns>
-        internal static bool Save<T>(T model, string file) where T : class
+        public bool Save<T>(T model, string file) where T : class
         {
             try
             {
 
-                using (var stream = File.Create(file))
+                using (var stream = _fileSystemProvider.Create(file))
                 {
                     // Call for serialize
                     Serializer.Serialize(stream, model);
@@ -116,11 +139,11 @@ namespace DominatorHouseCore.FileManagers
         /// <typeparam name="T">Target type</typeparam>
         /// <param name="filePath">file path</param>
         /// <returns></returns>
-        public static T GetModel<T>(string filePath) where T : class, new()
+        public T GetModel<T>(string filePath) where T : class, new()
         {
             try
             {
-                using (var stream = File.Open(filePath, FileMode.Open))
+                using (var stream = _fileSystemProvider.Open(filePath))
                 {
                     // Call for deserialize
                     return Serializer.Deserialize<T>(stream);
@@ -142,12 +165,12 @@ namespace DominatorHouseCore.FileManagers
         /// <param name="detailsList">Detail list</param>
         /// <param name="file">file path</param>
         /// <returns></returns>
-        public static bool UpdateModuleDetails<T>(List<T> detailsList, string file) where T : class
+        public bool UpdateModuleDetails<T>(List<T> detailsList, string file) where T : class
         {
             try
             {
                 // Call for serialize
-                var result = ProtoBuffBase.SerializeList(detailsList, file);
+                var result = _protoBuffBase.SerializeList(detailsList, file);
                 GlobusLogHelper.log.Debug("Details successfully saved");
                 return result;
             }
@@ -167,14 +190,14 @@ namespace DominatorHouseCore.FileManagers
         /// <param name="moduleToSave">type values</param>
         /// <param name="filePath">file path</param>
         /// <returns></returns>
-        internal static bool AddRangeModule<T>(List<T> moduleToSave, string filePath) where T : class
+        public bool AddRangeModule<T>(List<T> moduleToSave, string filePath) where T : class
         {
             try
             {
                 moduleToSave.ForEach(x =>
                 {
                     // Call for append the details 
-                    ProtoBuffBase.AppendObject(x, filePath);
+                    _protoBuffBase.AppendObject(x, filePath);
                 });
                 return true;
             }
@@ -192,12 +215,12 @@ namespace DominatorHouseCore.FileManagers
         /// <param name="moduleToSave">Module Details</param>
         /// <param name="filePath">file path</param>
         /// <returns></returns>
-        internal static bool AddModule<T>(T moduleToSave, string filePath) where T : class
+        public bool AddModule<T>(T moduleToSave, string filePath) where T : class
         {
             try
             {
                 //Call for Append
-                ProtoBuffBase.AppendObject(moduleToSave, filePath);
+                _protoBuffBase.AppendObject(moduleToSave, filePath);
                 return true;
             }
             catch (Exception ex)
@@ -213,7 +236,7 @@ namespace DominatorHouseCore.FileManagers
         /// <typeparam name="T">target type</typeparam>
         /// <param name="match">match condition</param>
         /// <param name="filePath">file path</param>
-        public static void Delete<T>(Predicate<T> match, string filePath) where T : class
+        public void Delete<T>(Predicate<T> match, string filePath) where T : class
         {
             // Get all the details from file
             var moduleDetails = GetModuleDetails<T>(filePath);
@@ -228,7 +251,7 @@ namespace DominatorHouseCore.FileManagers
         /// </summary>
         /// <param name="filepath">file path</param>
         /// <returns></returns>
-        public static bool DeleteBinFiles(string filepath)
+        public bool DeleteBinFiles(string filepath)
         {
             try
             {
@@ -254,7 +277,7 @@ namespace DominatorHouseCore.FileManagers
         /// <param name="instance">details</param>
         /// <param name="filePath">file path</param>
         /// <returns></returns>
-        public static bool Overrride<T>(T instance, string filePath) where T : class
+        public bool Overrride<T>(T instance, string filePath) where T : class
         {
             try
             {
@@ -272,13 +295,13 @@ namespace DominatorHouseCore.FileManagers
             }
 
         }
-        public static bool UpdateAdvancedSettingDetails<T>(List<T> detailsList, string fileType) where T : class
+        public bool UpdateAdvancedSettingDetails<T>(List<T> detailsList, string fileType) where T : class
         {
             try
             {
                 // Fetch the file path from lock with type object
 
-                bool result = ProtoBuffBase.SerializeList(detailsList, fileType);
+                bool result = _protoBuffBase.SerializeList(detailsList, fileType);
                 GlobusLogHelper.log.Debug("Details successfully saved");
                 return result;
 

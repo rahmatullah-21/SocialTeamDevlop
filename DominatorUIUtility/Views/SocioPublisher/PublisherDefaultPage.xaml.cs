@@ -1,15 +1,16 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorUIUtility.ViewModel.SocioPublisher;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for PublisherDefaultPage.xaml
     /// </summary>   
-    public partial class PublisherDefaultPage : UserControl , INotifyPropertyChanged
+    public partial class PublisherDefaultPage : UserControl, INotifyPropertyChanged
     {
         private PublisherDefaultPage()
         {
@@ -17,18 +18,14 @@ namespace DominatorUIUtility.Views.SocioPublisher
             PublisherDefault.DataContext = PublisherDefaultViewModel;
         }
 
-        private PublisherDefaultViewModel _publisherDefaultViewModel = new PublisherDefaultViewModel();
+        private readonly PublisherDefaultViewModel _publisherDefaultViewModel =
+            ServiceLocator.Current.GetInstance<PublisherDefaultViewModel>();
 
         public PublisherDefaultViewModel PublisherDefaultViewModel
         {
             get
             {
                 return _publisherDefaultViewModel;
-            }
-            set
-            {
-                _publisherDefaultViewModel = value;
-                OnPropertyChanged(nameof(PublisherDefaultViewModel));
             }
         }
 

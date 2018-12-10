@@ -42,11 +42,9 @@ namespace DominatorHouseCore.Interfaces
 
         IViewCampaignsFactory ViewCampaigns { get; set; }
 
-        ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
         IAccountVerificationFactory AccountVerificationFactory { get; set; }
         ProfileFactory ProfileFactory { get; set; }
         ChatFactory ChatFactory { get; set; }
-        IGlobalInteractionDetails GlobalInteractionDetails { get; set; }
 
         //IAdScraperFactory AdScraperFactory { get; set; }
 

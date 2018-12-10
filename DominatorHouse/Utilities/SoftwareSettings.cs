@@ -1,14 +1,22 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks.Dataflow;
 using System.Windows;
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using Microsoft.Win32;
+using System;
+using System.Collections.Concurrent;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
+using System.Windows;
 
 namespace DominatorHouse.Utilities
 {
@@ -18,7 +26,7 @@ namespace DominatorHouse.Utilities
         public void InitializeOnLoadConfigurations(AccessorStrategies strategies)
         {
             _strategies = strategies;
-            CheckConfigurationFiles();
+            CheckSocinatorIcon();
             ScheduleAccountUpdation();
             ActivityManagerInitializer();
             OtherInitializers();
@@ -26,10 +34,8 @@ namespace DominatorHouse.Utilities
 
         private void OtherInitializers()
         {
-            var settings = SoftwareSettingsFileManager.GetSoftwareSettings();
-
-            if (settings == null)
-                SoftwareSettingsFileManager.SaveSoftwareSettings(new SoftwareSettingsModel());
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            var settings = softwareSettings.Settings;
             AddDHToStartup(settings);
 
         }
@@ -63,11 +69,6 @@ namespace DominatorHouse.Utilities
             });
         }
 
-        private void CheckConfigurationFiles()
-        {
-            CheckOrAddSoftwareSettingsFile();
-            CheckSocinatorIcon();
-        }
 
         private void CheckSocinatorIcon()
         {
@@ -77,20 +78,12 @@ namespace DominatorHouse.Utilities
             }
         }
 
-        private void CheckOrAddSoftwareSettingsFile()
-        {
-            if (!File.Exists(ConstantVariable.GetOtherSoftwareSettingsFile()))
-            {
-                SoftwareSettingsModel SoftwareSettingsModel = new SoftwareSettingsModel();
-                SoftwareSettingsFileManager.SaveSoftwareSettings(SoftwareSettingsModel);
-            }
-        }
-
         #region Account Update
 
         private void ScheduleAccountUpdation()
         {
-            var socinatorSettings = SoftwareSettingsFileManager.GetSoftwareSettings();
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            var socinatorSettings = softwareSettings.Settings;
             new ActionBlock<AccountDetailsUpdation>(
                             async job => await job.UpdateAccountAsync(),
                             new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = socinatorSettings.SimultaneousAccountUpdateCount });
@@ -101,4 +94,5 @@ namespace DominatorHouse.Utilities
         #endregion
 
     }
+
 }

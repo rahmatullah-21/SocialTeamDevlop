@@ -1,6 +1,6 @@
 ﻿using CommonServiceLocator;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
 using System;
@@ -15,7 +15,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             // decide activities to run
             //IEnumerable<Tuple<DominatorAccountModel, Utility.ModuleConfiguration>> jobConfigs;
-            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 // everything is allowed
 

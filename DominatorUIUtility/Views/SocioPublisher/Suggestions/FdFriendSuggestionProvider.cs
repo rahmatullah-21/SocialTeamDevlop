@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using DominatorHouseCore;
+﻿using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
 {
     public class FdFriendSuggestionProvider : ISuggestionProvider
     {
-       
+
 
         public List<SocinatorIntellisenseModel> ListOfMacros { get; set; } = new List<SocinatorIntellisenseModel>();
 
@@ -45,7 +46,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
 
                     //friendsName.Result.ForEach(x =>
                     //    ListOfMacros.Add(new SocinatorIntellisenseModel { Key = x, Value = x }));
-                    
+
                     //Task.Factory.StartNew(async () =>
                     //{
                     //    var friendsName = await accountsDetailsSelector.GetFriendshipNames(accountId, accountUsername);
@@ -65,8 +66,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
 
         public FdFriendSuggestionProvider()
         {
-            ListOfAccount = AccountsFileManager.GetAll(SocialNetworks.Facebook).Select(i => new KeyValuePair<string, string>(i.AccountBaseModel.UserName, i.AccountBaseModel.AccountId)).ToList();
-            ListOfMacros.AddRange(ConstantVariable.FdMacros);          
+            var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            ListOfAccount = accountsFileManager.GetAll(SocialNetworks.Facebook).Select(i => new KeyValuePair<string, string>(i.AccountBaseModel.UserName, i.AccountBaseModel.AccountId)).ToList();
+            ListOfMacros.AddRange(ConstantVariable.FdMacros);
             ListOfAccount.ForEach(x => ListOfMacros.Add(new SocinatorIntellisenseModel() { Key = "{" + x.Key + ":", Value = "{" + x.Key + ":" }));
         }
     }

@@ -13,7 +13,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
     public class SocinatorMacrosViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {
-
+        private readonly IGenericFileManager _genericFileManager;
         private ObservableCollection<SocinatorIntellisenseModel> _macrosCollection =
             new ObservableCollection<SocinatorIntellisenseModel>();
 
@@ -40,12 +40,13 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
         #region Constructor
 
-        public SocinatorMacrosViewModel() : base("LangKeyMacroS", "SocinatorMacrosControlTemplate")
+        public SocinatorMacrosViewModel(IGenericFileManager genericFileManager) : base("LangKeyMacroS", "SocinatorMacrosControlTemplate")
         {
+            _genericFileManager = genericFileManager;
             SaveMacrosCommand = new DelegateCommand<SocinatorMacrosViewModel>(SaveMacrosExecute);
             DeleteCommand = new DelegateCommand<SocinatorIntellisenseModel>(DeleteMacrosExecute);
             ImportMacrosCammand = new DelegateCommand(ImportMacrosExecute);
-            MacrosCollection = new ObservableCollection<SocinatorIntellisenseModel>(GenericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails));
+            MacrosCollection = new ObservableCollection<SocinatorIntellisenseModel>(_genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails));
         }
         #endregion
 
@@ -61,7 +62,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
             if (!string.IsNullOrEmpty(socinatorIntellisenseModel.InputMacro.Key))
             {
                 MacrosCollection.Add(socinatorIntellisenseModel.InputMacro);
-                GenericFileManager.AddModule(socinatorIntellisenseModel.InputMacro, ConstantVariable.GetMacroDetails);
+                _genericFileManager.AddModule(socinatorIntellisenseModel.InputMacro, ConstantVariable.GetMacroDetails);
             }
 
             InputMacro = new SocinatorIntellisenseModel();
@@ -73,7 +74,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
             MacrosCollection.Remove(socinatorIntellisenseModel);
 
-            GenericFileManager.Delete<SocinatorIntellisenseModel>(x => socinatorIntellisenseModel != null && x.Key == socinatorIntellisenseModel.Key, ConstantVariable.GetMacroDetails);
+            _genericFileManager.Delete<SocinatorIntellisenseModel>(x => socinatorIntellisenseModel != null && x.Key == socinatorIntellisenseModel.Key, ConstantVariable.GetMacroDetails);
         }
 
         public void ImportMacrosExecute()
@@ -97,7 +98,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                 }
             });
 
-            GenericFileManager.UpdateModuleDetails(MacrosCollection.ToList(), ConstantVariable.GetMacroDetails);
+            _genericFileManager.UpdateModuleDetails(MacrosCollection.ToList(), ConstantVariable.GetMacroDetails);
         }
 
         #endregion

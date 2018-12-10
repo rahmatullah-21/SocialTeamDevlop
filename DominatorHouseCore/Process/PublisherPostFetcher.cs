@@ -35,9 +35,10 @@ namespace DominatorHouseCore.Process
         /// </summary>
         public void StartFetchingPostData()
         {
+            var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             // Get the post fetch details from bin file <see cref="ConstantVariable.GetPublisherPostFetchFile" /> other than normal post
             var getFetchDetails =
-                GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                     .GetPublisherPostFetchFile).Where(x => x.PostSource != PostSource.NormalPost);
 
             // Iterate the post fetch detail
@@ -68,8 +69,9 @@ namespace DominatorHouseCore.Process
         {
             try
             {
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 // Collect the respective Fetcher model
-                var postFetchModels = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                var postFetchModels = genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                       .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaignId && x.PostSource != PostSource.NormalPost);
 
                 // Call with Task factory
@@ -158,8 +160,9 @@ namespace DominatorHouseCore.Process
             try
             {
                 // Get the fetcher details from the campaign ID
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var getFetchDetails =
-                       GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                            .GetPublisherPostFetchFile).Where(x => x.PostSource != PostSource.NormalPost && x.CampaignId == campaignId);
 
                 // Iterate all fetcher from list
@@ -170,7 +173,7 @@ namespace DominatorHouseCore.Process
                 });
 
                 // Delete all fetcher
-                GenericFileManager.Delete<PublisherPostFetchModel>(x => x.CampaignId == campaignId, ConstantVariable
+                genericFileManager.Delete<PublisherPostFetchModel>(x => x.CampaignId == campaignId, ConstantVariable
                     .GetPublisherPostFetchFile);
 
             }

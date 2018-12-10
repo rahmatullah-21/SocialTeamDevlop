@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -21,13 +22,16 @@ using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
 
+
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateDestinationsViewModel : BindableBase
     {
         //ConstructorS
+        private readonly IAccountsFileManager _accountsFileManager;
         public PublisherCreateDestinationsViewModel()
         {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             GetSingleAccountGroupsCommand = new BaseCommand<object>(GetSingleAccountGroupsCanExecute, GetSingleAccountGroupsExecute);
             GetSingleAccountPagesOrBoardsCommand = new BaseCommand<object>(GetSingleAccountPagesOrBoardsCanExecute, GetSingleAccountPagesOrBoardsExecute);
@@ -811,9 +815,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDestinationList()
         {
+
             var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
             var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
-            // var accounts = AccountsFileManager.GetAll().Where(x=>x.AccountBaseModel.Status==AccountStatus.Success);
 
             if (!Application.Current.CheckAccess())
                 Application.Current.Dispatcher.Invoke(() => { PublisherCreateDestinationModel.ListSelectDestination.Clear(); });
@@ -1157,7 +1161,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                var accounts = AccountsFileManager.GetAll();
+                var accounts = _accountsFileManager.GetAll();
                 accounts.ForEach(x =>
                 {
                     if (PublisherCreateDestinationModel.ListSelectDestination.All(y => y.AccountId != x.AccountId))

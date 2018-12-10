@@ -4,9 +4,9 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,22 +15,38 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Process
 {
+    public interface IJobProcess
+    {
+        void Stop();
+    }
+
     /// <summary>
     ///     Base abstract class for other jobs: FollowProcess, LikeProcess
     ///     Contains: account, job configuration (schedule), activity type (follow, unfollow, etc),
     ///     other helper objects.
     ///     Derived class have to implement PostScrapeProcess
     /// </summary>
-    public abstract class JobProcess
+    public abstract class JobProcess : IJobProcess
     {
-        public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
+        private readonly IRunningJobsHolder _runningJobsHolder;
+
+        [Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
+        public JobProcess()
+        {
+
+        }
+
+        protected JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-            DominatorAccountModel = AccountsFileManager.GetAccount(account, network);
+            var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
+            DominatorAccountModel = accountsFileManager.GetAccount(account, network);
 
             SocialNetworks = network;
 
@@ -72,50 +88,20 @@ namespace DominatorHouseCore.Process
             MaxNoOfActionPerHour = JobConfiguration.ActivitiesPerHour.GetRandom();
             MaxNoOfActionPerDay = JobConfiguration.ActivitiesPerDay.GetRandom();
             MaxNoOfActionPerWeek = JobConfiguration.ActivitiesPerWeek.GetRandom();
-            InitializeDatabaseConnection();
-        }
-
-        private void InitializeDatabaseConnection()
-        {
-            var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory();
-            if (CampaignId != null)
-            {
-                try
-                {
-                    DataBaseConnectionCampaign = networkCoreFactory.CampaignDatabase;
-                    networkCoreFactory.CampaignInteractionDetails.InitializeInteraction();
-                    networkCoreFactory.GlobalInteractionDetails.InitializeInteraction();
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-
-            DataBaseConnectionAccount = networkCoreFactory.AccountDatabase;
-
-            //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
         {
             //Stop();
-            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, ActivityType);
             }
             else
             {
-                if (RunningJobProcesses != null)
-                {
-                    foreach (var jobProcess in RunningJobProcesses.Values)
-                    {
-                        if (jobProcess.Id.Contains(AccountId + "-------"))
-                        {
-                            return;
-                        }
-                    }
-                }
+                if (_runningJobsHolder.IsActivityRunningForAccount(AccountId))
+                    return;
                 RunningActivityManager.StartNextRound(DominatorAccountModel);
             }
 
@@ -286,10 +272,6 @@ namespace DominatorHouseCore.Process
 
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
 
-        protected IDatabaseConnection DataBaseConnectionCampaign { get; set; }
-
-        protected IDatabaseConnection DataBaseConnectionAccount { get; set; }
-
         public string AccountName => DominatorAccountModel?.UserName;
 
         public string AccountId => DominatorAccountModel?.AccountId;
@@ -304,74 +286,61 @@ namespace DominatorHouseCore.Process
 
         #region Job Process workflow routines
 
-
-        // stores all running job processes. Key - TemplateId
-        public static readonly Dictionary<string, JobProcess> RunningJobProcesses = new Dictionary<string, JobProcess>();
-
         private static readonly object SyncJobProcess = new object();
 
-        public string Id => AsId(AccountId, TemplateId);
+        public JobKey Id => AsId(AccountId, TemplateId);
 
-        public static string AsId(string account, string templateId)
+        public static JobKey AsId(string account, string templateId)
         {
-            return $"{account}-------{templateId}";
+            return new JobKey(account, templateId);
         }
 
         /// <summary>
         ///     Main method to start process in thread
         /// </summary>
         /// <returns></returns>
-        public void StartProcessAsync()
+        public Task StartProcessAsync()
         {
             lock (SyncJobProcess)
             {
-                if (RunningJobProcesses.ContainsKey(Id)) return;
+                if (!_runningJobsHolder.StartIfNotRunning(Id, this)) return Task.CompletedTask;
 
                 Debug.Assert(JobCancellationTokenSource == null);
 
                 JobCancellationTokenSource = new CancellationTokenSource();
 
-                RunningJobProcesses.Add(Id, this);
+                var task = ThreadFactory.Instance.Start(() =>
+                  {
 
-                ThreadFactory.Instance.Start(() =>
-                {
+                      GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
-                    GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+                      // Login and run scraper/poster from derived concrete classes
+                      if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
+                      {
+                          if (Login())
+                              RunScrapper();
+                          else
+                          {
+                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "did not get processed as account failed to login");
+                              DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                          }
 
-                    // Login and run scraper/poster from derived concrete classes
-                    if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
-                    {
-                        if (Login())
-                            RunScrapper();
-                        else
-                        {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "did not get processed as account failed to login");
-                            DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
-                        }
-
-                    }
-                    else
-                    {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
-                        DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
-                    }
+                      }
+                      else
+                      {
+                          GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
+                          DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                      }
 
 
-                }, JobCancellationTokenSource.Token);
+                  }, JobCancellationTokenSource.Token);
 
                 JobCancellationTokenSource.Token.Register(() =>
                 {
                     Console.WriteLine("Cancellation requested!");
                 });
-            }
-        }
 
-
-        public static bool IsStarted(string accountName, string templateId)
-        {
-            lock (SyncJobProcess)
-            {
-                return RunningJobProcesses.ContainsKey(AsId(accountName, templateId));
+                return task;
             }
         }
 
@@ -379,19 +348,9 @@ namespace DominatorHouseCore.Process
         {
             lock (SyncJobProcess)
             {
-                if (JobCancellationTokenSource == null ||
-                    !RunningJobProcesses.ContainsKey(Id))
-                    return;
-
-
-                //DominatorAccountModel.NotifyCancelled();
-                JobCancellationTokenSource.Cancel();
-
+                JobCancellationTokenSource?.Cancel();
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
                     DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
-
-                RunningJobProcesses.Remove(Id);
-                //JobCancellationTokenSource = null;
             }
         }
 
@@ -399,17 +358,14 @@ namespace DominatorHouseCore.Process
         {
             try
             {
-                lock (SyncJobProcess)
+                var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
+                var id = new JobKey(accountName, templateId);
+                if (!runningJobsHolder.Stop(id))
                 {
-                    var id = AsId(accountName, templateId);
-                    if (!RunningJobProcesses.ContainsKey(id))
-                    {
-                        GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
-                        return false;
-                    }
-                    var jobProcess = RunningJobProcesses[id];
-                    jobProcess.Stop();
+                    GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
+                    return false;
                 }
+
                 return true;
             }
             catch (Exception ex)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
@@ -12,13 +7,21 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherManagePostsViewModel : BindableBase
     {
+        private readonly IGenericFileManager _genericFileManager;
         public PublisherManagePostsViewModel()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             TabChangeCommand = new BaseCommand<object>(TabChangeCanExecute, TabChangeExecute);
             SelectionChangedCommand = new BaseCommand<object>(SelectionChangedCanExecute, SelectionChangedExecute);
@@ -113,7 +116,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ManagePostTabItems.Add(Application.Current.FindResource("LangKeyPending")?.ToString());
             ManagePostTabItems.Add(Application.Current.FindResource("LangKeyPublished")?.ToString());
 
-            var campaignDetails = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+            var campaignDetails = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
 
             campaignDetails.ForEach(campaign =>
                 CampaignList.Add(new IdNameBinderModel { Id = campaign.CampaignId, Name = campaign.CampaignName }));

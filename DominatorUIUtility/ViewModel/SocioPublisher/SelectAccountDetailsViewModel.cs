@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Controls;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
@@ -19,14 +10,27 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class SelectAccountDetailsViewModel : BindableBase
     {
+        private readonly IAccountsFileManager _accountsFileManager;
+
         //ConstructorS
         public SelectAccountDetailsViewModel()
         {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             GetSingleAccountGroupsCommand = new BaseCommand<object>(GetSingleAccountGroupsCanExecute, GetSingleAccountGroupsExecute);
             GetSingleAccountPagesOrBoardsCommand = new BaseCommand<object>(GetSingleAccountPagesOrBoardsCanExecute, GetSingleAccountPagesOrBoardsExecute);
@@ -1169,7 +1173,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDestinationList()
         {
-            var accounts = AccountsFileManager.GetAll();
+            var accounts = _accountsFileManager.GetAll();
 
             if (SelectAccountDetailsModel.IsDisplaySingleAccount)
             {
@@ -1232,7 +1236,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void RemoveUnnecessaryDestinationList()
         {
-            var accounts = AccountsFileManager.GetAll();
+            var accounts = _accountsFileManager.GetAll();
 
 
             accounts.ForEach(x =>
@@ -1462,7 +1466,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                var accounts = AccountsFileManager.GetAll();
+                var accounts = _accountsFileManager.GetAll();
 
                 if (SelectAccountDetailsModel.IsDisplaySingleAccount)
                 {

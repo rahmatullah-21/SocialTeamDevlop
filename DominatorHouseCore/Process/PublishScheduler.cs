@@ -246,6 +246,7 @@ namespace DominatorHouseCore.Process
             try
             {
                 // create a new cancellation token source
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var currentCampaignsCancallationToken = new CancellationTokenSource();
 
                 // If CampaignsCancellationTokens dictionary doesnt contains for current campaign, add to with proper campaign Id
@@ -257,17 +258,17 @@ namespace DominatorHouseCore.Process
 
                 // Get he post fetcher details
                 var publisherPostFetchModel =
-                    GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
                 // Get the success published details
-                var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
+                var publishedDetails = genericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
 
                 // Filter the success published details with destination url
                 var usedDestination = publishedDetails.Select(x => x.DestinationUrl);
 
                 // Get the advanced settings for current campaign Id
-                var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
+                var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
                                        new GeneralModel();
 
                 var runningCount = 0;
@@ -288,7 +289,7 @@ namespace DominatorHouseCore.Process
                 var accountsWithDestinations = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
 
                 //Get the general settings from bin files
-                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
                                                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
 
@@ -472,6 +473,7 @@ namespace DominatorHouseCore.Process
             try
             {
                 // Get the campaign Details
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var campaignDetails =
                     PublisherInitialize.GetInstance.GetSavedCampaigns().ToList();
 
@@ -505,12 +507,12 @@ namespace DominatorHouseCore.Process
 
                 // Get he post fetcher details
                 var publisherPostFetchModel =
-                    GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
 
                 // Get the advanced settings for current campaign Id
-                var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
+                var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
                                        new GeneralModel();
 
                 #region Assigning Destinations with posts
@@ -518,7 +520,7 @@ namespace DominatorHouseCore.Process
                 #region Initializations
 
                 //Get the general settings from bin files
-                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
                                                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
 
@@ -779,6 +781,7 @@ namespace DominatorHouseCore.Process
             try
             {
                 // Getting all pending post lists
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var pendingPostList = PostlistFileManager.GetAll(campaignId)
                     .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
@@ -790,7 +793,7 @@ namespace DominatorHouseCore.Process
                 }
 
                 //Get the general settings from bin files
-                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
                                                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
@@ -849,6 +852,7 @@ namespace DominatorHouseCore.Process
            string campaignName,
            int postsMaximumDestinationCount)
         {
+            var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
 
             var updatelock = GetPostsForPublishing.GetOrAdd(campaignId, _lock => new object());
@@ -900,7 +904,7 @@ namespace DominatorHouseCore.Process
                     }
 
                     //Get the general settings from bin files
-                    var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                    var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
                                                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                    .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
@@ -1229,7 +1233,8 @@ namespace DominatorHouseCore.Process
         public static void EnableDeletePost(PostDeletionModel postDeletionModel)
         {
             // Add into bin files
-            GenericFileManager.AddModule(postDeletionModel,
+            var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+            genericFileManager.AddModule(postDeletionModel,
                 ConstantVariable.GetDeletePublisherPostModel);
 
             // Schedule delete post itmes
@@ -1249,6 +1254,7 @@ namespace DominatorHouseCore.Process
                 JobManager.AddJob(() =>
                     {
                         // Get the publisher Job Process factory
+                        var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                         var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
                             .GetPublisherCoreFactory()
                             .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null,
@@ -1266,7 +1272,7 @@ namespace DominatorHouseCore.Process
 
                             // Get deletion model
                             var allDeletionList =
-                                GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                                genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
                                     .GetDeletePublisherPostModel);
 
                             // Find the index of particular published Id
@@ -1277,7 +1283,7 @@ namespace DominatorHouseCore.Process
                             allDeletionList[index].IsDeletedAlready = true;
 
                             // save the updated details into bin files
-                            GenericFileManager.UpdateModuleDetails(allDeletionList,
+                            genericFileManager.UpdateModuleDetails(allDeletionList,
                                 ConstantVariable.GetDeletePublisherPostModel);
                         }
 
@@ -1411,6 +1417,7 @@ namespace DominatorHouseCore.Process
             }
 
             // Iterate running times 
+            var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             timeRange.ForEach(runningTime =>
                 {
                     // Make start time
@@ -1433,7 +1440,7 @@ namespace DominatorHouseCore.Process
                         }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
                         // Get the advanced settings details of an campaigns
-                        var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+                        var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
                         // Check whether campaign destination time out options
                         if (advancedSettings?.DestinationTimeout > 0)

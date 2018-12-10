@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models.SocioPublisher;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
 
 namespace DominatorHouseCore.Diagnostics
@@ -16,8 +17,11 @@ namespace DominatorHouseCore.Diagnostics
 
     public class PublisherInitialize
     {
+        private readonly IGenericFileManager _genericFileManager;
         private PublisherInitialize()
-        { }
+        {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+        }
 
         #region Properties
 
@@ -75,7 +79,7 @@ namespace DominatorHouseCore.Diagnostics
         public void PublishCampaignInitializer()
         {
             // Get all saved campaign Model
-            var allCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+            var allCampaign = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
 
             // Call with dispatcher
             if (!Application.Current.CheckAccess())
@@ -114,17 +118,17 @@ namespace DominatorHouseCore.Diagnostics
                             ScheduledWeekday = campaigns.JobConfigurations.Weekday,
                             IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                             TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,                          
+                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
                             IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
                             MaximumTime = campaigns.JobConfigurations.MaxPost,
-                            PendingCount = campaigns.PostCollection.Count(x=>x.PostQueuedStatus==PostQueuedStatus.Pending),
-                            DraftCount = campaigns.PostCollection.Count(x=>x.PostQueuedStatus==PostQueuedStatus.Draft),
+                            PendingCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending),
+                            DraftCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft),
                         };
 
                         // Add to lists
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
-                         // Update post counts
+                        // Update post counts
                         GetPostStatus(publisherCampaignStatusModel);
 
 
@@ -169,7 +173,7 @@ namespace DominatorHouseCore.Diagnostics
                         ScheduledWeekday = campaigns.JobConfigurations.Weekday,
                         IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                         TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,                       
+                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
                         IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
                         MaximumTime = campaigns.JobConfigurations.MaxPost
                     };
@@ -188,7 +192,7 @@ namespace DominatorHouseCore.Diagnostics
             }
         }
 
-     
+
         /// <summary>
         /// Update campaign Status
         /// </summary>
@@ -209,7 +213,7 @@ namespace DominatorHouseCore.Diagnostics
             ListPublisherCampaignStatusModels[currentCampaignIndex].Status = status;
 
             // Get campaign model
-            var allCampaign = GenericFileManager
+            var allCampaign = _genericFileManager
                 .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
 
             // Get the particular campaign
@@ -225,7 +229,7 @@ namespace DominatorHouseCore.Diagnostics
             allCampaign[campaignIndex] = currentCampaign;
 
             //Save into bin file 
-            GenericFileManager.UpdateModuleDetails(allCampaign, ConstantVariable.GetPublisherCampaignFile());
+            _genericFileManager.UpdateModuleDetails(allCampaign, ConstantVariable.GetPublisherCampaignFile());
         }
 
         /// <summary>
@@ -388,7 +392,8 @@ namespace DominatorHouseCore.Diagnostics
                     return new List<PublishedPostDetailsModel>();
 
                 // Return published posts details
-                return GenericFileManager
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                return genericFileManager
                     .GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails)
                     .Where(x => x.CampaignId == campaignId && x.SocialNetworks == network).ToList();
             }
@@ -417,8 +422,8 @@ namespace DominatorHouseCore.Diagnostics
 
         #region Properties
 
-        public IPublisherCoreFactory PublisherCoreFactory { get; set; } 
-      
+        public IPublisherCoreFactory PublisherCoreFactory { get; set; }
+
         #endregion
 
         /// <summary>

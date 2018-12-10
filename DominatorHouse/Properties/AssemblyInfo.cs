@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -52,3 +53,4 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.21")]
 [assembly: AssemblyFileVersion("1.0.0.21")]
+[assembly: InternalsVisibleTo("DominatorHouseCore.UnitTests")]

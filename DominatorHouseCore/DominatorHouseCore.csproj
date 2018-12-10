@@ -467,10 +467,13 @@
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
     <Compile Include="Enums\VerificationType.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
+    <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
     <Compile Include="FileManagers\AccountsCacheService.cs" />
+    <Compile Include="FileManagers\CampaignInteractionDetails.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\GenericFileManager.cs" />
+    <Compile Include="FileManagers\GlobalInteractionDetails.cs" />
     <Compile Include="FileManagers\IGFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
@@ -548,6 +551,7 @@
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
+    <Compile Include="Models\IModuleSetting.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
@@ -576,8 +580,10 @@
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
     <Compile Include="Models\SocioPublisher\SelctAccountDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
+    <Compile Include="Process\JobKey.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="AppResources\ApplicationResourceProvider.cs" />
+    <Compile Include="Process\RunningJobsHolder.cs" />
     <Compile Include="ProxyServerManagment\Models\ProxyParsingResult.cs" />
     <Compile Include="ProxyServerManagment\ProxyManagmentUnityExtension.cs" />
     <Compile Include="ProxyServerManagment\ProxyServerParserService.cs" />
@@ -593,7 +599,6 @@
     <Compile Include="Utility\DateProvider.cs" />
     <Compile Include="Utility\EnumExtensions.cs" />
     <Compile Include="Utility\FileSystemProvider.cs" />
-    <Compile Include="Utility\GlobalInteractedUtility.cs" />
     <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
@@ -734,7 +739,6 @@
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Models\UserFilterModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
-    <Compile Include="Utility\CampaignInteractedUtility.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseHandler.cs" />
     <Compile Include="Utility\Dialog.cs" />
