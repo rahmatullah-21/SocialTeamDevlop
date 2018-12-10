@@ -24,9 +24,9 @@
             <StackPanel Orientation="Vertical">
                 <CheckBox Name="CheckBoxGeoLocation" Margin="2" IsChecked="{Binding IsGeoLocation}" Content="{DynamicResource LangKeyPostUsingGeoLocation}" />
                 <StackPanel Orientation="Vertical" Visibility="{Binding IsGeoLocation,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <RadioButton Name="RadioButtonForLocationName" Margin="10,2" GroupName="GeoLocation" Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationName}"
+                    <RadioButton Name="RadioButtonForLocationName" Margin="10,2"  Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationName}"
                                  IsChecked="{Binding IsGeoLocationName}"/>
-                    <RadioButton Name="RadioButtonForLocationId" Margin="10,2"  GroupName="GeoLocation" Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationId}"   
+                    <RadioButton Name="RadioButtonForLocationId" Margin="10,2"  Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationId}"   
                                  IsChecked="{Binding IsGeoLocationId}"/>
                     <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="15,2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
                 </StackPanel>

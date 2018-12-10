@@ -208,7 +208,7 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Unsubscribe = 69,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr,Reddit")]
         BroadcastMessages = 70,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]

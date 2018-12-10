@@ -7,9 +7,13 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
 using System;
+using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
+using DominatorHouseCore.Utility;
 using Unity;
 using Unity.Interception.ContainerIntegration;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Socinator
 {
@@ -40,6 +44,11 @@ namespace Socinator
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            if (IsAlreadyRunning())
+            {
+                MessageBox.Show("Socinator already running.", "Warnning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             var container = containerRegistry.GetContainer();
             container.AddNewExtension<Interception>();
             container.AddNewExtension<CoreUnityExtension>();
@@ -59,6 +68,21 @@ namespace Socinator
         protected override IModuleCatalog CreateModuleCatalog()
         {
             return new ConfigurationModuleCatalog();
+        }
+
+        private Mutex _mutex;
+        bool IsAlreadyRunning()
+        {
+            try
+            {
+                Mutex.OpenExisting("Socinator");
+            }
+            catch
+            {
+                _mutex = new Mutex(true, "Socinator");
+                return false;
+            }
+            return true;
         }
     }
 }

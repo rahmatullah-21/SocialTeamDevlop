@@ -10,7 +10,7 @@ namespace DominatorHouseCore.Utility
       
         public static string ApiUrl => $"{(object)INSTAGRAM_BASE_URL}api/v1/";
 
-        public static string ApplicationName => "GramDominator 3.0";
+        public static string ApplicationName => "Socinator";
 
         public static string ContentTypeDefault => "application/x-www-form-urlencoded; charset=UTF-8";
 
