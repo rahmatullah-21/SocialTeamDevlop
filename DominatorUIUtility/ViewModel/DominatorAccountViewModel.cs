@@ -89,6 +89,13 @@ namespace DominatorUIUtility.ViewModel
             get { return _visibleColumns; }
             set { SetProperty(ref _visibleColumns, value); }
         }
+        private ICollectionView _view;
+
+        public ICollectionView View
+        {
+            get { return _view; }
+            set { SetProperty(ref _view, value); }
+        }
 
 
         #region Command 
@@ -118,8 +125,8 @@ namespace DominatorUIUtility.ViewModel
             Groups = new ObservableCollection<ContentSelectGroup>();
             BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
             LstDominatorAccountModel = new ObservableCollection<DominatorAccountModel>();
-            var view = (CollectionView)CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
-            view.SortDescriptions.Add(new SortDescription("AccountBaseModel.AccountNetwork", ListSortDirection.Ascending));
+            View = (CollectionView)CollectionViewSource.GetDefaultView(LstDominatorAccountModel);
+            View.SortDescriptions.Add(new SortDescription("AccountBaseModel.AccountNetwork", ListSortDirection.Ascending));
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, _syncLoadAccounts);
 
             var visibleHeaders = DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider().VisibleHeaders;

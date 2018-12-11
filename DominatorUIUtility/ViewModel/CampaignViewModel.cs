@@ -300,8 +300,8 @@ namespace DominatorUIUtility.ViewModel
             var mainWindow = Application.Current.MainWindow;
             var width = mainWindow.Width;
             var height = mainWindow.Height;
-            win.Top = (height - win.Height) / 2;
-            win.Left = (width - win.Width) / 2;
+            win.Top = 0;
+            win.Left = 0;
         }
         private void StatusChangeExecute(object sender)
         {

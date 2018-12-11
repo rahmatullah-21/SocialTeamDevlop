@@ -36,9 +36,9 @@ namespace DominatorUIUtility.Views.SocioPublisher
         }
 
 
-        //private static PublisherManagePosts _instance;
-        //public static PublisherManagePosts Instance { get; set; }
-        //    = _instance ?? (_instance = new PublisherManagePosts());
+        private static PublisherManagePosts _instance;
+        public static PublisherManagePosts Instance { get; set; }
+            = _instance ?? (_instance = new PublisherManagePosts());
 
 
         public event PropertyChangedEventHandler PropertyChanged;

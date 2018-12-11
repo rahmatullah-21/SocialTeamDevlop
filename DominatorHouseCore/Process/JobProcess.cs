@@ -152,8 +152,82 @@ namespace DominatorHouseCore.Process
         /// 
         /// </summary>
         /// <returns></returns>
-        protected abstract bool CheckJobProcessLimitsReached();
+        /// 
+        //protected abstract bool CheckJobProcessLimitsReached();
+        public virtual bool CheckJobProcessLimitsReached()
+        {
+            var limitType = ReachedLimitType.NoLimit;
+            try
+            {
+                #region No of Actions performed per week
 
+                if (NoOfActionPerformedCurrentWeek >= MaxNoOfActionPerWeek && limitType == ReachedLimitType.NoLimit)
+                {
+                    GlobusLogHelper.log.Info(Log.WeeklyLimitReached,
+                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, MaxNoOfActionPerWeek);
+                    limitType = ReachedLimitType.Weekly;
+                }
+
+                #endregion
+
+                #region Number Actions performed per day
+
+
+                if (NoOfActionPerformedCurrentDay >= MaxNoOfActionPerDay && limitType == ReachedLimitType.NoLimit)
+                {
+                    GlobusLogHelper.log.Info(Log.DailyLimitReached,
+                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, MaxNoOfActionPerDay);
+                    limitType = ReachedLimitType.Daily;
+                }
+
+                #endregion
+
+                #region Number of Actions performed per hour
+
+                if (NoOfActionPerformedCurrentHour >= MaxNoOfActionPerHour && limitType == ReachedLimitType.NoLimit)
+                {
+                    GlobusLogHelper.log.Info(Log.HourlyLimitReached,
+                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, MaxNoOfActionPerHour);
+                    limitType = ReachedLimitType.Hourly;
+                }
+                #endregion
+
+                #region Number of actions performed per job
+                if (NoOfActionPerformedCurrentJob >= MaxNoOfActionPerJob && limitType == ReachedLimitType.NoLimit)
+                {
+                    GlobusLogHelper.log.Info(Log.JobLimitReached, DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, MaxNoOfActionPerJob);
+                    limitType = ReachedLimitType.Job;
+                }
+                #endregion
+
+                if (limitType != ReachedLimitType.NoLimit)
+                {
+                    Stop(DominatorAccountModel.AccountId, TemplateId);
+                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                    var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
+                    var nextStartTime = limitType == ReachedLimitType.Job ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType, JobConfiguration.DelayBetweenJobs.GetRandom()) : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+                    if (moduleConfiguration != null)
+                    {
+                        moduleConfiguration.NextRun = nextStartTime;
+                        var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                        jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType, moduleConfiguration);
+                        accountsCacheService.UpsertAccounts(DominatorAccountModel);
+                    }
+
+                    DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return limitType != ReachedLimitType.NoLimit;
+        }
         protected void StopFollow()
         {
             Stop();
@@ -317,11 +391,13 @@ namespace DominatorHouseCore.Process
                       // Login and run scraper/poster from derived concrete classes
                       if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                       {
+                          if (CheckJobProcessLimitsReached())
+                              return;
                           if (Login())
                               RunScrapper();
                           else
                           {
-                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "did not get processed as account failed to login");
+                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"Did not get processed as account failed to login [ {DominatorAccountModel.AccountBaseModel.Status} ]");
                               DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                           }
 
@@ -351,6 +427,7 @@ namespace DominatorHouseCore.Process
                 JobCancellationTokenSource?.Cancel();
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
                     DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+
             }
         }
 
