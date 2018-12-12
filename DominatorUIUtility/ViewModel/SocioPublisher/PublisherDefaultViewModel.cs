@@ -413,7 +413,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Generate new campaignId and campaign Name
                     clonedCampaignStatus.GenerateCloneCampaign(campaignStatus.CampaignName);
-
+                    clonedCampaignStatus.Status = PublisherCampaignStatus.Active;
                     SaveClonedCampaign(clonedCampaignStatus, campaignStatus.CampaignId);
 
                     if (campaignStatus.IsSelected)
@@ -438,7 +438,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         // Move all published posts to pending posts while cloning
                         x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
                         x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
-
+                        x.PostRunningStatus = PostRunningStatus.Active;
                         // Add to clone options
                         clonedPostlist.Add(x);
                     });
@@ -566,7 +566,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         // Generate new campaignId and campaign Name
                         clonedCampaignStatus.GenerateCloneCampaign(campaign.CampaignName);
-
+                        clonedCampaignStatus.Status = PublisherCampaignStatus.Active;
                         SaveClonedCampaign(clonedCampaignStatus, campaign.CampaignId);
 
                         // Update in default page
@@ -586,6 +586,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             // Move all published posts to pending posts while cloning
                             x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
                             x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
+                            x.PostRunningStatus = PostRunningStatus.Active;
                             // Add to clone options
                             clonedPostlist.Add(x);
                         });
@@ -650,6 +651,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 duplicatedCampaign.CampaignName = clonedCampaignStatus.CampaignName;
+                duplicatedCampaign.CampaignStatus = clonedCampaignStatus.Status;
                 duplicatedCampaign.CampaignId = clonedCampaignStatus.CampaignId;
                 duplicatedCampaign.CreatedDate = clonedCampaignStatus.CreatedDate;
                 duplicatedCampaign.UpdatedDate = clonedCampaignStatus.UpdatedTime;
@@ -785,7 +787,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     ConstantVariable.GetPublisherPostFetchFile);
 
                 GlobusLogHelper.log.Info("Campaign deletion operation completed!");
-              
+
             }
         }
 

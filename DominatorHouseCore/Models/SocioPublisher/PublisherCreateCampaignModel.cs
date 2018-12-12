@@ -184,14 +184,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// Campaign Created date time
         /// </summary>
         [ProtoMember(11)]
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
 
 
         /// <summary>
         /// Campaign Last modified date time
         /// </summary>
         [ProtoMember(16)]
-        public DateTime UpdatedDate { get; set; } = DateTime.Now;
+        public DateTime UpdatedDate { get; set; } 
 
         //private PublisherMediaViewerModel _publisherMediaViewerModel = new PublisherMediaViewerModel();
         //[ProtoMember(12)]

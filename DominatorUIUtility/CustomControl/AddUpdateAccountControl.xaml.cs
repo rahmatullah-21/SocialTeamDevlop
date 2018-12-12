@@ -61,8 +61,8 @@ namespace DominatorUIUtility.CustomControl
 
             if (socialNetwork == SocialNetworks.Social.ToString())
             {
-                //foreach (var item in ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network))
-                foreach (var item in SocinatorInitialize.AvailableNetworks)
+
+                foreach (var item in ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network))
                 {
                     if (item == SocialNetworks.Social)
                         continue;
