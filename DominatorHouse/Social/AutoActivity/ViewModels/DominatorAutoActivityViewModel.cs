@@ -65,8 +65,6 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             AccountsCollection = new ObservableCollection<AccountsActivityDetailModel>();
 
-            var view = (CollectionView)CollectionViewSource.GetDefaultView(AccountsCollection);
-            view.SortDescriptions.Add(new SortDescription("AccountNetwork", ListSortDirection.Ascending));
             BindingOperations.EnableCollectionSynchronization(AccountsCollection, _syncObject);
             GoToToolsCmd = new DelegateCommand<AccountsActivityDetailModel>(GoToTools);
             ChangeActivityStatusCmd = new DelegateCommand<ActivityDetailsModel>(ChangeActivityStatus);

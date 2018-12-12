@@ -3300,5 +3300,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNewFollowersToSendMessage">New Followers To Send Message</system:String>
     <system:String x:Key="LangKeyImageCaptchaServices">Image Captcha Services</system:String>
     <system:String x:Key="LangKeyReplyToPendingPageMessages">Reply To Pending Page Messages</system:String>
-    
+    <system:String x:Key="LangKeyUsersToSendAutoReplyMessageAccordingToMessageFilter">Users to Send Auto Reply Message According to Message Filter</system:String>
 </ResourceDictionary>

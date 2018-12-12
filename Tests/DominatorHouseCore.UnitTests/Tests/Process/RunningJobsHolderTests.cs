@@ -127,27 +127,5 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             _sut.IsActivityRunningForAccount(id.AccountId).Should().Be(false);
             jp.Received(1).Stop();
         }
-
-        private class DummyJobProcess : JobProcess
-        {
-            public DummyJobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network) : base(account, template, activityType, currentJobTimeRange, network)
-            {
-            }
-
-            protected override bool CheckJobProcessLimitsReached()
-            {
-                throw new System.NotImplementedException();
-            }
-
-            protected override bool Login()
-            {
-                throw new System.NotImplementedException();
-            }
-
-            public override JobProcessResult PostScrapeProcess(ScrapeResultNew scrapeResult)
-            {
-                throw new System.NotImplementedException();
-            }
-        }
     }
 }
