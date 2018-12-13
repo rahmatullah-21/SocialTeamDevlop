@@ -405,9 +405,6 @@ namespace DominatorUIUtility.CustomControl
                     return;
 
                 var schedulePending = ImmutableQueue<Action>.Empty;
-
-                bool allScheduleQueued;
-
                 if (IsNeedToSaveTemplate())
                 {
                     //     UpdateJobconfiguration();
@@ -415,7 +412,7 @@ namespace DominatorUIUtility.CustomControl
                         CampaignName);
                     SaveTemplateToAccounts(TemplateId);
                     SaveTemplateToCampaigns();
-
+                   
                     var accountDetails =
                         _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
@@ -446,12 +443,13 @@ namespace DominatorUIUtility.CustomControl
                     {
                         ex.DebugLog();
                     }
-
                     SetDataContext();
 
                     TabSwitcher.GoToCampaign();
+
                 }
             });
+
         }
 
 
@@ -563,6 +561,7 @@ namespace DominatorUIUtility.CustomControl
                 });
                 #endregion
 
+                var remainingAccount = _footerControl.list_SelectedAccounts.DeepCloneObject();
                 var selectedAccount = objErrorModelControl.Accounts.Where(x => x.IsChecked).Select(x => x.UserName).ToList();
 
                 if (selectedAccount.Count == 0)
@@ -590,6 +589,7 @@ namespace DominatorUIUtility.CustomControl
                 });
 
                 _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
+                _footerControl.list_SelectedAccounts = remainingAccount;
                 warningWindow.Close();
             };
 
