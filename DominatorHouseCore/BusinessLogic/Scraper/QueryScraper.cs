@@ -1,4 +1,6 @@
-﻿using DominatorHouseCore.LogHelper;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
@@ -6,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using DominatorHouseCore.BusinessLogic.Scheduler;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -122,7 +123,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 if (totalQueries == usedQueries)
                 {
                     GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks, _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
-                    DominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId, false);
+                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                    dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId, false);
                 }
             }
             catch (OperationCanceledException oce)

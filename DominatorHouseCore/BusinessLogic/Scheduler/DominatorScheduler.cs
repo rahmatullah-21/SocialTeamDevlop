@@ -8,20 +8,41 @@ using DominatorHouseCore.Process;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
-    public partial class DominatorScheduler
+    public interface IDominatorScheduler
+    {
+        void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange,
+            string module);
+
+        void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart);
+
+        void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork,
+            ActivityType activityType);
+
+        void ScheduleForEachModule(ActivityType? moduleToIgnore, DominatorAccountModel account, SocialNetworks network);
+        List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType);
+        bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime);
+        bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType);
+        bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId);
+        void ScheduleEachActivity(DominatorAccountModel account);
+        void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType);
+        void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType);
+    }
+
+
+    public class DominatorScheduler : IDominatorScheduler
     {
 
-        private static IJobProcessFactory _activeJobProcessFactory;
+        private IJobProcessFactory _activeJobProcessFactory;
 
-        public static object RunStopActivityLocker = new object();
+        public object RunStopActivityLocker = new object();
 
         /// <summary>
         /// To start the activity of template for the given account at specified time range
@@ -30,7 +51,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="templateId"></param>
         /// <param name="currentJobTimeRange"></param>
         /// <param name="module"></param>
-        public static void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
+        public void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
         {
             try
             {
@@ -53,8 +74,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-
-        public static void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart)
+        public void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart)
         {
             lock (RunStopActivityLocker)
             {
@@ -95,7 +115,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-
         /// <summary>
 
         /// Schedules for today or run at once specific activity for certain social network
@@ -103,7 +122,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="dominatorAccount"></param>
         /// <param name="netowork"></param>
         /// <param name="activityType"></param>
-        internal static void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork, ActivityType activityType)
+        public void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork, ActivityType activityType)
         {
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
@@ -182,39 +201,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        private static void ScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, bool isDelayed)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                if (isDelayed)
-                {
-                    JobManager.AddJob(() =>
-                    {
-                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
-                    }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
-
-                    JobManager.AddJob(() =>
-                    {
-                        StopActivity(dominatorAccount, timing.Module, templateId, true);
-                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-                }
-                else
-                {
-                    JobManager.AddJob(() =>
-                    {
-                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
-
-                    }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
-
-                    JobManager.AddJob(() =>
-                    {
-                        StopActivity(dominatorAccount, timing.Module, templateId, true);
-
-                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-
-                }
-            });
-        }
 
         /// <summary>
         /// ScheduleForEachModule take two argument first is Module type  and second is an object of AccountModel
@@ -223,7 +209,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// </summary>
         /// <param name="moduleToIgnore"></param>
         /// <param name="account"></param>
-        internal static void ScheduleForEachModule(ActivityType? moduleToIgnore, DominatorAccountModel account, SocialNetworks network)
+        public void ScheduleForEachModule(ActivityType? moduleToIgnore, DominatorAccountModel account, SocialNetworks network)
         {
             try
             {
@@ -258,7 +244,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="item"></param>
         /// <param name="moduleType"></param>
         /// <returns></returns>
-        public static List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType)
+        public List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType)
         {
             var runningTime = new List<RunningTimes>();
             try
@@ -313,7 +299,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             return runningTime;
         }
 
-        public static bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime)
+        public bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime)
         {
 
             if ((firstRunningTime == null && secondRunningTime != null) || (secondRunningTime == null && firstRunningTime != null))
@@ -351,7 +337,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             return IsEqual;
         }
 
-        public static bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType)
+        public bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType)
         {
             try
             {
@@ -417,7 +403,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="startActivity">ActivityType which has to be enabled</param>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        public static bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId)
+        public bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId)
         {
             try
             {
@@ -440,7 +426,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        public static void ScheduleEachActivity(DominatorAccountModel account)
+        public void ScheduleEachActivity(DominatorAccountModel account)
         {
             try
             {
@@ -456,7 +442,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        public static void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType)
+        public void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType)
         {
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
@@ -521,7 +507,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        public static void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType)
+        public void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType)
         {
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
             if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
@@ -539,7 +525,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         }
 
-        private static void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, DateTime timeToRunNext, DateTime stopTime)
+        private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, DateTime timeToRunNext, DateTime stopTime)
         {
             if (timeToRunNext < DateTime.Now)
             {
@@ -557,7 +543,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }, s => s.ToRunOnceAt(stopTime));
             });
         }
-        private static string GetTemplateId(TimingRange timing, DominatorAccountModel dominatorAccount)
+
+        private string GetTemplateId(TimingRange timing, DominatorAccountModel dominatorAccount)
         {
             var gdModule = (ActivityType)Enum.Parse(typeof(ActivityType), timing.Module);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
@@ -567,5 +554,38 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             return moduleConfiguration?.TemplateId;
         }
 
+        private void ScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, bool isDelayed)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                if (isDelayed)
+                {
+                    JobManager.AddJob(() =>
+                    {
+                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                    }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
+
+                    JobManager.AddJob(() =>
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true);
+                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+                }
+                else
+                {
+                    JobManager.AddJob(() =>
+                    {
+                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
+
+                    }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
+
+                    JobManager.AddJob(() =>
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true);
+
+                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
+
+                }
+            });
+        }
     }
 }

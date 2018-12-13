@@ -218,7 +218,6 @@
     <Compile Include="BusinessLogic\GlobalRoutines\CampaignGlobalRoutines.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
-    <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.Helpers.cs" />
     <Compile Include="BusinessLogic\Scheduler\IPublisherJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\RunningActivityManager.cs" />
     <Compile Include="BusinessLogic\Scraper\IQueryScraperFactory.cs" />

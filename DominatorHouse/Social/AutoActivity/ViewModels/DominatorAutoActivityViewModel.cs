@@ -138,7 +138,8 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 return;
             }
 
-            var status = DominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            var status = dominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
                 currentDataContext.Title);
 
             if (!status)

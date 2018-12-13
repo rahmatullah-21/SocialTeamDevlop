@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Interfaces
@@ -15,13 +14,6 @@ namespace DominatorHouseCore.Interfaces
         ///     creates job process based on social network and module
         /// </summary>
         IJobProcessFactory JobProcessFactory { get; set; }
-
-        /// <summary>
-        ///     Scraps data from social network feed based on query (queries)
-        /// </summary>
-       // IScraperFactory QueryScraperFactory { get; set; }
-
-        IQueryScraperFactory QueryScraperFactory { get; set; }
 
         ITabHandlerFactory TabHandlerFactory { get; set; }
 

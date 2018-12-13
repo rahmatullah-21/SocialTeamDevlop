@@ -16,13 +16,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             // decide activities to run
             //IEnumerable<Tuple<DominatorAccountModel, Utility.ModuleConfiguration>> jobConfigs;
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 // everything is allowed
 
                 foreach (var account in accountDetails)
                 {
-                    DominatorScheduler.ScheduleEachActivity(account);
+                    dominatorScheduler.ScheduleEachActivity(account);
                 }
             }
             else
@@ -39,6 +40,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             var jobActivityConfigurationManager =
                 ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId].Where(x => x.IsEnabled)
                 .OrderByDescending(PickNextActivity)
                 .FirstOrDefault();
@@ -64,7 +66,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     JobManager.RemoveJob(scheduledJob.Name);
                 }
             }
-            DominatorScheduler.ScheduleActivityForNextJob(accountModel, moduleConfiguration.ActivityType);
+
+            dominatorScheduler.ScheduleActivityForNextJob(accountModel, moduleConfiguration.ActivityType);
         }
 
         private static int PickNextActivity(ModuleConfiguration arg)
