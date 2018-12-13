@@ -31,7 +31,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Utility
             var result = currentDate.GetCurrentEpochTime();
 
             // assert
-            result.Should().Be(1514834553);
+            result.Should().Be(1514829153);
         }
     }
 }
