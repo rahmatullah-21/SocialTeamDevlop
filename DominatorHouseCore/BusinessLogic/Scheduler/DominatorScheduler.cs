@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -22,10 +21,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart);
 
-        void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork,
-            ActivityType activityType);
-
-        void ScheduleForEachModule(ActivityType? moduleToIgnore, DominatorAccountModel account, SocialNetworks network);
         List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType);
         bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime);
         bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType);
@@ -46,6 +41,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="templateId"></param>
         /// <param name="currentJobTimeRange"></param>
         /// <param name="module"></param>
+        /// 
         public void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
         {
             try
@@ -110,127 +106,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        /// <summary>
-
-        /// Schedules for today or run at once specific activity for certain social network
-        /// </summary>
-        /// <param name="dominatorAccount"></param>
-        /// <param name="netowork"></param>
-        /// <param name="activityType"></param>
-        public void ScheduleTodayJobs(DominatorAccountModel dominatorAccount, SocialNetworks netowork, ActivityType activityType)
-        {
-            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
-            var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
-            if (moduleConfiguration != null && !moduleConfiguration.IsEnabled)
-                return;
-
-            // Check if activity with the same id already running
-            if (runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
-            {
-                GlobusLogHelper.log.Debug($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
-                return;
-            }
-
-            try
-            {
-                // Check that at least one timing was set up before creating campaign
-                if (moduleConfiguration.LstRunningTimes == null ||
-                    moduleConfiguration.LstRunningTimes.All(rt => rt.Timings.Count == 0))
-                {
-                    throw new InvalidOperationException($"Running time for activity {activityType} wasn't set");
-                }
-
-
-                var today = DateTimeUtilities.GetDayOfWeek();
-
-                // retrieve the account's todays scheduled modules.
-                // TODO: check not only first but all running times                
-                var timeScheduleModel = moduleConfiguration.LstRunningTimes.First(x => x.DayOfWeek == today);
-
-                if (!timeScheduleModel.IsEnabled)
-                {
-                    GlobusLogHelper.log.Debug($"Activity {activityType} is disabled");
-                    return;
-                }
-
-
-                // Schedule jobs of specific module for each time range
-                foreach (var timing in timeScheduleModel.Timings)
-                {
-                    // get the template id for respective module
-                    var templateId = GetTemplateId(timing, dominatorAccount);
-
-                    var jobId = JobProcess.AsId(dominatorAccount.AccountId, templateId);
-
-                    var now = DateTime.Now.TimeOfDay;
-
-                    if (DateTimeUtilities.TimeBetween(now, timing.StartTime, timing.EndTime))
-                    {
-                        ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: now > timing.StartTime);
-                    }
-                    //// If start time not met before,it will schedule to start time
-                    //if (timing.StartTime.Hours >= currentTimespan.Hours && timing.StartTime.Minutes > currentTimespan.Minutes)
-                    //{
-                    //    ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: false);
-                    //}
-
-                    //// If start time already crossed of the day and end time is not crossed, then it will start after 5 seconds
-                    //else if (timing.EndTime.Hours >= currentTimespan.Hours && timing.EndTime.Minutes > currentTimespan.Minutes)
-                    //{
-                    //    ScheduleJob(dominatorAccount, timing, templateId, jobId, isDelayed: true);
-                    //}
-                }
-                ;
-            }
-            catch (InvalidOperationException)
-            {
-                ChangeAccountsRunningStatus(false, dominatorAccount.AccountId, activityType);
-                GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork,
-                    dominatorAccount.UserName,
-                    $"Error:- {activityType} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed and clicked on save button.");
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-
-        /// <summary>
-        /// ScheduleForEachModule take two argument first is Module type  and second is an object of AccountModel
-        /// it will schedule job for all module having running time except given moduleType if moduleType is 
-        /// null it will schedule for all module having running time
-        /// </summary>
-        /// <param name="moduleToIgnore"></param>
-        /// <param name="account"></param>
-        public void ScheduleForEachModule(ActivityType? moduleToIgnore, DominatorAccountModel account, SocialNetworks network)
-        {
-            try
-            {
-                foreach (ActivityType activity in Enum.GetValues(typeof(ActivityType)))
-                {
-                    if (activity != moduleToIgnore)
-                    {
-                        var moduleRunningTimes = GetRunningTimes(account, activity);
-                        if (moduleRunningTimes.Count > 0)
-                        {
-                            account.ActivityManager.RunningTime = moduleRunningTimes;
-                            foreach (var timing in account.ActivityManager.RunningTime)
-                                foreach (var timingRange in timing.Timings)
-                                    timingRange.Module = activity.ToString();
-
-                            ScheduleTodayJobs(account, network, activity);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
 
         /// <summary>
         /// GetRunningTimes take two argument first is an object of AccountModel and second is Module type
@@ -256,35 +131,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
 
 
-                #region Commented
-                //switch (moduleType)
-                //{
-                //    case ActivityType.Follow:
-                //        activitySetting = GdBinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == item.ActivityManager.FollowModule.TemplateId).ActivitySettings;
-                //        runningTime = JsonConvert.DeserializeObject<FollowerModel>(activitySetting).JobConfiguration.RunningTime;
-                //        break;
-                //    case ActivityType.Unfollow:
-                //        activitySetting = GdBinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == item.ActivityManager.UnfollowModule.TemplateId).ActivitySettings;
-                //        runningTime = JsonConvert.DeserializeObject<UnfollowerModel>(activitySetting).JobConfiguration.RunningTime;
-                //        break;
-                //    case ActivityType.Like:
-                //        activitySetting = GdBinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == item.ActivityManager.LikeModule.TemplateId).ActivitySettings;
-                //        runningTime = JsonConvert.DeserializeObject<LikeModel>(activitySetting).JobConfiguration.RunningTime;
-                //        break;
-                //    case ActivityType.Comment:
-                //        activitySetting = GdBinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == item.ActivityManager.CommentModule.TemplateId).ActivitySettings;
-                //        runningTime = JsonConvert.DeserializeObject<CommentModel>(activitySetting).JobConfiguration.RunningTime;
-                //        break;
-                //    case ActivityType.Repost:
-                //        activitySetting = GdBinFileHelper.GetTemplateDetails().FirstOrDefault(x => x.Id == item.ActivityManager.RepostModule.TemplateId).ActivitySettings;
-                //        runningTime = JsonConvert.DeserializeObject<RePosterModel>(activitySetting).JobConfiguration.RunningTime;
-                //        break;
-                //    case ActivityType.DownloadScraper:
-                //        break;
-                //    case ActivityType.UserScraper:
-                //        break;
-                //} 
-                #endregion
             }
             catch (Exception ex)
             {
@@ -317,6 +163,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     IsEqual = false;
                     break;
                 }
+
                 if (oldRunningTime.Timings.Count != newRunningTime.Timings.Count)
                     return false;
                 foreach (var oldtime in oldRunningTime.Timings)
@@ -375,13 +222,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     moduleConfiguration.IsEnabled = false;
                     StopActivity(accountModel,
                         activityType.ToString(), accountstemplateId, false);
-                    //DominatorScheduler.ScheduleNextActivity(accountModel, activityType);
                 }
 
                 jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, activityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(accountModel);
-
-                //AccountsFileManager.Edit(accountModel);
 
                 return true;
             }
@@ -524,63 +368,16 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             if (timeToRunNext < DateTime.Now)
             {
-                timeToRunNext.AddSeconds(25);
+                timeToRunNext = timeToRunNext.AddSeconds(25);
             }
-            Task.Factory.StartNew(() =>
+            JobManager.AddJob(() =>
             {
-                JobManager.AddJob(() =>
-                {
-                    RunActivity(dominatorAccount, templateId, timing, timing.Module);
-                }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
-                JobManager.AddJob(() =>
-                {
-                    StopActivity(dominatorAccount, timing.Module, templateId, true);
-                }, s => s.ToRunOnceAt(stopTime));
-            });
-        }
-
-        private string GetTemplateId(TimingRange timing, DominatorAccountModel dominatorAccount)
-        {
-            var gdModule = (ActivityType)Enum.Parse(typeof(ActivityType), timing.Module);
-            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, gdModule];
-
-            // Returns TemplateId for particular module
-            return moduleConfiguration?.TemplateId;
-        }
-
-        private void ScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, bool isDelayed)
-        {
-            Task.Factory.StartNew(() =>
+                RunActivity(dominatorAccount, templateId, timing, timing.Module);
+            }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+            JobManager.AddJob(() =>
             {
-                if (isDelayed)
-                {
-                    JobManager.AddJob(() =>
-                    {
-                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
-                    }, s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddSeconds(5)));
-
-                    JobManager.AddJob(() =>
-                    {
-                        StopActivity(dominatorAccount, timing.Module, templateId, true);
-                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-                }
-                else
-                {
-                    JobManager.AddJob(() =>
-                    {
-                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
-
-                    }, s => s.WithName(jobId).ToRunOnceAt(timing.StartTime.Hours, timing.StartTime.Minutes));
-
-                    JobManager.AddJob(() =>
-                    {
-                        StopActivity(dominatorAccount, timing.Module, templateId, true);
-
-                    }, s => s.ToRunOnceAt(timing.EndTime.Hours, timing.EndTime.Minutes));
-
-                }
-            });
+                StopActivity(dominatorAccount, timing.Module, templateId, true);
+            }, s => s.ToRunOnceAt(stopTime));
         }
     }
 }
