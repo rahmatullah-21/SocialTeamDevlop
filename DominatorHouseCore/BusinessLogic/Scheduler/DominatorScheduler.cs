@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
@@ -36,12 +35,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType);
     }
 
-
     public class DominatorScheduler : IDominatorScheduler
     {
-
-        private IJobProcessFactory _activeJobProcessFactory;
-
         public object RunStopActivityLocker = new object();
 
         /// <summary>
@@ -55,7 +50,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-                _activeJobProcessFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork).GetNetworkCoreFactory().JobProcessFactory;
+                var activeJobProcessFactory = ServiceLocator.Current.GetInstance<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork.ToString());
 
                 var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
 
@@ -64,7 +59,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 if (scheduledJob != null && scheduledJob.Disabled)
                     return;
 
-                var jobProcess = _activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
+                var jobProcess = activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
 
                 jobProcess.StartProcessAsync();
             }

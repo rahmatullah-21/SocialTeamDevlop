@@ -1,5 +1,4 @@
-﻿using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 
 namespace Socinator.DominatorCores
@@ -11,11 +10,6 @@ namespace Socinator.DominatorCores
         ///     Specify the network of the dominator
         /// </summary>
         public SocialNetworks Network { get; set; }
-
-        /// <summary>
-        ///     creates job process based on social network and module
-        /// </summary>
-        public IJobProcessFactory JobProcessFactory { get; set; }
 
         public ITabHandlerFactory TabHandlerFactory { get; set; }
 

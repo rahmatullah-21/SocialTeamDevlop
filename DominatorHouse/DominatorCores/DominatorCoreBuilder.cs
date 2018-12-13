@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.BusinessLogic.Factories;
-using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
@@ -27,7 +26,6 @@ namespace Socinator.DominatorCores
         {
             AddNetwork(SocialNetworks.Social)
                 .AddTabFactory(DominatorTabHandlerFactory.GetInstance(_strategies))
-                .AddJobFactory(DominatorJobProcessFactory.Instance)
                 .AddAccountCounts(DominatorAccountCountFactory.Instance)
                 .AddAccountUiTools(DominatorAccountToolsFactory.Instance);
         }
