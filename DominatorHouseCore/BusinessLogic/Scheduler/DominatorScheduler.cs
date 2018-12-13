@@ -33,6 +33,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     public class DominatorScheduler : IDominatorScheduler
     {
         public object RunStopActivityLocker = new object();
+        private readonly IRunningActivityManager _runningActivityManager;
+
+        public DominatorScheduler(IRunningActivityManager runningActivityManager)
+        {
+            _runningActivityManager = runningActivityManager;
+        }
 
         /// <summary>
         /// To start the activity of template for the given account at specified time range
@@ -359,7 +365,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 if (runningJobsHolder.IsActivityRunningForAccount(dominatorAccountModel.AccountId))
                     return;
 
-                RunningActivityManager.StartNextRound(dominatorAccountModel);
+                _runningActivityManager.StartNextRound(dominatorAccountModel);
             }
 
         }

@@ -104,7 +104,9 @@ namespace DominatorHouseCore.Process
             {
                 if (_runningJobsHolder.IsActivityRunningForAccount(AccountId))
                     return;
-                RunningActivityManager.StartNextRound(DominatorAccountModel);
+
+                var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                runningActivityManager.StartNextRound(DominatorAccountModel);
             }
 
         }

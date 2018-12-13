@@ -9,9 +9,15 @@ using System.Linq;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
-    public class RunningActivityManager
+    public interface IRunningActivityManager
     {
-        public static void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
+        void Initialize(IEnumerable<DominatorAccountModel> accountDetails);
+        void StartNextRound(DominatorAccountModel accountModel);
+
+    }
+    public class RunningActivityManager : IRunningActivityManager
+    {
+        public void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
         {
             // decide activities to run
             //IEnumerable<Tuple<DominatorAccountModel, Utility.ModuleConfiguration>> jobConfigs;
@@ -36,7 +42,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        public static void StartNextRound(DominatorAccountModel accountModel)
+        public void StartNextRound(DominatorAccountModel accountModel)
         {
             var jobActivityConfigurationManager =
                 ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
@@ -70,7 +76,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             dominatorScheduler.ScheduleActivityForNextJob(accountModel, moduleConfiguration.ActivityType);
         }
 
-        private static int PickNextActivity(ModuleConfiguration arg)
+        private int PickNextActivity(ModuleConfiguration arg)
         {
             int score = 0; //start from zero
             if (arg.IsEnabled) score += 50;
