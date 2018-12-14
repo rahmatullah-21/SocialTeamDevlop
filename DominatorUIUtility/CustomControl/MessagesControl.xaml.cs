@@ -118,6 +118,7 @@ namespace DominatorUIUtility.CustomControl
             Messages.SelectedQuery.Clear();
             Messages.LstQueries.ToList().ForEach(query =>
             {
+                query.Content.Index = Messages.LstQueries.IndexOf(query);
                 if (query.IsContentSelected)
                     Messages.SelectedQuery.Add(query);
             });

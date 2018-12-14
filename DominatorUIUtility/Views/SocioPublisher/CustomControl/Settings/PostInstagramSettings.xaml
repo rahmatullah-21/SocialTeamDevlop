@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d"   
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:src="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings">
     <UserControl.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <StackPanel>
@@ -25,9 +26,9 @@
                 <CheckBox Name="CheckBoxGeoLocation" Margin="2" IsChecked="{Binding IsGeoLocation}" Content="{DynamicResource LangKeyPostUsingGeoLocation}" />
                 <StackPanel Orientation="Vertical" Visibility="{Binding IsGeoLocation,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <RadioButton Name="RadioButtonForLocationName" Margin="10,2"  Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationName}"
-                                 IsChecked="{Binding IsGeoLocationName}"/>
-                    <RadioButton Name="RadioButtonForLocationId" Margin="10,2"  Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationId}"   
-                                 IsChecked="{Binding IsGeoLocationId}"/>
+                                 IsChecked="{Binding IsGeoLocationName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                    <RadioButton Name="RadioButtonForLocationId" Margin="10,2" Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationId}"   
+                                 IsChecked="{Binding IsGeoLocationId,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
                     <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="15,2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
                 </StackPanel>
             </StackPanel>

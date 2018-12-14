@@ -82,12 +82,19 @@ namespace DominatorHouse.Utilities
 
         private void ScheduleAccountUpdation()
         {
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            var socinatorSettings = softwareSettings.Settings;
-            new ActionBlock<AccountDetailsUpdation>(
-                            async job => await job.UpdateAccountAsync(),
-                            new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = socinatorSettings.SimultaneousAccountUpdateCount });
+            try
+            {
+                var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                var socinatorSettings = softwareSettings.Settings;
+                new ActionBlock<AccountDetailsUpdation>(
+                                async job => await job.UpdateAccountAsync(),
+                                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = socinatorSettings.SimultaneousAccountUpdateCount });
 
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
 
         }
 

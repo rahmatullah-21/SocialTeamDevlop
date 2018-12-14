@@ -9,6 +9,12 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
     public class PublisherPostSettings :BindableBase
     {
         private GeneralPostSettings _generalPostSettings = new GeneralPostSettings();
+        private FdPostSettings _fdPostSettings = new FdPostSettings();
+        private GdPostSettings _gdPostSettings = new GdPostSettings();
+        private TdPostSettings _tdPostSettings = new TdPostSettings();
+        private LdPostSettings _ldPostSettings = new LdPostSettings();
+        private TumberPostSettings _tumberPostSettings = new TumberPostSettings();
+        private RedditPostSetting _redditPostSetting = new RedditPostSetting();
 
         [ProtoMember(1)]
         public GeneralPostSettings GeneralPostSettings
@@ -27,21 +33,45 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         }
 
         [ProtoMember(2)]
-        public FdPostSettings FdPostSettings { get; set; }=new FdPostSettings();
+        public FdPostSettings FdPostSettings
+        {
+            get { return _fdPostSettings; }
+            set { SetProperty(ref _fdPostSettings, value); }
+        }
 
         [ProtoMember(3)]
-        public GdPostSettings GdPostSettings { get; set; }=new GdPostSettings();
+        public GdPostSettings GdPostSettings
+        {
+            get { return _gdPostSettings; }
+            set { SetProperty(ref _gdPostSettings, value); }
+        }
 
         [ProtoMember(4)]
-        public TdPostSettings TdPostSettings { get; set; }=new TdPostSettings();
+        public TdPostSettings TdPostSettings
+        {
+            get { return _tdPostSettings; }
+            set { SetProperty(ref _tdPostSettings, value); }
+        }
 
         [ProtoMember(5)]
-        public LdPostSettings LdPostSettings { get; set; }=new LdPostSettings();
+        public LdPostSettings LdPostSettings
+        {
+            get { return _ldPostSettings; }
+            set { SetProperty(ref _ldPostSettings, value); }
+        }
 
         [ProtoMember(6)]
-        public TumberPostSettings TumberPostSettings { get; set; }=new TumberPostSettings();
+        public TumberPostSettings TumberPostSettings
+        {
+            get { return _tumberPostSettings; }
+            set { SetProperty(ref _tumberPostSettings, value); }
+        }
 
         [ProtoMember(7)]
-        public RedditPostSetting RedditPostSetting { get; set; } = new RedditPostSetting();
+        public RedditPostSetting RedditPostSetting
+        {
+            get { return _redditPostSetting; }
+            set { SetProperty(ref _redditPostSetting, value); }
+        }
     }
 }

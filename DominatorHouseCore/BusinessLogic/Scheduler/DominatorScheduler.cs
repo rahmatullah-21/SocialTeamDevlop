@@ -364,10 +364,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, activityType];
 
                 var accountstemplateId = moduleConfiguration?.TemplateId;
-                if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
-                {
-                    return false;
-                }
+                //if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
+                //{
+                //    return false;
+                //}
                 if (isStart)
                 {
                     try

@@ -35,7 +35,7 @@ namespace DominatorHouseCore.Enums
         //[Description("Facebook,Twitter,Instagram")]
         //Message = 10,
 
-        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest")]
+        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit")]
         UserScraper = 11,
 
         [Description("Twitter")]
@@ -199,7 +199,7 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         GroupMemberScraper = 66,
 
-        [Description("LinkedIn,Reddit")]
+        [Description("LinkedIn")]
         SalesNavigatorUserScraper = 67,
 
         [Description("Youtube,Reddit")]
@@ -208,7 +208,7 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube")]
         Unsubscribe = 69,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr,Reddit")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
         BroadcastMessages = 70,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]

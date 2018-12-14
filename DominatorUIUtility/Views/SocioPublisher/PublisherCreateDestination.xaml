@@ -202,7 +202,7 @@
                                      mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWriteUserNameOrName}"/>
                             <Label Content="{DynamicResource LangKeySelectNetwork}" />
                             <ComboBox ItemsSource="{Binding AvailableNetworks,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
-                                      Margin="5,0" Width="100" SelectedIndex="0"
+                                      Margin="5,0" Width="100" SelectedIndex="0" Name="selectedNetwork"
                                       behaviours:SelectionChangedBehaviour.Command="{Binding NetworkSelectionChangedCommand}"/>
                         </StackPanel>
                     </Grid>

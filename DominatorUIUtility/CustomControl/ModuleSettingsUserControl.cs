@@ -412,7 +412,7 @@ namespace DominatorUIUtility.CustomControl
                         CampaignName);
                     SaveTemplateToAccounts(TemplateId);
                     SaveTemplateToCampaigns();
-                   
+
                     var accountDetails =
                         _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
 
@@ -1304,8 +1304,12 @@ namespace DominatorUIUtility.CustomControl
                 if (moduleConfiguration?.TemplateId == null || moduleConfiguration.LstRunningTimes == null)
                 {
                     Model.IsAccountGrowthActive = !isStart;
-                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please save your settings, before starting the activity.");
-                    return false;
+
+                    if (isStart)
+                    {
+                        Dialog.ShowDialog("Error", "Please save your settings, before starting the activity.");
+                        return false;
+                    }
                 }
                 moduleConfiguration.IsEnabled = isStart;
                 try

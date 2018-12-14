@@ -248,12 +248,12 @@ namespace DominatorUIUtility.ViewModel
                     || OldDominatorAccountModel.AccountBaseModel.Password != DominatorAccountModel.AccountBaseModel.Password
                     || OldDominatorAccountModel.UserAgentWeb != DominatorAccountModel.UserAgentWeb)
                 {
-                    if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList,
-                        DominatorAccountModel.CookieHelperList))
-                    {
+                    //if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList,
+                    //    DominatorAccountModel.CookieHelperList))
+                    //{
                         DominatorAccountModel.CookieHelperList?.Clear();
                         DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
-                    }
+                    //}
                 }
             }
             catch (Exception ex)

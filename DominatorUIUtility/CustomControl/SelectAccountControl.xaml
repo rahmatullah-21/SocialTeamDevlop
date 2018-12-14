@@ -26,13 +26,13 @@
                 <!--Groups combobox-->
                 <Grid Height="30" VerticalAlignment="Center" >
                     <ComboBox x:Name="cmbAllGroups" Margin="10,0,0,0"
-                      Grid.Column="0" Text="{DynamicResource LangKeySelectGroups}"
+                      Grid.Column="0" Text="{Binding SelectAccountModel.GroupText}"
                        Width="200" Height="30"
                       VerticalAlignment="Center" VerticalContentAlignment="Top"
                       FontSize="14" Background="White"
                       IsEditable="True" DropDownClosed="cmbAllGroups_DropDownClosed"
                       IsTextSearchEnabled="False" 
-                      ItemsSource="{Binding Groups}">
+                      ItemsSource="{Binding SelectAccountModel.Groups}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <CheckBox Content="{Binding Content}" x:Name="chkgroup"
@@ -69,16 +69,14 @@
                     <ListView.View>
                         <GridView AllowsColumnReorder="False" >
                             <GridViewColumn Width="100" >
-                                <CheckBox x:Name="AllAccount"  Content=" #" IsChecked="{Binding IsAllAccountSelected}"
-                                          Checked="AllAccount_OnChecked"
-                                          Unchecked="AllAccount_OnUnchecked"/>
+                                <CheckBox x:Name="AllAccount"  Content=" #" IsChecked="{Binding IsAllAccountSelected}"/>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate >
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <CheckBox IsChecked="{Binding IsAccountSelected}" 
-                                                      x:Name="SingleAccount"
-                                                      Margin="5,0,0,0" Unchecked="SingleAccount_OnUnchecked"
-                                                      Content="{Binding (ItemsControl.AlternationIndex),
+                                                      x:Name="SingleAccount" Command="{Binding DataContext.SelectSingle,
+                                                      RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                      Margin="5,0,0,0" Content="{Binding (ItemsControl.AlternationIndex),
                                                       RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                       Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                                         </StackPanel>
