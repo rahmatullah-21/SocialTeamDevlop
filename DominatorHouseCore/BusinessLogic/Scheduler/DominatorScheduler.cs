@@ -6,7 +6,6 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
-using FluentScheduler;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,10 +33,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         public object RunStopActivityLocker = new object();
         private readonly IRunningActivityManager _runningActivityManager;
+        private readonly ISchedulerProxy _schedulerProxy;
 
-        public DominatorScheduler(IRunningActivityManager runningActivityManager)
+        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy)
         {
             _runningActivityManager = runningActivityManager;
+            _schedulerProxy = schedulerProxy;
         }
 
         /// <summary>
@@ -47,7 +48,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         /// <param name="templateId"></param>
         /// <param name="currentJobTimeRange"></param>
         /// <param name="module"></param>
-        /// 
         public void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
         {
             try
@@ -56,7 +56,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
 
-                var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
+                var scheduledJob = _schedulerProxy[id];
 
                 if (scheduledJob != null && scheduledJob.Disabled)
                     return;
@@ -77,11 +77,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 JobProcess.Stop(account.AccountId, templateId);
 
-                // GlobusLogHelper.log.Info(Log.ProcessStopped, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName, module, $"{module}-{templateId}" + " stopped");
-
                 var id = JobProcess.AsId(account.AccountId, templateId);
-                JobManager.RemoveJob(id);
-                var scheduledJob = JobManager.RunningSchedules.FirstOrDefault(x => x.Name == id);
+                _schedulerProxy.RemoveJob(id);
+                var scheduledJob = _schedulerProxy[id];
 
                 try
                 {
@@ -100,9 +98,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         // ReSharper disable once RedundantJumpStatement
                         return;
                     }
-
-
-                    // GlobusLogHelper.log.Info($"{module}-{templateId}" + " stopped");
                 }
                 catch (Exception ex)
                 {
@@ -376,14 +371,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 timeToRunNext = timeToRunNext.AddSeconds(25);
             }
-            JobManager.AddJob(() =>
-            {
-                RunActivity(dominatorAccount, templateId, timing, timing.Module);
-            }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
-            JobManager.AddJob(() =>
-            {
-                StopActivity(dominatorAccount, timing.Module, templateId, true);
-            }, s => s.ToRunOnceAt(stopTime));
+
+            _schedulerProxy.AddJob(() => { RunActivity(dominatorAccount, templateId, timing, timing.Module); },
+                s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+
+            _schedulerProxy.AddJob(() => { StopActivity(dominatorAccount, timing.Module, templateId, true); },
+                s => s.ToRunOnceAt(stopTime));
         }
     }
 }

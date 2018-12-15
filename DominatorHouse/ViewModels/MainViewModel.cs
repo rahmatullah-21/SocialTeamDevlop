@@ -3,6 +3,7 @@ using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -20,7 +21,6 @@ using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
-using FluentScheduler;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,7 @@ namespace DominatorHouse.ViewModels
     public class MainViewModel : BindableBase, IMainViewModel
     {
         private readonly IApplicationResourceProvider _applicationResourceProvider;
+        private readonly ISchedulerProxy _schedulerProxy;
         private Dock _tabDock;
         public ILogViewModel LogViewModel { get; }
         public IPerfCounterViewModel PerfCounterViewModel { get; }
@@ -60,7 +61,7 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks)
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             FatalErrorDiagnosis();
 
@@ -70,6 +71,7 @@ namespace DominatorHouse.ViewModels
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
             AvailableNetworks = availableNetworks;
+            _schedulerProxy = schedulerProxy;
             Languages = new SelectableViewModel<string>(new[] { "English" });
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
@@ -304,7 +306,7 @@ namespace DominatorHouse.ViewModels
                 SetActiveNetwork(SocialNetworks.Social);
                 ThreadFactory.Instance.Start(() =>
                 {
-                    JobManager.AddJob(() => InitializeJobCores(), x => x.ToRunNow());
+                    _schedulerProxy.AddJob(() => InitializeJobCores(), x => x.ToRunNow());
                 });
 
                 //Init UI delegates            
@@ -336,7 +338,7 @@ namespace DominatorHouse.ViewModels
                 {
                     var nextDayTime = DateTime.Now.AddDays(1);
 
-                    JobManager.AddJob(InitializeJobCores,
+                    _schedulerProxy.AddJob(InitializeJobCores,
                         x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
                             .AndEvery(1).Days());
                 });
@@ -391,7 +393,7 @@ namespace DominatorHouse.ViewModels
             {
                 ThreadFactory.Instance.Start(() =>
                 {
-                    JobManager.AddJob(async () => await IsCheck(),
+                    _schedulerProxy.AddJob(async () => await IsCheck(),
                         x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
                             .AndEvery(1).Hours());
                 });
