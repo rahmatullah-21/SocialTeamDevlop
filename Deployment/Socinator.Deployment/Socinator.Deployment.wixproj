@@ -3,12 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>3.9</ProductVersion>
-    <ProjectGuid>329c90f0-db16-4d2a-a848-8af27fd4f1ac</ProjectGuid>
+    <ProductVersion>3.10</ProductVersion>
+    <ProjectGuid>bf7c1b82-9a26-42d5-ab92-9b63884f50f2</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Socinator.Installer</OutputName>
+    <OutputName>Socinator.Deployment</OutputName>
     <OutputType>Package</OutputType>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\WiX Toolset\v4\wix.targets</WixTargetsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -27,21 +26,22 @@
     <Content Include="config.wxi" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules" />
+    <Folder Include="Modules\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DominatorHouse\DominatorHouse.csproj">
-      <Name>DominatorHouse</Name>
-      <Project>{c7b598e7-4b31-4a92-9b53-022a25e50002}</Project>
+    <ProjectReference Include="..\..\DominatorHouseCore\DominatorHouseCore.csproj">
+      <Name>DominatorHouseCore</Name>
+      <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(WixTargetsPath)" Condition=" Exists('$(WixTargetsPath)') " />
-  <Target Name="EnsureWixToolsetInstalled" Condition=" !Exists('$(WixTargetsPath)') ">
-    <Error Text="The WiX Toolset v4 build tools must be installed to build this project. To download the WiX Toolset v4, see http://wixtoolset.org/releases/" />
+  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
+  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
+    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

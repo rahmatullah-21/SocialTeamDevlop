@@ -2,5 +2,5 @@
 <Include>
   <?define Manufacturer="Globussoft Pvt. Ltd." ?>
   <?define ProductName="Socinator" ?>
-  <?define SourceDir="..\..\DominatorHouse\bin\$(var.DominatorHouse.Configuration)" ?>
+  <?define SourceDir="..\..\DominatorHouse\bin\$(var.DominatorHouseCore.Configuration)" ?>
 </Include>
