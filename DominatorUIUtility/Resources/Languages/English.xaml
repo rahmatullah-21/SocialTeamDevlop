@@ -3302,4 +3302,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyReplyToPendingPageMessages">Reply To Pending Page Messages</system:String>
     <system:String x:Key="LangKeyUsersToSendAutoReplyMessageAccordingToMessageFilter">Users to Send Auto Reply Message According to Message Filter</system:String>
     <system:String x:Key="LangKeySecondsBetweenEachFollow">Seconds Between Each Follow</system:String>
+    <system:String x:Key="LangKeyAutoSchedule">Auto Schedule</system:String>
+    <system:String x:Key="LangKeyPostMultipleImagesPostsAsAlbum">Post Multiple Images Posts As Album</system:String>
+
 </ResourceDictionary>

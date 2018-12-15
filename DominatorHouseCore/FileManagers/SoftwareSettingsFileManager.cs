@@ -46,7 +46,7 @@ namespace DominatorHouseCore.FileManagers
             {
                 GlobusLogHelper.log.Debug(ex.Message);
             }
-            return null;
+            return new SoftwareSettingsModel();
         }
     }
 }

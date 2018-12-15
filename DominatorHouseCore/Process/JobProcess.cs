@@ -40,6 +40,7 @@ namespace DominatorHouseCore.Process
 
         }
 
+        public bool IsNeedToSchedule { get; set; } = false;
         protected JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
@@ -60,6 +61,14 @@ namespace DominatorHouseCore.Process
             if (model != null)
             {
                 JObject jsonObject = JObject.Parse(model.ActivitySettings);
+                try
+                {
+                    IsNeedToSchedule = (bool)jsonObject["IsNeedToStart"]?.ToObject<bool>();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
                 //dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings); ----//Todo 
                 JobConfiguration = jsonObject["JobConfiguration"]?.ToObject<JobConfiguration>();
                 //  JsonConvert.DeserializeObject<JobConfiguration>(jsonObject["JobConfiguration"].ToString());
