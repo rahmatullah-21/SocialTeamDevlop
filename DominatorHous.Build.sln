@@ -554,6 +554,7 @@ Global
 		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug-fast-test|x86.ActiveCfg = Debug|x86
 		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug-fast-test|x86.Build.0 = Debug|x86
 		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|Any CPU.ActiveCfg = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|Any CPU.Build.0 = Release|x86
 		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|x64.ActiveCfg = Release|x86
 		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|x86.ActiveCfg = Release|x86
 		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|x86.Build.0 = Release|x86
