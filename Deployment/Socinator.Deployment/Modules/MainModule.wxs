@@ -3,9 +3,8 @@
   <?include ".\..\config.wxi"?>
 	<Fragment>
     <ComponentGroup Id="MainComponents">
-      <Component Id="root" Directory="INSTALLFOLDERDir" Guid="8D64CD38-B1CD-4455-9A62-92AC7DFB7698">
+      <Component Id="root" Directory="INSTALLFOLDERDir" Guid="94139B70-09F3-464B-A395-88F33B00A4AF">
         <File Id="AutoMapperdll" Name="AutoMapper.dll" Source="$(var.SourceDir)\AutoMapper.dll"/>
-        <File Id="AutoMapperpdb" Name="AutoMapper.pdb" Source="$(var.SourceDir)\AutoMapper.pdb"/>
         <File Id="AutoMapperxml" Name="AutoMapper.xml" Source="$(var.SourceDir)\AutoMapper.xml"/>
         <File Id="cefpak" Name="cef.pak" Source="$(var.SourceDir)\cef.pak"/>
         <File Id="cef100percentpak" Name="cef_100_percent.pak" Source="$(var.SourceDir)\cef_100_percent.pak"/>
@@ -18,25 +17,19 @@
         <File Id="CefSharpWpfdll" Name="CefSharp.Wpf.dll" Source="$(var.SourceDir)\CefSharp.Wpf.dll"/>
         <File Id="chromeelfdll" Name="chrome_elf.dll" Source="$(var.SourceDir)\chrome_elf.dll"/>
         <File Id="CommonServiceLocatordll" Name="CommonServiceLocator.dll" Source="$(var.SourceDir)\CommonServiceLocator.dll"/>
-        <File Id="CommonServiceLocatorpdb" Name="CommonServiceLocator.pdb" Source="$(var.SourceDir)\CommonServiceLocator.pdb"/>
         <File Id="ControlzExdll" Name="ControlzEx.dll" Source="$(var.SourceDir)\ControlzEx.dll"/>
-        <File Id="ControlzExpdb" Name="ControlzEx.pdb" Source="$(var.SourceDir)\ControlzEx.pdb"/>
         <File Id="CsvHelperdll" Name="CsvHelper.dll" Source="$(var.SourceDir)\CsvHelper.dll"/>
         <File Id="CsvHelperxml" Name="CsvHelper.xml" Source="$(var.SourceDir)\CsvHelper.xml"/>
         <File Id="d3dcompiler47dll" Name="d3dcompiler_47.dll" Source="$(var.SourceDir)\d3dcompiler_47.dll"/>
         <File Id="devtoolsresourcespak" Name="devtools_resources.pak" Source="$(var.SourceDir)\devtools_resources.pak"/>
         <File Id="DominatorHouseCoredll" Name="DominatorHouseCore.dll" Source="$(var.SourceDir)\DominatorHouseCore.dll"/>
         <File Id="DominatorHouseCoredllconfig" Name="DominatorHouseCore.dll.config" Source="$(var.SourceDir)\DominatorHouseCore.dll.config"/>
-        <File Id="DominatorHouseCorepdb" Name="DominatorHouseCore.pdb" Source="$(var.SourceDir)\DominatorHouseCore.pdb"/>
         <File Id="DominatorUIUtilityexe" Name="DominatorUIUtility.exe" Source="$(var.SourceDir)\DominatorUIUtility.exe"/>
         <File Id="DominatorUIUtilityexeconfig" Name="DominatorUIUtility.exe.config" Source="$(var.SourceDir)\DominatorUIUtility.exe.config"/>
-        <File Id="DominatorUIUtilitypdb" Name="DominatorUIUtility.pdb" Source="$(var.SourceDir)\DominatorUIUtility.pdb"/>
         <File Id="Dragablzdll" Name="Dragablz.dll" Source="$(var.SourceDir)\Dragablz.dll"/>
-        <File Id="Dragablzpdb" Name="Dragablz.pdb" Source="$(var.SourceDir)\Dragablz.pdb"/>
         <File Id="Dragablzxml" Name="Dragablz.xml" Source="$(var.SourceDir)\Dragablz.xml"/>
         <File Id="EmbeddedBrowserexe" Name="EmbeddedBrowser.exe" Source="$(var.SourceDir)\EmbeddedBrowser.exe"/>
         <File Id="EmbeddedBrowserexeconfig" Name="EmbeddedBrowser.exe.config" Source="$(var.SourceDir)\EmbeddedBrowser.exe.config"/>
-        <File Id="EmbeddedBrowserpdb" Name="EmbeddedBrowser.pdb" Source="$(var.SourceDir)\EmbeddedBrowser.pdb"/>
         <File Id="EntityFrameworkdll" Name="EntityFramework.dll" Source="$(var.SourceDir)\EntityFramework.dll"/>
         <File Id="EntityFrameworkSqlServerdll" Name="EntityFramework.SqlServer.dll" Source="$(var.SourceDir)\EntityFramework.SqlServer.dll"/>
         <File Id="EntityFrameworkSqlServerxml" Name="EntityFramework.SqlServer.xml" Source="$(var.SourceDir)\EntityFramework.SqlServer.xml"/>
@@ -44,10 +37,8 @@
         <File Id="ExcelDataReaderdll" Name="ExcelDataReader.dll" Source="$(var.SourceDir)\ExcelDataReader.dll"/>
         <File Id="ExcelDataReaderxml" Name="ExcelDataReader.xml" Source="$(var.SourceDir)\ExcelDataReader.xml"/>
         <File Id="FluentSchedulerdll" Name="FluentScheduler.dll" Source="$(var.SourceDir)\FluentScheduler.dll"/>
-        <File Id="FluentSchedulerpdb" Name="FluentScheduler.pdb" Source="$(var.SourceDir)\FluentScheduler.pdb"/>
         <File Id="FluentSchedulerxml" Name="FluentScheduler.xml" Source="$(var.SourceDir)\FluentScheduler.xml"/>
         <File Id="HtmlAgilityPackdll" Name="HtmlAgilityPack.dll" Source="$(var.SourceDir)\HtmlAgilityPack.dll"/>
-        <File Id="HtmlAgilityPackpdb" Name="HtmlAgilityPack.pdb" Source="$(var.SourceDir)\HtmlAgilityPack.pdb"/>
         <File Id="HtmlAgilityPackxml" Name="HtmlAgilityPack.xml" Source="$(var.SourceDir)\HtmlAgilityPack.xml"/>
         <File Id="icudtldat" Name="icudtl.dat" Source="$(var.SourceDir)\icudtl.dat"/>
         <File Id="InteropShell32dll" Name="Interop.Shell32.dll" Source="$(var.SourceDir)\Interop.Shell32.dll"/>
@@ -55,13 +46,10 @@
         <File Id="libEGLdll" Name="libEGL.dll" Source="$(var.SourceDir)\libEGL.dll"/>
         <File Id="libGLESv2dll" Name="libGLESv2.dll" Source="$(var.SourceDir)\libGLESv2.dll"/>
         <File Id="LiveChartsdll" Name="LiveCharts.dll" Source="$(var.SourceDir)\LiveCharts.dll"/>
-        <File Id="LiveChartspdb" Name="LiveCharts.pdb" Source="$(var.SourceDir)\LiveCharts.pdb"/>
         <File Id="LiveChartsWpfdll" Name="LiveCharts.Wpf.dll" Source="$(var.SourceDir)\LiveCharts.Wpf.dll"/>
-        <File Id="LiveChartsWpfpdb" Name="LiveCharts.Wpf.pdb" Source="$(var.SourceDir)\LiveCharts.Wpf.pdb"/>
         <File Id="LiveChartsWpfxml" Name="LiveCharts.Wpf.xml" Source="$(var.SourceDir)\LiveCharts.Wpf.xml"/>
         <File Id="LiveChartsxml" Name="LiveCharts.xml" Source="$(var.SourceDir)\LiveCharts.xml"/>
         <File Id="MahAppsMetrodll" Name="MahApps.Metro.dll" Source="$(var.SourceDir)\MahApps.Metro.dll"/>
-        <File Id="MahAppsMetropdb" Name="MahApps.Metro.pdb" Source="$(var.SourceDir)\MahApps.Metro.pdb"/>
         <File Id="MahAppsMetroxml" Name="MahApps.Metro.xml" Source="$(var.SourceDir)\MahApps.Metro.xml"/>
         <File Id="MicrosoftOwindll" Name="Microsoft.Owin.dll" Source="$(var.SourceDir)\Microsoft.Owin.dll"/>
         <File Id="MicrosoftOwinHostingdll" Name="Microsoft.Owin.Hosting.dll" Source="$(var.SourceDir)\Microsoft.Owin.Hosting.dll"/>
@@ -80,27 +68,25 @@
         <File Id="OpenPopxml" Name="OpenPop.xml" Source="$(var.SourceDir)\OpenPop.xml"/>
         <File Id="Owindll" Name="Owin.dll" Source="$(var.SourceDir)\Owin.dll"/>
         <File Id="Prismdll" Name="Prism.dll" Source="$(var.SourceDir)\Prism.dll"/>
-        <File Id="Prismpdb" Name="Prism.pdb" Source="$(var.SourceDir)\Prism.pdb"/>
         <File Id="PrismUnityWpfdll" Name="Prism.Unity.Wpf.dll" Source="$(var.SourceDir)\Prism.Unity.Wpf.dll"/>
-        <File Id="PrismUnityWpfpdb" Name="Prism.Unity.Wpf.pdb" Source="$(var.SourceDir)\Prism.Unity.Wpf.pdb"/>
         <File Id="PrismUnityWpfxml" Name="Prism.Unity.Wpf.xml" Source="$(var.SourceDir)\Prism.Unity.Wpf.xml"/>
         <File Id="PrismWpfdll" Name="Prism.Wpf.dll" Source="$(var.SourceDir)\Prism.Wpf.dll"/>
-        <File Id="PrismWpfpdb" Name="Prism.Wpf.pdb" Source="$(var.SourceDir)\Prism.Wpf.pdb"/>
         <File Id="PrismWpfxml" Name="Prism.Wpf.xml" Source="$(var.SourceDir)\Prism.Wpf.xml"/>
         <File Id="Prismxml" Name="Prism.xml" Source="$(var.SourceDir)\Prism.xml"/>
         <File Id="ProtectedCommondll" Name="ProtectedCommon.dll" Source="$(var.SourceDir)\ProtectedCommon.dll"/>
-        <File Id="ProtectedCommonpdb" Name="ProtectedCommon.pdb" Source="$(var.SourceDir)\ProtectedCommon.pdb"/>
         <File Id="ProtectedServerAppexe" Name="ProtectedServerApp.exe" Source="$(var.SourceDir)\ProtectedServerApp.exe"/>
         <File Id="ProtectedServerAppexeconfig" Name="ProtectedServerApp.exe.config" Source="$(var.SourceDir)\ProtectedServerApp.exe.config"/>
-        <File Id="ProtectedServerApppdb" Name="ProtectedServerApp.pdb" Source="$(var.SourceDir)\ProtectedServerApp.pdb"/>
         <File Id="protobufnetdll" Name="protobuf-net.dll" Source="$(var.SourceDir)\protobuf-net.dll"/>
         <File Id="protobufnetxml" Name="protobuf-net.xml" Source="$(var.SourceDir)\protobuf-net.xml"/>
+        <File Id="RedditDominatorCoredll" Name="RedditDominatorCore.dll" Source="$(var.SourceDir)\RedditDominatorCore.dll"/>
+        <File Id="RedditDominatorCoredllconfig" Name="RedditDominatorCore.dll.config" Source="$(var.SourceDir)\RedditDominatorCore.dll.config"/>
+        <File Id="RedditDominatorUIexe" Name="RedditDominatorUI.exe" Source="$(var.SourceDir)\RedditDominatorUI.exe"/>
+        <File Id="RedditDominatorUIexeconfig" Name="RedditDominatorUI.exe.config" Source="$(var.SourceDir)\RedditDominatorUI.exe.config"/>
         <File Id="snapshotblobbin" Name="snapshot_blob.bin" Source="$(var.SourceDir)\snapshot_blob.bin"/>
         <File Id="Socinatorapplication" Name="Socinator.application" Source="$(var.SourceDir)\Socinator.application"/>
         <File Id="Socinatorexe" Name="Socinator.exe" Source="$(var.SourceDir)\Socinator.exe"/>
         <File Id="Socinatorexeconfig" Name="Socinator.exe.config" Source="$(var.SourceDir)\Socinator.exe.config"/>
         <File Id="Socinatorexemanifest" Name="Socinator.exe.manifest" Source="$(var.SourceDir)\Socinator.exe.manifest"/>
-        <File Id="Socinatorpdb" Name="Socinator.pdb" Source="$(var.SourceDir)\Socinator.pdb"/>
         <File Id="SQLiteInteropdll" Name="SQLite.Interop.dll" Source="$(var.SourceDir)\SQLite.Interop.dll"/>
         <File Id="sqlite3def" Name="sqlite3.def" Source="$(var.SourceDir)\sqlite3.def"/>
         <File Id="sqlite3dll" Name="sqlite3.dll" Source="$(var.SourceDir)\sqlite3.dll"/>
@@ -116,226 +102,39 @@
         <File Id="SystemWebHttpOwindll" Name="System.Web.Http.Owin.dll" Source="$(var.SourceDir)\System.Web.Http.Owin.dll"/>
         <File Id="SystemWebHttpOwinxml" Name="System.Web.Http.Owin.xml" Source="$(var.SourceDir)\System.Web.Http.Owin.xml"/>
         <File Id="SystemWebHttpxml" Name="System.Web.Http.xml" Source="$(var.SourceDir)\System.Web.Http.xml"/>
+        <File Id="SystemWindowsControlsDataVisualizationToolkitdll" Name="System.Windows.Controls.DataVisualization.Toolkit.dll" Source="$(var.SourceDir)\System.Windows.Controls.DataVisualization.Toolkit.dll"/>
+        <File Id="SystemWindowsControlsDataVisualizationToolkitxml" Name="System.Windows.Controls.DataVisualization.Toolkit.xml" Source="$(var.SourceDir)\System.Windows.Controls.DataVisualization.Toolkit.xml"/>
         <File Id="SystemWindowsInteractivitydll" Name="System.Windows.Interactivity.dll" Source="$(var.SourceDir)\System.Windows.Interactivity.dll"/>
         <File Id="ToastNotificationsdll" Name="ToastNotifications.dll" Source="$(var.SourceDir)\ToastNotifications.dll"/>
         <File Id="ToastNotificationsMessagesdll" Name="ToastNotifications.Messages.dll" Source="$(var.SourceDir)\ToastNotifications.Messages.dll"/>
+        <File Id="TwtDominatorCoredll" Name="TwtDominatorCore.dll" Source="$(var.SourceDir)\TwtDominatorCore.dll"/>
+        <File Id="TwtDominatorCoredllconfig" Name="TwtDominatorCore.dll.config" Source="$(var.SourceDir)\TwtDominatorCore.dll.config"/>
+        <File Id="TwtDominatorUIexe" Name="TwtDominatorUI.exe" Source="$(var.SourceDir)\TwtDominatorUI.exe"/>
+        <File Id="TwtDominatorUIexeconfig" Name="TwtDominatorUI.exe.config" Source="$(var.SourceDir)\TwtDominatorUI.exe.config"/>
         <File Id="UnityAbstractionsdll" Name="Unity.Abstractions.dll" Source="$(var.SourceDir)\Unity.Abstractions.dll"/>
         <File Id="UnityConfigurationdll" Name="Unity.Configuration.dll" Source="$(var.SourceDir)\Unity.Configuration.dll"/>
-        <File Id="UnityConfigurationpdb" Name="Unity.Configuration.pdb" Source="$(var.SourceDir)\Unity.Configuration.pdb"/>
         <File Id="UnityContainerdll" Name="Unity.Container.dll" Source="$(var.SourceDir)\Unity.Container.dll"/>
         <File Id="UnityInterceptionConfigurationdll" Name="Unity.Interception.Configuration.dll" Source="$(var.SourceDir)\Unity.Interception.Configuration.dll"/>
-        <File Id="UnityInterceptionConfigurationpdb" Name="Unity.Interception.Configuration.pdb" Source="$(var.SourceDir)\Unity.Interception.Configuration.pdb"/>
         <File Id="UnityInterceptiondll" Name="Unity.Interception.dll" Source="$(var.SourceDir)\Unity.Interception.dll"/>
         <File Id="UnityRegistrationByConventiondll" Name="Unity.RegistrationByConvention.dll" Source="$(var.SourceDir)\Unity.RegistrationByConvention.dll"/>
-        <File Id="UnityRegistrationByConventionpdb" Name="Unity.RegistrationByConvention.pdb" Source="$(var.SourceDir)\Unity.RegistrationByConvention.pdb"/>
         <File Id="UnityServiceLocationdll" Name="Unity.ServiceLocation.dll" Source="$(var.SourceDir)\Unity.ServiceLocation.dll"/>
-        <File Id="UnityServiceLocationpdb" Name="Unity.ServiceLocation.pdb" Source="$(var.SourceDir)\Unity.ServiceLocation.pdb"/>
         <File Id="v8contextsnapshotbin" Name="v8_context_snapshot.bin" Source="$(var.SourceDir)\v8_context_snapshot.bin"/>
         <File Id="widevinecdmadapterdll" Name="widevinecdmadapter.dll" Source="$(var.SourceDir)\widevinecdmadapter.dll"/>
         <File Id="WPFFolderBrowserdll" Name="WPFFolderBrowser.dll" Source="$(var.SourceDir)\WPFFolderBrowser.dll"/>
       </Component>
 
-      <Component Id="Componentapppublish" Directory="apppublishDir" Guid="2AC2D71F-9196-4CA6-9517-8BB2FD72BBB5">
+      <Component Id="Componentapppublish" Directory="apppublishDir" Guid="B10158B3-DD47-4A2D-8D4E-4B8452F1E9DF">
         <File Id="apppublishSocinatorexe" Name="Socinator.exe" Source="$(var.SourceDir)\app.publish\Socinator.exe"/>
       </Component>
 
-      <Component Id="Componentlocales" Directory="localesDir" Guid="A6AD3D43-E210-4578-8AEE-40D9E7163E1A">
+      <Component Id="Componentlocales" Directory="localesDir" Guid="AD6E06D3-1836-4BFD-BEB6-406B17514030">
         <File Id="localesenUSpak" Name="en-US.pak" Source="$(var.SourceDir)\locales\en-US.pak"/>
       </Component>
 
-      <Component Id="ComponentRevisionHistory" Directory="RevisionHistoryDir" Guid="93E0038C-2160-4360-AC90-267A6BFE6352">
+      <Component Id="ComponentRevisionHistory" Directory="RevisionHistoryDir" Guid="A10F57A1-00DF-49FA-A179-68A54667C402">
         <File Id="RevisionHistoryrevisionhistorytxt" Name="revisionhistory.txt" Source="$(var.SourceDir)\RevisionHistory\revisionhistory.txt"/>
       </Component>
 
-      <Component Id="Componentx64" Directory="x64Dir" Guid="1236F47D-7192-4851-B689-B4955189C5B3">
-        <File Id="x64cefpak" Name="cef.pak" Source="$(var.SourceDir)\x64\cef.pak"/>
-        <File Id="x64cef100percentpak" Name="cef_100_percent.pak" Source="$(var.SourceDir)\x64\cef_100_percent.pak"/>
-        <File Id="x64cef200percentpak" Name="cef_200_percent.pak" Source="$(var.SourceDir)\x64\cef_200_percent.pak"/>
-        <File Id="x64cefextensionspak" Name="cef_extensions.pak" Source="$(var.SourceDir)\x64\cef_extensions.pak"/>
-        <File Id="x64CefSharpBrowserSubprocessCoredll" Name="CefSharp.BrowserSubprocess.Core.dll" Source="$(var.SourceDir)\x64\CefSharp.BrowserSubprocess.Core.dll"/>
-        <File Id="x64CefSharpBrowserSubprocessCorepdb" Name="CefSharp.BrowserSubprocess.Core.pdb" Source="$(var.SourceDir)\x64\CefSharp.BrowserSubprocess.Core.pdb"/>
-        <File Id="x64CefSharpBrowserSubprocessexe" Name="CefSharp.BrowserSubprocess.exe" Source="$(var.SourceDir)\x64\CefSharp.BrowserSubprocess.exe"/>
-        <File Id="x64CefSharpBrowserSubprocesspdb" Name="CefSharp.BrowserSubprocess.pdb" Source="$(var.SourceDir)\x64\CefSharp.BrowserSubprocess.pdb"/>
-        <File Id="x64CefSharpCoredll" Name="CefSharp.Core.dll" Source="$(var.SourceDir)\x64\CefSharp.Core.dll"/>
-        <File Id="x64CefSharpCorepdb" Name="CefSharp.Core.pdb" Source="$(var.SourceDir)\x64\CefSharp.Core.pdb"/>
-        <File Id="x64CefSharpCorexml" Name="CefSharp.Core.xml" Source="$(var.SourceDir)\x64\CefSharp.Core.xml"/>
-        <File Id="x64CefSharpdll" Name="CefSharp.dll" Source="$(var.SourceDir)\x64\CefSharp.dll"/>
-        <File Id="x64CefSharppdb" Name="CefSharp.pdb" Source="$(var.SourceDir)\x64\CefSharp.pdb"/>
-        <File Id="x64CefSharpWinFormsdll" Name="CefSharp.WinForms.dll" Source="$(var.SourceDir)\x64\CefSharp.WinForms.dll"/>
-        <File Id="x64CefSharpWinFormspdb" Name="CefSharp.WinForms.pdb" Source="$(var.SourceDir)\x64\CefSharp.WinForms.pdb"/>
-        <File Id="x64CefSharpWinFormsXML" Name="CefSharp.WinForms.XML" Source="$(var.SourceDir)\x64\CefSharp.WinForms.XML"/>
-        <File Id="x64CefSharpWpfdll" Name="CefSharp.Wpf.dll" Source="$(var.SourceDir)\x64\CefSharp.Wpf.dll"/>
-        <File Id="x64CefSharpWpfpdb" Name="CefSharp.Wpf.pdb" Source="$(var.SourceDir)\x64\CefSharp.Wpf.pdb"/>
-        <File Id="x64CefSharpWpfXML" Name="CefSharp.Wpf.XML" Source="$(var.SourceDir)\x64\CefSharp.Wpf.XML"/>
-        <File Id="x64CefSharpXML" Name="CefSharp.XML" Source="$(var.SourceDir)\x64\CefSharp.XML"/>
-        <File Id="x64chromeelfdll" Name="chrome_elf.dll" Source="$(var.SourceDir)\x64\chrome_elf.dll"/>
-        <File Id="x64d3dcompiler47dll" Name="d3dcompiler_47.dll" Source="$(var.SourceDir)\x64\d3dcompiler_47.dll"/>
-        <File Id="x64devtoolsresourcespak" Name="devtools_resources.pak" Source="$(var.SourceDir)\x64\devtools_resources.pak"/>
-        <File Id="x64icudtldat" Name="icudtl.dat" Source="$(var.SourceDir)\x64\icudtl.dat"/>
-        <File Id="x64libcefdll" Name="libcef.dll" Source="$(var.SourceDir)\x64\libcef.dll"/>
-        <File Id="x64libEGLdll" Name="libEGL.dll" Source="$(var.SourceDir)\x64\libEGL.dll"/>
-        <File Id="x64libGLESv2dll" Name="libGLESv2.dll" Source="$(var.SourceDir)\x64\libGLESv2.dll"/>
-        <File Id="x64nativesblobbin" Name="natives_blob.bin" Source="$(var.SourceDir)\x64\natives_blob.bin"/>
-        <File Id="x64snapshotblobbin" Name="snapshot_blob.bin" Source="$(var.SourceDir)\x64\snapshot_blob.bin"/>
-        <File Id="x64v8contextsnapshotbin" Name="v8_context_snapshot.bin" Source="$(var.SourceDir)\x64\v8_context_snapshot.bin"/>
-        <File Id="x64widevinecdmadapterdll" Name="widevinecdmadapter.dll" Source="$(var.SourceDir)\x64\widevinecdmadapter.dll"/>
-      </Component>
-
-      <Component Id="Componentx64locales" Directory="x64localesDir" Guid="BBA49267-7BCE-4501-A664-BF959210D456">
-        <File Id="x64localesampak" Name="am.pak" Source="$(var.SourceDir)\x64\locales\am.pak"/>
-        <File Id="x64localesarpak" Name="ar.pak" Source="$(var.SourceDir)\x64\locales\ar.pak"/>
-        <File Id="x64localesbgpak" Name="bg.pak" Source="$(var.SourceDir)\x64\locales\bg.pak"/>
-        <File Id="x64localesbnpak" Name="bn.pak" Source="$(var.SourceDir)\x64\locales\bn.pak"/>
-        <File Id="x64localescapak" Name="ca.pak" Source="$(var.SourceDir)\x64\locales\ca.pak"/>
-        <File Id="x64localescspak" Name="cs.pak" Source="$(var.SourceDir)\x64\locales\cs.pak"/>
-        <File Id="x64localesdapak" Name="da.pak" Source="$(var.SourceDir)\x64\locales\da.pak"/>
-        <File Id="x64localesdepak" Name="de.pak" Source="$(var.SourceDir)\x64\locales\de.pak"/>
-        <File Id="x64localeselpak" Name="el.pak" Source="$(var.SourceDir)\x64\locales\el.pak"/>
-        <File Id="x64localesenGBpak" Name="en-GB.pak" Source="$(var.SourceDir)\x64\locales\en-GB.pak"/>
-        <File Id="x64localesenUSpak" Name="en-US.pak" Source="$(var.SourceDir)\x64\locales\en-US.pak"/>
-        <File Id="x64localesespak" Name="es.pak" Source="$(var.SourceDir)\x64\locales\es.pak"/>
-        <File Id="x64localeses419pak" Name="es-419.pak" Source="$(var.SourceDir)\x64\locales\es-419.pak"/>
-        <File Id="x64localesetpak" Name="et.pak" Source="$(var.SourceDir)\x64\locales\et.pak"/>
-        <File Id="x64localesfapak" Name="fa.pak" Source="$(var.SourceDir)\x64\locales\fa.pak"/>
-        <File Id="x64localesfipak" Name="fi.pak" Source="$(var.SourceDir)\x64\locales\fi.pak"/>
-        <File Id="x64localesfilpak" Name="fil.pak" Source="$(var.SourceDir)\x64\locales\fil.pak"/>
-        <File Id="x64localesfrpak" Name="fr.pak" Source="$(var.SourceDir)\x64\locales\fr.pak"/>
-        <File Id="x64localesgupak" Name="gu.pak" Source="$(var.SourceDir)\x64\locales\gu.pak"/>
-        <File Id="x64localeshepak" Name="he.pak" Source="$(var.SourceDir)\x64\locales\he.pak"/>
-        <File Id="x64localeshipak" Name="hi.pak" Source="$(var.SourceDir)\x64\locales\hi.pak"/>
-        <File Id="x64localeshrpak" Name="hr.pak" Source="$(var.SourceDir)\x64\locales\hr.pak"/>
-        <File Id="x64localeshupak" Name="hu.pak" Source="$(var.SourceDir)\x64\locales\hu.pak"/>
-        <File Id="x64localesidpak" Name="id.pak" Source="$(var.SourceDir)\x64\locales\id.pak"/>
-        <File Id="x64localesitpak" Name="it.pak" Source="$(var.SourceDir)\x64\locales\it.pak"/>
-        <File Id="x64localesjapak" Name="ja.pak" Source="$(var.SourceDir)\x64\locales\ja.pak"/>
-        <File Id="x64localesknpak" Name="kn.pak" Source="$(var.SourceDir)\x64\locales\kn.pak"/>
-        <File Id="x64localeskopak" Name="ko.pak" Source="$(var.SourceDir)\x64\locales\ko.pak"/>
-        <File Id="x64localesltpak" Name="lt.pak" Source="$(var.SourceDir)\x64\locales\lt.pak"/>
-        <File Id="x64localeslvpak" Name="lv.pak" Source="$(var.SourceDir)\x64\locales\lv.pak"/>
-        <File Id="x64localesmlpak" Name="ml.pak" Source="$(var.SourceDir)\x64\locales\ml.pak"/>
-        <File Id="x64localesmrpak" Name="mr.pak" Source="$(var.SourceDir)\x64\locales\mr.pak"/>
-        <File Id="x64localesmspak" Name="ms.pak" Source="$(var.SourceDir)\x64\locales\ms.pak"/>
-        <File Id="x64localesnbpak" Name="nb.pak" Source="$(var.SourceDir)\x64\locales\nb.pak"/>
-        <File Id="x64localesnlpak" Name="nl.pak" Source="$(var.SourceDir)\x64\locales\nl.pak"/>
-        <File Id="x64localesplpak" Name="pl.pak" Source="$(var.SourceDir)\x64\locales\pl.pak"/>
-        <File Id="x64localesptBRpak" Name="pt-BR.pak" Source="$(var.SourceDir)\x64\locales\pt-BR.pak"/>
-        <File Id="x64localesptPTpak" Name="pt-PT.pak" Source="$(var.SourceDir)\x64\locales\pt-PT.pak"/>
-        <File Id="x64localesropak" Name="ro.pak" Source="$(var.SourceDir)\x64\locales\ro.pak"/>
-        <File Id="x64localesrupak" Name="ru.pak" Source="$(var.SourceDir)\x64\locales\ru.pak"/>
-        <File Id="x64localesskpak" Name="sk.pak" Source="$(var.SourceDir)\x64\locales\sk.pak"/>
-        <File Id="x64localesslpak" Name="sl.pak" Source="$(var.SourceDir)\x64\locales\sl.pak"/>
-        <File Id="x64localessrpak" Name="sr.pak" Source="$(var.SourceDir)\x64\locales\sr.pak"/>
-        <File Id="x64localessvpak" Name="sv.pak" Source="$(var.SourceDir)\x64\locales\sv.pak"/>
-        <File Id="x64localesswpak" Name="sw.pak" Source="$(var.SourceDir)\x64\locales\sw.pak"/>
-        <File Id="x64localestapak" Name="ta.pak" Source="$(var.SourceDir)\x64\locales\ta.pak"/>
-        <File Id="x64localestepak" Name="te.pak" Source="$(var.SourceDir)\x64\locales\te.pak"/>
-        <File Id="x64localesthpak" Name="th.pak" Source="$(var.SourceDir)\x64\locales\th.pak"/>
-        <File Id="x64localestrpak" Name="tr.pak" Source="$(var.SourceDir)\x64\locales\tr.pak"/>
-        <File Id="x64localesukpak" Name="uk.pak" Source="$(var.SourceDir)\x64\locales\uk.pak"/>
-        <File Id="x64localesvipak" Name="vi.pak" Source="$(var.SourceDir)\x64\locales\vi.pak"/>
-        <File Id="x64localeszhCNpak" Name="zh-CN.pak" Source="$(var.SourceDir)\x64\locales\zh-CN.pak"/>
-        <File Id="x64localeszhTWpak" Name="zh-TW.pak" Source="$(var.SourceDir)\x64\locales\zh-TW.pak"/>
-      </Component>
-
-      <Component Id="Componentx64swiftshader" Directory="x64swiftshaderDir" Guid="ADFC5886-B058-4829-AF53-4488F8CC1E11">
-        <File Id="x64swiftshaderlibEGLdll" Name="libEGL.dll" Source="$(var.SourceDir)\x64\swiftshader\libEGL.dll"/>
-        <File Id="x64swiftshaderlibGLESv2dll" Name="libGLESv2.dll" Source="$(var.SourceDir)\x64\swiftshader\libGLESv2.dll"/>
-      </Component>
-
-      <Component Id="Componentx86" Directory="x86Dir" Guid="6B683A69-8D35-4021-AE4F-684A68231487">
-        <File Id="x86cefpak" Name="cef.pak" Source="$(var.SourceDir)\x86\cef.pak"/>
-        <File Id="x86cef100percentpak" Name="cef_100_percent.pak" Source="$(var.SourceDir)\x86\cef_100_percent.pak"/>
-        <File Id="x86cef200percentpak" Name="cef_200_percent.pak" Source="$(var.SourceDir)\x86\cef_200_percent.pak"/>
-        <File Id="x86cefextensionspak" Name="cef_extensions.pak" Source="$(var.SourceDir)\x86\cef_extensions.pak"/>
-        <File Id="x86CefSharpBrowserSubprocessCoredll" Name="CefSharp.BrowserSubprocess.Core.dll" Source="$(var.SourceDir)\x86\CefSharp.BrowserSubprocess.Core.dll"/>
-        <File Id="x86CefSharpBrowserSubprocessCorepdb" Name="CefSharp.BrowserSubprocess.Core.pdb" Source="$(var.SourceDir)\x86\CefSharp.BrowserSubprocess.Core.pdb"/>
-        <File Id="x86CefSharpBrowserSubprocessexe" Name="CefSharp.BrowserSubprocess.exe" Source="$(var.SourceDir)\x86\CefSharp.BrowserSubprocess.exe"/>
-        <File Id="x86CefSharpBrowserSubprocesspdb" Name="CefSharp.BrowserSubprocess.pdb" Source="$(var.SourceDir)\x86\CefSharp.BrowserSubprocess.pdb"/>
-        <File Id="x86CefSharpCoredll" Name="CefSharp.Core.dll" Source="$(var.SourceDir)\x86\CefSharp.Core.dll"/>
-        <File Id="x86CefSharpCorepdb" Name="CefSharp.Core.pdb" Source="$(var.SourceDir)\x86\CefSharp.Core.pdb"/>
-        <File Id="x86CefSharpCorexml" Name="CefSharp.Core.xml" Source="$(var.SourceDir)\x86\CefSharp.Core.xml"/>
-        <File Id="x86CefSharpdll" Name="CefSharp.dll" Source="$(var.SourceDir)\x86\CefSharp.dll"/>
-        <File Id="x86CefSharppdb" Name="CefSharp.pdb" Source="$(var.SourceDir)\x86\CefSharp.pdb"/>
-        <File Id="x86CefSharpWinFormsdll" Name="CefSharp.WinForms.dll" Source="$(var.SourceDir)\x86\CefSharp.WinForms.dll"/>
-        <File Id="x86CefSharpWinFormspdb" Name="CefSharp.WinForms.pdb" Source="$(var.SourceDir)\x86\CefSharp.WinForms.pdb"/>
-        <File Id="x86CefSharpWinFormsXML" Name="CefSharp.WinForms.XML" Source="$(var.SourceDir)\x86\CefSharp.WinForms.XML"/>
-        <File Id="x86CefSharpWpfdll" Name="CefSharp.Wpf.dll" Source="$(var.SourceDir)\x86\CefSharp.Wpf.dll"/>
-        <File Id="x86CefSharpWpfpdb" Name="CefSharp.Wpf.pdb" Source="$(var.SourceDir)\x86\CefSharp.Wpf.pdb"/>
-        <File Id="x86CefSharpWpfXML" Name="CefSharp.Wpf.XML" Source="$(var.SourceDir)\x86\CefSharp.Wpf.XML"/>
-        <File Id="x86CefSharpXML" Name="CefSharp.XML" Source="$(var.SourceDir)\x86\CefSharp.XML"/>
-        <File Id="x86chromeelfdll" Name="chrome_elf.dll" Source="$(var.SourceDir)\x86\chrome_elf.dll"/>
-        <File Id="x86d3dcompiler47dll" Name="d3dcompiler_47.dll" Source="$(var.SourceDir)\x86\d3dcompiler_47.dll"/>
-        <File Id="x86devtoolsresourcespak" Name="devtools_resources.pak" Source="$(var.SourceDir)\x86\devtools_resources.pak"/>
-        <File Id="x86icudtldat" Name="icudtl.dat" Source="$(var.SourceDir)\x86\icudtl.dat"/>
-        <File Id="x86libcefdll" Name="libcef.dll" Source="$(var.SourceDir)\x86\libcef.dll"/>
-        <File Id="x86libEGLdll" Name="libEGL.dll" Source="$(var.SourceDir)\x86\libEGL.dll"/>
-        <File Id="x86libGLESv2dll" Name="libGLESv2.dll" Source="$(var.SourceDir)\x86\libGLESv2.dll"/>
-        <File Id="x86nativesblobbin" Name="natives_blob.bin" Source="$(var.SourceDir)\x86\natives_blob.bin"/>
-        <File Id="x86snapshotblobbin" Name="snapshot_blob.bin" Source="$(var.SourceDir)\x86\snapshot_blob.bin"/>
-        <File Id="x86v8contextsnapshotbin" Name="v8_context_snapshot.bin" Source="$(var.SourceDir)\x86\v8_context_snapshot.bin"/>
-        <File Id="x86widevinecdmadapterdll" Name="widevinecdmadapter.dll" Source="$(var.SourceDir)\x86\widevinecdmadapter.dll"/>
-      </Component>
-
-      <Component Id="Componentx86locales" Directory="x86localesDir" Guid="97EDE311-78E4-4BDC-99F6-B56CF0780B52">
-        <File Id="x86localesampak" Name="am.pak" Source="$(var.SourceDir)\x86\locales\am.pak"/>
-        <File Id="x86localesarpak" Name="ar.pak" Source="$(var.SourceDir)\x86\locales\ar.pak"/>
-        <File Id="x86localesbgpak" Name="bg.pak" Source="$(var.SourceDir)\x86\locales\bg.pak"/>
-        <File Id="x86localesbnpak" Name="bn.pak" Source="$(var.SourceDir)\x86\locales\bn.pak"/>
-        <File Id="x86localescapak" Name="ca.pak" Source="$(var.SourceDir)\x86\locales\ca.pak"/>
-        <File Id="x86localescspak" Name="cs.pak" Source="$(var.SourceDir)\x86\locales\cs.pak"/>
-        <File Id="x86localesdapak" Name="da.pak" Source="$(var.SourceDir)\x86\locales\da.pak"/>
-        <File Id="x86localesdepak" Name="de.pak" Source="$(var.SourceDir)\x86\locales\de.pak"/>
-        <File Id="x86localeselpak" Name="el.pak" Source="$(var.SourceDir)\x86\locales\el.pak"/>
-        <File Id="x86localesenGBpak" Name="en-GB.pak" Source="$(var.SourceDir)\x86\locales\en-GB.pak"/>
-        <File Id="x86localesenUSpak" Name="en-US.pak" Source="$(var.SourceDir)\x86\locales\en-US.pak"/>
-        <File Id="x86localesespak" Name="es.pak" Source="$(var.SourceDir)\x86\locales\es.pak"/>
-        <File Id="x86localeses419pak" Name="es-419.pak" Source="$(var.SourceDir)\x86\locales\es-419.pak"/>
-        <File Id="x86localesetpak" Name="et.pak" Source="$(var.SourceDir)\x86\locales\et.pak"/>
-        <File Id="x86localesfapak" Name="fa.pak" Source="$(var.SourceDir)\x86\locales\fa.pak"/>
-        <File Id="x86localesfipak" Name="fi.pak" Source="$(var.SourceDir)\x86\locales\fi.pak"/>
-        <File Id="x86localesfilpak" Name="fil.pak" Source="$(var.SourceDir)\x86\locales\fil.pak"/>
-        <File Id="x86localesfrpak" Name="fr.pak" Source="$(var.SourceDir)\x86\locales\fr.pak"/>
-        <File Id="x86localesgupak" Name="gu.pak" Source="$(var.SourceDir)\x86\locales\gu.pak"/>
-        <File Id="x86localeshepak" Name="he.pak" Source="$(var.SourceDir)\x86\locales\he.pak"/>
-        <File Id="x86localeshipak" Name="hi.pak" Source="$(var.SourceDir)\x86\locales\hi.pak"/>
-        <File Id="x86localeshrpak" Name="hr.pak" Source="$(var.SourceDir)\x86\locales\hr.pak"/>
-        <File Id="x86localeshupak" Name="hu.pak" Source="$(var.SourceDir)\x86\locales\hu.pak"/>
-        <File Id="x86localesidpak" Name="id.pak" Source="$(var.SourceDir)\x86\locales\id.pak"/>
-        <File Id="x86localesitpak" Name="it.pak" Source="$(var.SourceDir)\x86\locales\it.pak"/>
-        <File Id="x86localesjapak" Name="ja.pak" Source="$(var.SourceDir)\x86\locales\ja.pak"/>
-        <File Id="x86localesknpak" Name="kn.pak" Source="$(var.SourceDir)\x86\locales\kn.pak"/>
-        <File Id="x86localeskopak" Name="ko.pak" Source="$(var.SourceDir)\x86\locales\ko.pak"/>
-        <File Id="x86localesltpak" Name="lt.pak" Source="$(var.SourceDir)\x86\locales\lt.pak"/>
-        <File Id="x86localeslvpak" Name="lv.pak" Source="$(var.SourceDir)\x86\locales\lv.pak"/>
-        <File Id="x86localesmlpak" Name="ml.pak" Source="$(var.SourceDir)\x86\locales\ml.pak"/>
-        <File Id="x86localesmrpak" Name="mr.pak" Source="$(var.SourceDir)\x86\locales\mr.pak"/>
-        <File Id="x86localesmspak" Name="ms.pak" Source="$(var.SourceDir)\x86\locales\ms.pak"/>
-        <File Id="x86localesnbpak" Name="nb.pak" Source="$(var.SourceDir)\x86\locales\nb.pak"/>
-        <File Id="x86localesnlpak" Name="nl.pak" Source="$(var.SourceDir)\x86\locales\nl.pak"/>
-        <File Id="x86localesplpak" Name="pl.pak" Source="$(var.SourceDir)\x86\locales\pl.pak"/>
-        <File Id="x86localesptBRpak" Name="pt-BR.pak" Source="$(var.SourceDir)\x86\locales\pt-BR.pak"/>
-        <File Id="x86localesptPTpak" Name="pt-PT.pak" Source="$(var.SourceDir)\x86\locales\pt-PT.pak"/>
-        <File Id="x86localesropak" Name="ro.pak" Source="$(var.SourceDir)\x86\locales\ro.pak"/>
-        <File Id="x86localesrupak" Name="ru.pak" Source="$(var.SourceDir)\x86\locales\ru.pak"/>
-        <File Id="x86localesskpak" Name="sk.pak" Source="$(var.SourceDir)\x86\locales\sk.pak"/>
-        <File Id="x86localesslpak" Name="sl.pak" Source="$(var.SourceDir)\x86\locales\sl.pak"/>
-        <File Id="x86localessrpak" Name="sr.pak" Source="$(var.SourceDir)\x86\locales\sr.pak"/>
-        <File Id="x86localessvpak" Name="sv.pak" Source="$(var.SourceDir)\x86\locales\sv.pak"/>
-        <File Id="x86localesswpak" Name="sw.pak" Source="$(var.SourceDir)\x86\locales\sw.pak"/>
-        <File Id="x86localestapak" Name="ta.pak" Source="$(var.SourceDir)\x86\locales\ta.pak"/>
-        <File Id="x86localestepak" Name="te.pak" Source="$(var.SourceDir)\x86\locales\te.pak"/>
-        <File Id="x86localesthpak" Name="th.pak" Source="$(var.SourceDir)\x86\locales\th.pak"/>
-        <File Id="x86localestrpak" Name="tr.pak" Source="$(var.SourceDir)\x86\locales\tr.pak"/>
-        <File Id="x86localesukpak" Name="uk.pak" Source="$(var.SourceDir)\x86\locales\uk.pak"/>
-        <File Id="x86localesvipak" Name="vi.pak" Source="$(var.SourceDir)\x86\locales\vi.pak"/>
-        <File Id="x86localeszhCNpak" Name="zh-CN.pak" Source="$(var.SourceDir)\x86\locales\zh-CN.pak"/>
-        <File Id="x86localeszhTWpak" Name="zh-TW.pak" Source="$(var.SourceDir)\x86\locales\zh-TW.pak"/>
-      </Component>
-
-      <Component Id="Componentx86swiftshader" Directory="x86swiftshaderDir" Guid="64CD3A02-5E60-441C-A514-C071DCE58582">
-        <File Id="x86swiftshaderlibEGLdll" Name="libEGL.dll" Source="$(var.SourceDir)\x86\swiftshader\libEGL.dll"/>
-        <File Id="x86swiftshaderlibGLESv2dll" Name="libGLESv2.dll" Source="$(var.SourceDir)\x86\swiftshader\libGLESv2.dll"/>
-      </Component>
     </ComponentGroup>
 	</Fragment>
 </Wix>

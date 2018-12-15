@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <?include "config.wxi"?>
-	<Product Id="*" Name="Socinator" Language="1033" Version="!(bind.FileVersion.Socinatorexe)" Manufacturer="!(bind.property.Manufacturer)" UpgradeCode="094ee1fc-18c8-4e25-9494-51a86a39ea14">
+	<Product Id="*" Name="$(var.ProductName)" Language="1033" Version="!(bind.FileVersion.Socinatorexe)" Manufacturer="$(var.Manufacturer)" UpgradeCode="094ee1fc-18c8-4e25-9494-51a86a39ea14">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -16,8 +16,8 @@
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-			  <Directory Id="ManufacturerFolder" Name="!(bind.property.Manufacturer)">
-			    <Directory Id="INSTALLFOLDERDir" Name="!(bind.property.ProductName)" >
+			  <Directory Id="ManufacturerFolder" Name="$(var.Manufacturer)">
+			    <Directory Id="INSTALLFOLDERDir" Name="$(var.ProductName)" >
 			      <Directory Id="apppublishDir" Name="app.publish" />
 			      <Directory Id="localesDir" Name="locales" />
 			      <Directory Id="RevisionHistoryDir" Name="RevisionHistory" />

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouseCore", "DominatorHouseCore\DominatorHouseCore.csproj", "{F40A5C83-8EDA-43C5-88B9-DFAAB492A497}"
 EndProject
@@ -56,6 +56,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeDominatorCore.UnitTests", "..\youtubedominator-library\YoutubeDominatorCore.UnitTests\YoutubeDominatorCore.UnitTests.csproj", "{61A5E2CE-2404-4D16-A5BD-CD839DA38314}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeDominatorCore", "..\youtubedominator-library\YoutubeDominatorCore\YoutubeDominatorCore.csproj", "{9C42C9B5-331E-4EC5-B47F-AE9DA1C89AD6}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Socinator.Deployment", "Deployment\Socinator.Deployment\Socinator.Deployment.wixproj", "{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{780C5D98-B099-4BDB-BDB4-9B417EC8F731}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -538,6 +542,21 @@ Global
 		{9C42C9B5-331E-4EC5-B47F-AE9DA1C89AD6}.Release|x64.Build.0 = Release|Any CPU
 		{9C42C9B5-331E-4EC5-B47F-AE9DA1C89AD6}.Release|x86.ActiveCfg = Release|x86
 		{9C42C9B5-331E-4EC5-B47F-AE9DA1C89AD6}.Release|x86.Build.0 = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug|Any CPU.Build.0 = Debug|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug|x64.ActiveCfg = Debug|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug|x86.ActiveCfg = Debug|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug|x86.Build.0 = Debug|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug-fast-test|Any CPU.ActiveCfg = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug-fast-test|Any CPU.Build.0 = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug-fast-test|x64.ActiveCfg = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug-fast-test|x64.Build.0 = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug-fast-test|x86.ActiveCfg = Debug|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Debug-fast-test|x86.Build.0 = Debug|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|Any CPU.ActiveCfg = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|x64.ActiveCfg = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|x86.ActiveCfg = Release|x86
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -556,6 +575,7 @@ Global
 		{9A02CA78-3A5D-42F4-8B1E-1B7A10D47F66} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
 		{33E27CC8-7FE6-4936-B57F-57298532F175} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
 		{61A5E2CE-2404-4D16-A5BD-CD839DA38314} = {AF52F482-AE4C-41EE-9C42-7637D6ABC3C9}
+		{329C90F0-DB16-4D2A-A848-8AF27FD4F1AC} = {780C5D98-B099-4BDB-BDB4-9B417EC8F731}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07AA924D-BF78-434F-AFBA-BF57AABD0EF4}
