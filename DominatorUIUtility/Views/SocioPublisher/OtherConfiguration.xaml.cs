@@ -21,7 +21,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
     public partial class OtherConfiguration : UserControl
     {
         private readonly IGenericFileManager _genericFileManager;
-        private OtherConfiguration()
+        public OtherConfiguration()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();

@@ -193,10 +193,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, activityType];
 
                 var accountstemplateId = moduleConfiguration?.TemplateId;
-                if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
-                {
-                    return false;
-                }
+                //if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
+                //{
+                //    return false;
+                //}
                 if (isStart)
                 {
                     try
@@ -356,9 +356,19 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             else
             {
+                var jobActivityConfigurationManager =
+                    ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var moduleConfiguration = jobActivityConfigurationManager[dominatorAccountModel.AccountId]
+                    .Where(x => x.IsEnabled);
                 var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
-                if (runningJobsHolder.IsActivityRunningForAccount(dominatorAccountModel.AccountId))
-                    return;
+
+                foreach (var config in moduleConfiguration)
+                {
+                    var id = JobProcess.AsId(dominatorAccountModel.AccountId, config.TemplateId);
+                    if (runningJobsHolder.IsRunning(id))
+                        return;
+
+                }
 
                 _runningActivityManager.StartNextRound(dominatorAccountModel);
             }

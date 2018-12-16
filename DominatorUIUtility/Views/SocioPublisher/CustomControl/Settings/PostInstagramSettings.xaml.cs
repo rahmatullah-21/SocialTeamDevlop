@@ -45,4 +45,5 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             MainGrid.DataContext = PublisherPostSettings.GdPostSettings;
         }
     }
+   
 }

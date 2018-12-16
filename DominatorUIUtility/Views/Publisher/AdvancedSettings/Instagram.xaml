@@ -160,7 +160,7 @@
                 <CheckBox Content="{DynamicResource LangKeyDisableCommentsForNewPost}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsDisableCommentsForNewPost}"/>
 
-                <CheckBox Content="{DynamicResource LangKeyPostMultipleImagesVideoPostsAsAlbum}"
+                <CheckBox Content="{DynamicResource LangKeyPostMultipleImagesPostsAsAlbum}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding InstagramModel.IsPostMultipleImagesVideoPostsAsAlbum}"/>
                 <!--<CheckBox Content="{DynamicResource langEnableDirectMediaShare}" VerticalAlignment="Center" Margin="5"/>-->
 

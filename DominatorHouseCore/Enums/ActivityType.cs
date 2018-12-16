@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn,Tumblr,Youtube")]
+        [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube")]
         Comment = 5,
 
         [Description("Twitter,Instagram,Reddit")]
@@ -35,7 +35,7 @@ namespace DominatorHouseCore.Enums
         //[Description("Facebook,Twitter,Instagram")]
         //Message = 10,
 
-        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest")]
+        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit")]
         UserScraper = 11,
 
         [Description("Twitter")]
@@ -89,7 +89,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         FanpageScraper = 28,
 
-        [Description("Facebook,Gplus,Instagram")]
+        [Description("Facebook,Gplus,Instagram,Reddit")]
         CommentScraper = 29,
 
         [Description("Facebook,Gplus,Youtube,Instagram")]
@@ -152,7 +152,7 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         ConnectionRequest = 50,
 
-        [Description("Youtube")]
+        [Description("Youtube,Reddit")]
         Subscribe = 51,
 
         [Description("Facebook,LinkedIn")]
@@ -202,13 +202,13 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         SalesNavigatorUserScraper = 67,
 
-        [Description("Youtube")]
+        [Description("Youtube,Reddit")]
         ChannelScraper = 68,
 
         [Description("Youtube")]
         Unsubscribe = 69,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr,Reddit")]
+        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
         BroadcastMessages = 70,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
@@ -265,8 +265,8 @@ namespace DominatorHouseCore.Enums
         [Description("Reddit")]
         Upvote = 88,
 
-        [Description("Reddit")]
-        SubredditScraper = 89,
+        //[Description("Reddit")]
+        //SubredditScraper = 89,
 
         [Description("Pinterest")]
         DeletePin = 90,

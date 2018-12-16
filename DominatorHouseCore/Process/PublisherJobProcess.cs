@@ -25,6 +25,11 @@ namespace DominatorHouseCore.Process
 
         #region Constructor
 
+        public PublisherJobProcess()
+        {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+        }
         protected PublisherJobProcess(string campaignId,
             string accountId,
             SocialNetworks network,
@@ -32,10 +37,9 @@ namespace DominatorHouseCore.Process
             List<string> pageDestinationList,
             List<PublisherCustomDestinationModel> customDestinationModels,
             bool isPublishOnOwnWall,
-            CancellationTokenSource campaignCancellationToken)
+            CancellationTokenSource campaignCancellationToken):this()
         {
-            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+            
             // assign campaign Id
             CampaignId = campaignId;
 
@@ -85,7 +89,7 @@ namespace DominatorHouseCore.Process
 
         protected PublisherJobProcess(string campaignId, string campaignName, string accountId, SocialNetworks network,
             IEnumerable<PublisherDestinationDetailsModel> destinationDetails,
-            CancellationTokenSource campaignCancellationToken)
+            CancellationTokenSource campaignCancellationToken) : this()
         {
 
             // assign campaign Id

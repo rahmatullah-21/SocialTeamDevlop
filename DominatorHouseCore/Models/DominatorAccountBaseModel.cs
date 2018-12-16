@@ -209,7 +209,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _status, value);
             }
         }
-        private string _profileId;
+        private string _profileId=string.Empty;
         private List<GrowthProperty> _growthProperties;
 
         /// <summary>

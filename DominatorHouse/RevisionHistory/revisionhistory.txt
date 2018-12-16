@@ -1,3 +1,69 @@
+Version[1.0.0.24],[14th-December-18]
+New Features:-
+		Twitter:-
+			Socinator => Twitter => Retweet => Auto Schedule
+			Socinator => Twitter => RePoster => Auto Schedule
+			Socinator => Twitter => Like => Auto Schedule
+			Socinator => Twitter => Follow => Auto Schedule.
+		Gplus:
+			Added new feature Comment Scraper.
+Fixed:-
+	Social:-
+		Issue fixed with campaigns just showing "Activated Successfully" and nothing happening.
+		Social => Account activity => create board => fixed issue with delete create board.
+		Social => Account activity => auto reply to new message => reply to all message => fixed issue with reply to all new message.
+		Social => Account activity => Broadcast message => Message to new follower => fixed issue with messae to new followers.
+		Social => Accounts activities => Fixed issue with Accounts activities for all the functionalities.
+	SocioPublisher:-
+		Issue fixed with showing no more data after posting one post as story instead of wall.
+		Issue fixed with showing no more data for post mulitple posts.
+		Social => socio publisher => Manage destination => Fixed issue with Create Destination.
+	Instagram:-
+		GrowFollowers => Followers => Issue fixed with not following private users.
+		Camapaigns => Issue fixed with multiple campaigns with same account.
+		GrowFollowers => UnFollowers. Issue fixed with not following any users.
+	Facebook:-
+		Broadcast message => Auto reply to new message => Fixed issue with tag people.
+		Scraper => comment scraper => Fixed issue with scraping comment 
+		Engage => comment liker => Fixed issue with comment like.
+		Engage => post like => Fixed issue with while ediit own page is visible.
+		Account => Account manager => Fixed issue with account update.
+	Linkedin:-
+		Account => Account manager => Fixed issue with disappear connections and group counts after restart the software.
+		Message => Fixed issue with showing query list after edit the camapign.
+	Twitter:-
+		Sociopublisher => create single post => create multiple post= => Not posting on wall
+		Accounts Activity => Messenger => Message to new follower => Message unique users from each account.
+		Accounts => Accounts manager => socinator showing status as "Not Checked" after loading.
+		Campaign does not resume after restarting socinator.
+		Accounts activity => Follow => Status switch doesn't get active.
+	Reddit:-
+		Socio publisher => Fixed issue with posting Rss feed.
+		Account => Account Manager => Fixed issue with updating all details for the account.
+		Social => Accounts activities => Fixed issue with Accounts activities for all the functionalities.
+		Voter => upvoter => Fixed issue with upvoting keywords and custom urls.
+		Voter => upvotecomment => Fixed issue with upvotecomment.
+		GrowFollower => Follow => Fixed issues with reports.
+		Subcscriber Channels => Subscribe => Fixed issues with report and export.
+	Pinterest:-
+		Account => Fixed issue with account blocks.
+		Grow Follower => Follow => Keywords => Fixed issue with campaign not running.
+		Grow Follow => Unfollow=> People followed by software => Fixed issue with unfollow the users by software.
+		Pin Poster => Repin => Custom board => Fixed issue with repin from custom board list.
+		Pin Try / Pin Commenter => Comment => Keywords => Fixed issue with query type as keyword.
+		Pin Messenger => Boardcast message => Fixed issue with query type keyword.
+	YouTube:-
+		Subscriber => Subscribe => Fixed issue with not subscribing with multiple accounts
+		Engage => Like => Fixed issue with not liking the videos 
+	Tumblr:-
+		Grow Follower => Unfollow => Fixed issue showing not activity login.
+		Grow Follower => Follow => Fixed issue report description in report
+		Reblog => Fixed issue with login issue
+	Quora:-
+		Grow Follower => Fixed issue with unfollow module 
+		Message => Fixed issue with send message to new follower.
+
+
 Version[1.0.0.23],[6th-December-18]
 New Features:-
 		Social:-
@@ -14,10 +80,10 @@ New Features:-
 			Grow connection => Accept connection rquest => Added feature to ignore incoming connection request.
 			Grow connection => Export connection => added feature to save account email as a file name.
 			User Filter => Added must have specific word.
-			Salesnavigator => added save pagination feature to  scrape data.
+			Salesnavigator => added save pagination feature to scrape data.
 		Twitter:-
 			Accounts => Accounts Manager => Accont Details => Email Verification.
-			Accounts=> Accounts Manager => Accont Details => Phone Verification.
+			Accounts => Accounts Manager => Accont Details => Phone Verification.
 			All campaigns => Campaigns => Report => Refesh Button.
 			Messenger => Message to new followers => other configuration => message unique users from each account.
 		GPlus:-
@@ -38,7 +104,7 @@ Fixed:-
 		Salesnavigator Scraper => Fixed issue with salesnavigator scraper
 		Broadcast message => Fixed issue with to show query in broadcast message.
 		Broadcast message => Fixed issue with to show query in broadcast message.
-		Campaign => Fixed issue  with create two campaign at a time.
+		Campaign => Fixed issue with create two campaign at a time.
 		Grow connection => Fixed issue with send connection request using profile URL.
 	Twitter:-
 		Engage => Like => After like action => Fixed issue with missing text in Upload Comment section.
@@ -51,7 +117,7 @@ Fixed:-
 		Growfollower => follower => Fixed issue with keywords for following .
 		Fixed issue in Pintry/Pincommenter => Add a query and when you try to choose it you will unable to see it in choice tab.
 		Fixed issue in Account => Add a new account and then go to pin poster and click on select account you will be unable to see that new added account unless and until you restart your software.
-		Fixed issue in Repin => Select account => In repin go to select account then select the board and click  on save then you will see count used to be 1/1 if i again open it and save it then it shows 2/1. The number of times i do it the count used to get changed in the same namber.
+		Fixed issue in Repin => Select account => In repin go to select account then select the board and click on save then you will see count used to be 1/1 if i again open it and save it then it shows 2/1. The number of times i do it the count used to get changed in the same namber.
 	Youtube:-
 		Engage => Like => Custom channel => Fixed issue with liking videos in custom channel link.
 		Engage => Fixed issue with not liking/commenting for Custom channels.
@@ -65,11 +131,11 @@ New Features:-
 		Instagram => Social publisher => Now you can post video as story.
 		Facebook => Sociopublisher => Advance Settings => Added feature to tag specific people on post.
 	Instagram:-
-		Instachat =>   Now you can send direct message  to new followers.
-		Growfollower => follow => Now you can  mute followings after follow.
+		Instachat =>  Now you can send direct message to new followers.
+		Growfollower => follow => Now you can mute followings after follow.
 		Instalike/comment => mention users => Now you can mention users without comment.
 		Instascrape => Download photos => Now you can download photos with like/comment count , date and time and also location of posting.
-		Instalike/comment => comment =>  New feature added  => Now you can upload huge data file for comment action => performance enhanced than previous.
+		Instalike/comment => comment => New feature added => Now you can upload huge data file for comment action => performance enhanced than previous.
 	Facebook:-
 		Grow Friend => Send Friend Request => Added feature to do After Sent Request Action activity.
 		Grow Friend => Unfriend => Added feature to unfriend Mutual friends.
@@ -105,7 +171,7 @@ Fixed:-
 		Scraper => Profile Scraper => Fixed issue with scraping users through graph search urls.
 	Linkedin:-
 		Account => Fixed issue with embeded browser.
-		Salesnavigator Scraper =>  Company Scraper => Fixed issue with not scraping company data.
+		Salesnavigator Scraper => Company Scraper => Fixed issue with not scraping company data.
 	Pinterest:-
 		Create board => Fixed issue in creating board without description.
 		Add account => Fixed issue with adding account not displaying.
@@ -117,7 +183,7 @@ Fixed:-
 Version[1.0.0.21],[13th-November-18]
 New Features:-
 	Sociopublisher:-
-		Instagram =>  Create Post => Settings : Added feature to post video as Story. 
+		Instagram => Create Post => Settings : Added feature to post video as Story. 
 Fixed:-
 	SocioPublisher:-
 		Post Configuration => Advance settings => Facebook => Fixed issue with deleting the published post after x to y hours
@@ -128,7 +194,7 @@ Fixed:-
 		InstaChat => Broadcase Messages => Issue fixed with adding queries through text file.
 		Grow Followers => Unfollower => Fixed issue with unfollowing users those are followed by software.
 		Accounts => Account Manager => Fixed issue with auto verification account.
-		Instaliker/Instacommenter => Comment => Custom Photos  => Fixed issue with multiple comment on same post after edit the campaign.
+		Instaliker/Instacommenter => Comment => Custom Photos => Fixed issue with multiple comment on same post after edit the campaign.
 	Facebook:-
 		Grow Friends => Fixed issue with sending friend request to users.
 		Grow Friends => Unfriend => Fixed issue with unfriending users which were added from the software or Outside the software
@@ -256,16 +322,16 @@ Fixed:-
 		Linkedin => create a single post => Fixed issue with video posting on wall.
 		Pinterest => Socioppublisher => Post to boards => Fixed issue with posting to boards.
 	Instagram:-
-		Grow Follower => Follower => Fixed issue with Must have atleast one post  with a caption containing specific words.
+		Grow Follower => Follower => Fixed issue with Must have atleast one post with a caption containing specific words.
 		Grow Follower => User Filter => Fixed issue with showing keywords added in filter when editing campaign.
 		Grow Follower => Follower => Enable auto follow/unfollow => Fixed issue with taking any random number between given range XX to YY.
 		Grow Follower => Fixed issue with delay between each action block when use default time.
 		Grow Follower => Follower => Fixed issue with follow when use more filter.
-		Instascraper => User scraper => Fixed issue with Must have atleast one post  with a caption containing specific words.
+		Instascraper => User scraper => Fixed issue with Must have atleast one post with a caption containing specific words.
 		Instascraper => User scraper => Users who messaged us => Fixed issue with scraping duplicate users. 
 	Facebook:-
 		Facebook Tool => Scraper => Fanpage scraper => Fixed issues with showing proper report while editing the campaign.
-		Facebook Tool => Scraper => Profile scraper => Fixed issues with  scrap male members of a group to unique user for each accounts.
+		Facebook Tool => Scraper => Profile scraper => Fixed issues with scrap male members of a group to unique user for each accounts.
 		Profile Scraper => Fan Page Liker => Fixed issue with scraping users as per the given count.
 		Facebook => Broadcast messages => Fixed issues with Campaign report is not showing in Account activity.
 		Profile Scraper => Page Post Liker => Fixed Issue with scraping unique users from each account.
@@ -276,14 +342,14 @@ Fixed:-
 		Fixed issue with => Grow Connection => Export Connection => while exporting,it was going to home page.
 		Fixed issue with => Grow Connection => Export Connection => Not expanding show more details of the profiles while exporting.
 		Fixed issue with => Grow Connection => Connection Request => Unique operation => Sending duplicate connection request via search url
-		Fixed issue with => Grow Connection => Export Connection => custom user list => Not exporting the profile data and asking to get login  into the account.
+		Fixed issue with => Grow Connection => Export Connection => custom user list => Not exporting the profile data and asking to get login into the account.
 		Fixed issue with => Grow Connection => Connection Request => search url => Result was not matching from browser's result to send request.
 	Twitter:-
 		Fixed issue with Tweet To,only trying to tweet but not tweeting.
 		Fixed issue with Twitter => Engage => Comment => Spintax.
 		Fixed issue with Twitter => Accounts => Account Manager => Check account status.
 		Fixed issue with => Accounts Activity => Follow Back => Reports => Refresh button.
-		Fixed issue with => Accounts Activity => Comment =>  Not commenting with custom tweet list and keywords.
+		Fixed issue with => Accounts Activity => Comment => Not commenting with custom tweet list and keywords.
 		Fixed issue with => Accounts Actvity => Some features were missing which were present in twitter section.
 		Fixed issue with => Grow Followers => Follower => Job Configuration => Advanced Settings.
 	Pinterest:-
@@ -323,7 +389,7 @@ Fixed:-
 	
 	Facebook:-
 	Publisher => Create campaign => Fixed issue with post on page.
-	Publisher => Create post => Fixed issue with post on  community with discrption.
+	Publisher => Create post => Fixed issue with post on community with discrption.
 	Grow friends => Send friend request => Fixed issue with send friend request to group members.
 	Grow friends => Send friend request => Fixed issue with send friend request by selecting specific gender.
 	Grow groups => Group joiner => Fixed issue with join public groups.
@@ -355,7 +421,7 @@ Fixed:-
 
 	Tumblr:-
 	Account Manager => Fixed issue with account update.
-	Grow follower => Fixed issue with users who liked the posts  duplicte issue.
+	Grow follower => Fixed issue with users who liked the posts duplicte issue.
 	Engage => keywords => fixed the issue with keywords.
 	Broadcast message => keywords => Fixed issue add comment.
 
@@ -363,7 +429,7 @@ Version[1.0.0.15],[24th-September-18]
 Fixed:-
 	Instagram accounts verification issue
 	Account Activity => Hashtag Scraper report => Fixed issue with showing report
-	Instascrape  => Download Photos => Fixed issue with select folder path.
+	Instascrape => Download Photos => Fixed issue with select folder path.
 
 Version[1.0.0.14],[21st-September-18]
 
@@ -390,8 +456,8 @@ Fixed:-
 		Issue fixed with doing one more activity after reached per job and per hour limit
 
 		Reposter :
-	    Issue fixed with [USERNAME] in caption
-		Issue fixed with delay between each operation  X to Y seconds
+	  Issue fixed with [USERNAME] in caption
+		Issue fixed with delay between each operation X to Y seconds
 
 	LinkedIn:-
 		Message => Fixed isssue with send message to new connection .
@@ -415,13 +481,13 @@ Fixed:-
 	Pinterest:-
 		Fixed issue in cancle editing whenever we edit/ duplicate in a board campaign 
 	YouTube:-
-		Fixed issue in engage  =>  Like
-		Fixed issue in engage  =>  Comment
-		Fixed issue in Watch Video  =>  View increaser
+		Fixed issue in engage => Like
+		Fixed issue in engage => Comment
+		Fixed issue in Watch Video => View increaser
 		Fixed issues in UI for engage module
 	Quora:-
-		Answer => fixed issue with  Answer on question  by using custom url and custom user list .
-		Report => Fixed issue with report  on Answer by using custom user list.
+		Answer => fixed issue with Answer on question by using custom url and custom user list .
+		Report => Fixed issue with report on Answer by using custom user list.
 
 Version[1.0.0.13],[11th-September-18]
 
@@ -442,13 +508,13 @@ Facebook:-
 	Grow Friends => Unfriend => Added feature filter to unfriend based on location
 	Broadcast Messgages => Broadcast Message => Added feature to send the link with preview .
 	Added Module => FB Inviter => Group Inviter => Invite your account's friends to join group with note
-	Engage => Fanpage Likers => Added filter to like pages based on  likers range.
+	Engage => Fanpage Likers => Added filter to like pages based on likers range.
 	Added Module => FB Inviter => Page Inviter => Invite your account's friends to like the pages with note and in messanger
 	Added module => Engage => Comment Liker => Added feature to like the posts comment
 	Scraper => Profile Scraper => Added query type for Suggested users and Event url to be scraped
 	Scraper => Comment Scraqper => Added comment filter based on text and days
 LinkedIn:-
-	Added feature to Scraping details of  Accounts(Companies) in Salesnavigator scraper.
+	Added feature to Scraping details of Accounts(Companies) in Salesnavigator scraper.
 	Added feature to scrape only "details required to send connection request" in salesnavigator scraper.
 YouTube:-
 	Added new query type to search channels => Custom Channel List
@@ -467,7 +533,7 @@ Fixed:-
 		Issue fixed with Gender filter.
 		Issue fixed with campaign not getting activated after completing dely.
 		Issue fixed with showing no more data.
-		Issues fixed with adding users those are having  underscore "_" in Username.
+		Issues fixed with adding users those are having underscore "_" in Username.
 		
 		InstaLiker/InstaCommenter :
 		Issue fixed with showing one comment twice in Report.
@@ -484,9 +550,9 @@ Fixed:-
 		Issue fixed with doing one more activity after reached per job and per hour limit
 
 		Reposter :
-	    Issue fixed with [USERNAME] in caption
-		Issue fixed with delay between each operation  X to Y seconds
-		   
+	  Issue fixed with [USERNAME] in caption
+		Issue fixed with delay between each operation X to Y seconds
+		  
 	Facebook:-
 		Broadcast Messages => Broadcast message =>Fixed issue with pause the campaign
 		Broadcast Messages => Broadcast message =>Fixed issue with fail to message to custom users list
@@ -495,7 +561,7 @@ Fixed:-
 	LinkedIn:-
 		Grow Connection => Connection request => Fixed issue with sending connection request using search url.
 		Fixed issue with to show confirmation message afer save the message , in all custom url list option.
-		Fixed issue with to uploading profile url in  all custom url list.
+		Fixed issue with to uploading profile url in all custom url list.
 		Linkedin Socinator => Profile endoresement=> Connection source => Fixed issue with to stop endorse the profile skill after pause the campaign."
 		Messenger => Auto Reply to New Message =>Fixed issue with reply to all messages and reply to message that contains specific words
 		Message => Fixed isssue with send message to new connection .
@@ -520,8 +586,8 @@ Instagram:-
 	Added an option to mention counts, how many posts needs to be reposted per user
 	Reposting unique posts from each account
 LinkedIn:-
-	Scraper => Added feature to  scrape after visiting  and  scrape without visiting for scraping profile details.
-	SalesNavigator Scraper => Added feature to  scrape after visiting  and  scrape without visiting for scraping profile details.
+	Scraper => Added feature to scrape after visiting and scrape without visiting for scraping profile details.
+	SalesNavigator Scraper => Added feature to scrape after visiting and scrape without visiting for scraping profile details.
 	Linkedin socinator => Scraper => User scraper => Add feature to scrape Only 1st degree connection.
 	Grow Connection => Connection request => Added feature to send request via Email Id.
 Twitter:-
@@ -529,7 +595,7 @@ Twitter:-
 	Scraper => Scrape tweet => QueryType => specific user tweets
 	Engage => Unlike => Liked Tweets and 2.Custom Tweet list
 	Poster => Retweet => QueryType => Specific users tweets
-	Engage => Like => Query Type =>  Specific users tweets
+	Engage => Like => Query Type => Specific users tweets
 	Engage => Comment => Query Type => Specific users tweets
 	Engage =>Comment => Spintax support added
 	Messenger => Broadcast Message => Message Text => Spintax support Added
@@ -545,7 +611,7 @@ Gplus:-
 
 Fixed:-
 	Social:-
-		Social  =>  Other Configgurations =>  Issue fixed with enable Advanced User Mode
+		Social => Other Configgurations => Issue fixed with enable Advanced User Mode
 		Issue fixed with updating pending posts of the campaign, when updated with a new url in "Create A Multiple Image Post
 		Added in checkbox in all Social networks to select all queries from list at a once and remove them.
 	Instagram:-
@@ -556,7 +622,7 @@ Fixed:-
 		Account Activitiy => Auto reply to messages => Fixed issue with reply to new pending messages having specific words
 		Account Activity => Post Liker => Fixed issue with saving custom post lists.
 		Engage => Post Comment => Fixed issue with custom post urls while saving in module and account activity as well.
-		Account Activity =>  Comment Scraper =>  Fixed issue with exporting the reports
+		Account Activity => Comment Scraper => Fixed issue with exporting the reports
 		Account Manager => Fixed issue with account's login issue.
 		Grow friends => Fixed issue with withdraw sent request.
 	LinkedIn:-
@@ -571,11 +637,11 @@ Fixed:-
 		Account => Add valid Account then Select the valid account then Check Account Status then delete the selected accounts and you will see application get crashed.
 		Create Board => Schedule => Fixed Issue with scheduling the jobs to the upcoming days with proper message in the logger.
 	YouTube:-
-		Watch Video =>  View  Increaser => Fixed issue with continutiy of  the video in embedded browser.
-		Watch Video =>  View  Increaser => Fixed issue with other configuration in the module.
-		Watch Video =>  Fixed issue with start => pause actions in campaign.
-		Engage => Like =>  Video Filter => Fixed issue with video filters
-		Engage =>  Like => Report =>  Fixed issue with proper data are shown in .CSV file
+		Watch Video => View Increaser => Fixed issue with continutiy of the video in embedded browser.
+		Watch Video => View Increaser => Fixed issue with other configuration in the module.
+		Watch Video => Fixed issue with start => pause actions in campaign.
+		Engage => Like => Video Filter => Fixed issue with video filters
+		Engage => Like => Report => Fixed issue with proper data are shown in .CSV file
 		Engage => Comment => Fixed issue with comment while saving into the comment list
 		Account Manager => Fixed issue with account login status.
 		Watch Video => View Increaser =>Fixed issue with export report for view increaser.
@@ -610,7 +676,7 @@ Fixed:-
 		Grow groups => Group Joiner => Fixed issue with exporting data to excel sheets in random order. 
 		Broadcast Messages => Auto reply to messages => Fixed issue with auto reply to messages.
 	Linkedin:-
-		Salesnavigator Scraper ==>  Fixed issue with showing search URL result in the mid of running campaign in sales navigator scraper module.
+		Salesnavigator Scraper =>  Fixed issue with showing search URL result in the mid of running campaign in sales navigator scraper module.
 		Grow Connection => Connection Request => Fixed issue with sending connection request by search Url.
 	Twitter:-
 		Accounts Activity => Delete => Issue Fixed with No more data available in Delete source
@@ -652,9 +718,9 @@ Accounts Activity:-
 Account=> Account manager => Issue in browser login is fixed.
 
 Instagram:-
-	Account ===> Account Manager ===> Issue fixed with browser login.
-	InstaPoster ===>  Issue fixed with uploading someone's post that contains album.
-	InstaChat ===> Issue fixed with auto reply to new message.
+	Account = => Account Manager = => Issue fixed with browser login.
+	InstaPoster = =>  Issue fixed with uploading someone's post that contains album.
+	InstaChat = => Issue fixed with auto reply to new message.
 Facebook:-
 	Send Friend Request: Fixed issue with sending unique request with each account in each job.
 	Broadcast Messages: Fixed issue with saving the message in auto reply message.
@@ -695,7 +761,7 @@ Facebook:- Minor bug fixed and improvements
 Twitter:- Minor bug fixed and improvements
 Instagram:- Minor bug fixed and improvements
 Pinterest:- Minor bug fixed and improvements
-gPlus:-  Minor bug fixed and improvements
+gPlus:- Minor bug fixed and improvements
 Reddit:- Minor bug fixed and improvements
 LinkedIn:- Minor bug fixed and improvements
 Youtube:- Minor bug fixed and improvements
@@ -704,7 +770,7 @@ Tumblr:- Minor bug fixed and improvements
 
 Version[1.0.0.8],[8th-August-18]
 Fixed Issues:
-Publisher:-  Wrong error:- No more unique posts available
+Publisher:- Wrong error:- No more unique posts available
 
 
 New Feature:- 
@@ -714,23 +780,23 @@ Reddit:- Added 3 new features, Upvote,Downvote and RemoveVote on Comments
 Version[1.0.0.7],[6th-August-18]
 Improved software performance
 Fixed Issues:
-General:-   Issued fixed with add to blacklist after unfriend.
+General:-  Issued fixed with add to blacklist after unfriend.
 			Issued fixed with functionality of Saved post to publish now
 			Issue fixed with clearing message text
 
 Publisher:- Not able to post content with multiple lines on Reddit.
-            Issue fixed with account verification
-            Issue fixed with posting expired posts
+      Issue fixed with account verification
+      Issue fixed with posting expired posts
 			Issue fixed with psoting single image for Tumblr
 
-LinkedIn:-  Export HTML Feature
+LinkedIn:- Export HTML Feature
 
 Instagram:- Issue fixed with showing saved Favorite time 
-            Issue fixed with filtering Select Campaign Category
-            Issue fixed with updating data in dashboard for Sociopublisher
+      Issue fixed with filtering Select Campaign Category
+      Issue fixed with updating data in dashboard for Sociopublisher
 
-Tumblr:-    Issue fixed with exporting report for Tumblr
-            Issue fixed with allowing multiple messages in queries for Tumblr
+Tumblr:-  Issue fixed with exporting report for Tumblr
+      Issue fixed with allowing multiple messages in queries for Tumblr
 
 
 Version[1.0.0.6],[30th-July-18]
@@ -762,10 +828,10 @@ Facebook:- Added Account Growth Tab to show daily, weekly, monthly, lifetime gro
 Twitter:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
 Instagram:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
 Pinterest:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
-gPlus:-  Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
-Reddit:-  Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+gPlus:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Reddit:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
 LinkedIn:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
-Youtube:-  Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
+Youtube:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
 Quora:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
 Tumblr:- Added Account Growth Tab to show daily, weekly, monthly, lifetime growth.
 
@@ -775,7 +841,7 @@ Facebook:- Minor bug fixed and improvements
 Twitter:- Minor bug fixed and improvements
 Instagram:- Minor bug fixed and improvements
 Pinterest:- Minor bug fixed and improvements
-gPlus:-  Minor bug fixed and improvements
+gPlus:- Minor bug fixed and improvements
 Reddit:- Fixed issues with importing multiple reddit text posts.
 LinkedIn:- Minor bug fixed and improvements
 Youtube:- Minor bug fixed and improvements
@@ -794,7 +860,7 @@ Facebook:- Minor bug fixed and improvements
 Twitter:- Minor bug fixed and improvements
 Instagram:- Minor bug fixed and improvements
 Pinterest:- Minor bug fixed and improvements
-gPlus:-  Minor bug fixed and improvements
+gPlus:- Minor bug fixed and improvements
 Reddit:- Minor bug fixed and improvements
 LinkedIn:- Minor bug fixed and improvements
 Youtube:- Minor bug fixed and improvements

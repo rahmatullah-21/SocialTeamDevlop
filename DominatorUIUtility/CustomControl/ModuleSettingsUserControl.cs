@@ -407,9 +407,6 @@ namespace DominatorUIUtility.CustomControl
                     return;
 
                 var schedulePending = ImmutableQueue<Action>.Empty;
-
-                bool allScheduleQueued;
-
                 if (IsNeedToSaveTemplate())
                 {
                     //     UpdateJobconfiguration();
@@ -448,12 +445,13 @@ namespace DominatorUIUtility.CustomControl
                     {
                         ex.DebugLog();
                     }
-
                     SetDataContext();
 
                     TabSwitcher.GoToCampaign();
+
                 }
             });
+
         }
 
 
@@ -565,6 +563,7 @@ namespace DominatorUIUtility.CustomControl
                 });
                 #endregion
 
+                var remainingAccount = _footerControl.list_SelectedAccounts.DeepCloneObject();
                 var selectedAccount = objErrorModelControl.Accounts.Where(x => x.IsChecked).Select(x => x.UserName).ToList();
 
                 if (selectedAccount.Count == 0)
@@ -592,6 +591,7 @@ namespace DominatorUIUtility.CustomControl
                 });
 
                 _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
+                _footerControl.list_SelectedAccounts = remainingAccount;
                 warningWindow.Close();
             };
 
@@ -1306,8 +1306,12 @@ namespace DominatorUIUtility.CustomControl
                 if (moduleConfiguration?.TemplateId == null || moduleConfiguration.LstRunningTimes == null)
                 {
                     Model.IsAccountGrowthActive = !isStart;
-                    DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please save your settings, before starting the activity.");
-                    return false;
+
+                    if (isStart)
+                    {
+                        Dialog.ShowDialog("Error", "Please save your settings, before starting the activity.");
+                        return false;
+                    }
                 }
                 moduleConfiguration.IsEnabled = isStart;
                 try

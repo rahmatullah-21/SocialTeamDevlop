@@ -232,6 +232,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var campaignDetails = sender as PublisherCampaignStatusModel;
                 // Copy to clipboard
                 Clipboard.SetText(campaignDetails.CampaignId);
+                ToasterNotification.ShowSuccess("Campaign Id copied");
             }
             else
             {
@@ -320,7 +321,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
                                 PublisherManageDestinations.Instance();
                             break;
-                         // Navigate to manage posts
+                        // Navigate to manage posts
                         case "ManagePosts":
                             PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl =
                                 new PublisherManagePosts();
@@ -355,7 +356,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
@@ -412,7 +413,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Generate new campaignId and campaign Name
                     clonedCampaignStatus.GenerateCloneCampaign(campaignStatus.CampaignName);
-
+                    clonedCampaignStatus.Status = PublisherCampaignStatus.Active;
                     SaveClonedCampaign(clonedCampaignStatus, campaignStatus.CampaignId);
 
                     if (campaignStatus.IsSelected)
@@ -437,7 +438,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         // Move all published posts to pending posts while cloning
                         x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
                         x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
-
+                        x.PostRunningStatus = PostRunningStatus.Active;
                         // Add to clone options
                         clonedPostlist.Add(x);
                     });
@@ -447,7 +448,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
                     PublisherInitialize.GetInstance.UpdatePostStatus(clonedCampaignStatus.CampaignId);
-                  
+
                     // Save advanced setting of all network
                     #region Saving Advance setting
 
@@ -565,7 +566,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         // Generate new campaignId and campaign Name
                         clonedCampaignStatus.GenerateCloneCampaign(campaign.CampaignName);
-
+                        clonedCampaignStatus.Status = PublisherCampaignStatus.Active;
                         SaveClonedCampaign(clonedCampaignStatus, campaign.CampaignId);
 
                         // Update in default page
@@ -585,6 +586,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             // Move all published posts to pending posts while cloning
                             x.PostQueuedStatus = x.PostQueuedStatus == PostQueuedStatus.Published ? PostQueuedStatus.Pending : x.PostQueuedStatus;
                             x.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
+                            x.PostRunningStatus = PostRunningStatus.Active;
                             // Add to clone options
                             clonedPostlist.Add(x);
                         });
@@ -606,7 +608,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             .GetPublisherPostFetchFile).Where(x => x.CampaignId == campaign.CampaignId);
 
                         var currentCampaignsFetchDetails = new List<PublisherPostFetchModel>();
-                      
+
                         // Enable the post fetcher options
                         allFetchDetails.ForEach(x =>
                         {
@@ -649,6 +651,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
 
                 duplicatedCampaign.CampaignName = clonedCampaignStatus.CampaignName;
+                duplicatedCampaign.CampaignStatus = clonedCampaignStatus.Status;
                 duplicatedCampaign.CampaignId = clonedCampaignStatus.CampaignId;
                 duplicatedCampaign.CreatedDate = clonedCampaignStatus.CreatedDate;
                 duplicatedCampaign.UpdatedDate = clonedCampaignStatus.UpdatedTime;
@@ -692,7 +695,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
 
             var isIndividualDelete = sender is PublisherCampaignStatusModel;
-
+            var campaignList = PublisherManagePosts.Instance.PublisherManagePostsViewModel.CampaignList;
             // Single delete campaign
             if (isIndividualDelete)
             {
@@ -732,6 +735,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 GlobusLogHelper.log.Info($"{campaign.CampaignName} deleted Successfully!");
 
+                //update campaign list in managepost
+                campaignList.Remove(campaignList.FirstOrDefault(x => x.Id == campaign.CampaignId));
             }
             else
             {
@@ -773,12 +778,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Delete the post list bin file for the campaign
                     _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{x.CampaignId}.bin");
+
+                    //update campaign list in managepost
+                    campaignList.Remove(campaignList.FirstOrDefault(y => y.Id == x.CampaignId));
                 });
 
                 _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
 
                 GlobusLogHelper.log.Info("Campaign deletion operation completed!");
+
             }
         }
 

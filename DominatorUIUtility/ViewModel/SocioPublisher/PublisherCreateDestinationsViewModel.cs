@@ -49,7 +49,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             IsSavedDestination = false;
         }
 
-        private void NetworkSelectionChangedExecute(object sender)
+        public void NetworkSelectionChangedExecute(object sender)
         {
             try
             {

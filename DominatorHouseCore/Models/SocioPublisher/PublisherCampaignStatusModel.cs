@@ -262,7 +262,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             if (StartDate == null || EndDate == null)
                 return true;
 
-            return StartDate < EndDate;
+            return StartDate <= EndDate;
         }
 
         [field: NonSerialized]

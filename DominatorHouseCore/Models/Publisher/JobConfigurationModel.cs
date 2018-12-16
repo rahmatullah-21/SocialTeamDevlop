@@ -436,7 +436,7 @@ namespace DominatorHouseCore.Models.Publisher
         /// <summary>
         /// To specify to start date of the campaign
         /// </summary>
-        private DateTime? _campaignStartDate = DateTime.Now;
+        private DateTime? _campaignStartDate;
         [ProtoMember(33)]
         public DateTime? CampaignStartDate
         {
@@ -456,7 +456,7 @@ namespace DominatorHouseCore.Models.Publisher
         /// <summary>
         /// To specify the campaign end date
         /// </summary>
-        private DateTime? _campaignEndDate = DateTime.Now;
+        private DateTime? _campaignEndDate;
         [ProtoMember(34)]
         public DateTime? CampaignEndDate
         {

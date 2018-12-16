@@ -571,6 +571,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
     <Compile Include="Models\QuoraModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
+    <Compile Include="Models\SelectAccountModel.cs" />
     <Compile Include="Models\SocioPublisher\DetailedFileInfo.cs" />
     <Compile Include="Interfaces\SocioPublisher\IPublisherDestinationDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\MonitorFolderModel.cs" />

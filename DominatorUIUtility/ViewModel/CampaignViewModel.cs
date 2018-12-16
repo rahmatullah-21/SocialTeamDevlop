@@ -282,7 +282,12 @@ namespace DominatorUIUtility.ViewModel
                     }
                     Window win = objDialog.GetMetroWindow(reportControl, "Reports");
                     win.Owner = Application.Current.MainWindow;
-                    win.GotFocus += OnFocus;
+                    win.WindowStartupLocation = WindowStartupLocation.Manual;
+                    var mainWindow = Application.Current.MainWindow;
+                    var width = mainWindow.Width;
+                    var height = mainWindow.Height;
+                    win.Top = 0;
+                    win.Left = 0;
                     win.ShowDialog();
                 }
 
@@ -293,16 +298,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private void OnFocus(object sender, RoutedEventArgs e)
-        {
-            var win = sender as MetroWindow;
-            win.WindowStartupLocation = WindowStartupLocation.Manual;
-            var mainWindow = Application.Current.MainWindow;
-            var width = mainWindow.Width;
-            var height = mainWindow.Height;
-            win.Top = (height - win.Height) / 2;
-            win.Left = (width - win.Width) / 2;
-        }
         private void StatusChangeExecute(object sender)
         {
             try

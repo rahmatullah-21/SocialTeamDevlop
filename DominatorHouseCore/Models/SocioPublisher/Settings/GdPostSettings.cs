@@ -156,8 +156,8 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {
-                if (_isLocationName == value)
-                    return;
+                if (value)
+                    IsGeoLocationName = false;
 
                 SetProperty(ref _isLocationName, value);
             }
@@ -171,8 +171,8 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {
-                if (_isLocationId == value)
-                    return;
+                if (value)
+                    IsGeoLocationName = false;
 
                 SetProperty(ref _isLocationId, value);
             }
