@@ -231,7 +231,8 @@ namespace DominatorHouseCore.Process
                         accountsCacheService.UpsertAccounts(DominatorAccountModel);
                     }
 
-                    DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                    dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                 }
 
             }
