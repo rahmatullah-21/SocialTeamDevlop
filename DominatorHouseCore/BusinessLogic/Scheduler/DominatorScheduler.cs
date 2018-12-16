@@ -52,18 +52,21 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-                var activeJobProcessFactory = ServiceLocator.Current.GetInstance<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork.ToString());
+                lock (RunStopActivityLocker)
+                {
+                    var activeJobProcessFactory = ServiceLocator.Current.GetInstance<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork.ToString());
 
-                var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
+                    var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
 
-                var scheduledJob = _schedulerProxy[id];
+                    var scheduledJob = _schedulerProxy[id];
 
-                if (scheduledJob != null && scheduledJob.Disabled)
-                    return;
+                    if (scheduledJob != null && scheduledJob.Disabled)
+                        return;
 
-                var jobProcess = activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
+                    var jobProcess = activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
 
-                jobProcess.StartProcessAsync();
+                    jobProcess.StartProcessAsync();
+                }
             }
             catch (Exception ex)
             {

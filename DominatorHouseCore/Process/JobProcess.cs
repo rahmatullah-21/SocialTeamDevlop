@@ -22,6 +22,7 @@ namespace DominatorHouseCore.Process
 {
     public interface IJobProcess
     {
+        Task StartProcessAsync();
         void Stop();
     }
 
