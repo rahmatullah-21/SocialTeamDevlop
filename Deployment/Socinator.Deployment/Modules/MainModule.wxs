@@ -96,10 +96,6 @@
         <File Id="Socinatorexe" Name="Socinator.exe" Source="$(var.SourceDir)\Socinator.exe"/>
         <File Id="Socinatorexeconfig" Name="Socinator.exe.config" Source="$(var.SourceDir)\Socinator.exe.config"/>
         <File Id="Socinatorexemanifest" Name="Socinator.exe.manifest" Source="$(var.SourceDir)\Socinator.exe.manifest"/>
-        <File Id="Socinatorvshostapplication" Name="Socinator.vshost.application" Source="$(var.SourceDir)\Socinator.vshost.application"/>
-        <File Id="Socinatorvshostexe" Name="Socinator.vshost.exe" Source="$(var.SourceDir)\Socinator.vshost.exe"/>
-        <File Id="Socinatorvshostexeconfig" Name="Socinator.vshost.exe.config" Source="$(var.SourceDir)\Socinator.vshost.exe.config"/>
-        <File Id="Socinatorvshostexemanifest" Name="Socinator.vshost.exe.manifest" Source="$(var.SourceDir)\Socinator.vshost.exe.manifest"/>
         <File Id="SQLiteInteropdll" Name="SQLite.Interop.dll" Source="$(var.SourceDir)\SQLite.Interop.dll"/>
         <File Id="sqlite3def" Name="sqlite3.def" Source="$(var.SourceDir)\sqlite3.def"/>
         <File Id="sqlite3dll" Name="sqlite3.dll" Source="$(var.SourceDir)\sqlite3.dll"/>
