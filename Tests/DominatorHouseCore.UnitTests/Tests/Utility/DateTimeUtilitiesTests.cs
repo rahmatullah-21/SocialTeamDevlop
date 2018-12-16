@@ -25,13 +25,13 @@ namespace DominatorHouseCore.UnitTests.Tests.Utility
         public void should_current_epoch_time()
         {
             // arrange
-            var currentDate = new DateTime(2018, 01, 01, 23, 22, 33);
+            var currentDate = new DateTime(2018, 01, 01, 23, 22, 33, DateTimeKind.Utc);
 
             // act
             var result = currentDate.GetCurrentEpochTime();
 
             // assert
-            result.Should().Be(1514829153);
+            result.Should().Be(1514848953);
         }
     }
 }
