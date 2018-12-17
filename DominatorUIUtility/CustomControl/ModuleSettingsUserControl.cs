@@ -712,7 +712,7 @@ namespace DominatorUIUtility.CustomControl
             TabSwitcher.GoToCampaign();
         }
 
-        protected void FooterControl_OnSelectAccountChanged(List<string> listOfSelectedAccounts)
+        public void FooterControl_OnSelectAccountChanged(List<string> listOfSelectedAccounts)
         {
             if (listOfSelectedAccounts.Count > 0)
             {
