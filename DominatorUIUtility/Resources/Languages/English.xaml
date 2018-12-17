@@ -3304,5 +3304,17 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySecondsBetweenEachFollow">Seconds Between Each Follow</system:String>
     <system:String x:Key="LangKeyAutoSchedule">Auto Schedule</system:String>
     <system:String x:Key="LangKeyPostMultipleImagesPostsAsAlbum">Post Multiple Images Posts As Album</system:String>
+    <system:String x:Key="LangKeyEditPin">Edit Pin</system:String>
+    <system:String x:Key="LangKeyPinsList">Pins List</system:String>
+    <system:String x:Key="LangKeyBoard">Board</system:String>
+    <system:String x:Key="LangKeySection">Section</system:String>
+    <system:String x:Key="LangKeyWebsiteUrl">Website Url</system:String>
+    <system:String x:Key="LangKeyPinIdToBeEdit">Pin Id To Be Edit</system:String>
+    <system:String x:Key="LangKeyAccount">Account</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerDay">Number Of Edit Pins Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerHour">Number Of Edit Pins Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerJob">Number Of Edit Pins Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerWeek">Number Of Edit Pins Per Week</system:String>
+    <system:String x:Key="LangKeyEditPinsPerDay">Max Edit Pins Per Day</system:String>
 
 </ResourceDictionary>

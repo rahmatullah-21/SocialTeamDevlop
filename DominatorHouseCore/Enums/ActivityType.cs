@@ -313,5 +313,7 @@ namespace DominatorHouseCore.Enums
         SendGreetingsToFriends = 108,
         [Description("Facebook")]
         WebPostLikeComment = 109,
+        [Description("Pinterest")]
+        EditPin = 110,
     }
 }
