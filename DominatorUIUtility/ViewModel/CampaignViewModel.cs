@@ -482,7 +482,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 // To check whether all destinations are selected, then make the tick mark on column header
-                if (LstCampaignDetails.All(x => x.IsCampaignChecked))
+                if (LstCampaignDetails.Where(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork).All(y => y.IsCampaignChecked))
                     IsAllCampaignChecked = true;
                 else
                 {
