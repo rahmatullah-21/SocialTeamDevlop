@@ -1738,6 +1738,7 @@ namespace DominatorUIUtility.CustomControl
 
                 _accountGrowthModeHeader.SelectedItem = SocinatorInitialize.GetSocialLibrary(networks)
                     .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount;
+                SetAccountModeDataContext();
             }
             catch (Exception ex)
             {
