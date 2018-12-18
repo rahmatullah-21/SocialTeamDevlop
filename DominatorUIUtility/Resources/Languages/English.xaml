@@ -3316,5 +3316,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfEditPinsPerJob">Number Of Edit Pins Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfEditPinsPerWeek">Number Of Edit Pins Per Week</system:String>
     <system:String x:Key="LangKeyEditPinsPerDay">Max Edit Pins Per Day</system:String>
-
+    <system:String x:Key="LangKeyCommentsOfOnePost">Comments Of One Post</system:String>
 </ResourceDictionary>
