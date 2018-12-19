@@ -373,14 +373,6 @@
     <EmbeddedResource Include="RevisionHistory\revisionhistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.def">
-      <Link>sqlite3.def</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.dll">
-      <Link>sqlite3.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="CefSharp.Core.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -263,6 +263,9 @@
     <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseMigrations.cs" />
     <Compile Include="Dal\DbMigrationUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\Accounts\BaseUnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\Common\Accounts\IUnfollowedUser.cs" />
+    <Compile Include="DatabaseHandler\Common\IPrimaryKey.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DbVersions.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
@@ -802,7 +805,16 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.def">
+      <Link>sqlite3.def</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.dll">
+      <Link>sqlite3.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
       <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>

@@ -1,10 +1,13 @@
-﻿using System;
+﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Utility;
 using SQLite;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
-    public class UnfollowedUsers
+    public class UnfollowedUsers : IUnfollowedUser
     {
+
         [PrimaryKey]
         [AutoIncrement]
         [Indexed]
@@ -50,10 +53,19 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public DateTime InteractionDate
-        { get; set; }
+        public new DateTime InteractionDate
+        {
+            get { return ((IUnfollowedUser)this).InteractionDate.EpochToDateTimeUtc(); }
+            set { ((IUnfollowedUser)this).InteractionDate = value.ConvertToEpochAsIs(); }
+        }
+
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string ProcessType { get; set; }
+        int IUnfollowedUser.InteractionDate
+        {
+            get;
+            set;
+        }
     }
 }

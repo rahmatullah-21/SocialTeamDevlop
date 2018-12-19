@@ -1,15 +1,10 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {
-    public class UnfollowedUsers
+    public class UnfollowedUsers : BaseUnfollowedUsers
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountUsername
         { get; set; }
@@ -35,7 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public int InteractionDate
+        public override int InteractionDate
         { get; set; }
 
 

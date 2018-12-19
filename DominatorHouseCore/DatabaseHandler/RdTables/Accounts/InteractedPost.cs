@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using SQLite;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
-    public class InteractedPost
+    public class InteractedPost : IPrimaryKey
     {
         [PrimaryKey]
         [AutoIncrement]
