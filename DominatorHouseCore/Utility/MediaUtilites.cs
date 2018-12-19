@@ -635,5 +635,24 @@ namespace DominatorHouseCore.Utility
                 return buffer;
             }
         }
+        public string GetThumbnailPng(string filePath)
+        {
+            var extension = System.IO.Path.GetExtension(filePath)?.Replace(".", "");
+            if (ConstantVariable.SupportedVideoFormat.Contains(extension))
+            {
+                var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertPngFileName}";
+                try
+                {
+                    var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                    ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+                return newFilePath;
+            }
+            return filePath;
+        }
     }
 }
