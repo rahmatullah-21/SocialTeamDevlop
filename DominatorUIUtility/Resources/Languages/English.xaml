@@ -3318,4 +3318,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEditPinsPerDay">Max Edit Pins Per Day</system:String>
     <system:String x:Key="LangKeyCommentsOfOnePost">Comments Of One Post</system:String>
     <system:String x:Key="LangKeyEnableAdvanceBioAndSkills">Enable Advance Bio And Skills</system:String>
+    <system:String x:Key="LangKeyNext">Next >></system:String>
+    <system:String x:Key="LangKeyPrevious">&lt;&lt; Previous</system:String>
+    <system:String x:Key="LangKeyFinish">Finish</system:String>
+    <system:String x:Key="LangKeyAccountPerProxy">Account Per Proxy</system:String>
 </ResourceDictionary>

@@ -152,7 +152,7 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAssignRandomProxyToUnassignedAccounts}" >
+                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAssignRandomProxyToUnassignedAccounts}" IsChecked="{Binding IsRandomSelected}" >
                     <CheckBox.Style>
                         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
                             <Style.Triggers>
@@ -163,6 +163,19 @@
                         </Style>
                     </CheckBox.Style>
                 </CheckBox>
+                <CheckBox Margin="5"  Content="{DynamicResource LangKeyAdd}" IsChecked="{Binding IsNumOfAccountPerProxy}">
+                    <CheckBox.Style>
+                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Command" Value="{Binding AssignXAccountPerProxyCommand}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+                <Controls:NumericUpDown Minimum="0" Value="{Binding NumOfAccountPerProxy}" />
+                <Label Content="{DynamicResource LangKeyAccountPerProxy}"/>
                 <StackPanel Orientation="Horizontal" Margin="5,0"
                             Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectTag}"/>
