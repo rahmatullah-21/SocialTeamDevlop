@@ -1,15 +1,10 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity, IInteractedUsers
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountUsername { get; set; }
 
@@ -29,8 +24,12 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         public string InteractedUserId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public int InteractionTimeStamp { get; set; }
-        
+        public int InteractionTimeStamp
+        {
+            get { return ((IInteractedUsers)this).InteractionDate; }
+            set { ((IInteractedUsers)this).InteractionDate = value; }
+        }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string SubscriberCount { get; set; }
 
@@ -63,5 +62,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string MessageToChannelOwner { get; set; }
+
+        int IInteractedUsers.InteractionDate { get; set; }
     }
 }

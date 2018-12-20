@@ -1,16 +1,11 @@
-﻿using System;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity, IInteractedUsers
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string QueryType { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
@@ -21,7 +16,10 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int InteractionTimeStamp
-        { get; set; }
+        {
+            get { return ((IInteractedUsers)this).InteractionDate; }
+            set { ((IInteractedUsers)this).InteractionDate = value; }
+        }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string InteractedUsername
@@ -89,5 +87,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string Message { get; set; }
+
+        int IInteractedUsers.InteractionDate { get; set; }
     }
 }

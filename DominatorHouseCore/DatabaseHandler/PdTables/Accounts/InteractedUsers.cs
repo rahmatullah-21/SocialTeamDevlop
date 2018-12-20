@@ -1,15 +1,10 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity, IInteractedUsers
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
 
@@ -27,7 +22,10 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int InteractionTime
-        { get; set; }
+        {
+            get { return ((IInteractedUsers)this).InteractionDate; }
+            set { ((IInteractedUsers)this).InteractionDate = value; }
+        }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string ActivityType
@@ -108,5 +106,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string DirectMessage
         { get; set; }
+
+        int IInteractedUsers.InteractionDate { get; set; }
     }
 }
