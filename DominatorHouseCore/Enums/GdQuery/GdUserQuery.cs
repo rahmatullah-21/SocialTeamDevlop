@@ -28,5 +28,9 @@ namespace DominatorHouseCore.Enums.GdQuery
         UsersWhoCommentedOnPost,
         [Description("LangKeyScrapUsersWhoMessagedUs")]
         ScrapUserWhoMessagedUs,
+        [Description("LangKeyOwnFollowers")]
+        OwnFollowers,
+        [Description("LangKeyOwnFollowings")]
+        OwnFollowings,
     }
 }
