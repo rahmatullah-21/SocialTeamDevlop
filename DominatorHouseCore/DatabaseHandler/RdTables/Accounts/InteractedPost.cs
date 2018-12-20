@@ -91,8 +91,8 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 36)]
         public DateTime InteractionDateTime
         {
-            get { return ((IUnfollowedUser)this).InteractionDate.EpochToDateTimeUtc(); }
-            set { ((IUnfollowedUser)this).InteractionDate = value.ConvertToEpochAsIs(); }
+            get { return ((IInteractedPosts)this).InteractionDate.EpochToDateTimeUtc(); }
+            set { ((IInteractedPosts)this).InteractionDate = value.ConvertToEpochAsIs(); }
         }
 
         int IInteractedPosts.InteractionDate { get; set; }
