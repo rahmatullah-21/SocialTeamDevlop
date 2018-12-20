@@ -1,18 +1,13 @@
-﻿using DominatorHouseCore.Enums;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Utility;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IInteractedPosts
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-       
-
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -91,9 +86,12 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public string LikeType { get; set; }
 
 
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public DateTime InteractionDateTime { get; set; }
+        public DateTime InteractionDateTime
+        {
+            get { return ((IInteractedPosts)this).InteractionDate.EpochToDateTimeUtc(); }
+            set { ((IInteractedPosts)this).InteractionDate = value.ConvertToEpochAsIs(); }
+        }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string Comment { get; set; }
@@ -110,5 +108,6 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string WatchPartInvitedToUserName { get; set; }
 
+        int IInteractedPosts.InteractionDate { get; set; }
     }
 }

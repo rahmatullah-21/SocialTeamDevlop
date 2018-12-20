@@ -53,7 +53,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public new DateTime InteractionDate
+        public DateTime InteractionDate
         {
             get { return ((IUnfollowedUser)this).InteractionDate.EpochToDateTimeUtc(); }
             set { ((IUnfollowedUser)this).InteractionDate = value.ConvertToEpochAsIs(); }

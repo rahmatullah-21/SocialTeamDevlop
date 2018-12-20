@@ -264,7 +264,9 @@
     <Compile Include="Dal\DbMigrations\GlobalDatabaseMigrations.cs" />
     <Compile Include="Dal\DbMigrationUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\Accounts\BaseUnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\Common\Accounts\IInteractedPosts.cs" />
     <Compile Include="DatabaseHandler\Common\Accounts\IUnfollowedUser.cs" />
+    <Compile Include="DatabaseHandler\Common\Entity.cs" />
     <Compile Include="DatabaseHandler\Common\IPrimaryKey.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DbVersions.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
