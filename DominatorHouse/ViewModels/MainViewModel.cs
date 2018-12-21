@@ -175,30 +175,38 @@ namespace DominatorHouse.ViewModels
             }
         }
 
+        private bool _isStartedfirstTime;
         private async Task FatalErrorDiagnosis()
         {
             string fatalError;
             var key = SocinatorKeyHelper.GetKey();
             if (key != null)
             {
-                var settings = new MetroDialogSettings()
+                _isStartedfirstTime = true;
+                if (await DiagnoseFatalError(key.FatalErrorMessage))
                 {
-                    DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
-                    AffirmativeButtonText = "Validate"
-                };
-                while (true)
-                {
-                    try
+                    var settings = new MetroDialogSettings()
                     {
-                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
-                        if (await IsProcessFatalError(fatalError))
-                            // ReSharper disable once RedundantJumpStatement
-                            continue;
-                        // ReSharper disable once RedundantIfElseBlock
-                        else break;
-                    }
-                    catch (Exception ex)
+                        DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
+                        AffirmativeButtonText = "Validate"
+                    };
+                    while (true)
                     {
+                        try
+                        {
+                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
+                            if (await IsProcessFatalError(fatalError))
+                                // ReSharper disable once RedundantJumpStatement
+                                continue;
+                            // ReSharper disable once RedundantIfElseBlock
+                            else if (_isStartedfirstTime)
+                                continue;
+                            else
+                                break;
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                     }
                 }
             }
@@ -235,11 +243,12 @@ namespace DominatorHouse.ViewModels
             }
             if (networks.Count <= 1)
             {
-                Application.Current.MainWindow.Close();
                 await controller.CloseAsync();
-                await FatalErrorDiagnosis();
+                if (!_isStartedfirstTime)
+                    await FatalErrorDiagnosis();
                 return true;
             }
+            _isStartedfirstTime = false;
             IsCancelFromLicenceValidationState = false;
             var fatalErrorHandler = new FatalErrorHandler
             {
