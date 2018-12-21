@@ -1,3 +1,35 @@
+Version[1.0.0.26],[19th-December-18]
+New Features:- 
+	Instagram:-
+		Instaliker/Instacommenter => Like Comment => Like comment X to Y post of each user.
+		Instaliker/Instacommenter => Like Comment => Like X to Y comment of each post.
+	Linkedin:-
+		User Filter => Enable advance Bio and Skill.
+Fixed:-
+	Reddit:-
+		Voter => Fixed issue with upvote.
+		Subscribe channel => Fixed issue with subcribe.
+		Subscribe channel => Fixed issue with unsubscribe channel.
+		Socialpublisher => Fixed issue with upload media files in wall.
+	Facebook:-
+		Broadcast message => Fixed issue with broadcast message.
+		Engage => Fixed issue with post like.
+		Engage => Fixed issue with post comment.
+		Socialpublisher => fixed issue with shrape post.
+	Twitter:-
+		Poster  => Delete retweet => Fixed issue with delete retweet.
+	Instagram:-
+		Grow Follower => Block Follower => Fixed issue with block follower.
+		Grow Follower => Unfollow => Fixed issue with unfollow.
+		Instachat => Broadcast Message => Fixed issue with skip users who already received message.
+		Instachat => Broadcast Message => Fixed issue with edit campaign.
+		Instascrape => Post Scraper => Fixed issue with delay between each operation.
+	Linkedin:-
+		Grow connection => Fixed issue with showing different search url result in software and browser.
+		Grow connection => Export connection => Fixed issue with export connection.
+		Grow Connection => Fixed issue with saving contact info as a html file.
+		Salesnavigator Scraper => User Scraper => Fixed issue with scraping data from search URL.
+
 Version[1.0.0.25],[15th-December-18]
 Fixed:-
 	Linkedin:-

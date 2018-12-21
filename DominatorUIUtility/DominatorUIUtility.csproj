@@ -131,6 +131,10 @@
     <Reference Include="FluentScheduler, Version=5.3.0.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.WindowsInstaller">
+      <HintPath>..\DominatorHouse\obj\Debug\Interop.WindowsInstaller.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
@@ -385,6 +389,9 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\SoftwareSettingsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\SelectAccountDetailsViewModel.cs" />
+    <Compile Include="ViewModel\Startup\SaveSettingViewModel.cs" />
+    <Compile Include="ViewModel\Startup\SelectActivityViewModel.cs" />
+    <Compile Include="ViewModel\Startup\StartUpHomeViewModel.cs" />
     <Compile Include="ViewModel\VerifyProxiesViewModel.cs" />
     <Compile Include="ViewModel\WhiteListViewModel.cs" />
     <Compile Include="Views\AccountManager.xaml.cs">
@@ -558,6 +565,15 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherSharePost.xaml.cs">
       <DependentUpon>PublisherSharePost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Startup\SaveSetting.xaml.cs">
+      <DependentUpon>SaveSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Startup\SelectActivity.xaml.cs">
+      <DependentUpon>SelectActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Startup\StartUpHome.xaml.cs">
+      <DependentUpon>StartUpHome.xaml</DependentUpon>
     </Compile>
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1081,6 +1097,18 @@
     <Page Include="Views\SocioPublisher\CustomControl\PublisherEditPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Startup\SaveSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Startup\SelectActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Startup\StartUpHome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

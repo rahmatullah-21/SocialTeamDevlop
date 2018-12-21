@@ -309,6 +309,7 @@
                         <MenuItem Header="Edit Twitter Profile" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}" Click="EditNetworkProfile" Icon="{StaticResource GotoAccountProvideIcon}"/>
 
                         <MenuItem Header="Copy Account Id" Click="CopyAccountId" Icon="{StaticResource CopyAccountIdIcon}"/>
+                        <MenuItem Header="Select Activity" Click="SelectActivity" Icon="{StaticResource CopyAccountIdIcon}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.ItemsSource>
@@ -426,7 +427,7 @@
                                                             <Setter Property="Content" >
                                                                 <Setter.Value>
                                                                     <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                       <Rectangle.OpacityMask>
+                                                                        <Rectangle.OpacityMask>
                                                                             <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
                                                                         </Rectangle.OpacityMask>
                                                                     </Rectangle>
@@ -438,7 +439,7 @@
                                                             <Setter Property="Content" >
                                                                 <Setter.Value>
                                                                     <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                       <Rectangle.OpacityMask>
+                                                                        <Rectangle.OpacityMask>
                                                                             <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
                                                                         </Rectangle.OpacityMask>
                                                                     </Rectangle>

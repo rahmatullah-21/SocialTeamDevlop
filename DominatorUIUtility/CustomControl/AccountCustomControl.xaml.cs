@@ -11,6 +11,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using DominatorUIUtility.Views.Startup;
+
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -205,6 +207,17 @@ namespace DominatorUIUtility.CustomControl
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void SelectActivity(object sender, RoutedEventArgs e)
+        {
+            DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+            if (dominatorAccountModel != null)
+            {
+                Dialog dialog = new Dialog();
+                var window = dialog.GetMetroWindow(new SaveSetting(dominatorAccountModel.AccountBaseModel.AccountNetwork), "Startup");
+                window.ShowDialog();
+            }
         }
     }
 }

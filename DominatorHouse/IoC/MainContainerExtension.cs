@@ -2,6 +2,7 @@
 using DominatorHouse.ViewModels;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.ViewModel;
+using DominatorUIUtility.ViewModel.Startup;
 using Unity;
 using Unity.Extension;
 
@@ -19,6 +20,10 @@ namespace DominatorHouse.IoC
             Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
 
             Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
+            Container.RegisterSingleton<IStartUpHomeViewModel, StartUpHomeViewModel>();
+            Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
+            Container.RegisterSingleton<ISaveSettingViewModel, SaveSettingViewModel>();
+
         }
     }
 }
