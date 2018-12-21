@@ -185,6 +185,8 @@ namespace DominatorHouse.ViewModels
                 _isStartedfirstTime = true;
                 if (await DiagnoseFatalError(key.FatalErrorMessage))
                 {
+                    if(!_isStartedfirstTime)
+                        return;
                     var settings = new MetroDialogSettings()
                     {
                         DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
@@ -243,6 +245,7 @@ namespace DominatorHouse.ViewModels
             }
             if (networks.Count <= 1)
             {
+                
                 await controller.CloseAsync();
                 if (!_isStartedfirstTime)
                     await FatalErrorDiagnosis();
