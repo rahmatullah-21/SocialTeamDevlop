@@ -197,6 +197,11 @@ namespace DominatorHouse.ViewModels
                         try
                         {
                             fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
+                            if (string.IsNullOrEmpty(fatalError))
+                            {
+                                Application.Current.MainWindow.Close();
+                                continue;
+                            }
                             if (await IsProcessFatalError(fatalError))
                                 // ReSharper disable once RedundantJumpStatement
                                 continue;
