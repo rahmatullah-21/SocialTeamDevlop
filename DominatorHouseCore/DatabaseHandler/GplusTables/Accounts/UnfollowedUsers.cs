@@ -1,15 +1,9 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
-    public class UnfollowedUsers
+    public class UnfollowedUsers : BaseUnfollowedUsers
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order =1)]
-        public int Id { get; set; } 
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string FilterArgument
         { get; set; }
@@ -31,7 +25,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int InteractionDate
+        public override int InteractionDate
         { get; set; }
 
 
@@ -57,7 +51,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         { get; set; }
 
 
-       
+
 
     }
 }

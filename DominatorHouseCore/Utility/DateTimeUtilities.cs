@@ -1,11 +1,8 @@
 
-﻿using System;
-﻿using CommonServiceLocator;
+using CommonServiceLocator;
 using DominatorHouseCore.Models;
 using System;
-using System.Globalization;
 using System.Linq;
-using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Utility
 {
@@ -27,6 +24,11 @@ namespace DominatorHouseCore.Utility
         public static int ConvertToEpoch(this DateTime date)
         {
             return Convert.ToInt32(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalSeconds));
+        }
+
+        public static int ConvertToEpochAsIs(this DateTime date)
+        {
+            return Convert.ToInt32(Math.Floor((date - DateUtc1970).TotalSeconds));
         }
 
         /// <summary>

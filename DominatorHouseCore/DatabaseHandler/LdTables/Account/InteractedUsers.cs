@@ -1,16 +1,12 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Utility;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity, IInteractedUsers
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -62,6 +58,12 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Contains TimeStamp when interacted with the User
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public DateTime InteractionDatetime { get; set; }
+        public DateTime InteractionDatetime
+        {
+            get { return ((IInteractedUsers)this).InteractionDate.EpochToDateTimeUtc(); }
+            set { ((IInteractedUsers)this).InteractionDate = value.ConvertToEpochAsIs(); }
+        }
+
+        int IInteractedUsers.InteractionDate { get; set; }
     }
 }
