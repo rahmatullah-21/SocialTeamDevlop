@@ -216,6 +216,13 @@ namespace DominatorUIUtility.CustomControl
             {
                 Dialog dialog = new Dialog();
                 var window = dialog.GetMetroWindow(new SaveSetting(dominatorAccountModel.AccountBaseModel.AccountNetwork), "Startup");
+                //window.WindowStartupLocation = WindowStartupLocation.Manual;
+                //window.Top = 0;
+                //window.Left = 0;
+                //window.HorizontalContentAlignment = HorizontalAlignment.Center;
+                //window.VerticalContentAlignment = VerticalAlignment.Center;
+                //window.MinHeight = SystemParameters.PrimaryScreenHeight - 100;
+                //window.MinWidth = SystemParameters.PrimaryScreenWidth - 100;
                 window.ShowDialog();
             }
         }

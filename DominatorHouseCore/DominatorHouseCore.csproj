@@ -562,6 +562,7 @@
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\InstagramModel.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using CommonServiceLocator;
+using DominatorHouseCore.Models.NetworkActivitySetting;
 using DominatorUIUtility.ViewModel.Startup;
 
 namespace DominatorUIUtility.Views.Startup
@@ -12,7 +13,11 @@ namespace DominatorUIUtility.Views.Startup
         public SelectActivity()
         {
             InitializeComponent();
-            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+           
+        }
+
+        public SelectActivity(ISaveSettingViewModel viewModel):this()
+        {
             SelectActivityType.DataContext = viewModel;
         }
     }

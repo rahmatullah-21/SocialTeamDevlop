@@ -7,7 +7,7 @@
              mc:Ignorable="d" x:Name="SelectActivityType"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ItemsControl ItemsSource="{Binding LstNetworkActivityType}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10">
+        <ItemsControl ItemsSource="{Binding SaveSettingModel.LstNetworkActivityType}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="4" IsItemsHost="True" HorizontalAlignment="Stretch"/>
