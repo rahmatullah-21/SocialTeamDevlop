@@ -68,6 +68,7 @@ namespace DominatorUIUtility.ViewModel
             set { SetProperty(ref _proxyManagerModel, value); }
         }
 
+        private bool _isUnCheckedFromList;
         public bool IsAllProxySelected
         {
             get
@@ -81,6 +82,8 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _isAllProxySelected, value);
 
                 SelectAllProxies(_isAllProxySelected);
+                _isUnCheckedFromList = false;
+
             }
         }
         private int _numOfAccountPerProxy = 1;
@@ -191,13 +194,15 @@ namespace DominatorUIUtility.ViewModel
 
         private void SelectAllProxies(bool isAllProxySelected)
         {
+            if (_isUnCheckedFromList)
+                return;
             ThreadFactory.Instance.Start(() =>
-            {
-                LstProxyManagerModel.ForEach(proxy =>
-                {
-                    proxy.IsProxySelected = isAllProxySelected;
-                });
-            });
+             {
+                 LstProxyManagerModel.ForEach(proxy =>
+                 {
+                     proxy.IsProxySelected = isAllProxySelected;
+                 });
+             });
         }
 
 
@@ -519,7 +524,15 @@ namespace DominatorUIUtility.ViewModel
 
         private void SelectProxyExecute()
         {
-            IsAllProxySelected = LstProxyManagerModel.All(x => x.IsProxySelected);
+            if (LstProxyManagerModel.All(x => x.IsProxySelected))
+                IsAllProxySelected = true;
+            else
+            {
+                if (IsAllProxySelected)
+                    _isUnCheckedFromList = true;
+                IsAllProxySelected = false;
+            }
+
         }
 
         private void UpdateProxyExecute(ProxyManagerModel currentProxy)

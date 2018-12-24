@@ -3322,4 +3322,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPrevious">&lt;&lt; Previous</system:String>
     <system:String x:Key="LangKeyFinish">Finish</system:String>
     <system:String x:Key="LangKeyAccountPerProxy">Account Per Proxy</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoCommentScraper">This Socinator feature helps to scrape Comments from Instagram.</system:String>
+    <system:String x:Key="LangKeySavePostToProfile">Save Post(s) To profile</system:String>
 </ResourceDictionary>

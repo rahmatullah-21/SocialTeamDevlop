@@ -65,6 +65,22 @@ namespace DominatorUIUtility.ViewModel
         private readonly object _syncLoadAccounts = new object();
 
         #region Property
+        private string _contactSupportLink = ConstantVariable.ContactSupportLink;
+
+        public string ContactSupportLink
+        {
+            get { return _contactSupportLink; }
+            set { SetProperty(ref _contactSupportLink, value); }
+        }
+        private string _knowledgeBaseLink = "https://help.socinator.com/support/solutions/folders/42000095344";
+
+        public string KnowledgeBaseLink
+        {
+            get { return _knowledgeBaseLink; }
+            set { SetProperty(ref _knowledgeBaseLink, value); }
+        }
+
+
 
         private bool _isOpenHelpControl;
 
@@ -89,7 +105,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _visibleColumns; }
             set { SetProperty(ref _visibleColumns, value); }
         }
-        
+
         #region Command 
 
         public ICommand AddSingleAccountCommand { get; }
@@ -117,7 +133,7 @@ namespace DominatorUIUtility.ViewModel
             Groups = new ObservableCollection<ContentSelectGroup>();
             BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
             LstDominatorAccountModel = new ObservableCollection<DominatorAccountModel>();
-          
+
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, _syncLoadAccounts);
 
             var visibleHeaders = DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider().VisibleHeaders;
@@ -1363,7 +1379,7 @@ namespace DominatorUIUtility.ViewModel
                     }
                     //savedAccounts.ForEach(account =>
                     //{
-                       
+
                     //});
                 }
                 catch (Exception ex)
