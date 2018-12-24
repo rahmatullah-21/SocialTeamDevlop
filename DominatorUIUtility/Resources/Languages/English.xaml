@@ -3324,4 +3324,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAccountPerProxy">Account Per Proxy</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoCommentScraper">This Socinator feature helps to scrape Comments from Instagram.</system:String>
     <system:String x:Key="LangKeySavePostToProfile">Save Post(s) To profile</system:String>
+    <system:String x:Key="LangKeySelectGroup">Select Group</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeComments">This Socinator feature helps to scrape comments from posts on Gplus. It allows to filter comments and posts and scrape them on configured time.</system:String>
 </ResourceDictionary>

@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:BooleanToVisibilityConverter IsInversed="True" x:Key="BooleanToVisibilityConverterInversed"/>
-       <converter:ProxyManagerSourceConverter x:Key="ProxyManagerSourceConverter"/>
+        <converter:ProxyManagerSourceConverter x:Key="ProxyManagerSourceConverter"/>
         <converter:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>
         <converter:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter"/>
         <ControlTemplate x:Key="ErrorTemplate">
@@ -44,7 +44,7 @@
                 </TextBlock>
             </StackPanel>
         </ControlTemplate>
-        
+
         <CollectionViewSource x:Key="ProxyView" uiExtensions:CollectionViewSourceExtensions.GroupBy="{Binding Groups, IsAsync=True}">
             <CollectionViewSource.Source>
                 <MultiBinding Converter="{StaticResource ProxyManagerSourceConverter}">
@@ -56,14 +56,14 @@
                     <Binding Path="Text" Source="{x:Reference FilterTb}" IsAsync="True"/>
                 </MultiBinding>
             </CollectionViewSource.Source>
-            
+
         </CollectionViewSource>
     </UserControl.Resources>
 
     <Grid >
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="150" />
+            <RowDefinition Height="200" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -163,6 +163,16 @@
                         </Style>
                     </CheckBox.Style>
                 </CheckBox>
+
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+              
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectGroup}"/>
+                    <ComboBox  Width="150" ItemsSource="{Binding ProxyManagerModel.Groups}" x:Name="GroupCmb" Controls:TextBoxHelper.ClearTextButton="True"/>
+
+                </StackPanel>
                 <CheckBox Margin="5"  Content="{DynamicResource LangKeyAdd}" IsChecked="{Binding IsNumOfAccountPerProxy}">
                     <CheckBox.Style>
                         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
@@ -176,15 +186,9 @@
                 </CheckBox>
                 <Controls:NumericUpDown Minimum="0" Value="{Binding NumOfAccountPerProxy}" />
                 <Label Content="{DynamicResource LangKeyAccountPerProxy}"/>
-                <StackPanel Orientation="Horizontal" Margin="5,0"
-                            Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectTag}"/>
-                    <ComboBox  Width="150" ItemsSource="{Binding ProxyManagerModel.Groups}" x:Name="GroupCmb" Controls:TextBoxHelper.ClearTextButton="True"/>
-                </StackPanel>
             </StackPanel>
-
+         
             <StackPanel  Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}">
-
                 <Button  Height="30"  x:Name="btnDeleteSelected" Margin="10,5"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Command="{Binding DeleteCommand}">
                     <Button.Content>
@@ -310,7 +314,7 @@
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
                                                         <Rectangle Fill="Red" Width="20" Height="20">
-                                                             <Rectangle.OpacityMask>
+                                                            <Rectangle.OpacityMask>
                                                                 <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
                                                             </Rectangle.OpacityMask>
                                                         </Rectangle>
@@ -322,7 +326,7 @@
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
                                                         <Rectangle Fill="Red" Width="20" Height="20">
-                                                             <Rectangle.OpacityMask>
+                                                            <Rectangle.OpacityMask>
                                                                 <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
                                                             </Rectangle.OpacityMask>
                                                         </Rectangle>
@@ -358,7 +362,7 @@
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
                                                         <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                             <Rectangle.OpacityMask>
+                                                            <Rectangle.OpacityMask>
                                                                 <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
                                                             </Rectangle.OpacityMask>
                                                         </Rectangle>
