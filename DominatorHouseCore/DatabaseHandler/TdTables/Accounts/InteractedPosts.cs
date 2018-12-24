@@ -1,17 +1,13 @@
-﻿using System;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 using DominatorHouseCore.Enums;
-using SQLite;
+using DominatorHouseCore.Utility;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IInteractedPosts
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         /// <summary>
         /// UserName of the Account from which Interaction is done
         /// </summary>
@@ -165,9 +161,14 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public string ProcessType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
-        public DateTime InteractionDate { get; set; }
+        public DateTime InteractionDate
+        {
+            get { return ((IInteractedPosts)this).InteractionDate.EpochToDateTimeUtc(); }
+            set { ((IInteractedPosts)this).InteractionDate = value.ConvertToEpochAsIs(); }
+        }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string CommentId { get; set; }
+        int IInteractedPosts.InteractionDate { get; set; }
     }
 }

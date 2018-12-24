@@ -43,6 +43,7 @@ namespace DominatorUIUtility.CustomControl
         private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         private readonly IAccountsCacheService _accountsCacheService;
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IDominatorScheduler _dominatorScheduler;
 
 
         #region Constructor
@@ -52,6 +53,7 @@ namespace DominatorUIUtility.CustomControl
             _jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             _accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             CreateCampaignCommand = new BaseCommand<object>((sender) => true, CreateOrUpdateCampaign);
             SelectAccountCommand = new BaseCommand<object>((sender) => true, (sender) => SelectAccount());
             CancelEditCommand = new BaseCommand<object>((sender) => true, (sender) =>
@@ -424,7 +426,7 @@ namespace DominatorUIUtility.CustomControl
                             {
                                 Action scheduleAccount = () =>
                                 {
-                                    DominatorScheduler.ScheduleNextActivity(account, _activityType);
+                                    _dominatorScheduler.ScheduleNextActivity(account, _activityType);
                                 };
                                 schedulePending = schedulePending.Enqueue(scheduleAccount);
                             }
@@ -583,7 +585,7 @@ namespace DominatorUIUtility.CustomControl
                     var campToUpdate = Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleSettings.TemplateId);
                     campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
 
-                    DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId, false);
+                    _dominatorScheduler.StopActivity(account, _activityType.ToString(), moduleSettings.TemplateId, false);
 
                     _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
                 });
@@ -767,7 +769,7 @@ namespace DominatorUIUtility.CustomControl
 
                         var moduleSettings = _jobActivityConfigurationManager[account.AccountId, _activityType];
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
-                        DominatorScheduler.StopActivity(account, _activityType.ToString(),
+                        _dominatorScheduler.StopActivity(account, _activityType.ToString(),
                             moduleSettings?.TemplateId, true);
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
 
@@ -802,7 +804,7 @@ namespace DominatorUIUtility.CustomControl
                 var firstRunningTime = ((dynamic)model).JobConfiguration.RunningTime;
                 var secondRunningTime = Model.JobConfiguration.RunningTime;
 
-                var result = DominatorScheduler.CompareRunningTime(firstRunningTime, secondRunningTime);
+                var result = _dominatorScheduler.CompareRunningTime(firstRunningTime, secondRunningTime);
                 if (!result)
                 {
                     try
@@ -814,7 +816,7 @@ namespace DominatorUIUtility.CustomControl
                         {
                             var moduleSettings = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
                             moduleSettings.LstRunningTimes = secondRunningTime;
-                            DominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, true);
+                            _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, true);
                         }
 
                     }
@@ -979,7 +981,7 @@ namespace DominatorUIUtility.CustomControl
 
                         moduleSettings.TemplateId = TemplateId;
                         moduleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleSettings);
-                        DominatorScheduler.StopActivity(account, _activityType.ToString(),
+                        _dominatorScheduler.StopActivity(account, _activityType.ToString(),
                             moduleSettings.TemplateId, true);
                         _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleSettings);
                     });
@@ -1049,7 +1051,7 @@ namespace DominatorUIUtility.CustomControl
                     var moduleConfiguration =
                         _jobActivityConfigurationManager[account.AccountId, _activityType] ??
                         new ModuleConfiguration { ActivityType = _activityType };
-                    DominatorScheduler.StopActivity(account, _activityType.ToString(), moduleConfiguration.TemplateId, true);
+                    _dominatorScheduler.StopActivity(account, _activityType.ToString(), moduleConfiguration.TemplateId, true);
                     _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, _activityType, moduleConfiguration);
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
 
@@ -1088,7 +1090,7 @@ namespace DominatorUIUtility.CustomControl
             // save all accounts and schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
-                DominatorScheduler.ScheduleNextActivity(account, _activityType);
+                _dominatorScheduler.ScheduleNextActivity(account, _activityType);
             }
             return isAccountDetailsUpdated;
 
@@ -1140,7 +1142,7 @@ namespace DominatorUIUtility.CustomControl
             // save all accounts and schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
-                DominatorScheduler.ScheduleNextActivity(account, _activityType);
+                _dominatorScheduler.ScheduleNextActivity(account, _activityType);
                 //DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, _activityType);
                 //DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: account.AccountBaseModel.AccountNetwork);
             }
@@ -1332,10 +1334,10 @@ namespace DominatorUIUtility.CustomControl
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
                 if (!moduleConfiguration.IsEnabled)
-                    DominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
+                    _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                         moduleConfiguration.TemplateId, true);
                 else
-                    DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                    _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
                 return moduleConfiguration.IsEnabled;
             }
             catch (Exception ex)
@@ -1466,7 +1468,7 @@ namespace DominatorUIUtility.CustomControl
                 #region Template Id present case
 
                 // need to check whether its running or not, if its running then need to stop process
-                DominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
+                _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                     moduleConfiguration.TemplateId, false);
 
                 // update the template
@@ -1475,7 +1477,7 @@ namespace DominatorUIUtility.CustomControl
 
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
-                DominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
                 ToasterNotification.ShowSuccess("Successfully Saved !!!");
                 #endregion
             }

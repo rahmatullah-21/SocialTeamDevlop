@@ -1136,9 +1136,10 @@ namespace DominatorUIUtility.ViewModel
             account = _accountsFileManager.GetAccount(account.UserName, account.AccountBaseModel.AccountNetwork);
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
             {
-                DominatorScheduler.StopActivity(account, moduleConfiguration.ActivityType.ToString(), moduleConfiguration.TemplateId, false);
+                dominatorScheduler.StopActivity(account, moduleConfiguration.ActivityType.ToString(), moduleConfiguration.TemplateId, false);
                 if (moduleConfiguration.IsTemplateMadeByCampaignMode)
                 {
                     campaignFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
@@ -1565,10 +1566,11 @@ namespace DominatorUIUtility.ViewModel
                 selectedAccounts.ForEach(account =>
                 {
                     var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                     jobActivityConfigurationManager[account.AccountId].ForEach(x =>
                     {
                         x.IsEnabled = false;
-                        DominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
+                        dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
                     });
 
                     // ReSharper disable once ConstantConditionalAccessQualifier

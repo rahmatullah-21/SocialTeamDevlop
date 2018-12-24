@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using Dominator.Tests.Utils;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -7,20 +8,23 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
+using Unity;
 
 namespace DominatorHouseCore.UnitTests.Tests.Models
 {
     [TestClass]
-    public class JobActivityConfigurationManagerTests
+    public class JobActivityConfigurationManagerTests : UnityInitializationTests
     {
         private IJobActivityConfigurationManager _sut;
         private IAccountsCacheService _accountsCacheService;
 
         [TestInitialize]
-        public void SetUp()
+        public override void SetUp()
         {
+            base.SetUp();
             _accountsCacheService = Substitute.For<IAccountsCacheService>();
             _sut = new JobActivityConfigurationManager(_accountsCacheService);
+            Container.RegisterType<IDateProvider, DateProvider>();
         }
 
         [TestMethod]
