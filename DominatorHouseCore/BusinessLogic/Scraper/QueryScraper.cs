@@ -141,7 +141,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     }
                     GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks, _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
                     var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId, false);
+                    dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId, _jobProcess.IsNeedToSchedule);
                 }
             }
             catch (OperationCanceledException oce)
