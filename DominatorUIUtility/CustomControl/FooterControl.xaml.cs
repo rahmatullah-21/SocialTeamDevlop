@@ -223,7 +223,23 @@ namespace DominatorUIUtility.CustomControl
         // Using a DependencyProperty as the backing store for SelectAccountCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectAccountCommandProperty =
             DependencyProperty.Register("SelectAccountCommand", typeof(ICommand), typeof(FooterControl));
+        public bool SelectAccountVisibility
+        {
+            get
+            {
+                return (bool)GetValue(SelectAccountVisibilityProperty);
+            }
+            set
+            {
+                SetValue(SelectAccountVisibilityProperty, value);
+            }
+        }
 
+        public static readonly DependencyProperty SelectAccountVisibilityProperty =
+            DependencyProperty.Register("SelectAccountVisibility", typeof(bool), typeof(FooterControl), new FrameworkPropertyMetadata(true)
+            {
+                BindsTwoWayByDefault = true
+            });
 
     }
 

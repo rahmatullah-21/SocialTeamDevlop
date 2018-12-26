@@ -68,6 +68,7 @@ namespace DominatorUIUtility.ViewModel
             set { SetProperty(ref _proxyManagerModel, value); }
         }
 
+        private bool _isUnCheckedFromList;
         public bool IsAllProxySelected
         {
             get
@@ -81,9 +82,31 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _isAllProxySelected, value);
 
                 SelectAllProxies(_isAllProxySelected);
+                _isUnCheckedFromList = false;
+
             }
         }
+        private int _numOfAccountPerProxy = 1;
 
+        public int NumOfAccountPerProxy
+        {
+            get { return _numOfAccountPerProxy; }
+            set { SetProperty(ref _numOfAccountPerProxy, value); }
+        }
+        private bool _isNumOfAccountPerProxy;
+        public bool IsNumOfAccountPerProxy
+        {
+            get { return _isNumOfAccountPerProxy; }
+            set { SetProperty(ref _isNumOfAccountPerProxy, value); }
+        }
+
+        private bool _isRandomSelected;
+
+        public bool IsRandomSelected
+        {
+            get { return _isRandomSelected; }
+            set { SetProperty(ref _isRandomSelected, value); }
+        }
 
         #region Commands
 
@@ -99,6 +122,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand AccountToAddToProxyCommand { get; }
         public ICommand DropDownCommand { get; }
         public ICommand AssignRandomProxyCommand { get; }
+        public ICommand AssignXAccountPerProxyCommand { get; }
         #endregion
 
         public ProxyManagerViewModel(IMainViewModel mainViewModel, IVerifyProxiesViewModel verifyProxiesViewModel, IProxyServerParserService proxyServerParserService, IAccountsFileManager accountsFileManager) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
@@ -120,6 +144,7 @@ namespace DominatorUIUtility.ViewModel
             AccountToAddToProxyCommand = new DelegateCommand<object>(AccountToAddToProxyExecute);
             DropDownCommand = new BaseCommand<object>(DropDownCanExecute, DropDownExecute);
             AssignRandomProxyCommand = new DelegateCommand<object>(AssignRandomProxyExecute);
+            AssignXAccountPerProxyCommand = new DelegateCommand<object>(AssignRandomProxyExecute);
             LstProxyManagerModel = new ObservableCollection<ProxyManagerModel>();
             AccountsAlreadyAssigned = new ObservableCollection<AccountAssign>();
             Groups = new ObservableCollection<string>();
@@ -169,13 +194,15 @@ namespace DominatorUIUtility.ViewModel
 
         private void SelectAllProxies(bool isAllProxySelected)
         {
+            if (_isUnCheckedFromList)
+                return;
             ThreadFactory.Instance.Start(() =>
-            {
-                LstProxyManagerModel.ForEach(proxy =>
-                {
-                    proxy.IsProxySelected = isAllProxySelected;
-                });
-            });
+             {
+                 LstProxyManagerModel.ForEach(proxy =>
+                 {
+                     proxy.IsProxySelected = isAllProxySelected;
+                 });
+             });
         }
 
 
@@ -408,9 +435,7 @@ namespace DominatorUIUtility.ViewModel
                                     Thread.Sleep(50);
 
                                 });
-                                DialogCoordinator.Instance.ShowModalMessageExternal(
-                                    Application.Current.MainWindow, "Success",
-                                    $"{selectedProxies.Count} proxies successfully DeletedDateText.");
+                                Dialog.ShowDialog("Success", $"{selectedProxies.Count} proxies successfully Deleted.");
                                 GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{selectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
                             });
 
@@ -499,7 +524,15 @@ namespace DominatorUIUtility.ViewModel
 
         private void SelectProxyExecute()
         {
-            IsAllProxySelected = LstProxyManagerModel.All(x => x.IsProxySelected);
+            if (LstProxyManagerModel.All(x => x.IsProxySelected))
+                IsAllProxySelected = true;
+            else
+            {
+                if (IsAllProxySelected)
+                    _isUnCheckedFromList = true;
+                IsAllProxySelected = false;
+            }
+
         }
 
         private void UpdateProxyExecute(ProxyManagerModel currentProxy)
@@ -736,9 +769,13 @@ namespace DominatorUIUtility.ViewModel
                 if (LstProxyManagerModel.Count != 0)
                 {
                     Random random = new Random();
+                    int randomIndex = 0;
                     accounts.ForEach(acc =>
                       {
-                          int randomIndex = random.Next(LstProxyManagerModel.Count);
+                          if (IsNumOfAccountPerProxy && !IsRandomSelected)
+                              randomIndex = LstProxyManagerModel.IndexOf(LstProxyManagerModel.FirstOrDefault(x => x.AccountsAssignedto.Count < NumOfAccountPerProxy));
+                          else
+                              randomIndex = random.Next(LstProxyManagerModel.Count);
                           new SocinatorAccountBuilder(acc.AccountBaseModel.AccountId)
                               .AddOrUpdateProxy(LstProxyManagerModel[randomIndex].AccountProxy)
                               .SaveToBinFile();
@@ -755,6 +792,7 @@ namespace DominatorUIUtility.ViewModel
 
 
                       });
+
                 }
             }
             catch (Exception ex)

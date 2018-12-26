@@ -3,7 +3,7 @@
   <?include ".\..\config.wxi"?>
 	<Fragment>
     <ComponentGroup Id="MainComponents">
-      <Component Id="root" Directory="INSTALLFOLDERDir" Guid="94139B70-09F3-464B-A395-88F33B00A4AF">
+      <Component Id="root" Directory="INSTALLFOLDERDir" Guid="0C649AB0-2151-4226-A67F-9ADDD74BD71D">
         <File Id="AutoMapperdll" Name="AutoMapper.dll" Source="$(var.SourceDir)\AutoMapper.dll"/>
         <File Id="AutoMapperxml" Name="AutoMapper.xml" Source="$(var.SourceDir)\AutoMapper.xml"/>
         <File Id="cefpak" Name="cef.pak" Source="$(var.SourceDir)\cef.pak"/>
@@ -15,6 +15,7 @@
         <File Id="CefSharpCoredll" Name="CefSharp.Core.dll" Source="$(var.SourceDir)\CefSharp.Core.dll"/>
         <File Id="CefSharpdll" Name="CefSharp.dll" Source="$(var.SourceDir)\CefSharp.dll"/>
         <File Id="CefSharpWpfdll" Name="CefSharp.Wpf.dll" Source="$(var.SourceDir)\CefSharp.Wpf.dll"/>
+        <File Id="CefSharpWpfxml" Name="CefSharp.Wpf.xml" Source="$(var.SourceDir)\CefSharp.Wpf.xml"/>
         <File Id="chromeelfdll" Name="chrome_elf.dll" Source="$(var.SourceDir)\chrome_elf.dll"/>
         <File Id="CommonServiceLocatordll" Name="CommonServiceLocator.dll" Source="$(var.SourceDir)\CommonServiceLocator.dll"/>
         <File Id="ControlzExdll" Name="ControlzEx.dll" Source="$(var.SourceDir)\ControlzEx.dll"/>
@@ -23,21 +24,24 @@
         <File Id="d3dcompiler47dll" Name="d3dcompiler_47.dll" Source="$(var.SourceDir)\d3dcompiler_47.dll"/>
         <File Id="devtoolsresourcespak" Name="devtools_resources.pak" Source="$(var.SourceDir)\devtools_resources.pak"/>
         <File Id="DominatorHouseCoredll" Name="DominatorHouseCore.dll" Source="$(var.SourceDir)\DominatorHouseCore.dll"/>
-        <File Id="DominatorHouseCoredllconfig" Name="DominatorHouseCore.dll.config" Source="$(var.SourceDir)\DominatorHouseCore.dll.config"/>
         <File Id="DominatorUIUtilityexe" Name="DominatorUIUtility.exe" Source="$(var.SourceDir)\DominatorUIUtility.exe"/>
-        <File Id="DominatorUIUtilityexeconfig" Name="DominatorUIUtility.exe.config" Source="$(var.SourceDir)\DominatorUIUtility.exe.config"/>
         <File Id="Dragablzdll" Name="Dragablz.dll" Source="$(var.SourceDir)\Dragablz.dll"/>
         <File Id="Dragablzxml" Name="Dragablz.xml" Source="$(var.SourceDir)\Dragablz.xml"/>
         <File Id="EmbeddedBrowserexe" Name="EmbeddedBrowser.exe" Source="$(var.SourceDir)\EmbeddedBrowser.exe"/>
-        <File Id="EmbeddedBrowserexeconfig" Name="EmbeddedBrowser.exe.config" Source="$(var.SourceDir)\EmbeddedBrowser.exe.config"/>
         <File Id="EntityFrameworkdll" Name="EntityFramework.dll" Source="$(var.SourceDir)\EntityFramework.dll"/>
         <File Id="EntityFrameworkSqlServerdll" Name="EntityFramework.SqlServer.dll" Source="$(var.SourceDir)\EntityFramework.SqlServer.dll"/>
         <File Id="EntityFrameworkSqlServerxml" Name="EntityFramework.SqlServer.xml" Source="$(var.SourceDir)\EntityFramework.SqlServer.xml"/>
         <File Id="EntityFrameworkxml" Name="EntityFramework.xml" Source="$(var.SourceDir)\EntityFramework.xml"/>
         <File Id="ExcelDataReaderdll" Name="ExcelDataReader.dll" Source="$(var.SourceDir)\ExcelDataReader.dll"/>
         <File Id="ExcelDataReaderxml" Name="ExcelDataReader.xml" Source="$(var.SourceDir)\ExcelDataReader.xml"/>
+        <File Id="FaceDominatorCoredll" Name="FaceDominatorCore.dll" Source="$(var.SourceDir)\FaceDominatorCore.dll"/>
+        <File Id="FaceDominatorUIexe" Name="FaceDominatorUI.exe" Source="$(var.SourceDir)\FaceDominatorUI.exe"/>
         <File Id="FluentSchedulerdll" Name="FluentScheduler.dll" Source="$(var.SourceDir)\FluentScheduler.dll"/>
         <File Id="FluentSchedulerxml" Name="FluentScheduler.xml" Source="$(var.SourceDir)\FluentScheduler.xml"/>
+        <File Id="GplusDominatorCoredll" Name="GplusDominatorCore.dll" Source="$(var.SourceDir)\GplusDominatorCore.dll"/>
+        <File Id="GplusDominatorUIexe" Name="GplusDominatorUI.exe" Source="$(var.SourceDir)\GplusDominatorUI.exe"/>
+        <File Id="GramDominatorCoredll" Name="GramDominatorCore.dll" Source="$(var.SourceDir)\GramDominatorCore.dll"/>
+        <File Id="GramDominatorUIexe" Name="GramDominatorUI.exe" Source="$(var.SourceDir)\GramDominatorUI.exe"/>
         <File Id="HtmlAgilityPackdll" Name="HtmlAgilityPack.dll" Source="$(var.SourceDir)\HtmlAgilityPack.dll"/>
         <File Id="HtmlAgilityPackxml" Name="HtmlAgilityPack.xml" Source="$(var.SourceDir)\HtmlAgilityPack.xml"/>
         <File Id="icudtldat" Name="icudtl.dat" Source="$(var.SourceDir)\icudtl.dat"/>
@@ -45,6 +49,8 @@
         <File Id="libcefdll" Name="libcef.dll" Source="$(var.SourceDir)\libcef.dll"/>
         <File Id="libEGLdll" Name="libEGL.dll" Source="$(var.SourceDir)\libEGL.dll"/>
         <File Id="libGLESv2dll" Name="libGLESv2.dll" Source="$(var.SourceDir)\libGLESv2.dll"/>
+        <File Id="LinkedDominatorCoredll" Name="LinkedDominatorCore.dll" Source="$(var.SourceDir)\LinkedDominatorCore.dll"/>
+        <File Id="LinkedDominatorUIexe" Name="LinkedDominatorUI.exe" Source="$(var.SourceDir)\LinkedDominatorUI.exe"/>
         <File Id="LiveChartsdll" Name="LiveCharts.dll" Source="$(var.SourceDir)\LiveCharts.dll"/>
         <File Id="LiveChartsWpfdll" Name="LiveCharts.Wpf.dll" Source="$(var.SourceDir)\LiveCharts.Wpf.dll"/>
         <File Id="LiveChartsWpfxml" Name="LiveCharts.Wpf.xml" Source="$(var.SourceDir)\LiveCharts.Wpf.xml"/>
@@ -63,10 +69,14 @@
         <File Id="NLogxml" Name="NLog.xml" Source="$(var.SourceDir)\NLog.xml"/>
         <File Id="NRecoVideoConverterdll" Name="NReco.VideoConverter.dll" Source="$(var.SourceDir)\NReco.VideoConverter.dll"/>
         <File Id="NRecoVideoConverterxml" Name="NReco.VideoConverter.xml" Source="$(var.SourceDir)\NReco.VideoConverter.xml"/>
+        <File Id="NRecoVideoInfodll" Name="NReco.VideoInfo.dll" Source="$(var.SourceDir)\NReco.VideoInfo.dll"/>
+        <File Id="NRecoVideoInfoxml" Name="NReco.VideoInfo.xml" Source="$(var.SourceDir)\NReco.VideoInfo.xml"/>
         <File Id="ObjectsComparerdll" Name="ObjectsComparer.dll" Source="$(var.SourceDir)\ObjectsComparer.dll"/>
         <File Id="OpenPopdll" Name="OpenPop.dll" Source="$(var.SourceDir)\OpenPop.dll"/>
         <File Id="OpenPopxml" Name="OpenPop.xml" Source="$(var.SourceDir)\OpenPop.xml"/>
         <File Id="Owindll" Name="Owin.dll" Source="$(var.SourceDir)\Owin.dll"/>
+        <File Id="PinDominatorexe" Name="PinDominator.exe" Source="$(var.SourceDir)\PinDominator.exe"/>
+        <File Id="PinDominatorCoredll" Name="PinDominatorCore.dll" Source="$(var.SourceDir)\PinDominatorCore.dll"/>
         <File Id="Prismdll" Name="Prism.dll" Source="$(var.SourceDir)\Prism.dll"/>
         <File Id="PrismUnityWpfdll" Name="Prism.Unity.Wpf.dll" Source="$(var.SourceDir)\Prism.Unity.Wpf.dll"/>
         <File Id="PrismUnityWpfxml" Name="Prism.Unity.Wpf.xml" Source="$(var.SourceDir)\Prism.Unity.Wpf.xml"/>
@@ -75,13 +85,12 @@
         <File Id="Prismxml" Name="Prism.xml" Source="$(var.SourceDir)\Prism.xml"/>
         <File Id="ProtectedCommondll" Name="ProtectedCommon.dll" Source="$(var.SourceDir)\ProtectedCommon.dll"/>
         <File Id="ProtectedServerAppexe" Name="ProtectedServerApp.exe" Source="$(var.SourceDir)\ProtectedServerApp.exe"/>
-        <File Id="ProtectedServerAppexeconfig" Name="ProtectedServerApp.exe.config" Source="$(var.SourceDir)\ProtectedServerApp.exe.config"/>
         <File Id="protobufnetdll" Name="protobuf-net.dll" Source="$(var.SourceDir)\protobuf-net.dll"/>
         <File Id="protobufnetxml" Name="protobuf-net.xml" Source="$(var.SourceDir)\protobuf-net.xml"/>
+        <File Id="QuoraDominatorCoreexe" Name="QuoraDominatorCore.exe" Source="$(var.SourceDir)\QuoraDominatorCore.exe"/>
+        <File Id="QuoraDominatorUIexe" Name="QuoraDominatorUI.exe" Source="$(var.SourceDir)\QuoraDominatorUI.exe"/>
         <File Id="RedditDominatorCoredll" Name="RedditDominatorCore.dll" Source="$(var.SourceDir)\RedditDominatorCore.dll"/>
-        <File Id="RedditDominatorCoredllconfig" Name="RedditDominatorCore.dll.config" Source="$(var.SourceDir)\RedditDominatorCore.dll.config"/>
         <File Id="RedditDominatorUIexe" Name="RedditDominatorUI.exe" Source="$(var.SourceDir)\RedditDominatorUI.exe"/>
-        <File Id="RedditDominatorUIexeconfig" Name="RedditDominatorUI.exe.config" Source="$(var.SourceDir)\RedditDominatorUI.exe.config"/>
         <File Id="snapshotblobbin" Name="snapshot_blob.bin" Source="$(var.SourceDir)\snapshot_blob.bin"/>
         <File Id="Socinatorapplication" Name="Socinator.application" Source="$(var.SourceDir)\Socinator.application"/>
         <File Id="Socinatorexe" Name="Socinator.exe" Source="$(var.SourceDir)\Socinator.exe"/>
@@ -107,10 +116,10 @@
         <File Id="SystemWindowsInteractivitydll" Name="System.Windows.Interactivity.dll" Source="$(var.SourceDir)\System.Windows.Interactivity.dll"/>
         <File Id="ToastNotificationsdll" Name="ToastNotifications.dll" Source="$(var.SourceDir)\ToastNotifications.dll"/>
         <File Id="ToastNotificationsMessagesdll" Name="ToastNotifications.Messages.dll" Source="$(var.SourceDir)\ToastNotifications.Messages.dll"/>
+        <File Id="TumblrDominatorCoredll" Name="TumblrDominatorCore.dll" Source="$(var.SourceDir)\TumblrDominatorCore.dll"/>
+        <File Id="TumblrDominatorUIexe" Name="TumblrDominatorUI.exe" Source="$(var.SourceDir)\TumblrDominatorUI.exe"/>
         <File Id="TwtDominatorCoredll" Name="TwtDominatorCore.dll" Source="$(var.SourceDir)\TwtDominatorCore.dll"/>
-        <File Id="TwtDominatorCoredllconfig" Name="TwtDominatorCore.dll.config" Source="$(var.SourceDir)\TwtDominatorCore.dll.config"/>
         <File Id="TwtDominatorUIexe" Name="TwtDominatorUI.exe" Source="$(var.SourceDir)\TwtDominatorUI.exe"/>
-        <File Id="TwtDominatorUIexeconfig" Name="TwtDominatorUI.exe.config" Source="$(var.SourceDir)\TwtDominatorUI.exe.config"/>
         <File Id="UnityAbstractionsdll" Name="Unity.Abstractions.dll" Source="$(var.SourceDir)\Unity.Abstractions.dll"/>
         <File Id="UnityConfigurationdll" Name="Unity.Configuration.dll" Source="$(var.SourceDir)\Unity.Configuration.dll"/>
         <File Id="UnityContainerdll" Name="Unity.Container.dll" Source="$(var.SourceDir)\Unity.Container.dll"/>
@@ -121,6 +130,8 @@
         <File Id="v8contextsnapshotbin" Name="v8_context_snapshot.bin" Source="$(var.SourceDir)\v8_context_snapshot.bin"/>
         <File Id="widevinecdmadapterdll" Name="widevinecdmadapter.dll" Source="$(var.SourceDir)\widevinecdmadapter.dll"/>
         <File Id="WPFFolderBrowserdll" Name="WPFFolderBrowser.dll" Source="$(var.SourceDir)\WPFFolderBrowser.dll"/>
+        <File Id="YoutubeDominatorCoredll" Name="YoutubeDominatorCore.dll" Source="$(var.SourceDir)\YoutubeDominatorCore.dll"/>
+        <File Id="YoutubeDominatorUIexe" Name="YoutubeDominatorUI.exe" Source="$(var.SourceDir)\YoutubeDominatorUI.exe"/>
       </Component>
 
       <Component Id="Componentapppublish" Directory="apppublishDir" Guid="B10158B3-DD47-4A2D-8D4E-4B8452F1E9DF">

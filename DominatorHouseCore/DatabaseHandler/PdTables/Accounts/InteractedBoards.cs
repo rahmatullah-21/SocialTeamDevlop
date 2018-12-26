@@ -52,7 +52,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public string Category { get; set; }
 
-
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        public string BoardUrl { get; set; }
 
 
     }

@@ -10,7 +10,7 @@ void Main()
 
 public static void ComponentFromDir(string path, string name)
 {
-	var files = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
+	var files = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly).Where(a=>!a.EndsWith(".pdb"));
 	if (files.Any())
 	{
 		var sb = new StringBuilder();

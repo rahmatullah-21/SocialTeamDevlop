@@ -99,6 +99,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
                 try
                 {
+                    if (!needRestart)
+                    {
+                        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                        runningActivityManager.StartNextRound(account);
+                        return;
+                    }
                     if (scheduledJob == null)
                     {
                         if (needRestart)
@@ -111,8 +117,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         if (needRestart)
                             ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
-                        // ReSharper disable once RedundantJumpStatement
-                        return;
+
                     }
                 }
                 catch (Exception ex)

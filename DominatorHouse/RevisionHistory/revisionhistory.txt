@@ -1,3 +1,8 @@
+Version[1.0.0.25],[15th-December-18]
+Fixed:-
+	Linkedin:-
+		Fixed issue with Account login.
+
 Version[1.0.0.24],[14th-December-18]
 New Features:-
 		Twitter:-
