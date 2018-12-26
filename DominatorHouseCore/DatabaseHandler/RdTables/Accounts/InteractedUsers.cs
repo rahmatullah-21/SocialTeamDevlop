@@ -1,9 +1,10 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.Enums;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
-    public class InteractedUsers : Entity
+    public class InteractedUsers : Entity, IActivityTypeEntity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string QueryType { get; set; }
@@ -82,5 +83,10 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string Message { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

@@ -13,10 +13,12 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                 .RegisterInstance(
                     new EntityCounterFunction<InteractedUsers>(
                         new DateEpochFilterPredicate<InteractedUsers>(
-                            a => a.InteractionTimeStamp)));
+                            a => a.InteractionTimeStamp),
+                        new ActivityTypeAsStringFilterPredicate<InteractedUsers>(
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedUsers>>(
-                    new CounterKeyFactory<InteractedUsers>(SocialNetworks.Reddit, false));
+                    new CounterKeyFactory<InteractedUsers>(SocialNetworks.Reddit, true));
 
             Container
                 .RegisterInstance(
