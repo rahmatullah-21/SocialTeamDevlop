@@ -227,6 +227,7 @@ namespace DominatorHouseCore.Process
                     if (moduleConfiguration != null)
                     {
                         moduleConfiguration.NextRun = nextStartTime;
+                        moduleConfiguration.IsEnabled = true;
                         var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                         jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType, moduleConfiguration);
                         accountsCacheService.UpsertAccounts(DominatorAccountModel);

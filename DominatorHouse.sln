@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouse", "DominatorHouse\DominatorHouse.csproj", "{C7B598E7-4B31-4A92-9B53-022A25E50002}"
 EndProject
@@ -907,11 +907,10 @@ Global
 		{57D13829-2736-45FC-B2F0-BFC8C44B28BA} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{61A5E2CE-2404-4D16-A5BD-CD839DA38314} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{BF7C1B82-9A26-42D5-AB92-9B63884F50F2} = {680B3E48-8A7D-4AED-B504-CDC22E56ED20}
-		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{D30735DA-1A69-430C-96DA-CD6EA2BB7415} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal

@@ -385,6 +385,8 @@
     <Content Include="SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sqlite3.def" />
+    <Content Include="sqlite3.dll" />
     <Content Include="widevinecdmadapter.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
