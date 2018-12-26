@@ -79,7 +79,17 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             lock (RunStopActivityLocker)
             {
                 JobProcess.Stop(account.AccountId, templateId);
+                try
+                {
+                    var jobActivityConfigurationManager =
+                              ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
 
+                    var moduleConfiguration =
+                        jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
+                    moduleConfiguration.IsEnabled = needRestart;
+                    jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                }
+                catch { }
                 var id = JobProcess.AsId(account.AccountId, templateId);
                 _schedulerProxy.RemoveJob(id);
                 var scheduledJob = _schedulerProxy[id];
