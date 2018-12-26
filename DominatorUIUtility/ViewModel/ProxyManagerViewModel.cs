@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.Interfaces;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -634,11 +635,12 @@ namespace DominatorUIUtility.ViewModel
 
                 // AccountsFileManager.Edit(accountToDeleteProxy);
 
-                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToDeleteProxy.AccountBaseModel.AccountId)
-                    .AddOrUpdateDominatorAccountBase(accountToDeleteProxy.AccountBaseModel)
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToDeleteProxy.AccountBaseModel.AccountId);
+                socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(accountToDeleteProxy.AccountBaseModel)
                     .SaveToBinFile();
 
                 UpdateAccountsProxy(accountToDeleteProxy, _mainViewModel.Strategies);
+                StartLogin(accountToDeleteProxy, socinatorAccountBuilder);
                 LstProxyManagerModel.ForEach(oldProxy =>
                  AccountsAlreadyAssigned.Remove(AccountsAlreadyAssigned.FirstOrDefault(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
                );
@@ -682,19 +684,18 @@ namespace DominatorUIUtility.ViewModel
                 };
                 accountToUpdateProxy.AccountBaseModel.AccountProxy = proxyToAdd;
 
-                // AccountsFileManager.Edit(accountToUpdateProxy);
-
-
-                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToUpdateProxy.AccountBaseModel.AccountId)
-                    .AddOrUpdateDominatorAccountBase(accountToUpdateProxy.AccountBaseModel)
+                var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToUpdateProxy.AccountBaseModel.AccountId);
+                socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(accountToUpdateProxy.AccountBaseModel)
                     .SaveToBinFile();
+                UpdateAccountsProxy(accountToUpdateProxy, _mainViewModel.Strategies);
+                StartLogin(accountToUpdateProxy, socinatorAccountBuilder);
 
-                var item = LstProxyManagerModel.FirstOrDefault(Proxy => Proxy.AccountProxy.ProxyName == ProxyManagerModel.AccountProxy.ProxyName);
+                var item = LstProxyManagerModel.FirstOrDefault(proxy => proxy.AccountProxy.ProxyName == ProxyManagerModel.AccountProxy.ProxyName);
                 int indexToUpdate = LstProxyManagerModel.IndexOf(item);
                 LstProxyManagerModel[indexToUpdate].AccountsAssignedto = ProxyManagerModel.AccountsAssignedto;
                 LstProxyManagerModel[indexToUpdate].AccountsToBeAssign = ProxyManagerModel.AccountsToBeAssign;
 
-                UpdateAccountsProxy(accountToUpdateProxy, _mainViewModel.Strategies);
+
                 ProxyFileManager.EditAllProxy(LstProxyManagerModel.ToList());
 
             }
@@ -703,6 +704,58 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
+
+        private void StartLogin(DominatorAccountModel accountToUpdateProxy, SocinatorAccountBuilder socinatorAccountBuilder)
+        {
+            Task.Factory.StartNew(async () =>
+            {
+                try
+                {
+                    var networkCoreFactory = SocinatorInitialize
+                        .GetSocialLibrary(accountToUpdateProxy.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory();
+
+                    var asyncAccount = (IAccountUpdateFactoryAsync)networkCoreFactory.AccountUpdateFactory;
+
+                    accountToUpdateProxy.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+                    UpdateUserInfoCountToAccountManagerUi(accountToUpdateProxy);
+                    await asyncAccount.CheckStatusAsync(accountToUpdateProxy, accountToUpdateProxy.Token);
+                    if (accountToUpdateProxy.AccountBaseModel.Status == AccountStatus.Success)
+                    {
+                        await asyncAccount.UpdateDetailsAsync(accountToUpdateProxy, accountToUpdateProxy.Token);
+                        socinatorAccountBuilder.UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+                            .SaveToBinFile();
+                    }
+                    else
+                    {
+                        UpdateUserInfoCountToAccountManagerUi(accountToUpdateProxy);
+
+                        socinatorAccountBuilder
+                            .AddOrUpdateDisplayColumn1(accountToUpdateProxy.DisplayColumnValue1)
+                            .AddOrUpdateDisplayColumn2(accountToUpdateProxy.DisplayColumnValue2)
+                            .AddOrUpdateDisplayColumn3(accountToUpdateProxy.DisplayColumnValue3)
+                            .AddOrUpdateDisplayColumn4(accountToUpdateProxy.DisplayColumnValue4)
+                            .AddOrUpdateProxy(accountToUpdateProxy.AccountBaseModel.AccountProxy)
+                            .AddOrUpdateMailCredentials(accountToUpdateProxy.MailCredentials)
+                            .AddOrUpdateIsAutoVerifyByEmail(accountToUpdateProxy.IsAutoVerifyByEmail)
+                            .SaveToBinFile();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            });
+        }
+
+        private static void UpdateUserInfoCountToAccountManagerUi(DominatorAccountModel account)
+        {
+            account.DisplayColumnValue1 = 0;
+            account.DisplayColumnValue2 = 0;
+            account.DisplayColumnValue3 = 0;
+            account.DisplayColumnValue4 = 0;
+        }
+
         private static void UpdateAccountsProxy(DominatorAccountModel accountToUpdateProxy, AccessorStrategies strategies)
         {
             var objAccountCustomControl = AccountCustomControl.GetAccountCustomControl(strategies);
