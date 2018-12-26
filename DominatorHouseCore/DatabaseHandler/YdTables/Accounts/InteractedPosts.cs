@@ -1,9 +1,10 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Enums;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
-    public class InteractedPosts : Entity, IInteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountUsername { get; set; }
@@ -17,14 +18,8 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ActivityType { get; set; }
 
-        int IInteractedPosts.InteractionDate { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int InteractionTimeStamp
-        {
-            get { return ((IInteractedPosts)this).InteractionDate; }
-            set { ((IInteractedPosts)this).InteractionDate = value; }
-        }
+        public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string ChannelName { get; set; }
@@ -58,7 +53,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string SubscribeCount { get; set; }
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string CommentCount { get; set; }
 
@@ -82,5 +77,10 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
         public string CommentId { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

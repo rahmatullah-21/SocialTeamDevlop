@@ -1,10 +1,9 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
-    public class InteractedUsers : Entity, IInteractedUsers
+    public class InteractedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string QueryType { get; set; }
@@ -15,11 +14,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         public string ActivityType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public int InteractionTimeStamp
-        {
-            get { return ((IInteractedUsers)this).InteractionDate; }
-            set { ((IInteractedUsers)this).InteractionDate = value; }
-        }
+        public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string InteractedUsername
@@ -87,7 +82,5 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string Message { get; set; }
-
-        int IInteractedUsers.InteractionDate { get; set; }
     }
 }

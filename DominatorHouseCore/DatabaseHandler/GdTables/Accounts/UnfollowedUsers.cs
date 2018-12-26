@@ -1,9 +1,9 @@
-﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
-    public class UnfollowedUsers : BaseUnfollowedUsers
+    public class UnfollowedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountUsername
@@ -30,7 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public override int InteractionDate
+        public int InteractionDate
         { get; set; }
 
 

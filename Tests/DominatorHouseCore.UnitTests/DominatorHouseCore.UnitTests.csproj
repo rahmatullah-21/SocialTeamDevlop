@@ -106,6 +106,10 @@
     <Compile Include="Tests\FileManagers\CampaignInteractionDetailsTests.cs" />
     <Compile Include="Tests\FileManagers\CampaignsFileManagerTests.cs" />
     <Compile Include="Tests\Models\JobActivityConfigurationManagerTests.cs" />
+    <Compile Include="Tests\Process\EntityCountersManagerTests.cs" />
+    <Compile Include="Tests\Process\ExecutionLimitsManagerTests.cs" />
+    <Compile Include="Tests\Process\JobCountersManagerTests.cs" />
+    <Compile Include="Tests\Process\JobLimitsHolderTests.cs" />
     <Compile Include="Tests\Process\RunningJobsHolderTests.cs" />
     <Compile Include="Tests\ProxyServerManagment\ProxyServerParserServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

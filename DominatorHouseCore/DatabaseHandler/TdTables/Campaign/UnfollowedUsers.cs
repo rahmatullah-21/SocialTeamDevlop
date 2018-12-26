@@ -1,18 +1,10 @@
-﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using System;
-using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 {
-    public class UnfollowedUsers : IUnfollowedUser
+    public class UnfollowedUsers : Entity
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string SinAccUsername { get; set; }
 
@@ -52,19 +44,9 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public new DateTime InteractionDate
-        {
-            get { return ((IUnfollowedUser)this).InteractionDate.EpochToDateTimeUtc(); }
-            set { ((IUnfollowedUser)this).InteractionDate = value.ConvertToEpochAsIs(); }
-        }
+        public DateTime InteractionDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string ProcessType { get; set; }
-
-        int IUnfollowedUser.InteractionDate
-        {
-            get;
-            set;
-        }
     }
 }
