@@ -412,7 +412,7 @@ namespace DominatorHouseCore.Process
                               RunScrapper();
                           else
                           {
-                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "did not get processed as account failed to login");
+                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
                               dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                           }
 
@@ -457,7 +457,13 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
                     return false;
                 }
+                var jobActivityConfigurationManager =
+                    ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
 
+                var moduleConfiguration =
+                    jobActivityConfigurationManager[accountName].FirstOrDefault(x => x.TemplateId == templateId);
+                moduleConfiguration.IsEnabled = false;
+                jobActivityConfigurationManager.AddOrUpdate(accountName, moduleConfiguration.ActivityType, moduleConfiguration);
                 return true;
             }
             catch (Exception ex)
