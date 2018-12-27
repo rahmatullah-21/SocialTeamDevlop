@@ -1,12 +1,10 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 {
-    public class InteractedPosts : Entity, IInteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
         /// <summary>
         /// Contains QueryType For Interaction
@@ -94,15 +92,14 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// TimeStamp when interacted with the Post
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
-        public DateTime InteractionDatetime
-        {
-            get { return ((IInteractedPosts)this).InteractionDate.EpochToDateTimeUtc(); }
-            set { ((IInteractedPosts)this).InteractionDate = value.ConvertToEpochAsIs(); }
-        }
+        public DateTime InteractionDatetime { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string CommentId { get; set; }
 
-        int IInteractedPosts.InteractionDate { get; set; }
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

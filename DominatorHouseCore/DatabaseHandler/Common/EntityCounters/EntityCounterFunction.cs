@@ -1,0 +1,82 @@
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Extensions;
+using DominatorHouseCore.Process.ExecutionCounters;
+using DominatorHouseCore.Utility;
+using System;
+using System.Linq.Expressions;
+
+namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
+{
+
+    public interface IEntityCounterFunction<T> where T : class, new()
+    {
+        EntityCounter GetCounter(string accountId, SocialNetworks networks, ActivityType? activityType);
+    }
+    public class EntityCounterFunction<T> : IEntityCounterFunction<T> where T : class, new()
+    {
+        private readonly IFilterPredicate<T> _datePredicate;
+        private readonly IFilterPredicate<T> _activityTypePredicate;
+
+
+        public EntityCounterFunction(IFilterPredicate<T> datePredicate)
+        {
+            _datePredicate = datePredicate;
+        }
+        public EntityCounterFunction(IFilterPredicate<T> datePredicate, IFilterPredicate<T> activityTypePredicate) :
+            this(datePredicate)
+        {
+            _activityTypePredicate = activityTypePredicate;
+        }
+
+        public EntityCounter GetCounter(string accountId, SocialNetworks networks, ActivityType? activityType)
+        {
+            var dbOperations = ServiceLocator.Current.ResolveAccountDbOperations(accountId, networks);
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            var getStartDateofWeek = dateProvider.Now().GetStartOfWeek();
+            var getTodayDate = dateProvider.Today();
+            var currentTimeStamp = dateProvider.UtcNow().AddSeconds(-3600);
+            var countLastWeek = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, getStartDateofWeek, activityType));
+            var countLastDay = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, getTodayDate, activityType));
+            var countLastHour = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, currentTimeStamp, activityType));
+
+            return new EntityCounter(countLastWeek, countLastDay, countLastHour);
+        }
+
+        private Expression<Func<T, bool>> BuildExpressionFor(IFilterPredicate<T> dateFilter,
+            IFilterPredicate<T> activityFilter, DateTime filter, ActivityType? activityType)
+        {
+            var dateExpression = dateFilter.GetFilterExpression(filter);
+            if (activityFilter == null)
+            {
+                return dateExpression;
+            }
+
+            if (!activityType.HasValue)
+            {
+                throw new InvalidOperationException($"Filter by activity type is set, but no activity type provided. EntityCounter:{this.GetType()}");
+            }
+
+            var activityExpression = activityFilter.GetFilterExpression(activityType.Value);
+            var paramExpr = Expression.Parameter(typeof(T));
+            var exprBody = Expression.AndAlso(dateExpression.Body, activityExpression.Body);
+            exprBody = (BinaryExpression)new ParameterReplacer(paramExpr).Visit(exprBody);
+            return Expression.Lambda<Func<T, bool>>(exprBody, paramExpr);
+        }
+
+        private class ParameterReplacer : ExpressionVisitor
+        {
+            private readonly ParameterExpression _parameter;
+
+            protected override Expression VisitParameter(ParameterExpression node)
+            {
+                return base.VisitParameter(_parameter);
+            }
+
+            internal ParameterReplacer(ParameterExpression parameter)
+            {
+                _parameter = parameter;
+            }
+        }
+    }
+}

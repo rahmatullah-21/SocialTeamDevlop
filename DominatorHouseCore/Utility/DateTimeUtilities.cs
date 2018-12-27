@@ -377,12 +377,4 @@ namespace DominatorHouseCore.Utility
     }
 
 
-    public enum ReachedLimitType
-    {
-        Daily,
-        Weekly,
-        Job,
-        Hourly,
-        NoLimit
-    }
 }
