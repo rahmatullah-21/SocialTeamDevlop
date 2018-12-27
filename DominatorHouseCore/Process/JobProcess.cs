@@ -41,6 +41,7 @@ namespace DominatorHouseCore.Process
     {
         private readonly IRunningJobsHolder _runningJobsHolder;
         private readonly IJobCountersManager _jobCountersManager;
+        public CampaignDetails CampaignDetails { get; }
 
         [Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
         public JobProcess()
@@ -70,8 +71,8 @@ namespace DominatorHouseCore.Process
             JobConfiguration = commonConfiguration.JobConfiguration;
             SavedQueries = commonConfiguration.SavedQueries;
 
-
-            CampaignId = campaignFileManager.FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
+            CampaignDetails = campaignFileManager.FirstOrDefault(x => x.TemplateId == TemplateId);
+            CampaignId = CampaignDetails?.CampaignId;
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
@@ -176,6 +177,8 @@ namespace DominatorHouseCore.Process
         public abstract ReachedLimitInfo CheckLimit();
 
 
+
+        //// TODO: don't think that it works. template.ActivitySettings effectively isn't changed, hence no changes is saved 
         protected void StopFollow()
         {
             Stop();
