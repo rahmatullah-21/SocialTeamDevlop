@@ -1,45 +1,69 @@
 ﻿using System;
-using System.IO;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
 namespace DominatorHouseCore.FileManagers
 {
-    class FBFileManager
+    public interface IFBFileManager
     {
-        public static bool SaveFacebookConfig(FacebookModel facebookModel)
-        {
-            try
-            {
-                using (var stream = File.Create(ConstantVariable.GetOtherFacebookSettingsFile()))
-                {
-                    Serializer.Serialize(stream, facebookModel);
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                
-                ex.DebugLog();
-                return false;
-            }
+        bool SaveFacebookConfig(FacebookModel facebookModel);
+        FacebookModel GetFacebookConfig();
+    }
+    public class FBFileManager : IFBFileManager
+    {
+        private readonly IProtoBuffBase _protoBuffBase;
+        private readonly ILockFileConfigProvider _lockFileConfigProvider;
+        private readonly IFileSystemProvider _fileSystemProvider;
 
+        public FBFileManager(IProtoBuffBase protoBuffBase, ILockFileConfigProvider lockFileConfigProvider, IFileSystemProvider fileSystemProvider)
+        {
+            _protoBuffBase = protoBuffBase;
+            _lockFileConfigProvider = lockFileConfigProvider;
+            _fileSystemProvider = fileSystemProvider;
         }
-        public static FacebookModel GetFacebookConfig()
+        public bool SaveFacebookConfig(FacebookModel facebookModel)
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherFacebookSettingsFile()))
+               return _lockFileConfigProvider.WithFile<FacebookModel, bool>(file =>
                 {
-                    return Serializer.Deserialize<FacebookModel>(stream);
-                }
+                    using (var stream = _fileSystemProvider.Create(file))
+                    {
+                        Serializer.Serialize(stream, facebookModel);
+                        GlobusLogHelper.log.Info("Details successfully saved");
+                        return true;
+                    }
+                });
             }
             catch (Exception ex)
             {
-                 ex.DebugLog();
+                ex.DebugLog();
             }
-            return null;
+            return false;
+        }
+        public FacebookModel GetFacebookConfig()
+        {
+            FacebookModel facebookModel = new FacebookModel();
+            try
+            {
+                _lockFileConfigProvider.WithFile<FacebookModel, bool>(file =>
+                {
+
+                    if (_fileSystemProvider.Exists(file))
+                    {
+                        facebookModel = _protoBuffBase.Deserialize<FacebookModel>(file);
+
+                    }
+                    return true;
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return facebookModel;
         }
     }
 }

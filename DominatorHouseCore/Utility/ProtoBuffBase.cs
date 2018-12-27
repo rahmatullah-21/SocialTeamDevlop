@@ -43,6 +43,7 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
         List<T> DeserializeList<T>(string filePath) where T : class;
+        T Deserialize<T>(string filePath) where T : class, new();
     }
 
 
@@ -134,7 +135,6 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
         public List<T> DeserializeList<T>(string filePath) where T : class
-
         {
             try
             {
@@ -159,6 +159,28 @@ namespace DominatorHouseCore.Utility
             return new List<T>();
         }
 
-        #endregion        
+        public T Deserialize<T>(string filePath) where T : class, new()
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    using (var stream = File.OpenRead(filePath))
+                    {     // account model have to be only DominatorAccountModel
+
+                        var wrapper = Serializer.Deserialize<T>(stream);
+
+                        return wrapper ?? new T();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+
+            }
+            return new T();
+        }
+        #endregion
     }
 }

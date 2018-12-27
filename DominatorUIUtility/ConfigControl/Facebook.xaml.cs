@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using CommonServiceLocator;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DominatorUIUtility.ConfigControl
@@ -11,11 +13,13 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class Facebook : UserControl
     {
-        private FacebookModel FacebookModel { get; set; }=new FacebookModel();
+        private FacebookModel FacebookModel { get; set; } = new FacebookModel();
+        private readonly IFBFileManager fbFilemanager;
         private Facebook()
         {
             InitializeComponent();
-            FacebookModel = FBFileManager.GetFacebookConfig() ?? FacebookModel;
+            fbFilemanager = ServiceLocator.Current.GetInstance<IFBFileManager>();
+            FacebookModel = fbFilemanager.GetFacebookConfig() ?? FacebookModel;
             MainGrid.DataContext = FacebookModel;
         }
 
@@ -24,14 +28,12 @@ namespace DominatorUIUtility.ConfigControl
         public static Facebook GetSingeltonObjectFacebook()
         {
             return ObjFacebook ?? (ObjFacebook = new Facebook());
-
         }
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            if (FBFileManager.SaveFacebookConfig(FacebookModel))
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Facebook Configuration sucessfully saved !!");
+            if (fbFilemanager.SaveFacebookConfig(FacebookModel))
+                Dialog.ShowDialog("Success", "Facebook Configuration sucessfully saved !!");
         }
     }
 }

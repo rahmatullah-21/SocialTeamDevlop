@@ -28,6 +28,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ITemplatesFileManager, TemplatesFileManager>();
             Container.RegisterSingleton<IGenericFileManager, GenericFileManager>();
             Container.RegisterSingleton<IAccountsFileManager, AccountsFileManager>();
+            Container.RegisterSingleton<IFBFileManager, FBFileManager>();
 
             Container.RegisterSingleton<IAccountGrowthPropertiesProvider, AccountGrowthPropertiesProvider>();
 

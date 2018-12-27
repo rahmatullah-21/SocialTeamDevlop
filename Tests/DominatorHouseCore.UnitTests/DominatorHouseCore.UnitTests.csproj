@@ -101,6 +101,7 @@
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />
     <Compile Include="Tests\FileManagers\AccountsCacheServiceTests.cs" />
+    <Compile Include="Tests\FileManagers\FBFileManagerTests.cs" />
     <Compile Include="Tests\FileManagers\GenericFileManagerTests.cs" />
     <Compile Include="Tests\FileManagers\GlobalInteractionDetailsTests.cs" />
     <Compile Include="Tests\FileManagers\CampaignInteractionDetailsTests.cs" />

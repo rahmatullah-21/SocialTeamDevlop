@@ -104,6 +104,11 @@ namespace DominatorHouseCore.Utility
                     typeof(object),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexAccountFile)
                 }
+                ,
+                {
+                    typeof(FacebookModel),
+                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherFacebookSettingsFile)
+                }
             };
 
         /// <summary>
