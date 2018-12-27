@@ -1,15 +1,10 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IInteractedPosts
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountUsername { get; set; }
 
@@ -22,8 +17,14 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ActivityType { get; set; }
 
+        int IInteractedPosts.InteractionDate { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int InteractionTimeStamp { get; set; }
+        public int InteractionTimeStamp
+        {
+            get { return ((IInteractedPosts)this).InteractionDate; }
+            set { ((IInteractedPosts)this).InteractionDate = value; }
+        }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string ChannelName { get; set; }

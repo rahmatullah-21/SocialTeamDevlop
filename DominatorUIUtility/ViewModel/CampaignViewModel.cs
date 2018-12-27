@@ -620,13 +620,14 @@ namespace DominatorUIUtility.ViewModel
 
                 jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(account);
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 if (isToggleSwitchSelected)
                 {
-                    DominatorScheduler.ScheduleNextActivity(account, module);
+                    dominatorScheduler.ScheduleNextActivity(account, module);
                 }
                 else
                 {
-                    DominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, true);
+                    dominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, false);
                 }
             }
             catch (Exception ex)

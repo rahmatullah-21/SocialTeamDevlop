@@ -1,16 +1,12 @@
-﻿using DominatorHouseCore.Enums;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Enums;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IInteractedPosts
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public int InteractionDate { get; set; }
 
@@ -18,7 +14,11 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         public MediaType MediaType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public ActivityType ActivityType { get; set; }
+        public ActivityType ActivityType
+        {
+            get { return (ActivityType)Enum.Parse(typeof(ActivityType), ((IInteractedPosts)this).ActivityType); }
+            set { ((IInteractedPosts)this).ActivityType = value.ToString(); }
+        }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string PkOwner { get; set; }
@@ -65,5 +65,7 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string CommentOwnerId { get; set; }
+
+        string IInteractedPosts.ActivityType { get; set; }
     }
 }

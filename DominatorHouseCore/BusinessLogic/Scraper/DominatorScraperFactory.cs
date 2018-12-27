@@ -1,21 +1,14 @@
-﻿using DominatorHouseCore.Process;
-using DominatorHouseCore.Diagnostics;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Process;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
     public class DominatorScraperFactory : IQueryScraperFactory
     {
-        static DominatorScraperFactory _instance;
-
-        public static DominatorScraperFactory Instance => _instance ?? (_instance = new DominatorScraperFactory());
-
         public QueryScraper Create(JobProcess jobProcess)
         {
-            var scrapeProcess = SocinatorInitialize.GetSocialLibrary(jobProcess.SocialNetworks).GetNetworkCoreFactory()
-                .QueryScraperFactory;
-            return scrapeProcess.Create(jobProcess);               
+            var scrapeProcess = ServiceLocator.Current.GetInstance<IQueryScraperFactory>(jobProcess.SocialNetworks.ToString());
+            return scrapeProcess.Create(jobProcess);
         }
     }
-
-
 }

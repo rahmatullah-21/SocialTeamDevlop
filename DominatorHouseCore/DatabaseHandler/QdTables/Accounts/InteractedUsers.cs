@@ -1,15 +1,11 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {
-    public class InteractedUsers
+    // TODO: what date do we use to calculate counters fpr this entity?
+    public class InteractedUsers : Entity, IInteractedUsers
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
 
@@ -78,6 +74,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string ProfilePicUrl
         { get; set; }
-    
+
+        int IInteractedUsers.InteractionDate { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominatorHouse", "DominatorHouse\DominatorHouse.csproj", "{C7B598E7-4B31-4A92-9B53-022A25E50002}"
 EndProject
@@ -90,6 +90,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{680B3E48-8A7D-4AED-B504-CDC22E56ED20}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Socinator.Deployment", "Deployment\Socinator.Deployment\Socinator.Deployment.wixproj", "{BF7C1B82-9A26-42D5-AB92-9B63884F50F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditDominatorCore.IntegrationTests", "..\reddit-dominator-library\Tests\RedditDominatorCore.IntegrationTests\RedditDominatorCore.IntegrationTests.csproj", "{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore.IntegrationTests", "..\twtdominator-library\Tests\TwtDominatorCore.IntegrationTests\TwtDominatorCore.IntegrationTests.csproj", "{D30735DA-1A69-430C-96DA-CD6EA2BB7415}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -848,6 +852,42 @@ Global
 		{BF7C1B82-9A26-42D5-AB92-9B63884F50F2}.Release|x64.ActiveCfg = Release|x86
 		{BF7C1B82-9A26-42D5-AB92-9B63884F50F2}.Release|x86.ActiveCfg = Release|x86
 		{BF7C1B82-9A26-42D5-AB92-9B63884F50F2}.Release|x86.Build.0 = Release|x86
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug|x64.Build.0 = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug|x86.Build.0 = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Release|x64.ActiveCfg = Release|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Release|x64.Build.0 = Release|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Release|x86.ActiveCfg = Release|Any CPU
+		{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}.Release|x86.Build.0 = Release|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug|x64.Build.0 = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug|x86.Build.0 = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug-fast-test|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug-fast-test|Any CPU.Build.0 = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug-fast-test|x64.ActiveCfg = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug-fast-test|x64.Build.0 = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug-fast-test|x86.ActiveCfg = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Debug-fast-test|x86.Build.0 = Debug|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Release|x64.ActiveCfg = Release|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Release|x64.Build.0 = Release|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Release|x86.ActiveCfg = Release|Any CPU
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -867,9 +907,10 @@ Global
 		{57D13829-2736-45FC-B2F0-BFC8C44B28BA} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{61A5E2CE-2404-4D16-A5BD-CD839DA38314} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 		{BF7C1B82-9A26-42D5-AB92-9B63884F50F2} = {680B3E48-8A7D-4AED-B504-CDC22E56ED20}
+		{D30735DA-1A69-430C-96DA-CD6EA2BB7415} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal

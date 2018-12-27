@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Markup;
 using CefSharp;
 using DominatorHouseCore;
@@ -19,6 +20,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls;
+using Prism.Commands;
 
 namespace EmbeddedBrowser
 {
@@ -36,6 +38,12 @@ namespace EmbeddedBrowser
         {
             InitializeComponent();
             WindowBrowsers.DataContext = this;
+            SerachCommand = new DelegateCommand(GoToUrl);
+        }
+
+        private void GoToUrl()
+        {
+            Browser.Load(UrlBar.Text); 
         }
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel)
@@ -51,10 +59,11 @@ namespace EmbeddedBrowser
             Browser.RequestHandler = new RequestHandlerCustom(this);
             var url = GetNetworksHomeUrl();
             Browser.Address = url;
+            UrlBar.Text = url;
             Browser.IsBrowserInitializedChanged += LoadSettings;
 
         }
-
+        public ICommand SerachCommand { get; }
         public string TargetUrl { get; set; } = string.Empty;
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl, bool CustomUse)

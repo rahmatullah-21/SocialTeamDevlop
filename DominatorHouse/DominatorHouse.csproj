@@ -34,8 +34,9 @@
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>26</ApplicationRevision>
-    <ApplicationVersion>1.0.0.26</ApplicationVersion>
+    <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
+    <ApplicationRevision>27</ApplicationRevision>
+    <ApplicationVersion>1.0.0.27</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -373,14 +374,6 @@
     <EmbeddedResource Include="RevisionHistory\revisionhistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.def">
-      <Link>sqlite3.def</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.dll">
-      <Link>sqlite3.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="CefSharp.Core.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -393,6 +386,8 @@
     <Content Include="SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sqlite3.def" />
+    <Content Include="sqlite3.dll" />
     <Content Include="widevinecdmadapter.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

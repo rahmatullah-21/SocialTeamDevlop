@@ -1,7 +1,3 @@
-using System;
-using System.IO;
-using System.Threading.Tasks.Dataflow;
-using System.Windows;
 using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
@@ -11,10 +7,7 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using Microsoft.Win32;
 using System;
-using System.Collections.Concurrent;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows;
 
@@ -60,7 +53,8 @@ namespace DominatorHouse.Utilities
                 {
                     var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
                             .DominatorAccountViewModel;
-                    RunningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
+                    var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                    runningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
                 }
                 catch (Exception ex)
                 {

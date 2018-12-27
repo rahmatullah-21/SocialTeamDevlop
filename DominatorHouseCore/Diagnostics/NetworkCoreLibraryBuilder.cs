@@ -1,6 +1,4 @@
-﻿using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.BusinessLogic.Scraper;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 
 namespace DominatorHouseCore.Diagnostics
@@ -20,18 +18,6 @@ namespace DominatorHouseCore.Diagnostics
         public NetworkCoreLibraryBuilder AddNetwork(SocialNetworks networks)
         {
             NetworkCoreFactory.Network = networks;
-            return this;
-        }
-
-        public NetworkCoreLibraryBuilder AddJobFactory(IJobProcessFactory jobProcessFactory)
-        {
-            NetworkCoreFactory.JobProcessFactory = jobProcessFactory;
-            return this;
-        }
-
-        public NetworkCoreLibraryBuilder AddScraperFactory(IQueryScraperFactory scraperFactory)
-        {
-            NetworkCoreFactory.QueryScraperFactory = scraperFactory;
             return this;
         }
 

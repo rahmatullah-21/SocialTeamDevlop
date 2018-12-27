@@ -1,17 +1,10 @@
-﻿using DominatorHouseCore.Enums;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    public class UnfollowedUsers
+    public class UnfollowedUsers : BaseUnfollowedUsers
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order =1)]
-        public int Id { get; set; } 
-
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string FilterArgument
         { get; set; }
@@ -33,7 +26,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int InteractionDate
+        public override int InteractionDate
         { get; set; }
 
 

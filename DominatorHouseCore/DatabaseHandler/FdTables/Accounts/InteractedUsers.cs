@@ -1,16 +1,11 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity, IInteractedUsers
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -24,7 +19,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryValue { get; set; }
 
-       
+
         /// <summary>
         /// Describes Activity 
         /// </summary>
@@ -57,7 +52,11 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// Contains TimeStamp when interacted with the User
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public int InteractionTimeStamp { get; set; }
+        public int InteractionTimeStamp
+        {
+            get { return ((IInteractedUsers)this).InteractionDate; }
+            set { ((IInteractedUsers)this).InteractionDate = value; }
+        }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string Username { get; set; }
@@ -65,7 +64,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public DateTime InteractionDateTime { get; set; }
 
-    
+        int IInteractedUsers.InteractionDate { get; set; }
 
     }
 }

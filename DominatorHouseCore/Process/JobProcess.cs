@@ -1,6 +1,7 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -21,6 +22,7 @@ namespace DominatorHouseCore.Process
 {
     public interface IJobProcess
     {
+        Task StartProcessAsync();
         void Stop();
     }
 
@@ -103,15 +105,18 @@ namespace DominatorHouseCore.Process
         {
             //Stop();
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
             {
-                DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, ActivityType);
+                dominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, ActivityType);
             }
             else
             {
                 if (_runningJobsHolder.IsActivityRunningForAccount(AccountId))
                     return;
-                RunningActivityManager.StartNextRound(DominatorAccountModel);
+
+                var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                runningActivityManager.StartNextRound(DominatorAccountModel);
             }
 
         }
@@ -222,12 +227,14 @@ namespace DominatorHouseCore.Process
                     if (moduleConfiguration != null)
                     {
                         moduleConfiguration.NextRun = nextStartTime;
+                        moduleConfiguration.IsEnabled = true;
                         var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                         jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType, moduleConfiguration);
                         accountsCacheService.UpsertAccounts(DominatorAccountModel);
                     }
 
-                    DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                    dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                 }
 
             }
@@ -257,12 +264,11 @@ namespace DominatorHouseCore.Process
         ///     3. Executes scraping based on queries for certain social network and job process
         /// </summary>
 
-        public void RunScrapper()
+        private void RunScrapper()
         {
             try
             {
-                var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory;
-
+                var scraperFactory = ServiceLocator.Current.GetInstance<IQueryScraperFactory>(SocialNetworks.ToString());
                 var scraper = scraperFactory.Create(this);
 
                 if (SavedQueries == null || SavedQueries?.Count == 0)
@@ -392,6 +398,7 @@ namespace DominatorHouseCore.Process
 
                 JobCancellationTokenSource = new CancellationTokenSource();
 
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 var task = ThreadFactory.Instance.Start(() =>
                   {
 
@@ -406,15 +413,15 @@ namespace DominatorHouseCore.Process
                               RunScrapper();
                           else
                           {
-                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"Did not get processed as account failed to login [ {DominatorAccountModel.AccountBaseModel.Status} ]");
-                              DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
+                              dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                           }
 
                       }
                       else
                       {
                           GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
-                          DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                          dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                       }
 
 
@@ -451,7 +458,6 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
                     return false;
                 }
-
                 return true;
             }
             catch (Exception ex)

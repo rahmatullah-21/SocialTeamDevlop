@@ -1,5 +1,8 @@
-﻿using DominatorHouseCore.Dal;
+﻿using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.BusinessLogic.Scraper;
+using DominatorHouseCore.Dal;
 using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
@@ -46,6 +49,12 @@ namespace DominatorHouseCore
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();
             Container.AddNewExtension<ProxyManagmentUnityExtension>();
+
+            Container.RegisterSingleton<IQueryScraperFactory, DominatorScraperFactory>(SocialNetworks.Social.ToString());
+            Container.RegisterSingleton<IJobProcessFactory, DominatorJobProcessFactory>(SocialNetworks.Social.ToString());
+            Container.RegisterSingleton<IDominatorScheduler, DominatorScheduler>();
+            Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
+            Container.RegisterSingleton<IRunningActivityManager, RunningActivityManager>();
         }
     }
 }

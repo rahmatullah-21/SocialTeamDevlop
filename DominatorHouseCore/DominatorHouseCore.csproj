@@ -218,9 +218,9 @@
     <Compile Include="BusinessLogic\GlobalRoutines\CampaignGlobalRoutines.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
-    <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.Helpers.cs" />
     <Compile Include="BusinessLogic\Scheduler\IPublisherJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\RunningActivityManager.cs" />
+    <Compile Include="BusinessLogic\Scheduler\SchedulerProxy.cs" />
     <Compile Include="BusinessLogic\Scraper\IQueryScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\NotImplementedQueryScraper.cs" />
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
@@ -263,6 +263,12 @@
     <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseMigrations.cs" />
     <Compile Include="Dal\DbMigrationUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\Accounts\BaseUnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\Common\Accounts\IInteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\Common\Accounts\IInteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\Common\Accounts\IUnfollowedUser.cs" />
+    <Compile Include="DatabaseHandler\Common\Entity.cs" />
+    <Compile Include="DatabaseHandler\Common\IPrimaryKey.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DbVersions.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
@@ -804,7 +810,16 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.def">
+      <Link>sqlite3.def</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.dll">
+      <Link>sqlite3.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
       <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
