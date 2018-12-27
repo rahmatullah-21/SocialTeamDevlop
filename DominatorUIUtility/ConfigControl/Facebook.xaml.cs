@@ -13,14 +13,14 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class Facebook : UserControl
     {
-        private FacebookModel FacebookModel { get; set; } = new FacebookModel();
+        private ConfigFacebookModel ConfigFacebookModel { get; set; } = new ConfigFacebookModel();
         private readonly IFBFileManager fbFilemanager;
         private Facebook()
         {
             InitializeComponent();
             fbFilemanager = ServiceLocator.Current.GetInstance<IFBFileManager>();
-            FacebookModel = fbFilemanager.GetFacebookConfig() ?? FacebookModel;
-            MainGrid.DataContext = FacebookModel;
+            ConfigFacebookModel = fbFilemanager.GetFacebookConfig() ?? ConfigFacebookModel;
+            MainGrid.DataContext = ConfigFacebookModel;
         }
 
         private static Facebook ObjFacebook;
@@ -32,7 +32,7 @@ namespace DominatorUIUtility.ConfigControl
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            if (fbFilemanager.SaveFacebookConfig(FacebookModel))
+            if (fbFilemanager.SaveFacebookConfig(ConfigFacebookModel))
                 Dialog.ShowDialog("Success", "Facebook Configuration sucessfully saved !!");
         }
     }

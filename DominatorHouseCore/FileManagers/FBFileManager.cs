@@ -8,8 +8,8 @@ namespace DominatorHouseCore.FileManagers
 {
     public interface IFBFileManager
     {
-        bool SaveFacebookConfig(FacebookModel facebookModel);
-        FacebookModel GetFacebookConfig();
+        bool SaveFacebookConfig(ConfigFacebookModel configFacebookModel);
+        ConfigFacebookModel GetFacebookConfig();
     }
     public class FBFileManager : IFBFileManager
     {
@@ -23,15 +23,15 @@ namespace DominatorHouseCore.FileManagers
             _lockFileConfigProvider = lockFileConfigProvider;
             _fileSystemProvider = fileSystemProvider;
         }
-        public bool SaveFacebookConfig(FacebookModel facebookModel)
+        public bool SaveFacebookConfig(ConfigFacebookModel configFacebookModel)
         {
             try
             {
-               return _lockFileConfigProvider.WithFile<FacebookModel, bool>(file =>
+               return _lockFileConfigProvider.WithFile<ConfigFacebookModel, bool>(file =>
                 {
                     using (var stream = _fileSystemProvider.Create(file))
                     {
-                        Serializer.Serialize(stream, facebookModel);
+                        Serializer.Serialize(stream, configFacebookModel);
                         GlobusLogHelper.log.Info("Details successfully saved");
                         return true;
                     }
@@ -43,17 +43,17 @@ namespace DominatorHouseCore.FileManagers
             }
             return false;
         }
-        public FacebookModel GetFacebookConfig()
+        public ConfigFacebookModel GetFacebookConfig()
         {
-            FacebookModel facebookModel = new FacebookModel();
+            ConfigFacebookModel configFacebookModel = new ConfigFacebookModel();
             try
             {
-                _lockFileConfigProvider.WithFile<FacebookModel, bool>(file =>
+                _lockFileConfigProvider.WithFile<ConfigFacebookModel, bool>(file =>
                 {
 
                     if (_fileSystemProvider.Exists(file))
                     {
-                        facebookModel = _protoBuffBase.Deserialize<FacebookModel>(file);
+                        configFacebookModel = _protoBuffBase.Deserialize<ConfigFacebookModel>(file);
 
                     }
                     return true;
@@ -63,7 +63,7 @@ namespace DominatorHouseCore.FileManagers
             {
                 ex.DebugLog();
             }
-            return facebookModel;
+            return configFacebookModel;
         }
     }
 }

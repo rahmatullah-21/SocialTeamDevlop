@@ -654,7 +654,7 @@
     <Compile Include="Models\EmailNotificationsModel.cs" />
     <Compile Include="Models\EmbeddedBrowserSettingsFileManager.cs" />
     <Compile Include="Models\EmbeddedBrowserSettingsModel.cs" />
-    <Compile Include="Models\FacebookModel.cs" />
+    <Compile Include="Models\ConfigFacebookModel.cs" />
     <Compile Include="Models\GenderFilter.cs" />
     <Compile Include="Models\IncreaseActivityRange.cs" />
     <Compile Include="Models\JobActivityManager.cs" />
