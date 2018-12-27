@@ -269,6 +269,7 @@
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTwitterRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\Entity.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\FilterPredicate.cs" />
     <Compile Include="DatabaseHandler\Common\IActivityTypeEntity.cs" />
     <Compile Include="DatabaseHandler\Common\IPrimaryKey.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DbVersions.cs" />

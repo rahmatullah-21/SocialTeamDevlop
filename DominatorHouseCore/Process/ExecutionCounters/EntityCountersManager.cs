@@ -67,7 +67,7 @@ namespace DominatorHouseCore.Process.ExecutionCounters
         private void Init<T>(string key, string accountId, SocialNetworks networks, ActivityType? activityType)
             where T : class, new()
         {
-            var counterFunction = ServiceLocator.Current.GetInstance<EntityCounterFunction<T>>();
+            var counterFunction = ServiceLocator.Current.GetInstance<IEntityCounterFunction<T>>();
             var counter = counterFunction.GetCounter(accountId, networks, activityType);
             _jobExecutionCounters.Add(key, counter);
         }

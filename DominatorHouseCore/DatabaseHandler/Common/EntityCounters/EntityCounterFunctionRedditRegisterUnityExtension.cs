@@ -10,7 +10,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         protected override void Initialize()
         {
             Container
-                .RegisterInstance(
+                .RegisterInstance<IEntityCounterFunction<InteractedUsers>>(
                     new EntityCounterFunction<InteractedUsers>(
                         new DateEpochFilterPredicate<InteractedUsers>(
                             a => a.InteractionTimeStamp),
@@ -21,7 +21,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedUsers>(SocialNetworks.Reddit, true));
 
             Container
-                .RegisterInstance(
+                .RegisterInstance<IEntityCounterFunction<InteractedSubreddit>>(
                     new EntityCounterFunction<InteractedSubreddit>(
                         new DateFilterPredicate<InteractedSubreddit>(
                             a => a.InteractionDateTime),
@@ -32,7 +32,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedSubreddit>(SocialNetworks.Reddit, true));
 
             Container
-                .RegisterInstance(
+                .RegisterInstance<IEntityCounterFunction<InteractedPost>>(
                     new EntityCounterFunction<InteractedPost>(
                         new DateFilterPredicate<InteractedPost>(
                             a => a.InteractionDateTime),
@@ -43,7 +43,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedPost>(SocialNetworks.Reddit, true));
 
             Container
-                .RegisterInstance(
+                .RegisterInstance<IEntityCounterFunction<UnfollowedUsers>>(
                     new EntityCounterFunction<UnfollowedUsers>(
                         new DateEpochFilterPredicate<UnfollowedUsers>(
                             a => a.InteractionDate)));

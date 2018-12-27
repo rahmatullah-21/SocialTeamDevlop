@@ -1,12 +1,10 @@
 ﻿using Dominator.Tests.Utils;
-using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.DatabaseHandler.Common.EntityCounters;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Process.ExecutionCounters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System;
-using System.Linq.Expressions;
 using Unity;
 
 namespace DominatorHouseCore.UnitTests.Tests.Process
@@ -29,19 +27,19 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
         {
             // arrange
             var accountId = "accountId";
-            var db = Substitute.For<IDbOperations>();
-            db.SocialNetworks.Returns(SocialNetworks.Twitter);
-            db.AccountId.Returns(accountId);
-            db.Count<DummyEntity>(Arg.Any<Expression<Func<DummyEntity, bool>>>()).Returns(3);
-            Container.RegisterInstance<IDbOperations>(db);
+            var keyFactory = Substitute.For<ICounterKeyFactory<DummyEntity>>();
+            keyFactory.Create(accountId, ActivityType.AnswerOnQuestions).Returns("a key");
+            Container.RegisterInstance<ICounterKeyFactory<DummyEntity>>(keyFactory);
+            var counterFunction = Substitute.For<IEntityCounterFunction<DummyEntity>>();
+            var cnt = new EntityCounter(3, 3, 3);
+            counterFunction.GetCounter(accountId, SocialNetworks.Twitter, ActivityType.AnswerOnQuestions).Returns(cnt);
+            Container.RegisterInstance<IEntityCounterFunction<DummyEntity>>(counterFunction);
 
             // act
-            var cnt = _sut.GetCounter<DummyEntity>(accountId, SocialNetworks.Twitter, ActivityType.AnswerOnQuestions);
+            var result = _sut.GetCounter<DummyEntity>(accountId, SocialNetworks.Twitter, ActivityType.AnswerOnQuestions);
 
             // assert
-            cnt.NoOfActionPerformedCurrentDay.Should().Be(3);
-            cnt.NoOfActionPerformedCurrentHour.Should().Be(3);
-            cnt.NoOfActionPerformedCurrentWeek.Should().Be(3);
+            result.Should().Be(cnt);
         }
 
         [TestMethod]
@@ -49,11 +47,12 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
         {
             // arrange
             var accountId = "accountId";
-            var db = Substitute.For<IDbOperations>();
-            db.SocialNetworks.Returns(SocialNetworks.Twitter);
-            db.AccountId.Returns(accountId);
-            db.Count<DummyEntity>(Arg.Any<Expression<Func<DummyEntity, bool>>>()).Returns(3);
-            Container.RegisterInstance<IDbOperations>(db);
+            var keyFactory = Substitute.For<ICounterKeyFactory<DummyEntity>>();
+            keyFactory.Create(accountId, ActivityType.AnswerOnQuestions).Returns("a key");
+            Container.RegisterInstance<ICounterKeyFactory<DummyEntity>>(keyFactory);
+            var counterFunction = Substitute.For<IEntityCounterFunction<DummyEntity>>();
+            counterFunction.GetCounter(accountId, SocialNetworks.Twitter, ActivityType.AnswerOnQuestions).Returns(new EntityCounter(3, 3, 3));
+            Container.RegisterInstance<IEntityCounterFunction<DummyEntity>>(counterFunction);
 
             // act
             _sut.IncrementFor<DummyEntity>(accountId, SocialNetworks.Twitter, ActivityType.AnswerOnQuestions);
@@ -65,7 +64,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             cnt.NoOfActionPerformedCurrentWeek.Should().Be(4);
         }
 
-        private class DummyEntity
+        public class DummyEntity
         {
             public int Id { get; set; }
             public int InteractionDate { get; set; }

@@ -10,7 +10,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         protected override void Initialize()
         {
             Container
-                .RegisterInstance(
+                .RegisterInstance<IEntityCounterFunction<InteractedUsers>>(
                     new EntityCounterFunction<InteractedUsers>(
                         new DateFilterPredicate<InteractedUsers>(
                             a => a.InteractionDateTime)));
@@ -19,7 +19,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedUsers>(SocialNetworks.Twitter, false));
 
             Container
-                .RegisterInstance(
+                .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
                         new DateFilterPredicate<InteractedPosts>(
                             a => a.InteractionDate),
@@ -30,7 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Twitter, true));
 
             Container
-                .RegisterInstance(
+                .RegisterInstance<IEntityCounterFunction<UnfollowedUsers>>(
                     new EntityCounterFunction<UnfollowedUsers>(
                         new DateFilterPredicate<UnfollowedUsers>(
                             a => a.InteractionDate)));

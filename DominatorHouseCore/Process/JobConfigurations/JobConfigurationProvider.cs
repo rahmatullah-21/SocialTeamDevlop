@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using Newtonsoft.Json.Linq;
