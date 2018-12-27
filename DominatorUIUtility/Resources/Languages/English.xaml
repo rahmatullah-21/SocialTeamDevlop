@@ -3330,4 +3330,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">This Socinator feature helps to automate mentioning new followers as welcome tweet. It allows to search and filter posts with different query types and perform the welcome tweet action on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">This Socinator feature helps to automate Unlike on Twitter. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
     <system:String x:Key="LangKeyConnectedWithin">Connected Within</system:String>
+    <system:String x:Key="LangKeyProfileScraperCampaigns">Profile Scraper Campaigns</system:String>
 </ResourceDictionary>
