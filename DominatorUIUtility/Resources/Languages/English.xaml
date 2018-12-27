@@ -3304,5 +3304,31 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySecondsBetweenEachFollow">Seconds Between Each Follow</system:String>
     <system:String x:Key="LangKeyAutoSchedule">Auto Schedule</system:String>
     <system:String x:Key="LangKeyPostMultipleImagesPostsAsAlbum">Post Multiple Images Posts As Album</system:String>
-
+    <system:String x:Key="LangKeyEditPin">Edit Pin</system:String>
+    <system:String x:Key="LangKeyPinsList">Pins List</system:String>
+    <system:String x:Key="LangKeyBoard">Board</system:String>
+    <system:String x:Key="LangKeySection">Section</system:String>
+    <system:String x:Key="LangKeyWebsiteUrl">Website Url</system:String>
+    <system:String x:Key="LangKeyPinIdToBeEdit">Pin Id To Be Edit</system:String>
+    <system:String x:Key="LangKeyAccount">Account</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerDay">Number Of Edit Pins Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerHour">Number Of Edit Pins Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerJob">Number Of Edit Pins Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerWeek">Number Of Edit Pins Per Week</system:String>
+    <system:String x:Key="LangKeyEditPinsPerDay">Max Edit Pins Per Day</system:String>
+    <system:String x:Key="LangKeyCommentsOfOnePost">Comments Of One Post</system:String>
+    <system:String x:Key="LangKeyEnableAdvanceBioAndSkills">Enable Advance Bio And Skills</system:String>
+    <system:String x:Key="LangKeyNext">Next >></system:String>
+    <system:String x:Key="LangKeyPrevious">&lt;&lt; Previous</system:String>
+    <system:String x:Key="LangKeyFinish">Finish</system:String>
+    <system:String x:Key="LangKeyAccountPerProxy">Account Per Proxy</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoCommentScraper">This Socinator feature helps to scrape Comments from Instagram.</system:String>
+    <system:String x:Key="LangKeySavePostToProfile">Save Post(s) To profile</system:String>
+    <system:String x:Key="LangKeySelectGroup">Select Group</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeComments">This Socinator feature helps to scrape comments from posts on Gplus. It allows to filter comments and posts and scrape them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">This Socinator feature helps to automate mentioning users on a tweet . It allows to search and filter posts with different query types and perform the tweet action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">This Socinator feature helps to automate mentioning new followers as welcome tweet. It allows to search and filter posts with different query types and perform the welcome tweet action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">This Socinator feature helps to automate Unlike on Twitter. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
+    <system:String x:Key="LangKeyConnectedWithin">Connected Within</system:String>
+    <system:String x:Key="LangKeyProfileScraperCampaigns">Profile Scraper Campaigns</system:String>
 </ResourceDictionary>

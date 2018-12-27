@@ -1,16 +1,12 @@
-﻿using System;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Utility;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
-    public class InteractedPost
+    public class InteractedPost : Entity, IInteractedPosts
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string InteracteduserId { get; set; }
 
@@ -93,7 +89,13 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 36)]
-        public DateTime InteractionDateTime { get; set; }
+        public DateTime InteractionDateTime
+        {
+            get { return ((IInteractedPosts)this).InteractionDate.EpochToDateTimeUtc(); }
+            set { ((IInteractedPosts)this).InteractionDate = value.ConvertToEpochAsIs(); }
+        }
+
+        int IInteractedPosts.InteractionDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 37)]
         public string CommentText { get; set; }

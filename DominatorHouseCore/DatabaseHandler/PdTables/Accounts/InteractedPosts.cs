@@ -1,16 +1,12 @@
-﻿using DominatorHouseCore.Enums;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Enums;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IInteractedPosts
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         //ID of the Pin
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string PinId { get; set; }
@@ -56,6 +52,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string SourceBoardName { get; set; }
 
+        string IInteractedPosts.ActivityType { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public int InteractionDate { get; set; }
 
@@ -65,7 +63,14 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         //Type of Operation performed(follow/comment...etc)
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public ActivityType OperationType { get; set; }
+        public ActivityType OperationType
+        {
+            get { return (ActivityType)Enum.Parse(typeof(ActivityType), ((IInteractedPosts)this).ActivityType); }
+            set
+            {
+                ((IInteractedPosts)this).ActivityType = value.ToString();
+            }
+        }
 
         //User id of the User in which the Pin belongs to
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]

@@ -141,7 +141,8 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _group, value);
             }
         }
-
+       
+        
     }
     [ProtoContract]
     public class AccountAssign : BindableBase

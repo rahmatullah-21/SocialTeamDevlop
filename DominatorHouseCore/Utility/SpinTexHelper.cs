@@ -47,6 +47,8 @@ namespace DominatorHouseCore.Utility
                 var spinnedList = new List<string>();
 
                 int repeatedCount = 0;
+
+                Random randomIndex = new Random();
                 // Iterate until getting 30 unique texts
                 while (spinnedList.Count < 30)
                 {
@@ -55,7 +57,7 @@ namespace DominatorHouseCore.Utility
 
                         break;
 
-                    var spinnedText = SpinText(new Random(), content);
+                    var spinnedText = SpinText(randomIndex, content);
 
                     if (spinnedList.Contains(spinnedText))
                     {

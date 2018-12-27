@@ -57,7 +57,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string Category { get; set; }
-
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string BoardUrl { get; set; }
 
     }
 }

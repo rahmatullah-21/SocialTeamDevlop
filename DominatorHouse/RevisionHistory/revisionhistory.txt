@@ -1,3 +1,93 @@
+Version[1.0.0.27],[26th-December-18]
+New Features:-
+	Proxy Manager:-
+		Add account per proxy as per given count.
+	Instagram:-
+		Insta Scrape => Post Scraper => Added feature Save Post(s) To Profile.
+		Instachat => Broadcast Messages => Added feature send message to own followers and own following.
+		Follow campaign => Added feature showing report after follow activity.
+	Twitter:-
+		Grow Followers => Follow Back => Auto schedule feature is added.
+	Facebook:-
+		Added feature After scrape users like their latest post.
+	Pintrest:-
+		Scraper => Board Scraper => keywords => Add feature in keyword's report on board url.
+Fixed:-
+	Publisher:-
+		 Create Destination => Fixed issue with showing all the group at the time of create destination.
+	Instagram:-
+		Instachat => Send Message to New Followers => Fixed issue with send multiple line message.
+		Instascrape => Post Scraper => Fixed issue with media type filter.
+		Instachat => Broadcast Messages => Fixed issue with send message to same user.
+	Youtube:-
+		Watch Video => View increaser => Fixed issue with View increaser for Keyword
+		Proxy Manager => Assign random proxy => Fixed issue with Proxy Manager toassign proxies to unassigned accounts.
+	Twitter:-
+		Messenger => Message to new followers => Fixed issue top send message to new followers.
+		Grow Followers => Follower => Someones Follower  => Auto schedule => Fixed issue with auto scheduling.
+	Reddit:-
+		Engage => Reply => Fixed issue with custom urls.
+		Engage => Comment => Fixed issue with keyword.
+		Voter => Upvoter => Fixed issue with custom urls.
+		Scraper => Channel scraper => Fixed issue with keyword.
+		Scraper => Comment scraper => Fixed issue with custom url.
+	Facebook:-
+		Sociopublisher => Fixed issue with  publish on group.
+		Sociopublisher => Fixed issue with publish on Custom destination.
+		Scraper => Post Scraper => Fixed issue with showing no more data.
+		Scraper => Download Media => Fixed issue with showing no more data.
+	Pintrest:-
+		Pinposter => Edit Pin => Fixed issue with activity stauts in edit pin. 
+		Board => Create board => Fixed issue with board description in report.
+		Grow follower => keyword => Fixed issue with jobwise of keywords.
+	Linkedin:-
+		Grow Connection => Connection Request => Search URL => Fixed issue with showing exact result as shown in the browser.
+		Grow Connection => Export Connection => By software/Outside software => Fixed issue with showing no more data .
+
+Version[1.0.0.26],[19th-December-18]
+New Features:-
+	Instagram:-
+		Instaliker/Instacommenter => Like Comment => Like comment X to Y post of each user.
+		Instaliker/Instacommenter => Like Comment => Like X to Y comment of each post.
+	Linkedin:-
+		Grow connection => Fixed issue with showing different search url result in software and browser.
+		Grow connection => Export connection => Fixed issue with export connection
+		Grow Connection => Fixed issue with saving contact info as a html file.
+		User Filter => Enable advance BIO and Skill.
+	Pintrest:-
+		Pin Poster => Added feature edit pin.
+Fixed:-
+	Reddit:-
+		Voter => Fixed issue with upvote.
+		Subscribe channel => Fixed issue with subcribe.
+		Subscribe channel => Fixed issue with unsubscribe channel.
+		Socio publisher => Fixed issue with upload media files in wall.
+	Facebook:-
+		Broadcast message => Fixed issue with broadcast message.
+		Engage => Fixed issue with post like.
+		Engage => Fixed issue with post comment.
+		Socialpublishe r = > fixed issue with shrape post.
+	Twitter:-
+		Poster => Delete retweet => Fixed issue with delete retweet.
+	Instagram:-
+		Grow Follower => Block Follower => Fixed issue with block follower.
+		Grow Follower => Unfollow => Fixed issue with unfollow.
+		Instachat => Broadcast Message =>  Fixed issue with skip users who already received message.
+		Instachat => Broadcast Message =>  Fixed issue with edit campaign.
+		Instascrape => Post Scraper =>  Fixed issue with delay between each operation.
+	Linkedin:-
+		Salesnavigator Scraper => User Scraper => Fixed issue with scraping data from search URL.
+	Pintrest:-
+		Account => Fixed issue with account blocks.
+		Pin Poster => Repin => Custom board => Fixed issue with repin from custom board list.
+		Pin Poster => Repin => Custom users => Fixed issue with repin from custom users list.
+		Pin Scraper => Board Scraper => Custom board => Fixed issue with custom board scraper.
+
+Version[1.0.0.25],[15th-December-18]
+Fixed:-
+	Linkedin:-
+		Fixed issue with Account login.
+
 Version[1.0.0.24],[14th-December-18]
 New Features:-
 		Twitter:-
