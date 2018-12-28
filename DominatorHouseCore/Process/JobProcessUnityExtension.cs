@@ -19,6 +19,8 @@ namespace DominatorHouseCore.Process
             Container.RegisterSingleton<IJobConfigurationProvider, JobConfigurationProvider>();
 
             Container.RegisterSingleton<IRunningActivityManager, RunningActivityManager>();
+
+            Container.RegisterSingleton<IJobProcessScopeFactory, JobProcessScopeFactory>();
         }
     }
 }

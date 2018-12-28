@@ -10,6 +10,7 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -33,12 +34,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         private readonly IRunningActivityManager _runningActivityManager;
         private readonly ISchedulerProxy _schedulerProxy;
         private readonly IJobLimitsHolder _jobLimitsHolder;
+        private readonly IJobProcessScopeFactory _jobProcessScopeFactory;
 
-        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder)
+        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder, IJobProcessScopeFactory jobProcessScopeFactory)
         {
             _runningActivityManager = runningActivityManager;
             _schedulerProxy = schedulerProxy;
             _jobLimitsHolder = jobLimitsHolder;
+            _jobProcessScopeFactory = jobProcessScopeFactory;
         }
 
         /// <summary>
@@ -54,9 +57,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 lock (RunStopActivityLocker)
                 {
-                    var activeJobProcessFactory =
-                        ServiceLocator.Current.GetInstance<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork
-                            .ToString());
+
 
                     var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
 
@@ -65,7 +66,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (scheduledJob != null && scheduledJob.Disabled)
                         return;
 
-
+                    var scope = _jobProcessScopeFactory.GetScope(account,
+                        (ActivityType)Enum.Parse(typeof(ActivityType), module), templateId, currentJobTimeRange,
+                        account.AccountBaseModel.AccountNetwork);
+                    var activeJobProcessFactory =
+                        scope.Resolve<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork
+                            .ToString());
                     var jobProcess = activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId,
                         currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
                     _jobLimitsHolder.Reset(jobProcess.Id, jobProcess.JobConfiguration);
@@ -75,10 +81,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
                             account.AccountBaseModel.AccountNetwork,
                             account.AccountBaseModel.UserName, module, limitInfo.LimitValue);
+                        scope.Dispose();
                         return;
                     }
 
-                    jobProcess.StartProcessAsync();
+                    jobProcess.StartProcessAsync().ContinueWith(a => scope.Dispose());
                 }
             }
             catch (Exception ex)

@@ -50,6 +50,26 @@ namespace DominatorHouseCore.Process
         }
 
         public bool IsNeedToSchedule { get; set; } = false;
+        protected JobProcess(IProcessScopeModel processScopeModel)
+        {
+            // Get the current account details 
+            _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
+            _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
+            TemplateId = processScopeModel.TemplateId;
+            ActivityType = processScopeModel.ActivityType;
+            SocialNetworks = processScopeModel.Network;
+            CurrentJobTimeRange = processScopeModel.TimingRange;
+            DominatorAccountModel = processScopeModel.Account;
+
+            IsNeedToSchedule = processScopeModel.IsNeedToSchedule;
+            JobConfiguration = processScopeModel.JobConfiguration;
+            SavedQueries = processScopeModel.SavedQueries;
+
+            CampaignDetails = processScopeModel.CampaignDetails;
+            CampaignId = processScopeModel.CampaignId;
+        }
+
+        [Obsolete]
         protected JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
