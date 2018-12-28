@@ -1,0 +1,46 @@
+﻿using DominatorHouseCore.DatabaseHandler.TumblrTables.Account;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Utility;
+using Unity;
+using Unity.Extension;
+
+namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
+{
+    public class EntityCounterFunctionTumblrRegisterUnityExtension : UnityContainerExtension
+    {
+        protected override void Initialize()
+        {
+            Container
+                .RegisterInstance<IEntityCounterFunction<InteractedUser>>(
+                    new EntityCounterFunction<InteractedUser>(
+                        new DateEpochFilterPredicate<InteractedUser>(
+                            a => a.InteractionTimeStamp),
+                        new ActivityTypeAsStringFilterPredicate<InteractedUser>(
+                            a => a.ActivityType)));
+            Container
+                .RegisterInstance<ICounterKeyFactory<InteractedUser>>(
+                    new CounterKeyFactory<InteractedUser>(SocialNetworks.Tumblr, true));
+
+           
+            Container
+                .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
+                    new EntityCounterFunction<InteractedPosts>(
+                        new DateFilterPredicate<InteractedPosts>(
+                            a => a.InteractionTimeStamp.EpochToDateTimeLocal()),
+                        new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
+                            a => a.ActivityType.ToString())));
+            Container
+                .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
+                    new CounterKeyFactory<InteractedPosts>(SocialNetworks.Tumblr, true));
+
+            Container
+                .RegisterInstance<IEntityCounterFunction<UnFollowedUser>>(
+                    new EntityCounterFunction<UnFollowedUser>(
+                        new DateEpochFilterPredicate<UnFollowedUser>(
+                            a => a.InteractionTimeStamp)));
+            Container
+                .RegisterInstance<ICounterKeyFactory<UnFollowedUser>>(
+                    new CounterKeyFactory<UnFollowedUser>(SocialNetworks.Tumblr, false));
+        }
+    }
+}

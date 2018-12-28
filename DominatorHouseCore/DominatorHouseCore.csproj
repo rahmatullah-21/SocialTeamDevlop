@@ -265,8 +265,15 @@
     <Compile Include="Dal\DbMigrationUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\CounterKeyFactory.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunction.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionInstagramRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionLinkedinRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionPinterestRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTumblrRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionQuoraRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionRedditRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionFaceBookRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionGplusRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionYoutubeRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTwitterRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\Entity.cs" />
