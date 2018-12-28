@@ -24,10 +24,10 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedBoards>>(
                     new EntityCounterFunction<InteractedBoards>(
-                        new DateFilterPredicate<InteractedBoards>(
-                            a => a.InteractionDate.EpochToDateTimeLocal()),
-                        new ActivityTypeAsStringFilterPredicate<InteractedBoards>(
-                            a => a.OperationType.ToString())));
+                        new TimespanFilterPredicate<InteractedBoards>(
+                            a => a.InteractionDate),
+                        new ActivityTypeFilterPredicate<InteractedBoards>(
+                            a => a.OperationType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedBoards>>(
                     new CounterKeyFactory<InteractedBoards>(SocialNetworks.Pinterest, true));
@@ -35,10 +35,10 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
-                        new DateFilterPredicate<InteractedPosts>(
-                            a => a.InteractionDate.EpochToDateTimeLocal()),
-                        new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
-                            a => a.OperationType.ToString())));
+                        new TimespanFilterPredicate<InteractedPosts>(
+                            a => a.InteractionDate),
+                        new ActivityTypeFilterPredicate<InteractedPosts>(
+                            a => a.OperationType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Pinterest, true));

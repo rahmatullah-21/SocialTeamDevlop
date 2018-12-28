@@ -24,10 +24,10 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
-                        new DateFilterPredicate<InteractedPosts>(
-                            a => a.InteractionTimeStamp.EpochToDateTimeLocal()),
+                        new TimespanFilterPredicate<InteractedPosts>(
+                            a => a.InteractionTimeStamp),
                         new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Youtube, true));

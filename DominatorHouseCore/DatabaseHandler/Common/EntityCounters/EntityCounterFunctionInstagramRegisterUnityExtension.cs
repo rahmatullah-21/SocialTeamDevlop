@@ -24,10 +24,10 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
               .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                   new EntityCounterFunction<InteractedPosts>(
-                      new DateFilterPredicate<InteractedPosts>(
-                          a => a.InteractionDate.EpochToDateTimeLocal()),
-                      new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
-                          a => a.ActivityType.ToString())));
+                      new TimespanFilterPredicate<InteractedPosts>(
+                          a => a.InteractionDate),
+                      new ActivityTypeFilterPredicate<InteractedPosts>(
+                          a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Instagram, true));
@@ -45,8 +45,8 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<HashtagScrape>>(
                     new EntityCounterFunction<HashtagScrape>(
-                        new DateFilterPredicate<HashtagScrape>(
-                            a => a.Date.EpochToDateTimeLocal())));
+                        new TimespanFilterPredicate<HashtagScrape>(
+                            a => a.Date)));
             Container
                 .RegisterInstance<ICounterKeyFactory<HashtagScrape>>(
                     new CounterKeyFactory<HashtagScrape>(SocialNetworks.Instagram, false));

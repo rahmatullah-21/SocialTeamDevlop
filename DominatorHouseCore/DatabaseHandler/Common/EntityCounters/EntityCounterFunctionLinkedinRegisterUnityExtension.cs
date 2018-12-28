@@ -13,8 +13,8 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedUsers>>(
                     new EntityCounterFunction<InteractedUsers>(
-                        new DateEpochFilterPredicate<InteractedUsers>(
-                            a => a.InteractionDatetime.GetCurrentEpochTime()),
+                        new DateFilterPredicate<InteractedUsers>(
+                            a => a.InteractionDatetime),
                         new ActivityTypeAsStringFilterPredicate<InteractedUsers>(
                             a => a.ActivityType)));
             Container
@@ -38,7 +38,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                         new DateFilterPredicate<InteractedPosts>(
                             a => a.InteractionDatetime),
                         new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.LinkedIn, true));
@@ -50,7 +50,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                         new DateFilterPredicate<InteractedCompanies>(
                             a => a.InteractionDatetime),
                         new ActivityTypeAsStringFilterPredicate<InteractedCompanies>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedCompanies>>(
                     new CounterKeyFactory<InteractedCompanies>(SocialNetworks.LinkedIn, true));
@@ -61,7 +61,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                         new DateFilterPredicate<InteractedGroups>(
                             a => a.InteractionDatetime),
                         new ActivityTypeAsStringFilterPredicate<InteractedGroups>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedGroups>>(
                     new CounterKeyFactory<InteractedGroups>(SocialNetworks.LinkedIn, true));

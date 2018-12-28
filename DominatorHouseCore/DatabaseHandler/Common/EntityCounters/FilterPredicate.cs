@@ -43,7 +43,13 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         {
         }
     }
-
+    public class TimespanFilterPredicate<TSource> : FilterPredicate<TSource, int, int> where TSource : class, new()
+    {
+        public TimespanFilterPredicate(Expression<Func<TSource, int>> filterExpression)
+            : base(filterExpression, a => a)
+        {
+        }
+    }
     public class DateEpochFilterPredicate<TSource> : FilterPredicate<TSource, DateTime, int> where TSource : class, new()
     {
         public DateEpochFilterPredicate(Expression<Func<TSource, int>> filterExpression)
@@ -73,6 +79,13 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
     {
         public ActivityTypeAsStringFilterPredicate(Expression<Func<TSource, string>> filterExpression)
             : base(filterExpression, a => a.ToString())
+        {
+        }
+    }
+    public class ActivityTypeFilterPredicate<TSource> : ActivityTypeFilterPredicate<TSource, ActivityType> where TSource : class, new()
+    {
+        public ActivityTypeFilterPredicate(Expression<Func<TSource, ActivityType>> filterExpression)
+            : base(filterExpression, a => a)
         {
         }
     }
