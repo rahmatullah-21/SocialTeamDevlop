@@ -32,10 +32,10 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         [TestMethod]
         public void GetFacebookConfig_should_return_data_if_file_exist()
         {
-            var data = new FacebookModel();
+            var data = new ConfigFacebookModel();
             var path = "path to a FacebookConfig file";
             _fileSystemProvider.Exists(path).Returns(true);
-            _protoBuffBase.Deserialize<FacebookModel>(path).Returns(data);
+            _protoBuffBase.Deserialize<ConfigFacebookModel>(path).Returns(data);
            
             // act
             var result = _sut.GetFacebookConfig();

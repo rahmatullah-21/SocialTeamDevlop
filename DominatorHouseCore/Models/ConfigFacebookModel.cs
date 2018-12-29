@@ -4,7 +4,7 @@ using ProtoBuf;
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class FacebookModel : BindableBase
+    public class ConfigFacebookModel : BindableBase
     {
         private int _waitMinimumOf;
         [ProtoMember(1)]

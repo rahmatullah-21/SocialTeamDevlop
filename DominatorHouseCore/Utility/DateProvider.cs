@@ -6,6 +6,7 @@ namespace DominatorHouseCore.Utility
     {
         DateTime UtcNow();
         DateTime Now();
+        DateTime Today();
     }
 
     public sealed class DateProvider : IDateProvider
@@ -18,6 +19,11 @@ namespace DominatorHouseCore.Utility
         public DateTime Now()
         {
             return DateTime.Now;
+        }
+
+        public DateTime Today()
+        {
+            return DateTime.Today;
         }
     }
 }

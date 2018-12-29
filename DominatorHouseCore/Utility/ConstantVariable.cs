@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models.SocioPublisher;
 using System;
 using System.Collections.Generic;
@@ -7,34 +8,257 @@ using System.IO;
 
 namespace DominatorHouseCore.Utility
 {
-    public static class ConstantVariable
+    public interface IConstantVariable
     {
-        public static string UseragentCommonFormat { get; } = "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
+        string UseragentCommonFormat { get; }
 
-        public static string UseragentLocale { get; } = "en_US";
+        string UseragentLocale { get; }
 
-        // public static string IgVersion { get; } = "40.33.0";
-        public static string IgVersion { get; } = "64.0.0.14.96";
+        // string IgVersion => "40.33.0";
+        string IgVersion { get; }
 
-        public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
+        string ApiUrl { get; }
 
-        public static string InstagramBaseUrl { get; } = "https://i.instagram.com/";
+        string InstagramBaseUrl { get; }
 
-        public static string XFbHttpEngine { get; } = "Liger";
+        string XFbHttpEngine { get; }
 
-        public static int WebrequestTimeout { get; } = 20000;
+        int WebrequestTimeout { get; }
 
-        public static bool UseSystemProxy { get; } = true;
+        bool UseSystemProxy { get; }
 
-        public static string ApplicationName { get; } = "Socinator";
+        string ApplicationName { get; }
 
-        public static string BitlyApiKey { get; set; } = string.Empty;
+        string BitlyApiKey { get; set; }
 
-        public static string BitlyLogin { get; set; } = string.Empty;
-        public static string Revision { get; set; }
+        string BitlyLogin { get; set; }
+
+        string Revision { get; set; }
 
 
-        public static string GetPlatformBaseDirectory()
+        string GetPlatformBaseDirectory();
+
+
+        string GetPlatformTodayBackupDirectory();
+
+
+
+        string GetPlatformLogDirectory();
+
+
+        string GetConfigurationDir();
+
+        string GetConfigurationDir(SocialNetworks network);
+
+
+        string CreateCampaign { get; }
+
+        string UpdateCampaign { get; }
+
+        string NoAccountSelected { get; }
+
+
+        string GetIndexAccountDir();
+
+        string GetIndexAccountFile();
+
+
+        string GetIndexCampaignDir();
+
+        string GetCachePathDirectory();
+
+        string GetIndexCampaignFile();
+
+
+        string GetTemplatesFile();
+
+
+        string UnGrouped { get; }
+
+        string NotYetUpdate { get; }
+
+        string NotChecked { get; }
+
+        string DateasFileName { get; }
+
+        string GetDate();
+
+        string GetDateTime();
+
+        string GetHourDateTime();
+
+        string GoogleLink { get; }
+
+        string GetOtherDir();
+
+        string GetOtherProxyFile();
+        string GetOtherPostsFile();
+
+        string GetOtherConfigFile();
+
+        string GetPublisherFile();
+
+        string GetPublisherDestinationsFile();
+
+
+        string GetPublisherCreatePostlistFolder();
+
+        string GetPublisherCreateDestinationsFolder();
+
+        string GetPublisherPostlistSettingsFile();
+
+        string GetChatDir();
+
+        string GetLiveChatFile();
+
+        string GetLiveChatFile(SocialNetworks network);
+
+        string GetDownloadedMediaFolderPath { get; }
+
+        string GetNotFoundImage();
+
+        string GetSocinatorIcon();
+
+        string GetOtherEmailNotificationFile();
+
+        string GetOtherEmbeddedBrowserSettingsFile();
+
+        string GetOtherSoftwareSettingsFile();
+
+        string GetOtherFacebookSettingsFile();
+        string GetOtherInstagramSettingsFile();
+        string GetConfigurationKey();
+        string GetURLShortnerServicesFile();
+
+        string GetCaptchaServicesFile();
+
+        string GetImageCaptchaServicesFile();
+
+        string SaveAction { get; }
+
+        string UpdateAction { get; }
+        string GetFavoriteTimeFile();
+        string GetOtherQuoraSettingsFile();
+        string GetOtherLinkedInSettingsFile();
+
+        #region Publisher
+
+        string FineStatusSync { get; }
+
+        string NeedUpdateStatusSync { get; }
+
+        string NotAvailableAccountSync { get; }
+
+        string DraftPostList { get; }
+
+        string PendingPostList { get; }
+
+        string PublishedPostList { get; }
+        string GetPublisherOtherConfigDir();
+
+        string GetPublisherOtherConfigFile(SocialNetworks networks);
+
+        string GetPublisherCampaignFile();
+
+        string GetPublisherPostFetchFile { get; }
+
+        string GetMacroDetails { get; }
+
+        string GetPublishedSuccessDetails { get; }
+
+        string GetDeletePublisherPostModel { get; }
+
+        string Yes { get; }
+
+        string No { get; }
+
+        string NoError { get; }
+
+        DateTime GetCurrentDateTime();
+
+        string DeletedDateText();
+
+        string NotPublished { get; }
+
+        #endregion
+
+
+        string GetAccountDb { get; }
+
+        string GetCampaignDb { get; }
+
+        IEnumerable<SocinatorIntellisenseModel> FdMacros { get; }
+
+        string Separator { get; }
+
+        string VideoToImageConvertFileName { get; }
+
+        List<string> SupportedVideoFormat { get; }
+
+        string VideoToImageConvertPngFileName { get; }
+        string ProcessingInput { get; }
+
+        string ProcessingDebugType { get; }
+
+        string FindExemptions { get; }
+
+        string ExemptionInnerException { get; }
+
+        string LogExemptions { get; }
+
+        string DebugLogExemptions { get; }
+
+        string LogDebugExemption { get; }
+
+        string MarketingSoftware { get; }
+
+        string ContactSupportLink { get; }
+
+        bool IsToasterNotificationNeed { get; }
+
+
+        string PageOrBoard { get; }
+
+        string Group { get; }
+
+        string OwnWall { get; }
+        string UpdatedVersionIP { get; }
+
+        string UpdateVersionFilePath { get; }
+        string UpdateVersionLink { get; }
+
+        string GetFacebookDetailsConfigFile();
+    }
+
+    public class ConstantVariable : IConstantVariable
+    {
+        public string UseragentCommonFormat => "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
+
+        public string UseragentLocale => "en_US";
+
+        // public string IgVersion => "40.33.0";
+        public string IgVersion => "64.0.0.14.96";
+
+        public string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
+
+        public string InstagramBaseUrl => "https://i.instagram.com/";
+
+        public string XFbHttpEngine => "Liger";
+
+        public int WebrequestTimeout => 20000;
+
+        public bool UseSystemProxy => true;
+
+        public string ApplicationName => "Socinator";
+
+        public string BitlyApiKey { get; set; } = string.Empty;
+
+        public string BitlyLogin { get; set; } = string.Empty;
+
+        public string Revision { get; set; } = string.Empty;
+
+
+        public string GetPlatformBaseDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}";
 
@@ -44,7 +268,7 @@ namespace DominatorHouseCore.Utility
             return basePath;
         }
 
-        public static string GetPlatformTodayBackupDirectory()
+        public string GetPlatformTodayBackupDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}Backup";
 
@@ -55,7 +279,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static string GetPlatformLogDirectory()
+        public string GetPlatformLogDirectory()
         {
             string basePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{ApplicationName}\\logs";
 
@@ -66,14 +290,14 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public static string GetConfigurationDir()
+        public string GetConfigurationDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Configurations";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
 
-        public static string GetConfigurationDir(SocialNetworks network)
+        public string GetConfigurationDir(SocialNetworks network)
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Configurations\\{network}";
             DirectoryUtilities.CreateDirectory(dir);
@@ -81,159 +305,159 @@ namespace DominatorHouseCore.Utility
         }
 
 
-        public const string CreateCampaign = "_Create Campaign";
+        public string CreateCampaign => "_Create Campaign";
 
-        public const string UpdateCampaign = "_Update Campaign";
+        public string UpdateCampaign => "_Update Campaign";
 
-        public const string NoAccountSelected = "No Account Selected";
+        public string NoAccountSelected => "No Account Selected";
 
 
-        public static string GetIndexAccountDir()
+        public string GetIndexAccountDir()
         {
             string dir = GetPlatformBaseDirectory() + @"\Index\AC";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetIndexAccountFile()
+        public string GetIndexAccountFile()
             => GetIndexAccountDir() + @"\AccountDetails.bin";
 
 
-        public static string GetIndexCampaignDir()
+        public string GetIndexCampaignDir()
         {
             string dir = GetPlatformBaseDirectory() + @"\Index\CP";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
 
-        public static string GetCachePathDirectory()
+        public string GetCachePathDirectory()
         {
             var dir = GetPlatformBaseDirectory() + @"\Cache";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
 
-        public static string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
+        public string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
 
 
-        public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
+        public string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
 
 
-        public const string UnGrouped = "Ungrouped";
+        public string UnGrouped => "Ungrouped";
 
-        public const string NotYetUpdate = "Not yet update";
+        public string NotYetUpdate => "Not yet update";
 
-        public const string NotChecked = "Not Checked";
+        public string NotChecked => "Not Checked";
 
-        public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
+        public string DateasFileName => DateTime.Now.ToString("ddMMyyyyHmmss");
 
-        public static string GetDate() => DateTime.Now.ToString("ddMMyyyy");
+        public string GetDate() => DateTime.Now.ToString("ddMMyyyy");
 
-        public static string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
+        public string GetDateTime() => DateTime.Now.ToString("ddMMyyyyHmmss");
 
-        public static string GetHourDateTime() => DateTime.Now.ToString("Hmmss.ff");
+        public string GetHourDateTime() => DateTime.Now.ToString("Hmmss.ff");
 
-        public static string GoogleLink { get; set; } = "https://www.google.com";
+        public string GoogleLink => "https://www.google.com";
 
-        public static string GetOtherDir()
+        public string GetOtherDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\Other";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetOtherProxyFile() => GetOtherDir() + @"\Proxy.bin";
-        public static string GetOtherPostsFile() => GetOtherDir() + @"\Posts.bin";
-        public static string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";
+        public string GetOtherProxyFile() => GetOtherDir() + @"\Proxy.bin";
+        public string GetOtherPostsFile() => GetOtherDir() + @"\Posts.bin";
+        public string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";
 
-        public static string GetPublisherFile() => GetOtherDir() + @"\PublisherAccountDetails.bin";
+        public string GetPublisherFile() => GetOtherDir() + @"\PublisherAccountDetails.bin";
 
-        public static string GetPublisherDestinationsFile() => GetOtherDir() + @"\PublisherManageDestinations.bin";
+        public string GetPublisherDestinationsFile() => GetOtherDir() + @"\PublisherManageDestinations.bin";
 
 
-        public static string GetPublisherCreatePostlistFolder() => GetOtherDir() + @"\PostsList\";
+        public string GetPublisherCreatePostlistFolder() => GetOtherDir() + @"\PostsList\";
 
-        public static string GetPublisherCreateDestinationsFolder() => GetOtherDir() + @"\DestinationList\";
+        public string GetPublisherCreateDestinationsFolder() => GetOtherDir() + @"\DestinationList\";
 
-        public static string GetPublisherPostlistSettingsFile() => GetOtherDir() + @"\PostlistSettings.bin";
+        public string GetPublisherPostlistSettingsFile() => GetOtherDir() + @"\PostlistSettings.bin";
 
-        public static string GetChatDir()
+        public string GetChatDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\LiveChat";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        internal static string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
-        public static string GetLiveChatFile(SocialNetworks network) => GetChatDir() + $"\\{network}.bin";
-        public static string GetDownloadedMediaFolderPath =>
+        internal string GetLiveChatFile() => GetChatDir() + @"\LiveChat.bin";
+        public string GetLiveChatFile(SocialNetworks network) => GetChatDir() + $"\\{network}.bin";
+        public string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        public static string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
-        public static string GetSocinatorIcon() => GetOtherDir() + @"SocinatorIcon.png";
-        public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
-        public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
-        public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
-        public static string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
-        public static string GetOtherInstagramSettingsFile() => GetOtherDir() + @"\Instagram.bin";
-        public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
-        public static string GetURLShortnerServicesFile() => GetOtherDir() + @"\URLShortnerServices.bin";
-        public static string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
-        public static string GetImageCaptchaServicesFile() => GetOtherDir() + @"\ImageCaptchaServices.bin";
-        public static string SaveAction { get; set; } = "Save";
+        public string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
+        public string GetSocinatorIcon() => GetOtherDir() + @"SocinatorIcon.png";
+        public string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
+        public string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
+        public string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
+        public string GetOtherFacebookSettingsFile() => GetOtherDir() + @"\Facebook.bin";
+        public string GetOtherInstagramSettingsFile() => GetOtherDir() + @"\Instagram.bin";
+        public string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
+        public string GetURLShortnerServicesFile() => GetOtherDir() + @"\URLShortnerServices.bin";
+        public string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
+        public string GetImageCaptchaServicesFile() => GetOtherDir() + @"\ImageCaptchaServices.bin";
+        public string SaveAction => "Save";
 
-        public static string UpdateAction { get; set; } = "Update";
-        public static string GetFavoriteTimeFile() => GetOtherDir() + @"\FavoriteTime.bin";
-        public static string GetOtherQuoraSettingsFile() => GetOtherDir() + @"\Quora.bin";
-        public static string GetOtherLinkedInSettingsFile() => GetOtherDir() + @"\LinkedIn.bin";
+        public string UpdateAction => "Update";
+        public string GetFavoriteTimeFile() => GetOtherDir() + @"\FavoriteTime.bin";
+        public string GetOtherQuoraSettingsFile() => GetOtherDir() + @"\Quora.bin";
+        public string GetOtherLinkedInSettingsFile() => GetOtherDir() + @"\LinkedIn.bin";
         #region Publisher
 
-        public static string FineStatusSync = "Already up to date";
+        public string FineStatusSync => "Already up to date";
 
-        public static string NeedUpdateStatusSync = "Click to Sync";
+        public string NeedUpdateStatusSync => "Click to Sync";
 
-        public static string NotAvailableAccountSync = "Account not available";
+        public string NotAvailableAccountSync => "Account not available";
 
-        public static string DraftPostList { get; set; } = "Draft";
+        public string DraftPostList => "Draft";
 
-        public static string PendingPostList { get; set; } = "Pending";
+        public string PendingPostList => "Pending";
 
-        public static string PublishedPostList { get; set; } = "Published";
-        public static string GetPublisherOtherConfigDir()
+        public string PublishedPostList => "Published";
+        public string GetPublisherOtherConfigDir()
         {
             string dir = $"{GetOtherDir() }\\PublisherOtherConfig";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetPublisherOtherConfigFile(SocialNetworks networks) => GetPublisherOtherConfigDir() + $"\\{networks}.bin";
+        public string GetPublisherOtherConfigFile(SocialNetworks networks) => GetPublisherOtherConfigDir() + $"\\{networks}.bin";
 
-        public static string GetPublisherCampaignFile() => GetOtherDir() + "\\PublisherCampaign.bin";
+        public string GetPublisherCampaignFile() => GetOtherDir() + "\\PublisherCampaign.bin";
 
-        public static string GetPublisherPostFetchFile => GetOtherDir() + "\\PublisherPostFetcherDetails.bin";
+        public string GetPublisherPostFetchFile => GetOtherDir() + "\\PublisherPostFetcherDetails.bin";
 
-        public static string GetMacroDetails => GetOtherDir() + "\\SocinatorMacros.bin";
+        public string GetMacroDetails => GetOtherDir() + "\\SocinatorMacros.bin";
 
-        public static string GetPublishedSuccessDetails => GetOtherDir() + "\\PublishedSuccessDetails.bin";
+        public string GetPublishedSuccessDetails => GetOtherDir() + "\\PublishedSuccessDetails.bin";
 
-        public static string GetDeletePublisherPostModel => GetOtherDir() + "\\PublisherDeletionPosts.bin";
+        public string GetDeletePublisherPostModel => GetOtherDir() + "\\PublisherDeletionPosts.bin";
 
-        public static string Yes { get; set; } = "Yes";
+        public string Yes => "Yes";
 
-        public static string No { get; set; } = "No";
+        public string No => "No";
 
-        public static string NoError { get; set; } = "No Error!";
+        public string NoError => "No Error!";
 
-        public static DateTime GetCurrentDateTime() => DateTime.Now;
+        public DateTime GetCurrentDateTime() => DateTime.Now;
 
-        public static string DeletedDateText() => $"Post has been deleted on {GetCurrentDateTime()}!";
+        public string DeletedDateText() => $"Post has been deleted on {GetCurrentDateTime()}!";
 
-        public static string NotPublished { get; set; } = "Not Published Yet";
+        public string NotPublished => "Not Published Yet";
 
         #endregion
 
 
-        public static string GetAccountDb = "AccountDb";
+        public string GetAccountDb => "AccountDb";
 
-        public static string GetCampaignDb = "CampaignDb";
+        public string GetCampaignDb => "CampaignDb";
 
-        public static IEnumerable<SocinatorIntellisenseModel> FdMacros = new List<SocinatorIntellisenseModel>
+        public IEnumerable<SocinatorIntellisenseModel> FdMacros => new List<SocinatorIntellisenseModel>
         {
             new SocinatorIntellisenseModel() {Key="{AllFriends}",Value =  "{AllFriends}"},
             new SocinatorIntellisenseModel() {Key="{Random:1-5}",Value =  "{Random:1-5}"},
@@ -244,64 +468,72 @@ namespace DominatorHouseCore.Utility
 
         };
 
-        public static string Separator = "<:>";
+        public string Separator => "<:>";
 
-        public static string VideoToImageConvertFileName { get; set; } = "_SOCINATORIMAGE.jpg";
+        public string VideoToImageConvertFileName => "_SOCINATORIMAGE.jpg";
 
-        public static List<string> SupportedVideoFormat = new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
+        public List<string> SupportedVideoFormat => new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
 
-        public static string VideoToImageConvertPngFileName { get; set; } = "_SOCINATORIMAGE.png";
-        public static string ProcessingInput { get; set; } =
+        public string VideoToImageConvertPngFileName => "_SOCINATORIMAGE.png";
+        public string ProcessingInput =>
             "https://socinator.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
-        public static string ProcessingDebugType { get; set; } =
+        public string ProcessingDebugType =>
             "https://dominatorhouse.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
-        public static string FindExemptions { get; set; } =
+        public string FindExemptions =>
             "https://socinator.com/amember/softsale/api/check-license?key={0}";
 
-        public static string ExemptionInnerException { get; set; }
-            = "https://socinator.com/amember/api/invoices/{0}?_key={1}";
+        public string ExemptionInnerException
+            => "https://socinator.com/amember/api/invoices/{0}?_key={1}";
 
-        public static string LogExemptions { get; set; }
-            = "https://socinator.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
+        public string LogExemptions
+            => "https://socinator.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
 
-        public static string DebugLogExemptions { get; set; }
-            = "https://dominatorhouse.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
+        public string DebugLogExemptions
+            => "https://dominatorhouse.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
 
-        public static string LogDebugExemption { get; set; }
-            = "https://socinator.com/amember/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
-
-
-        public static string MarketingSoftware { get; set; } = "Marketing Software";
-        public static string ContactSupportLink { get; set; } = "https://socinator.com/contact-us/";
-
-        public static bool IsToasterNotificationNeed { get; set; } = true;
+        public string LogDebugExemption
+            => "https://socinator.com/amember/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
 
 
-        public static string PageOrBoard { get; set; } = "PageOrBoard";
+        public string MarketingSoftware => "Marketing Software";
 
-        public static string Group { get; set; } = "Group";
+        public string ContactSupportLink => "https://socinator.com/contact-us/";
 
-        public static string OwnWall { get; set; } = "OwnWall";
-        public static string UpdatedVersionIP { get; set; } = "169.50.161.212";
+        public bool IsToasterNotificationNeed => true;
 
-        public static string UpdateVersionFilePath { get; set; } = "fd/setup/FDSetup.txt";
-        public static string UpdateVersionLink { get; set; } =
+
+        public string PageOrBoard => "PageOrBoard";
+
+        public string Group => "Group";
+
+        public string OwnWall => "OwnWall";
+        public string UpdatedVersionIP => "169.50.161.212";
+
+        public string UpdateVersionFilePath => "fd/setup/FDSetup.txt";
+        public string UpdateVersionLink =>
               "http://{0}/{1}";
+        
 
-        public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
+        public string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
+
+        string IConstantVariable.GetLiveChatFile()
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public static class FileDirPath
+    public class FileDirPath
     {
-        public static string GetChatDir(SocialNetworks network)
+        public string GetChatDir(SocialNetworks network)
         {
-            string dir = $"{ConstantVariable.GetPlatformBaseDirectory()}\\LiveChat\\{network}";
+            IConstantVariable constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            string dir = $"{constantVariable.GetPlatformBaseDirectory()}\\LiveChat\\{network}";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Chat.bin";
-        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Friend.bin";
+        public string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Chat.bin";
+        public string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Friend.bin";
     }
 }

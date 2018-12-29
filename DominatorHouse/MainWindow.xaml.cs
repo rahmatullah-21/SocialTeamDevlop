@@ -35,14 +35,14 @@ namespace Socinator
                 DialogParticipation.SetRegister(this, this);
 
                 InitializeComponent();
-
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
                 SocinatorInitialize.LogInitializer(this);
 
                 var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
                 SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
-                    GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
+                    GlobusLogHelper.log.Info($"Welcome to {constantVariable.ApplicationName}!");
                 };
 
             }

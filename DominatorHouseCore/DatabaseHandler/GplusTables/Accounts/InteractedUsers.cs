@@ -1,9 +1,8 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
-    public class InteractedUsers : Entity, IInteractedUsers
+    public class InteractedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
@@ -31,11 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public int Date
-        {
-            get { return ((IInteractedPosts)this).InteractionDate; }
-            set { ((IInteractedPosts)this).InteractionDate = value; }
-        }
+        public int Date { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public int FollowerCount
@@ -74,7 +69,5 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public int BlockedStatus
         { get; set; }
-
-        int IInteractedUsers.InteractionDate { get; set; }
     }
 }

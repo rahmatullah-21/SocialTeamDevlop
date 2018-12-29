@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.FileManagers;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Utility;
@@ -17,35 +18,39 @@ namespace DominatorHouseCore.Settings
         private readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
         private readonly IFileSystemProvider _fileSystemProvider;
         private readonly IGenericFileManager _genericFileManager;
+        private readonly IConstantVariable _constantVariable;
+
 
         public SoftwareSettings(ISoftwareSettingsFileManager softwareSettingsFileManager, IFileSystemProvider fileSystemProvider, IGenericFileManager genericFileManager)
         {
             _softwareSettingsFileManager = softwareSettingsFileManager;
             _fileSystemProvider = fileSystemProvider;
             _genericFileManager = genericFileManager;
+            _constantVariable  = ServiceLocator.Current.GetInstance<IConstantVariable>();
         }
 
         public SoftwareSettingsModel Settings { get; private set; }
 
         public void InitializeOnLoadConfigurations()
         {
+            
             if (CheckConfigurationFiles())
             {
                 Settings = _softwareSettingsFileManager.GetSoftwareSettings();
             }
 
-            if (_fileSystemProvider.Exists(ConstantVariable.GetURLShortnerServicesFile()))
+            if (_fileSystemProvider.Exists(_constantVariable.GetURLShortnerServicesFile()))
             {
                 var shortnerServices =
-                    _genericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile());
-                ConstantVariable.BitlyLogin = shortnerServices.Login;
-                ConstantVariable.BitlyApiKey = shortnerServices.ApiKey;
+                    _genericFileManager.GetModel<UrlShortnerServicesModel>(_constantVariable.GetURLShortnerServicesFile());
+                _constantVariable.BitlyLogin = shortnerServices.Login;
+                _constantVariable.BitlyApiKey = shortnerServices.ApiKey;
             }
         }
 
         private bool CheckConfigurationFiles()
         {
-            if (!_fileSystemProvider.Exists(ConstantVariable.GetOtherSoftwareSettingsFile()))
+            if (!_fileSystemProvider.Exists(_constantVariable.GetOtherSoftwareSettingsFile()))
             {
                 Settings = new SoftwareSettingsModel
                 {

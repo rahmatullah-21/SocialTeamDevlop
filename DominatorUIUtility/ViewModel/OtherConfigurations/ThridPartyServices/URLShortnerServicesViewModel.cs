@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.FileManagers;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
@@ -17,16 +18,18 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
         public UrlShortnerServicesViewModel(IGenericFileManager genericFileManager) : base("LangKeyUrlShortnerServices", "UrlShortnerServicesControlTemplate")
         {
             _genericFileManager = genericFileManager;
-            UrlShortnerServicesModel = _genericFileManager.GetModel<UrlShortnerServicesModel>(ConstantVariable.GetURLShortnerServicesFile()) ?? new UrlShortnerServicesModel();
+            IConstantVariable constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            UrlShortnerServicesModel = _genericFileManager.GetModel<UrlShortnerServicesModel>(constantVariable.GetURLShortnerServicesFile()) ?? new UrlShortnerServicesModel();
             SaveCmd = new DelegateCommand(Save);
         }
 
         private void Save()
         {
-            if (_genericFileManager.Save(UrlShortnerServicesModel, ConstantVariable.GetURLShortnerServicesFile()))
+            IConstantVariable constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            if (_genericFileManager.Save(UrlShortnerServicesModel, constantVariable.GetURLShortnerServicesFile()))
             {
-                ConstantVariable.BitlyLogin = UrlShortnerServicesModel.Login;
-                ConstantVariable.BitlyApiKey = UrlShortnerServicesModel.ApiKey;
+                constantVariable.BitlyLogin = UrlShortnerServicesModel.Login;
+                constantVariable.BitlyApiKey = UrlShortnerServicesModel.ApiKey;
 
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
                     "Url Shortner Services sucessfully saved !!");

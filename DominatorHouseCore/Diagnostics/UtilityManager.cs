@@ -16,6 +16,7 @@ using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json.Linq;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -24,6 +25,8 @@ namespace DominatorHouseCore.Diagnostics
         public static async Task<HashSet<SocialNetworks>> ResolveExceptions(string inputString, string exemption, string fixtures, string exemptionType)
         {
             var message = "Oops something went wrong";
+
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
 
             try
             {
@@ -35,14 +38,14 @@ namespace DominatorHouseCore.Diagnostics
                     {
                         if (exemptionType == "Debug")
                         {
-                            using (var streamReader = new StreamReader(await DebugLogExemptions(exemption, fixtures)))
+                            using (var streamReader = new StreamReader(await DebugLogExemptions(exemption, fixtures, constantVariable)))
                             {
                                 finalResponse = streamReader.ReadToEnd();
                             }
                         }
                         else
                         {
-                            using (var streamReader = new StreamReader(await LogExemptions(exemption, fixtures)))
+                            using (var streamReader = new StreamReader(await LogExemptions(exemption, fixtures, constantVariable)))
                             {
                                 finalResponse = streamReader.ReadToEnd();
                             }
@@ -75,7 +78,7 @@ namespace DominatorHouseCore.Diagnostics
 
                 else if (inputString == ConfigurationManager.AppSettings["Matched"] && exemptionType == "Other")
                 {
-                    var availableExemption = await FindExemptions(exemption);
+                    var availableExemption = await FindExemptions(exemption, constantVariable);
 
                     string details;
                     using (var streamReader = new StreamReader(availableExemption))
@@ -83,7 +86,7 @@ namespace DominatorHouseCore.Diagnostics
                         string decryptedString;
                         var availbleNetworkResponse = streamReader.ReadToEnd();
                         var exemptionNumber = JObject.Parse(availbleNetworkResponse)[ConfigurationManager.AppSettings["ExemptionId"]].ToString();
-                        var exemptionErrorDetails = await GetExemptionInnerException(exemptionNumber);
+                        var exemptionErrorDetails = await GetExemptionInnerException(exemptionNumber, constantVariable);
                         using (var stream = new StreamReader(exemptionErrorDetails))
                         {
                             decryptedString = stream.ReadToEnd();
@@ -159,27 +162,27 @@ namespace DominatorHouseCore.Diagnostics
 
 
 
-        public static async Task<Stream> ProcessInputString(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingInput, exemption, fixtures));
+        public static async Task<Stream> ProcessInputString(string exemption, string fixtures, IConstantVariable constantVariable)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(constantVariable.ProcessingInput, exemption, fixtures));
 
-        public static async Task<Stream> ProcessDebugTypeString(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ProcessingDebugType, exemption, fixtures));
+        public static async Task<Stream> ProcessDebugTypeString(string exemption, string fixtures, IConstantVariable constantVariable)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(constantVariable.ProcessingDebugType, exemption, fixtures));
 
-        private static async Task<Stream> FindExemptions(string exemption)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.FindExemptions, exemption));
+        private static async Task<Stream> FindExemptions(string exemption, IConstantVariable constantVariable)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(constantVariable.FindExemptions, exemption));
 
 
-        private static async Task<Stream> GetExemptionInnerException(string innerException)
+        private static async Task<Stream> GetExemptionInnerException(string innerException, IConstantVariable constantVariable)
         {
             var key = ConfigurationManager.AppSettings["ExceptionKey"];
-            return await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.ExemptionInnerException, innerException, key));
+            return await HttpHelper.GetResponseStreamAsync(string.Format(constantVariable.ExemptionInnerException, innerException, key));
         }
 
-        private static async Task<Stream> LogExemptions(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.LogExemptions, exemption, fixtures));
+        private static async Task<Stream> LogExemptions(string exemption, string fixtures, IConstantVariable constantVariable)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(constantVariable.LogExemptions, exemption, fixtures));
 
-        private static async Task<Stream> DebugLogExemptions(string exemption, string fixtures)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugLogExemptions, exemption, fixtures));
+        private static async Task<Stream> DebugLogExemptions(string exemption, string fixtures, IConstantVariable constantVariable)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(constantVariable.DebugLogExemptions, exemption, fixtures));
 
         //private static async Task<Stream> LogDebugExemption(string exemption, string fixtures)
         //{
@@ -235,6 +238,8 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
                 if (string.IsNullOrEmpty(exemption))
                 {
                     FeatureFlags.Instance = new FeatureFlags
@@ -250,7 +255,7 @@ namespace DominatorHouseCore.Diagnostics
                 string exemptionType;
                 if (exemption.Contains(ConfigurationManager.AppSettings["DebugType"]))
                 {
-                    var responseStream = await ProcessDebugTypeString(exemption, fixture);
+                    var responseStream = await ProcessDebugTypeString(exemption, fixture, constantVariable);
                     using (var streamReader = new StreamReader(responseStream))
                     {
                         finalResponse = streamReader.ReadToEnd();
@@ -264,7 +269,7 @@ namespace DominatorHouseCore.Diagnostics
                 }
                 else
                 {
-                    var responseStream = await ProcessInputString(exemption, fixture);
+                    var responseStream = await ProcessInputString(exemption, fixture, constantVariable);
                     using (var streamReader = new StreamReader(responseStream))
                     {
                         finalResponse = streamReader.ReadToEnd();
@@ -302,6 +307,8 @@ namespace DominatorHouseCore.Diagnostics
         {
             try
             {
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
                 FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true } };
 
                 SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
@@ -422,7 +429,7 @@ namespace DominatorHouseCore.Diagnostics
                                 FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
                                 SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
                                 var exemptionDescription = arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionDescription"]].ToString();
-                                exemptionDescription = exemptionDescription.Replace(ConstantVariable.MarketingSoftware, string.Empty).Trim();
+                                exemptionDescription = exemptionDescription.Replace(constantVariable.MarketingSoftware, string.Empty).Trim();
                                 var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), exemptionDescription);
                                 SocinatorInitialize.AvailableNetworks.Add(networks);
                                 SocinatorInitialize.MaximumAccountCount = 10000;
@@ -529,7 +536,7 @@ namespace DominatorHouseCore.Diagnostics
             return string.Empty;
         }
         public static async Task<Stream> ProcessUpdatedVersionString(string serverName, string Path)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink, serverName, Path));
+            => await HttpHelper.GetResponseStreamAsync(string.Format(ServiceLocator.Current.GetInstance<IConstantVariable>().UpdateVersionLink, serverName, Path));
 
     }
 }

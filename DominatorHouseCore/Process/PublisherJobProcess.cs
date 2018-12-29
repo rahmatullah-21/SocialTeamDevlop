@@ -22,6 +22,7 @@ namespace DominatorHouseCore.Process
     {
         protected readonly IGenericFileManager GenericFileManager;
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IConstantVariable _constantVariable;
 
         #region Constructor
 
@@ -29,6 +30,7 @@ namespace DominatorHouseCore.Process
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
         }
         protected PublisherJobProcess(string campaignId,
             string accountId,
@@ -48,7 +50,7 @@ namespace DominatorHouseCore.Process
 
             //Get the general settings from bin files
             GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
-                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                       (_constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
             // Get the full account details from account Id
@@ -64,7 +66,7 @@ namespace DominatorHouseCore.Process
 
             // Get the campaigns full model
             var publisherCampaign =
-                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable
+                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(_constantVariable
                     .GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignId == CampaignId);
 
             JobConfigurations = publisherCampaign?.JobConfigurations;
@@ -79,7 +81,7 @@ namespace DominatorHouseCore.Process
             CombinedCancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CampaignCancellationToken.Token, CurrentJobCancellationToken.Token);
 
             // Get the fetcher details, its useful for getting campaigns Name
-            var campaign = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+            var campaign = GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(_constantVariable
                 .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == CampaignId);
 
             CampaignName = campaign?.CampaignName;
@@ -100,7 +102,7 @@ namespace DominatorHouseCore.Process
 
             //Get the general settings from bin files
             GeneralSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
-                                       (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                       (_constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
             // Get the full account details from account Id
@@ -110,7 +112,7 @@ namespace DominatorHouseCore.Process
 
             // Get the campaigns full model
             var publisherCampaign =
-                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable
+                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(_constantVariable
                     .GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignId == CampaignId);
 
             JobConfigurations = publisherCampaign?.JobConfigurations;
@@ -335,7 +337,7 @@ namespace DominatorHouseCore.Process
                     // check whether cancellation token source already arised or not 
                     CampaignCancellationToken.Token.ThrowIfCancellationRequested();
 
-                    var destinationUrls = destination.DestinationType == ConstantVariable.OwnWall
+                    var destinationUrls = destination.DestinationType == _constantVariable.OwnWall
                         ? AccountModel.AccountBaseModel.UserName
                         : destination.DestinationUrl;
 
@@ -343,18 +345,18 @@ namespace DominatorHouseCore.Process
                         AccountModel.AccountBaseModel.AccountNetwork,
                         AccountModel.AccountBaseModel.UserName, $"{destination.DestinationType} [{destinationUrls}]");
 
-                    if (destination.DestinationType == ConstantVariable.Group)
+                    if (destination.DestinationType == _constantVariable.Group)
                     {
                         // call networks to publishing on groups 
                         PublishOnGroups(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
 
                     }
-                    else if (destination.DestinationType == ConstantVariable.PageOrBoard)
+                    else if (destination.DestinationType == _constantVariable.PageOrBoard)
                     {
                         // call networks to publishing on pages
                         PublishOnPages(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
                     }
-                    else if (destination.DestinationType == ConstantVariable.OwnWall)
+                    else if (destination.DestinationType == _constantVariable.OwnWall)
                     {
                         // call networks to publishing on own wall of an account
                         PublishOnOwnWall(AccountModel.AccountId, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
@@ -429,10 +431,10 @@ namespace DominatorHouseCore.Process
                     return;
 
                 // Pass the information about success
-                post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.Yes;
+                post.LstPublishedPostDetailsModels[postIndex].Successful = _constantVariable.Yes;
                 post.LstPublishedPostDetailsModels[postIndex].Link = publishedUrl;
                 post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
-                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.NoError;
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = _constantVariable.NoError;
                 post.LstPublishedPostDetailsModels[postIndex].Title = posts.PublisherInstagramTitle;
 
                 // Update the post details to bin file
@@ -442,7 +444,7 @@ namespace DominatorHouseCore.Process
                 PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
                 // Add into success details
-                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], _constantVariable.GetPublishedSuccessDetails);
             }
         }
 
@@ -472,7 +474,7 @@ namespace DominatorHouseCore.Process
                     return;
 
                 // Pass error message with current date time
-                post.LstPublishedPostDetailsModels[postIndex].Successful = ConstantVariable.No;
+                post.LstPublishedPostDetailsModels[postIndex].Successful = _constantVariable.No;
                 post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = errorMessage;
                 post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
 
@@ -509,7 +511,7 @@ namespace DominatorHouseCore.Process
                     return;
 
                 // Pass the proper delete post text
-                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.DeletedDateText();
+                post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = _constantVariable.DeletedDateText();
 
                 // Update the post details to bin file
                 PostlistFileManager.UpdatePost(CampaignId, post);
@@ -518,7 +520,7 @@ namespace DominatorHouseCore.Process
                 PublisherInitialize.GetInstance.UpdatePostStatus(CampaignId);
 
                 // Add into success details
-                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], ConstantVariable.GetPublishedSuccessDetails);
+                GenericFileManager.AddModule(post.LstPublishedPostDetailsModels[postIndex], _constantVariable.GetPublishedSuccessDetails);
 
             }
         }
@@ -578,7 +580,7 @@ namespace DominatorHouseCore.Process
             // Removing extra added media lists
             foreach (var media in postModelWithGeneralSettings.MediaList)
             {
-                removeVideoExtension.Add(media.Replace(ConstantVariable.VideoToImageConvertFileName, string.Empty));
+                removeVideoExtension.Add(media.Replace(_constantVariable.VideoToImageConvertFileName, string.Empty));
             }
 
             postModelWithGeneralSettings.MediaList = removeVideoExtension;

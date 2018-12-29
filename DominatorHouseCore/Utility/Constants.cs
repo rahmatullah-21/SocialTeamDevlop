@@ -4,8 +4,14 @@ using System.Reflection;
 
 namespace DominatorHouseCore.Utility
 {
+
+    public interface IConstants
+    {
+
+    }
+
     [Localizable(false)]
-    public static class Constants
+    public static class Constants 
     {
       
         public static string ApiUrl => $"{(object)INSTAGRAM_BASE_URL}api/v1/";
@@ -18,136 +24,59 @@ namespace DominatorHouseCore.Utility
      
         public static int FloodWait => 60000;
 
-        public static string IG_SIG_KEY
-        {
-            get
-            {
-                return "9cf2daac9a7802e9d199ad5dc6e221fe8da535359b58b60a1265a281b2a30a83";
-            }
-        }
+        public static string IG_SIG_KEY => "9cf2daac9a7802e9d199ad5dc6e221fe8da535359b58b60a1265a281b2a30a83";
+            
 
-        public static string IG_VERSION
-        {
-            get
-            {
-                return "40.0.0.14.95";
-            }
-        }
+        public static string IG_VERSION => "40.0.0.14.95";
+           
 
-        public static string INSTAGRAM_BASE_URL
-        {
-            get
-            {
-                return "https://i.instagram.com/";
-            }
-        }
+        public static string INSTAGRAM_BASE_URL => "https://i.instagram.com/";
+            
 
      
-        public static string SIG_KEY_VERSION
-        {
-            get
-            {
-                return "4";
-            }
-        }
+        public static string SIG_KEY_VERSION => "4";
+         
 
-        public static string STATUS_OK_RESPONSE
-        {
-            get
-            {
-                return "{\"status\": \"ok\"}";
-            }
-        }
+        public static string STATUS_OK_RESPONSE => "{\"status\": \"ok\"}";
+           
 
      
 
       
       
-        public static string USERAGENT_FORMAT
-        {
-            get
-            {
-                return "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
-            }
-        }
+        public static string USERAGENT_FORMAT => "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
+            
 
-        public static string USERAGENT_LOCALE
-        {
-            get
-            {
-                return "en_US";
-            }
-        }
+        public static string USERAGENT_LOCALE => "en_US";
+           
 
      
 
-        public static string X_FB_HTTP_Engine
-        {
-            get
-            {
-                return "Liger";
-            }
-        }
+        public static string X_FB_HTTP_Engine => "Liger";
+            
 
-        public static string X_IG_Capabilities
-        {
-            get
-            {
-                return "3boDAA==";
-            }
-        }
+        public static string X_IG_Capabilities => "3boDAA==";
+            
 
-        public static string X_IG_Connection_Type
-        {
-            get
-            {
-                return "WIFI";
-            }
-        }
+        public static string X_IG_Connection_Type => "WIFI";
+           
 
-        public static string Referer
-        {
-            get
-            {
-                return "https://i.instagram.com";
-            }
-        }
+        public static string Referer =>"https://i.instagram.com";
+          
 
 
-        public static string Origin
-        {
-            get
-            {
-                return "https://i.instagram.com";
-            }
-        }
+        public static string Origin => "https://i.instagram.com";
+            
 
-        public static string USER_AGENT_LOCALE
-        {
-            get
-            {
-                return "en_US";
-            }
-        }
+        public static string USER_AGENT_LOCALE => "en_US";
+        
 
-
-        public static string ACCEPT_LANGUAGE
-        {
-            get
-            {
-                return "en_US";
-            }
-        }
-
+        public static string ACCEPT_LANGUAGE => "en_US";
+          
         //
 
-        public static string ACCEPT_ENCODING
-        {
-            get
-            {
-                return "gzip,deflate";
-            }
-        }
+        public static string ACCEPT_ENCODING => "gzip,deflate";
+           
 
         
 
@@ -168,9 +97,12 @@ namespace DominatorHouseCore.Utility
             }
         }
 
-        public static string ProductName = "Socinator";
-        public static string ClickOnceFileName = "Socinator.appref-ms";
+        public static string ProductName => "Socinator";
+        public static string ClickOnceFileName => "Socinator.appref-ms";
 
 
     }
+
+
+    
 }

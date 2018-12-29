@@ -66,7 +66,8 @@ namespace DominatorHouse.Utilities
 
         private void CheckSocinatorIcon()
         {
-            if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
+            IConstantVariable constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            if (!File.Exists(constantVariable.GetSocinatorIcon()))
             {
                 DominatorHouseCore.Utility.Utilities.DownloadSocinatorIcon();
             }

@@ -4,9 +4,9 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
+using DominatorHouseCore.Process.JobLimits;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +19,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             string module);
 
         void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart);
-
-        List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType);
         bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime);
         bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType);
         bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId);
@@ -34,11 +32,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public object RunStopActivityLocker = new object();
         private readonly IRunningActivityManager _runningActivityManager;
         private readonly ISchedulerProxy _schedulerProxy;
+        private readonly IJobLimitsHolder _jobLimitsHolder;
 
-        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy)
+        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder)
         {
             _runningActivityManager = runningActivityManager;
             _schedulerProxy = schedulerProxy;
+            _jobLimitsHolder = jobLimitsHolder;
         }
 
         /// <summary>
@@ -54,7 +54,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 lock (RunStopActivityLocker)
                 {
-                    var activeJobProcessFactory = ServiceLocator.Current.GetInstance<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork.ToString());
+                    var activeJobProcessFactory =
+                        ServiceLocator.Current.GetInstance<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork
+                            .ToString());
 
                     var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
 
@@ -63,7 +65,19 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (scheduledJob != null && scheduledJob.Disabled)
                         return;
 
-                    var jobProcess = activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
+
+                    var jobProcess = activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId,
+                        currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
+                    _jobLimitsHolder.Reset(jobProcess.Id, jobProcess.JobConfiguration);
+                    var limitInfo = jobProcess.CheckLimit();
+                    if (limitInfo.ReachedLimitType != ReachedLimitType.NoLimit)
+                    {
+                        GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
+                            account.AccountBaseModel.AccountNetwork,
+                            account.AccountBaseModel.UserName, module, limitInfo.LimitValue);
+
+                        return;
+                    }
 
                     jobProcess.StartProcessAsync();
                 }
@@ -123,40 +137,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
 
             }
-        }
-
-
-        /// <summary>
-        /// GetRunningTimes take two argument first is an object of AccountModel and second is Module type
-        /// it will return running time list according to Module type
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="moduleType"></param>
-        /// <returns></returns>
-        public List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType)
-        {
-            var runningTime = new List<RunningTimes>();
-            try
-            {
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var moduleConfiguration = jobActivityConfigurationManager[item.AccountId, moduleType];
-                if (moduleConfiguration != null)
-                {
-                    var activitySetting = ServiceLocator.Current.GetInstance<ITemplatesCacheService>().GetTemplateModels()
-                        .FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
-
-                    dynamic obj = JsonConvert.DeserializeObject(activitySetting);
-                    runningTime = obj.JobConfiguration.RunningTime;
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Debug(ex);
-            }
-
-            return runningTime;
         }
 
         public bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime)

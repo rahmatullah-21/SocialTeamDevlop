@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Interfaces;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -46,6 +47,7 @@ namespace DominatorUIUtility.ViewModel
         private readonly IMainViewModel _mainViewModel;
         private readonly IProxyServerParserService _proxyServerParserService;
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IConstantVariable _constantVariable;
         private static readonly object _lock = new object();
         private bool _isAddProxyEnabled = true;
         private ProxyManagerModel _proxyManagerModel = new ProxyManagerModel();
@@ -132,7 +134,7 @@ namespace DominatorUIUtility.ViewModel
             VerifyProxiesViewModel = verifyProxiesViewModel;
             _proxyServerParserService = proxyServerParserService;
             _accountsFileManager = accountsFileManager;
-
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             AddProxyCommand = new DelegateCommand(AddProxyExecute);
             ImportProxyCommand = new DelegateCommand(ImportProxyExecute);
             ShowByGroupCommand = new DelegateCommand<bool?>(ShowByGroupExecute);
@@ -267,7 +269,7 @@ namespace DominatorUIUtility.ViewModel
                         }
 
                         if (string.IsNullOrEmpty(givenProxy.AccountProxy.ProxyGroup))
-                            givenProxy.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped;
+                            givenProxy.AccountProxy.ProxyGroup = _constantVariable.UnGrouped;
 
                         if (string.IsNullOrEmpty(givenProxy.AccountProxy.ProxyName))
                             givenProxy.AccountProxy.ProxyName = "Proxy " + LstProxyManagerModel.Count + 1;
@@ -298,7 +300,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Socinator";
                     DirectoryUtilities.CreateDirectory(path);
-                    var filename = $"{path}\\invalidProxies {ConstantVariable.DateasFileName}.txt";
+                    var filename = $"{path}\\invalidProxies {_constantVariable.DateasFileName}.txt";
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
                         parsingResult.InvalidProxies.ForEach(p =>
@@ -348,7 +350,7 @@ namespace DominatorUIUtility.ViewModel
 
             string header = "Proxy Group,Proxy name,Proxy IP,Proxy Port,Proxy Username,Proxy Password,Status";
 
-            var filename = $"{exportPath}\\Proxies {ConstantVariable.DateasFileName}.csv";
+            var filename = $"{exportPath}\\Proxies {_constantVariable.DateasFileName}.csv";
 
             try
             {
@@ -1034,7 +1036,7 @@ namespace DominatorUIUtility.ViewModel
                         proxy.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
                         proxy.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
 
-                        await ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                        await ProxyFileManager.UpdateProxyStatusAsync(proxy, _constantVariable.GoogleLink);
                         UpdateProxyList(proxy);
                         ProxyFileManager.EditProxy(proxy);
                         break;
@@ -1058,7 +1060,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             proxy.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
                             proxy.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
-                            await ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                            await ProxyFileManager.UpdateProxyStatusAsync(proxy, _constantVariable.GoogleLink);
                             UpdateProxyList(proxy);
                             //  ProxyFileManager.EditProxy(proxy);
                         }
@@ -1077,7 +1079,7 @@ namespace DominatorUIUtility.ViewModel
 
                             #endregion
 
-                            await ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                            await ProxyFileManager.UpdateProxyStatusAsync(proxy, _constantVariable.GoogleLink);
                             isProxyUpdated = true;
                         }
 
@@ -1177,7 +1179,7 @@ namespace DominatorUIUtility.ViewModel
 
             ProxyFileManager.SaveProxy(ProxyManagerModel);
 
-            await ProxyFileManager.UpdateProxyStatusAsync(ProxyManagerModel, ConstantVariable.GoogleLink);
+            await ProxyFileManager.UpdateProxyStatusAsync(ProxyManagerModel, _constantVariable.GoogleLink);
 
 
 

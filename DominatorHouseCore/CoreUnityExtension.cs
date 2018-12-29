@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Dal;
+using DominatorHouseCore.DatabaseHandler.Common.EntityCounters;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -55,7 +56,13 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IJobProcessFactory, DominatorJobProcessFactory>(SocialNetworks.Social.ToString());
             Container.RegisterSingleton<IDominatorScheduler, DominatorScheduler>();
             Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
-            Container.RegisterSingleton<IRunningActivityManager, RunningActivityManager>();
+
+            Container.RegisterSingleton<IDbOperations, DbOperations>();
+
+            Container.AddNewExtension<JobProcessUnityExtension>();
+            Container.AddNewExtension<EntityCounterUnityExtension>();
+
+            Container.RegisterSingleton<IConstantVariable, ConstantVariable>();
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
-    public class UnfollowedUsers : BaseUnfollowedUsers
+    public class UnfollowedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string FilterArgument
@@ -25,7 +25,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public override int InteractionDate
+        public int InteractionDate
         { get; set; }
 
 

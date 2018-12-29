@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CommonServiceLocator;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -233,12 +234,15 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static string Shorten(string longUrl)
         {
+
+            IConstantVariable constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             if (string.IsNullOrEmpty(longUrl))
                 return longUrl;
 
             // get the Bitly login and apikey value
-            var login = ConstantVariable.BitlyLogin;
-            var apikey = ConstantVariable.BitlyApiKey;
+            var login = constantVariable.BitlyLogin;
+            var apikey = constantVariable.BitlyApiKey;
 
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(apikey))
                 return longUrl;

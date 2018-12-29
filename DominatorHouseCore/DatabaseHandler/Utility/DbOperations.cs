@@ -1,6 +1,7 @@
-﻿using DominatorHouseCore.DatabaseHandler.DHTables;
-using DominatorHouseCore.Diagnostics;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
@@ -13,11 +14,34 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.DatabaseHandler.Utility
 {
-    public class DbOperations : IDisposable
+    public interface IDbOperations : IDisposable
+    {
+        bool Add<T>(T data) where T : class, new();
+        bool AddRange<T>(List<T> data) where T : class, new();
+        int Count<T>(Expression<Func<T, bool>> expression = null) where T : class, new();
+        List<T> Get<T>(Expression<Func<T, bool>> expression = null) where T : class, new();
+        T GetSingle<T>(Expression<Func<T, bool>> expression) where T : class, new();
+        Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> expression = null) where T : class, new();
+        bool Update<T>(T t) where T : class, new();
+        bool UpdateAccountDetails(DominatorAccountModel dominatorAccountModel);
+        bool Remove<T>(T t) where T : class;
+        bool RemoveAll<T>() where T : class, new();
+        void Remove<T>(Expression<Func<T, bool>> expression) where T : class, new();
+        void RemoveMatch<T>(Expression<Func<T, bool>> expression) where T : class, new();
+        bool Any<T>(Expression<Func<T, bool>> expression) where T : class, new();
+        SocialNetworks SocialNetworks { get; }
+        string AccountId { get; }
+    }
+
+    public class DbOperations : IDbOperations
     {
         private readonly SQLiteConnection _context;
+        public SocialNetworks SocialNetworks { get; }
+        public string AccountId { get; }
+
         public DbOperations(SQLiteConnection context)
         {
+            SocialNetworks = SocialNetworks.Social;
             _context = context;
         }
 
@@ -29,17 +53,20 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         /// <param name="type">Specify whether you account id or campaign id in <see cref="DominatorHouseCore.Utility.ConstantVariable.GetAccountDb"/> or <see cref="DominatorHouseCore.Utility.ConstantVariable.GetCampaignDb"/> </param>
         public DbOperations(string id, SocialNetworks networks, string type)
         {
+            AccountId = id;
+            SocialNetworks = networks;
             if (type == ConstantVariable.GetAccountDb)
             {
-                var databaseConnection = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().AccountDatabase;
+                var databaseConnection = ServiceLocator.Current.GetInstance<IAccountDatabaseConnection>(networks.ToString());
                 _context = databaseConnection.GetSqlConnection(id);
             }
             if (type == ConstantVariable.GetCampaignDb)
             {
-                var databaseConnection = SocinatorInitialize.GetSocialLibrary(networks).GetNetworkCoreFactory().CampaignDatabase;
+                var databaseConnection = ServiceLocator.Current.GetInstance<ICampaignDatabaseConnection>(networks.ToString());
                 _context = databaseConnection.GetSqlConnection(id);
             }
         }
+
 
         #region Create operations
 
@@ -72,6 +99,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             return expression == null ? _context.Table<T>().Count() : _context.Table<T>().Where(expression).Count();
         }
+
 
         /// <summary>
         /// To get the records which matches the expression
@@ -185,6 +213,5 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             return expression == null ? _context.Table<T>().Select(query).ToList() : _context.Table<T>().Where(expression).Select(query).ToList();
         }
-
     }
 }

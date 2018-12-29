@@ -66,9 +66,10 @@ namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
 
         public FdFriendSuggestionProvider()
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             ListOfAccount = accountsFileManager.GetAll(SocialNetworks.Facebook).Select(i => new KeyValuePair<string, string>(i.AccountBaseModel.UserName, i.AccountBaseModel.AccountId)).ToList();
-            ListOfMacros.AddRange(ConstantVariable.FdMacros);
+            ListOfMacros.AddRange(constantVariable.FdMacros);
             ListOfAccount.ForEach(x => ListOfMacros.Add(new SocinatorIntellisenseModel() { Key = "{" + x.Key + ":", Value = "{" + x.Key + ":" }));
         }
     }

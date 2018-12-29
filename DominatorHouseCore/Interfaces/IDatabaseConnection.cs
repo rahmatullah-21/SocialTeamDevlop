@@ -9,6 +9,14 @@ namespace DominatorHouseCore.Interfaces
         SQLiteConnection GetSqlConnection(string accountId);
 
     }
+    public interface IAccountDatabaseConnection : IDatabaseConnection
+    {
+
+    }
+    public interface ICampaignDatabaseConnection : IDatabaseConnection
+    {
+
+    }
 
     public interface IGlobalDatabaseConnection
     {

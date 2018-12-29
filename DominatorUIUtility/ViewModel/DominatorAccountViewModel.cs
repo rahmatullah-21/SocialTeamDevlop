@@ -51,6 +51,7 @@ namespace DominatorUIUtility.ViewModel
         private readonly IProxyManagerViewModel _proxyManagerViewModel;
         private readonly ISoftwareSettings _softwareSettings;
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IConstantVariable _constantVariable;
         private DbOperations _dbOperations { get; }
 
         public ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; }
@@ -65,7 +66,8 @@ namespace DominatorUIUtility.ViewModel
         private readonly object _syncLoadAccounts = new object();
 
         #region Property
-        private string _contactSupportLink = ConstantVariable.ContactSupportLink;
+
+        private string _contactSupportLink = string.Empty;
 
         public string ContactSupportLink
         {
@@ -129,6 +131,8 @@ namespace DominatorUIUtility.ViewModel
             _proxyManagerViewModel = proxyManagerViewModel;
             _softwareSettings = softwareSettings;
             _accountsFileManager = accountsFileManager;
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            ContactSupportLink = _constantVariable.ContactSupportLink;
             strategyPack = mainViewModel.Strategies;
             Groups = new ObservableCollection<ContentSelectGroup>();
             BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
@@ -405,7 +409,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             AccountGroup =
                         {
-                            Content = groupname ?? ConstantVariable.UnGrouped
+                            Content = groupname ?? _constantVariable.UnGrouped
                         },
                             UserName = username,
                             Password = password,
@@ -494,7 +498,7 @@ namespace DominatorUIUtility.ViewModel
 
             objDominatorAccountBaseModel.AccountGroup.Content =
                 string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content)
-                    ? ConstantVariable.UnGrouped
+                    ? _constantVariable.UnGrouped
                     : objDominatorAccountBaseModel.AccountGroup.Content;
 
             //Initialize the given account to account model
@@ -503,7 +507,7 @@ namespace DominatorUIUtility.ViewModel
                 AccountGroup =
                 {
                     Content = string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content)
-                        ? ConstantVariable.UnGrouped
+                        ? _constantVariable.UnGrouped
                         : objDominatorAccountBaseModel.AccountGroup.Content
                 },
                 UserName = objDominatorAccountBaseModel.UserName,
@@ -864,7 +868,7 @@ namespace DominatorUIUtility.ViewModel
                         proxy.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
                         proxy.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
 
-                        ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                        ProxyFileManager.UpdateProxyStatusAsync(proxy, _constantVariable.GoogleLink);
                         UpdateProxyList(proxy);
                         ProxyFileManager.EditProxy(proxy);
                         break;
@@ -887,7 +891,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             proxy.AccountProxy.ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername;
                             proxy.AccountProxy.ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword;
-                            ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                            ProxyFileManager.UpdateProxyStatusAsync(proxy, _constantVariable.GoogleLink);
                             UpdateProxyList(proxy);
                             //  ProxyFileManager.EditProxy(proxy);
                         }
@@ -906,7 +910,7 @@ namespace DominatorUIUtility.ViewModel
 
                             #endregion
 
-                            ProxyFileManager.UpdateProxyStatusAsync(proxy, ConstantVariable.GoogleLink);
+                            ProxyFileManager.UpdateProxyStatusAsync(proxy, _constantVariable.GoogleLink);
                             isProxyUpdated = true;
                         }
 
@@ -1008,7 +1012,7 @@ namespace DominatorUIUtility.ViewModel
 
             ProxyFileManager.SaveProxy(ProxyManagerModel);
 
-            ProxyFileManager.UpdateProxyStatusAsync(ProxyManagerModel, ConstantVariable.GoogleLink);
+            ProxyFileManager.UpdateProxyStatusAsync(ProxyManagerModel, _constantVariable.GoogleLink);
 
 
 
@@ -1186,7 +1190,7 @@ namespace DominatorUIUtility.ViewModel
 
             const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies";
 
-            var filename = $"{exportPath}\\Accounts {ConstantVariable.DateasFileName}.csv";
+            var filename = $"{exportPath}\\Accounts {_constantVariable.DateasFileName}.csv";
 
             if (!File.Exists(filename))
             {

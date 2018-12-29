@@ -19,8 +19,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
     public class PublisherManagePostsViewModel : BindableBase
     {
         private readonly IGenericFileManager _genericFileManager;
+        private readonly IConstantVariable _constantVariable;
+
         public PublisherManagePostsViewModel()
         {
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             TabChangeCommand = new BaseCommand<object>(TabChangeCanExecute, TabChangeExecute);
@@ -116,7 +119,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             ManagePostTabItems.Add(Application.Current.FindResource("LangKeyPending")?.ToString());
             ManagePostTabItems.Add(Application.Current.FindResource("LangKeyPublished")?.ToString());
 
-            var campaignDetails = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+            var campaignDetails = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(_constantVariable.GetPublisherCampaignFile());
 
             campaignDetails.ForEach(campaign =>
                 CampaignList.Add(new IdNameBinderModel { Id = campaign.CampaignId, Name = campaign.CampaignName }));
@@ -149,14 +152,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var selectedButton = sender as string;
 
-            if (selectedButton == ConstantVariable.DraftPostList)
+            if (selectedButton == _constantVariable.DraftPostList)
             {
                 try
                 {
                     if (SelectedCampaignDetails.Id == null)
                         return;
 
-                    SelectedTabs = ConstantVariable.DraftPostList;
+                    SelectedTabs = _constantVariable.DraftPostList;
                     var draftView = PublisherManagePostDrafts.GetPublisherManagePostDrafts();
                     SelectedTabsUserControls = draftView;
                     var cancellationToken = PostLoadingCancellation();
@@ -174,14 +177,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     ex.DebugLog();
                 }
             }
-            else if (selectedButton == ConstantVariable.PendingPostList)
+            else if (selectedButton == _constantVariable.PendingPostList)
             {
                 try
                 {
                     if (SelectedCampaignDetails.Id == null)
                         return;
 
-                    SelectedTabs = ConstantVariable.PendingPostList;
+                    SelectedTabs = _constantVariable.PendingPostList;
                     var pendingView = PublisherManagePostPending.GetPublisherManagePostPending();
                     SelectedTabsUserControls = pendingView;
                     var cancellationToken = PostLoadingCancellation();
@@ -207,7 +210,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (SelectedCampaignDetails.Id == null)
                         return;
 
-                    SelectedTabs = ConstantVariable.PublishedPostList;
+                    SelectedTabs = _constantVariable.PublishedPostList;
                     var publishedView = PublisherManagePostPublished.GetPublisherManagePostPublished();
                     SelectedTabsUserControls = publishedView;
                     var cancellationToken = PostLoadingCancellation();

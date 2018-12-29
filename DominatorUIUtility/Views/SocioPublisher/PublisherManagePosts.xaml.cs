@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
@@ -16,7 +17,8 @@ namespace DominatorUIUtility.Views.SocioPublisher
         {
             InitializeComponent();
             ManagePost.DataContext = PublisherManagePostsViewModel;
-            PublisherManagePostsViewModel.TabChangeExecute(ConstantVariable.DraftPostList);
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            PublisherManagePostsViewModel.TabChangeExecute(constantVariable.DraftPostList);
         }
 
         private PublisherManagePostsViewModel _publisherManagePostsViewModel = new PublisherManagePostsViewModel();

@@ -34,9 +34,12 @@ namespace DominatorUIUtility.ViewModel
     public class CampaignViewModel : INotifyPropertyChanged
     {
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IConstantVariable _constantVariable;
+
         public CampaignViewModel()
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             SettingCommand = new BaseCommand<object>((sender) => true, SettingExecute);
             DeleteCommand = new BaseCommand<object>((sender) => true, DeleteExecute);
             EditCommand = new BaseCommand<object>((sender) => true, EditExecute);
@@ -337,7 +340,7 @@ namespace DominatorUIUtility.ViewModel
                     CampaignName = campName.CampaignName.
                                        Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
-                    .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
+                    .ViewCampaigns(campName.CampaignId, _constantVariable.CreateCampaign);
             }
             catch (Exception ex)
             {
@@ -352,7 +355,7 @@ namespace DominatorUIUtility.ViewModel
                 CampaignDetails campName = sender as CampaignDetails;
 
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
-                    .ViewCampaigns(campName.CampaignId, ConstantVariable.UpdateCampaign);
+                    .ViewCampaigns(campName.CampaignId, _constantVariable.UpdateCampaign);
             }
             catch (Exception ex)
             {

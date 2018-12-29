@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using DominatorHouseCore;
 using DominatorHouseCore.Utility;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -239,7 +240,8 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                if (CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+                if (CampaignManager.Equals(constantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 {
                     CreateCampaignChangedEventHandler();
                 }

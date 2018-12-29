@@ -44,6 +44,7 @@ namespace DominatorUIUtility.CustomControl
         private readonly IAccountsCacheService _accountsCacheService;
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDominatorScheduler _dominatorScheduler;
+        public readonly IConstantVariable _constantVariable;
 
 
         #region Constructor
@@ -54,6 +55,9 @@ namespace DominatorUIUtility.CustomControl
             _accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            _constantVariable    = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            CampaignButtonContent = _constantVariable.CreateCampaign;
+            CampaignButtonContent = _constantVariable.NoAccountSelected;
             CreateCampaignCommand = new BaseCommand<object>((sender) => true, CreateOrUpdateCampaign);
             SelectAccountCommand = new BaseCommand<object>((sender) => true, (sender) => SelectAccount());
             CancelEditCommand = new BaseCommand<object>((sender) => true, (sender) =>
@@ -74,7 +78,7 @@ namespace DominatorUIUtility.CustomControl
         {
 
             var control = sender as FooterControl;
-            if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
+            if (control.CampaignManager.Equals(_constantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
                 UpdateCampaign();
@@ -227,7 +231,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region IFooterControl
 
-        private string _selectedAccountCount = ConstantVariable.NoAccountSelected;
+        private string _selectedAccountCount = string.Empty;
 
         public string SelectedAccountCount
         {
@@ -242,7 +246,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        private string _campaignButtonContent = ConstantVariable.CreateCampaign;
+        private string _campaignButtonContent = string.Empty;
         public string CampaignButtonContent
         {
             get
@@ -376,9 +380,9 @@ namespace DominatorUIUtility.CustomControl
 
             CancelEditVisibility = Visibility.Collapsed;
 
-            _footerControl.CampaignManager = ConstantVariable.CreateCampaign;
+            _footerControl.CampaignManager = _constantVariable.CreateCampaign;
 
-            SelectedAccountCount = ConstantVariable.NoAccountSelected;
+            SelectedAccountCount = _constantVariable.NoAccountSelected;
 
             ObjViewModel = new TViewModel();
 
@@ -504,7 +508,7 @@ namespace DominatorUIUtility.CustomControl
             };
 
             var dbOperations =
-                new DbOperations(campaignDetails.CampaignId, SocialNetwork, ConstantVariable.GetCampaignDb);
+                new DbOperations(campaignDetails.CampaignId, SocialNetwork, _constantVariable.GetCampaignDb);
 
             DataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
@@ -692,7 +696,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                     else
                     {
-                        SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        SelectedAccountCount = _constantVariable.NoAccountSelected;
                         _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
@@ -724,7 +728,7 @@ namespace DominatorUIUtility.CustomControl
             }
             else
             {
-                SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                SelectedAccountCount = _constantVariable.NoAccountSelected;
                 _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
             }
         }
@@ -1621,7 +1625,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                     else
                     {
-                        SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        SelectedAccountCount = _constantVariable.NoAccountSelected;
                         _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
