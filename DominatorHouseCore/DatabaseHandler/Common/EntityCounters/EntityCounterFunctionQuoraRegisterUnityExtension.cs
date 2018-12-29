@@ -35,7 +35,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
-                        new TimespanFilterPredicate<InteractedPosts>(
+                        new DateEpochFilterPredicate<InteractedPosts>(
                             a => a.InteractionDate),
                         new ActivityTypeFilterPredicate<InteractedPosts>(
                             a => a.ActivityType)));

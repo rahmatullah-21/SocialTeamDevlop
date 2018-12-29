@@ -327,9 +327,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
 
                 UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
-                GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
-                                     dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
-                                     activityType, timeToRunNext);
+                //GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
+                //                     dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
+                //                     activityType, timeToRunNext);
 
             }
             catch (InvalidOperationException)
@@ -379,7 +379,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 timeToRunNext = timeToRunNext.AddSeconds(25);
             }
-
+            GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
+                dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
+                timing.Module, timeToRunNext);
             _schedulerProxy.AddJob(() => { RunActivity(dominatorAccount, templateId, timing, timing.Module); },
                 s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
 

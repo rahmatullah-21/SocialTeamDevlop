@@ -24,7 +24,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedBoards>>(
                     new EntityCounterFunction<InteractedBoards>(
-                        new TimespanFilterPredicate<InteractedBoards>(
+                        new DateEpochFilterPredicate<InteractedBoards>(
                             a => a.InteractionDate),
                         new ActivityTypeFilterPredicate<InteractedBoards>(
                             a => a.OperationType)));
@@ -35,7 +35,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
-                        new TimespanFilterPredicate<InteractedPosts>(
+                        new DateEpochFilterPredicate<InteractedPosts>(
                             a => a.InteractionDate),
                         new ActivityTypeFilterPredicate<InteractedPosts>(
                             a => a.OperationType)));

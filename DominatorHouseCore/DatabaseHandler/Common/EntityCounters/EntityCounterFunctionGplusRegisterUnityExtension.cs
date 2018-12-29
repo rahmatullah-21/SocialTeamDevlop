@@ -13,7 +13,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
               .RegisterInstance<IEntityCounterFunction<InteractedUsers>>(
                   new EntityCounterFunction<InteractedUsers>(
-                      new TimespanFilterPredicate<InteractedUsers>(
+                      new DateEpochFilterPredicate<InteractedUsers>(
                           a => a.Date),
                       new ActivityTypeAsStringFilterPredicate<InteractedUsers>(
                           a => a.ActivityType)));
@@ -24,7 +24,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
-                        new TimespanFilterPredicate<InteractedPosts>(
+                        new DateEpochFilterPredicate<InteractedPosts>(
                             a => a.InteractionDate),
                         new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
                             a => a.ActivityType)));
@@ -35,7 +35,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<UnfollowedUsers>>(
                     new EntityCounterFunction<UnfollowedUsers>(
-                        new TimespanFilterPredicate<UnfollowedUsers>(
+                        new DateEpochFilterPredicate<UnfollowedUsers>(
                             a => a.InteractionDate)));
             Container
                 .RegisterInstance<ICounterKeyFactory<UnfollowedUsers>>(
@@ -44,7 +44,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                   .RegisterInstance<IEntityCounterFunction<InteractedCommunities>>(
                       new EntityCounterFunction<InteractedCommunities>(
-                          new TimespanFilterPredicate<InteractedCommunities>(
+                          new DateEpochFilterPredicate<InteractedCommunities>(
                               a => a.InteractionDate),
                           new ActivityTypeAsStringFilterPredicate<InteractedCommunities>(
                               a => a.ActivityType)));
