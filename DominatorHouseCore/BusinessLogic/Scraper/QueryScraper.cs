@@ -126,8 +126,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
                 {
-                    if (_jobProcess.IsNeedToSchedule)
-                    {
+                    //if (_jobProcess.IsNeedToSchedule)
+                    //{
                         var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                         var moduleConfiguration = jobActivityConfigurationManager[_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType];
                         var nextStartTime = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, _jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom());
@@ -138,10 +138,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                             jobActivityConfigurationManager.AddOrUpdate(_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType, moduleConfiguration);
                             accountsCacheService.UpsertAccounts(_jobProcess?.DominatorAccountModel);
                         }
-                    }
+                    ///}
                     GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks, _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
                     var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId, _jobProcess.IsNeedToSchedule);
+                    dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId,true);
                 }
             }
             catch (OperationCanceledException oce)

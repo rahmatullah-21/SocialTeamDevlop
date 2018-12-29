@@ -28,6 +28,7 @@ namespace DominatorHouseCore.Process
         void Stop();
         JobKey Id { get; }
         ReachedLimitInfo CheckLimit();
+        void RescheduleifLimitReached(ReachedLimitInfo limitInfo, ReachedLimitType limitType);
         JobConfiguration JobConfiguration { get; }
     }
 
@@ -149,24 +150,7 @@ namespace DominatorHouseCore.Process
                 limitType = limitInfo.ReachedLimitType;
                 if (limitType != ReachedLimitType.NoLimit)
                 {
-                    GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
-                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, limitInfo.LimitValue);
-                    Stop(DominatorAccountModel.AccountId, TemplateId);
-                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                    var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
-                    var nextStartTime = limitType == ReachedLimitType.Job ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType, JobConfiguration.DelayBetweenJobs.GetRandom()) : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
-                    if (moduleConfiguration != null)
-                    {
-                        moduleConfiguration.NextRun = nextStartTime;
-                        moduleConfiguration.IsEnabled = true;
-                        var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
-                        jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType, moduleConfiguration);
-                        accountsCacheService.UpsertAccounts(DominatorAccountModel);
-                    }
-
-                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                    RescheduleifLimitReached(limitInfo, limitType);
                 }
 
             }
@@ -175,6 +159,32 @@ namespace DominatorHouseCore.Process
                 ex.DebugLog();
             }
             return limitType != ReachedLimitType.NoLimit;
+        }
+
+        public void RescheduleifLimitReached(ReachedLimitInfo limitInfo, ReachedLimitType limitType)
+        {
+            GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
+                DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                DominatorAccountModel.AccountBaseModel.UserName, ActivityType, limitInfo.LimitValue);
+            Stop(DominatorAccountModel.AccountId, TemplateId);
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
+            var nextStartTime = limitType == ReachedLimitType.Job
+                ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
+                    JobConfiguration.DelayBetweenJobs.GetRandom())
+                : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+            if (moduleConfiguration != null)
+            {
+                moduleConfiguration.NextRun = nextStartTime;
+                moduleConfiguration.IsEnabled = true;
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType,
+                    moduleConfiguration);
+                accountsCacheService.UpsertAccounts(DominatorAccountModel);
+            }
+
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
         }
 
         public abstract ReachedLimitInfo CheckLimit();
