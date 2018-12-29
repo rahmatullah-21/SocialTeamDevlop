@@ -57,7 +57,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IDominatorScheduler, DominatorScheduler>();
             Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
 
-            Container.RegisterSingleton<IDbOperations, DbOperations>();
+            Container.RegisterType<IDbOperations, DbOperations>();
 
             Container.AddNewExtension<JobProcessUnityExtension>();
             Container.AddNewExtension<EntityCounterUnityExtension>();

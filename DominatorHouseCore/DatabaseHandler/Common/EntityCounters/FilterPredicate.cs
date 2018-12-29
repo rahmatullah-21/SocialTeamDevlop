@@ -43,6 +43,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         {
         }
     }
+
     public class DateEpochFilterPredicate<TSource> : FilterPredicate<TSource, DateTime, int> where TSource : class, new()
     {
         public DateEpochFilterPredicate(Expression<Func<TSource, int>> filterExpression)
@@ -75,6 +76,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         {
         }
     }
+
     public class ActivityTypeFilterPredicate<TSource> : ActivityTypeFilterPredicate<TSource, ActivityType> where TSource : class, new()
     {
         public ActivityTypeFilterPredicate(Expression<Func<TSource, ActivityType>> filterExpression)
@@ -82,4 +84,5 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         {
         }
     }
+
 }

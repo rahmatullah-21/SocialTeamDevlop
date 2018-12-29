@@ -21,6 +21,9 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
         private IJobProcessFactory _jobProcessFactory;
         private IJobLimitsHolder _jobLimitsHolder;
 
+        private IJobProcessScopeFactory _jobProcessScopeFactory;
+
+
         [TestInitialize]
         public override void SetUp()
         {
@@ -28,9 +31,16 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             _runningActivityManager = Substitute.For<IRunningActivityManager>();
             _schedulerProxy = Substitute.For<ISchedulerProxy>();
             _jobLimitsHolder = Substitute.For<IJobLimitsHolder>();
-            _sut = new DominatorScheduler(_runningActivityManager, _schedulerProxy, _jobLimitsHolder);
+
+            _jobProcessScopeFactory = Substitute.For<IJobProcessScopeFactory>();
+            _sut = new DominatorScheduler(_runningActivityManager, _schedulerProxy, _jobLimitsHolder, _jobProcessScopeFactory);
+
             _jobProcessFactory = Substitute.For<IJobProcessFactory>();
             Container.RegisterInstance<IJobProcessFactory>(SocialNetworks.Twitter.ToString(), _jobProcessFactory);
+            _jobProcessScopeFactory.GetScope(Arg.Any<DominatorAccountModel>(), Arg.Any<ActivityType>(),
+                Arg.Any<string>(), Arg.Any<TimingRange>(), Arg.Any<SocialNetworks>())
+                .Returns(Container);
+
         }
 
         [TestMethod]
@@ -47,7 +57,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             };
             var template = "template";
             var timeRange = new TimingRange(TimeSpan.MinValue, TimeSpan.MaxValue);
-            var module = SocialNetworks.Twitter.ToString();
+            var module = ActivityType.Follow.ToString();
             var jp = Substitute.For<IJobProcess>();
             jp.CheckLimit().Returns(new ReachedLimitInfo(ReachedLimitType.NoLimit, 0));
             _jobProcessFactory.Create(account.AccountBaseModel.UserName, template, timeRange, module,
@@ -80,7 +90,9 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             };
             var template = "template";
             var timeRange = new TimingRange(TimeSpan.MinValue, TimeSpan.MaxValue);
-            var module = SocialNetworks.Twitter.ToString();
+
+            var module = ActivityType.Follow.ToString();
+
             var jp = Substitute.For<IJobProcess>();
             jp.CheckLimit().Returns(new ReachedLimitInfo(limitType, 0));
             _jobProcessFactory.Create(account.AccountBaseModel.UserName, template, timeRange, module,
@@ -109,7 +121,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             };
             var template = "template";
             var timeRange = new TimingRange(TimeSpan.MinValue, TimeSpan.MaxValue);
-            var module = SocialNetworks.Twitter.ToString();
+            var module = ActivityType.Follow.ToString();
             var jp = Substitute.For<IJobProcess>();
             _jobProcessFactory.Create(account.AccountBaseModel.UserName, template, timeRange, module,
                 account.AccountBaseModel.AccountNetwork).Returns(jp);
