@@ -1,25 +1,30 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
 using DominatorHouseCore.DatabaseHandler.Utility;
+using DominatorHouseCore.Process.ExecutionCounters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using SimpleFixture;
 using SQLite;
 using System;
 using System.IO;
+using Unity;
 
 namespace Dominator.Tests.Utils
 {
     [TestClass]
-    public abstract class CRUDTests<T> where T : class, IPrimaryKey, new()
+    public abstract class CRUDTests<T> : UnityInitializationTests where T : class, IPrimaryKey, new()
     {
         private SQLiteConnection _connection;
         protected Fixture Fixture;
         [TestInitialize]
-        public void SetUp()
+        public override void SetUp()
         {
+            base.SetUp();
             var accountId = Guid.NewGuid().ToString();
             _connection = GetSqlConnection(accountId); ;
             Fixture = new Fixture();
+            Container.RegisterInstance<IEntityCountersManager>(Substitute.For<IEntityCountersManager>());
         }
 
         protected abstract SQLiteConnection GetSqlConnection(string str);

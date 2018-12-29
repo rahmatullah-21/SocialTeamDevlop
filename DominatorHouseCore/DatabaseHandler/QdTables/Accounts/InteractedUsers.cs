@@ -1,10 +1,8 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {
-    // TODO: what date do we use to calculate counters fpr this entity?
-    public class InteractedUsers : Entity, IInteractedUsers
+    public class InteractedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
@@ -74,7 +72,5 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string ProfilePicUrl
         { get; set; }
-
-        int IInteractedUsers.InteractionDate { get; set; }
     }
 }

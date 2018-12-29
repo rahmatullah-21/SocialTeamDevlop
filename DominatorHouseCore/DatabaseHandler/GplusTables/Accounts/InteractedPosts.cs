@@ -1,10 +1,10 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 using DominatorHouseCore.Enums;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
-    public class InteractedPosts : Entity, IInteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
@@ -60,5 +60,9 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string CommentId { get; set; }
 
 
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

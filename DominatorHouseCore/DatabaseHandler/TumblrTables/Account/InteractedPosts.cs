@@ -1,11 +1,11 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 using DominatorHouseCore.Enums;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 {
-    public class InteractedPosts : Entity, IInteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
         /// <summary>
         /// Contains QueryType For Interaction
@@ -26,8 +26,6 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         [Index("Pk_ActivityType_ContentId", 1, IsUnique = true)]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string ActivityType { get; set; }
-
-        int IInteractedPosts.InteractionDate { get; set; }
 
         /// <summary>
         /// Image or Video or Text
@@ -66,20 +64,21 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string Comments { get; set; }
-        
+
         /// <summary>
         /// TimeStamp when interacted with the Post
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public int InteractionTimeStamp
-        {
-            get { return ((IInteractedPosts)this).InteractionDate; }
-            set { ((IInteractedPosts)this).InteractionDate = value; }
-        }
+        public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string CommentId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public string InteractedUserName { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

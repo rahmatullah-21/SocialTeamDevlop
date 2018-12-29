@@ -1,12 +1,10 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
-    public class InteractedPosts : Entity, IInteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
         /// <summary>
         /// UserName of the Account from which Interaction is done
@@ -161,14 +159,14 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public string ProcessType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
-        public DateTime InteractionDate
-        {
-            get { return ((IInteractedPosts)this).InteractionDate.EpochToDateTimeUtc(); }
-            set { ((IInteractedPosts)this).InteractionDate = value.ConvertToEpochAsIs(); }
-        }
+        public DateTime InteractionDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string CommentId { get; set; }
-        int IInteractedPosts.InteractionDate { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }
