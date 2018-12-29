@@ -15,6 +15,7 @@ namespace DominatorHouseCore.FileManagers
         void UpdateDestinations(IList<PublisherManageDestinationModel> libraryDestinations);
         void DeleteSelected(List<PublisherManageDestinationModel> accs);
         void Delete(Predicate<PublisherManageDestinationModel> match);
+        bool Add(PublisherManageDestinationModel account);
     }
     public class ManageDestinationFileManager : IManageDestinationFileManager
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Utility;
@@ -245,7 +246,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             #region Add campagins to destination list
 
-            var allDestinations = ManageDestinationFileManager.GetAll();
+            var manageDestinationFileManager = new ManageDestinationFileManager(ServiceLocator.Current.GetInstance<IBinFileHelper>());
+            var allDestinations = manageDestinationFileManager.GetAll();
 
             lstDestinationId.ForEach(destinationId =>
             {
@@ -261,7 +263,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 allDestinations[index] = currentDestination;
             });
 
-            ManageDestinationFileManager.UpdateDestinations(allDestinations);
+            manageDestinationFileManager.UpdateDestinations(allDestinations);
 
             #endregion
         }
@@ -270,7 +272,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             #region Update destination group Count
 
-            var allDestinations = ManageDestinationFileManager.GetAll();
+            var manageDestinationFileManager = new ManageDestinationFileManager(ServiceLocator.Current.GetInstance<IBinFileHelper>());
+            var allDestinations = manageDestinationFileManager.GetAll();
 
             var currentDestination = allDestinations.FirstOrDefault(x => x.DestinationId == destinationId);
 
@@ -283,7 +286,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             allDestinations[index] = currentDestination;
 
-            ManageDestinationFileManager.UpdateDestinations(allDestinations);
+            manageDestinationFileManager.UpdateDestinations(allDestinations);
 
             #endregion
         }
@@ -292,7 +295,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             #region Remove campagins from destination list
 
-            var allDestinations = ManageDestinationFileManager.GetAll();
+            var manageDestinationFileManager = new ManageDestinationFileManager(ServiceLocator.Current.GetInstance<IBinFileHelper>());
+            var allDestinations = manageDestinationFileManager.GetAll();
 
             foreach (var destination in allDestinations)
             {
@@ -303,7 +307,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 destination.CampaignsCount = destination.AddUsedCampaignId.Count;
             }
 
-            ManageDestinationFileManager.UpdateDestinations(allDestinations);
+            manageDestinationFileManager.UpdateDestinations(allDestinations);
 
             #endregion
         }

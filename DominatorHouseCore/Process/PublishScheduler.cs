@@ -56,6 +56,7 @@ namespace DominatorHouseCore.Process
 
         #endregion
 
+
         /// <summary>
         /// Increasing running count of the campaign
         /// </summary>
@@ -1518,8 +1519,10 @@ namespace DominatorHouseCore.Process
         /// </summary>
         public static void UpdateNewGroupList()
         {
+            var manageDestinationFileManager = new ManageDestinationFileManager(ServiceLocator.Current.GetInstance<IBinFileHelper>());
+
             // Get all destinations details
-            var destinations = ManageDestinationFileManager.GetAll();
+            var destinations = manageDestinationFileManager.GetAll();
 
             // Iterate destinations
             destinations.ForEach(x =>

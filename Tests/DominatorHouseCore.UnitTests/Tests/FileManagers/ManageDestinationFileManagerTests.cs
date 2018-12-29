@@ -27,21 +27,17 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         }
 
         [TestMethod]
-        public void should_return()
+        public void should_return_list_of_ManageDestinationModels()
         {
             // arrange
-            _binFileHelper.GetCampaignInteractedDetails(network).Returns(new List<CampaignInteractionViewModel>());
+            var helperList = _binFileHelper.GetPublisherManageDestinationModels();
 
             // act
             var result = _sut.GetAll();
 
-            // assert
-             
+            // assert 
+            result.Should().BeEquivalentTo(helperList);
         }
-
-        //List<PublisherManageDestinationModel> GetAll();
-        //void UpdateDestinations(IList<PublisherManageDestinationModel> libraryDestinations);
-        //void DeleteSelected(List<PublisherManageDestinationModel> accs);
-        //void Delete(Predicate<PublisherManageDestinationModel> match);
+         
     }
 }

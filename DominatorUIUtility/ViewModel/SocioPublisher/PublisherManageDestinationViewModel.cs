@@ -22,6 +22,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
     public class PublisherManageDestinationViewModel : BindableBase
     {
         private readonly IGenericFileManager _genericFileManager;
+        private readonly IManageDestinationFileManager _manageDestinationFileManager;
+        private readonly IBinFileHelper _binFileHelper;
+
         #region Constructor
         public PublisherManageDestinationViewModel()
         {
@@ -30,6 +33,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             SelectionCommand = new BaseCommand<object>(SelectionCanExecute, SelectionExecute);
             DeleteDestinationCommand = new BaseCommand<object>(DeleteDestinationCanExecute, DeleteDestinationExecute);
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
+            _binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+            _manageDestinationFileManager = new ManageDestinationFileManager(_binFileHelper);
         }
         #endregion
 
@@ -229,7 +234,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 ListPublisherManageDestinationModels.Remove(destination);
 
                 // Update to bin file
-                ManageDestinationFileManager.Delete(d => d.DestinationId == destination.DestinationId);
+                _manageDestinationFileManager.Delete(d => d.DestinationId == destination.DestinationId);
                 _genericFileManager.DeleteBinFiles(
                     $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destination.DestinationId}.bin");
             }
@@ -263,7 +268,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{x.DestinationId}.bin");
                 });
 
-                ManageDestinationFileManager.DeleteSelected(publisherManageDestinationModel);
+                _manageDestinationFileManager.DeleteSelected(publisherManageDestinationModel);
             }
         }
 
@@ -284,7 +289,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PublisherManageDestinationModelView = CollectionViewSource.GetDefaultView(ListPublisherManageDestinationModels);
 
             // Get updated destination
-            var savedDestinations = ManageDestinationFileManager.GetAll();
+            var savedDestinations = _manageDestinationFileManager.GetAll();
 
             // Call to add to list
             savedDestinations.ForEach(x => { AddDestinations(x, false); });
@@ -333,7 +338,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     
                 // Update to bin file if its not present
                 if (isNewDestination)
-                    ManageDestinationFileManager.Add(publisherManageDestinationModel);
+                    _manageDestinationFileManager.Add(publisherManageDestinationModel);
             }
             catch (Exception)
             {
@@ -403,7 +408,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
 
                 // Update the destiantions
-                ManageDestinationFileManager.UpdateDestinations(ListPublisherManageDestinationModels);
+                _manageDestinationFileManager.UpdateDestinations(ListPublisherManageDestinationModels);
             }
             catch (Exception)
             {
