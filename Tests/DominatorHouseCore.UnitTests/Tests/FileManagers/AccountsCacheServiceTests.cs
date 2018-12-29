@@ -45,7 +45,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
 
 
             // assert
-            result.Count.Should().Be(2);
+            result.Count.Should().Be(3);
             result.Should().BeEquivalentTo(accounts);
             _binFileHelper.Received(1).GetAccountDetails();
         }

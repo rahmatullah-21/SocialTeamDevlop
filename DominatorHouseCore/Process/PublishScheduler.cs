@@ -1519,10 +1519,9 @@ namespace DominatorHouseCore.Process
         /// </summary>
         public static void UpdateNewGroupList()
         {
-            var manageDestinationFileManager = new ManageDestinationFileManager(ServiceLocator.Current.GetInstance<IBinFileHelper>());
-
+            var destinationFileManager = new ManageDestinationFileManager(ServiceLocator.Current.GetInstance<IBinFileHelper>());
             // Get all destinations details
-            var destinations = manageDestinationFileManager.GetAll();
+            var destinations = destinationFileManager.GetAll();
 
             // Iterate destinations
             destinations.ForEach(x =>

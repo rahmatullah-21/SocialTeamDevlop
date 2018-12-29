@@ -23,7 +23,6 @@ namespace DominatorHouseCore.FileManagers
 
         public ManageDestinationFileManager(IBinFileHelper binFileHelper)
         {
-            //BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
             _binFileHelper = binFileHelper;
         }
 
@@ -68,8 +67,8 @@ namespace DominatorHouseCore.FileManagers
         public void ApplyFunc(Func<PublisherManageDestinationModel, bool> funcToApply)
         {
             bool updated = false;
-            //To DO: Change this on GetAll()
-            var destinations = _binFileHelper.GetPublisherManageDestinationModels();
+
+            var destinations = GetAll();
 
             foreach (var a in destinations)
                 updated |= funcToApply(a);
