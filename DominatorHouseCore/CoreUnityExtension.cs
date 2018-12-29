@@ -42,6 +42,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ICampaignInteractionDetails, CampaignInteractionDetails>();
             Container.RegisterSingleton<IGlobalInteractionDetails, GlobalInteractionDetails>();
             Container.RegisterSingleton<ISoftwareSettingsFileManager, SoftwareSettingsFileManager>();
+            Container.RegisterSingleton<IManageDestinationFileManager, ManageDestinationFileManager>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();

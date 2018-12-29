@@ -94,6 +94,7 @@
     <Compile Include="Tests\Converters\SocialNetworkToColorBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />
+    <Compile Include="Tests\FileManagers\ManageDestinationFileManagerTests.cs" />
     <Compile Include="Tests\FileManagers\AccountsCacheServiceTests.cs" />
     <Compile Include="Tests\FileManagers\GenericFileManagerTests.cs" />
     <Compile Include="Tests\FileManagers\GlobalInteractionDetailsTests.cs" />
