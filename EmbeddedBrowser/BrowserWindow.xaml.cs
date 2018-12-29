@@ -394,14 +394,14 @@ namespace EmbeddedBrowser
 
                 if (
                     (pageText.Contains("English (") /*Google, Set with English Language*/ &&
-                     pageText.Contains("Confirm the recovery email address that you added to your account:"))
+                     pageText.Contains("Confirm the recovery email "))
                     ||
                     (pageText.Contains("Español (España)") /*Google, Set with Español (España) Language*/ &&
                      pageText.Contains(
-                         "Confirma la dirección de correo electrónico alternativa que has añadido a tu cuenta:"))
+                         "Confirma la dirección de correo electrónico alternativa"))
                     ||
                     (pageText.Contains("Português (Brasil)?") /*Google, Set with Português (Brasil)? Language*/ &&
-                     pageText.Contains("Confirme o endereço de e-mail de recuperação adicionado à sua conta:"))
+                     pageText.Contains("Confirme o endereço de e-mail"))
                 )
                 {
                     DominatorAccountModel.IsUserLoggedIn = false;
