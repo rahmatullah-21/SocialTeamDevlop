@@ -91,8 +91,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Socinator.Deployment", "Deployment\Socinator.Deployment\Socinator.Deployment.wixproj", "{BF7C1B82-9A26-42D5-AB92-9B63884F50F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditDominatorCore.IntegrationTests", "..\reddit-dominator-library\Tests\RedditDominatorCore.IntegrationTests\RedditDominatorCore.IntegrationTests.csproj", "{1B42BC21-49C0-4BC9-AD41-4D23505A62F7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore.IntegrationTests", "..\twtdominator-library\Tests\TwtDominatorCore.IntegrationTests\TwtDominatorCore.IntegrationTests.csproj", "{D30735DA-1A69-430C-96DA-CD6EA2BB7415}"
 EndProject
 Global
