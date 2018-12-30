@@ -11,7 +11,6 @@ using NSubstitute;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Unity;
 
 namespace DominatorHouseCore.UnitTests.Tests.FileManagers
 {
@@ -25,6 +24,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         public void SetUp()
         {
             _binFileHelper = Substitute.For<IBinFileHelper>();
+
             _sut = new ManageDestinationFileManager(_binFileHelper);
         }
 
@@ -64,7 +64,25 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             _sut.Delete(d => d.DestinationId == shouldDeleted.DestinationId);
 
             // assert 
-            _sut.GetAll().Count.Should().Be(1);            
+            _sut.GetAll().Count.Should().Be(1);
+        }
+        [TestMethod]
+        public void should_save_destination_after_delete_selected()
+        {
+            // arrange  
+            var destinations = new List<PublisherManageDestinationModel>
+            {
+                new PublisherManageDestinationModel {DestinationId = "1"},
+                new PublisherManageDestinationModel {DestinationId = "2"},
+                new PublisherManageDestinationModel {DestinationId = "3"}
+             };
+            _binFileHelper.GetPublisherManageDestinationModels().Returns(destinations);
+
+            // act 
+            _sut.DeleteSelected(destinations);
+
+            // assert 
+            _sut.GetAll().Count.Should().Be(3);
         }
 
         [TestMethod]
