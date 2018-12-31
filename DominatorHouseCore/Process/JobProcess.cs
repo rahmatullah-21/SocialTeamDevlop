@@ -58,9 +58,8 @@ namespace DominatorHouseCore.Process
 
 
         [Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
-        public JobProcess(IQueryScraperFactory queryScraperFactory)
+        public JobProcess()
         {
-            _queryScraperFactory = queryScraperFactory;
         }
 
         public bool IsNeedToSchedule { get; set; } = false;

@@ -98,7 +98,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             // arrange
             var accountId = "accountId";
             var templateId = "templateId";
-            var jp = Substitute.For<JobProcess>();
+            var jp = Substitute.For<IJobProcess>();
             _sut.StartIfNotRunning(new JobKey(accountId, templateId), jp);
 
             // act
