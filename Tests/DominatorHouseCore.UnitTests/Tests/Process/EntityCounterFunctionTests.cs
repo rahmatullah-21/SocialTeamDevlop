@@ -51,7 +51,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             var list = new List<DummyEntity>
             {
                 new DummyEntity {InteractedDate = now.AddMinutes(-30).ConvertToEpoch()}, // should go into hour day and week
-                new DummyEntity {InteractedDate = now.AddHours(-3).ConvertToEpoch()}, // should go into day and week
+                new DummyEntity {InteractedDate = now.AddHours(-8).ConvertToEpoch()}, // should go into day and week
                 new DummyEntity {InteractedDate = now.AddDays(-1).ConvertToEpoch()}, // should go into week
                 new DummyEntity {InteractedDate = now.AddDays(-8).ConvertToEpoch()}
             };
@@ -88,13 +88,13 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             var list = new List<DummyEntity>
             {
                 new DummyEntity {InteractedDate = now.AddMinutes(-30).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into hour day and week
-                new DummyEntity {InteractedDate = now.AddHours(-3).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into day and week
+                new DummyEntity {InteractedDate = now.AddHours(-8).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into day and week
                 new DummyEntity {InteractedDate = now.AddDays(-1).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into week
                 new DummyEntity {InteractedDate = now.AddDays(-8).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower},
 
                 // should be counted because of activity type
                 new DummyEntity {InteractedDate = now.AddMinutes(-30).ConvertToEpoch(), ActivityType = ActivityType.Delete},
-                new DummyEntity {InteractedDate = now.AddHours(-3).ConvertToEpoch(), ActivityType = ActivityType.AnswersScraper},
+                new DummyEntity {InteractedDate = now.AddHours(-8).ConvertToEpoch(), ActivityType = ActivityType.AnswersScraper},
                 new DummyEntity {InteractedDate = now.AddDays(-1).ConvertToEpoch(), ActivityType = ActivityType.AutoReplyToNewMessage},
                 new DummyEntity {InteractedDate = now.AddDays(-8).ConvertToEpoch(), ActivityType = ActivityType.BoardScraper}
             };
