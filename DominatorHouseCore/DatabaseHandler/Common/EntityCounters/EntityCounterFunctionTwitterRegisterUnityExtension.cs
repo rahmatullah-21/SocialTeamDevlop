@@ -30,6 +30,10 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Twitter, true));
 
             Container
+                .RegisterInstance<ICounterKeyFactory<Friendships>>(
+                    new CounterKeyFactory<Friendships>(SocialNetworks.Twitter, true));
+
+            Container
                 .RegisterInstance<IEntityCounterFunction<UnfollowedUsers>>(
                     new EntityCounterFunction<UnfollowedUsers>(
                         new DateFilterPredicate<UnfollowedUsers>(

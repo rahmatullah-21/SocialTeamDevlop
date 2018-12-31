@@ -120,7 +120,10 @@ namespace DominatorUIUtility.CustomControl
                         ObjAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
                         break;
                     default:
-                        ObjAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
+                        if (!string.IsNullOrEmpty(txtSearch.Text))
+                            ObjAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
+                        else
+                            ObjAccountViewModel.AccountCollectionView.Filter = null;
                         break;
                 }
             }
