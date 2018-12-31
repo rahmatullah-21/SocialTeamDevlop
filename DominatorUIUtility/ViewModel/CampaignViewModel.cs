@@ -627,7 +627,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 else
                 {
-                    dominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, true);
+                    dominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, false);
                 }
             }
             catch (Exception ex)

@@ -29,6 +29,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ITemplatesFileManager, TemplatesFileManager>();
             Container.RegisterSingleton<IGenericFileManager, GenericFileManager>();
             Container.RegisterSingleton<IAccountsFileManager, AccountsFileManager>();
+            Container.RegisterSingleton<IFBFileManager, FBFileManager>();
 
             Container.RegisterSingleton<IAccountGrowthPropertiesProvider, AccountGrowthPropertiesProvider>();
 
@@ -56,7 +57,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IDominatorScheduler, DominatorScheduler>();
             Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
 
-            Container.RegisterSingleton<IDbOperations, DbOperations>();
+            Container.RegisterType<IDbOperations, DbOperations>();
 
             Container.AddNewExtension<JobProcessUnityExtension>();
             Container.AddNewExtension<EntityCounterUnityExtension>();

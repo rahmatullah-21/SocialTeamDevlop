@@ -34,8 +34,9 @@
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
-    <ApplicationRevision>164</ApplicationRevision>
-    <ApplicationVersion>1.0.0.164</ApplicationVersion>
+    <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
+    <ApplicationRevision>175</ApplicationRevision>
+    <ApplicationVersion>1.0.0.175</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -385,6 +386,8 @@
     <Content Include="SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sqlite3.def" />
+    <Content Include="sqlite3.dll" />
     <Content Include="widevinecdmadapter.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1335,7 +1335,7 @@ namespace DominatorUIUtility.CustomControl
                 _accountsCacheService.UpsertAccounts(accountModel);
                 if (!moduleConfiguration.IsEnabled)
                     _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
-                        moduleConfiguration.TemplateId, true);
+                        moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
                 else
                     _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
                 return moduleConfiguration.IsEnabled;

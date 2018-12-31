@@ -15,12 +15,10 @@ namespace DominatorHouseCore.Process
             Container.RegisterSingleton<IJobCountersManager, JobCountersManager>();
             Container.RegisterSingleton<IExecutionLimitsManager, ExecutionLimitsManager>();
             Container.RegisterSingleton<IJobLimitsHolder, JobLimitsHolder>();
-
             Container.RegisterSingleton<IJobConfigurationProvider, JobConfigurationProvider>();
-
             Container.RegisterSingleton<IRunningActivityManager, RunningActivityManager>();
-
             Container.RegisterSingleton<IJobProcessScopeFactory, JobProcessScopeFactory>();
+
         }
     }
 }

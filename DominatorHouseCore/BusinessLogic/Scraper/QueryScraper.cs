@@ -45,6 +45,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                     ScrapeWithoutQueriesActionTable[module]?.Invoke();
+                    UpdateScheduleIfNoMoreData();
                 }
                 catch (OperationCanceledException)
                 {
@@ -123,22 +124,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
                 {
-                    if (_jobProcess.IsNeedToSchedule)
-                    {
-                        var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                        var moduleConfiguration = jobActivityConfigurationManager[_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType];
-                        var nextStartTime = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, _jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom());
-                        if (moduleConfiguration != null)
-                        {
-                            moduleConfiguration.NextRun = nextStartTime;
-                            var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
-                            jobActivityConfigurationManager.AddOrUpdate(_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType, moduleConfiguration);
-                            accountsCacheService.UpsertAccounts(_jobProcess?.DominatorAccountModel);
-                        }
-                    }
-                    GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks, _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
-                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId, false);
+                    //if (_jobProcess.IsNeedToSchedule)
+                    //{
+                    //}
+                    UpdateScheduleIfNoMoreData();
                 }
             }
             catch (OperationCanceledException oce)
@@ -161,6 +150,28 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             }
         }
 
+        private void UpdateScheduleIfNoMoreData()
+        {
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration =
+                jobActivityConfigurationManager[_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType];
 
+            var nextStartTime = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration,
+                _jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom());
+            if (moduleConfiguration != null)
+            {
+                moduleConfiguration.NextRun = nextStartTime;
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                jobActivityConfigurationManager.AddOrUpdate(_jobProcess?.DominatorAccountModel?.AccountId,
+                    _jobProcess.ActivityType, moduleConfiguration);
+                accountsCacheService.UpsertAccounts(_jobProcess?.DominatorAccountModel);
+            }
+          
+            GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks,
+                _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(),
+                _jobProcess.TemplateId, true);
+        }
     }
 }

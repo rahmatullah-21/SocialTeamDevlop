@@ -28,6 +28,7 @@ namespace DominatorHouseCore.Process
         void Stop();
         JobKey Id { get; }
         ReachedLimitInfo CheckLimit();
+        void RescheduleifLimitReached(ReachedLimitInfo limitInfo, ReachedLimitType limitType);
         JobConfiguration JobConfiguration { get; }
         CancellationTokenSource JobCancellationTokenSource { get; }
         DominatorAccountModel DominatorAccountModel { get; }
@@ -54,6 +55,7 @@ namespace DominatorHouseCore.Process
         private readonly IJobCountersManager _jobCountersManager;
         private readonly IQueryScraperFactory _queryScraperFactory;
         public CampaignDetails CampaignDetails { get; }
+
 
         [Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
         public JobProcess(IQueryScraperFactory queryScraperFactory)
@@ -104,9 +106,9 @@ namespace DominatorHouseCore.Process
             IsNeedToSchedule = commonConfiguration.IsNeedToSchedule;
             JobConfiguration = commonConfiguration.JobConfiguration;
             SavedQueries = commonConfiguration.SavedQueries;
-
             CampaignDetails = campaignFileManager.FirstOrDefault(x => x.TemplateId == TemplateId);
             CampaignId = CampaignDetails?.CampaignId;
+
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
@@ -174,7 +176,6 @@ namespace DominatorHouseCore.Process
         /// </summary>
         /// <returns></returns>
         /// 
-        //protected abstract bool CheckJobProcessLimitsReached();
         protected virtual bool CheckJobProcessLimitsReached()
         {
             var limitType = ReachedLimitType.NoLimit;
@@ -184,20 +185,7 @@ namespace DominatorHouseCore.Process
                 limitType = limitInfo.ReachedLimitType;
                 if (limitType != ReachedLimitType.NoLimit)
                 {
-                    Stop(DominatorAccountModel.AccountId, TemplateId);
-                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                    var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
-                    var nextStartTime = limitType == ReachedLimitType.Job ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType, JobConfiguration.DelayBetweenJobs.GetRandom()) : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
-                    if (moduleConfiguration != null)
-                    {
-                        moduleConfiguration.NextRun = nextStartTime;
-                        var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
-                        jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType, moduleConfiguration);
-                        accountsCacheService.UpsertAccounts(DominatorAccountModel);
-                    }
-
-                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                    RescheduleifLimitReached(limitInfo, limitType);
                 }
 
             }
@@ -208,11 +196,37 @@ namespace DominatorHouseCore.Process
             return limitType != ReachedLimitType.NoLimit;
         }
 
+        public void RescheduleifLimitReached(ReachedLimitInfo limitInfo, ReachedLimitType limitType)
+        {
+            GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
+                DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                DominatorAccountModel.AccountBaseModel.UserName, ActivityType, limitInfo.LimitValue);
+            Stop(DominatorAccountModel.AccountId, TemplateId);
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
+            var nextStartTime = limitType == ReachedLimitType.Job
+                ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
+                    JobConfiguration.DelayBetweenJobs.GetRandom())
+                : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+            if (moduleConfiguration != null)
+            {
+                moduleConfiguration.NextRun = nextStartTime;
+                moduleConfiguration.IsEnabled = true;
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType,
+                    moduleConfiguration);
+                accountsCacheService.UpsertAccounts(DominatorAccountModel);
+            }
+
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+            _jobCountersManager.Reset(Id);
+        }
+
         public abstract ReachedLimitInfo CheckLimit();
 
-
-
         //// TODO: don't think that it works. template.ActivitySettings effectively isn't changed, hence no changes is saved 
+
         protected void StopFollow()
         {
             Stop();
@@ -384,13 +398,6 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
                     return false;
                 }
-                var jobActivityConfigurationManager =
-                    ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-
-                var moduleConfiguration =
-                    jobActivityConfigurationManager[accountName].FirstOrDefault(x => x.TemplateId == templateId);
-                moduleConfiguration.IsEnabled = false;
-                jobActivityConfigurationManager.AddOrUpdate(accountName, moduleConfiguration.ActivityType, moduleConfiguration);
                 return true;
             }
             catch (Exception ex)
