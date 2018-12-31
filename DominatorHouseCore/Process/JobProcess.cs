@@ -29,6 +29,17 @@ namespace DominatorHouseCore.Process
         JobKey Id { get; }
         ReachedLimitInfo CheckLimit();
         JobConfiguration JobConfiguration { get; }
+        CancellationTokenSource JobCancellationTokenSource { get; }
+        DominatorAccountModel DominatorAccountModel { get; }
+        ActivityType ActivityType { get; }
+        string TemplateId { get; }
+        string AccountId { get; }
+        string AccountName { get; }
+        bool IsNeedToSchedule { get; }
+        List<QueryInfo> SavedQueries { get; }
+        SocialNetworks SocialNetworks { get; }
+        void DelayBeforeNextActivity();
+        void StartOtherConfiguration(ScrapeResultNew scrapeResult);
     }
 
     /// <summary>
@@ -41,17 +52,19 @@ namespace DominatorHouseCore.Process
     {
         private readonly IRunningJobsHolder _runningJobsHolder;
         private readonly IJobCountersManager _jobCountersManager;
+        private readonly IQueryScraperFactory _queryScraperFactory;
         public CampaignDetails CampaignDetails { get; }
 
         [Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
-        public JobProcess()
+        public JobProcess(IQueryScraperFactory queryScraperFactory)
         {
-
+            _queryScraperFactory = queryScraperFactory;
         }
 
         public bool IsNeedToSchedule { get; set; } = false;
-        protected JobProcess(IProcessScopeModel processScopeModel)
+        protected JobProcess(IProcessScopeModel processScopeModel, IQueryScraperFactory queryScraperFactory)
         {
+            _queryScraperFactory = queryScraperFactory;
             // Get the current account details 
             _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
@@ -76,6 +89,7 @@ namespace DominatorHouseCore.Process
             TemplateId = template;
             ActivityType = activityType;
             SocialNetworks = network;
+            _queryScraperFactory = ServiceLocator.Current.GetInstance<IQueryScraperFactory>(SocialNetworks.ToString());
             CurrentJobTimeRange = currentJobTimeRange;
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
@@ -223,8 +237,7 @@ namespace DominatorHouseCore.Process
         {
             try
             {
-                var scraperFactory = ServiceLocator.Current.GetInstance<IQueryScraperFactory>(SocialNetworks.ToString());
-                var scraper = scraperFactory.Create(this);
+                var scraper = _queryScraperFactory.Create(this);
 
                 if (SavedQueries == null || SavedQueries?.Count == 0)
                     scraper.ScrapeWithoutQueries(ActivityType.ToString());
