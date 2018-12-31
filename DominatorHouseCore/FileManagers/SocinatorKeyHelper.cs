@@ -20,7 +20,7 @@ namespace DominatorHouseCore.FileManagers
                 }
             }
             catch (Exception ex)
-            {               
+            {
                 ex.DebugLog();
                 return false;
             }
@@ -32,10 +32,6 @@ namespace DominatorHouseCore.FileManagers
             {
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 return genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
-                //using (var stream = File.OpenRead(ConstantVariable.GetConfigurationKey()))
-                //{
-                //    return Serializer.Deserialize<FatalErrorHandler>(stream);
-                //}
             }
             catch (Exception ex)
             {

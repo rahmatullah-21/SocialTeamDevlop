@@ -1,11 +1,10 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
-using DominatorHouseCore.Utility;
+using DominatorHouseCore.Enums;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 {
-    public class InteractedPost : Entity, IInteractedPosts
+    public class InteractedPost : Entity, IActivityTypeEntity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string InteracteduserId { get; set; }
@@ -89,18 +88,19 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 36)]
-        public DateTime InteractionDateTime
-        {
-            get { return ((IInteractedPosts)this).InteractionDate.EpochToDateTimeUtc(); }
-            set { ((IInteractedPosts)this).InteractionDate = value.ConvertToEpochAsIs(); }
-        }
-
-        int IInteractedPosts.InteractionDate { get; set; }
+        public DateTime InteractionDateTime { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 37)]
         public string CommentText { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 38)]
         public string CommentId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 39)]
+        public string SinAccUsername { get; set; }
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

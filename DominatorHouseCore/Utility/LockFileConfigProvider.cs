@@ -5,7 +5,6 @@ using DominatorHouseCore.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FacebookModel = DominatorHouseCore.Models.FacebookModel;
 
 namespace DominatorHouseCore.Utility
 {
@@ -103,6 +102,11 @@ namespace DominatorHouseCore.Utility
                 {
                     typeof(object),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexAccountFile)
+                }
+                ,
+                {
+                    typeof(ConfigFacebookModel),
+                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherFacebookSettingsFile)
                 }
             };
 

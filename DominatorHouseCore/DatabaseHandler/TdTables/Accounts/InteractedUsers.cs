@@ -1,11 +1,9 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
-using DominatorHouseCore.Utility;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
-    public class InteractedUsers : Entity, IInteractedUsers
+    public class InteractedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string SinAccUsername { get; set; }
@@ -105,17 +103,11 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public string ProcessType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
-        public DateTime InteractionDateTime
-        {
-            get { return ((IInteractedUsers)this).InteractionDate.EpochToDateTimeUtc(); }
-            set { ((IInteractedUsers)this).InteractionDate = value.ConvertToEpochAsIs(); }
-        }
+        public DateTime InteractionDateTime { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public int IsVerified { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string MediaPath { get; set; }
-
-        int IInteractedUsers.InteractionDate { get; set; }
     }
 }
