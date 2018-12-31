@@ -659,6 +659,7 @@
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />
+    <Compile Include="Utility\PerfCounterService.cs" />
     <Compile Include="Utility\PublisherHelper.cs" />
     <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
