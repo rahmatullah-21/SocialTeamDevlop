@@ -66,9 +66,9 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             var result = sut.GetCounter(_accountId, _socialNetworks, null);
 
             // assert
-            result.NoOfActionPerformedCurrentHour.Should().Be(1);
-            result.NoOfActionPerformedCurrentDay.Should().Be(2);
-            result.NoOfActionPerformedCurrentWeek.Should().Be(3);
+            result.NoOfActionPerformedCurrentHour.Should().Be(1, $"now: {now} and utcNow:{utcNow}");
+            result.NoOfActionPerformedCurrentDay.Should().Be(2, $"now: {now} and utcNow:{utcNow}");
+            result.NoOfActionPerformedCurrentWeek.Should().Be(3, $"now: {now} and utcNow:{utcNow}");
         }
 
         [TestMethod]
@@ -109,9 +109,9 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             var result = sut.GetCounter(_accountId, _socialNetworks, ActivityType.BlockFollower);
 
             // assert
-            result.NoOfActionPerformedCurrentHour.Should().Be(1);
-            result.NoOfActionPerformedCurrentDay.Should().Be(2);
-            result.NoOfActionPerformedCurrentWeek.Should().Be(3);
+            result.NoOfActionPerformedCurrentHour.Should().Be(1, $"now: {now} and utcNow:{utcNow}");
+            result.NoOfActionPerformedCurrentDay.Should().Be(2, $"now: {now} and utcNow:{utcNow}");
+            result.NoOfActionPerformedCurrentWeek.Should().Be(3, $"now: {now} and utcNow:{utcNow}");
         }
 
 
