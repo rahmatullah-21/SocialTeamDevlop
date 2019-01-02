@@ -360,14 +360,13 @@ namespace EmbeddedBrowser
 
         private void SetGoogleLangAsEng()
         {
-            if (_isLoggedIn) return;
-
             lock (_googleLock)
             {
                 try
                 {
+                    if (_isLoggedIn) return;
                     var pageText = Browser.GetTextAsync().Result;
-                    if (string.IsNullOrEmpty(pageText) || pageText.Contains("English (")) return;
+                    if (string.IsNullOrEmpty(pageText) || pageText.Contains("English (") || pageText.Contains("Personal info")) return;
 
                     Browser.ExecuteScriptAsync("document.getElementsByClassName('vRMGwf oJeWuf')[0].click()");
 
@@ -389,6 +388,7 @@ namespace EmbeddedBrowser
             }
 
         }
+        
 
         /// <summary>
         /// Press any key n times with delay between each pressed 
@@ -466,7 +466,7 @@ namespace EmbeddedBrowser
                 loginFailed = true;
             }
             if (pageText.Contains("Get a verification code at")
-                || pageText.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you.")
+                || pageText.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
                 || pageText.Contains("Do you have your phone?")
                 || pageText.Contains("Google will send a notification to your phone to verify that it's you")
             )
@@ -1189,6 +1189,7 @@ namespace EmbeddedBrowser
         }
 
         private bool _isLoggedIn;
+        
         private bool SaveCookie()
         {
             lock (_googleLock)
@@ -1208,7 +1209,7 @@ namespace EmbeddedBrowser
                         {
                             cookieCollection.Add(new System.Net.Cookie
                             {
-                                Expires = (DateTime) item.Expires,
+                                Expires = (DateTime)item.Expires,
                                 Name = item.Name,
                                 Value = item.Value,
                                 Domain = item.Domain,
@@ -1232,11 +1233,11 @@ namespace EmbeddedBrowser
 
                     if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                     {
-                        string GooglePlusAcc = Utilities.GetBetween(objResponseParameter.Response, "\"oPEP7c\":\"", "\"");
-                        if (string.IsNullOrEmpty(GooglePlusAcc) || cookieCollection.Count < 2)
+                        var googlePlusAcc = Utilities.GetBetween(objResponseParameter.Response, "\"oPEP7c\":\"", "\"");
+                        if (string.IsNullOrEmpty(googlePlusAcc) || cookieCollection.Count < 2)
                             return false;
 
-                        DominatorAccountModel.AccountBaseModel.ProfileId = GooglePlusAcc;
+                        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
                     }
 
                     if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
@@ -1246,15 +1247,18 @@ namespace EmbeddedBrowser
                     }
 
                     _isLoggedIn = true;
+
+                    CreateChannelOnYoutube();
+
                     DominatorAccountModel.Cookies = cookieCollection;
                     DominatorAccountModel.IsUserLoggedIn = true;
                     DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
-                    var socinatorAccountBuilder = new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
-                       .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
-                       .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
-                       .AddOrUpdateCookies(DominatorAccountModel.Cookies)
-                        .SaveToBinFile();
+                    new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                      .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                      .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                      .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                       .SaveToBinFile();
 
                     //AccountsFileManager.Edit(DominatorAccountModel);
                     GlobusLogHelper.log.Info($"Browser login successfull with {DominatorAccountModel.AccountBaseModel.UserName} !");
@@ -1266,7 +1270,34 @@ namespace EmbeddedBrowser
                 return true;
             }
         }
-        
 
+        private void CreateChannelOnYoutube()
+        {
+            try
+            {
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube) return;
+
+                Browser.Load("https://www.youtube.com/create_channel");
+                Thread.Sleep(1000);
+                for (var i = 0; i < 10; i++)
+                {
+                    var htmlData = Browser.GetSourceAsync().Result;
+                    if (htmlData.Contains("youtube.com/create_channel\">") && htmlData.Contains("id=\"create-channel-identity-lb"))
+                    {
+                        Thread.Sleep(5000);
+                        Browser.ExecuteScriptAsync("document.getElementById('create-channel-submit-button').click()");
+                        break;
+                    }
+                    if (htmlData.Contains("\"editChannelButtons\""))
+                        break;
+                    Thread.Sleep(1000);
+                }
+            }
+            catch
+            {
+                //ignored
+            }
+        }
+       
     }
 }
