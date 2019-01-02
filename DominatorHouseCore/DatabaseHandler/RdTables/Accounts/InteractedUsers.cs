@@ -83,11 +83,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string Message { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
-        public string SinAccId { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
-        public string SinAccUsername { get; set; }
-        
+       
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
