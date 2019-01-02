@@ -20,7 +20,12 @@ namespace DominatorHouse.ViewModels
         private string _cpuUsage;
         private string _availableMemory;
         private DateTime? _currentDateTime;
-
+        private string _loadedMemory;
+        public string LoadedMemory
+        {
+            get { return _loadedMemory; }
+            set { SetProperty(ref _loadedMemory, value, nameof(LoadedMemory)); }
+        }
         public string AvailableMemory
         {
             get { return _availableMemory; }
@@ -50,6 +55,7 @@ namespace DominatorHouse.ViewModels
         public PerfCounterViewModel(IPerfCounterService perfCounterService)
         {
             _perfCounterService = perfCounterService;
+            LoadedMemory = _perfCounterService.LoadedMemoryDescrption;
             LogViewHeight = new GridLength(3, GridUnitType.Star);
             ShowHideLogCmd = new DelegateCommand(ShowHideLog);
             _timer = new Timer() { Interval = 1000 };
@@ -61,7 +67,7 @@ namespace DominatorHouse.ViewModels
         {
             var counters = _perfCounterService.GetActualValues();
             AvailableMemory = counters.AvailableMemory.ToString(CultureInfo.InvariantCulture);
-            CpuUsage =  counters.CpuUsage.ToString(CultureInfo.InvariantCulture);
+            CpuUsage = counters.CpuUsage.ToString(CultureInfo.InvariantCulture);
             CurrentDateTime = DateTime.Now;
         }
 

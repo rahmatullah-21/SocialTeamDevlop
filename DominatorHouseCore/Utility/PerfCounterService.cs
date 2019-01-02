@@ -8,6 +8,7 @@ namespace DominatorHouseCore.Utility
     public interface IPerfCounterService
     {
         PerfCounters GetActualValues();
+        string LoadedMemoryDescrption { get; }
     }
     public class PerfCounterService : IPerfCounterService
     {
@@ -88,7 +89,7 @@ namespace DominatorHouseCore.Utility
         public double AvailableMemory { get; }
         public double CpuUsage { get; }
 
-        public PerfCounters(double availableMemory, double cpuUsage)
+        public PerfCounters(double cpuUsage, double availableMemory)
         {
             AvailableMemory = availableMemory;
             CpuUsage = cpuUsage;
