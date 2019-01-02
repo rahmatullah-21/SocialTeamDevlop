@@ -351,8 +351,8 @@ namespace EmbeddedBrowser
 
                     if (!string.IsNullOrEmpty(result))
                         LoadPostPage(true);
-
                 }
+                SetVideoQualityAs144P();
             }
             catch
             { /*ignored*/}
@@ -364,7 +364,7 @@ namespace EmbeddedBrowser
             {
                 try
                 {
-                    if (_isLoggedIn) return;
+                    if (_isLoggedIn || TargetUrl.ToLower().Contains("www.youtube.com/watch?")) return;
                     var pageText = Browser.GetTextAsync().Result;
                     if (string.IsNullOrEmpty(pageText) || pageText.Contains("English (") || pageText.Contains("Personal info")) return;
 
@@ -388,7 +388,31 @@ namespace EmbeddedBrowser
             }
 
         }
-        
+
+        public bool SetVideoQuality;
+        private void SetVideoQualityAs144P()
+        {
+            lock (_googleLock)
+            {
+                if (SetVideoQuality || !TargetUrl.ToLower().Contains("www.youtube.com/watch?")) return;
+
+                Thread.Sleep(6000);
+                Browser.ExecuteScriptAsync("document.getElementsByClassName('ytp-button ytp-settings-button')[0].click()");
+                Thread.Sleep(1500);
+
+                var ke = new KeyEvent();
+                PressAnyKey(2, 1500, ke, 40); //Press Down Arrow key 2 times
+                Thread.Sleep(1000);
+                PressAnyKey(1, 0, ke, 39); //Press right Arrow key 1 time
+                Thread.Sleep(1000);
+                PressAnyKey(6, 1000, ke, 40); //Press Down Arrow key 6 times
+                Thread.Sleep(1000);
+                PressAnyKey(1, 0, ke, 38); //Press up Arrow key 1 time
+                Thread.Sleep(1000);
+                PressAnyKey(1, 0, ke, 13); //Press Enter key
+                SetVideoQuality = true;
+            }
+        }
 
         /// <summary>
         /// Press any key n times with delay between each pressed 
@@ -467,6 +491,7 @@ namespace EmbeddedBrowser
             }
             if (pageText.Contains("Get a verification code at")
                 || pageText.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
+                || pageText.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you.")
                 || pageText.Contains("Do you have your phone?")
                 || pageText.Contains("Google will send a notification to your phone to verify that it's you")
             )
