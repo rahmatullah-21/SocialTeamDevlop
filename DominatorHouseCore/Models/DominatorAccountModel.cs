@@ -110,8 +110,7 @@ namespace DominatorHouseCore.Models
         public IHttpHelper HttpHelper => (_httpHelper =
             (_httpHelper ??
              ServiceLocator.Current.GetInstance<IHttpHelper>(AccountBaseModel.AccountNetwork.ToString())));
-        [ProtoIgnore]
-        public IHttpHelper HttpHelpNonServLoc { get; set; }
+
         [ProtoIgnore]
         public bool IsloggedinWithPhone { get; set; }
 
