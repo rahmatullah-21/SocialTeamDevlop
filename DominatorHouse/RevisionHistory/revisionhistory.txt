@@ -1,3 +1,46 @@
+Version[1.0.0.28],[29th-December-18]
+New Features:-
+	Reddit:-
+		Unfollow => People followed outside software.
+Fixed:-
+	For all network => Fixed issue with rescheduling to next job when showing no more data found.
+	Publisher:-
+		Post on group => Fixed issue with post on groups.
+	Instagram:-
+		Grow Followers => Unfollower => Fixed issue with unfollow users who don't follow back.
+		Grow Followers => Unfollower => Fixed issue with unfollow requested users.
+	Pintrest:-
+		Edit pin => Fixed issue with campaign running even after pause the campaign.
+		Pin messenger => Fixed issue with Export report used to differ from actual report.
+		Report => Fixed issue with showing all the report after edit the campaign.
+	Facebook:-
+		Engage => Post Liker/Commentors => Fixed issue with liking/commenting the posts.
+		Scraper => Post Scraper => Fixed issue with not scraping the posts.
+		Engage => Post Liker => Fixed issue with engaging(Like/comment) from multiple accounts with Profile Scraper Campaigns.
+	Tumblr:-
+		Account => Fixed issue with account Failed.
+		Grow follower => follow => keywords => Fixed issue with keyword query type. 
+	Gplus:-
+		Account activity => follow => Fixed issue with  showing blank report.
+	Linkedin :-
+		Grow connection => Export Connection => Fixed issue to export connection  with source filter.
+		Grow connection => Export Connection => Fixed issue with to save email and phone number as custom html filename Format.
+	Quora:-
+		Voting => Upvote => Fixed issue with Upvote from custom urls.
+		Voting => Downvote => Fixed issue with downvote from custom urls.
+	Reddit:-
+		Account Activity => Comment scraper => Fixed issue with keywords.
+		Voter => Upvoter => Fixed issue with reports.
+		GrowFollower => Unfollow => People follower by software => Fixed issue with unfollowing users.
+		GrowFollower => Unfollow => Fixed issue with unfollowing custom users list.
+	Youtube:-
+		Engage => Like => Fixed issue with keywords.
+		Subscriber => Keywords => Fixed issue with subscribing channels.
+	Twitter:-
+		GrowFollowers => Follow => Fixed issue with job scheduling.
+		Scrape tweet => Keywords => Fixed issue with job scheduling.
+		Broadcast Message => Message to new Follower => Fixed issue with scheduling.
+
 Version[1.0.0.27],[26th-December-18]
 New Features:-
 	Proxy Manager:-

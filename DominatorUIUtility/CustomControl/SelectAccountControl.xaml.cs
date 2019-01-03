@@ -120,7 +120,10 @@ namespace DominatorUIUtility.CustomControl
                         ObjAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
                         break;
                     default:
-                        ObjAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
+                        if (!string.IsNullOrEmpty(txtSearch.Text))
+                            ObjAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
+                        else
+                            ObjAccountViewModel.AccountCollectionView.Filter = null;
                         break;
                 }
             }
@@ -134,10 +137,10 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var objAccountViewModel = groupName as SelectAccountViewModel;
+                var objAccountViewModel = groupName as SelectAccountModel;
 
                 return objAccountViewModel != null &&
-                       objAccountViewModel.SelectAccountModel.GroupName.IndexOf(txtSearch.Text,
+                       objAccountViewModel.GroupName.IndexOf(txtSearch.Text,
                            StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)
@@ -152,9 +155,9 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var objAccountViewModel = accountName as SelectAccountViewModel;
+                var objAccountViewModel = accountName as SelectAccountModel;
                 return objAccountViewModel != null &&
-                       objAccountViewModel.SelectAccountModel.UserName.IndexOf(txtSearch.Text,
+                       objAccountViewModel.UserName.IndexOf(txtSearch.Text,
                            StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             catch (Exception ex)

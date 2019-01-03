@@ -40,6 +40,8 @@ namespace Socinator
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            var ex = e.ExceptionObject as Exception;
+            ex.DebugLog();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

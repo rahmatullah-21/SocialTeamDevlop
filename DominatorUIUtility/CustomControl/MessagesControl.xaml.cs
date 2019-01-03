@@ -105,30 +105,37 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
-        private bool _isUnchacekfromList;
+        private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
             var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
-            //if (_isUnchacekfromList && !Messages.LstQueries.Skip(1).All(x => x.IsContentSelected == IsChecked))
-            //{
-            //    _isUnchacekfromList = false;
-            //    if (currentQuery != "All")
-            //        return;
-            //}
+            if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            {
+
+                if (!IsChecked)
+                {
+                    _isUncheckfromList = true;
+                    Messages.LstQueries[0].IsContentSelected = false;
+                }
+            }
+            if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            {
+                _isUncheckfromList = false;
+                Messages.LstQueries[0].IsContentSelected = IsChecked;
+            }
+            if (_isUncheckfromList)
+            {
+                _isUncheckfromList = false;
+                return;
+            }
 
             if (currentQuery == "All")
             {
-                _isUnchacekfromList = false;
+                _isUncheckfromList = false;
                 Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
             }
-            //if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
-            //    Messages.LstQueries[0].IsContentSelected = IsChecked;
-            //if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
-            //{
-            //    _isUnchacekfromList = true;
-            //    if (!IsChecked)
-            //        Messages.LstQueries[0].IsContentSelected = IsChecked;
-            //}
+          
+            
         }
         private void AddCheckedQueryToList()
         {
