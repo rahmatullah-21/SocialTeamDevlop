@@ -390,27 +390,57 @@ namespace EmbeddedBrowser
         }
 
         public bool SetVideoQuality;
+       
         private void SetVideoQualityAs144P()
         {
+            if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
+                Browser.ExecuteScriptAsync(
+                    "document.getElementsByClassName('ytp-ad-skip-button-icon')[0].click()"); // for Skipping add
+
             lock (_googleLock)
             {
                 if (SetVideoQuality || !TargetUrl.ToLower().Contains("www.youtube.com/watch?")) return;
 
-                Thread.Sleep(6000);
-                Browser.ExecuteScriptAsync("document.getElementsByClassName('ytp-button ytp-settings-button')[0].click()");
+                Thread.Sleep(3000);
+                Browser.ExecuteScriptAsync(
+                    "document.getElementsByClassName('ytp-volume-slider')[0].click()"); // To Open Volume Slider
+                Thread.Sleep(100);
+                var ke = new KeyEvent();
+                PressAnyKey(21, 100, ke, 40); //Press Down Arrow key 40 times to mute the music
+
+                Thread.Sleep(3000);
+                Browser.ExecuteScriptAsync(
+                    "document.getElementsByClassName('ytp-ad-skip-button-icon')[0].click()"); // for Skipping add
+
+                //Browser.ExecuteScriptAsync("document.getElementsByClassName('ytp-mute-button ytp-button')[0].click()"); // Direct Mute the music
+
+                Thread.Sleep(500);
+                Browser.ExecuteScriptAsync(
+                    "document.getElementsByClassName('ytp-button ytp-settings-button')[0].click()");
                 Thread.Sleep(1500);
 
-                var ke = new KeyEvent();
-                PressAnyKey(2, 1500, ke, 40); //Press Down Arrow key 2 times
+                PressAnyKey(4, 900, ke, 40); //Press Down Arrow key 4 times
                 Thread.Sleep(1000);
                 PressAnyKey(1, 0, ke, 39); //Press right Arrow key 1 time
                 Thread.Sleep(1000);
-                PressAnyKey(6, 1000, ke, 40); //Press Down Arrow key 6 times
+                PressAnyKey(6, 900, ke, 40); //Press Down Arrow key 6 times
                 Thread.Sleep(1000);
                 PressAnyKey(1, 0, ke, 38); //Press up Arrow key 1 time
                 Thread.Sleep(1000);
                 PressAnyKey(1, 0, ke, 13); //Press Enter key
                 SetVideoQuality = true;
+
+                new System.Threading.Tasks.Task(() =>
+                {
+                    while (!Browser.IsDisposed)
+                    {
+                        Thread.Sleep(3500);
+                        if (!Browser.IsDisposed)
+                            Browser.ExecuteScriptAsync(
+                                "document.getElementsByClassName('ytp-ad-skip-button-icon')[0].click()"); // for Skipping add
+                    }
+                }).Start();
+
             }
         }
 

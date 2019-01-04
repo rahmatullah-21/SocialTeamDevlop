@@ -471,8 +471,29 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _campaignEndDate, value);
             }
         }
-
-
+        private bool _isDelayPostChecked;
+        [ProtoMember(35)]
+        public bool IsDelayPostChecked
+        {
+            get { return _isDelayPostChecked; }
+            set { SetProperty(ref _isDelayPostChecked, value); }
+        }
+        /// <summary>
+        /// To specify the delay in minutes for multiple posts
+        /// </summary>
+        private RangeUtilities _delayBetweenEachPost = new RangeUtilities(5, 30);
+        [ProtoMember(36)]
+        public RangeUtilities DelayBetweenEachPost
+        {
+            get
+            {
+                return _delayBetweenEachPost;
+            }
+            set
+            {
+                SetProperty(ref _delayBetweenEachPost, value);
+            }
+        }
         public void InitializeDefaultJobConfiguration()
         {
             Weekday.Clear();

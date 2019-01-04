@@ -157,7 +157,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void CanSaveSinglePost(object sender)
         {
             var saveLocation = sender as string;
-
+            var status = saveLocation == "SaveToPending" ? PostQueuedStatus.Pending : PostQueuedStatus.Draft;
             try
             {
                 // Get the create campaign Post list model
@@ -190,9 +190,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     cloneObject.PostDetailsId = Utilities.GetGuid();
 
                     // Post Queued status
-                    cloneObject.PostQueuedStatus = saveLocation == "SaveToPending"
-                        ? PostQueuedStatus.Pending
-                        : PostQueuedStatus.Draft;
+                    cloneObject.PostQueuedStatus = status;
 
                     // Adding to post collections
                     postCollectionDetails.Add(cloneObject);
@@ -219,9 +217,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     // Iterate the Multiple posts images
                     createCampaignModel.LstPostDetailsModels.ForEach(post =>
                     {
-                        post.PostQueuedStatus = saveLocation == "SaveToPending"
-                            ? PostQueuedStatus.Pending
-                            : PostQueuedStatus.Draft;
+                        post.PostQueuedStatus = status;
 
                         if (post.IsMultipleImagePost)
                         {
@@ -283,20 +279,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #endregion
 
-                #region Save logger infomations
-
-                if (!isLoggerNeeded)
-                    return;
-
-                var loggerMessage = new Func<string>(Application.Current.FindResource(@"LangKeyPostSaved").ToString).Invoke();
-                if (Application.Current != null)
+                if (isLoggerNeeded)
                 {
-                    if (!string.IsNullOrEmpty(loggerMessage))
-                        GlobusLogHelper.log.Info(loggerMessage);
+                    GlobusLogHelper.log.Info("LangKeyPostSaved".FromResourceDictionary() + $" to {status} list");
                 }
-
-                #endregion
-
             }
             catch (Exception ex)
             {
