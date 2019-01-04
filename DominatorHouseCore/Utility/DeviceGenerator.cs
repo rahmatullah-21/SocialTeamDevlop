@@ -32,7 +32,7 @@ namespace DominatorHouseCore.Utility
         public string Model { get; private set; }
 
         [ProtoMember(5)]
-        public string PhoneId { get; private set; }
+        public string PhoneId { get;  set; }
 
         public string Useragent =>
             string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)AndroidVersion, (object)AndroidRelease, (object)Dpi, (object)Resolution, (object)ManufacturerBrand, (object)Model, (object)Device, (object)Cpu, (object)ConstantVariable.UseragentLocale+ "; 125398471");
