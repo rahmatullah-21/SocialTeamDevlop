@@ -63,14 +63,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void SelectAccountExecute(object sender)
         {
             // Calling Select Destination UI with selected destinations
-            var publisherCreateDestination = new PublisherCreateDestination(true);
-            publisherCreateDestination.PublisherCreateDestinationsViewModel =
-                PublisherCreateDestination.Instance.PublisherCreateDestinationsViewModel;
-            var dialog = new Dialog();
+            //var publisherCreateDestination = new PublisherCreateDestination(true);
+            //publisherCreateDestination.PublisherCreateDestinationsViewModel =
+            //    PublisherCreateDestination.Instance.PublisherCreateDestinationsViewModel;
+            //var dialog = new Dialog();
 
-            // Pass the UI object with Title of the Page
-            var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
-            metroWindow.ShowDialog();
+            //// Pass the UI object with Title of the Page
+            //var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
+            //metroWindow.ShowDialog();
         }
 
         #endregion
