@@ -26,7 +26,9 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyProfileSuspended")]
         ProfileSuspended,
         [Description("LangKeyTwoFactorLoginAttempt")]
-        TwoFactorLoginAttempt
+        TwoFactorLoginAttempt,
+        [Description("LangKeyTooManyAttemptsOnSignIn")]
+        TooManyAttemptsOnSignIn
 
     }
 }

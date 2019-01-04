@@ -3339,4 +3339,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerWeek">Number Of Accept Board Invitations Per Week</system:String>
     <system:String x:Key="LangKeyMaxAcceptBoardInvitationsPerDay">Max Accept Board Invitations Per Day</system:String>
     <system:String x:Key="LangKeyAcceptBoardInvitation">Accept Board Invitation</system:String>
+    <system:String x:Key="LangKeyTooManyAttemptsOnSignIn">Too many attempts on sign in. Try again later.</system:String>
+    <system:String x:Key="LangKeyBirthdayShouldHaveBeenBetween">Birthday should have been between</system:String>
 </ResourceDictionary>

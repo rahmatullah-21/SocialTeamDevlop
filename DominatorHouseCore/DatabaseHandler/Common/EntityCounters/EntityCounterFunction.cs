@@ -36,7 +36,9 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             var nowUtc = dateProvider.UtcNow();
             var startOfWeek = nowUtc.GetStartOfWeek();
             var today = nowUtc.Date;
-            var lastHour = nowUtc.AddSeconds(-3600);
+
+            var lastHour = DateTime.Now.Date.AddHours(DateTime.Now.Hour);
+            //var lastHour = nowUtc.AddSeconds(-3600);
             var countLastWeek = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, startOfWeek, activityType));
             var countLastDay = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, today, activityType));
             var countLastHour = dbOperations.Count(BuildExpressionFor(_datePredicate, _activityTypePredicate, lastHour, activityType));
