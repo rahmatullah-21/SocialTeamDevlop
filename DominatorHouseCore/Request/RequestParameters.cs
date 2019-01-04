@@ -93,6 +93,15 @@ namespace DominatorHouseCore.Request
             }
         }
 
+        public IRequestParameters requestParameter { get; set; }
+        public void SetRequestParameter(IRequestParameters requestParameters)
+        {
+            requestParameter = requestParameters;
+        }
+
+        public IRequestParameters GetRequestParameter() => requestParameter;
+
+
         /// <summary>
         /// To add media files with their respective <see cref="DominatorHouseCore.Request.FileData"/> details
         /// </summary>

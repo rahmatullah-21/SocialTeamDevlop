@@ -21,6 +21,7 @@ using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls;
 using Prism.Commands;
+using Microsoft.Practices.ServiceLocation;
 
 namespace EmbeddedBrowser
 {
@@ -445,7 +446,7 @@ namespace EmbeddedBrowser
                      pageText.Contains("Confirm the recovery email address"))
                 {
                     DominatorAccountModel.IsUserLoggedIn = false;
-                    DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
+                    DominatorAccountModel.Cookies = new CookieCollection();
                     DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
                     return true;
                 }
@@ -509,7 +510,7 @@ namespace EmbeddedBrowser
             if (loginFailed)
             {
                 DominatorAccountModel.IsUserLoggedIn = false;
-                DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
+                DominatorAccountModel.Cookies = new CookieCollection();
                 return true;
             }
             #endregion
@@ -1248,13 +1249,18 @@ namespace EmbeddedBrowser
                         }
                     }
 
-                    var requestParameters = (RequestParameters)DominatorAccountModel.HttpHelper.GetRequestParameter();
+                    //var requestParameters = (RequestParameters)DominatorAccountModel.HttpHelper.();
+                    //requestParameters.Cookies = cookieCollection;
+                    //DominatorAccountModel.HttpHelper.SetRequestParameter(requestParameters);
+
+                    var requestParameters = ServiceLocator.Current.GetInstance<IRequestParameters>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
                     requestParameters.Cookies = cookieCollection;
-                    DominatorAccountModel.HttpHelper.SetRequestParameter(requestParameters);
+                    requestParameters.SetRequestParameter(requestParameters);
+                 
 
                     var url = SocialHomeUrls();
 
-                    IResponseParameter objResponseParameter = (ResponseParameter)DominatorAccountModel.HttpHelper.GetRequest(url);
+                    IResponseParameter objResponseParameter = (ResponseParameter)DominatorAccountModel.HttpHelper.GetRequest(url, requestParameters);
 
                     if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                     {

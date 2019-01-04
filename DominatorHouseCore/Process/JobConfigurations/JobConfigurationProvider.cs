@@ -1,4 +1,5 @@
 ﻿
+using System;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
@@ -25,21 +26,23 @@ namespace DominatorHouseCore.Process.JobConfigurations
 
         public CommonJobConfiguration GetJobConfiguration(string accountId, ActivityType activityType)
         {
-            var moduleConfiguration = _jobActivityConfigurationManager[accountId, activityType];
-            var model = _templatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
-            JObject jsonObject = JObject.Parse(model.ActivitySettings);
-            var isNeedToSchedule = jsonObject["IsNeedToStart"]?.ToObject<bool>() ?? false;
-            var jobConfiguration = jsonObject["JobConfiguration"]?.ToObject<JobConfiguration>();
-            List<QueryInfo> savedQueries;
-            try
-            {
-                savedQueries = jsonObject["SavedQueries"]?.ToObject<List<QueryInfo>>() ?? new List<QueryInfo>();
-            }
-            catch
-            {
-                savedQueries = new List<QueryInfo>();
-            }
-
+            
+                var moduleConfiguration = _jobActivityConfigurationManager[accountId, activityType];
+                var model = _templatesFileManager.GetTemplateById(moduleConfiguration.TemplateId);
+                JObject jsonObject = JObject.Parse(model.ActivitySettings);
+                var isNeedToSchedule = jsonObject["IsNeedToStart"]?.ToObject<bool>() ?? false;
+                var jobConfiguration = jsonObject["JobConfiguration"]?.ToObject<JobConfiguration>();
+                List<QueryInfo> savedQueries;
+                try
+                {
+                    savedQueries = jsonObject["SavedQueries"]?.ToObject<List<QueryInfo>>() ?? new List<QueryInfo>();
+                }
+                catch
+                {
+                    savedQueries = new List<QueryInfo>();
+                }
+            
+           
             return new CommonJobConfiguration(jobConfiguration, savedQueries, isNeedToSchedule);
         }
     }

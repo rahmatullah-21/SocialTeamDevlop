@@ -621,6 +621,7 @@
     <Compile Include="ProxyServerManagment\ProxyManagmentUnityExtension.cs" />
     <Compile Include="ProxyServerManagment\ProxyServerParserService.cs" />
     <Compile Include="ProxyServerManagment\ProxyValidationService.cs" />
+    <Compile Include="Request\IHttpHelperTest.cs" />
     <Compile Include="Settings\SoftwareSettings.cs" />
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />

@@ -252,7 +252,7 @@ namespace DominatorUIUtility.ViewModel
                     //    DominatorAccountModel.CookieHelperList))
                     //{
                         DominatorAccountModel.CookieHelperList?.Clear();
-                        DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
+                        DominatorAccountModel.Cookies = new CookieCollection();
                     //}
                 }
             }

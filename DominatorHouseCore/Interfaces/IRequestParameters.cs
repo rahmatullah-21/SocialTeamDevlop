@@ -40,5 +40,7 @@ namespace DominatorHouseCore.Interfaces
 
         // To add the header with web header collections
         void AddHeader(string key, string value);
+        void SetRequestParameter(IRequestParameters requestParameters);
+        IRequestParameters GetRequestParameter();
     }
 }
