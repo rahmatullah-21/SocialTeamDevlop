@@ -35,8 +35,8 @@
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>175</ApplicationRevision>
-    <ApplicationVersion>1.0.0.175</ApplicationVersion>
+    <ApplicationRevision>179</ApplicationRevision>
+    <ApplicationVersion>1.0.0.179</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

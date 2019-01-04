@@ -10,6 +10,7 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
@@ -81,7 +82,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (limitInfo.ReachedLimitType != ReachedLimitType.NoLimit)
                     {
 
-                       
+
                         jobProcess.RescheduleifLimitReached(limitInfo, limitInfo.ReachedLimitType);
                         return;
                     }
@@ -273,18 +274,21 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public void ScheduleEachActivity(DominatorAccountModel account)
         {
-            try
+            Task.Factory.StartNew(() =>
             {
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
+                try
                 {
-                    ScheduleNextActivity(account, moduleConfiguration.ActivityType);
+                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                    foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
+                    {
+                        ScheduleNextActivity(account, moduleConfiguration.ActivityType);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            });
         }
 
         public void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType)

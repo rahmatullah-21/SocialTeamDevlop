@@ -8,6 +8,7 @@ using DominatorUIUtility.CustomControl;
 using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows;
 
@@ -19,10 +20,14 @@ namespace DominatorHouse.Utilities
         public void InitializeOnLoadConfigurations(AccessorStrategies strategies)
         {
             _strategies = strategies;
-            CheckSocinatorIcon();
-            ScheduleAccountUpdation();
-            ActivityManagerInitializer();
-            OtherInitializers();
+            Parallel.Invoke(CheckSocinatorIcon,
+                            ScheduleAccountUpdation,
+                            ActivityManagerInitializer,
+                            OtherInitializers);
+            //CheckSocinatorIcon();
+            //ScheduleAccountUpdation();
+            //ActivityManagerInitializer();
+            //OtherInitializers();
         }
 
         private void OtherInitializers()

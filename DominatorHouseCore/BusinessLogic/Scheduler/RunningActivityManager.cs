@@ -6,6 +6,7 @@ using FluentScheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -23,23 +24,26 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             //IEnumerable<Tuple<DominatorAccountModel, Utility.ModuleConfiguration>> jobConfigs;
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
             var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
+            Task.Factory.StartNew(() =>
             {
-                // everything is allowed
+                if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
+                {
+                    // everything is allowed
 
-                foreach (var account in accountDetails)
-                {
-                    dominatorScheduler.ScheduleEachActivity(account);
+                    foreach (var account in accountDetails)
+                    {
+                        dominatorScheduler.ScheduleEachActivity(account);
+                    }
                 }
-            }
-            else
-            {
-                // be picky - only one per account (choose wisely)
-                foreach (var account in accountDetails)
+                else
                 {
-                    StartNextRound(account);
+                    // be picky - only one per account (choose wisely)
+                    foreach (var account in accountDetails)
+                    {
+                        StartNextRound(account);
+                    }
                 }
-            }
+            });
         }
 
         public void StartNextRound(DominatorAccountModel accountModel)
