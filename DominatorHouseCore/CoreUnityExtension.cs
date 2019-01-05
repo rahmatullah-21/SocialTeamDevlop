@@ -12,6 +12,7 @@ using DominatorHouseCore.ProxyServerManagment;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
+using TwtDominatorCore.TDUtility;
 using Unity;
 using Unity.Extension;
 
@@ -64,6 +65,9 @@ namespace DominatorHouseCore
 
             Container.AddNewExtension<JobProcessUnityExtension>();
             Container.AddNewExtension<EntityCounterUnityExtension>();
+
+            Container.RegisterSingleton<IThreadUtility, ThreadUtility>();
+
         }
     }
 }
