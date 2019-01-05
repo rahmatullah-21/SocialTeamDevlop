@@ -24,6 +24,8 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IGlobalDatabaseConnection, GlobalDatabaseConnection>();
             Container.RegisterSingleton<ILogViewModel, LogViewModel>();
 
+            Container.RegisterSingleton<IAccountScopeFactory, AccountScopeFactory>();
+
             Container.RegisterSingleton<IAccountsCacheService, AccountsCacheService>();
             Container.RegisterSingleton<ITemplatesCacheService, TemplatesCacheService>();
             Container.RegisterSingleton<ITemplatesFileManager, TemplatesFileManager>();

@@ -627,6 +627,7 @@
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
+    <Compile Include="Utility\AccountScopeFactory.cs" />
     <Compile Include="Utility\CacheText.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\DateProvider.cs" />

@@ -17,12 +17,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Unity;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class AccountDetailsViewModel : BindableBase
     {
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IAccountScopeFactory _accountScopeFactory;
+        private readonly IHttpHelper _httpHelper;
         #region Properties
         public DominatorAccountModel DominatorAccountModel { get; set; }
         public DominatorAccountModel OldDominatorAccountModel { get; set; }
@@ -130,6 +133,9 @@ namespace DominatorUIUtility.ViewModel
         public AccountDetailsViewModel(DominatorAccountModel dataContext)
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
+            _httpHelper = _accountScopeFactory[dataContext.AccountId]
+                .Resolve<IHttpHelper>(dataContext.AccountBaseModel.AccountNetwork.ToString());
             DominatorAccountModel = dataContext;
 
             // Take backup of current DominatorAccountModel object
@@ -220,7 +226,7 @@ namespace DominatorUIUtility.ViewModel
             #endregion
         }
 
-        void EditAccount()
+        private void EditAccount()
         {
 
             if (OldDominatorAccountModel == null) return;
@@ -248,12 +254,8 @@ namespace DominatorUIUtility.ViewModel
                     || OldDominatorAccountModel.AccountBaseModel.Password != DominatorAccountModel.AccountBaseModel.Password
                     || OldDominatorAccountModel.UserAgentWeb != DominatorAccountModel.UserAgentWeb)
                 {
-                    //if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList,
-                    //    DominatorAccountModel.CookieHelperList))
-                    //{
-                        DominatorAccountModel.CookieHelperList?.Clear();
-                        DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
-                    //}
+                    DominatorAccountModel.CookieHelperList?.Clear();
+                    _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
                 }
             }
             catch (Exception ex)

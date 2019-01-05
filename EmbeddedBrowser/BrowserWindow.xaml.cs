@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Markup;
-using CefSharp;
+﻿using CefSharp;
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
@@ -21,6 +11,18 @@ using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls;
 using Prism.Commands;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Markup;
+using Unity;
 
 namespace EmbeddedBrowser
 {
@@ -29,6 +31,8 @@ namespace EmbeddedBrowser
     /// </summary>
     public partial class BrowserWindow : MetroWindow, INotifyPropertyChanged, IComponentConnector, IDisposable
     {
+        private readonly IAccountScopeFactory _accountScopeFactory;
+        private readonly IHttpHelper _httpHelper;
 
         private readonly object _syncLock = new object();
 
@@ -39,17 +43,20 @@ namespace EmbeddedBrowser
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SerachCommand = new DelegateCommand(GoToUrl);
+            _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
         }
 
         private void GoToUrl()
         {
-            Browser.Load(UrlBar.Text); 
+            Browser.Load(UrlBar.Text);
         }
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel)
             : this()
         {
             DominatorAccountModel = dominatorAccountModel;
+            _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
+                .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
@@ -71,6 +78,9 @@ namespace EmbeddedBrowser
         {
 
             DominatorAccountModel = dominatorAccountModel;
+            _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
+                .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
+
             TargetUrl = targetUrl;
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
@@ -445,7 +455,7 @@ namespace EmbeddedBrowser
                      pageText.Contains("Confirm the recovery email address"))
                 {
                     DominatorAccountModel.IsUserLoggedIn = false;
-                    DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
+                    _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
                     DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
                     return true;
                 }
@@ -509,14 +519,14 @@ namespace EmbeddedBrowser
             if (loginFailed)
             {
                 DominatorAccountModel.IsUserLoggedIn = false;
-                DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
+                _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
                 return true;
             }
             #endregion
 
             return false;
         }
-        
+
         private void LinkedInBrowserLogin(string html)
         {
             if (!string.IsNullOrEmpty(html) && html.Contains("LinkedIn: Log In or Sign Up") && html.Contains("Be great at what you do") && html.Contains("By clicking Join now, you agree to the LinkedIn"))
@@ -1165,7 +1175,7 @@ namespace EmbeddedBrowser
                 //model.AddItem((CefMenuCommand)Refresh, "Refresh");
                 //model.AddItem((CefMenuCommand)Back, "Back");
                 //model.AddItem((CefMenuCommand)Forward, "Forward");
-              
+
             }
             bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
             {
@@ -1214,7 +1224,7 @@ namespace EmbeddedBrowser
         }
 
         private bool _isLoggedIn;
-        
+
         private bool SaveCookie()
         {
             lock (_googleLock)
@@ -1248,13 +1258,13 @@ namespace EmbeddedBrowser
                         }
                     }
 
-                    var requestParameters = (RequestParameters)DominatorAccountModel.HttpHelper.GetRequestParameter();
+                    var requestParameters = (RequestParameters)_httpHelper.GetRequestParameter();
                     requestParameters.Cookies = cookieCollection;
-                    DominatorAccountModel.HttpHelper.SetRequestParameter(requestParameters);
+                    _httpHelper.SetRequestParameter(requestParameters);
 
                     var url = SocialHomeUrls();
 
-                    IResponseParameter objResponseParameter = (ResponseParameter)DominatorAccountModel.HttpHelper.GetRequest(url);
+                    IResponseParameter objResponseParameter = (ResponseParameter)_httpHelper.GetRequest(url);
 
                     if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
                     {
@@ -1323,6 +1333,6 @@ namespace EmbeddedBrowser
                 //ignored
             }
         }
-       
+
     }
 }

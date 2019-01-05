@@ -5,10 +5,10 @@ using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process.ExecutionCounters;
-using DominatorHouseCore.Process.JobConfigurations;
 using DominatorHouseCore.Process.JobLimits;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
@@ -54,18 +54,20 @@ namespace DominatorHouseCore.Process
         private readonly IRunningJobsHolder _runningJobsHolder;
         private readonly IJobCountersManager _jobCountersManager;
         private readonly IQueryScraperFactory _queryScraperFactory;
+        private readonly IHttpHelper _httpHelper;
         public CampaignDetails CampaignDetails { get; }
 
 
-        [Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
-        public JobProcess()
-        {
-        }
+        //[Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
+        //public JobProcess()
+        //{
+        //}
 
         public bool IsNeedToSchedule { get; set; } = false;
-        protected JobProcess(IProcessScopeModel processScopeModel, IQueryScraperFactory queryScraperFactory)
+        protected JobProcess(IProcessScopeModel processScopeModel, IQueryScraperFactory queryScraperFactory, IHttpHelper httpHelper)
         {
             _queryScraperFactory = queryScraperFactory;
+            _httpHelper = httpHelper;
             // Get the current account details 
             _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
@@ -81,33 +83,6 @@ namespace DominatorHouseCore.Process
 
             CampaignDetails = processScopeModel.CampaignDetails;
             CampaignId = processScopeModel.CampaignId;
-        }
-
-        [Obsolete]
-        protected JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
-        {
-            // Get the current account details 
-            TemplateId = template;
-            ActivityType = activityType;
-            SocialNetworks = network;
-            _queryScraperFactory = ServiceLocator.Current.GetInstance<IQueryScraperFactory>(SocialNetworks.ToString());
-            CurrentJobTimeRange = currentJobTimeRange;
-            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-            var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            var jobConfigurationProvider = ServiceLocator.Current.GetInstance<IJobConfigurationProvider>();
-            _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
-            _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
-            DominatorAccountModel = accountsFileManager.GetAccount(account, network);
-
-            var commonConfiguration =
-                jobConfigurationProvider.GetJobConfiguration(DominatorAccountModel.AccountId, activityType);
-
-            IsNeedToSchedule = commonConfiguration.IsNeedToSchedule;
-            JobConfiguration = commonConfiguration.JobConfiguration;
-            SavedQueries = commonConfiguration.SavedQueries;
-            CampaignDetails = campaignFileManager.FirstOrDefault(x => x.TemplateId == TemplateId);
-            CampaignId = CampaignDetails?.CampaignId;
-
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
@@ -437,7 +412,7 @@ namespace DominatorHouseCore.Process
                 GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
 
-                if (!DominatorAccountModel.IsUserLoggedIn || (DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies == null))
+                if (!DominatorAccountModel.IsUserLoggedIn || (_httpHelper.GetRequestParameter().Cookies == null))
                 {
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
