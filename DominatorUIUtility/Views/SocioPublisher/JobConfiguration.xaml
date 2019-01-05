@@ -51,17 +51,18 @@
             </control:TimePicker>
             <TextBlock Text="{DynamicResource LangKeyEachPostWillBePublishedToAllSelectedDestinationsIncludingGroupsPagesWalls}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5,0">
-            <CheckBox Content="{DynamicResource LangKeyDelayBetweenEachPost}"  
-                      VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsDelayPostChecked}"/>
-            <control:NumericUpDown Minimum="0" 
-                                   Value="{Binding DelayBetweenEachPost.StartValue}"
-                                   VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource LangKeyTo}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Minimum="{Binding DelayBetweenEachPost.StartValue}" Value="{Binding DelayBetweenEachPost.EndValue}" VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource LangKeyMinutes}"  VerticalAlignment="Center" Margin="5"/>
-        </StackPanel>
-        <StackPanel Visibility="{Binding IsDelayPostChecked,Converter={StaticResource BooleanToInverseVisibilityConverter}}">
+       
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <RadioButton Content="{DynamicResource LangKeyDelayBetweenPost}"  
+                             VerticalAlignment="Center" GroupName="postGroup" Margin="5" IsChecked="{Binding IsDelayPostChecked}"/>
+                <control:NumericUpDown Minimum="0" 
+                                       Value="{Binding DelayBetweenEachPost.StartValue}"
+                                       VerticalAlignment="Center"  Margin="5"/>
+                <TextBlock Text="{DynamicResource LangKeyTo}"  VerticalAlignment="Center" Margin="5"/>
+                <control:NumericUpDown Minimum="{Binding DelayBetweenEachPost.StartValue}" Value="{Binding DelayBetweenEachPost.EndValue}" VerticalAlignment="Center"  Margin="5"/>
+                <TextBlock Text="{DynamicResource LangKeyMinutes}"  VerticalAlignment="Center" Margin="5"/>
+            </StackPanel>
             <RadioButton GroupName="postGroup" IsChecked="{Binding IsSpecifyPostingIntervalChecked}" Content="{DynamicResource LangKeyConfigurePostingIntervalForEachTimer}"  Margin="5"
                      x:Name="ChkPostingInterval"/>
             <!--Click="ChkPostingInterval_OnClick" />-->
