@@ -62,15 +62,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SelectAccountExecute(object sender)
         {
-            // Calling Select Destination UI with selected destinations
-            //var publisherCreateDestination = new PublisherCreateDestination(true);
-            //publisherCreateDestination.PublisherCreateDestinationsViewModel =
-            //    PublisherCreateDestination.Instance.PublisherCreateDestinationsViewModel;
-            //var dialog = new Dialog();
 
-            //// Pass the UI object with Title of the Page
-            //var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
-            //metroWindow.ShowDialog();
+            var publisherCreateDestination = new PublisherCreateDestination(true);
+            publisherCreateDestination.PublisherCreateDestinationsViewModel =
+                PublisherCreateDestination.Instance.PublisherCreateDestinationsViewModel;
+            var dialog = new Dialog();
+
+            // Pass the UI object with Title of the Page
+            var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
+            metroWindow.ShowDialog();
+            var newCreatedDestination = ManageDestinationFileManager.GetAll().LastOrDefault();
+
+            var destinationId = newCreatedDestination.DestinationId;
+            _publisherCreateCampaignModel.LstDestinationId = new ObservableCollection<string>(new List<string>() { destinationId });
         }
 
         #endregion
@@ -556,7 +560,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked)
                 {
                     specificRunningTime = new List<TimeSpan>();
-                    for (int i = 0; i < PublisherCreateCampaignModel.JobConfigurations.MaxPost; i++)
+                    specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
+                    for (int i = 0; i < PublisherCreateCampaignModel.JobConfigurations.MaxPost - 1; i++)
                     {
                         specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
                     }

@@ -488,6 +488,7 @@
     <system:String x:Key="LangKeyDelayBetweenActivities">Delay Between Activities</system:String>
     <system:String x:Key="LangKeyDelayBetweenDownloads">Delay Between Downloads</system:String>
     <system:String x:Key="LangKeyDelayBetweenEachOperation">Delay Between Each Operation</system:String>
+    <system:String x:Key="LangKeyDelayBetweenEachDestinationPost">Delay Between Each Destination Post</system:String>
     <system:String x:Key="LangKeyDelayBetweenEachPost">Delay Between Each Post</system:String>
     <system:String x:Key="LangKeyDelayBetweenFindingPhotos">Delay Between Finding Photos</system:String>
     <system:String x:Key="LangKeyDelayBetweenFollows">Delay Between Follows</system:String>
@@ -3341,4 +3342,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAcceptBoardInvitation">Accept Board Invitation</system:String>
     <system:String x:Key="LangKeyTooManyAttemptsOnSignIn">Too many attempts on sign in. Try again later.</system:String>
     <system:String x:Key="LangKeyBirthdayShouldHaveBeenBetween">Birthday should have been between</system:String>
+    <system:String x:Key="LangKeyAfterPostLikeAction">After Post Like Action</system:String>
+    <system:String x:Key="LangKeySendRequestIfUserPost">Send FriendRequest If User Post</system:String>
+    <system:String x:Key="LangKeyAfterPostCommentAction">After Post Comment Action</system:String>
+    <system:String x:Key="LangKeyAlternateEmail">Alternate Email</system:String>
 </ResourceDictionary>

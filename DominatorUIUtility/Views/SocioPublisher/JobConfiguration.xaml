@@ -24,17 +24,7 @@
     <StackPanel x:Name="MainGrid">
 
         <TextBlock Text="{DynamicResource LangKeySettings}" FontWeight="Bold"  Margin="5"/>
-
-        <StackPanel Orientation="Horizontal" Margin="5,0">
-            <CheckBox Content="{DynamicResource LangKeyDelayBetweenEachPost}"  
-                      VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsDelayPostChecked}"/>
-            <control:NumericUpDown Minimum="0" 
-                                   Value="{Binding DelayBetweenEachPost.StartValue}"
-                                   VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource LangKeyTo}"  VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown Minimum="{Binding DelayBetweenEachPost.StartValue}" Value="{Binding DelayBetweenEachPost.EndValue}" VerticalAlignment="Center"  Margin="5"/>
-            <TextBlock Text="{DynamicResource LangKeyMinutes}"  VerticalAlignment="Center" Margin="5"/>
-        </StackPanel>
+       
         <StackPanel Orientation="Horizontal" Margin="10,0">
             <TextBlock Text="{DynamicResource LangKeyTheCampaignWillPublish}" VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown x:Name="numericMaxPost" Minimum="0" ValueDecremented="NumericMaxPost_OnValueDecremented"
@@ -60,6 +50,16 @@
                 </control:TimePicker.SelectedTime >
             </control:TimePicker>
             <TextBlock Text="{DynamicResource LangKeyEachPostWillBePublishedToAllSelectedDestinationsIncludingGroupsPagesWalls}"  VerticalAlignment="Center" Margin="5"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="5,0">
+            <CheckBox Content="{DynamicResource LangKeyDelayBetweenEachPost}"  
+                      VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsDelayPostChecked}"/>
+            <control:NumericUpDown Minimum="0" 
+                                   Value="{Binding DelayBetweenEachPost.StartValue}"
+                                   VerticalAlignment="Center"  Margin="5"/>
+            <TextBlock Text="{DynamicResource LangKeyTo}"  VerticalAlignment="Center" Margin="5"/>
+            <control:NumericUpDown Minimum="{Binding DelayBetweenEachPost.StartValue}" Value="{Binding DelayBetweenEachPost.EndValue}" VerticalAlignment="Center"  Margin="5"/>
+            <TextBlock Text="{DynamicResource LangKeyMinutes}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
         <StackPanel Visibility="{Binding IsDelayPostChecked,Converter={StaticResource BooleanToInverseVisibilityConverter}}">
             <RadioButton GroupName="postGroup" IsChecked="{Binding IsSpecifyPostingIntervalChecked}" Content="{DynamicResource LangKeyConfigurePostingIntervalForEachTimer}"  Margin="5"
@@ -195,7 +195,7 @@
                                     SelectedDate="{Binding CampaignEndDate}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5,0">
-            <TextBlock Text="{DynamicResource LangKeyDelayBetweenEachPost}"  VerticalAlignment="Center" Margin="5"/>
+            <TextBlock Text="{DynamicResource LangKeyDelayBetweenEachDestinationPost}"  VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown Minimum="0"
                                Value="{Binding DelayBetweenPost.StartValue}"
                                VerticalAlignment="Center"  Margin="5"/>
