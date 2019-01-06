@@ -10,12 +10,10 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process.ExecutionCounters;
 using DominatorHouseCore.Process.JobLimits;
-using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +26,6 @@ namespace DominatorHouseCore.Process
         void Stop();
         JobKey Id { get; }
         ReachedLimitInfo CheckLimit();
-        void RescheduleifLimitReached(ReachedLimitInfo limitInfo, ReachedLimitType limitType);
         JobConfiguration JobConfiguration { get; }
         CancellationTokenSource JobCancellationTokenSource { get; }
         DominatorAccountModel DominatorAccountModel { get; }
@@ -55,6 +52,7 @@ namespace DominatorHouseCore.Process
         private readonly IJobCountersManager _jobCountersManager;
         private readonly IQueryScraperFactory _queryScraperFactory;
         private readonly IHttpHelper _httpHelper;
+        private readonly IDominatorScheduler _dominatorScheduler;
         public CampaignDetails CampaignDetails { get; }
 
 
@@ -71,6 +69,7 @@ namespace DominatorHouseCore.Process
             // Get the current account details 
             _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
+            _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             TemplateId = processScopeModel.TemplateId;
             ActivityType = processScopeModel.ActivityType;
             SocialNetworks = processScopeModel.Network;
@@ -83,27 +82,29 @@ namespace DominatorHouseCore.Process
 
             CampaignDetails = processScopeModel.CampaignDetails;
             CampaignId = processScopeModel.CampaignId;
+            JobCancellationTokenSource = new CancellationTokenSource();
         }
 
-        protected void ScheduleNextJob(DateTime dateTime)
-        {
-            //Stop();
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
-            {
-                dominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, ActivityType);
-            }
-            else
-            {
-                if (_runningJobsHolder.IsActivityRunningForAccount(AccountId))
-                    return;
+        // TODO: Let Vladimir Semashkin know if this method is used somewhere. it would be better to use DominatorScheduler instead
+        //protected void ScheduleNextJob(DateTime dateTime)
+        //{
+        //    //Stop();
+        //    var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+        //    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+        //    if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
+        //    {
+        //        dominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, ActivityType);
+        //    }
+        //    else
+        //    {
+        //        if (_runningJobsHolder.IsActivityRunningForAccount(AccountId))
+        //            return;
 
-                var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
-                runningActivityManager.StartNextRound(DominatorAccountModel);
-            }
+        //        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+        //        runningActivityManager.StartNextRound(DominatorAccountModel);
+        //    }
 
-        }
+        //}
 
 
         /// <summary>
@@ -159,7 +160,7 @@ namespace DominatorHouseCore.Process
                 limitType = limitInfo.ReachedLimitType;
                 if (limitType != ReachedLimitType.NoLimit)
                 {
-                    RescheduleifLimitReached(limitInfo, limitType);
+                    _dominatorScheduler.RescheduleifLimitReached(this, limitInfo, limitType);
                 }
 
             }
@@ -168,33 +169,6 @@ namespace DominatorHouseCore.Process
                 ex.DebugLog();
             }
             return limitType != ReachedLimitType.NoLimit;
-        }
-
-        public void RescheduleifLimitReached(ReachedLimitInfo limitInfo, ReachedLimitType limitType)
-        {
-            GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
-                DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                DominatorAccountModel.AccountBaseModel.UserName, ActivityType, limitInfo.LimitValue);
-            Stop(DominatorAccountModel.AccountId, TemplateId);
-            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
-            var nextStartTime = limitType == ReachedLimitType.Job
-                ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
-                    JobConfiguration.DelayBetweenJobs.GetRandom())
-                : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
-            if (moduleConfiguration != null)
-            {
-                moduleConfiguration.NextRun = nextStartTime;
-                moduleConfiguration.IsEnabled = true;
-                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
-                jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType,
-                    moduleConfiguration);
-                accountsCacheService.UpsertAccounts(DominatorAccountModel);
-            }
-
-            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-            dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
-            _jobCountersManager.Reset(Id);
         }
 
         public abstract ReachedLimitInfo CheckLimit();
@@ -310,11 +284,6 @@ namespace DominatorHouseCore.Process
             {
                 if (!_runningJobsHolder.StartIfNotRunning(Id, this)) return Task.CompletedTask;
 
-                Debug.Assert(JobCancellationTokenSource == null);
-
-                JobCancellationTokenSource = new CancellationTokenSource();
-
-                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 var task = ThreadFactory.Instance.Start(() =>
                   {
 
@@ -328,14 +297,14 @@ namespace DominatorHouseCore.Process
                           else
                           {
                               GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
-                              dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                              _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                           }
 
                       }
                       else
                       {
                           GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
-                          dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                          _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                       }
 
 
@@ -358,26 +327,6 @@ namespace DominatorHouseCore.Process
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
                     DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
-            }
-        }
-
-        public static bool Stop(string accountName, string templateId)
-        {
-            try
-            {
-                var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
-                var id = new JobKey(accountName, templateId);
-                if (!runningJobsHolder.Stop(id))
-                {
-                    GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
-                    return false;
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog(ex.StackTrace);
-                return false;
             }
         }
 

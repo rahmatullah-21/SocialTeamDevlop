@@ -9,7 +9,6 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls;
@@ -613,6 +612,7 @@ namespace DominatorUIUtility.ViewModel
 
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 var moduleConfiguration = jobActivityConfigurationManager[account.AccountId, module];
 
                 if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
@@ -620,7 +620,6 @@ namespace DominatorUIUtility.ViewModel
 
                 jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(account);
-                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 if (isToggleSwitchSelected)
                 {
                     dominatorScheduler.ScheduleNextActivity(account, module);
@@ -640,9 +639,9 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var module = (ActivityType)Enum.Parse(typeof(ActivityType), camp.SubModule);
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 // remove template from each account
                 allAccounts.ForEach(x =>
                 {
@@ -650,7 +649,7 @@ namespace DominatorUIUtility.ViewModel
                     if (moduleConfig != null)
                     {
                         // Stop active task related to campaign
-                        JobProcess.Stop(x.AccountId, camp.TemplateId);
+                        dominatorScheduler.StopActivity(x, camp.SubModule, camp.TemplateId, false);
 
                         // Remove task from list
                         foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId).ToList())
@@ -659,8 +658,8 @@ namespace DominatorUIUtility.ViewModel
                         }
                     }
 
-
                 });
+
                 accountsCacheService.UpsertAccounts(allAccounts.ToArray());
 
             }
