@@ -14,6 +14,7 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -135,7 +136,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
-            var separator = ConstantVariable.Separator;
+            var separator = ServiceLocator.Current.GetInstance<IConstantVariable>().Separator;
 
             if (listPostDetailsModel.Count != 0)
             {

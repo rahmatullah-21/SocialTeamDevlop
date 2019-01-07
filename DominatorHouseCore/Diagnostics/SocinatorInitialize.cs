@@ -34,7 +34,7 @@ namespace DominatorHouseCore.Diagnostics
             try
             {
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                var macros = genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails);
+                var macros = genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ServiceLocator.Current.GetInstance<IConstantVariable>().GetMacroDetails);
                 Macros.Clear();
                 macros?.ForEach(macro =>
                 {

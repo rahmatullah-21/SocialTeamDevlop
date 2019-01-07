@@ -3,6 +3,7 @@ using System.IO;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -12,7 +13,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherDir() + @"\Tumblr.bin"))
+                using (var stream = File.OpenRead(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherDir() + @"\Tumblr.bin"))
                 {
                     return Serializer.Deserialize<TumblrModel>(stream);
                 }
@@ -28,7 +29,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Create(ConstantVariable.GetOtherDir() + @"\Tumblr.bin"))
+                using (var stream = File.Create(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherDir() + @"\Tumblr.bin"))
                 {
                     Serializer.Serialize(stream, tumblrModel);
                     return true;

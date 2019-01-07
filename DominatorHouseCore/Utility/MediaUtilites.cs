@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -12,10 +13,11 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">pass the media path(local)</param>              
         public string GetThumbnail(string filePath)
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             var extension = System.IO.Path.GetExtension(filePath)?.Replace(".", "");
-            if (ConstantVariable.SupportedVideoFormat.Contains(extension))
+            if (constantVariable.SupportedVideoFormat.Contains(extension))
             {
-                var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertFileName}";
+                var newFilePath = $"{filePath}{constantVariable.VideoToImageConvertFileName}";
                 try
                 {
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
@@ -637,10 +639,11 @@ namespace DominatorHouseCore.Utility
         }
         public string GetThumbnailPng(string filePath)
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             var extension = System.IO.Path.GetExtension(filePath)?.Replace(".", "");
-            if (ConstantVariable.SupportedVideoFormat.Contains(extension))
+            if (constantVariable.SupportedVideoFormat.Contains(extension))
             {
-                var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertPngFileName}";
+                var newFilePath = $"{filePath}{constantVariable.VideoToImageConvertPngFileName}";
                 try
                 {
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();

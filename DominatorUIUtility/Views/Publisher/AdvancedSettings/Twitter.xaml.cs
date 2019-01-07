@@ -61,7 +61,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
             var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter))
+                    (ServiceLocator.Current.GetInstance<IConstantVariable>().GetPublisherOtherConfigFile(SocialNetworks.Twitter))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
             TwitterViewModel.TwitterModel = twitterModel ?? (new TwitterModel());
         }

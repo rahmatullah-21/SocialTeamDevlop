@@ -61,7 +61,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
             var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus))
+                    (ServiceLocator.Current.GetInstance<IConstantVariable>().GetPublisherOtherConfigFile(SocialNetworks.Gplus))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
             GooglePlusViewModel.GooglePlusModel = googlePlusModel ?? (new GooglePlusModel());
         }

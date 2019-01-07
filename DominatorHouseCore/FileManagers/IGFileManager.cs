@@ -3,6 +3,7 @@ using System.IO;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -12,7 +13,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Create(ConstantVariable.GetOtherInstagramSettingsFile()))
+                using (var stream = File.Create(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherInstagramSettingsFile()))
                 {
                     Serializer.Serialize(stream, InstagramModel);
                     return true;
@@ -30,7 +31,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherInstagramSettingsFile()))
+                using (var stream = File.OpenRead(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherInstagramSettingsFile()))
                 {
                     return Serializer.Deserialize<InstagramModel>(stream);
                 }

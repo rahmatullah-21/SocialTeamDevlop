@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Dal;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Dal;
 using DominatorHouseCore.Dal.DbMigrations;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.Enums;
@@ -14,6 +15,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 
         private readonly IGlobalDatabaseBlackListMigrations _globalDatabaseBlackListMigrations;
         private readonly IGlobalDatabaseWhiteListMigrations _globalDatabaseWhiteListMigrations;
+        private readonly IConstantVariable _constantVariable;
 
         public GlobalDatabaseConnection(IGlobalDatabaseMigrations dbMigration,
             IGlobalDatabaseBlackListMigrations globalDatabaseBlackListMigrations,
@@ -21,12 +23,13 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         {
             _globalDatabaseBlackListMigrations = globalDatabaseBlackListMigrations;
             _globalDatabaseWhiteListMigrations = globalDatabaseWhiteListMigrations;
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
         }
 
 
         public SQLiteConnection GetSqlConnection()
         {
-            var directoryName = ConstantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
+            var directoryName = _constantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
             DirectoryUtilities.CreateDirectory(directoryName);
             var connectionString = directoryName + "\\Global.db";
             return GetSqlConnectionAndRunMigration(connectionString);
@@ -34,7 +37,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 
         public SQLiteConnection GetSqlConnection(SocialNetworks networks, UserType userType)
         {
-            var directoryName = ConstantVariable.GetPlatformBaseDirectory() + $"\\Index\\Global\\DB\\{userType}";
+            var directoryName = _constantVariable.GetPlatformBaseDirectory() + $"\\Index\\Global\\DB\\{userType}";
             var connectionString = directoryName + $"\\{networks}.db";
             DirectoryUtilities.CreateDirectory(directoryName);
             var dbConnection = GetConnection(connectionString);

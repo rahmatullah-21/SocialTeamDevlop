@@ -21,6 +21,7 @@ using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls;
 using Prism.Commands;
+using CommonServiceLocator;
 
 namespace EmbeddedBrowser
 {
@@ -53,7 +54,7 @@ namespace EmbeddedBrowser
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+                CachePath = $"{ServiceLocator.Current.GetInstance<IConstantVariable>().GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = new RequestHandlerCustom(this);
@@ -75,7 +76,7 @@ namespace EmbeddedBrowser
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+                CachePath = $"{ServiceLocator.Current.GetInstance<IConstantVariable>().GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
 
             Browser.RequestHandler = new RequestHandlerCustom(this);

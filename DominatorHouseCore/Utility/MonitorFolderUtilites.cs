@@ -13,6 +13,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using Shell32;
 using System.Threading;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.Utility
 {
@@ -260,7 +261,7 @@ namespace DominatorHouseCore.Utility
                         #endregion
 
                         // Manipulate the post descriptions
-                        publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
+                        publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ServiceLocator.Current.GetInstance<IConstantVariable>().VideoToImageConvertFileName, string.Empty))
                             .Replace("[FileType]", monitorFolderModel.FileType)
                             .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
                             .Replace("[FileTitle]", monitorFolderModel.FileTitle)

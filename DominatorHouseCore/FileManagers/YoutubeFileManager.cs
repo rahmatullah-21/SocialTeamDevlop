@@ -3,6 +3,7 @@ using System.IO;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -12,7 +13,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherDir() + @"\Youtube.bin"))
+                using (var stream = File.OpenRead(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherDir() + @"\Youtube.bin"))
                 {
                     return Serializer.Deserialize<YoutubeModel>(stream);
                 }
@@ -28,7 +29,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Create(ConstantVariable.GetOtherDir() + @"\Youtube.bin"))
+                using (var stream = File.Create(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherDir() + @"\Youtube.bin"))
                 {
                     Serializer.Serialize(stream, youtubeModel);
                     return true;

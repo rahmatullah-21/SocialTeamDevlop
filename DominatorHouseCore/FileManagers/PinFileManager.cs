@@ -3,6 +3,7 @@ using System.IO;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -12,7 +13,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherDir() + @"\Pinterest.bin"))
+                using (var stream = File.OpenRead(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherDir() + @"\Pinterest.bin"))
                 {
                     return Serializer.Deserialize<PinterestModel>(stream);
                 }
@@ -28,7 +29,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Create(ConstantVariable.GetOtherDir() + @"\Pinterest.bin"))
+                using (var stream = File.Create(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherDir() + @"\Pinterest.bin"))
                 {
                     Serializer.Serialize(stream, pinterestModel);
                     return true;

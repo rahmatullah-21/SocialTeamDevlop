@@ -212,6 +212,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             var isIndividualDelete = sender is PublisherManageDestinationModel;
 
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             // To delete the single destinations
             if (isIndividualDelete)
             {
@@ -231,7 +233,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Update to bin file
                 ManageDestinationFileManager.Delete(d => d.DestinationId == destination.DestinationId);
                 _genericFileManager.DeleteBinFiles(
-                    $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destination.DestinationId}.bin");
+                    $"{constantVariable.GetPublisherCreateDestinationsFolder()}\\{destination.DestinationId}.bin");
             }
             else
             {
@@ -260,7 +262,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     // To update to bin files
                     ListPublisherManageDestinationModels.Remove(x);
                     _genericFileManager.DeleteBinFiles(
-                        $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{x.DestinationId}.bin");
+                        $"{constantVariable.GetPublisherCreateDestinationsFolder()}\\{x.DestinationId}.bin");
                 });
 
                 ManageDestinationFileManager.DeleteSelected(publisherManageDestinationModel);

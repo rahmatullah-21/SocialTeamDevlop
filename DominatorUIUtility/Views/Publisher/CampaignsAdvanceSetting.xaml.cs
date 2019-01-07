@@ -130,7 +130,7 @@ namespace DominatorUIUtility.Views.Publisher
         {
             if (moduleToUpdate == null)
                 _genericFileManager.AddModule(updatedModel,
-                    ConstantVariable.GetPublisherOtherConfigFile(networks));
+                    ServiceLocator.Current.GetInstance<IConstantVariable>().GetPublisherOtherConfigFile(networks));
             else
             {
                 var moduleToUpdateIndex = lstModels.IndexOf(moduleToUpdate);

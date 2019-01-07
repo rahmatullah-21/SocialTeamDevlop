@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.FileManagers;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
@@ -12,16 +13,19 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
         public ImageCaptchaServicesModel ImageCaptchaServicesModel { get; }
         public DelegateCommand SaveCmd { get; private set; }
 
+        public IConstantVariable _constantVaribale { get; }
+
         public ImageCaptchaServicesViewModel(IGenericFileManager genericFileManager) : base("LangKeyImageCaptchaServices", "ImageCaptchaServices")
         {
             _genericFileManager = genericFileManager;
-            ImageCaptchaServicesModel = _genericFileManager.GetModel<ImageCaptchaServicesModel>(ConstantVariable.GetImageCaptchaServicesFile()) ?? new ImageCaptchaServicesModel();
+            _constantVaribale = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            ImageCaptchaServicesModel = _genericFileManager.GetModel<ImageCaptchaServicesModel>(_constantVaribale.GetImageCaptchaServicesFile()) ?? new ImageCaptchaServicesModel();
             SaveCmd = new DelegateCommand(Save);
         }
 
         private void Save()
         {
-            if (_genericFileManager.Save(ImageCaptchaServicesModel, ConstantVariable.GetImageCaptchaServicesFile()))
+            if (_genericFileManager.Save(ImageCaptchaServicesModel, _constantVaribale.GetImageCaptchaServicesFile()))
                 Dialog.ShowDialog("Success", "Image Captcha Services sucessfully saved !!");
         }
     }

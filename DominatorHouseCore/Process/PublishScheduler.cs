@@ -245,6 +245,8 @@ namespace DominatorHouseCore.Process
         {
             try
             {
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
                 // create a new cancellation token source
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var currentCampaignsCancallationToken = new CancellationTokenSource();
@@ -258,17 +260,17 @@ namespace DominatorHouseCore.Process
 
                 // Get he post fetcher details
                 var publisherPostFetchModel =
-                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(constantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
                 // Get the success published details
-                var publishedDetails = genericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
+                var publishedDetails = genericFileManager.GetModuleDetails<PublishedPostDetailsModel>(constantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
 
                 // Filter the success published details with destination url
                 var usedDestination = publishedDetails.Select(x => x.DestinationUrl);
 
                 // Get the advanced settings for current campaign Id
-                var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
+                var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
                                        new GeneralModel();
 
                 var runningCount = 0;
@@ -290,7 +292,7 @@ namespace DominatorHouseCore.Process
 
                 //Get the general settings from bin files
                 var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
-                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               (constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
 
                 var accountIds = new SortedSet<string>();
@@ -472,6 +474,8 @@ namespace DominatorHouseCore.Process
         {
             try
             {
+
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
                 // Get the campaign Details
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var campaignDetails =
@@ -507,12 +511,12 @@ namespace DominatorHouseCore.Process
 
                 // Get he post fetcher details
                 var publisherPostFetchModel =
-                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(constantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
 
                 // Get the advanced settings for current campaign Id
-                var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
+                var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
                                        new GeneralModel();
 
                 #region Assigning Destinations with posts
@@ -521,7 +525,7 @@ namespace DominatorHouseCore.Process
 
                 //Get the general settings from bin files
                 var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
-                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               (constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
 
                 var accountIds = new SortedSet<string>();
@@ -770,6 +774,8 @@ namespace DominatorHouseCore.Process
            IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
            IReadOnlyList<List<string>> postsDestinations)
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             if (givenDestinations.Count == 0)
             {
                 GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "No more unique destinations are present!");
@@ -794,11 +800,11 @@ namespace DominatorHouseCore.Process
 
                 //Get the general settings from bin files
                 var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
-                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               (constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
                 // Validate the toaster notifications is needed
-                if (ConstantVariable.IsToasterNotificationNeed)
+                if (constantVariable.IsToasterNotificationNeed)
                 {
                     // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
                     if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
@@ -905,11 +911,11 @@ namespace DominatorHouseCore.Process
 
                     //Get the general settings from bin files
                     var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
-                                                   (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                                   (ServiceLocator.Current.GetInstance<IConstantVariable>().GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                    .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
                     // Validate the toaster notifications is needed
-                    if (ConstantVariable.IsToasterNotificationNeed)
+                    if (ServiceLocator.Current.GetInstance<IConstantVariable>().IsToasterNotificationNeed)
                     {
                         // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
                         if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
@@ -979,6 +985,8 @@ namespace DominatorHouseCore.Process
             PublisherPostlistModel post,
             List<string> destinations)
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
 
             try
@@ -994,7 +1002,7 @@ namespace DominatorHouseCore.Process
                         return;
 
                     // Assign the current destination url in case of Own wall 
-                    var currentDestinationUrl = destinationDetails.DestinationType == ConstantVariable.OwnWall
+                    var currentDestinationUrl = destinationDetails.DestinationType == constantVariable.OwnWall
                         ? destinationDetails.AccountName
                         : destinationDetails.DestinationUrl;
 
@@ -1022,15 +1030,15 @@ namespace DominatorHouseCore.Process
                         Destination = destinationDetails.DestinationType,
                         DestinationUrl = currentDestinationUrl,
                         Description = post.PostDescription,
-                        IsPublished = ConstantVariable.Yes,
-                        Successful = ConstantVariable.No,
+                        IsPublished = constantVariable.Yes,
+                        Successful = constantVariable.No,
                         PublishedDate = DateTime.Now,
-                        Link = ConstantVariable.NotPublished,
+                        Link = constantVariable.NotPublished,
                         CampaignId = campaignId,
                         CampaignName = campaignName,
                         SocialNetworks = destinationDetails.SocialNetworks,
                         AccountId = destinationDetails.AccountId,
-                        ErrorDetails = ConstantVariable.NotPublished,
+                        ErrorDetails = constantVariable.NotPublished,
                     });
                 });
 
@@ -1039,11 +1047,11 @@ namespace DominatorHouseCore.Process
 
                 // Calculate already tried count
                 var triedCount =
-                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == constantVariable.Yes);
 
                 // Calculate already success count
                 var successCount =
-                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == constantVariable.Yes);
 
                 // Update the stats
                 post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
@@ -1077,6 +1085,9 @@ namespace DominatorHouseCore.Process
         {
             try
             {
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
+
                 // Iterate and assign -> given post to all given destinations
                 destinations.ForEach(destinationId =>
                 {
@@ -1088,7 +1099,7 @@ namespace DominatorHouseCore.Process
                         return;
 
                     // Assign the current destination url in case of Own wall 
-                    var currentDestinationUrl = destinationDetails.DestinationType == ConstantVariable.OwnWall
+                    var currentDestinationUrl = destinationDetails.DestinationType == constantVariable.OwnWall
                         ? destinationDetails.AccountName
                         : destinationDetails.DestinationUrl;
 
@@ -1116,15 +1127,15 @@ namespace DominatorHouseCore.Process
                         Destination = destinationDetails.DestinationType,
                         DestinationUrl = currentDestinationUrl,
                         Description = post.PostDescription,
-                        IsPublished = ConstantVariable.Yes,
-                        Successful = ConstantVariable.No,
+                        IsPublished = constantVariable.Yes,
+                        Successful = constantVariable.No,
                         PublishedDate = DateTime.Now,
-                        Link = ConstantVariable.NotPublished,
+                        Link = constantVariable.NotPublished,
                         CampaignId = campaignId,
                         CampaignName = campaignName,
                         SocialNetworks = destinationDetails.SocialNetworks,
                         AccountId = destinationDetails.AccountId,
-                        ErrorDetails = ConstantVariable.NotPublished,
+                        ErrorDetails = constantVariable.NotPublished,
                     });
                 });
 
@@ -1133,11 +1144,11 @@ namespace DominatorHouseCore.Process
 
                 // Calculate already tried count
                 var triedCount =
-                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+                    post.LstPublishedPostDetailsModels.Count(x => x.IsPublished == constantVariable.Yes);
 
                 // Calculate already success count
                 var successCount =
-                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+                    post.LstPublishedPostDetailsModels.Count(x => x.Successful == constantVariable.Yes);
 
                 // Update the stats
                 post.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
@@ -1232,10 +1243,12 @@ namespace DominatorHouseCore.Process
         /// <param name="postDeletionModel">Deletion post models</param>
         public static void EnableDeletePost(PostDeletionModel postDeletionModel)
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             // Add into bin files
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             genericFileManager.AddModule(postDeletionModel,
-                ConstantVariable.GetDeletePublisherPostModel);
+                constantVariable.GetDeletePublisherPostModel);
 
             // Schedule delete post itmes
             DeletePublishedPost(postDeletionModel);
@@ -1247,6 +1260,8 @@ namespace DominatorHouseCore.Process
         /// <param name="postDeletionModel"></param>
         public static void DeletePublishedPost(PostDeletionModel postDeletionModel)
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             // Check whether network present or not
             if (FeatureFlags.IsNetworkAvailable(postDeletionModel.Networks))
             {
@@ -1272,7 +1287,7 @@ namespace DominatorHouseCore.Process
 
                             // Get deletion model
                             var allDeletionList =
-                                genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                                genericFileManager.GetModuleDetails<PostDeletionModel>(constantVariable
                                     .GetDeletePublisherPostModel);
 
                             // Find the index of particular published Id
@@ -1284,11 +1299,11 @@ namespace DominatorHouseCore.Process
 
                             // save the updated details into bin files
                             genericFileManager.UpdateModuleDetails(allDeletionList,
-                                ConstantVariable.GetDeletePublisherPostModel);
+                                ServiceLocator.Current.GetInstance<IConstantVariable>().GetDeletePublisherPostModel);
                         }
 
                     },
-                    s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{ConstantVariable.GetDate()}")
+                    s => s.WithName($"{postDeletionModel.CampaignId}- Delete Posts -{constantVariable.GetDate()}")
                         .ToRunOnceAt(postDeletionModel.DeletionTime));
             }
         }
@@ -1402,6 +1417,8 @@ namespace DominatorHouseCore.Process
         {
             #region Schedule
 
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             // stop already running campaigns
             StopScheduledPublisher(campaign.CampaignId);
 
@@ -1427,7 +1444,7 @@ namespace DominatorHouseCore.Process
                     if (startTime > DateTime.Now)
                     {
                         // Generate job name
-                        var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
+                        var addJobName = $"{campaign.CampaignId}-{constantVariable.GetDate()}";
 
                         // Add into scheduled lsit
                         PublisherScheduledList.Add(addJobName);
@@ -1440,7 +1457,7 @@ namespace DominatorHouseCore.Process
                         }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
                         // Get the advanced settings details of an campaigns
-                        var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+                        var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
                         // Check whether campaign destination time out options
                         if (advancedSettings?.DestinationTimeout > 0)

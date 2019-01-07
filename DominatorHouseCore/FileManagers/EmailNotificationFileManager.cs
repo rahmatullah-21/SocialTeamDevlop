@@ -3,6 +3,7 @@ using System.IO;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -12,7 +13,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Create(ConstantVariable.GetOtherEmailNotificationFile()))
+                using (var stream = File.Create(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherEmailNotificationFile()))
                 {
                     Serializer.Serialize(stream, emailNotification);
                     return true;
@@ -31,7 +32,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherEmailNotificationFile()))
+                using (var stream = File.OpenRead(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherEmailNotificationFile()))
                 {
                     return Serializer.Deserialize<EmailNotificationsModel>(stream);
                 }

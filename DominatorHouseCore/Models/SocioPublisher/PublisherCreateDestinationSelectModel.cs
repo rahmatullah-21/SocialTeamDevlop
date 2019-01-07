@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
 
@@ -233,7 +234,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _statusSyncContent = ConstantVariable.FineStatusSync;
+        private string _statusSyncContent = ServiceLocator.Current.GetInstance<IConstantVariable>().FineStatusSync;
 
         public string StatusSyncContent
         {

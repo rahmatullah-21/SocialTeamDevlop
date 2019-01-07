@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using System;
 using System.IO;
 using System.IO.Compression;
 
@@ -24,13 +25,15 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
                 var extractPath =
-                    $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\{ConstantVariable.GetDate()}.zip";
+                    $"{constantVariable.GetPlatformTodayBackupDirectory()}\\{constantVariable.GetDate()}.zip";
 
                 DeleteOldBackupFile();
 
                 if (!File.Exists(extractPath))
-                    ZipFile.CreateFromDirectory(ConstantVariable.GetPlatformBaseDirectory(), extractPath);
+                    ZipFile.CreateFromDirectory(constantVariable.GetPlatformBaseDirectory(), extractPath);
             }
             catch (Exception ex)
             {
@@ -42,7 +45,7 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                var directoryPath = ConstantVariable.GetPlatformTodayBackupDirectory();
+                var directoryPath = ServiceLocator.Current.GetInstance<IConstantVariable>().GetPlatformTodayBackupDirectory();
 
                 if (!Directory.Exists(directoryPath))
                     return;
@@ -67,7 +70,7 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
-                var directoryPath = ConstantVariable.GetPlatformLogDirectory();
+                var directoryPath = ServiceLocator.Current.GetInstance<IConstantVariable>().GetPlatformLogDirectory();
 
                 if (!Directory.Exists(directoryPath))
                     return;

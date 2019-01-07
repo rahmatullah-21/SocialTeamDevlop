@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
+using DominatorHouseCore.Utility;
+
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -18,9 +19,11 @@ namespace DominatorHouseCore.Diagnostics
     public class PublisherInitialize
     {
         private readonly IGenericFileManager _genericFileManager;
+        private readonly IConstantVariable _constantVariable;
         private PublisherInitialize()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
         }
 
         #region Properties
@@ -79,7 +82,7 @@ namespace DominatorHouseCore.Diagnostics
         public void PublishCampaignInitializer()
         {
             // Get all saved campaign Model
-            var allCampaign = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+            var allCampaign = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(_constantVariable.GetPublisherCampaignFile());
 
             // Call with dispatcher
             if (!Application.Current.CheckAccess())
@@ -214,7 +217,7 @@ namespace DominatorHouseCore.Diagnostics
 
             // Get campaign model
             var allCampaign = _genericFileManager
-                .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+                .GetModuleDetails<PublisherCreateCampaignModel>(_constantVariable.GetPublisherCampaignFile());
 
             // Get the particular campaign
             var currentCampaign = allCampaign.FirstOrDefault(x => x.CampaignId == campaignId);
@@ -229,7 +232,7 @@ namespace DominatorHouseCore.Diagnostics
             allCampaign[campaignIndex] = currentCampaign;
 
             //Save into bin file 
-            _genericFileManager.UpdateModuleDetails(allCampaign, ConstantVariable.GetPublisherCampaignFile());
+            _genericFileManager.UpdateModuleDetails(allCampaign, _constantVariable.GetPublisherCampaignFile());
         }
 
         /// <summary>
@@ -394,7 +397,7 @@ namespace DominatorHouseCore.Diagnostics
                 // Return published posts details
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 return genericFileManager
-                    .GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails)
+                    .GetModuleDetails<PublishedPostDetailsModel>(ServiceLocator.Current.GetInstance<IConstantVariable>().GetPublishedSuccessDetails)
                     .Where(x => x.CampaignId == campaignId && x.SocialNetworks == network).ToList();
             }
             catch (Exception)

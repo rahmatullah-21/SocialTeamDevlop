@@ -11,6 +11,7 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -45,7 +46,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 // Get the export path of the post
                 var exportPath = FileUtilities.GetExportPath();
-                var filename = $"{exportPath}\\Export-{ConstantVariable.GetDateTime()}.csv";
+                var filename = $"{exportPath}\\Export-{ServiceLocator.Current.GetInstance<IConstantVariable>().GetDateTime()}.csv";
                 var header = "Account Name,Campaign Name,Destination,Destination Url,Description,Published,Successful,Published Date,Link";
 
                 FileUtilities.AddHeaderToCsv(filename, header);

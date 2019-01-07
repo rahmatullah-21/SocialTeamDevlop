@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using CommonServiceLocator;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Windows;
@@ -26,7 +27,7 @@ namespace DominatorHouseCore.Utility
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
                 Title = title,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                Icon = new BitmapImage(new Uri(ServiceLocator.Current.GetInstance<IConstantVariable>().GetSocinatorIcon()))
             };
 
             try
@@ -59,7 +60,7 @@ namespace DominatorHouseCore.Utility
                 Title = title,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                Icon = new BitmapImage(new Uri(ServiceLocator.Current.GetInstance<IConstantVariable>().GetSocinatorIcon()))
 
             };
 
@@ -96,7 +97,7 @@ namespace DominatorHouseCore.Utility
                 Title = title,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                Icon = new BitmapImage(new Uri(ServiceLocator.Current.GetInstance<IConstantVariable>().GetSocinatorIcon()))
             };
 
             try

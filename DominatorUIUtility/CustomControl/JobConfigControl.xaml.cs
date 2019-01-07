@@ -25,9 +25,13 @@ namespace DominatorUIUtility.CustomControl
     public partial class JobConfigControl : UserControl, INotifyPropertyChanged
     {
         private readonly IGenericFileManager _genericFileManager;
+
+        private readonly IConstantVariable _constantVariable;
+
         public JobConfigControl()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             InitializeComponent();
             MainGrid.DataContext = this;
             InitilizeFavoriteTime();
@@ -39,7 +43,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var itemTodelete = sender as string;
             LstFavoriteTime.Remove(LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == itemTodelete));
-            _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
+            _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), _constantVariable.GetFavoriteTimeFile());
 
         }
 
@@ -201,7 +205,7 @@ namespace DominatorUIUtility.CustomControl
                                 FavoriteTimeName = favoriteTimeName,
                                 LstFavoriteTimes = JobConfiguration.RunningTime.DeepCloneObject()
                             };
-                            _genericFileManager.AddModule(favoriteTime, ConstantVariable.GetFavoriteTimeFile());
+                            _genericFileManager.AddModule(favoriteTime, _constantVariable.GetFavoriteTimeFile());
                             LstFavoriteTime.Add(favoriteTime);
 
                             break;
@@ -213,7 +217,7 @@ namespace DominatorUIUtility.CustomControl
                             {
                                 var oldLstFavoriteTime = LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == favoriteTimeName);
                                 oldLstFavoriteTime.LstFavoriteTimes = JobConfiguration.RunningTime;
-                                _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
+                                _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), _constantVariable.GetFavoriteTimeFile());
                                 break;
                             }
 
@@ -255,7 +259,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var lstFavoriteTimes = _genericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
+                var lstFavoriteTimes = _genericFileManager.GetModuleDetails<FavoriteTime>(_constantVariable.GetFavoriteTimeFile());
 
                 Application.Current.Dispatcher.Invoke(delegate
                 {

@@ -4,6 +4,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -13,7 +14,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Create(ConstantVariable.GetOtherEmbeddedBrowserSettingsFile()))
+                using (var stream = File.Create(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherEmbeddedBrowserSettingsFile()))
                 {
                     Serializer.Serialize(stream, embeddedBrowserSettings);
                     GlobusLogHelper.log.Debug("Setting successfully saved");
@@ -33,7 +34,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherEmbeddedBrowserSettingsFile()))
+                using (var stream = File.OpenRead(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherEmbeddedBrowserSettingsFile()))
                 {
                     return Serializer.Deserialize<EmbeddedBrowserSettingsModel>(stream);
                 }

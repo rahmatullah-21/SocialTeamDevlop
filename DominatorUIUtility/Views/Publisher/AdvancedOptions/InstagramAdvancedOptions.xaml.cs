@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using DominatorHouseCore.Utility;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedOptions
 {
@@ -12,7 +13,7 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedOptions
         {
             InitializeComponent();
             AddPosts ObjAddPosts = AddPosts.GetSingeltonAddPosts();
-            string LocationDetailFilePath = ConstantVariable.GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\LocationsDetail.bin";
+            string LocationDetailFilePath = ServiceLocator.Current.GetInstance<IConstantVariable>().GetConfigurationDir(DominatorHouseCore.Enums.SocialNetworks.Instagram) + "\\LocationsDetail.bin";
 
             //ObjAddPosts.AddPostViewModel.AddPostModel.LocationDetailsCollection =CollectionViewSource.GetDefaultView(
             //    ProtoBuffBase.DeserializeObjects<LocationDetails>(LocationDetailFilePath));

@@ -13,7 +13,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Create(ConstantVariable.GetConfigurationKey()))
+                using (var stream = File.Create(ServiceLocator.Current.GetInstance<IConstantVariable>().GetConfigurationKey()))
                 {
                     Serializer.Serialize(stream, keyDetails);
                     return true;
@@ -31,7 +31,7 @@ namespace DominatorHouseCore.FileManagers
             try
             {
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                return genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
+                return genericFileManager.GetModel<FatalErrorHandler>(ServiceLocator.Current.GetInstance<IConstantVariable>().GetConfigurationKey());
             }
             catch (Exception ex)
             {

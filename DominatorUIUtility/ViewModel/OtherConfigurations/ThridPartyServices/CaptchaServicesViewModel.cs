@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.FileManagers;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
@@ -12,16 +13,19 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
         public CaptchaServicesModel CaptchaServicesModel { get; }
         public DelegateCommand SaveCmd { get; private set; }
 
+        public IConstantVariable _constantVariable { get; set; }
+
         public CaptchaServicesViewModel(IGenericFileManager genericFileManager) : base("LangKeyCaptchaServices", "CaptchaServicesControlTemplate")
         {
             _genericFileManager = genericFileManager;
-            CaptchaServicesModel = _genericFileManager.GetModel<CaptchaServicesModel>(ConstantVariable.GetCaptchaServicesFile()) ?? new CaptchaServicesModel();
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            CaptchaServicesModel = _genericFileManager.GetModel<CaptchaServicesModel>(_constantVariable.GetCaptchaServicesFile()) ?? new CaptchaServicesModel();
             SaveCmd = new DelegateCommand(Save);
         }
 
         private void Save()
         {
-            if (_genericFileManager.Save(CaptchaServicesModel, ConstantVariable.GetCaptchaServicesFile()))
+            if (_genericFileManager.Save(CaptchaServicesModel, _constantVariable.GetCaptchaServicesFile()))
                 Dialog.ShowDialog("Success", "Captcha Services sucessfully saved !!");
 
         }

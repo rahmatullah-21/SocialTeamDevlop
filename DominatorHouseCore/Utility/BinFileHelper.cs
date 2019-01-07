@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -58,10 +59,12 @@ namespace DominatorHouseCore.Utility
     {
         private readonly ILockFileConfigProvider _lockFileConfigProvider;
         private readonly IProtoBuffBase _protoBuffBase;
+        private readonly IConstantVariable _constantVariable;
 
         public BinFileHelper(ILockFileConfigProvider lockFileConfigProvider, IProtoBuffBase protoBuffBase)
         {
             _lockFileConfigProvider = lockFileConfigProvider;
+            _constantVariable= ServiceLocator.Current.GetInstance<IConstantVariable>();
             _protoBuffBase = protoBuffBase;
         }
 
@@ -324,7 +327,7 @@ namespace DominatorHouseCore.Utility
 
         public void SavePosts<T>(T PostModel) where T : class
         {
-            _protoBuffBase.AppendObject(PostModel, ConstantVariable.GetOtherPostsFile());
+            _protoBuffBase.AppendObject(PostModel, _constantVariable.GetOtherPostsFile());
         }
 
         public List<AddPostModel> GetPostDetails()
@@ -347,7 +350,7 @@ namespace DominatorHouseCore.Utility
 
                     postDetailsList[indexOfPostToUpdate] = post;
 
-                    bool result = _protoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+                    bool result = _protoBuffBase.SerializeList(postDetailsList, _constantVariable.GetOtherPostsFile());
 
                     GlobusLogHelper.log.Trace($"Update Posts - [{result}]");
                     return result;
@@ -367,7 +370,7 @@ namespace DominatorHouseCore.Utility
             {
                 return _lockFileConfigProvider.WithFile<AddPostModel, bool>(file =>
                 {
-                    bool result = _protoBuffBase.SerializeList(postDetailsList, ConstantVariable.GetOtherPostsFile());
+                    bool result = _protoBuffBase.SerializeList(postDetailsList, _constantVariable.GetOtherPostsFile());
                     GlobusLogHelper.log.Debug("Posts succesfully saved");
                     return result;
                 });
@@ -445,14 +448,14 @@ namespace DominatorHouseCore.Utility
             try
             {
                 var data = _protoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
-                    $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
+                    $"{_constantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
 
                 if (data != null)
                 {
                     data[0] = publisherCreateDestination;
 
                     bool result = _protoBuffBase.SerializeList(data,
-                        $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
+                        $"{_constantVariable.GetPublisherCreateDestinationsFolder()}\\{publisherCreateDestination.DestinationId}.bin");
 
                     GlobusLogHelper.log.Trace($"Update Destination - [{result}]");
 
@@ -471,13 +474,13 @@ namespace DominatorHouseCore.Utility
 
         public List<PublisherCreateDestinationModel> GetDestination(string destinationId)
             => _protoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
-                $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
+                $"{_constantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
 
 
         public PublisherCreateDestinationModel GetSingleDestination(string destinationId)
         {
             var lists = _protoBuffBase.DeserializeList<PublisherCreateDestinationModel>(
-                $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
+                $"{_constantVariable.GetPublisherCreateDestinationsFolder()}\\{destinationId}.bin");
 
             if (lists.Count > 0)
                 return lists[0];
@@ -637,7 +640,7 @@ namespace DominatorHouseCore.Utility
 
         public List<T> GetFacebookEntity<T>() where T : class, new()
         {
-            return _protoBuffBase.DeserializeList<T>(ConstantVariable.GetFacebookDetailsConfigFile());
+            return _protoBuffBase.DeserializeList<T>(_constantVariable.GetFacebookDetailsConfigFile());
         }
     }
 

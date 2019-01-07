@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.LogHelper;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -12,12 +13,16 @@ namespace DominatorHouseCore.FileManagers
     public static class LiveChatFileManager
     {
         private static readonly object _liveChatFileLocker = new object();
+
+        
         public static bool SaveLiveChat(Dictionary<string, ObservableCollection<ChatDetails>> chat)
         {
             try
             {
+                var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
                 Stream stream = null;
-                string filePath = ConstantVariable.GetLiveChatFile();
+                string filePath = constantVariable.GetLiveChatFile();
                 try
                 {
                     if (!File.Exists(filePath))
@@ -42,7 +47,8 @@ namespace DominatorHouseCore.FileManagers
         public static Dictionary<string, ObservableCollection<ChatDetails>> GetAllChatDetails()
         {
             Stream stream;
-            string filePath = ConstantVariable.GetLiveChatFile();
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+            string filePath = constantVariable.GetLiveChatFile();
             if (!File.Exists(filePath))
                 stream = File.Create(filePath);
             else

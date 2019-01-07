@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Utility;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Utility;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -13,22 +14,24 @@ namespace DominatorHouseCore.Converters
         public object Convert(
             object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             try
             {
                 if (File.Exists(value?.ToString()) || ImageExtracter.IsValidUrl(value?.ToString()))
                     return string.IsNullOrEmpty(value?.ToString()) ? new BitmapImage() : new BitmapImage(new Uri(value.ToString()));
 
-                if (!File.Exists(ConstantVariable.GetNotFoundImage()))
+                if (!File.Exists(constantVariable.GetNotFoundImage()))
                 {
                     Utilities.DownloadNotFound();
                 }
-                return new BitmapImage(new Uri(ConstantVariable.GetNotFoundImage()));
+                return new BitmapImage(new Uri(constantVariable.GetNotFoundImage()));
 
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
-                return new BitmapImage(new Uri(ConstantVariable.GetNotFoundImage()));
+                return new BitmapImage(new Uri(constantVariable.GetNotFoundImage()));
             }
 
         }

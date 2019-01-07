@@ -6,6 +6,7 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -234,7 +235,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// </summary>
         public void GenerateCampaign()
         {
-            CampaignName = $"Campaign-{ConstantVariable.GetDateTime()}";
+            CampaignName = $"Campaign-{ServiceLocator.Current.GetInstance<IConstantVariable>().GetDateTime()}";
             CampaignId = Utilities.GetGuid();
             CreatedDate = DateTime.Today;
             StartDate = DateTime.Today;
@@ -246,7 +247,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// </summary>
         public void GenerateCloneCampaign(string name)
         {
-            CampaignName = $"{name}-clone-{ConstantVariable.GetHourDateTime()}";
+            CampaignName = $"{name}-clone-{ServiceLocator.Current.GetInstance<IConstantVariable>().GetHourDateTime()}";
             CampaignId = Utilities.GetGuid();
             CreatedDate = DateTime.Now;            
             IsSelected = false;

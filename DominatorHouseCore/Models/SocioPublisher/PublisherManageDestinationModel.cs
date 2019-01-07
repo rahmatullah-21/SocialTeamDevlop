@@ -7,6 +7,7 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -228,7 +229,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public void GenerateDestinations()
         {
-            DestinationName = $"Destination-{ConstantVariable.GetDateTime()}";
+            DestinationName = $"Destination-{ServiceLocator.Current.GetInstance<IConstantVariable>().GetDateTime()}";
             DestinationId = Utilities.GetGuid();
             CreatedDate = DateTime.Today;
         }

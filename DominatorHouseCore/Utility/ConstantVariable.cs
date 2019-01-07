@@ -166,7 +166,7 @@ namespace DominatorHouseCore.Utility
 
         string GetPublishedSuccessDetails { get; }
 
-        string GetDeletePublisherPostModel { get; }
+        string GetDeletePublisherPostModelGetDeletePublisherPostModel { get; }
 
         string Yes { get; }
 
@@ -228,6 +228,8 @@ namespace DominatorHouseCore.Utility
         string UpdateVersionLink { get; }
 
         string GetFacebookDetailsConfigFile();
+
+        string GetDeletePublisherPostModel { get; }
     }
 
     public class ConstantVariable : IConstantVariable
@@ -514,7 +516,14 @@ namespace DominatorHouseCore.Utility
         public string UpdateVersionFilePath => "fd/setup/FDSetup.txt";
         public string UpdateVersionLink =>
               "http://{0}/{1}";
-        
+
+        public string GetDeletePublisherPostModelGetDeletePublisherPostModel
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
 
@@ -524,16 +533,16 @@ namespace DominatorHouseCore.Utility
         }
     }
 
-    public class FileDirPath
+    public static class FileDirPath
     {
-        public string GetChatDir(SocialNetworks network)
+        public static string GetChatDir(SocialNetworks network)
         {
             IConstantVariable constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             string dir = $"{constantVariable.GetPlatformBaseDirectory()}\\LiveChat\\{network}";
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Chat.bin";
-        public string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Friend.bin";
+        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Chat.bin";
+        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Friend.bin";
     }
 }

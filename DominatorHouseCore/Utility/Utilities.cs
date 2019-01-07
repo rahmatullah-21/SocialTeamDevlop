@@ -304,14 +304,14 @@ namespace DominatorHouseCore.Utility
         public static bool DownloadNotFound()
         {
             var webclient = new WebClient();
-            webclient.DownloadFile("https://cdn.browshot.com/static/images/not-found.png", $"{ConstantVariable.GetNotFoundImage()}");
+            webclient.DownloadFile("https://cdn.browshot.com/static/images/not-found.png", $"{ServiceLocator.Current.GetInstance<IConstantVariable>().GetNotFoundImage()}");
             return true;
         }
 
         public static bool DownloadSocinatorIcon()
         {
             var webclient = new WebClient();
-            webclient.DownloadFile("https://socinator.com/wp-content/uploads/2018/07/fav_64.png", $"{ConstantVariable.GetSocinatorIcon()}");
+            webclient.DownloadFile("https://socinator.com/wp-content/uploads/2018/07/fav_64.png", $"{ServiceLocator.Current.GetInstance<IConstantVariable>().GetSocinatorIcon()}");
             return true;
         }
         public static string ReplaceUniCode(string messeges)

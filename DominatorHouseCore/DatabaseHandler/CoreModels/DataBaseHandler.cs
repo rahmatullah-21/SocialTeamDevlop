@@ -5,6 +5,7 @@ using System.Linq;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.DatabaseHandler.CoreModels
 {
@@ -51,16 +52,18 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
         {
             string directoryName;
 
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             switch (databaseType)
             {
                 case DatabaseType.CampaignType:
-                    directoryName = ConstantVariable.GetIndexCampaignDir() + "\\DB";
+                    directoryName = constantVariable.GetIndexCampaignDir() + "\\DB";
                     break;
                 case DatabaseType.AccountType:
-                    directoryName = ConstantVariable.GetIndexAccountDir() + "\\DB";
+                    directoryName = constantVariable.GetIndexAccountDir() + "\\DB";
                     break;
                 default:
-                    directoryName = ConstantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
+                    directoryName = constantVariable.GetPlatformBaseDirectory() + @"\Index\Global\DB";
                     break;
             }
             return directoryName;

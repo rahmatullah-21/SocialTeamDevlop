@@ -18,6 +18,7 @@ using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -462,7 +463,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
 
             // Split with separator
-            var separator = ConstantVariable.Separator;
+            var separator = ServiceLocator.Current.GetInstance<IConstantVariable>().Separator;
 
             var mediaUtilites = new MediaUtilites();
 

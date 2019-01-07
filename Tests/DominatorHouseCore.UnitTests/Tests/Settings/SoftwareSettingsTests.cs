@@ -14,6 +14,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Settings
         private ISoftwareSettingsFileManager _softwareSettingsFileManager;
         private IFileSystemProvider _fileSystemProvider;
         private IGenericFileManager _genericFileManager;
+        private IConstantVariable _constantVariable;
         private ISoftwareSettings _sut;
 
         [TestInitialize]
@@ -22,6 +23,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Settings
             _softwareSettingsFileManager = Substitute.For<ISoftwareSettingsFileManager>();
             _fileSystemProvider = Substitute.For<IFileSystemProvider>();
             _genericFileManager = Substitute.For<IGenericFileManager>();
+            _constantVariable = Substitute.For<IConstantVariable>();
             _sut = new SoftwareSettings(_softwareSettingsFileManager, _fileSystemProvider, _genericFileManager);
         }
 
@@ -30,7 +32,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Settings
         {
             // arrange
             var model = new SoftwareSettingsModel();
-            _fileSystemProvider.Exists(ConstantVariable.GetOtherSoftwareSettingsFile()).Returns(true);
+            _fileSystemProvider.Exists(_constantVariable.GetOtherSoftwareSettingsFile()).Returns(true);
             _softwareSettingsFileManager.GetSoftwareSettings().Returns(model);
 
             // act
@@ -45,7 +47,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Settings
         public void should_return_default_settings_and_save_if_not_exist()
         {
             // arrange
-            _fileSystemProvider.Exists(ConstantVariable.GetOtherSoftwareSettingsFile()).Returns(false);
+            _fileSystemProvider.Exists(_constantVariable.GetOtherSoftwareSettingsFile()).Returns(false);
 
             // act
             _sut.InitializeOnLoadConfigurations();

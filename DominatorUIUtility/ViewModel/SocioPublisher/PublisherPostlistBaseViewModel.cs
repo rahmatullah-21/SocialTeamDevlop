@@ -33,9 +33,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
     public class PublisherPostlistBaseViewModel : BindableBase
     {
         private readonly IGenericFileManager _genericFileManager;
+
+        private readonly IConstantVariable _constantVariable;
+
         public PublisherPostlistBaseViewModel()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
             SelectCommand = new BaseCommand<object>(SelectCanExecute, SelectExecute);
             EditCommand = new BaseCommand<object>(EditPostDetailsCanExecute, EditPostDetailsExecute);
@@ -370,7 +374,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     PublisherPostlist.Remove(x);
                     // Remove the deletion process after post has successfully published
-                    _genericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId && x.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
+                    _genericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId && x.PostId == y.PostId, _constantVariable.GetDeletePublisherPostModel);
                 });
             }
 
@@ -400,7 +404,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PostlistFileManager.Delete(campaign.CampaignId, y => campaign.PostId == y.PostId);
 
             // Remove from deletion process after post has successfully published
-            _genericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId && campaign.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
+            _genericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId && campaign.PostId == y.PostId, _constantVariable.GetDeletePublisherPostModel);
 
             // Remove from bin file
             PublisherPostlist.Remove(campaign);
@@ -648,11 +652,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         // Get count of tried details
                         var triedCount =
-                            postItems.LstPublishedPostDetailsModels.Count(x => x.IsPublished == ConstantVariable.Yes);
+                            postItems.LstPublishedPostDetailsModels.Count(x => x.IsPublished == _constantVariable.Yes);
 
                         // Get the success rate
                         var successCount =
-                            postItems.LstPublishedPostDetailsModels.Count(x => x.Successful == ConstantVariable.Yes);
+                            postItems.LstPublishedPostDetailsModels.Count(x => x.Successful == _constantVariable.Yes);
 
                         // Update the tried and success status
                         postItems.PublishedTriedAndSuccessStatus = $"{triedCount}/{successCount}";
@@ -751,7 +755,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Get the general settings
                     var generalModel = _genericFileManager.GetModuleDetails<GeneralModel>
-                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               (_constantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == readdPost.CampaignId) ?? new GeneralModel();
 
                     // Check whether need to keep the initial create time for the posts

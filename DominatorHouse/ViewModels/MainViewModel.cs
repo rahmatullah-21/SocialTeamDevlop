@@ -393,7 +393,7 @@ namespace DominatorHouse.ViewModels
                 {
                     var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                     var deletionPostlist =
-                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                        genericFileManager.GetModuleDetails<PostDeletionModel>(ServiceLocator.Current.GetInstance<IConstantVariable>()
                         .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
                     deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
                 });

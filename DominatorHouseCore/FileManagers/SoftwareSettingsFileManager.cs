@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.LogHelper;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
@@ -19,7 +20,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.Create(ConstantVariable.GetOtherSoftwareSettingsFile()))
+                using (var stream = File.Create(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherSoftwareSettingsFile()))
                 {
                     Serializer.Serialize(stream, softwareSetting);
                     return true;
@@ -37,7 +38,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = File.OpenRead(ConstantVariable.GetOtherSoftwareSettingsFile()))
+                using (var stream = File.OpenRead(ServiceLocator.Current.GetInstance<IConstantVariable>().GetOtherSoftwareSettingsFile()))
                 {
                     return Serializer.Deserialize<SoftwareSettingsModel>(stream);
                 }

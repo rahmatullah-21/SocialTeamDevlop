@@ -293,7 +293,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public static SelectAccountDetailsModel DestinationDefaultBuilder()
             => new SelectAccountDetailsModel
             {
-                DestinationName = $"Default-{ConstantVariable.GetDateTime()}",
+                DestinationName = $"Default-{ServiceLocator.Current.GetInstance<IConstantVariable>().GetDateTime()}",
                 DestinationId = Utilities.GetGuid(),
                 AccountPagesBoardsPair = new List<KeyValuePair<string, string>>(),
                 AccountGroupPair = new List<KeyValuePair<string, string>>(),

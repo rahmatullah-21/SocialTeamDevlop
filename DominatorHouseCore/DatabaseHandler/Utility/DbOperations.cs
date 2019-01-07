@@ -53,14 +53,16 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         /// <param name="type">Specify whether you account id or campaign id in <see cref="DominatorHouseCore.Utility.ConstantVariable.GetAccountDb"/> or <see cref="DominatorHouseCore.Utility.ConstantVariable.GetCampaignDb"/> </param>
         public DbOperations(string id, SocialNetworks networks, string type)
         {
+            var constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
+
             AccountId = id;
             SocialNetworks = networks;
-            if (type == ConstantVariable.GetAccountDb)
+            if (type == constantVariable.GetAccountDb)
             {
                 var databaseConnection = ServiceLocator.Current.GetInstance<IAccountDatabaseConnection>(networks.ToString());
                 _context = databaseConnection.GetSqlConnection(id);
             }
-            if (type == ConstantVariable.GetCampaignDb)
+            if (type == constantVariable.GetCampaignDb)
             {
                 var databaseConnection = ServiceLocator.Current.GetInstance<ICampaignDatabaseConnection>(networks.ToString());
                 _context = databaseConnection.GetSqlConnection(id);

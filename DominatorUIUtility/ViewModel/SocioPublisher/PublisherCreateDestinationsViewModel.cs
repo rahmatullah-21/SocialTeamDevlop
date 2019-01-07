@@ -29,9 +29,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
     {
         //ConstructorS
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IConstantVariable _constantVariable;
+
         public PublisherCreateDestinationsViewModel()
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _constantVariable = ServiceLocator.Current.GetInstance<IConstantVariable>();
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             GetSingleAccountGroupsCommand = new BaseCommand<object>(GetSingleAccountGroupsCanExecute, GetSingleAccountGroupsExecute);
             GetSingleAccountPagesOrBoardsCommand = new BaseCommand<object>(GetSingleAccountPagesOrBoardsCanExecute, GetSingleAccountPagesOrBoardsExecute);
@@ -308,14 +311,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 valuePairs.ForEach(x =>
                 {
                     PublisherCreateDestinationModel.AccountGroupPair.Remove(x);
-                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.Group);
+                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == _constantVariable.Group);
                 });
 
                 // get currectly selected groups from UI objects
                 var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
 
                 // get the full destination details
-                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.Group).ToList();
+                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(_constantVariable.Group).ToList();
 
                 // Append with destination details of the accounts
                 PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
@@ -427,7 +430,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 valuePairs.ForEach(x =>
                 {
                     PublisherCreateDestinationModel.AccountPagesBoardsPair.Remove(x);
-                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.PageOrBoard);
+                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == _constantVariable.PageOrBoard);
                 });
 
                 // Get the selected pairs
@@ -437,7 +440,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherCreateDestinationModel.AccountPagesBoardsPair.AddRange(keyValuePairs);
 
                 // Get the destination full details of a page or board
-                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.PageOrBoard).ToList();
+                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(_constantVariable.PageOrBoard).ToList();
 
                 // Update with destination details
                 PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
@@ -617,14 +620,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 valuePairs.ForEach(x =>
                 {
                     PublisherCreateDestinationModel.AccountGroupPair.Remove(x);
-                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.Group);
+                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == _constantVariable.Group);
                 });
 
                 var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
 
                 PublisherCreateDestinationModel.AccountGroupPair.AddRange(keyValuePairs);
 
-                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.Group).ToList();
+                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(_constantVariable.Group).ToList();
 
                 PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
 
@@ -715,14 +718,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 valuePairs.ForEach(x =>
                 {
                     PublisherCreateDestinationModel.AccountPagesBoardsPair.Remove(x);
-                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.PageOrBoard);
+                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == _constantVariable.PageOrBoard);
                 });
 
                 var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
 
                 PublisherCreateDestinationModel.AccountPagesBoardsPair.AddRange(keyValuePairs);
 
-                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.PageOrBoard).ToList();
+                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(_constantVariable.PageOrBoard).ToList();
 
                 PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
 
@@ -936,7 +939,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             {
                                 AccountId = x.AccountId,
                                 SocialNetworks = x.SocialNetworks,
-                                DestinationType = ConstantVariable.OwnWall,
+                                DestinationType = _constantVariable.OwnWall,
                                 DestinationUrl = x.AccountId,
                                 PublisherPostlistModel = new PublisherPostlistModel(),
                                 DestinationGuid = Utilities.GetGuid(),
@@ -946,7 +949,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         else
                         {
                             PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(z =>
-                                z.DestinationType == ConstantVariable.OwnWall && z.AccountId == x.AccountId);
+                                z.DestinationType == _constantVariable.OwnWall && z.AccountId == x.AccountId);
                         }
                     }
                     else
@@ -1112,7 +1115,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
         public List<PublisherCreateDestinationSelectModel> GetSyncUpdateDestinations()
-            => PublisherCreateDestinationModel.ListSelectDestination.Where(x => x.StatusSyncContent == ConstantVariable.NeedUpdateStatusSync).ToList();
+            => PublisherCreateDestinationModel.ListSelectDestination.Where(x => x.StatusSyncContent == _constantVariable.NeedUpdateStatusSync).ToList();
 
 
         public async Task UpdateSyncStatusAsync(PublisherCreateDestinationSelectModel selectedSyncAccount)
@@ -1148,7 +1151,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             currentAccountDetails.UpdateGroupText();
 
-            currentAccountDetails.StatusSyncContent = ConstantVariable.FineStatusSync;
+            currentAccountDetails.StatusSyncContent = ServiceLocator.Current.GetInstance<IConstantVariable>().FineStatusSync;
         }
 
         #endregion
@@ -1300,7 +1303,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 if (!currentlyAvailableAccounts.Contains(savedDestination.AccountId))
                 {
-                    savedDestination.StatusSyncContent = ConstantVariable.NotAvailableAccountSync;
+                    savedDestination.StatusSyncContent = _constantVariable.NotAvailableAccountSync;
                     continue;
                 }
 
@@ -1311,7 +1314,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (savedDestination.TotalGroups != currentAccountDetails.TotalGroups ||
                     savedDestination.TotalPagesOrBoards != currentAccountDetails.TotalPagesOrBoards)
-                    savedDestination.StatusSyncContent = ConstantVariable.NeedUpdateStatusSync;
+                    savedDestination.StatusSyncContent = _constantVariable.NeedUpdateStatusSync;
 
             }
 
