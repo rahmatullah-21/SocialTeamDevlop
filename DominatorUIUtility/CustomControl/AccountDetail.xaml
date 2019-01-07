@@ -261,6 +261,10 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyTooManyAttemptsOnSignIn}" />
                                         <Setter Property="Foreground" Value="#9b111e" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}" >
+                                        <Setter Property="Content"  Value="{DynamicResource LangKeySetNewPassword}" />
+                                        <Setter Property="Foreground" Value="#701f28" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
