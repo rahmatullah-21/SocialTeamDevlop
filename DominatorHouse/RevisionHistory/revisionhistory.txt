@@ -1,3 +1,41 @@
+Version[1.0.0.29],[5th-January-19]
+New Features:-
+	Publisher:- 
+		Added feature delay between post without creating time slot.
+	Facebook:-
+		Fb Inviter => Page Inviter => Profile URL(s) => Added feature custom friend list(s).
+		Engage => Post Like => Added feature after post like action.
+		Engage => Post Comment => Added featuer after post comment action.
+	Youtube:-
+		Added feature for email verification.
+	Pintrest:-
+		Accept board invitation.
+Fixed:-
+	Social publisher:-
+		Post manager => RSS feed =>  Post description is not coming along with rss feed.
+	Account Activity:-
+		Reddit => Report => Fixed issue with showing report.
+	Twitter:-
+		Fixed issue with software hang while running multiple activities uses more than 90% of ram.
+		Account Manager => Fixed issue with Software crashing while selecting multiple accounts in mass and checking its status.
+		Accounts activity => Message to new followers => Fixed issue with showing reached per hour limit.
+		Accounts activity => Fllow => Fixed issue with sheduling next hour.
+		Accounts Activity => Unfollow => Fixed issue with not unfollowing users.
+	Instagram:-
+		Instachat => Auto Reply To New Message => Fixed issue with sending clickable link.
+	Facebook:-
+		Send Friend Request => Fixed Issue  with showing no more data available.
+		Accounts Activity => Broadcast Message => Fixed issue with showing no more data available.
+		Grow Groups => Group Joiner => Fixed with filter group contains member X to Y.
+	Youtube:-
+		Engage => comment => custom channel => Fixed issue with not comment the channels.
+		Engage => like => custom urls => Fixed issue with not likeing the videos.
+		Subcriber => Fixed issue with not subcribing  with multiple account.
+	Pintrest:-
+		Pin poster => Edit pin => Fixed issue with replace urls with multiple account and same comment.
+		Pinposter => repin => keywords => Fixed issue with board query type over account.
+		Pintry /pincommenter => comment => fix issue with comment showing over report in comment.
+		
 Version[1.0.0.28],[29th-December-18]
 New Features:-
 	Reddit:-
