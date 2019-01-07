@@ -1419,50 +1419,50 @@ namespace DominatorHouseCore.Process
             // Iterate running times 
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             timeRange.ForEach(runningTime =>
-                {
-                    // Make start time
-                    var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
+                     {
+                         // Make start time
+                         var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
 
-                    // If start time is greater than current time
-                    if (startTime > DateTime.Now)
-                    {
-                        // Generate job name
-                        var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
+                         // If start time is greater than current time
+                         if (startTime > DateTime.Now)
+                         {
+                             // Generate job name
+                             var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
 
-                        // Add into scheduled lsit
-                        PublisherScheduledList.Add(addJobName);
+                             // Add into scheduled lsit
+                             PublisherScheduledList.Add(addJobName);
 
-                        // Add job manager
-                        JobManager.AddJob(() =>
-                        {
-                            // Call the start publishing
-                            StartPublishingPosts(campaign);
-                        }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
+                             // Add job manager
+                             JobManager.AddJob(() =>
+                                  {
+                                 // Call the start publishing
+                                 StartPublishingPosts(campaign);
+                                  }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
-                        // Get the advanced settings details of an campaigns
-                        var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+                             // Get the advanced settings details of an campaigns
+                             var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
-                        // Check whether campaign destination time out options
-                        if (advancedSettings?.DestinationTimeout > 0)
-                        {
-                            // Generate the job name for stopping campaigns
-                            var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
+                             // Check whether campaign destination time out options
+                             if (advancedSettings?.DestinationTimeout > 0)
+                             {
+                                 // Generate the job name for stopping campaigns
+                                 var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
 
-                            // Add into schedule list
-                            PublisherScheduledList.Add(stopJobName);
+                                 // Add into schedule list
+                                 PublisherScheduledList.Add(stopJobName);
 
-                            // Calculate stopping time
-                            var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
+                                 // Calculate stopping time
+                                 var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
 
-                            // Add job process for stop publishing after some x minutes
-                            JobManager.AddJob(() =>
-                            {
-                                // Call stop publishing
-                                StopPublishingPosts(campaign.CampaignId);
-                            }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
-                        }
-                    }
-                });
+                                 // Add job process for stop publishing after some x minutes
+                                 JobManager.AddJob(() =>
+                                      {
+                                     // Call stop publishing
+                                     StopPublishingPosts(campaign.CampaignId);
+                                      }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
+                             }
+                         }
+                     });
 
             #endregion
         }

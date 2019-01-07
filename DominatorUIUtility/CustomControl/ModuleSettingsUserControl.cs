@@ -96,7 +96,7 @@ namespace DominatorUIUtility.CustomControl
         public FooterControl _footerControl;
         public SearchQueryControl _queryControl;
         Grid _mainGrid;
-        AccountGrowthModeHeader _accountGrowthModeHeader;
+        public AccountGrowthModeHeader _accountGrowthModeHeader;
         ActivityType _activityType;
         string _moduleName;
         protected SocialNetworks SocialNetwork = SocinatorInitialize.ActiveSocialNetwork;

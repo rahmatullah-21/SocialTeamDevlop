@@ -92,5 +92,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string BoardLabel { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public string DestinationBoard { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
+        public string Comment { get; set; }
     }
 }

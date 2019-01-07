@@ -42,6 +42,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             SaveCommand = new BaseCommand<object>(SaveCanExecute, SaveExecute);
             SelectDestinationCommand = new BaseCommand<object>(SelectDestinationCanExecute, SelectDestinationExecute);
+            SelectAccountCommand = new BaseCommand<object>(sender => true, SelectAccountExecute);
             CampaignChangedCommand = new BaseCommand<object>(CampaignChangedCanExecute, CampaignChangedExecute);
 
             #endregion
@@ -57,6 +58,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
 
             JobConfigurationControl = JobConfiguration;
+        }
+
+        private void SelectAccountExecute(object sender)
+        {
+
+            var publisherCreateDestination = new PublisherCreateDestination(true);
+            publisherCreateDestination.PublisherCreateDestinationsViewModel =
+                PublisherCreateDestination.Instance.PublisherCreateDestinationsViewModel;
+            var dialog = new Dialog();
+
+            // Pass the UI object with Title of the Page
+            var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
+            metroWindow.ShowDialog();
+            var newCreatedDestination = ManageDestinationFileManager.GetAll().LastOrDefault();
+
+            var destinationId = newCreatedDestination.DestinationId;
+            _publisherCreateCampaignModel.LstDestinationId = new ObservableCollection<string>(new List<string>() { destinationId });
         }
 
         #endregion
@@ -188,6 +206,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// For selecting saved destinations
         /// </summary>
         public ICommand SelectDestinationCommand { get; set; }
+
+        /// <summary>
+        /// For creating and selecting new destinations
+        /// </summary>
+        public ICommand SelectAccountCommand { get; set; }
+
 
         /// <summary>
         /// Switching between one campaign for another campaign
@@ -532,7 +556,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)
                     endTime = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate;
 
-
+                List<TimeSpan> specificRunningTime = null;
+                if (PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked)
+                {
+                    specificRunningTime = new List<TimeSpan>();
+                    specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
+                    for (int i = 0; i < PublisherCreateCampaignModel.JobConfigurations.MaxPost - 1; i++)
+                    {
+                        specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
+                    }
+                }
                 // Current Campaign Status Details for display in default pages
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                 {
@@ -548,7 +581,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
                     IsRandomRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsRandomizePublishingTimerChecked,
                     MaximumTime = PublisherCreateCampaignModel.JobConfigurations.MaxPost,
-                    SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
+                    SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked ? specificRunningTime : PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
                     PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,
                     IsTakeRandomDestination = !PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnDestinationsChecked,
@@ -625,9 +658,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #endregion
 
                 // If campaign is active then schedule for posting
+                #region Schedule Posting
+
                 if (PublisherCreateCampaignModel.CampaignStatus == PublisherCampaignStatus.Active)
                     PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
 
+                #endregion
                 // Send back to default page
                 PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherDefaultPage.Instance();

@@ -60,6 +60,27 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+
+                <!--<Button  Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
+                        Foreground="White" VerticalAlignment="Center"  Margin="5"
+                        Command="{Binding SelectAccountCommand}">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Rectangle Width="20" Height="20" Fill="White" >
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_table_select}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource LangKeySelectAccountS}" Margin="0,0,0,0"
+                                           Foreground="White" FontSize="13" FontWeight="SemiBold" 
+                                           VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>-->
                 <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
                         Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding SaveCommand}" >
                     <Button.Template>

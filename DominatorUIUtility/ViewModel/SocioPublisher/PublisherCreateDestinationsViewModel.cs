@@ -27,6 +27,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateDestinationsViewModel : BindableBase
     {
+        public bool IsNeedToNavigate { get; set; }
         //ConstructorS
         private readonly IAccountsFileManager _accountsFileManager;
         public PublisherCreateDestinationsViewModel()
@@ -1007,9 +1008,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         IsAddNewGroups = PublisherCreateDestinationModel.IsAddedNewGroups,
                         IsRemoveGroupsRequiresValidation = PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval
                     };
-
-                    PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.AddDestinations(
-                        publisherManageDestinationModel, true);
+                    if (!IsNeedToNavigate)
+                        PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.AddDestinations(
+                            publisherManageDestinationModel, true);
                 }
                 // Edit Destination
                 else
@@ -1047,16 +1048,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     publisherManageDestinationModel.IsRemoveGroupsRequiresValidation =
                         PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval;
 
-                    // To call a method to update the manage destination user interface
-                    PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
+                    if (!IsNeedToNavigate)
+                        // To call a method to update the manage destination user interface
+                        PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
                         publisherManageDestinationModel);
                 }
 
                 InitializeProperties();
 
                 IsSavedDestination = true;
-
-                PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
+                if (!IsNeedToNavigate)
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherManageDestinations.Instance();
             }
             else
