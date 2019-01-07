@@ -132,7 +132,7 @@ namespace DominatorHouseCore.Diagnostics
                     IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                     TimeRange = campaigns.JobConfigurations.TimeRange,
                     SpecificRunningTime = campaigns.JobConfigurations.IsDelayPostChecked ? specificRunningTime : campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                    ScheduledWeekday = campaigns.JobConfigurations.Weekday,
+                    ScheduledWeekday = campaigns.JobConfigurations.Weekday.Where(x => x.IsContentSelected).ToList(),
                     IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                     TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
                     MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,

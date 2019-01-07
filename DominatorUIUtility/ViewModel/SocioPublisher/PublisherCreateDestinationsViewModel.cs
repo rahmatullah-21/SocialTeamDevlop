@@ -996,7 +996,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var publisherManageDestinationModel = new PublisherManageDestinationModel
                     {
                         AccountCount = PublisherCreateDestinationModel.SelectedAccountIds.Count,
-                        CampaignsCount = 0,
+                        CampaignsCount = !IsNeedToNavigate ? 0 : 1,
                         CreatedDate = DateTime.Now,
                         DestinationId = PublisherCreateDestinationModel.DestinationId,
                         DestinationName = PublisherCreateDestinationModel.DestinationName,
@@ -1006,11 +1006,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         WallsOrProfilesCount = PublisherCreateDestinationModel.PublishOwnWallAccount.Count,
                         CustomDestinationsCount = PublisherCreateDestinationModel.CustomDestinations.Count,
                         IsAddNewGroups = PublisherCreateDestinationModel.IsAddedNewGroups,
-                        IsRemoveGroupsRequiresValidation = PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval
+                        IsRemoveGroupsRequiresValidation = PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval,
+
+
                     };
-                    if (!IsNeedToNavigate)
-                        PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.AddDestinations(
-                            publisherManageDestinationModel, true);
+
+                    PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.AddDestinations(
+                        publisherManageDestinationModel, true);
                 }
                 // Edit Destination
                 else
@@ -1060,6 +1062,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (!IsNeedToNavigate)
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherManageDestinations.Instance();
+                Dialog.CloseDialog(sender);
             }
             else
             {
