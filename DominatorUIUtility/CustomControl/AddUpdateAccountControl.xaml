@@ -33,6 +33,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="5*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -95,8 +96,34 @@
                 </passwordHelper:PasswordBoxHelper.Password>
 
             </PasswordBox>
+
         </Grid>
         <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2.5*" />
+            </Grid.ColumnDefinitions>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=ComboBoxSocialNetworks,Path=SelectedItem}"  Value="{x:Static enums:SocialNetworks.Youtube}" >
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=ComboBoxSocialNetworks,Path=SelectedItem}"  Value="{x:Static enums:SocialNetworks.Gplus}" >
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <TextBlock Text="{DynamicResource LangKeyAlternateEmail}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBox Width="230" Grid.Column="1" Text="{Binding AlternateEmail}" FontWeight="SemiBold"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyAlternateEmail}"
+                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" KeyDown="OnKeyDown"/>
+            <!--<TextBox controls:TextBoxHelper.Watermark="{DynamicResource LangKeyAlternateEmail}" Width="230" FontSize="13" FontWeight="SemiBold" 
+                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Text="{Binding AlternateEmail}" Grid.Column="1"
+                     KeyDown="OnKeyDown"/>-->
+        </Grid>
+        <Grid Grid.Row="6">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -109,8 +136,8 @@
             </Grid.Style>
             <CheckBox Content="{DynamicResource LangKeyTwoFactorLoginRequired}" IsChecked="{Binding IsChkTwoFactorLogin}" Width="180" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="6,0,0,5"></CheckBox>
         </Grid>
-        <CheckBox Name="CheckBoxShowAdvance" IsChecked="False" Grid.Row="6" Content="Show Advance" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" Margin="6,0,0,5"/>
-        <Grid Grid.Row="7"  Name="GridAdvanceOption" Margin="0,0,0,10" 
+        <CheckBox Name="CheckBoxShowAdvance" IsChecked="False" Grid.Row="7" Content="Show Advance" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" Margin="6,0,0,5"/>
+        <Grid Grid.Row="8"  Name="GridAdvanceOption" Margin="0,0,0,10" 
               Visibility="{Binding IsChecked,ElementName=CheckBoxShowAdvance,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -225,7 +252,7 @@
                 </PasswordBox>
             </Grid>
         </Grid>
-        <Grid Grid.Row="8">
+        <Grid Grid.Row="9">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

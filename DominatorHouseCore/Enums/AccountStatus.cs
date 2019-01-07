@@ -28,7 +28,9 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyTwoFactorLoginAttempt")]
         TwoFactorLoginAttempt,
         [Description("LangKeyTooManyAttemptsOnSignIn")]
-        TooManyAttemptsOnSignIn
+        TooManyAttemptsOnSignIn,
+        [Description("LangKeySetNewPassword")]
+        SetNewPassword
 
     }
 }

@@ -563,7 +563,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
                     for (int i = 0; i < PublisherCreateCampaignModel.JobConfigurations.MaxPost - 1; i++)
                     {
-                        specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
+                        specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
                     }
                 }
                 // Current Campaign Status Details for display in default pages

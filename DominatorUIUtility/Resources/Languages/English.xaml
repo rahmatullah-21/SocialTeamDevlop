@@ -3347,4 +3347,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAfterPostCommentAction">After Post Comment Action</system:String>
     <system:String x:Key="LangKeyAlternateEmail">Alternate Email</system:String>
     <system:String x:Key="LangkeycommentonpostAfterLike">Comment Post After Like</system:String>
+    <system:String x:Key="LangKeySetNewPassword">Set New Password</system:String>
 </ResourceDictionary>

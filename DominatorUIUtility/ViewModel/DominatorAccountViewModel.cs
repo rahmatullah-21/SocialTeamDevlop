@@ -519,7 +519,8 @@ namespace DominatorUIUtility.ViewModel
                     ? AccountStatus.NotChecked : objDominatorAccountBaseModel.Status,
                 AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
                 AccountId = objDominatorAccountBaseModel.AccountId,
-                IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin
+                IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin,
+                AlternateEmail = objDominatorAccountBaseModel.AlternateEmail
             };
 
             var dominatorAccountModel = new DominatorAccountModel
