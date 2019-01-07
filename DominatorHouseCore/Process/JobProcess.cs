@@ -28,6 +28,7 @@ namespace DominatorHouseCore.Process
         void Stop();
         JobKey Id { get; }
         ReachedLimitInfo CheckLimit();
+        void RescheduleifLimitReached(ReachedLimitInfo limitInfo, ReachedLimitType limitType);
         JobConfiguration JobConfiguration { get; }
     }
 
@@ -42,6 +43,9 @@ namespace DominatorHouseCore.Process
         private readonly IRunningJobsHolder _runningJobsHolder;
         private readonly IJobCountersManager _jobCountersManager;
 
+        public CampaignDetails CampaignDetails { get; }
+
+
         [Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
         public JobProcess()
         {
@@ -49,6 +53,26 @@ namespace DominatorHouseCore.Process
         }
 
         public bool IsNeedToSchedule { get; set; } = false;
+        protected JobProcess(IProcessScopeModel processScopeModel)
+        {
+            // Get the current account details 
+            _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
+            _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
+            TemplateId = processScopeModel.TemplateId;
+            ActivityType = processScopeModel.ActivityType;
+            SocialNetworks = processScopeModel.Network;
+            CurrentJobTimeRange = processScopeModel.TimingRange;
+            DominatorAccountModel = processScopeModel.Account;
+
+            IsNeedToSchedule = processScopeModel.IsNeedToSchedule;
+            JobConfiguration = processScopeModel.JobConfiguration;
+            SavedQueries = processScopeModel.SavedQueries;
+
+            CampaignDetails = processScopeModel.CampaignDetails;
+            CampaignId = processScopeModel.CampaignId;
+        }
+
+        [Obsolete]
         protected JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
         {
             // Get the current account details 
@@ -69,9 +93,9 @@ namespace DominatorHouseCore.Process
             IsNeedToSchedule = commonConfiguration.IsNeedToSchedule;
             JobConfiguration = commonConfiguration.JobConfiguration;
             SavedQueries = commonConfiguration.SavedQueries;
+            CampaignDetails = campaignFileManager.FirstOrDefault(x => x.TemplateId == TemplateId);
+            CampaignId = CampaignDetails?.CampaignId;
 
-
-            CampaignId = campaignFileManager.FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
         }
 
         protected void ScheduleNextJob(DateTime dateTime)
@@ -139,7 +163,6 @@ namespace DominatorHouseCore.Process
         /// </summary>
         /// <returns></returns>
         /// 
-        //protected abstract bool CheckJobProcessLimitsReached();
         protected virtual bool CheckJobProcessLimitsReached()
         {
             var limitType = ReachedLimitType.NoLimit;
@@ -149,24 +172,7 @@ namespace DominatorHouseCore.Process
                 limitType = limitInfo.ReachedLimitType;
                 if (limitType != ReachedLimitType.NoLimit)
                 {
-                    GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
-                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType, limitInfo.LimitValue);
-                    Stop(DominatorAccountModel.AccountId, TemplateId);
-                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                    var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
-                    var nextStartTime = limitType == ReachedLimitType.Job ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType, JobConfiguration.DelayBetweenJobs.GetRandom()) : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
-                    if (moduleConfiguration != null)
-                    {
-                        moduleConfiguration.NextRun = nextStartTime;
-                        moduleConfiguration.IsEnabled = true;
-                        var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
-                        jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType, moduleConfiguration);
-                        accountsCacheService.UpsertAccounts(DominatorAccountModel);
-                    }
-
-                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                    RescheduleifLimitReached(limitInfo, limitType);
                 }
 
             }
@@ -177,8 +183,36 @@ namespace DominatorHouseCore.Process
             return limitType != ReachedLimitType.NoLimit;
         }
 
+        public void RescheduleifLimitReached(ReachedLimitInfo limitInfo, ReachedLimitType limitType)
+        {
+            GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
+                DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                DominatorAccountModel.AccountBaseModel.UserName, ActivityType, limitInfo.LimitValue);
+            Stop(DominatorAccountModel.AccountId, TemplateId);
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
+            var nextStartTime = limitType == ReachedLimitType.Job
+                ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
+                    JobConfiguration.DelayBetweenJobs.GetRandom())
+                : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+            if (moduleConfiguration != null)
+            {
+                moduleConfiguration.NextRun = nextStartTime;
+                moduleConfiguration.IsEnabled = true;
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                jobActivityConfigurationManager.AddOrUpdate(DominatorAccountModel.AccountBaseModel.AccountId, ActivityType,
+                    moduleConfiguration);
+                accountsCacheService.UpsertAccounts(DominatorAccountModel);
+            }
+
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+            _jobCountersManager.Reset(Id);
+        }
+
         public abstract ReachedLimitInfo CheckLimit();
 
+        //// TODO: don't think that it works. template.ActivitySettings effectively isn't changed, hence no changes is saved 
 
         protected void StopFollow()
         {

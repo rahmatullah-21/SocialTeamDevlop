@@ -488,7 +488,8 @@
     <system:String x:Key="LangKeyDelayBetweenActivities">Delay Between Activities</system:String>
     <system:String x:Key="LangKeyDelayBetweenDownloads">Delay Between Downloads</system:String>
     <system:String x:Key="LangKeyDelayBetweenEachOperation">Delay Between Each Operation</system:String>
-    <system:String x:Key="LangKeyDelayBetweenEachPost">Delay Between Each Post</system:String>
+    <system:String x:Key="LangKeyDelayBetweenEachDestinationPost">Delay Between Each Destination Post</system:String>
+    <system:String x:Key="LangKeyDelayBetweenPost">Delay Between Post</system:String>
     <system:String x:Key="LangKeyDelayBetweenFindingPhotos">Delay Between Finding Photos</system:String>
     <system:String x:Key="LangKeyDelayBetweenFollows">Delay Between Follows</system:String>
     <system:String x:Key="LangKeyDelayBetweenJobs">Delay Between Jobs</system:String>
@@ -2758,6 +2759,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWillPerformIn">Will Perform In</system:String>
     <system:String x:Key="LangKeyIsScheduledToRunBy">Is Scheduled To Run By</system:String>
     <system:String x:Key="LangKeyNextJobTo">Next Job To</system:String>
+    <system:String x:Key="LangKeyNextPostTo">Next Post To</system:String>
     <system:String x:Key="LangKeyIsExpectedToStartBy">Is Expected To Start By</system:String>
     <system:String x:Key="LangKeyHasReachedPerJobLimitOf">Has Reached Per Job Limit Of</system:String>
     <system:String x:Key="LangKeyHasReachedPerDayLimitOf">Has Reached Per Day Limit Of</system:String>
@@ -2995,7 +2997,7 @@ Type 3. IP:Port
 
     <!--Newly Added on 17-07-2018-->
     <system:String x:Key="LangKeyEditCampaign">Edit Campaign</system:String>
-    <system:String x:Key="LangKeyPostSaved">Post has been successfully saved!</system:String>
+    <system:String x:Key="LangKeyPostSaved">Post has been successfully saved</system:String>
     <system:String x:Key="LangKeySavePostToDraft">Save To Draft Post List</system:String>
     <system:String x:Key="LangKeySavePostToPending">Save To Pending Post List</system:String>
     <system:String x:Key="LangKeyUpdateFeedUrl">Update Feed Url</system:String>
@@ -3331,4 +3333,19 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">This Socinator feature helps to automate Unlike on Twitter. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
     <system:String x:Key="LangKeyConnectedWithin">Connected Within</system:String>
     <system:String x:Key="LangKeyProfileScraperCampaigns">Profile Scraper Campaigns</system:String>
+    <system:String x:Key="LangKeyPublisherCampaigns">Publisher Campaigns</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerDay">Number Of Accept Board Invitations Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerHour">Number Of Accept Board Invitations Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerJob">Number Of Accept Board Invitations Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerWeek">Number Of Accept Board Invitations Per Week</system:String>
+    <system:String x:Key="LangKeyMaxAcceptBoardInvitationsPerDay">Max Accept Board Invitations Per Day</system:String>
+    <system:String x:Key="LangKeyAcceptBoardInvitation">Accept Board Invitation</system:String>
+    <system:String x:Key="LangKeyTooManyAttemptsOnSignIn">Too many attempts on sign in. Try again later.</system:String>
+    <system:String x:Key="LangKeyBirthdayShouldHaveBeenBetween">Birthday should have been between</system:String>
+    <system:String x:Key="LangKeyAfterPostLikeAction">After Post Like Action</system:String>
+    <system:String x:Key="LangKeySendRequestIfUserPost">Send FriendRequest If User's Post</system:String>
+    <system:String x:Key="LangKeyAfterPostCommentAction">After Post Comment Action</system:String>
+    <system:String x:Key="LangKeyAlternateEmail">Alternate Email</system:String>
+    <system:String x:Key="LangkeycommentonpostAfterLike">Comment Post After Like</system:String>
+    <system:String x:Key="LangKeySetNewPassword">Set New Password</system:String>
 </ResourceDictionary>

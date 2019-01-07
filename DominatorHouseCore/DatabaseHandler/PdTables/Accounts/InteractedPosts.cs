@@ -82,7 +82,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string BoardLabel { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public string DestinationBoard { get; set; }
-
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public string Comment { get; set; }
         public ActivityType GetActivityType()
         {
             return OperationType;

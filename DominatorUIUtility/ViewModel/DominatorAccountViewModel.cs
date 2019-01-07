@@ -519,7 +519,8 @@ namespace DominatorUIUtility.ViewModel
                     ? AccountStatus.NotChecked : objDominatorAccountBaseModel.Status,
                 AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
                 AccountId = objDominatorAccountBaseModel.AccountId,
-                IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin
+                IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin,
+                AlternateEmail = objDominatorAccountBaseModel.AlternateEmail
             };
 
             var dominatorAccountModel = new DominatorAccountModel
@@ -1360,28 +1361,34 @@ namespace DominatorUIUtility.ViewModel
                 var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
 
                 var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
-                //var savedAccounts = accountList.ToList();
 
                 try
                 {
-                    LstDominatorAccountModel.Clear();
-                    foreach (var account in savedAccounts)
+                    //LstDominatorAccountModel.Clear();
+                    Task.Factory.StartNew(() =>
                     {
-                        if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel.AccountNetwork))
+                       
+                        foreach (var account in savedAccounts)
                         {
-                            if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+                            if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
+                                .AccountNetwork))
                             {
-                                GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
-                                break;
+                                if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+                                {
+                                    GlobusLogHelper.log.Info(
+                                        "You have already added maximum account as per your plan");
+                                    break;
+                                }
+                                Application.Current.Dispatcher.InvokeAsync(() =>
+                                {
+                                    LstDominatorAccountModel.Add(account);
+                                });
                             }
-                            LstDominatorAccountModel.Add(account);
+
                         }
 
-                    }
-                    //savedAccounts.ForEach(account =>
-                    //{
+                    });
 
-                    //});
                 }
                 catch (Exception ex)
                 {

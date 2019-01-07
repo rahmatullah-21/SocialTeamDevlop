@@ -1,12 +1,9 @@
 ﻿using DominatorHouseCore.Utility;
 using Prism.Commands;
 using System;
-using System.Diagnostics;
 using System.Globalization;
-using System.Management;
 using System.Timers;
 using System.Windows;
-using DominatorHouseCore;
 
 namespace DominatorHouse.ViewModels
 {
@@ -17,20 +14,18 @@ namespace DominatorHouse.ViewModels
 
     public class PerfCounterViewModel : BindableBase, IPerfCounterViewModel
     {
+        private readonly IPerfCounterService _perfCounterService;
         private readonly Timer _timer;
         private GridLength _logViewHeight;
         private string _cpuUsage;
         private string _availableMemory;
         private DateTime? _currentDateTime;
-
-        private static PerformanceCounter PerformanceCounter { get; }
-            = new PerformanceCounter("Memory", "Available MBytes");
-
-        private static ManagementObject Processor { get; }
-            = new ManagementObject("Win32_PerfFormattedData_PerfOS_Processor.Name='_Total'");
-
-        public string LoadedMemory { get; }
-
+        private string _loadedMemory;
+        public string LoadedMemory
+        {
+            get { return _loadedMemory; }
+            set { SetProperty(ref _loadedMemory, value, nameof(LoadedMemory)); }
+        }
         public string AvailableMemory
         {
             get { return _availableMemory; }
@@ -57,12 +52,11 @@ namespace DominatorHouse.ViewModels
 
         public DelegateCommand ShowHideLogCmd { get; }
 
-        public PerfCounterViewModel()
+        public PerfCounterViewModel(IPerfCounterService perfCounterService)
         {
-            Process currentProcess = Process.GetCurrentProcess();
-            _cpuCounter = new PerformanceCounter("Process", "% Processor Time", currentProcess.ProcessName);
+            _perfCounterService = perfCounterService;
+            LoadedMemory = _perfCounterService.LoadedMemoryDescrption;
             LogViewHeight = new GridLength(3, GridUnitType.Star);
-            LoadedMemory = GetRamsize();
             ShowHideLogCmd = new DelegateCommand(ShowHideLog);
             _timer = new Timer() { Interval = 1000 };
             _timer.Elapsed += OnElapsed;
@@ -71,8 +65,9 @@ namespace DominatorHouse.ViewModels
 
         private void OnElapsed(object sender, ElapsedEventArgs e)
         {
-            AvailableMemory = GetMemoryUsage().ToString(NumberFormatInfo.InvariantInfo);
-            CpuUsage = GetCpuUsage();
+            var counters = _perfCounterService.GetActualValues();
+            AvailableMemory = counters.AvailableMemory.ToString(CultureInfo.InvariantCulture);
+            CpuUsage = counters.CpuUsage.ToString(CultureInfo.InvariantCulture);
             CurrentDateTime = DateTime.Now;
         }
 
@@ -85,41 +80,6 @@ namespace DominatorHouse.ViewModels
         }
 
 
-        private static string GetRamsize()
-        {
-            var objManagementClass = new ManagementClass("Win32_ComputerSystem");
-            var objManagementObjectCollection = objManagementClass.GetInstances();
-            foreach (var item in objManagementObjectCollection)
-                return Convert.ToString(
-                           Math.Round(Convert.ToDouble(item.Properties["TotalPhysicalMemory"].Value) / 1048576, 0),
-                           CultureInfo.InvariantCulture) + " MB";
-
-            return "0 MB";
-        }
-
-        readonly PerformanceCounter _cpuCounter;
-        private string GetCpuUsage()
-        {
-
-            try
-            {
-                return Math.Round(_cpuCounter.NextValue() / Environment.ProcessorCount).ToString();
-                //Processor.Get();
-                //return Processor.Properties["PercentProcessorTime"].Value.ToString();
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return string.Empty;
-            }
-        }
-
-
-        private static double GetMemoryUsage()
-        {
-            var memAvailable = (double)PerformanceCounter.NextValue();
-            return memAvailable;
-        }
 
         public void Dispose()
         {

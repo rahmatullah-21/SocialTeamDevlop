@@ -35,10 +35,10 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
-                        new DateFilterPredicate<InteractedPosts>(
-                            a => a.InteractionDate.EpochToDateTimeLocal()),
-                        new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
-                            a => a.ActivityType.ToString())));
+                        new DateEpochFilterPredicate<InteractedPosts>(
+                            a => a.InteractionDate),
+                        new ActivityTypeFilterPredicate<InteractedPosts>(
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Quora, true));
@@ -50,7 +50,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                         new DateFilterPredicate<InteractedQuestion>(
                             a => a.InteractionDateTime),
                         new ActivityTypeAsStringFilterPredicate<InteractedQuestion>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedQuestion>>(
                     new CounterKeyFactory<InteractedQuestion>(SocialNetworks.Quora, true));
@@ -61,7 +61,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                         new DateFilterPredicate<InteractedMessage>(
                             a => a.InteractionDate),
                         new ActivityTypeAsStringFilterPredicate<InteractedMessage>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedMessage>>(
                     new CounterKeyFactory<InteractedMessage>(SocialNetworks.Quora, true));

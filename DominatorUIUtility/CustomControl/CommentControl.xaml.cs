@@ -72,7 +72,7 @@ namespace DominatorUIUtility.CustomControl
                     "Please type some comment !!");
                 return;
             }
-              
+
             AddCheckedQueryToList();
             if (btnAddCommentToList.Content.ToString() == "Update Comment")
             {
@@ -86,7 +86,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                     return x;
                 });
-                Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x=>x.Content.QueryValue=="All"));
+                Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Isupdated = true;
                 Dialog.CloseDialog(this);
@@ -96,25 +96,53 @@ namespace DominatorUIUtility.CustomControl
                 AddCommentToListEventHandler();
             }
 
-           
+
         }
 
         private void chkQuery_Checked(object sender, RoutedEventArgs e)
         {
-               CheckUncheckAll(sender,true);
-        }
-       
-        private void chkQuery_Unchecked(object sender, RoutedEventArgs e)
-        {
-                CheckUncheckAll(sender,false);
+            CheckUncheckAll(sender, true);
         }
 
+        private void chkQuery_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckUncheckAll(sender, false);
+        }
+        private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
-            if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
+
+            var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
+            if (!Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
             {
+
+                if (!IsChecked)
+                {
+                    _isUncheckfromList = true;
+                    Comments.LstQueries[0].IsContentSelected = false;
+                }
+            }
+            if (Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            {
+                _isUncheckfromList = false;
+                Comments.LstQueries[0].IsContentSelected = IsChecked;
+            }
+            if (_isUncheckfromList)
+            {
+                _isUncheckfromList = false;
+                return;
+            }
+
+            if (currentQuery == "All" || currentQuery== "Default")
+            {
+                _isUncheckfromList = false;
                 Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
             }
+
+            //if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
+            //{
+            //    Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+            //}
 
         }
         private void AddCheckedQueryToList()
@@ -122,7 +150,7 @@ namespace DominatorUIUtility.CustomControl
             Comments.SelectedQuery.Clear();
             Comments.LstQueries.ToList().ForEach(query =>
             {
-                    if (query.IsContentSelected)
+                if (query.IsContentSelected)
                     Comments.SelectedQuery.Add(query);
             });
         }

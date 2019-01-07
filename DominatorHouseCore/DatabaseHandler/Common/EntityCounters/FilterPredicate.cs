@@ -76,4 +76,13 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
         {
         }
     }
+
+    public class ActivityTypeFilterPredicate<TSource> : ActivityTypeFilterPredicate<TSource, ActivityType> where TSource : class, new()
+    {
+        public ActivityTypeFilterPredicate(Expression<Func<TSource, ActivityType>> filterExpression)
+            : base(filterExpression, a => a)
+        {
+        }
+    }
+
 }

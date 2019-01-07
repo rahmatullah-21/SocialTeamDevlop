@@ -187,7 +187,7 @@ namespace DominatorHouse.ViewModels
                 _isStartedfirstTime = true;
                 if (await DiagnoseFatalError(key.FatalErrorMessage))
                 {
-                    if(!_isStartedfirstTime)
+                    if (!_isStartedfirstTime)
                         return;
                     var settings = new MetroDialogSettings()
                     {
@@ -252,7 +252,7 @@ namespace DominatorHouse.ViewModels
             }
             if (networks.Count <= 1)
             {
-                
+
                 await controller.CloseAsync();
                 if (!_isStartedfirstTime)
                     await FatalErrorDiagnosis();
@@ -363,42 +363,69 @@ namespace DominatorHouse.ViewModels
                 FeatureFlags.UpdateFeatures();
 
                 var softWareSettings = new Utilities.SoftwareSettings();
-                ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(Strategies); });
 
-                ThreadFactory.Instance.Start(() => { ServiceLocator.Current.GetInstance<ISoftwareSettings>().InitializeOnLoadConfigurations(); });
 
-                // For Every day backup
-                ThreadFactory.Instance.Start(() =>
-                {
-                    DirectoryUtilities.DeleteOldLogsFile();
-                    //DirectoryUtilities.Compress();
-                });
+                Parallel.Invoke(() => softWareSettings.InitializeOnLoadConfigurations(Strategies),
+                                () => ServiceLocator.Current.GetInstance<ISoftwareSettings>().InitializeOnLoadConfigurations(),
+                                () => DirectoryUtilities.DeleteOldLogsFile(),
+                                () =>
+                                {
+                                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                                    PublishScheduler.ScheduleTodaysPublisher();
+                                    PublishScheduler.UpdateNewGroupList();
+                                },
+                               () =>
+                               {
+                                   var publisherPostFetcher = new PublisherPostFetcher();
+                                   publisherPostFetcher.StartFetchingPostData();
+                               },
+                                () =>
+                                {
+                                    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                                    var deletionPostlist =
+                                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
+                                });
 
-                #region Publisher
 
-                ThreadFactory.Instance.Start(() =>
-                {
-                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
-                    PublishScheduler.ScheduleTodaysPublisher();
-                    PublishScheduler.UpdateNewGroupList();
-                });
 
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var publisherPostFetcher = new PublisherPostFetcher();
-                    publisherPostFetcher.StartFetchingPostData();
-                });
+                //ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(Strategies); });
 
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                    var deletionPostlist =
-                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                        .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
-                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
-                });
+                //ThreadFactory.Instance.Start(() => { ServiceLocator.Current.GetInstance<ISoftwareSettings>().InitializeOnLoadConfigurations(); });
 
-                #endregion
+                //// For Every day backup
+                //ThreadFactory.Instance.Start(() =>
+                //{
+                //    DirectoryUtilities.DeleteOldLogsFile();
+                //    //DirectoryUtilities.Compress();
+                //});
+
+                //#region Publisher
+
+                //ThreadFactory.Instance.Start(() =>
+                //{
+                //    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                //    PublishScheduler.ScheduleTodaysPublisher();
+                //    PublishScheduler.UpdateNewGroupList();
+                //});
+
+                //ThreadFactory.Instance.Start(() =>
+                //{
+                //    var publisherPostFetcher = new PublisherPostFetcher();
+                //    publisherPostFetcher.StartFetchingPostData();
+                //});
+
+                //ThreadFactory.Instance.Start(() =>
+                //{
+                //    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                //    var deletionPostlist =
+                //        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                //        .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                //    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
+                //});
+
+                // #endregion
 
             }
             catch (Exception ex)

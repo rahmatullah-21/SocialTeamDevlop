@@ -219,6 +219,7 @@
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
     <Compile Include="BusinessLogic\Scheduler\IPublisherJobProcessFactory.cs" />
+    <Compile Include="BusinessLogic\Scheduler\JobProcessScopeFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\RunningActivityManager.cs" />
     <Compile Include="BusinessLogic\Scheduler\SchedulerProxy.cs" />
     <Compile Include="BusinessLogic\Scraper\IQueryScraperFactory.cs" />
@@ -580,6 +581,7 @@
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\ProcessScopeModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\InstagramModel.cs" />
@@ -657,6 +659,7 @@
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />
+    <Compile Include="Utility\PerfCounterService.cs" />
     <Compile Include="Utility\PublisherHelper.cs" />
     <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />

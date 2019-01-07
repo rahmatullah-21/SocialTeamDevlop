@@ -34,7 +34,8 @@ namespace DominatorHouseCore.Process.ExecutionCounters
                 {
                     Init<T>(key, accountId, networks, activityType);
                 }
-
+                else
+                    Update<T>(key, accountId, networks, activityType);
                 return _jobExecutionCounters[key];
             }
         }
@@ -60,6 +61,8 @@ namespace DominatorHouseCore.Process.ExecutionCounters
             {
                 Init<T>(key, accountId, networks, activityType);
             }
+            else
+                Update<T>(key, accountId, networks, activityType);
 
             _jobExecutionCounters[key].Increment();
         }
@@ -70,6 +73,13 @@ namespace DominatorHouseCore.Process.ExecutionCounters
             var counterFunction = ServiceLocator.Current.GetInstance<IEntityCounterFunction<T>>();
             var counter = counterFunction.GetCounter(accountId, networks, activityType);
             _jobExecutionCounters.Add(key, counter);
+        }
+        private void Update<T>(string key, string accountId, SocialNetworks networks, ActivityType? activityType)
+            where T : class, new()
+        {
+            var counterFunction = ServiceLocator.Current.GetInstance<IEntityCounterFunction<T>>();
+            var counter = counterFunction.GetCounter(accountId, networks, activityType);
+            _jobExecutionCounters[key] = counter;
         }
     }
 }

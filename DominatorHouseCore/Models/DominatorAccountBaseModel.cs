@@ -244,6 +244,36 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isChkTwoFactorLogin, value);
             }
         }
+        private string _alternateEmail = string.Empty;
+        [ProtoMember(13)]
+        public string AlternateEmail
+        {
+            get
+            {
+                return _alternateEmail;
+            }
+            set
+            {
+                if (_alternateEmail != null && _alternateEmail == value)
+                    return;
+                SetProperty(ref _alternateEmail, value);
+            }
+        }
+        private string _phoneNumber = string.Empty;
+        [ProtoMember(14)]
+        public string PhoneNumber
+        {
+            get
+            {
+                return _phoneNumber;
+            }
+            set
+            {
+                if (_phoneNumber != null && _phoneNumber == value)
+                    return;
+                SetProperty(ref _phoneNumber, value);
+            }
+        }
         public override string ToString()
         {
             return string.Format("{0} on {1}", _userName, _accountNetwork);

@@ -25,10 +25,10 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
-                        new DateFilterPredicate<InteractedPosts>(
-                            a => a.InteractionTimeStamp.EpochToDateTimeLocal()),
+                        new DateEpochFilterPredicate<InteractedPosts>(
+                            a => a.InteractionTimeStamp),
                         new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Tumblr, true));

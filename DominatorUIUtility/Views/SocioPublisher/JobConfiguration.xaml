@@ -8,6 +8,7 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:BooleanToVisibilityConverter IsInversed="True" x:Key="BooleanToInverseVisibilityConverter"/>
 
         <!--<ControlTemplate x:Key="ErrorTemplate">
             <StackPanel>
@@ -23,6 +24,7 @@
     <StackPanel x:Name="MainGrid">
 
         <TextBlock Text="{DynamicResource LangKeySettings}" FontWeight="Bold"  Margin="5"/>
+       
         <StackPanel Orientation="Horizontal" Margin="10,0">
             <TextBlock Text="{DynamicResource LangKeyTheCampaignWillPublish}" VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown x:Name="numericMaxPost" Minimum="0" ValueDecremented="NumericMaxPost_OnValueDecremented"
@@ -49,56 +51,68 @@
             </control:TimePicker>
             <TextBlock Text="{DynamicResource LangKeyEachPostWillBePublishedToAllSelectedDestinationsIncludingGroupsPagesWalls}"  VerticalAlignment="Center" Margin="5"/>
         </StackPanel>
-
-        <RadioButton GroupName="postGroup" IsChecked="{Binding IsSpecifyPostingIntervalChecked}" Content="{DynamicResource LangKeyConfigurePostingIntervalForEachTimer}"  Margin="5"
+       
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <RadioButton Content="{DynamicResource LangKeyDelayBetweenPost}"  
+                             VerticalAlignment="Center" GroupName="postGroup" Margin="5" IsChecked="{Binding IsDelayPostChecked}"/>
+                <control:NumericUpDown Minimum="0" 
+                                       Value="{Binding DelayBetweenEachPost.StartValue}"
+                                       VerticalAlignment="Center"  Margin="5"/>
+                <TextBlock Text="{DynamicResource LangKeyTo}"  VerticalAlignment="Center" Margin="5"/>
+                <control:NumericUpDown Minimum="{Binding DelayBetweenEachPost.StartValue}" Value="{Binding DelayBetweenEachPost.EndValue}" VerticalAlignment="Center"  Margin="5"/>
+                <TextBlock Text="{DynamicResource LangKeyMinutes}"  VerticalAlignment="Center" Margin="5"/>
+            </StackPanel>
+            <RadioButton GroupName="postGroup" IsChecked="{Binding IsSpecifyPostingIntervalChecked}" Content="{DynamicResource LangKeyConfigurePostingIntervalForEachTimer}"  Margin="5"
                      x:Name="ChkPostingInterval"/>
-        <!--Click="ChkPostingInterval_OnClick" />-->
-        <ItemsControl ItemsSource="{Binding LstTimer,IsAsync=True}" Margin="5"
+            <!--Click="ChkPostingInterval_OnClick" />-->
+            <ItemsControl ItemsSource="{Binding LstTimer,IsAsync=True}" Margin="5"
                       Visibility="{Binding IsSpecifyPostingIntervalChecked,
             Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="4" IsItemsHost="True" HorizontalAlignment="Stretch"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="4" IsItemsHost="True" HorizontalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <StackPanel>
-                            <control:TimePicker SelectedTimeChanged="OnSelectedTimeChanged" x:Name="StartTime" Margin="2" SelectedTime="{Binding StartTime ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsClockVisible="False"/>
-                            <control:TimePicker SelectedTimeChanged="OnSelectedTimeChanged" x:Name="EndTime" Margin="2"  SelectedTime="{Binding EndTime ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  IsClockVisible="False"/>
-                        </StackPanel>
-                        <control:TimePicker x:Name="MidTime" VerticalAlignment="Center" Margin="2"
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <StackPanel>
+                                <control:TimePicker SelectedTimeChanged="OnSelectedTimeChanged" x:Name="StartTime" Margin="2" SelectedTime="{Binding StartTime ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsClockVisible="False"/>
+                                <control:TimePicker SelectedTimeChanged="OnSelectedTimeChanged" x:Name="EndTime" Margin="2"  SelectedTime="{Binding EndTime ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  IsClockVisible="False"/>
+                            </StackPanel>
+                            <control:TimePicker x:Name="MidTime" VerticalAlignment="Center" Margin="2"
                                             SelectedTime="{Binding MidTime
                                 ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                                             IsClockVisible="False"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <RadioButton GroupName="postGroup" IsChecked="{Binding IsRandomizePublishingTimerChecked}" Content="{DynamicResource LangKeyUseRandomPublishingTimeEveryday}"  Margin="5"
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <RadioButton GroupName="postGroup" IsChecked="{Binding IsRandomizePublishingTimerChecked}" Content="{DynamicResource LangKeyUseRandomPublishingTimeEveryday}"  Margin="5"
                      Name="ChkRandomizePublishing"/>
-        <!--Click="ChkRandomizePublishing_OnClick" />-->
-        <ItemsControl ItemsSource="{Binding LstTimer,IsAsync=True}" Margin="5"
+            <!--Click="ChkRandomizePublishing_OnClick" />-->
+            <ItemsControl ItemsSource="{Binding LstTimer,IsAsync=True}" Margin="5"
                       Visibility="{Binding IsRandomizePublishingTimerChecked,
                  Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="7" IsItemsHost="True" HorizontalAlignment="Stretch"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="7" IsItemsHost="True" HorizontalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <control:TimePicker x:Name="lstTime" 
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <control:TimePicker x:Name="lstTime" 
                                             SelectedTime="{Binding MidTime
                         ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsClockVisible="False"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
         <!--<CheckBox IsChecked="{Binding IsRandomizeNumberOfPostsChecked}" Content="{DynamicResource LangKeyPublishRandomNumberOfPostsEachDay}"  Margin="5"/>
         <StackPanel Orientation="Horizontal"  Margin="30,5"
                     Visibility="{Binding IsRandomizeNumberOfPostsChecked,
@@ -182,7 +196,7 @@
                                     SelectedDate="{Binding CampaignEndDate}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5,0">
-            <TextBlock Text="{DynamicResource LangKeyDelayBetweenEachPost}"  VerticalAlignment="Center" Margin="5"/>
+            <TextBlock Text="{DynamicResource LangKeyDelayBetweenEachDestinationPost}"  VerticalAlignment="Center" Margin="5"/>
             <control:NumericUpDown Minimum="0"
                                Value="{Binding DelayBetweenPost.StartValue}"
                                VerticalAlignment="Center"  Margin="5"/>

@@ -15,9 +15,14 @@ namespace DominatorUIUtility.Views.SocioPublisher
         private PublisherCreateDestination()
         {
             InitializeComponent();
+            PublisherCreateDestinationsViewModel.IsNeedToNavigate = false;
             CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
         }
-
+        public PublisherCreateDestination(bool isNeedToNevigate) : this()
+        {
+            PublisherCreateDestinationsViewModel.IsNeedToNavigate = isNeedToNevigate;
+            CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
+        }
         public PublisherCreateDestinationsViewModel PublisherCreateDestinationsViewModel
         {
             get

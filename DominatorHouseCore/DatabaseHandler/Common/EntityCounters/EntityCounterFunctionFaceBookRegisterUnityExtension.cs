@@ -38,7 +38,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                         new DateFilterPredicate<InteractedPosts>(
                             a => a.InteractionDateTime),
                         new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
                     new CounterKeyFactory<InteractedPosts>(SocialNetworks.Facebook, true));
@@ -50,7 +50,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                         new DateFilterPredicate<InteractedGroups>(
                             a => a.InteractionDateTime),
                         new ActivityTypeAsStringFilterPredicate<InteractedGroups>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedGroups>>(
                     new CounterKeyFactory<InteractedGroups>(SocialNetworks.Facebook, true));
@@ -61,7 +61,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                         new DateFilterPredicate<InteractedComments>(
                             a => a.InteractionDateTime),
                         new ActivityTypeAsStringFilterPredicate<InteractedComments>(
-                            a => a.ActivityType.ToString())));
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedComments>>(
                     new CounterKeyFactory<InteractedComments>(SocialNetworks.Facebook, true));

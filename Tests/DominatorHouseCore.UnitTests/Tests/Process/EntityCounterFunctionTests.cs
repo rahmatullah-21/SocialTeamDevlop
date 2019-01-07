@@ -41,19 +41,16 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             // arrange
             var predicate = new DateEpochFilterPredicate<DummyEntity>(a => a.InteractedDate);
             var sut = new EntityCounterFunction<DummyEntity>(predicate);
-            var now = new DateTime(2018, 12, 26, 23, 22, 33, DateTimeKind.Local); // wednesday. start of the week 24th
             var utcNow = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Utc); // UTC +4
 
-            _dateProvider.Now().Returns(now);
-            _dateProvider.Today().Returns(now.Date);
             _dateProvider.UtcNow().Returns(utcNow);
 
             var list = new List<DummyEntity>
             {
-                new DummyEntity {InteractedDate = now.AddMinutes(-30).ConvertToEpoch()}, // should go into hour day and week
-                new DummyEntity {InteractedDate = now.AddHours(-3).ConvertToEpoch()}, // should go into day and week
-                new DummyEntity {InteractedDate = now.AddDays(-1).ConvertToEpoch()}, // should go into week
-                new DummyEntity {InteractedDate = now.AddDays(-8).ConvertToEpoch()}
+                new DummyEntity {InteractedDate = utcNow.AddMinutes(-30).ConvertToEpoch()}, // should go into hour day and week
+                new DummyEntity {InteractedDate = utcNow.AddHours(-8).ConvertToEpoch()}, // should go into day and week
+                new DummyEntity {InteractedDate = utcNow.AddDays(-1).ConvertToEpoch()}, // should go into week
+                new DummyEntity {InteractedDate = utcNow.AddDays(-8).ConvertToEpoch()}
             };
 
             _dbOperations.Count(Arg.Any<Expression<Func<DummyEntity, bool>>>()).Returns((CallInfo info) =>
@@ -78,25 +75,22 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             var predicate = new DateEpochFilterPredicate<DummyEntity>(a => a.InteractedDate);
             var activityPredicate = new ActivityTypeFilterPredicate<DummyEntity, ActivityType>(a => a.ActivityType, type => type);
             var sut = new EntityCounterFunction<DummyEntity>(predicate, activityPredicate);
-            var now = new DateTime(2018, 12, 26, 23, 22, 33, DateTimeKind.Local); // wednesday. start of the week 24th
             var utcNow = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Utc); // UTC +4
 
-            _dateProvider.Now().Returns(now);
-            _dateProvider.Today().Returns(now.Date);
             _dateProvider.UtcNow().Returns(utcNow);
 
             var list = new List<DummyEntity>
             {
-                new DummyEntity {InteractedDate = now.AddMinutes(-30).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into hour day and week
-                new DummyEntity {InteractedDate = now.AddHours(-3).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into day and week
-                new DummyEntity {InteractedDate = now.AddDays(-1).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into week
-                new DummyEntity {InteractedDate = now.AddDays(-8).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower},
+                new DummyEntity {InteractedDate = utcNow.AddMinutes(-30).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into hour day and week
+                new DummyEntity {InteractedDate = utcNow.AddHours(-8).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into day and week
+                new DummyEntity {InteractedDate = utcNow.AddDays(-1).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower}, // should go into week
+                new DummyEntity {InteractedDate = utcNow.AddDays(-8).ConvertToEpoch(), ActivityType = ActivityType.BlockFollower},
 
                 // should be counted because of activity type
-                new DummyEntity {InteractedDate = now.AddMinutes(-30).ConvertToEpoch(), ActivityType = ActivityType.Delete},
-                new DummyEntity {InteractedDate = now.AddHours(-3).ConvertToEpoch(), ActivityType = ActivityType.AnswersScraper},
-                new DummyEntity {InteractedDate = now.AddDays(-1).ConvertToEpoch(), ActivityType = ActivityType.AutoReplyToNewMessage},
-                new DummyEntity {InteractedDate = now.AddDays(-8).ConvertToEpoch(), ActivityType = ActivityType.BoardScraper}
+                new DummyEntity {InteractedDate = utcNow.AddMinutes(-30).ConvertToEpoch(), ActivityType = ActivityType.Delete},
+                new DummyEntity {InteractedDate = utcNow.AddHours(-8).ConvertToEpoch(), ActivityType = ActivityType.AnswersScraper},
+                new DummyEntity {InteractedDate = utcNow.AddDays(-1).ConvertToEpoch(), ActivityType = ActivityType.AutoReplyToNewMessage},
+                new DummyEntity {InteractedDate = utcNow.AddDays(-8).ConvertToEpoch(), ActivityType = ActivityType.BoardScraper}
             };
 
             _dbOperations.Count(Arg.Any<Expression<Func<DummyEntity, bool>>>()).Returns((CallInfo info) =>
@@ -123,11 +117,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             var predicate = new DateEpochFilterPredicate<DummyEntity>(a => a.InteractedDate);
             var activityPredicate = new ActivityTypeFilterPredicate<DummyEntity, ActivityType>(a => a.ActivityType, type => type);
             var sut = new EntityCounterFunction<DummyEntity>(predicate, activityPredicate);
-            var now = new DateTime(2018, 12, 26, 23, 22, 33, DateTimeKind.Local); // wednesday. start of the week 24th
             var utcNow = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Utc); // UTC +4
 
-            _dateProvider.Now().Returns(now);
-            _dateProvider.Today().Returns(now.Date);
             _dateProvider.UtcNow().Returns(utcNow);
 
             // act

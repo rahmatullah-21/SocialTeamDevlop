@@ -105,13 +105,37 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
+        private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
-            if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
+            var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
+            if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
             {
-                Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+
+                if (!IsChecked)
+                {
+                    _isUncheckfromList = true;
+                    Messages.LstQueries[0].IsContentSelected = false;
+                }
+            }
+            if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            {
+                _isUncheckfromList = false;
+                Messages.LstQueries[0].IsContentSelected = IsChecked;
+            }
+            if (_isUncheckfromList)
+            {
+                _isUncheckfromList = false;
+                return;
             }
 
+            if (currentQuery == "All")
+            {
+                _isUncheckfromList = false;
+                Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+            }
+          
+            
         }
         private void AddCheckedQueryToList()
         {

@@ -13,8 +13,8 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
               .RegisterInstance<IEntityCounterFunction<InteractedUsers>>(
                   new EntityCounterFunction<InteractedUsers>(
-                      new DateFilterPredicate<InteractedUsers>(
-                          a => a.Date.EpochToDateTimeLocal()),
+                      new DateEpochFilterPredicate<InteractedUsers>(
+                          a => a.Date),
                       new ActivityTypeAsStringFilterPredicate<InteractedUsers>(
                           a => a.ActivityType)));
             Container
@@ -24,8 +24,8 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
-                        new DateFilterPredicate<InteractedPosts>(
-                            a => a.InteractionDate.EpochToDateTimeLocal()),
+                        new DateEpochFilterPredicate<InteractedPosts>(
+                            a => a.InteractionDate),
                         new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
                             a => a.ActivityType)));
             Container
@@ -35,8 +35,8 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<IEntityCounterFunction<UnfollowedUsers>>(
                     new EntityCounterFunction<UnfollowedUsers>(
-                        new DateFilterPredicate<UnfollowedUsers>(
-                            a => a.InteractionDate.EpochToDateTimeLocal())));
+                        new DateEpochFilterPredicate<UnfollowedUsers>(
+                            a => a.InteractionDate)));
             Container
                 .RegisterInstance<ICounterKeyFactory<UnfollowedUsers>>(
                     new CounterKeyFactory<UnfollowedUsers>(SocialNetworks.Gplus, false));
@@ -44,8 +44,8 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                   .RegisterInstance<IEntityCounterFunction<InteractedCommunities>>(
                       new EntityCounterFunction<InteractedCommunities>(
-                          new DateFilterPredicate<InteractedCommunities>(
-                              a => a.InteractionDate.EpochToDateTimeLocal()),
+                          new DateEpochFilterPredicate<InteractedCommunities>(
+                              a => a.InteractionDate),
                           new ActivityTypeAsStringFilterPredicate<InteractedCommunities>(
                               a => a.ActivityType)));
             Container
@@ -55,9 +55,9 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             //Container
             //     .RegisterInstance<IEntityCounterFunction<InteractedGplusComments>>(
             //         new EntityCounterFunction<InteractedGplusComments>(
-            //             new DateFilterPredicate<InteractedGplusComments>(
-            //                 a => a.InteractionTimeStamp.EpochToDateTimeLocal()),
-            //             new ActivityTypeAsStringFilterPredicate<InteractedCommunities>(
+            //             new TimespanFilterPredicate<InteractedGplusComments>(
+            //                 a => a.InteractionTimeStamp),
+            //             new ActivityTypeAsStringFilterPredicate<InteractedGplusComments>(
             //                 a => a.ActivityType)));
             //Container
             //    .RegisterInstance<ICounterKeyFactory<InteractedGplusComments>>(
