@@ -407,32 +407,35 @@ namespace EmbeddedBrowser
                 lock (_googleLock)
                 {
                     if(_isLoggedIn) return;
-
-                    var pageText = Browser.GetTextAsync().Result;
-
-                    if (string.IsNullOrEmpty(pageText.Trim())) return;
-
+                    
+                    string pageText;
+                    var last30Secs = DateTime.Now;
+                    while (string.IsNullOrEmpty((pageText = Browser.GetTextAsync().Result).Trim()))
+                    {
+                        Thread.Sleep(1000);
+                        if(last30Secs.AddSeconds(30) < DateTime.Now) return;
+                    }
+                       
                     var htmlHasUserName = html.ToLower().Contains(DominatorAccountModel.UserName.ToLower());
                     SetGoogleLangAsEng(pageText, htmlHasUserName);
 
-                    if (/*html.Contains("identifierNext")*/ pageText.Contains("\nForgot email?\n") && (pageText.Contains("\nEmail or phone\n") || pageText.ToLower().Contains($"\n{DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()}\n")) && !pageText.Contains("Confirm the recovery email address"))
+                    if (!IsGoogleAccountLoginFailed(pageText, ref html))
                     {
-                        BrowserAct(ActType.EnterValueById, "identifierId", value: DominatorAccountModel.AccountBaseModel.UserName, delayAfter: 1);
-                        PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key //BrowserAct(ActType.ClickById,"identifierNext", 3, 2);
-                        return;
-                    }
-                    if (/*html.Contains("passwordNext")*/(pageText.Trim().ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()) || pageText.Contains("To continue, first verify it's you")) && pageText.Contains("\nEnter your password\n"))
-                    {
-                        BrowserAct(ActType.EnterValueByName, "password", value: DominatorAccountModel.AccountBaseModel.Password, delayAfter: 1);
-                        PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3);//Press Enter key //BrowserAct(ActType.ClickById,"passwordNext", 2, 2);
-                        return;
+                        if (/*html.Contains("identifierNext")*/ pageText.Contains("\nForgot email?\n") && (pageText.Contains("\nEmail or phone\n") || pageText.ToLower().Contains($"\n{DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()}\n")) && !pageText.Contains("Confirm the recovery email address"))
+                        {
+                            BrowserAct(ActType.EnterValueById, "identifierId", value: DominatorAccountModel.AccountBaseModel.UserName, delayAfter: 1);
+                            PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key //BrowserAct(ActType.ClickById,"identifierNext", 3, 2);
+                            return;
+                        }
+                        if (/*html.Contains("passwordNext")*/(pageText.Trim().ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()) || pageText.Contains("To continue, first verify it's you")) && pageText.Contains("\nEnter your password\n"))
+                        {
+                            BrowserAct(ActType.EnterValueByName, "password", value: DominatorAccountModel.AccountBaseModel.Password, delayAfter: 1);
+                            PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3);//Press Enter key //BrowserAct(ActType.ClickById,"passwordNext", 2, 2);
+                            return;
+                        }
                     }
 
-                    if (!string.IsNullOrEmpty(html)
-                        && html != "<html><head></head><body></body></html>"
-                        && !IsGoogleAccountLoginFailed(pageText, ref html)
-                        && htmlHasUserName
-                        && SaveCookie())
+                    if (!_loginFailed && htmlHasUserName && SaveCookie())
                     {
                         if (string.IsNullOrEmpty(TargetUrl))
                             TargetUrl = SocialHomeUrls();
@@ -473,10 +476,10 @@ namespace EmbeddedBrowser
 
         private void SetVideoQualityAs144P()
         {
-            if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon"); // for Skipping add
-
             if (SetVideoQuality || !TargetUrl.ToLower().Contains("www.youtube.com/watch?")) return;
+
+            if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
+                BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 1.5); // for Skipping add
 
             BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 3, 0.1); // To Open Volume Slider
 
