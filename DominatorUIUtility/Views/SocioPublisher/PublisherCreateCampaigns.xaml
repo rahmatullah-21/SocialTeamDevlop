@@ -61,7 +61,7 @@
                     </Button.Template>
                 </Button>
 
-                <!--<Button  Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
+                <Button  Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
                         Foreground="White" VerticalAlignment="Center"  Margin="5"
                         Command="{Binding SelectAccountCommand}">
                     <Button.Template>
@@ -80,7 +80,7 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-                </Button>-->
+                </Button>
                 <Button x:Name="BtnSave" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
                         Foreground="White" VerticalAlignment="Center"  Margin="5" Command="{Binding SaveCommand}" >
                     <Button.Template>

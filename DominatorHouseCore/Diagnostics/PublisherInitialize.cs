@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
+using RandomUtilties = DominatorHouseCore.Utility.RandomUtilties;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -112,11 +113,12 @@ namespace DominatorHouseCore.Diagnostics
                 if (campaigns.JobConfigurations.IsDelayPostChecked)
                 {
                     specificRunningTime = new List<TimeSpan>();
-                    for (int i = 0; i < campaigns.JobConfigurations.MaxPost; i++)
+                    specificRunningTime.Add(campaigns.JobConfigurations.TimeRange.StartTime);
+                    for (int i = 0; i < campaigns.JobConfigurations.MaxPost - 1; i++)
                     {
-                        Random random = new Random();
-                        specificRunningTime.Add(campaigns.JobConfigurations.TimeRange.StartTime.Add(new TimeSpan(0, random.Next(campaigns.JobConfigurations.DelayBetweenEachPost.StartValue, campaigns.JobConfigurations.DelayBetweenEachPost.EndValue), 0)));
+                        specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(campaigns.JobConfigurations.DelayBetweenEachPost.EndValue, campaigns.JobConfigurations.DelayBetweenEachPost.StartValue))));
                     }
+                    
                 }
                 //Assign the Campaign Detatils
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
@@ -132,7 +134,7 @@ namespace DominatorHouseCore.Diagnostics
                     IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                     TimeRange = campaigns.JobConfigurations.TimeRange,
                     SpecificRunningTime = campaigns.JobConfigurations.IsDelayPostChecked ? specificRunningTime : campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                    ScheduledWeekday = campaigns.JobConfigurations.Weekday,
+                    ScheduledWeekday = campaigns.JobConfigurations.Weekday.Where(x => x.IsContentSelected).ToList(),
                     IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                     TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
                     MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
