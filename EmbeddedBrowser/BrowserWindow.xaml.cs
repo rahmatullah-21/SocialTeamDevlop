@@ -327,6 +327,7 @@ namespace EmbeddedBrowser
             if (delayBefore > 0)
                 Thread.Sleep((int)(delayBefore * 1000));
 
+            if(Browser.IsDisposed) return;
             switch (actType)
             {
                 case ActType.ClickByClass:
@@ -406,6 +407,7 @@ namespace EmbeddedBrowser
         {
             try
             {
+                if (html == "<html><head></head><body></body></html>") return;
                 // BrowserAct(ActType.ClickById,"sign-in-btn",delayAfter:3);
                 lock (_googleLock)
                 {
@@ -733,7 +735,7 @@ namespace EmbeddedBrowser
             {
                 loginFailed = VerifyCodeFromPhone();
             }
-            else if (pageText.Contains("Get a verification code at")
+            else if (pageText.Contains("Get a verification code")
                 || pageText.Contains("Do you have your phone?")
                 || pageText.Contains("Google will send a notification to your phone to verify that it's you")
             )
@@ -741,8 +743,8 @@ namespace EmbeddedBrowser
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
                 loginFailed = true;
             }
-            else if (pageText.Contains("Type the text you hear or see") ||
-                     pageText.Contains("Google couldn't verify this account belongs to you.")
+            else if (pageText.Contains("Type the text you hear or see")
+                     || pageText.Contains("Google couldn't verify this account belongs to you.")
                      || pageText.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
                      || pageText.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you."))
             {
