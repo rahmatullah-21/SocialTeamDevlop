@@ -368,20 +368,25 @@ namespace DominatorHouse.ViewModels
                 Parallel.Invoke(() => softWareSettings.InitializeOnLoadConfigurations(Strategies),
                                 () => ServiceLocator.Current.GetInstance<ISoftwareSettings>().InitializeOnLoadConfigurations(),
                                 () => DirectoryUtilities.DeleteOldLogsFile(),
-                                () => PublisherInitialize.GetInstance.PublishCampaignInitializer(),
-                                () => PublishScheduler.ScheduleTodaysPublisher(),
-                                () => PublishScheduler.UpdateNewGroupList(),
-                                () =>{
-                                    var publisherPostFetcher = new PublisherPostFetcher();
-                                    publisherPostFetcher.StartFetchingPostData();
-                                     },
-                                () =>{
+                                () =>
+                                {
+                                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                                    PublishScheduler.ScheduleTodaysPublisher();
+                                    PublishScheduler.UpdateNewGroupList();
+                                },
+                               () =>
+                               {
+                                   var publisherPostFetcher = new PublisherPostFetcher();
+                                   publisherPostFetcher.StartFetchingPostData();
+                               },
+                                () =>
+                                {
                                     var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                                     var deletionPostlist =
                                         genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
                                             .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
                                     deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
-                                    });
+                                });
 
 
 

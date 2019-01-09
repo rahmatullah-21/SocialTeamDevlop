@@ -534,6 +534,9 @@
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TooManyAttemptsOnSignIn}" >
                                                         <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptsOnSignIn}" />
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}" >
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeySetNewPassword}" />
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>

@@ -1435,8 +1435,8 @@ namespace DominatorHouseCore.Process
                              // Add job manager
                              JobManager.AddJob(() =>
                                   {
-                                 // Call the start publishing
-                                 StartPublishingPosts(campaign);
+                                      // Call the start publishing
+                                      StartPublishingPosts(campaign);
                                   }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
                              // Get the advanced settings details of an campaigns
@@ -1457,8 +1457,8 @@ namespace DominatorHouseCore.Process
                                  // Add job process for stop publishing after some x minutes
                                  JobManager.AddJob(() =>
                                       {
-                                     // Call stop publishing
-                                     StopPublishingPosts(campaign.CampaignId);
+                                          // Call stop publishing
+                                          StopPublishingPosts(campaign.CampaignId);
                                       }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
                              }
                          }

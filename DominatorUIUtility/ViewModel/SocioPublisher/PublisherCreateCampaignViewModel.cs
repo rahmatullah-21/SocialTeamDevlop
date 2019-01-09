@@ -70,11 +70,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             // Pass the UI object with Title of the Page
             var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
+            publisherCreateDestination.Margin = new Thickness(7);
             metroWindow.ShowDialog();
             var newCreatedDestination = ManageDestinationFileManager.GetAll().LastOrDefault();
 
-            var destinationId = newCreatedDestination.DestinationId;
-            _publisherCreateCampaignModel.LstDestinationId = new ObservableCollection<string>(new List<string>() { destinationId });
+            _publisherCreateCampaignModel.LstDestinationId.Add(newCreatedDestination.DestinationId);
         }
 
         #endregion
@@ -563,7 +563,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
                     for (int i = 0; i < PublisherCreateCampaignModel.JobConfigurations.MaxPost - 1; i++)
                     {
-                        specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
+                        specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
                     }
                 }
                 // Current Campaign Status Details for display in default pages
@@ -582,7 +582,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     IsRandomRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsRandomizePublishingTimerChecked,
                     MaximumTime = PublisherCreateCampaignModel.JobConfigurations.MaxPost,
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked ? specificRunningTime : PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                    ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
+                    ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday.Where(x => x.IsContentSelected).ToList(),
                     PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,
                     IsTakeRandomDestination = !PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnDestinationsChecked,
                     TotalRandomDestination = PublisherCreateCampaignModel.JobConfigurations.RandomDestinationCount,
