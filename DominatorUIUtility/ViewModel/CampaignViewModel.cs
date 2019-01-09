@@ -28,6 +28,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -379,7 +380,7 @@ namespace DominatorUIUtility.ViewModel
 
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     campaignFileManager.Delete(campaign);
-
+                    DataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId}, DatabaseType.CampaignType);
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -391,7 +392,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     ex.DebugLog();
                 }
-                if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
+                if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
                     IsAllCampaignChecked = false;
             }
             else
@@ -431,7 +432,8 @@ namespace DominatorUIUtility.ViewModel
                             LstCampaignDetails.Remove(
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
                         });
-                        if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
+                        DataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId),DatabaseType.CampaignType);
+                        if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
                             IsAllCampaignChecked = false;
 
                     });

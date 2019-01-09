@@ -362,10 +362,20 @@ namespace DominatorUIUtility.ViewModel
                             case 5:
                                 alternetEmail = splitAccount[4];
                                 break;
+                            case 6:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                break;
                             case 7:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 alternetEmail = splitAccount[6];
+                                break;
+                            case 8:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
                                 break;
                             case 9:
                                 proxyaddress = splitAccount[4];
