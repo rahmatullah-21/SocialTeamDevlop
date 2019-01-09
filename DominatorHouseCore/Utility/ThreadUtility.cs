@@ -8,7 +8,7 @@ namespace DominatorHouseCore.Utility
     public interface IThreadUtility
     {
         void Sleep(int timeout);
-        void Sleep(TimeSpan timeout);
+        void Sleep(TimeSpan timeSpan);
         Task Delay(int timeout, CancellationToken token);
     }
 
@@ -20,15 +20,15 @@ namespace DominatorHouseCore.Utility
         {
             Thread.Sleep(timeout);
         }
-        public void Sleep(TimeSpan timeout)
+        public void Sleep(TimeSpan timeSpan)
         {
-            Thread.Sleep(timeout);
+            Thread.Sleep(timeSpan);
         }
 
         public Task Delay(int timeout, CancellationToken token)
         {
-            return Task.Delay(timeout, token);
+           return Task.Delay(timeout, token);
         }
 
     }
-}
+} 
