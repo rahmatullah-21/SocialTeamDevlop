@@ -542,6 +542,26 @@ namespace EmbeddedBrowser
             return isRetype;
         }
 
+        private bool RetypePhoneNumber()
+        {
+            var isRetype = true;
+            if (DominatorAccountModel.AccountBaseModel.Status != AccountStatus.ReTypePhoneNumber && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AlternateEmail))
+            {
+                EnterChars(DominatorAccountModel.AccountBaseModel.PhoneNumber, delayAtLast: 1);
+                PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
+                var pageText = Browser.GetTextAsync().Result;
+                if (isRetype = pageText.Contains("This number doesn't match the one you provided. Try again."))
+                    GlobusLogHelper.log.Info(Log.CustomMessage,
+                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", $"This number({DominatorAccountModel.AccountBaseModel.PhoneNumber}) doesn't match the one you provided. Try again.");
+            }
+
+            if (isRetype)
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.ReTypePhoneNumber;
+
+            return isRetype;
+        }
+
         private bool VerifyCodeFromPhone()
         {
             if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.PhoneVerification
@@ -552,7 +572,7 @@ namespace EmbeddedBrowser
             PressAnyKey(3, 200, winKeyCode: 9); //Press Tab 3 Times key
 
             var last2Min = DateTime.Now;
-            while (DominatorAccountModel.VarificationCode.Trim().Length < 6 && last2Min.AddMinutes(2) > DateTime.Now)
+            while (DominatorAccountModel.VarificationCode.Trim().Length < 6 && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
                 Thread.Sleep(1000);  // Waiting to get code from UI
 
             var isWrong = true;
@@ -685,9 +705,29 @@ namespace EmbeddedBrowser
                     DominatorAccountModel.AccountBaseModel.AlternateEmail =
                         Utilities.GetBetween(pageText, "your account:", "\n").Trim();
             }
+            else if (pageText.Contains("Confirm your recovery phone number"))
+            {
+                BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5);
+            }
+            else if (pageText.Contains("Confirm the phone number"))
+            {
+                loginFailed = RetypePhoneNumber();
+                if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()))
+                    DominatorAccountModel.AccountBaseModel.PhoneNumber =
+                        Utilities.GetBetween(pageText, "security settings:", "\n").Trim();
+            }
             else if (pageText.Contains("Enter a phone number to get a text message with a verification code"))
             {
                 loginFailed = AddPhoneNumber();
+            }
+           else if (pageText.Contains("Too many failed attempts") && pageText.Contains("Unavailable because of too many failed attempts. Try again in a few hours."))
+            {
+                GlobusLogHelper.log.Info(Log.CustomMessage,
+                    DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                    DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login",
+                    "Too many failed attempts on Phone Verification. Try again in a few hours.");
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
+                loginFailed = true;
             }
             else if (pageText.Contains("A text message with a 6-digit verification code was just sent to"))
             {
@@ -729,8 +769,8 @@ namespace EmbeddedBrowser
             {
                 _loginFailed = true;
                 DominatorAccountModel.IsUserLoggedIn = false;
-                DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
-                
+                DominatorAccountModel.Cookies = new CookieCollection();
+
                 new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
                     .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
                     .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
