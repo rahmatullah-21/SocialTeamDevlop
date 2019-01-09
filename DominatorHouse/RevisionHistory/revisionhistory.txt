@@ -1,3 +1,45 @@
+Version[1.0.0.30],[8th-January-19]
+New Features:-
+	Publisher :- 
+		Added feature  to customize title and description when using rss feed (for reddit network).
+	    Create campaign => Added feature select account and destination.
+	Gplus:- 
+		Accounts => Accounts manager => Auto verify Retype mail accounts.
+	Youtube:-
+		Accounts => Accounts manager=> Auto verify Retype mail accounts.
+	Linkedin:-
+		Salesnavigator Scraper => viewing profile.
+Fixed:-
+	Linkedin:- 
+		Grow Connection => Connectiopn request => Profile URL => Fixed issue with showing email required .
+		Grow Connection => Connectiopn request => Email => Fixed issue with send connection request.
+		Accounts => Account Manager => Fixed issue with updating groups.
+	Instagram:-
+		Grow Followers => Follower => Fixed issue with enable auto follow/unfollow.
+	Facebook:-
+		Account => Fixed account with update account details.
+	Twitter :- 
+		Accounts activity => Unfollow => Fixed issue with,looping and scraping in same page.
+		Accounts Activity => All Modules => Job configuration => Activity Speed => Fixed issue with wrong details of Slow activity speed.
+	Pintrest:- 
+		Pin messenger => Board message => Keywords => Fixed issue with Multiple message to keywords.
+		Pin poster => Edit pin => Fixed issue with Edit pin CSV format.
+		Pin poster => Edit pin => Fixed issue with Edit pin to failed pin ids.
+		Pin Poster => Repin => Custom board => fixed issue with Pin type in Ignore Image and Video.
+	Tumblr: -
+		Grow folllower => Follow =>  Fixed issue with Logger is showing "0" found data of query type.
+	Quora:-
+		Voting => Fixed issue with upvote answer.
+
+	Youtube:-
+		Subcriber => subcribe => Keywords => Fixed issue with keywords query type.
+		Engage => Dislike => Custom urls => Fixed issue with custom urs query type.
+		Scraper => Channel Scraper => Keywords => Fixed issue with scraper in report.
+		Account => Account status => ssue in accounts status of accounts asking for retype mail.
+		Watch Video => View increaser => Fixed issue with assigning working proxies to working accounts.
+
+
+
 Version[1.0.0.29],[5th-January-19]
 New Features:-
 	Publisher:- 
