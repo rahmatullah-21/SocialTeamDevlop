@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Process.ExecutionCounters;
+using DominatorHouseCore.Process.JobLimits;
 using DominatorHouseCore.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -14,6 +15,7 @@ namespace Dominator.Tests.Utils
         protected IRunningJobsHolder RunningJobsHolder;
         protected IJobCountersManager JobCountersManager;
         protected IDominatorScheduler DominatorScheduler;
+        protected IExecutionLimitsManager ExecutionLimitsManager;
 
         [TestInitialize]
         public override void SetUp()
@@ -28,6 +30,9 @@ namespace Dominator.Tests.Utils
 
             JobCountersManager = Substitute.For<IJobCountersManager>();
             this.Container.RegisterInstance<IJobCountersManager>(JobCountersManager);
+
+            ExecutionLimitsManager = Substitute.For<IExecutionLimitsManager>();
+            this.Container.RegisterInstance<IExecutionLimitsManager>(ExecutionLimitsManager);
 
             this.Container.RegisterInstance<IDateProvider>(Substitute.For<IDateProvider>());
 
