@@ -1,8 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Unity;
@@ -23,10 +21,5 @@ namespace DominatorHouseCore.Extensions
                 new ParameterOverride("networks", networks),
                 new ParameterOverride("type", ConstantVariable.GetAccountDb));
         }
-        public static IDbOperations ResolveGlobalAccountDbOperations(this IServiceLocator locator, IGlobalDatabaseConnection dataBaseConnectionGlb)
-        {
-            return locator.GetInstance<IUnityContainer>().Resolve<IDbOperations>(
-                new ParameterOverride("context", dataBaseConnectionGlb.GetSqlConnection()));
-        } 
     }
 }
