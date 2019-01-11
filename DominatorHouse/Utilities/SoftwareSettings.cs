@@ -43,7 +43,7 @@ namespace DominatorHouse.Utilities
         private void OtherInitializers()
         {
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            var settings = softwareSettings.Settings;
+            var settings = softwareSettings.Settings ?? new SoftwareSettingsModel();
             AddDHToStartup(settings);
 
         }
