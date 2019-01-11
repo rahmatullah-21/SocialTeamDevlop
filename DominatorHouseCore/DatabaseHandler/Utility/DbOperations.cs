@@ -29,6 +29,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         void Remove<T>(Expression<Func<T, bool>> expression) where T : class, new();
         void RemoveMatch<T>(Expression<Func<T, bool>> expression) where T : class, new();
         bool Any<T>(Expression<Func<T, bool>> expression) where T : class, new();
+        bool UpdateRange<T>(List<T> data) where T : class, new();
         SocialNetworks SocialNetworks { get; }
         string AccountId { get; }
     }
@@ -212,6 +213,10 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         public List<string> GetSingleColumn<T>(Func<T, string> query, Expression<Func<T, bool>> expression = null) where T : class, new()
         {
             return expression == null ? _context.Table<T>().Select(query).ToList() : _context.Table<T>().Where(expression).Select(query).ToList();
+        }
+        public bool UpdateRange<T>(List<T> data) where T : class, new()
+        {
+            return _context.UpdateAll(data) > 0;
         }
     }
 }
