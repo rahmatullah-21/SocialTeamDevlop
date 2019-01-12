@@ -1,3 +1,32 @@
+Version[1.0.0.31],[11th-January-19]
+New Features:-
+	Facebook:-
+		Inviter => Group inviter => skip users those are already group member.
+Fixed:-
+	Sociopublisher:-
+		 Create Campaign => Job Configuration => Fixed issue with saving campaign.
+	Account Manager:-
+		 Import multiple accounts => Fixed issue with showing local IP when using proxy.
+	Campaign:-
+		Report => Fixed issue with report crashing.
+	Facebook:-
+		Inviter => Page invite => Fixed issue with page invite.
+	Twitter:-
+		Account manager =>  Fixed issue with showing status failed.
+	Pintrest:-
+		Pinposter => Repin => Custom users => Fixed issue with repin board of custom users.
+	Youtube:-
+		Subcriber => unsubcribe  => Custom Channels List => Fixed issue with Custom channel list.
+		Account => Embedded Browser => Fixed issue with auto scrolling.
+	Linkedin:-
+		Grow Connection => Connection Request => Fixed issue with showing different result in software as compared to  linkedin by using search url.
+		Grow Connection => Export connection => Fixed issue with  getting stuck while exporting connections.
+		Grow Connection => Export connection => Source Filter => Fixed issue with showing different result in software as compared to linkedin.
+	Instagram:-
+		Account activity => Unfollow => Report => Fixed  issue with delete report.
+		Grow Followers => Unfollow => Fxed issue with unfollow those are followed outside software.
+		Scraper => User Scraper => Fixed issue with showing no more data found.
+
 Version[1.0.0.30],[8th-January-19]
 New Features:-
 	Publisher :- 
