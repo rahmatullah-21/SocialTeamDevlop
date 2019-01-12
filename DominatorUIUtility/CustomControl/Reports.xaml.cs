@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -8,6 +9,9 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Data;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
@@ -87,7 +91,21 @@ namespace DominatorUIUtility.CustomControl
         private void RefreshReport(object sender, RoutedEventArgs e)
         {
             var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory();
-            networkCoreFactory.ReportFactory.GetReportDetail(ReportModel, ReportModel.LstCurrentQueries, Campaign);
+            var reportDetails=networkCoreFactory.ReportFactory.GetReportDetail(ReportModel, ReportModel.LstCurrentQueries, Campaign);
+
+            ReportModel.LstReports = new ObservableCollection<object>();
+            ReportModel.ReportCollection =
+                CollectionViewSource.GetDefaultView(ReportModel.LstReports);
+
+            Task.Factory.StartNew(() =>
+            {
+                reportDetails.ForEach(item =>
+                {
+                    Application.Current.Dispatcher.Invoke(() => ReportModel.LstReports.Add(item));
+                    Thread.Sleep(10);
+                });
+            });
+
         }
     }
 }

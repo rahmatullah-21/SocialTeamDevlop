@@ -72,6 +72,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public DateTime InteractionDateTime { get; set; }
 
-
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
+        public string ScrapedProfileUrl { get; set; }
     }
 }

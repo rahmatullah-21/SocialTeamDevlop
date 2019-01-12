@@ -237,6 +237,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             cancellectionToken = new CancellationTokenSource();
         }
 
+
         #region Commented code
         #region Random Post Interval Generation
 
@@ -316,6 +317,13 @@ namespace DominatorUIUtility.Views.SocioPublisher
         //} 
         #endregion
 
+        private void PostCountChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            CancelToken();
+            JobConfigurations.LstTimer.Clear();
+            if (numericMaxPost.Value != null && JobConfigurations.MaxPost!=0)
+                SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
 
+        }
     }
 }
