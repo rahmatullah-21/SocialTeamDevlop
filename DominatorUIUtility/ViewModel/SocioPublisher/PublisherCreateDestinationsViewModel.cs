@@ -27,6 +27,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateDestinationsViewModel : BindableBase
     {
+        public bool IsNeedToNavigate { get; set; }
         //ConstructorS
         private readonly IAccountsFileManager _accountsFileManager;
         public PublisherCreateDestinationsViewModel()
@@ -995,7 +996,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var publisherManageDestinationModel = new PublisherManageDestinationModel
                     {
                         AccountCount = PublisherCreateDestinationModel.SelectedAccountIds.Count,
-                        CampaignsCount = 0,
+                        CampaignsCount = !IsNeedToNavigate ? 0 : 1,
                         CreatedDate = DateTime.Now,
                         DestinationId = PublisherCreateDestinationModel.DestinationId,
                         DestinationName = PublisherCreateDestinationModel.DestinationName,
@@ -1005,7 +1006,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         WallsOrProfilesCount = PublisherCreateDestinationModel.PublishOwnWallAccount.Count,
                         CustomDestinationsCount = PublisherCreateDestinationModel.CustomDestinations.Count,
                         IsAddNewGroups = PublisherCreateDestinationModel.IsAddedNewGroups,
-                        IsRemoveGroupsRequiresValidation = PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval
+                        IsRemoveGroupsRequiresValidation = PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval,
+
+
                     };
 
                     PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.AddDestinations(
@@ -1047,17 +1050,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     publisherManageDestinationModel.IsRemoveGroupsRequiresValidation =
                         PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval;
 
-                    // To call a method to update the manage destination user interface
-                    PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
+                    if (!IsNeedToNavigate)
+                        // To call a method to update the manage destination user interface
+                        PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
                         publisherManageDestinationModel);
                 }
 
                 InitializeProperties();
 
                 IsSavedDestination = true;
-
-                PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
+                if (!IsNeedToNavigate)
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherManageDestinations.Instance();
+                Dialog.CloseDialog(sender);
             }
             else
             {

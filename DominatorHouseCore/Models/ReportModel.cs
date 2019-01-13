@@ -25,7 +25,14 @@ namespace DominatorHouseCore.Models
             get { return _reportCollection; }
             set { SetProperty(ref _reportCollection, value); }
         }
+       
+        private ObservableCollection<object> _lstReports;
 
+        public ObservableCollection<object> LstReports
+        {
+            get { return _lstReports; }
+            set { SetProperty(ref _lstReports, value); }
+        }
         public ActivityType ActivityType { get; set; }
         public ObservableCollection<GridViewColumnDescriptor> GridViewColumn { get; set; } = new ObservableCollection<GridViewColumnDescriptor>();
         public List<KeyValuePair<string, string>> LstCurrentQueries = new List<KeyValuePair<string, string>>();

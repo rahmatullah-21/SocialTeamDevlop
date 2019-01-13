@@ -355,12 +355,21 @@ namespace DominatorUIUtility.ViewModel
                         var proxypassword = string.Empty;
                         var status = AccountStatus.NotChecked.ToString();
                         var cookies = string.Empty;
+                        var alternetEmail = string.Empty;
 
                         switch (splitAccount.Length)
                         {
+                            case 5:
+                                alternetEmail = splitAccount[4];
+                                break;
                             case 6:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
+                                break;
+                            case 7:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                alternetEmail = splitAccount[6];
                                 break;
                             case 8:
                                 proxyaddress = splitAccount[4];
@@ -373,7 +382,7 @@ namespace DominatorUIUtility.ViewModel
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
                                 proxypassword = splitAccount[7];
-                                status = splitAccount[8];
+                                alternetEmail = splitAccount[8];
                                 break;
                             case 10:
                                 proxyaddress = splitAccount[4];
@@ -382,6 +391,15 @@ namespace DominatorUIUtility.ViewModel
                                 proxypassword = splitAccount[7];
                                 status = splitAccount[8];
                                 cookies = splitAccount[9].Replace("<>", ",");
+                                break;
+                            case 11:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                status = splitAccount[8];
+                                cookies = splitAccount[9].Replace("<>", ",");
+                                alternetEmail = splitAccount[10];
                                 break;
                         }
 
@@ -418,6 +436,7 @@ namespace DominatorUIUtility.ViewModel
                             },
                             AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork),
                             Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), status),
+                            AlternateEmail = alternetEmail
 
                         };
 
@@ -519,7 +538,8 @@ namespace DominatorUIUtility.ViewModel
                     ? AccountStatus.NotChecked : objDominatorAccountBaseModel.Status,
                 AccountNetwork = objDominatorAccountBaseModel.AccountNetwork,
                 AccountId = objDominatorAccountBaseModel.AccountId,
-                IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin
+                IsChkTwoFactorLogin = objDominatorAccountBaseModel.IsChkTwoFactorLogin,
+                AlternateEmail = objDominatorAccountBaseModel.AlternateEmail
             };
 
             var dominatorAccountModel = new DominatorAccountModel
@@ -528,7 +548,7 @@ namespace DominatorUIUtility.ViewModel
                 RowNo = LstDominatorAccountModel.Count + 1,
                 AccountId = dominatorAccountBaseModel.AccountId
             };
-            if (!string.IsNullOrEmpty(cookies))
+            if (!string.IsNullOrEmpty(cookies) && dominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube)
                 try
                 {
                     dominatorAccountModel.CookieHelperList = JArray.Parse(cookies).ToObject<HashSet<CookieHelper>>();
@@ -1184,7 +1204,7 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies";
+            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus)";
 
             var filename = $"{exportPath}\\Accounts {ConstantVariable.DateasFileName}.csv";
 
@@ -1209,7 +1229,8 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
                      + account.AccountBaseModel.AccountProxy.ProxyPassword + ","
                      + account.AccountBaseModel.Status + ","
-                     + JsonConvert.SerializeObject(account.CookieHelperList).Replace(",", "<>");
+                     + JsonConvert.SerializeObject(account.CookieHelperList).Replace(",", "<>") + ","
+                     + account.AccountBaseModel.AlternateEmail;
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1360,28 +1381,34 @@ namespace DominatorUIUtility.ViewModel
                 var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
 
                 var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
-                //var savedAccounts = accountList.ToList();
 
                 try
                 {
-                    LstDominatorAccountModel.Clear();
-                    foreach (var account in savedAccounts)
+                    //LstDominatorAccountModel.Clear();
+                    Task.Factory.StartNew(() =>
                     {
-                        if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel.AccountNetwork))
+
+                        foreach (var account in savedAccounts)
                         {
-                            if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+                            if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
+                                .AccountNetwork))
                             {
-                                GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
-                                break;
+                                if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+                                {
+                                    GlobusLogHelper.log.Info(
+                                        "You have already added maximum account as per your plan");
+                                    break;
+                                }
+                                Application.Current.Dispatcher.InvokeAsync(() =>
+                                {
+                                    LstDominatorAccountModel.Add(account);
+                                });
                             }
-                            LstDominatorAccountModel.Add(account);
+
                         }
 
-                    }
-                    //savedAccounts.ForEach(account =>
-                    //{
+                    });
 
-                    //});
                 }
                 catch (Exception ex)
                 {

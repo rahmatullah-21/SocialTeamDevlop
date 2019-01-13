@@ -1,3 +1,112 @@
+Version[1.0.0.31],[11th-January-19]
+New Features:-
+	Facebook:-
+		Inviter => Group inviter => skip users those are already group member.
+Fixed:-
+	Sociopublisher:-
+		 Create Campaign => Job Configuration => Fixed issue with saving campaign.
+	Account Manager:-
+		 Import multiple accounts => Fixed issue with showing local IP when using proxy.
+	Campaign:-
+		Report => Fixed issue with report crashing.
+	Facebook:-
+		Inviter => Page invite => Fixed issue with page invite.
+	Twitter:-
+		Account manager =>  Fixed issue with showing status failed.
+	Pintrest:-
+		Pinposter => Repin => Custom users => Fixed issue with repin board of custom users.
+	Youtube:-
+		Subcriber => unsubcribe  => Custom Channels List => Fixed issue with Custom channel list.
+		Account => Embedded Browser => Fixed issue with auto scrolling.
+	Linkedin:-
+		Grow Connection => Connection Request => Fixed issue with showing different result in software as compared to  linkedin by using search url.
+		Grow Connection => Export connection => Fixed issue with  getting stuck while exporting connections.
+		Grow Connection => Export connection => Source Filter => Fixed issue with showing different result in software as compared to linkedin.
+	Instagram:-
+		Account activity => Unfollow => Report => Fixed  issue with delete report.
+		Grow Followers => Unfollow => Fxed issue with unfollow those are followed outside software.
+		Scraper => User Scraper => Fixed issue with showing no more data found.
+
+Version[1.0.0.30],[8th-January-19]
+New Features:-
+	Publisher :- 
+		Added feature  to customize title and description when using rss feed (for reddit network).
+	    Create campaign => Added feature select account and destination.
+	Gplus:- 
+		Accounts => Accounts manager => Auto verify Retype mail accounts.
+	Youtube:-
+		Accounts => Accounts manager=> Auto verify Retype mail accounts.
+	Linkedin:-
+		Salesnavigator Scraper => viewing profile.
+Fixed:-
+	Linkedin:- 
+		Grow Connection => Connectiopn request => Profile URL => Fixed issue with showing email required .
+		Grow Connection => Connectiopn request => Email => Fixed issue with send connection request.
+		Accounts => Account Manager => Fixed issue with updating groups.
+	Instagram:-
+		Grow Followers => Follower => Fixed issue with enable auto follow/unfollow.
+	Facebook:-
+		Account => Fixed account with update account details.
+	Twitter :- 
+		Accounts activity => Unfollow => Fixed issue with,looping and scraping in same page.
+		Accounts Activity => All Modules => Job configuration => Activity Speed => Fixed issue with wrong details of Slow activity speed.
+	Pintrest:- 
+		Pin messenger => Board message => Keywords => Fixed issue with Multiple message to keywords.
+		Pin poster => Edit pin => Fixed issue with Edit pin CSV format.
+		Pin poster => Edit pin => Fixed issue with Edit pin to failed pin ids.
+		Pin Poster => Repin => Custom board => fixed issue with Pin type in Ignore Image and Video.
+	Tumblr: -
+		Grow folllower => Follow =>  Fixed issue with Logger is showing "0" found data of query type.
+	Quora:-
+		Voting => Fixed issue with upvote answer.
+
+	Youtube:-
+		Subcriber => subcribe => Keywords => Fixed issue with keywords query type.
+		Engage => Dislike => Custom urls => Fixed issue with custom urs query type.
+		Scraper => Channel Scraper => Keywords => Fixed issue with scraper in report.
+		Account => Account status => ssue in accounts status of accounts asking for retype mail.
+		Watch Video => View increaser => Fixed issue with assigning working proxies to working accounts.
+
+
+
+Version[1.0.0.29],[5th-January-19]
+New Features:-
+	Publisher:- 
+		Added feature delay between post without creating time slot.
+	Facebook:-
+		Fb Inviter => Page Inviter => Profile URL(s) => Added feature custom friend list(s).
+		Engage => Post Like => Added feature after post like action.
+		Engage => Post Comment => Added featuer after post comment action.
+	Youtube:-
+		Added feature for email verification.
+	Pintrest:-
+		Accept board invitation.
+Fixed:-
+	Social publisher:-
+		Post manager => RSS feed =>  Post description is not coming along with rss feed.
+	Account Activity:-
+		Reddit => Report => Fixed issue with showing report.
+	Twitter:-
+		Fixed issue with software hang while running multiple activities uses more than 90% of ram.
+		Account Manager => Fixed issue with Software crashing while selecting multiple accounts in mass and checking its status.
+		Accounts activity => Message to new followers => Fixed issue with showing reached per hour limit.
+		Accounts activity => Fllow => Fixed issue with sheduling next hour.
+		Accounts Activity => Unfollow => Fixed issue with not unfollowing users.
+	Instagram:-
+		Instachat => Auto Reply To New Message => Fixed issue with sending clickable link.
+	Facebook:-
+		Send Friend Request => Fixed Issue  with showing no more data available.
+		Accounts Activity => Broadcast Message => Fixed issue with showing no more data available.
+		Grow Groups => Group Joiner => Fixed with filter group contains member X to Y.
+	Youtube:-
+		Engage => comment => custom channel => Fixed issue with not comment the channels.
+		Engage => like => custom urls => Fixed issue with not likeing the videos.
+		Subcriber => Fixed issue with not subcribing  with multiple account.
+	Pintrest:-
+		Pin poster => Edit pin => Fixed issue with replace urls with multiple account and same comment.
+		Pinposter => repin => keywords => Fixed issue with board query type over account.
+		Pintry /pincommenter => comment => fix issue with comment showing over report in comment.
+		
 Version[1.0.0.28],[29th-December-18]
 New Features:-
 	Reddit:-

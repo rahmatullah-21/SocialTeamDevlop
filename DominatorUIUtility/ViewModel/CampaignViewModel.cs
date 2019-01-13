@@ -27,6 +27,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -269,25 +270,42 @@ namespace DominatorUIUtility.ViewModel
                         });
                         #endregion
 
-                        if (networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel, reportControl.ReportModel.LstCurrentQueries, campName) == 0)
+                        var reportDetails = networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel,
+                            reportControl.ReportModel.LstCurrentQueries, campName);
+                        if (reportDetails.Count == 0)
                         {
                             Dialog.ShowDialog("Report", "Reports for " + campName.CampaignName + " Campaign not available");
                             return;
                         }
+
+                        Window win = objDialog.GetMetroWindow(reportControl, "Reports");
+                        win.Owner = Application.Current.MainWindow;
+                        win.WindowStartupLocation = WindowStartupLocation.Manual;
+                        var mainWindow = Application.Current.MainWindow;
+                        var width = mainWindow.Width;
+                        var height = mainWindow.Height;
+                        win.Top = 0;
+                        win.Left = 0;
+                        reportControl.ReportModel.LstReports = new ObservableCollection<object>();
+                        reportControl.ReportModel.ReportCollection =
+                            CollectionViewSource.GetDefaultView(reportControl.ReportModel.LstReports);
+                     
+                        Task.Factory.StartNew(() =>
+                        {
+                            reportDetails.ForEach(item =>
+                            {
+                                Application.Current.Dispatcher.Invoke(() => reportControl.ReportModel.LstReports.Add(item));
+                                Thread.Sleep(10);
+                            });
+                        });
+
+
+                        win.ShowDialog();
                     }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
-                    Window win = objDialog.GetMetroWindow(reportControl, "Reports");
-                    win.Owner = Application.Current.MainWindow;
-                    win.WindowStartupLocation = WindowStartupLocation.Manual;
-                    var mainWindow = Application.Current.MainWindow;
-                    var width = mainWindow.Width;
-                    var height = mainWindow.Height;
-                    win.Top = 0;
-                    win.Left = 0;
-                    win.ShowDialog();
                 }
 
             }
@@ -378,7 +396,7 @@ namespace DominatorUIUtility.ViewModel
 
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     campaignFileManager.Delete(campaign);
-
+                    DataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -390,7 +408,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     ex.DebugLog();
                 }
-                if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
+                if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
                     IsAllCampaignChecked = false;
             }
             else
@@ -430,7 +448,8 @@ namespace DominatorUIUtility.ViewModel
                             LstCampaignDetails.Remove(
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
                         });
-                        if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
+                        DataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
+                        if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
                             IsAllCampaignChecked = false;
 
                     });

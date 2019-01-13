@@ -160,6 +160,12 @@
 
         public static string AccountNeedsVerification { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyNeedsToVerifiedToPerformNextActivities".FromResourceDictionary() + "\t" + CodeConstants.AccountNeedsVerification;
 
+        /// <summary>
+        /// 0.Account's SocialNetwork
+        /// 1.campaign name/AccountName
+        /// 2.ActivityType
+        /// 3.Message
+        /// </summary>
         public static string CustomMessage { get; set; } = "{0}\t {1}\t {2}\t{3}\t" + CodeConstants.CustomMessage;
 
         /// <summary>

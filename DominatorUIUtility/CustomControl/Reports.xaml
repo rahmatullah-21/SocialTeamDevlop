@@ -77,7 +77,11 @@
             </ComboBox>
         </StackPanel>
 
-        <ListView ItemsSource="{Binding ReportModel.ReportCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,IsAsync=True}" Margin="10" Name="ReportsListView" Grid.Row="2" Foreground="{DynamicResource AccentBaseColorBrush}">
+        <ListView ItemsSource="{Binding ReportModel.ReportCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,IsAsync=True}" 
+                  Margin="10" Name="ReportsListView" Grid.Row="2" Foreground="{DynamicResource AccentBaseColorBrush}"
+                  VirtualizingStackPanel.IsVirtualizing="True" 
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  ScrollViewer.IsDeferredScrollingEnabled="True">
             <ListView.View>
                 <GridView utility:GridViewColumns.ColumnHeader="ColumnHeaderText"
                           utility:GridViewColumns.ColumnBinding="ColumnBindingText" 

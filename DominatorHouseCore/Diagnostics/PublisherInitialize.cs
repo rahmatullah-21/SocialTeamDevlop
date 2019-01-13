@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
+using RandomUtilties = DominatorHouseCore.Utility.RandomUtilties;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -85,111 +86,75 @@ namespace DominatorHouseCore.Diagnostics
             if (!Application.Current.CheckAccess())
             {
                 // Invoke the actions
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    // Iterate campaigns
-                    allCampaign.ForEach(campaigns =>
-                    {
-                        // Get the campaign status 
-                        var publisherCampaignStatus = campaigns.CampaignStatus;
-
-                        // Check end has reached
-                        if (campaigns.JobConfigurations.CampaignEndDate != null && DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
-                        {
-                            publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
-                                ? campaigns.CampaignStatus
-                                : PublisherCampaignStatus.Completed;
-                        }
-
-                        //Assign the Campaign Detatils
-                        var publisherCampaignStatusModel = new PublisherCampaignStatusModel
-                        {
-                            CampaignName = campaigns.CampaignName,
-                            CampaignId = campaigns.CampaignId,
-                            StartDate = campaigns.JobConfigurations.CampaignStartDate,
-                            EndDate = campaigns.JobConfigurations.CampaignEndDate,
-                            CreatedDate = campaigns.CreatedDate,
-                            UpdatedTime = campaigns.UpdatedDate,
-                            Status = publisherCampaignStatus,
-                            DestinationCount = campaigns.LstDestinationId.Count,
-                            IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
-                            TimeRange = campaigns.JobConfigurations.TimeRange,
-                            SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                            ScheduledWeekday = campaigns.JobConfigurations.Weekday,
-                            IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
-                            TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
-                            IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
-                            MaximumTime = campaigns.JobConfigurations.MaxPost,
-                            PendingCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending),
-                            DraftCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft),
-                        };
-
-                        // Add to lists
-                        ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
-
-                        // Update post counts
-                        GetPostStatus(publisherCampaignStatusModel);
-
-
-                        // Update campaign status to complete
-                        if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
-                            UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
-
-                    });
-                });
+                Application.Current.Dispatcher.Invoke(() => { InitilizePublisher(allCampaign); });
             }
             else
             {
-                // Iterate campaigns
-                allCampaign.ForEach(campaigns =>
-                {
-                    // Get the campaign status 
-                    var publisherCampaignStatus = campaigns.CampaignStatus;
-
-
-                    // Check end has reached
-                    if (campaigns.JobConfigurations.CampaignEndDate != null && DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
-                    {
-                        publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
-                            ? campaigns.CampaignStatus
-                            : PublisherCampaignStatus.Completed;
-                    }
-
-                    //Assign the Campaign Detatils
-                    var publisherCampaignStatusModel = new PublisherCampaignStatusModel
-                    {
-                        CampaignName = campaigns.CampaignName,
-                        CampaignId = campaigns.CampaignId,
-                        StartDate = campaigns.JobConfigurations.CampaignStartDate,
-                        EndDate = campaigns.JobConfigurations.CampaignEndDate,
-                        CreatedDate = campaigns.CreatedDate,
-                        UpdatedTime = campaigns.UpdatedDate,
-                        Status = publisherCampaignStatus,
-                        DestinationCount = campaigns.LstDestinationId.Count,
-                        IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
-                        TimeRange = campaigns.JobConfigurations.TimeRange,
-                        SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                        ScheduledWeekday = campaigns.JobConfigurations.Weekday,
-                        IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
-                        TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                        MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
-                        IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
-                        MaximumTime = campaigns.JobConfigurations.MaxPost
-                    };
-
-                    // Update post counts
-                    GetPostStatus(publisherCampaignStatusModel);
-
-                    // Add to lists
-                    ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
-
-
-                    // Update campaign status to complete
-                    if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
-                        UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
-                });
+                InitilizePublisher(allCampaign);
             }
+        }
+        private void InitilizePublisher(List<PublisherCreateCampaignModel> allCampaign)
+        {
+            // Iterate campaigns
+            allCampaign.ForEach(campaigns =>
+            {
+                // Get the campaign status 
+                var publisherCampaignStatus = campaigns.CampaignStatus;
+
+                // Check end has reached
+                if (campaigns.JobConfigurations.CampaignEndDate != null &&
+                    DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                {
+                    publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
+                        ? campaigns.CampaignStatus
+                        : PublisherCampaignStatus.Completed;
+                }
+                List<TimeSpan> specificRunningTime = null;
+                if (campaigns.JobConfigurations.IsDelayPostChecked)
+                {
+                    specificRunningTime = new List<TimeSpan>();
+                    specificRunningTime.Add(campaigns.JobConfigurations.TimeRange.StartTime);
+                    for (int i = 0; i < campaigns.JobConfigurations.MaxPost - 1; i++)
+                    {
+                        specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(campaigns.JobConfigurations.DelayBetweenEachPost.EndValue, campaigns.JobConfigurations.DelayBetweenEachPost.StartValue))));
+                    }
+                    
+                }
+                //Assign the Campaign Detatils
+                var publisherCampaignStatusModel = new PublisherCampaignStatusModel
+                {
+                    CampaignName = campaigns.CampaignName,
+                    CampaignId = campaigns.CampaignId,
+                    StartDate = campaigns.JobConfigurations.CampaignStartDate,
+                    EndDate = campaigns.JobConfigurations.CampaignEndDate,
+                    CreatedDate = campaigns.CreatedDate,
+                    UpdatedTime = campaigns.UpdatedDate,
+                    Status = publisherCampaignStatus,
+                    DestinationCount = campaigns.LstDestinationId.Count,
+                    IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
+                    TimeRange = campaigns.JobConfigurations.TimeRange,
+                    SpecificRunningTime = campaigns.JobConfigurations.IsDelayPostChecked ? specificRunningTime : campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
+                    ScheduledWeekday = campaigns.JobConfigurations.Weekday.Where(x => x.IsContentSelected).ToList(),
+                    IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
+                    TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
+                    MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
+                    IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
+                    MaximumTime = campaigns.JobConfigurations.MaxPost,
+                    PendingCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending),
+                    DraftCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft),
+                };
+
+                // Add to lists
+                ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
+
+                // Update post counts
+                GetPostStatus(publisherCampaignStatusModel);
+
+
+                // Update campaign status to complete
+                if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
+                    UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
+            });
         }
 
 

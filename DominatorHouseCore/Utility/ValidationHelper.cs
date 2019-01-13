@@ -18,25 +18,26 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
+                var data = value?.ToString().Trim();
                 switch (Sender.Substring(3))
                 {
                     case "UserName":
-                        if (string.IsNullOrEmpty(value?.ToString()))
+                        if (string.IsNullOrEmpty(data))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
                         break;
                     case "Password":
-                        if (string.IsNullOrEmpty(value?.ToString()))
+                        if (string.IsNullOrEmpty(data))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
                         break;
                     case "ProxyAddress":
-                        if (!string.IsNullOrEmpty(value?.ToString()))
+                        if (!string.IsNullOrEmpty(data))
                         {
-                            ProxyAddress = value.ToString();
-                            if (!Proxy.IsValidProxyIp(value.ToString()))
+                            ProxyAddress = data;
+                            if (!Proxy.IsValidProxyIp(data))
                             {
                                 return new ValidationResult(false, "Invalid Address");
                             }
@@ -46,7 +47,7 @@ namespace DominatorHouseCore.Utility
                         //if (!string.IsNullOrEmpty(ProxyAddress) && !string.IsNullOrEmpty(value?.ToString()))
                         //{
                         // ReSharper disable once ConstantConditionalAccessQualifier
-                            if (!string.IsNullOrEmpty(value?.ToString()) && !Proxy.IsValidProxyPort(value?.ToString()))
+                            if (!string.IsNullOrEmpty(data) && !Proxy.IsValidProxyPort(data))
                             {
                                 return new ValidationResult(false, "Invalid Port");
                             }
@@ -54,25 +55,25 @@ namespace DominatorHouseCore.Utility
                         
                         break;
                     case "EmailUsername":
-                        if (string.IsNullOrEmpty(value?.ToString()))
+                        if (string.IsNullOrEmpty(data))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
                         break;
                     case "EmailPassword":
-                        if (string.IsNullOrEmpty(value?.ToString()))
+                        if (string.IsNullOrEmpty(data))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
                         break;
                     case "HostKey":
-                        if (string.IsNullOrEmpty(value?.ToString()))
+                        if (string.IsNullOrEmpty(data))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
                         break;
                     case "EmailPort":
-                        if (string.IsNullOrEmpty(value?.ToString()))
+                        if (string.IsNullOrEmpty(data))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
@@ -82,7 +83,7 @@ namespace DominatorHouseCore.Utility
 
                 if (Sender == "DatePicker")
                 {
-                    if (!string.IsNullOrEmpty(value?.ToString()))
+                    if (!string.IsNullOrEmpty(data))
                     {
                         var dateTime = (DateTime)value;
                         if (dateTime < DateTime.Today)
@@ -108,24 +109,25 @@ namespace DominatorHouseCore.Utility
         {
             try
             {
+                var data = value?.ToString().Trim();
                 switch (Sender.Substring(3))
                 {
                     case "ProxyAddress":
-                        if (string.IsNullOrEmpty(value as string))
+                        if (string.IsNullOrEmpty(data))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
                         else
                         {
-                            ProxyAddress = value.ToString();
-                            if (!Proxy.IsValidProxyIp(value.ToString()))
+                            ProxyAddress = data;
+                            if (!Proxy.IsValidProxyIp(data))
                             {
                                 return new ValidationResult(false, "Invalid Address");
                             }
                         }
                         break;
                     case "ProxyPort":
-                        if (string.IsNullOrEmpty(value as string))
+                        if (string.IsNullOrEmpty(data))
                         {
                             return new ValidationResult(false, "*Required Field");
                         }
@@ -136,7 +138,7 @@ namespace DominatorHouseCore.Utility
                             //    return new ValidationResult(false, "Invalid Port");
                             //}
 
-                            if (!Proxy.IsValidProxyPort(value.ToString()))
+                            if (!Proxy.IsValidProxyPort(data))
                             {
                                 return new ValidationResult(false, "Invalid Port");
                             }

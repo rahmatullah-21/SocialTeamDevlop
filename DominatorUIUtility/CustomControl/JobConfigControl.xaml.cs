@@ -15,6 +15,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
@@ -53,7 +54,8 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty JobConfigurationProperty =
             DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(JobConfigControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
             {
-                BindsTwoWayByDefault = true
+                BindsTwoWayByDefault = true,
+                DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
 
 
@@ -276,7 +278,7 @@ namespace DominatorUIUtility.CustomControl
         private void JobConfigControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitilizeFavoriteTime();
-            if (!IsSelectionChangedExecute)
+            //if (!IsSelectionChangedExecute)
                 Selector_OnSelectionChanged(Speed, null);
             IsSelectionChangedExecute = false;
         }

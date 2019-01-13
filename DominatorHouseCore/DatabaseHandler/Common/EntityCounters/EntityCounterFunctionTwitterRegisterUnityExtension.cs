@@ -13,7 +13,9 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                 .RegisterInstance<IEntityCounterFunction<InteractedUsers>>(
                     new EntityCounterFunction<InteractedUsers>(
                         new DateFilterPredicate<InteractedUsers>(
-                            a => a.InteractionDateTime)));
+                            a => a.InteractionDateTime),
+                        new ActivityTypeAsStringFilterPredicate<InteractedUsers>(
+                            a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedUsers>>(
                     new CounterKeyFactory<InteractedUsers>(SocialNetworks.Twitter, false));
