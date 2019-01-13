@@ -258,9 +258,6 @@
     <Compile Include="CustomControl\AccountGrowthControl.xaml.cs">
       <DependentUpon>AccountGrowthControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControl\AccountTabCustomControl.xaml.cs">
-      <DependentUpon>AccountTabCustomControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\AddOrUpdateProxyControl.xaml.cs">
       <DependentUpon>AddOrUpdateProxyControl.xaml</DependentUpon>
     </Compile>
@@ -640,10 +637,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\AccountGrowthModeHeader.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CustomControl\AccountTabCustomControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
