@@ -12,6 +12,7 @@ namespace DominatorUIUtility.ViewModel
     {
         List<DominatorAccountModel> GetCopySync();
         List<DominatorAccountModel> BySocialNetwork(SocialNetworks networks);
+        void AddSync(DominatorAccountModel model);
     }
 
     public class AccountCollectionViewModel : ObservableCollection<DominatorAccountModel>, IAccountCollectionViewModel
@@ -22,6 +23,14 @@ namespace DominatorUIUtility.ViewModel
             lock (SyncObject)
             {
                 return this.ToList();
+            }
+        }
+
+        public void AddSync(DominatorAccountModel model)
+        {
+            lock (SyncObject)
+            {
+                Add(model);
             }
         }
 

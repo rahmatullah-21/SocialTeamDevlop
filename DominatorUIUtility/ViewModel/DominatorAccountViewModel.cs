@@ -1398,10 +1398,8 @@ namespace DominatorUIUtility.ViewModel
                                         "You have already added maximum account as per your plan");
                                     break;
                                 }
-                                Application.Current.Dispatcher.InvokeAsync(() =>
-                                {
-                                    LstDominatorAccountModel.Add(account);
-                                });
+
+                                LstDominatorAccountModel.AddSync(account);
                             }
 
                         }
@@ -1421,9 +1419,8 @@ namespace DominatorUIUtility.ViewModel
 
         #region Update Account status & details
 
-        ImmutableQueue<Action> _checkPendingList = ImmutableQueue<Action>.Empty;
-
-        bool _allSelectedAccountsQueued;
+        private ImmutableQueue<Action> _checkPendingList = ImmutableQueue<Action>.Empty;
+        private bool _allSelectedAccountsQueued;
         public List<string> _updateAccountList { get; set; } = new List<string>();
 
         public object AccountUpdateLock { get; set; } = new object();
