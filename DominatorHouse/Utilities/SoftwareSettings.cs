@@ -1,10 +1,14 @@
 using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.ViewModel;
+using FluentScheduler;
 using Microsoft.Win32;
 using System;
 using System.Collections.Concurrent;
@@ -12,14 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using System.Windows;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
-using DominatorUIUtility.ViewModel;
-using FluentScheduler;
 using Registry = Microsoft.Win32.Registry;
 
 namespace DominatorHouse.Utilities
@@ -66,10 +63,9 @@ namespace DominatorHouse.Utilities
             {
                 try
                 {
-                    var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
-                            .DominatorAccountViewModel;
+                    var accounts = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>();
                     var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
-                    runningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
+                    runningActivityManager.Initialize(accounts.GetCopySync());
                 }
                 catch (Exception ex)
                 {
@@ -113,11 +109,8 @@ namespace DominatorHouse.Utilities
 
         private void AccountUpdateProducer(BlockingCollection<DominatorAccountModel> accountUpdateCollection, CancellationTokenSource cancellationTokenSource, int accountSynchronizationHours)
         {
-            var dominatorAccountViewModel = AccountCustomControl
-                .GetAccountCustomControl(_strategies)
-                .DominatorAccountViewModel;
 
-            var accounts = dominatorAccountViewModel.LstDominatorAccountModel;
+            var accounts = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync();
 
             var currentUpdateAccounts = accounts.Where(x =>
                 DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();

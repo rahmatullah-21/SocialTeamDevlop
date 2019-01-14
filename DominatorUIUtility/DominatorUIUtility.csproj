@@ -342,6 +342,7 @@
     </Compile>
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
+    <Compile Include="ViewModel\AccountCollectionViewModel.cs" />
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\AccountGrowthControlViewModel.cs" />
     <Compile Include="ViewModel\AccountManagerViewModel.cs" />

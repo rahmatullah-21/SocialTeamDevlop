@@ -4,6 +4,7 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Converters;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -27,7 +28,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore.DatabaseHandler.CoreModels;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -545,7 +545,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
-                var addedAccountDetails = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel.Where(x => x.AccountBaseModel.AccountNetwork == selectedCampaign.SocialNetworks);
+                var addedAccountDetails = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().BySocialNetwork(selectedCampaign.SocialNetworks);
                 var lstAccountDetails = _accountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 

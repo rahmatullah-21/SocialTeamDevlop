@@ -32,7 +32,7 @@ namespace DominatorUIUtility.ViewModel
     public class AccountGrowthControlViewModel : Prism.Mvvm.BindableBase, IAccountGrowthControlViewModel
     {
         private readonly object _syncObject = new object();
-        public IDominatorAccountViewModel DominatorAccountViewModel { get; }
+        public IAccountCollectionViewModel Accounts { get; }
         public ISelectedNetworkViewModel SelectedNetworkViewModel { get; }
         private readonly IAccountGrowthPropertiesProvider _accountGrowthPropertiesProvider;
         private SeriesCollection _seriesCollection;
@@ -72,16 +72,16 @@ namespace DominatorUIUtility.ViewModel
         public DelegateCommand<GrowthProperty> GrowthPropertyCheckedCmd { get; }
 
 
-        public AccountGrowthControlViewModel(IDominatorAccountViewModel dominatorAccountViewModel, IAccountGrowthPropertiesProvider accountGrowthPropertiesProvider, ISelectedNetworkViewModel selectedNetworkViewModel)
+        public AccountGrowthControlViewModel(IAccountCollectionViewModel accountCollectionViewModel, IAccountGrowthPropertiesProvider accountGrowthPropertiesProvider, ISelectedNetworkViewModel selectedNetworkViewModel)
         {
-            DominatorAccountViewModel = dominatorAccountViewModel;
+            Accounts = accountCollectionViewModel;
             SelectedNetworkViewModel = selectedNetworkViewModel;
             SelectedNetworkViewModel.ItemSelected += NetworkItemSelected;
             _accountGrowthPropertiesProvider = accountGrowthPropertiesProvider;
             AccountSelectionChangedCmd = new DelegateCommand(OnAccountSelectionChanged);
             GrowthPropertyCheckedCmd = new DelegateCommand<GrowthProperty>(OnGrowthPeropertyChecked);
 
-            SelectedAccount = DominatorAccountViewModel.LstDominatorAccountModel.FirstOrDefault();
+            SelectedAccount = Accounts.FirstOrDefault();
             GrowthProperties = new ObservableCollection<GrowthProperty>(_accountGrowthPropertiesProvider[SelectedAccount?.AccountBaseModel?.AccountNetwork ?? SocialNetworks.Social]);
             BindingOperations.EnableCollectionSynchronization(GrowthProperties, _syncObject);
 
@@ -112,8 +112,7 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (_syncObject)
             {
-                SelectedAccount = DominatorAccountViewModel.LstDominatorAccountModel.FirstOrDefault(a =>
-                    a.AccountBaseModel.AccountNetwork == (e ?? SocialNetworks.Social));
+                SelectedAccount = Accounts.BySocialNetwork(e ?? SocialNetworks.Social).FirstOrDefault();
                 UpdateGrowthProperties();
                 SetGrowthForAccount();
                 UpdateChart();
@@ -180,7 +179,7 @@ namespace DominatorUIUtility.ViewModel
                     UpdateGrowthProperties();
                     if (period == GrowthPeriod.NoPeriod)
                     {
-                        DominatorAccountViewModel.LstDominatorAccountModel.ForEach(x =>
+                        Accounts.GetCopySync().ForEach(x =>
                         {
                             x.IsAccountManagerAccountSelected = false;
                             x.DisplayColumnValue6 = 0;
@@ -192,7 +191,7 @@ namespace DominatorUIUtility.ViewModel
                     }
                     else
                     {
-                        DominatorAccountViewModel.LstDominatorAccountModel.ForEach(x =>
+                        Accounts.GetCopySync().ForEach(x =>
                         {
                             var accountUpdateFactory = SocinatorInitialize
                                 .GetSocialLibrary(x.AccountBaseModel.AccountNetwork)

@@ -34,6 +34,7 @@ namespace DominatorUIUtility.IoC
             Container.RegisterSingleton<IDominatorAccountViewModel, DominatorAccountViewModel>();
 
             Container.RegisterSingleton<IAccountGrowthControlViewModel, AccountGrowthControlViewModel>();
+            Container.RegisterSingleton<IAccountCollectionViewModel, AccountCollectionViewModel>();
         }
     }
 }

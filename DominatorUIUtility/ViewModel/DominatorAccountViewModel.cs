@@ -26,7 +26,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -42,7 +41,7 @@ namespace DominatorUIUtility.ViewModel
 {
     public interface IDominatorAccountViewModel
     {
-        ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; }
+        IAccountCollectionViewModel LstDominatorAccountModel { get; }
     }
 
     [ProtoContract]
@@ -53,7 +52,7 @@ namespace DominatorUIUtility.ViewModel
         private readonly IAccountsFileManager _accountsFileManager;
         private DbOperations _dbOperations { get; }
 
-        public ObservableCollection<DominatorAccountModel> LstDominatorAccountModel { get; }
+        public IAccountCollectionViewModel LstDominatorAccountModel { get; }
 
         public ObservableCollection<ContentSelectGroup> Groups { get; }
         public ISelectedNetworkViewModel SelectedNetworkViewModel { get; }
@@ -123,7 +122,7 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
 
-        public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager)
+        public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel)
         {
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
@@ -131,10 +130,10 @@ namespace DominatorUIUtility.ViewModel
             _accountsFileManager = accountsFileManager;
             strategyPack = mainViewModel.Strategies;
             Groups = new ObservableCollection<ContentSelectGroup>();
-            BindingOperations.EnableCollectionSynchronization(Groups, _syncLoadAccounts);
-            LstDominatorAccountModel = new ObservableCollection<DominatorAccountModel>();
+            BindingOperations.EnableCollectionSynchronization(Groups, AccountCollectionViewModel.SyncObject);
+            LstDominatorAccountModel = accountCollectionViewModel;
 
-            BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, _syncLoadAccounts);
+            BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, AccountCollectionViewModel.SyncObject);
 
             var visibleHeaders = DominatorAccountCountFactory.Instance.GetColumnSpecificationProvider().VisibleHeaders;
             VisibleColumns = new ObservableCollection<GridViewColumn>(visibleHeaders.Select((name, colIndex) => new GridViewColumn
@@ -143,7 +142,7 @@ namespace DominatorUIUtility.ViewModel
                 Header = name,
                 Width = 130
             }));
-            BindingOperations.EnableCollectionSynchronization(VisibleColumns, _syncLoadAccounts);
+            BindingOperations.EnableCollectionSynchronization(VisibleColumns, AccountCollectionViewModel.SyncObject);
 
             InitialAccountDetails();
 

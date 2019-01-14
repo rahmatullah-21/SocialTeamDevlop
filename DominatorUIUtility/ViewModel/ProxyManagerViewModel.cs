@@ -3,6 +3,7 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.ProxyServerManagment;
@@ -21,7 +22,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore.Interfaces;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -46,6 +46,7 @@ namespace DominatorUIUtility.ViewModel
         private readonly IMainViewModel _mainViewModel;
         private readonly IProxyServerParserService _proxyServerParserService;
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IAccountCollectionViewModel _accountCollectionViewModel;
         private static readonly object _lock = new object();
         private bool _isAddProxyEnabled = true;
         private ProxyManagerModel _proxyManagerModel = new ProxyManagerModel();
@@ -126,12 +127,13 @@ namespace DominatorUIUtility.ViewModel
         public ICommand AssignXAccountPerProxyCommand { get; }
         #endregion
 
-        public ProxyManagerViewModel(IMainViewModel mainViewModel, IVerifyProxiesViewModel verifyProxiesViewModel, IProxyServerParserService proxyServerParserService, IAccountsFileManager accountsFileManager) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
+        public ProxyManagerViewModel(IMainViewModel mainViewModel, IVerifyProxiesViewModel verifyProxiesViewModel, IProxyServerParserService proxyServerParserService, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel) : base("LangKeyProxyManager", "ProxyManagerControlTemplate")
         {
             _mainViewModel = mainViewModel;
             VerifyProxiesViewModel = verifyProxiesViewModel;
             _proxyServerParserService = proxyServerParserService;
             _accountsFileManager = accountsFileManager;
+            _accountCollectionViewModel = accountCollectionViewModel;
 
             AddProxyCommand = new DelegateCommand(AddProxyExecute);
             ImportProxyCommand = new DelegateCommand(ImportProxyExecute);
@@ -496,9 +498,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var accountCustomControl = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, _mainViewModel.Strategies);
-
-                accountCustomControl.DominatorAccountViewModel.LstDominatorAccountModel.Where(account =>
+                _accountCollectionViewModel.GetCopySync().Where(account =>
                     account.AccountBaseModel.AccountProxy.ProxyIp == selectedProxy.AccountProxy.ProxyIp
                     && account.AccountBaseModel.AccountProxy.ProxyPort == selectedProxy.AccountProxy.ProxyPort).ForEach(
                     account =>
@@ -756,13 +756,11 @@ namespace DominatorUIUtility.ViewModel
             account.DisplayColumnValue4 = 0;
         }
 
-        private static void UpdateAccountsProxy(DominatorAccountModel accountToUpdateProxy, AccessorStrategies strategies)
+        private void UpdateAccountsProxy(DominatorAccountModel accountToUpdateProxy, AccessorStrategies strategies)
         {
-            var objAccountCustomControl = AccountCustomControl.GetAccountCustomControl(strategies);
-
             try
             {
-                var updateAccountsDetails = objAccountCustomControl.DominatorAccountViewModel.LstDominatorAccountModel.FirstOrDefault(x =>
+                var updateAccountsDetails = _accountCollectionViewModel.GetCopySync().FirstOrDefault(x =>
                     x.AccountBaseModel.AccountId == accountToUpdateProxy.AccountBaseModel.AccountId);
 
                 if (updateAccountsDetails != null)
@@ -816,8 +814,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var accounts = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
-                         .LstDominatorAccountModel.Where(x => string.IsNullOrEmpty(x.AccountBaseModel.AccountProxy.ProxyIp) && string.IsNullOrEmpty(x.AccountBaseModel.AccountProxy.ProxyPort)).ToList();
+                var accounts = _accountCollectionViewModel.GetCopySync().Where(x => string.IsNullOrEmpty(x.AccountBaseModel.AccountProxy.ProxyIp) && string.IsNullOrEmpty(x.AccountBaseModel.AccountProxy.ProxyPort)).ToList();
 
                 if (LstProxyManagerModel.Count != 0)
                 {
