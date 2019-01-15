@@ -52,6 +52,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ISoftwareSettingsFileManager, SoftwareSettingsFileManager>();
             Container.RegisterSingleton<IPerfCounterService, PerfCounterService>();
             Container.RegisterSingleton<IDataBaseHandler, DataBaseHandler>();
+            Container.RegisterSingleton<IProxyFileManager, ProxyFileManager>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();
