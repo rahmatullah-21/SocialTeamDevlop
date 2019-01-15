@@ -44,6 +44,7 @@ namespace DominatorUIUtility.CustomControl
         private readonly IAccountsCacheService _accountsCacheService;
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDominatorScheduler _dominatorScheduler;
+        private readonly IDataBaseHandler _dataBaseHandler;
 
 
         #region Constructor
@@ -54,6 +55,7 @@ namespace DominatorUIUtility.CustomControl
             _accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
             CreateCampaignCommand = new BaseCommand<object>((sender) => true, CreateOrUpdateCampaign);
             SelectAccountCommand = new BaseCommand<object>((sender) => true, (sender) => SelectAccount());
             CancelEditCommand = new BaseCommand<object>((sender) => true, (sender) =>
@@ -92,16 +94,15 @@ namespace DominatorUIUtility.CustomControl
 
         #region Properties
 
-        HeaderControl _headerControl;
+        private HeaderControl _headerControl;
         public FooterControl _footerControl;
         public SearchQueryControl _queryControl;
-        Grid _mainGrid;
+        private Grid _mainGrid;
         public AccountGrowthModeHeader _accountGrowthModeHeader;
-        ActivityType _activityType;
-        string _moduleName;
+        private ActivityType _activityType;
+        private string _moduleName;
         protected SocialNetworks SocialNetwork = SocinatorInitialize.ActiveSocialNetwork;
-
-        bool _initialized;
+        private bool _initialized;
         private bool _isCancelledUpdate = false;
 
         #endregion
@@ -506,7 +507,7 @@ namespace DominatorUIUtility.CustomControl
             var dbOperations =
                 new DbOperations(campaignDetails.CampaignId, SocialNetwork, ConstantVariable.GetCampaignDb);
 
-            DataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
+            _dataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             campaignFileManager.Add(campaignDetails);
@@ -883,7 +884,7 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
-        string GetWarningLangRsrc()
+        private string GetWarningLangRsrc()
         {
             try
             {
@@ -897,7 +898,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        bool UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
+        private bool UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
         {
             bool isProcessSuccessful = false;
             bool needToCancel = false;

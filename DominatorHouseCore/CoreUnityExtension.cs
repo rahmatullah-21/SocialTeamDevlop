@@ -2,6 +2,7 @@
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Dal;
 using DominatorHouseCore.DatabaseHandler.Common.EntityCounters;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -50,6 +51,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IGlobalInteractionDetails, GlobalInteractionDetails>();
             Container.RegisterSingleton<ISoftwareSettingsFileManager, SoftwareSettingsFileManager>();
             Container.RegisterSingleton<IPerfCounterService, PerfCounterService>();
+            Container.RegisterSingleton<IDataBaseHandler, DataBaseHandler>();
 
             Container.AddNewExtension<ViewModelUnityExtension>();
             Container.AddNewExtension<DbMigrationUnityExtension>();

@@ -34,9 +34,11 @@ namespace DominatorUIUtility.ViewModel
     public class CampaignViewModel : INotifyPropertyChanged
     {
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IDataBaseHandler _dataBaseHandler;
         public CampaignViewModel()
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
             SettingCommand = new BaseCommand<object>((sender) => true, SettingExecute);
             DeleteCommand = new BaseCommand<object>((sender) => true, DeleteExecute);
             EditCommand = new BaseCommand<object>((sender) => true, EditExecute);
@@ -289,7 +291,7 @@ namespace DominatorUIUtility.ViewModel
                         reportControl.ReportModel.LstReports = new ObservableCollection<object>();
                         reportControl.ReportModel.ReportCollection =
                             CollectionViewSource.GetDefaultView(reportControl.ReportModel.LstReports);
-                     
+
                         Task.Factory.StartNew(() =>
                         {
                             reportDetails.ForEach(item =>
@@ -396,7 +398,7 @@ namespace DominatorUIUtility.ViewModel
 
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     campaignFileManager.Delete(campaign);
-                    DataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
+                    _dataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -448,7 +450,7 @@ namespace DominatorUIUtility.ViewModel
                             LstCampaignDetails.Remove(
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
                         });
-                        DataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
+                        _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
                         if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
                             IsAllCampaignChecked = false;
 

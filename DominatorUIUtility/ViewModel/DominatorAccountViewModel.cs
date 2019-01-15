@@ -50,6 +50,7 @@ namespace DominatorUIUtility.ViewModel
         private readonly IProxyManagerViewModel _proxyManagerViewModel;
         private readonly ISoftwareSettings _softwareSettings;
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IDataBaseHandler _dataBaseHandler;
         private DbOperations _dbOperations { get; }
 
         public IAccountCollectionViewModel LstDominatorAccountModel { get; }
@@ -122,7 +123,7 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
 
-        public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel)
+        public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler)
         {
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
@@ -132,6 +133,7 @@ namespace DominatorUIUtility.ViewModel
             Groups = new ObservableCollection<ContentSelectGroup>();
             BindingOperations.EnableCollectionSynchronization(Groups, AccountCollectionViewModel.SyncObject);
             LstDominatorAccountModel = accountCollectionViewModel;
+            _dataBaseHandler = dataBaseHandler;
 
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, AccountCollectionViewModel.SyncObject);
 
@@ -1146,7 +1148,7 @@ namespace DominatorUIUtility.ViewModel
             DeleteAccountFromProxy(selectAccounts.ToList());
 
             //also delete the associated files
-            DataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
+            _dataBaseHandler.DeleteDatabase(selectAccounts.Select(acct => acct.AccountId));
 
         }
 
