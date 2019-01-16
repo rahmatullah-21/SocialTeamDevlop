@@ -7,6 +7,7 @@ using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
 using SQLite;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -36,14 +37,23 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 
     public class DbOperations : IDbOperations
     {
+        private static readonly ConcurrentDictionary<string, object> SyncDictionary;
+        private readonly object _syncObject;
+
         private readonly SQLiteConnection _context;
         public SocialNetworks SocialNetworks { get; }
         public string AccountId { get; }
+
+        static DbOperations()
+        {
+            SyncDictionary = new ConcurrentDictionary<string, object>();
+        }
 
         public DbOperations(SQLiteConnection context)
         {
             SocialNetworks = SocialNetworks.Social;
             _context = context;
+            _syncObject = SyncDictionary.GetOrAdd(_context.DatabasePath, a => new object());
         }
 
         /// <summary>
@@ -60,12 +70,15 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             {
                 var databaseConnection = ServiceLocator.Current.GetInstance<IAccountDatabaseConnection>(networks.ToString());
                 _context = databaseConnection.GetSqlConnection(id);
+                
             }
             if (type == ConstantVariable.GetCampaignDb)
             {
                 var databaseConnection = ServiceLocator.Current.GetInstance<ICampaignDatabaseConnection>(networks.ToString());
                 _context = databaseConnection.GetSqlConnection(id);
             }
+
+            _syncObject = SyncDictionary.GetOrAdd(_context.DatabasePath, a => new object());
         }
 
 
@@ -79,12 +92,14 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         /// <returns></returns>
         public bool Add<T>(T data) where T : class, new()
         {
-            return _context.Insert(data) > 0;
+            lock (_syncObject)
+                return _context.Insert(data) > 0;
         }
 
         public bool AddRange<T>(List<T> data) where T : class, new()
         {
-            return _context.InsertAll(data) > 0;
+            lock (_syncObject)
+                return _context.InsertAll(data) > 0;
         }
         #endregion
 
@@ -98,7 +113,8 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         /// <returns></returns>
         public int Count<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
         {
-            return expression == null ? _context.Table<T>().Count() : _context.Table<T>().Where(expression).Count();
+            lock (_syncObject)
+                return expression == null ? _context.Table<T>().Count() : _context.Table<T>().Where(expression).Count();
         }
 
 
@@ -110,7 +126,8 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         /// <returns></returns>
         public List<T> Get<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
         {
-            return expression == null ? _context.Table<T>().ToList() : _context.Table<T>().Where(expression).ToList();
+            lock (_syncObject)
+                return expression == null ? _context.Table<T>().ToList() : _context.Table<T>().Where(expression).ToList();
         }
 
         /// <summary>
@@ -121,7 +138,8 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         /// <returns></returns>
         public T GetSingle<T>(Expression<Func<T, bool>> expression) where T : class, new()
         {
-            return _context.Table<T>().Where(expression).FirstOrDefault();
+            lock (_syncObject)
+                return _context.Table<T>().Where(expression).FirstOrDefault();
         }
 
 
@@ -133,7 +151,8 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         /// <returns></returns>
         public async Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
         {
-            return expression == null
+            lock (_syncObject)
+               return expression == null
                 ? _context.Table<T>().ToList()
                 : _context.Table<T>().Where(expression).ToList();
         }
@@ -151,23 +170,27 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         /// <returns></returns>
         public bool Update<T>(T t) where T : class, new()
         {
-            return _context.Update(t) > 0;
+            lock (_syncObject)
+                return _context.Update(t) > 0;
         }
 
 
         public bool UpdateAccountDetails(DominatorAccountModel dominatorAccountModel)
         {
-            var dataToUpdate = _context.Table<AccountDetails>().FirstOrDefault(x => x.AccountId == dominatorAccountModel.AccountId);
+            lock (_syncObject)
+            {
+                var dataToUpdate = _context.Table<AccountDetails>().FirstOrDefault(x => x.AccountId == dominatorAccountModel.AccountId);
 
-            if (dataToUpdate == null)
-                return false;
+                if (dataToUpdate == null)
+                    return false;
 
-            dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
-            dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
-            dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status.ToString();
-            dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
-            dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
-            return Update(dataToUpdate);
+                dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
+                dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
+                dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status.ToString();
+                dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
+                dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
+                return Update(dataToUpdate);
+            }
         }
         #endregion
 
@@ -175,32 +198,39 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
 
         public bool Remove<T>(T t) where T : class
         {
-            return _context.Delete<T>(t) > 0;
+            lock (_syncObject)
+                return _context.Delete<T>(t) > 0;
         }
 
         public bool RemoveAll<T>() where T : class, new()
         {
-            return _context.DeleteAll<T>() > 0;
+            lock (_syncObject)
+                return _context.DeleteAll<T>() > 0;
         }
 
 
         public void Remove<T>(Expression<Func<T, bool>> expression) where T : class, new()
         {
-            Remove(_context.Table<T>().Where(expression).FirstOrDefault());
+            lock (_syncObject)
+                Remove(_context.Table<T>().Where(expression).FirstOrDefault());
         }
 
 
         public void RemoveMatch<T>(Expression<Func<T, bool>> expression) where T : class, new()
         {
-            var matchedItems = _context.Table<T>().Where(expression);
-            foreach (var items in matchedItems)
-                Remove(items);
+            lock (_syncObject)
+            {
+                var matchedItems = _context.Table<T>().Where(expression);
+                foreach (var items in matchedItems)
+                    Remove(items);
+            }
         }
 
 
         public bool Any<T>(Expression<Func<T, bool>> expression) where T : class, new()
         {
-            return _context.Table<T>().Where(expression).Any();
+            lock (_syncObject)
+                return _context.Table<T>().Where(expression).Any();
         }
 
         public void Dispose()
@@ -212,11 +242,13 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         #endregion
         public List<string> GetSingleColumn<T>(Func<T, string> query, Expression<Func<T, bool>> expression = null) where T : class, new()
         {
-            return expression == null ? _context.Table<T>().Select(query).ToList() : _context.Table<T>().Where(expression).Select(query).ToList();
+            lock (_syncObject)
+                return expression == null ? _context.Table<T>().Select(query).ToList() : _context.Table<T>().Where(expression).Select(query).ToList();
         }
         public bool UpdateRange<T>(List<T> data) where T : class, new()
         {
-            return _context.UpdateAll(data) > 0;
+            lock (_syncObject)
+                return _context.UpdateAll(data) > 0;
         }
     }
 }

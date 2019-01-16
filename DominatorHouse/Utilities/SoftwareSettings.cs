@@ -93,6 +93,9 @@ namespace DominatorHouse.Utilities
         {
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var socinatorSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            if (!socinatorSettings.IsStopAutoSynchronizeAccount)
+                return;
+
             var accountUpdateCollection = new BlockingCollection<DominatorAccountModel>
                     (socinatorSettings.SimultaneousAccountUpdateCount);
 

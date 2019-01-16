@@ -8,7 +8,7 @@ namespace DominatorHouseCore.Settings
     public interface ISoftwareSettings
     {
         void InitializeOnLoadConfigurations();
-        SoftwareSettingsModel Settings { get; }
+        SoftwareSettingsModel Settings { get; set; }
         bool Save();
     }
 
@@ -25,7 +25,7 @@ namespace DominatorHouseCore.Settings
             _genericFileManager = genericFileManager;
         }
 
-        public SoftwareSettingsModel Settings { get; private set; }
+        public SoftwareSettingsModel Settings { get;  set; }
 
         public void InitializeOnLoadConfigurations()
         {
@@ -49,7 +49,8 @@ namespace DominatorHouseCore.Settings
             {
                 Settings = new SoftwareSettingsModel
                 {
-                    IsEnableAdvancedUserMode = true
+                    IsEnableAdvancedUserMode = true,
+                    IsStopAutoSynchronizeAccount = true
                 };
 
                 _softwareSettingsFileManager.SaveSoftwareSettings(Settings);

@@ -251,7 +251,7 @@
                   CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  GridLinesVisibility="All" 
+                  GridLinesVisibility="All" BeginningEdit="ProxyDataGrid_OnBeginningEdit"
                   x:Name="ProxyDataGrid" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True"
