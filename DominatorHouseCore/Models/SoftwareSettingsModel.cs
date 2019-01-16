@@ -614,5 +614,14 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _simultaneousAdsScreperThreadCount, value);
             }
         }
+
+        private bool _isStopAutoSynchronizeAccount;
+        [ProtoMember(41)]
+        public bool IsStopAutoSynchronizeAccount
+        {
+            get { return _isStopAutoSynchronizeAccount; }
+            set { SetProperty(ref _isStopAutoSynchronizeAccount, value); }
+        }
+
     }
 }

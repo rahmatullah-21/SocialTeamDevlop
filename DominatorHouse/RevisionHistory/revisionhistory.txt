@@ -1,3 +1,25 @@
+Version[1.0.0.32],[15th-January-19]
+New Features:-
+	Sociopublisher:-
+		Reddit => Added feature to approve post after publishing.
+	Software Setting:-
+		Added feature for stop auto synchronization account.
+	Instagram :-
+		Instachat => Auto reply to new message => Added  feature attch image with text message.
+		Instachat => Send message to new followers => Added  feature attch image with text message.
+Fixed:-
+	Instagram :-
+		Grow Followers => Follower => Fixed issue with following users when select option skip followers.
+		Instachat => Fixed issue with showing no more data found after complete the 1st job or reached per hour limit.
+		Account Activity => Send Message To New Followers => Fixed issue with showing report.
+	Linkedin:-
+		Grow Connection => Connection Request => Fixed issue with add personal note.
+		Engage => Share Post => Fixed issue with share post.
+	Facebook:-
+		Grow Friends => Send Friend Request=> Fixed issue with  Event url query type.
+		Grow Friends=> Unfriend=>Custom user list=> Fixed issue with unfriend user.
+		Broadcast Message => Fixed issue  with User follower query type.
+		
 Version[1.0.0.31],[11th-January-19]
 New Features:-
 	Facebook:-

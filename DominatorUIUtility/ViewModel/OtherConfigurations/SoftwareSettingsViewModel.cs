@@ -7,6 +7,8 @@ using Prism.Commands;
 using System;
 using System.Diagnostics;
 using System.Windows;
+using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
@@ -20,7 +22,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             _softwareSettings = softwareSettings;
             SaveCmd = new DelegateCommand(Save);
-            SoftwareSettingsModel = _softwareSettings.Settings;
+            SoftwareSettingsModel = softwareSettings.Settings;
         }
 
         private void Save()
