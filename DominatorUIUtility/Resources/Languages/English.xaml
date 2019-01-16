@@ -3349,4 +3349,6 @@ Type 3. IP:Port
     <system:String x:Key="LangkeycommentonpostAfterLike">Comment Post After Like</system:String>
     <system:String x:Key="LangKeySetNewPassword">Set New Password</system:String>
     <system:String x:Key="LangKeySkipFriendsAlreadyMemberOfGroup">Skip Friends Already Member Of Group</system:String>
+    <system:String x:Key="LangKeyCheckForApproveYourPostForReddit">Check for approve your post [For Reddit]</system:String>
+    <system:String x:Key="LangKeyStopAutoSynchronizeAccount">Stop Auto Synchronize account</system:String>
 </ResourceDictionary>

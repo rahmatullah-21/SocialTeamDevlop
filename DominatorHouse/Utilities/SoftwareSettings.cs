@@ -43,7 +43,7 @@ namespace DominatorHouse.Utilities
         private void OtherInitializers()
         {
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            var settings = softwareSettings.Settings;
+            var settings = softwareSettings.Settings ?? new SoftwareSettingsModel();
             AddDHToStartup(settings);
 
         }
@@ -93,6 +93,9 @@ namespace DominatorHouse.Utilities
         {
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var socinatorSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            if (!socinatorSettings.IsStopAutoSynchronizeAccount)
+                return;
+
             var accountUpdateCollection = new BlockingCollection<DominatorAccountModel>
                     (socinatorSettings.SimultaneousAccountUpdateCount);
 

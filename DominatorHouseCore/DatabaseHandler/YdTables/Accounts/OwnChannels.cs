@@ -24,5 +24,6 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         public string PageId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public bool IsSelected { get; set; }
+
     }
 }
