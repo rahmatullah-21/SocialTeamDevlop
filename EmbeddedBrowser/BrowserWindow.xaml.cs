@@ -411,7 +411,7 @@ namespace EmbeddedBrowser
                 // BrowserAct(ActType.ClickById,"sign-in-btn",delayAfter:3);
                 lock (_googleLock)
                 {
-                    if(_isLoggedIn) return;
+                    if(_isLoggedIn || Browser.IsDisposed) return;
                     
                     string pageText;
                     var last30Secs = DateTime.Now;
@@ -466,7 +466,7 @@ namespace EmbeddedBrowser
         {
             try
             {
-                if (_isLoggedIn || TargetUrl.ToLower().Contains("www.youtube.com/watch?")
+                if (_isLoggedIn || Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")
                                 || htmlHasUserName || string.IsNullOrEmpty(pageText) || pageText== "Account\n\n\n"
                                 || pageText.Contains("Protect your account") || pageText.Contains("Loading, please wait ...")
                                 || pageText.Contains("English (") || pageText.Contains("Personal info"))
@@ -489,7 +489,7 @@ namespace EmbeddedBrowser
 
         private void SetVideoQualityAs144P()
         {
-            if (SetVideoQuality || !TargetUrl.ToLower().Contains("www.youtube.com/watch?")) return;
+            if (SetVideoQuality || !Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")) return;
 
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                 BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 1.5); // for Skipping add
@@ -833,11 +833,18 @@ namespace EmbeddedBrowser
 
                     DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
                 }
-
+ 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                 {
                     if (!(objResponseParameter.Response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || objResponseParameter.Response.Contains("{\"iconType\":\"SUBSCRIPTIONS\"}") || objResponseParameter.Response.Contains("\"LOGGED_IN\":true")))
                         return;
+
+                    DominatorAccountModel.AccountBaseModel.ProfileId =
+                        Utilities.GetBetween(objResponseParameter.Response, "\"delegatedSessionId\":\"", "\"");
+                    if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.ProfileId))
+                        DominatorAccountModel.AccountBaseModel.ProfileId = "Default Channel";
+                    DominatorAccountModel.AccountBaseModel.UserId =
+                        Utilities.GetBetween(objResponseParameter.Response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
                 }
 
                 _isLoggedIn = true;
