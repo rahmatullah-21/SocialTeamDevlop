@@ -362,6 +362,8 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\OwnBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\PrivateWhitelist.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\ScrapBoards.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\ScrapPins.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />

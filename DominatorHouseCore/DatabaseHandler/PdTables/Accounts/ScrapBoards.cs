@@ -1,9 +1,8 @@
-﻿using DominatorHouseCore.Enums;
-using SQLite;
+﻿using SQLite;
 
-namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
+namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    public class InteractedPosts
+    public class ScrapBoards
     {
         [PrimaryKey]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
@@ -11,90 +10,86 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         [AutoIncrement]
         public int Id { get; set; }
 
-        //ID of the tweet
+        //ID of the Board
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        public string PinId { get; set; }
+        public string BoardId { get; set; }
 
-        //ID/Path of the media file
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        public string MediaString { get; set; }
-        /// <summary>
-        /// Message/Description of the tweet
-        /// </summary>
-        /// 
+        public string BoardName { get; set; }
 
+        //Description of the Board
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        public string PinDescription { get; set; }
+        public string BoardDescription { get; set; }
 
-        //Like Count Of The Tweet
+        //Pin Count Of The Board
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public int TryCount { get; set; }
+        public int PinCount { get; set; }
 
-        //Comment Count Of The Tweet
+        //Follower Count Of The Board
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int CommentCount { get; set; }
+        public int FollowerCount { get; set; }
 
-
-        //Time when the tweet has been posted in TimeStamp
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public double PinnedTimeStamp { get; set; }
-
-        //Duration of the video tweets
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public double VideoDuration
-        { get; set; }
-
-        //View Count of the video tweets
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public int ViewCount
-        { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public string PinWebUrl { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public string SourceBoardName { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
-        public int InteractionDate { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
-        public MediaType MediaType { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public ActivityType OperationType { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
-        public string UserId { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public string Username { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
+        public string UserId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string Query { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string QueryType
         { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
+        public int InteractionTime { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
+        public string OperationType { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        public string BoardUrl { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        public string PinterestUserSender { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        public string PinterestUserRecipient { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public bool IsFollowed { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        public string BoardCreatedAt { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string CreatedAt { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
-        public string SourceBoard { get; set; }
+        public string BoardOrderModifiedAt { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
-        public string SinAccId { get; set; }
+        public string CollaboratedByMe { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
-        public string SinAccUsername { get; set; }
+        public bool? IsCollaborative { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
-        public string CommentId { get; set; }
+        public string FollowedByMe { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
-        public string BoardLabel { get; set; }
+        public string ImageThumbnailUrl { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
-        public string DestinationBoard { get; set; }
+        public string ContactRequestId { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
-        public string Comment { get; set; }
+        public bool? Filtered
+        { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
-        public string PublishedDate { get; set; }
+        public bool? FullDetailsScraped
+        { get; set; }
     }
 }
