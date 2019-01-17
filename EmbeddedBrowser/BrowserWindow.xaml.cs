@@ -305,7 +305,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        enum ActType
+        public enum ActType
         {
             ClickByClass,
             ClickById,
