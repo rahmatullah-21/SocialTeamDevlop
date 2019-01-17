@@ -3354,5 +3354,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySelectBrowser">Select Browser</system:String>
     <system:String x:Key="LangKeyMozillaBrowser">Mozilla Firefox Browser</system:String>
     <system:String x:Key="LangKeyCefSharpBrowser">CefSharp Embedded Browser</system:String>
-    <system:String x:Key="LangKeyRequiresFirefox">Requires Mozilla firefox browser.</system:String>
+    <system:String x:Key="LangKeyRequiresFirefox">Requires Mozilla firefox(v64.0.0+) browser.</system:String>
 </ResourceDictionary>
