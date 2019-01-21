@@ -1,3 +1,28 @@
+Version[1.0.0.33],[19th-January-19]
+New Features:-
+Youtube:-
+	All Modules => Select Account => Select Channels.
+	Watch Video => View Increaser => Firefox browser.
+
+Fixed:-
+	Reddit:-
+		Fixed issue with reply to comments.
+		Fixed issue with upvote.
+	Linkedin:-
+		Account Manager => Account Details => Fixed issue with showing "proxy not working" as status even after not adding proxy.
+		Grow connection => Withdraw connection request => Fixed issue with not withdrawing request and saying failed.
+		Scraper => User Scraper => Fixed issue with not scraping the details of 1st connections.
+	Facebook:-
+		Account Activity => Send Greeting to friends => fixed issue with status buttom.
+	Twitter:-
+		Sociopublisher => Post Configuration => Advanced settings => Twitter => Enable dynamic hashtags.
+		Account Manager => assigning working private proxy to successfull account.
+	Pintrest:-
+		Pin messanger => Broadcast message => manage blacklist users => group Black list => Fixed issue with skip sending message with block users.
+	Youtube:-
+		Watch Video => View Increaser => Edit and Update campaign.
+		Watch Video => View Increaser => Pause and Resume campaign.
+
 Version[1.0.0.32],[15th-January-19]
 New Features:-
 	Sociopublisher:-

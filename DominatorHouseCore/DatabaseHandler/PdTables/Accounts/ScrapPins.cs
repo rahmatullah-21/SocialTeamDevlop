@@ -1,17 +1,17 @@
-﻿using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.Enums;
 using SQLite;
 
-namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
+namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    public class InteractedPosts
+    public class ScrapPins : Entity
     {
         [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
         [AutoIncrement]
+        [Indexed]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
 
-        //ID of the tweet
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string PinId { get; set; }
 
@@ -19,82 +19,78 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string MediaString { get; set; }
         /// <summary>
-        /// Message/Description of the tweet
+        /// Message/Description of the Pin
         /// </summary>
         /// 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
         public string PinDescription { get; set; }
 
-        //Like Count Of The Tweet
+        //Like Count Of The Pin
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public int TryCount { get; set; }
 
-        //Comment Count Of The Tweet
+        //Comment Count Of The Pin
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public int CommentCount { get; set; }
 
 
-        //Time when the tweet has been posted in TimeStamp
+        //Time when the Pin has been posted in TimeStamp
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public double PinnedTimeStamp { get; set; }
 
-        //Duration of the video tweets
+        //Duration of the video Pins
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
         public double VideoDuration
         { get; set; }
 
-        //View Count of the video tweets
+        //ID of the Board
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public int ViewCount
-        { get; set; }
+        public string SourceBoardUrl { get; set; }
 
+        //Web url of the Pin
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string PinWebUrl { get; set; }
 
+        // Board Name in which the Pin belongs to
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string SourceBoardName { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public int InteractionDate { get; set; }
 
+        //Type of the Media(Image/Video)
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public MediaType MediaType { get; set; }
 
+        //Type of Operation performed(follow/comment...etc)
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public ActivityType OperationType { get; set; }
+        public string ActivityType { get; set; }
 
+        //User id of the User in which the Pin belongs to
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string UserId { get; set; }
 
+        //Username of the User in which the Pin belongs to
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public string Username { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
-        public string Query { get; set; }
+        public string QueryValue { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string QueryType
         { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
-        public string SourceBoard { get; set; }
-
+        public string DestinationBoard { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
-        public string SinAccId { get; set; }
+        public bool? Filtered
+        { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
-        public string SinAccUsername { get; set; }
-
+        public bool? FullDetailsScraped
+        { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
-        public string CommentId { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
-        public string BoardLabel { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
-        public string DestinationBoard { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
-        public string Comment { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string PublishedDate { get; set; }
     }
 }

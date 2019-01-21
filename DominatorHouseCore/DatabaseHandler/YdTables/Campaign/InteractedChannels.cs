@@ -63,5 +63,10 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string MessageToChannelOwner { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string MyChannelId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string MyChannelPageId { get; set; }
     }
 }

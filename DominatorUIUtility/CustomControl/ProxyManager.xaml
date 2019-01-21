@@ -251,7 +251,7 @@
                   CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  GridLinesVisibility="All" BeginningEdit="ProxyDataGrid_OnBeginningEdit"
+                  GridLinesVisibility="All" 
                   x:Name="ProxyDataGrid" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True"
@@ -539,11 +539,12 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{DynamicResource LangKeySocialProfiles}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideSocialProfiles}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
+                <DataGridTemplateColumn  Header="{DynamicResource LangKeySocialProfiles}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideSocialProfiles}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <VirtualizingStackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding AccountsAssignedto.Count, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding AccountsAssignedto.Count, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" />
                             </VirtualizingStackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

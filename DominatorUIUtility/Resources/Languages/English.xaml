@@ -3351,4 +3351,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySkipFriendsAlreadyMemberOfGroup">Skip Friends Already Member Of Group</system:String>
     <system:String x:Key="LangKeyCheckForApproveYourPostForReddit">Check for approve your post [For Reddit]</system:String>
     <system:String x:Key="LangKeyStopAutoSynchronizeAccount">Stop Auto Synchronize account</system:String>
+    <system:String x:Key="LangKeySelectBrowser">Select Browser</system:String>
+    <system:String x:Key="LangKeyMozillaBrowser">Mozilla Firefox Browser</system:String>
+    <system:String x:Key="LangKeyCefSharpBrowser">CefSharp Embedded Browser</system:String>
+    <system:String x:Key="LangKeyRequiresFirefox" xml:space="preserve">Requires Mozilla firefox(v64.0.0+) browser.
+        Note: Can't work with private proxy</system:String>
 </ResourceDictionary>
