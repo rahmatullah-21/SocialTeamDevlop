@@ -82,6 +82,8 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         public string MyChannelId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string MyChannelPageId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public int ViewingCountPerAccount { get; set; }
 
         public ActivityType GetActivityType()
         {
