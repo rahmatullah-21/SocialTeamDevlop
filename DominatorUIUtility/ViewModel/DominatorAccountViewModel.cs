@@ -362,10 +362,20 @@ namespace DominatorUIUtility.ViewModel
                             case 5:
                                 alternetEmail = splitAccount[4];
                                 break;
+                            case 6:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                break;
                             case 7:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 alternetEmail = splitAccount[6];
+                                break;
+                            case 8:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
                                 break;
                             case 9:
                                 proxyaddress = splitAccount[4];
@@ -432,19 +442,23 @@ namespace DominatorUIUtility.ViewModel
 
                         if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                         {
-                            _pendingActions = _pendingActions.Enqueue(() => AddAccount(objDominatorAccountBaseModel, cookies,
-                                (action) =>
-                                {
-                                    _pendingActions = _pendingActions.Enqueue(action);
-                                    return () =>
-                                    {
-                                        var oldqueue = _pendingActions;
-                                        _pendingActions = ImmutableQueue<Action>.Empty;
-                                        oldqueue
-                                            .Except(new[] { action })
-                                            .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
-                                    };
-                                }));
+
+                            if (SocinatorInitialize.ActiveSocialNetwork == objDominatorAccountBaseModel.AccountNetwork || SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                            {
+                                _pendingActions = _pendingActions.Enqueue(() => AddAccount(objDominatorAccountBaseModel, cookies,
+                                                                              (action) =>
+                                                                              {
+                                                                                  _pendingActions = _pendingActions.Enqueue(action);
+                                                                                  return () =>
+                                                                                  {
+                                                                                      var oldqueue = _pendingActions;
+                                                                                      _pendingActions = ImmutableQueue<Action>.Empty;
+                                                                                      oldqueue
+                                                                                          .Except(new[] { action })
+                                                                                          .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
+                                                                                  };
+                                                                              }));
+                            }
                         }
                         else
                         {

@@ -55,7 +55,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
 
-            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations,false);
 
             JobConfigurationControl = JobConfiguration;
         }
@@ -795,7 +795,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             SelectedItem = null;
             PageTitle = Application.Current.FindResource("LangKeyCreateCampaign")?.ToString();
-            SetDataContext();
+            SetDataContext(false);
         }
 
         private bool SelectDestinationCanExecute(object sender) => true;
@@ -854,7 +854,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PageTitle = Application.Current.FindResource("LangKeyEditCampaign")?.ToString();
 
                 // Assign the Data Context
-                SetDataContext();
+                SetDataContext(true);
             }
             catch (Exception)
             {
@@ -866,7 +866,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <summary>
         /// To set the data context for Post fetecher details
         /// </summary>
-        private void SetDataContext()
+        private void SetDataContext(bool isEditMode)
         {
             // get the direct posts ui 
             var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
@@ -884,7 +884,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
 
             // get the job configurations
-            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations, isEditMode);
 
             JobConfigurationControl = JobConfiguration;
 

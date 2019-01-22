@@ -29,6 +29,7 @@ namespace DominatorUIUtility.CustomControl
         public JobConfigControl()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+
             InitializeComponent();
             MainGrid.DataContext = this;
             InitilizeFavoriteTime();
@@ -221,13 +222,13 @@ namespace DominatorUIUtility.CustomControl
 
                         }
                     }
-                    else if(favoriteTimeName==null)
+                    else if (favoriteTimeName == null)
                         break;
                     else
                     {
                         var result = Dialog.ShowCustomDialog("Error", "Favorite Time should not empty.\nPlease type some name.", "Ok", "Cancel");
                         if (result == MessageDialogResult.Affirmative)
-                        continue;
+                            continue;
                         break;
                     }
                 }
@@ -279,7 +280,7 @@ namespace DominatorUIUtility.CustomControl
         {
             InitilizeFavoriteTime();
             //if (!IsSelectionChangedExecute)
-                Selector_OnSelectionChanged(Speed, null);
+            Selector_OnSelectionChanged(Speed, null);
             IsSelectionChangedExecute = false;
         }
 

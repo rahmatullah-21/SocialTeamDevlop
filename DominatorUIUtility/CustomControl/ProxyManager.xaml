@@ -539,11 +539,12 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{DynamicResource LangKeySocialProfiles}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideSocialProfiles}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
+                <DataGridTemplateColumn  Header="{DynamicResource LangKeySocialProfiles}" Visibility="{Binding IsChecked, Source={x:Reference ChkHideUnhideSocialProfiles}, Converter={StaticResource BooleanToVisibilityConverterInversed}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <VirtualizingStackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding AccountsAssignedto.Count, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding AccountsAssignedto.Count, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" />
                             </VirtualizingStackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

@@ -27,8 +27,7 @@
        
         <StackPanel Orientation="Horizontal" Margin="10,0">
             <TextBlock Text="{DynamicResource LangKeyTheCampaignWillPublish}" VerticalAlignment="Center" Margin="5"/>
-            <control:NumericUpDown x:Name="numericMaxPost" Minimum="0" ValueDecremented="NumericMaxPost_OnValueDecremented"
-                                   ValueIncremented="NumericMaxPost_OnValueIncremented"
+            <control:NumericUpDown x:Name="numericMaxPost" Minimum="0"  ValueChanged="PostCountChanged"
                                    Value="{Binding MaxPost,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" />
 
             <TextBlock Text="{DynamicResource LangKeyPostsPerDayBetween}" VerticalAlignment="Center" Margin="5"/>

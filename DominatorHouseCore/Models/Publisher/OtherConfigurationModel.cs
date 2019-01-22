@@ -99,7 +99,21 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _signatureText, value);
             }
         }
-
+        private bool _isCheckedForApprovePost;
+        [ProtoMember(11)]
+        public bool IsCheckedForApprovePost
+        {
+            get
+            {
+                return _isCheckedForApprovePost;
+            }
+            set
+            {
+                if (value == _isCheckedForApprovePost)
+                    return;
+                SetProperty(ref _isCheckedForApprovePost, value);
+            }
+        }
 
         #region Not Used
 

@@ -721,5 +721,104 @@ namespace DominatorHouseCore.Request
                 };
             }
         }
+
+        public virtual async Task<IResponseParameter> PostApiRequestAsync(string url, string postData)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.Host = "api.socinator.com";
+            request.ContentType = "application/json";
+            request.Accept = "application/json";
+
+            var postDataBytes = Encoding.UTF8.GetBytes(postData);
+
+            request.ContentLength = postDataBytes.Length;
+
+            using (var postDataStream = await request.GetRequestStreamAsync())
+            {
+                postDataStream.Write(postDataBytes, 0, postDataBytes.Length);
+            }
+
+
+            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            {
+
+                var responseStream = response.GetResponseStream();
+
+                // Check null integrity
+                if (responseStream == null)
+                    return new ResponseParameter { Response = string.Empty };
+
+                // return as proper ResponseParameter with appropriate reponse
+                using (var streamReader = new StreamReader(responseStream))
+                {
+                    return new ResponseParameter()
+                    {
+                        Response = streamReader.ReadToEnd()
+                    };
+                };
+            }
+        }
+
+        public virtual async Task<IResponseParameter> GetApiRequestAsync(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "GET";
+            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            {
+                var responseStream = response.GetResponseStream();
+
+                // Check null integrity
+                if (responseStream == null)
+                    return new ResponseParameter { Response = string.Empty };
+
+                // return as proper ResponseParameter with appropriate reponse
+                using (var streamReader = new StreamReader(responseStream))
+                {
+                    return new ResponseParameter()
+                    {
+                        Response = streamReader.ReadToEnd()
+                    };
+                };
+            }
+        }
+
+        public virtual async Task<IResponseParameter> PostApiRequestAsync(string url, byte[] postData)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.Host = "api.socinator.com";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "application/json";
+
+            request.ContentLength = postData.Length;
+
+            using (var postDataStream = await request.GetRequestStreamAsync())
+            {
+                postDataStream.Write(postData, 0, postData.Length);
+            }
+
+
+
+            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            {
+                var responseStream = response.GetResponseStream();
+
+                // Check null integrity
+                if (responseStream == null)
+                    return new ResponseParameter { Response = string.Empty };
+
+                // return as proper ResponseParameter with appropriate reponse
+                using (var streamReader = new StreamReader(responseStream))
+                {
+                    return new ResponseParameter()
+                    {
+                        Response = streamReader.ReadToEnd()
+                    };
+                };
+            }
+        }
+        
+
     }
 }

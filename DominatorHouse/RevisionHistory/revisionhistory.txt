@@ -1,3 +1,121 @@
+Version[1.0.0.33],[19th-January-19]
+New Features:-
+Youtube:-
+	All Modules => Select Account => Select Channels.
+	Watch Video => View Increaser => Firefox browser.
+
+Fixed:-
+	Reddit:-
+		Fixed issue with reply to comments.
+		Fixed issue with upvote.
+	Linkedin:-
+		Account Manager => Account Details => Fixed issue with showing "proxy not working" as status even after not adding proxy.
+		Grow connection => Withdraw connection request => Fixed issue with not withdrawing request and saying failed.
+		Scraper => User Scraper => Fixed issue with not scraping the details of 1st connections.
+	Facebook:-
+		Account Activity => Send Greeting to friends => fixed issue with status buttom.
+	Twitter:-
+		Sociopublisher => Post Configuration => Advanced settings => Twitter => Enable dynamic hashtags.
+		Account Manager => assigning working private proxy to successfull account.
+	Pintrest:-
+		Pin messanger => Broadcast message => manage blacklist users => group Black list => Fixed issue with skip sending message with block users.
+	Youtube:-
+		Watch Video => View Increaser => Edit and Update campaign.
+		Watch Video => View Increaser => Pause and Resume campaign.
+
+Version[1.0.0.32],[15th-January-19]
+New Features:-
+	Sociopublisher:-
+		Reddit => Added feature to approve post after publishing.
+	Software Setting:-
+		Added feature for stop auto synchronization account.
+	Instagram :-
+		Instachat => Auto reply to new message => Added  feature attch image with text message.
+		Instachat => Send message to new followers => Added  feature attch image with text message.
+Fixed:-
+	Instagram :-
+		Grow Followers => Follower => Fixed issue with following users when select option skip followers.
+		Instachat => Fixed issue with showing no more data found after complete the 1st job or reached per hour limit.
+		Account Activity => Send Message To New Followers => Fixed issue with showing report.
+	Linkedin:-
+		Grow Connection => Connection Request => Fixed issue with add personal note.
+		Engage => Share Post => Fixed issue with share post.
+	Facebook:-
+		Grow Friends => Send Friend Request=> Fixed issue with  Event url query type.
+		Grow Friends=> Unfriend=>Custom user list=> Fixed issue with unfriend user.
+		Broadcast Message => Fixed issue  with User follower query type.
+		
+Version[1.0.0.31],[11th-January-19]
+New Features:-
+	Facebook:-
+		Inviter => Group inviter => skip users those are already group member.
+Fixed:-
+	Sociopublisher:-
+		 Create Campaign => Job Configuration => Fixed issue with saving campaign.
+	Account Manager:-
+		 Import multiple accounts => Fixed issue with showing local IP when using proxy.
+	Campaign:-
+		Report => Fixed issue with report crashing.
+	Facebook:-
+		Inviter => Page invite => Fixed issue with page invite.
+	Twitter:-
+		Account manager =>  Fixed issue with showing status failed.
+	Pintrest:-
+		Pinposter => Repin => Custom users => Fixed issue with repin board of custom users.
+	Youtube:-
+		Subcriber => unsubcribe  => Custom Channels List => Fixed issue with Custom channel list.
+		Account => Embedded Browser => Fixed issue with auto scrolling.
+	Linkedin:-
+		Grow Connection => Connection Request => Fixed issue with showing different result in software as compared to  linkedin by using search url.
+		Grow Connection => Export connection => Fixed issue with  getting stuck while exporting connections.
+		Grow Connection => Export connection => Source Filter => Fixed issue with showing different result in software as compared to linkedin.
+	Instagram:-
+		Account activity => Unfollow => Report => Fixed  issue with delete report.
+		Grow Followers => Unfollow => Fxed issue with unfollow those are followed outside software.
+		Scraper => User Scraper => Fixed issue with showing no more data found.
+
+Version[1.0.0.30],[8th-January-19]
+New Features:-
+	Publisher :- 
+		Added feature  to customize title and description when using rss feed (for reddit network).
+	    Create campaign => Added feature select account and destination.
+	Gplus:- 
+		Accounts => Accounts manager => Auto verify Retype mail accounts.
+	Youtube:-
+		Accounts => Accounts manager=> Auto verify Retype mail accounts.
+	Linkedin:-
+		Salesnavigator Scraper => viewing profile.
+Fixed:-
+	Linkedin:- 
+		Grow Connection => Connectiopn request => Profile URL => Fixed issue with showing email required .
+		Grow Connection => Connectiopn request => Email => Fixed issue with send connection request.
+		Accounts => Account Manager => Fixed issue with updating groups.
+	Instagram:-
+		Grow Followers => Follower => Fixed issue with enable auto follow/unfollow.
+	Facebook:-
+		Account => Fixed account with update account details.
+	Twitter :- 
+		Accounts activity => Unfollow => Fixed issue with,looping and scraping in same page.
+		Accounts Activity => All Modules => Job configuration => Activity Speed => Fixed issue with wrong details of Slow activity speed.
+	Pintrest:- 
+		Pin messenger => Board message => Keywords => Fixed issue with Multiple message to keywords.
+		Pin poster => Edit pin => Fixed issue with Edit pin CSV format.
+		Pin poster => Edit pin => Fixed issue with Edit pin to failed pin ids.
+		Pin Poster => Repin => Custom board => fixed issue with Pin type in Ignore Image and Video.
+	Tumblr: -
+		Grow folllower => Follow =>  Fixed issue with Logger is showing "0" found data of query type.
+	Quora:-
+		Voting => Fixed issue with upvote answer.
+
+	Youtube:-
+		Subcriber => subcribe => Keywords => Fixed issue with keywords query type.
+		Engage => Dislike => Custom urls => Fixed issue with custom urs query type.
+		Scraper => Channel Scraper => Keywords => Fixed issue with scraper in report.
+		Account => Account status => ssue in accounts status of accounts asking for retype mail.
+		Watch Video => View increaser => Fixed issue with assigning working proxies to working accounts.
+
+
+
 Version[1.0.0.29],[5th-January-19]
 New Features:-
 	Publisher:- 
