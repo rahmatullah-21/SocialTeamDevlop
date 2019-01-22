@@ -143,7 +143,7 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                using (var stream = _fileSystemProvider.Open(filePath))
+                using (var stream = _fileSystemProvider.OpenReadonly(filePath))
                 {
                     // Call for deserialize
                     return Serializer.Deserialize<T>(stream);
