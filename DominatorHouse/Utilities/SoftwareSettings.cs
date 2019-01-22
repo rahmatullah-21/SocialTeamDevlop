@@ -12,236 +12,229 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using System.Windows;
 using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
+using DominatorUIUtility.ViewModel;
+using Registry = Microsoft.Win32.Registry;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
-using DominatorUIUtility.ViewModel;
 using FluentScheduler;
-using Registry = Microsoft.Win32.Registry;
 
 namespace DominatorHouse.Utilities
 {
-    public class SoftwareSettings
-    {
-        private AccessorStrategies _strategies;
-        public void InitializeOnLoadConfigurations(AccessorStrategies strategies)
-        {
-            _strategies = strategies;
-            Parallel.Invoke(CheckSocinatorIcon,
-                            ActivityManagerInitializer,
-                            OtherInitializers,
-                            ScheduleAutoUpdation);
-            //CheckSocinatorIcon();
-            //ScheduleAccountUpdation();
-            //ActivityManagerInitializer();
-            //OtherInitializers();
-        }
 
-        private void OtherInitializers()
-        {
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            var settings = softwareSettings.Settings ?? new SoftwareSettingsModel();
-            AddDHToStartup(settings);
+    //public class SoftwareSettings
+    //{
+    //    private readonly IAccountsFileManager _accountsFileManager;
+    //    public SoftwareSettings()
+    //    {
+    //        _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+    //    }
+    //    public void InitializeOnLoadConfigurations(AccessorStrategies strategies)
+    //    {
+    //        CheckSocinatorIcon();
+    //        ActivityManagerInitializer();
+    //        OtherInitializers();
+    //        ScheduleAutoUpdation();
+    //    }
 
-        }
+    //    private void OtherInitializers()
+    //    {
+    //        var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+    //        var settings = softwareSettings.Settings ?? new SoftwareSettingsModel();
+    //        AddDHToStartup(settings);
+    //    }
 
-        private void AddDHToStartup(SoftwareSettingsModel settings)
-        {
+    //    private void AddDHToStartup(SoftwareSettingsModel settings)
+    //    {
 
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            if (settings.IsRunDHAtStartUpChecked)
-                rk.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-            else
-                rk.DeleteValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName, false);
-
-
-        }
-
-        private void ActivityManagerInitializer()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                try
-                {
-                    var dominatorAccountViewModel = AccountCustomControl.GetAccountCustomControl(_strategies)
-                            .DominatorAccountViewModel;
-                    var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
-                    runningActivityManager.Initialize(dominatorAccountViewModel.LstDominatorAccountModel);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            });
-        }
+    //        RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+    //        if (settings.IsRunDHAtStartUpChecked)
+    //            rk.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+    //        else
+    //            rk.DeleteValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName, false);
 
 
-        private void CheckSocinatorIcon()
-        {
-            if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
-            {
-                DominatorHouseCore.Utility.Utilities.DownloadSocinatorIcon();
-            }
-        }
+    //    }
 
-        #region Producer Consumer Solution for Account Update
+    //    private void ActivityManagerInitializer()
+    //    {
+    //        Application.Current.Dispatcher.Invoke(() =>
+    //        {
+    //            try
+    //            {
+    //                var lstDominatorAccountModel = _accountsFileManager.GetAll();
+    //                var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+    //                runningActivityManager.Initialize(lstDominatorAccountModel);
+    //            }
+    //            catch (Exception ex)
+    //            {
+    //                ex.DebugLog();
+    //            }
+    //        });
+    //    }
 
-        private void ScheduleAutoUpdation()
-        {
-            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
-            var socinatorSettings = softwareSettingsFileManager.GetSoftwareSettings();
-            if (!socinatorSettings.IsStopAutoSynchronizeAccount)
-                return;
 
-            var accountUpdateCollection = new BlockingCollection<DominatorAccountModel>
-                    (socinatorSettings.SimultaneousAccountUpdateCount);
+    //    private void CheckSocinatorIcon()
+    //    {
+    //        if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
+    //        {
+    //            DominatorHouseCore.Utility.Utilities.DownloadSocinatorIcon();
+    //        }
+    //    }
 
-            var cancellationtokenSource = new CancellationTokenSource();
+    //    #region Producer Consumer Solution for Account Update
 
-            var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
+    //    private void ScheduleAutoUpdation()
+    //    {
+    //        var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+    //        var socinatorSettings = softwareSettingsFileManager.GetSoftwareSettings();
+    //        if (!socinatorSettings.IsStopAutoSynchronizeAccount)
+    //            return;
 
-            ThreadFactory.Instance.Start(() =>
-            {
-                AccountUpdateProducer(accountUpdateCollection, cancellationtokenSource, accountSynchronizationHours);
-            });
+    //        var accountUpdateCollection = new BlockingCollection<DominatorAccountModel>
+    //                (socinatorSettings.SimultaneousAccountUpdateCount);
 
-            ThreadFactory.Instance.Start(() =>
-            {
-                AccountUpdateConsumer(accountUpdateCollection, cancellationtokenSource);
-            });
-        }
+    //        var cancellationtokenSource = new CancellationTokenSource();
 
-        private void AccountUpdateProducer(BlockingCollection<DominatorAccountModel> accountUpdateCollection, CancellationTokenSource cancellationTokenSource, int accountSynchronizationHours)
-        {
-            var dominatorAccountViewModel = AccountCustomControl
-                .GetAccountCustomControl(_strategies)
-                .DominatorAccountViewModel;
+    //        var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
 
-            var accounts = dominatorAccountViewModel.LstDominatorAccountModel;
+    //        ThreadFactory.Instance.Start(() =>
+    //        {
+    //            AccountUpdateProducer(accountUpdateCollection, cancellationtokenSource, accountSynchronizationHours);
+    //        });
 
-            var currentUpdateAccounts = accounts.Where(x =>
-                DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
+    //        ThreadFactory.Instance.Start(() =>
+    //        {
+    //            AccountUpdateConsumer(accountUpdateCollection, cancellationtokenSource);
+    //        });
+    //    }
 
-            #region Schedule jobs for account update
+    //    private void AccountUpdateProducer(BlockingCollection<DominatorAccountModel> accountUpdateCollection, CancellationTokenSource cancellationTokenSource, int accountSynchronizationHours)
+    //    {
+    //        var accounts = _accountsFileManager.GetAll();
 
-            var scheduleUpdateAccount = accounts.Except(currentUpdateAccounts);
+    //        var currentUpdateAccounts = accounts.Where(x =>
+    //            DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
 
-            foreach (var account in scheduleUpdateAccount)
-            {
-                var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeUtc();
+    //        #region Schedule jobs for account update
 
-                JobManager.AddJob(() =>
-                {
-                    try
-                    {
-                        accountUpdateCollection.TryAdd(account, -1, cancellationTokenSource.Token);
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        ex.DebugLog();
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-                }, s => s.ToRunOnceAt(dateTime).AndEvery(accountSynchronizationHours).Hours());
-            }
+    //        var scheduleUpdateAccount = accounts.Except(currentUpdateAccounts);
 
-            #endregion
+    //        foreach (var account in scheduleUpdateAccount)
+    //        {
+    //            var dateTime = (account.LastUpdateTime + accountSynchronizationHours * 3600).EpochToDateTimeUtc();
 
-            foreach (var account in currentUpdateAccounts)
-            {
-                try
-                {
-                    var status = accountUpdateCollection.TryAdd(account, -1, cancellationTokenSource.Token);
-                }
-                catch (OperationCanceledException)
-                {
-                    accountUpdateCollection.CompleteAdding();
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
+    //            JobManager.AddJob(() =>
+    //            {
+    //                try
+    //                {
+    //                    accountUpdateCollection.TryAdd(account, -1, cancellationTokenSource.Token);
+    //                }
+    //                catch (ArgumentException ex)
+    //                {
+    //                    ex.DebugLog();
+    //                }
+    //                catch (Exception ex)
+    //                {
+    //                    ex.DebugLog();
+    //                }
+    //            }, s => s.ToRunOnceAt(dateTime).AndEvery(accountSynchronizationHours).Hours());
+    //        }
 
-            accountUpdateCollection.CompleteAdding();
+    //        #endregion
 
-        }
+    //        foreach (var account in currentUpdateAccounts)
+    //        {
+    //            try
+    //            {
+    //                var status = accountUpdateCollection.TryAdd(account, -1, cancellationTokenSource.Token);
+    //            }
+    //            catch (OperationCanceledException)
+    //            {
+    //                accountUpdateCollection.CompleteAdding();
+    //                break;
+    //            }
+    //            catch (Exception ex)
+    //            {
+    //                AccountUpdateConsumer(accountUpdateCollection, cancellationTokenSource);
+    //                ex.DebugLog();
+    //            }
+    //        }
 
-        private void AccountUpdateConsumer(BlockingCollection<DominatorAccountModel> accountUpdateCollection, CancellationTokenSource cancellationTokenSource)
-        {
-            while (!accountUpdateCollection.IsCompleted)
-            {
-                try
-                {
-                    DominatorAccountModel dominatorAccountModel;
+    //        accountUpdateCollection.CompleteAdding();
 
-                    if (accountUpdateCollection.TryTake(out dominatorAccountModel, -1, cancellationTokenSource.Token))
-                    {
-                        UpdateAccount(dominatorAccountModel, cancellationTokenSource);
-                    }
+    //    }
 
-                    Thread.SpinWait(500000);
-                }
-                catch (OperationCanceledException ex)
-                {
-                    ex.DebugLog("Operation Cancelled!");
-                    break;
-                }
-            }
-        }
+    //    private void AccountUpdateConsumer(BlockingCollection<DominatorAccountModel> accountUpdateCollection, CancellationTokenSource cancellationTokenSource)
+    //    {
+    //        while (!accountUpdateCollection.IsCompleted)
+    //        {
+    //            try
+    //            {
+    //                DominatorAccountModel dominatorAccountModel;
 
-        public void UpdateAccount(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource)
-        {
-            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
-                return;
+    //                if (accountUpdateCollection.TryTake(out dominatorAccountModel, -1, cancellationTokenSource.Token))
+    //                {
+    //                    UpdateAccount(dominatorAccountModel, cancellationTokenSource);
+    //                }
 
-            var accountFactory = SocinatorInitialize
-                .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                .GetNetworkCoreFactory().AccountUpdateFactory;
+    //                Thread.SpinWait(500000);
+    //            }
+    //            catch (OperationCanceledException ex)
+    //            {
+    //                ex.DebugLog("Operation Cancelled!");
+    //                break;
+    //            }
+    //        }
+    //    }
 
-            var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
+    //    public void UpdateAccount(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource)
+    //    {
+    //        if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+    //            return;
 
-            if (asyncAccount == null)
-                return;
+    //        var accountFactory = SocinatorInitialize
+    //            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+    //            .GetNetworkCoreFactory().AccountUpdateFactory;
 
-            var updateAccount = new Task(async () =>
-            {
-                try
-                {
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+    //        var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
 
-                    var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+    //        if (asyncAccount == null)
+    //            return;
 
-                    if (!checkResult)
-                        return;
+    //        var updateAccount = new Task(async () =>
+    //        {
+    //            try
+    //            {
+    //                cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+    //                var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
 
-                    await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
+    //                if (!checkResult)
+    //                    return;
 
-                    new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                        .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
-                        .SaveToBinFile();
-                }
-                catch (OperationCanceledException ex)
-                {
-                    ex.DebugLog("Cancellation Requested!");
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }, account.Token);
+    //                cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            updateAccount.Start();
-        }
+    //                await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
 
-        #endregion
-    }
+    //                new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+    //                    .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+    //                    .SaveToBinFile();
+    //            }
+    //            catch (OperationCanceledException ex)
+    //            {
+    //                ex.DebugLog("Cancellation Requested!");
+    //            }
+    //            catch (Exception ex)
+    //            {
+    //                ex.DebugLog();
+    //            }
+    //        }, account.Token);
+
+    //        updateAccount.Start();
+    //    }
+
+    //    #endregion
+    //}
 }

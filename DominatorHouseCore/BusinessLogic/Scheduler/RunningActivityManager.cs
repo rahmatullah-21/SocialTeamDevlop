@@ -20,30 +20,23 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         public void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
         {
-            // decide activities to run
-            //IEnumerable<Tuple<DominatorAccountModel, Utility.ModuleConfiguration>> jobConfigs;
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             Task.Factory.StartNew(() =>
-            {
-                if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
-                {
-                    // everything is allowed
-
-                    foreach (var account in accountDetails)
-                    {
-                        dominatorScheduler.ScheduleEachActivity(account);
-                    }
-                }
-                else
-                {
-                    // be picky - only one per account (choose wisely)
-                    foreach (var account in accountDetails)
-                    {
-                        StartNextRound(account);
-                    }
-                }
-            });
+             {
+                 var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                 if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
+                 {
+                     var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                     // everything is allowed
+                     foreach (var account in accountDetails)
+                         dominatorScheduler.ScheduleEachActivity(account);
+                 }
+                 else
+                 {
+                     // be picky - only one per account (choose wisely)
+                     foreach (var account in accountDetails)
+                         StartNextRound(account);
+                 }
+             });
         }
 
         public void StartNextRound(DominatorAccountModel accountModel)

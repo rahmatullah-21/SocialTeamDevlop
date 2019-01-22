@@ -14,6 +14,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Settings
         private ISoftwareSettingsFileManager _softwareSettingsFileManager;
         private IFileSystemProvider _fileSystemProvider;
         private IGenericFileManager _genericFileManager;
+        private  IAccountsFileManager _accountsFileManager;
         private ISoftwareSettings _sut;
 
         [TestInitialize]
@@ -22,7 +23,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Settings
             _softwareSettingsFileManager = Substitute.For<ISoftwareSettingsFileManager>();
             _fileSystemProvider = Substitute.For<IFileSystemProvider>();
             _genericFileManager = Substitute.For<IGenericFileManager>();
-            _sut = new SoftwareSettings(_softwareSettingsFileManager, _fileSystemProvider, _genericFileManager);
+            _accountsFileManager = Substitute.For<IAccountsFileManager>();
+            _sut = new SoftwareSettings(_softwareSettingsFileManager, _fileSystemProvider, _genericFileManager,_accountsFileManager);
         }
 
         [TestMethod]

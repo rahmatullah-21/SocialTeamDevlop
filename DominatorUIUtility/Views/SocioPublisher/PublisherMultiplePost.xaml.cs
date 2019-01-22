@@ -98,11 +98,15 @@ namespace DominatorUIUtility.Views.SocioPublisher
             {
                 if (posts.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
                 {
-                    var info = posts.Items[posts.Items.Count - 1] as PostDetailsModel;
-                    if (info == null)
-                        return;
+                    if (posts.Items.Count > 0)
+                    {
+                        var info = posts.Items[posts.Items.Count - 1] as PostDetailsModel;
+                        if (info == null)
+                            return;
 
-                    posts.ScrollIntoView(info);
+                        posts.ScrollIntoView(info);
+                    }
+                 
                 }
             }
             catch (Exception ex)
