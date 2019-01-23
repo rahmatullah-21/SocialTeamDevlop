@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -145,27 +146,46 @@ namespace DominatorHouseCore.Settings
 
             var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
 
-            ThreadFactory.Instance.Start(() =>
+            var accounts = _accountsFileManager.GetAll();
+
+            var accountsToUpdate = accounts.Where(x =>
+                DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
+
+            int count = 0;
+
+            accountsToUpdate.ForEach(account =>
             {
-                AccountUpdateProducer(accountUpdateCollection, cancellationtokenSource, accountSynchronizationHours);
+                UpdateAccount(account, cancellationtokenSource);
+                if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
+                {
+                    Thread.Sleep(20000);
+                    count = 0;
+                }
             });
 
-            ThreadFactory.Instance.Start(() =>
-            {
-                AccountUpdateConsumer(accountUpdateCollection, cancellationtokenSource);
-            });
+
+
+            //ThreadFactory.Instance.Start(() =>
+            //{
+            //    AccountUpdateProducer(accountUpdateCollection, cancellationtokenSource, accountSynchronizationHours);
+            //});
+
+            //ThreadFactory.Instance.Start(() =>
+            //{
+            //    AccountUpdateConsumer(accountUpdateCollection, cancellationtokenSource);
+            //});
         }
 
         private void AccountUpdateProducer(BlockingCollection<DominatorAccountModel> accountUpdateCollection, CancellationTokenSource cancellationTokenSource, int accountSynchronizationHours)
         {
             var accounts = _accountsFileManager.GetAll();
 
-            var currentUpdateAccounts = accounts.Where(x =>
+            var accountsToUpdate = accounts.Where(x =>
                 DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
 
             #region Schedule jobs for account update
 
-            var scheduleUpdateAccount = accounts.Except(currentUpdateAccounts);
+            var scheduleUpdateAccount = accounts.Except(accountsToUpdate);
 
             foreach (var account in scheduleUpdateAccount)
             {
@@ -176,6 +196,8 @@ namespace DominatorHouseCore.Settings
                     try
                     {
                         accountUpdateCollection.TryAdd(account, -1, cancellationTokenSource.Token);
+                        if (accountUpdateCollection.Count == accountUpdateCollection.BoundedCapacity)
+                            Thread.Sleep(5000);
                     }
                     catch (ArgumentException ex)
                     {
@@ -190,11 +212,13 @@ namespace DominatorHouseCore.Settings
 
             #endregion
 
-            foreach (var account in currentUpdateAccounts)
+            foreach (var account in accountsToUpdate)
             {
                 try
                 {
                     var status = accountUpdateCollection.TryAdd(account, -1, cancellationTokenSource.Token);
+                    if (accountUpdateCollection.Count == accountUpdateCollection.BoundedCapacity)
+                        Thread.Sleep(15000);
                 }
                 catch (OperationCanceledException)
                 {
@@ -203,7 +227,6 @@ namespace DominatorHouseCore.Settings
                 }
                 catch (Exception ex)
                 {
-                    AccountUpdateConsumer(accountUpdateCollection, cancellationTokenSource);
                     ex.DebugLog();
                 }
             }
