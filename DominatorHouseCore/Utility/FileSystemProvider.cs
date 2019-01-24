@@ -8,6 +8,7 @@ namespace DominatorHouseCore.Utility
         bool Exists(string path);
         Stream Create(string file);
         Stream Open(string file);
+        Stream OpenReadonly(string file);
     }
 
     public class FileSystemProvider : IFileSystemProvider
@@ -29,6 +30,11 @@ namespace DominatorHouseCore.Utility
         public Stream Open(string file)
         {
             return File.Open(file, FileMode.Open);
+        }
+
+        public Stream OpenReadonly(string file)
+        {
+            return File.Open(file, FileMode.Open, FileAccess.Read);
         }
     }
 }

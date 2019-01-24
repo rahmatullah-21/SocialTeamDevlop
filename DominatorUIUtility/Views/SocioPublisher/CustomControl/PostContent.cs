@@ -500,7 +500,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 if (mediaViewer != null)
                 {
                     mediaViewer.MediaList = (mediaViewer.DataContext as PostDetailsModel)?.MediaViewer.MediaList;
-
+                    if (mediaViewer.MediaList == null)
+                        mediaViewer.MediaList = new ObservableCollection<string>();
                     mediaViewer.Initialize();
                 }
             }

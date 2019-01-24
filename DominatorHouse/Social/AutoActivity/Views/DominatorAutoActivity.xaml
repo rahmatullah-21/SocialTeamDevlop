@@ -35,7 +35,7 @@
             <ListView Grid.Row="1" 
                       x:Name="CampaignStatusList"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"                  
-                      ItemsSource="{Binding AccountsCollection}"
+                      ItemsSource="{Binding AccountsCollection,IsAsync=True}"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch">
                 <ListView.Style>
