@@ -1,3 +1,19 @@
+Version[1.0.0.34],[23rd-January-19]
+New Features:-
+	Pintrest:-
+		Skip users who Already Received A message.
+Fixed:-
+	Other Configuration:-
+		Fixed issue with account synchronizing simultaneously as per given input.
+	Socialpublisher:-
+		Fixed issue with create multiple post with source url.
+	Twitter:-
+		Account Manager => Account Status => Fixed issue with ReType Email.
+		Account Manager => Account Status => Fixed issue with ReType phone number.
+	Pintrest:-
+		Scraper => Pin scraper => keywords => fixed issue with crasing issue with keywords.
+		Pinposter => Repin => Fixed issue with Repin keyboard query type.
+
 Version[1.0.0.33],[19th-January-19]
 New Features:-
 Youtube:-

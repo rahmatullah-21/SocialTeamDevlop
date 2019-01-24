@@ -75,6 +75,7 @@ namespace DominatorUIUtility.ViewModel
         public AccountGrowthControlViewModel(IDominatorAccountViewModel dominatorAccountViewModel, IAccountGrowthPropertiesProvider accountGrowthPropertiesProvider, ISelectedNetworkViewModel selectedNetworkViewModel)
         {
             DominatorAccountViewModel = dominatorAccountViewModel;
+            BindingOperations.EnableCollectionSynchronization(DominatorAccountViewModel.LstDominatorAccountModel, _syncObject);
             SelectedNetworkViewModel = selectedNetworkViewModel;
             SelectedNetworkViewModel.ItemSelected += NetworkItemSelected;
             _accountGrowthPropertiesProvider = accountGrowthPropertiesProvider;
