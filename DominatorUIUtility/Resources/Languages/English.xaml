@@ -3356,4 +3356,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCefSharpBrowser">CefSharp Embedded Browser</system:String>
     <system:String x:Key="LangKeyRequiresFirefox" xml:space="preserve">Requires Mozilla firefox(v64.0.0+) browser.
         Note: Can't work with private proxy</system:String>
+    <system:String x:Key="LangKeySalesNavUserScraperCampaign">Sales Navigator UserScraper Campaign</system:String>
+    <system:String x:Key="RecentConnections">Recent Connections</system:String>
+    <system:String x:Key="ConnectedWithinDaysValueShouldBeLessThan">Connected Within days value should be less than 8</system:String>
 </ResourceDictionary>
