@@ -3359,4 +3359,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySalesNavUserScraperCampaign">Sales Navigator UserScraper Campaign</system:String>
     <system:String x:Key="RecentConnections">Recent Connections</system:String>
     <system:String x:Key="ConnectedWithinDaysValueShouldBeLessThan">Connected Within days value should be less than 8</system:String>
+    <system:String x:Key="LangKeySelectAccount">Select Account</system:String>
+    <system:String x:Key="LangKeyPrivateWhitelistUsers">Private Whitelist Users</system:String>
+    <system:String x:Key="LangKeyPrivateBlacklistUsers">Private Blacklist Users</system:String>
+
 </ResourceDictionary>

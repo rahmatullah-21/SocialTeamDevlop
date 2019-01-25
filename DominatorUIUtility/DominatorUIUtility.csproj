@@ -273,6 +273,9 @@
     <Compile Include="CustomControl\AutoReplyMessege.xaml.cs">
       <DependentUpon>AutoReplyMessege.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\PrivateBlacklistUserControl.xaml.cs">
+      <DependentUpon>PrivateBlacklistUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\BlacklistUserControl.xaml.cs">
       <DependentUpon>BlacklistUserControl.xaml</DependentUpon>
     </Compile>
@@ -342,6 +345,9 @@
     </Compile>
     <Compile Include="CustomControl\SelectAccountDetailsControl.xaml.cs">
       <DependentUpon>SelectAccountDetailsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\PrivateWhitelistUserControl.xaml.cs">
+      <DependentUpon>PrivateWhitelistUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
@@ -667,6 +673,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomControl\PrivateBlacklistUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CustomControl\BlacklistUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -790,6 +800,10 @@
     <Page Include="CustomControl\SingleAccountControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\PrivateWhitelistUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControl\WhitelistuserControl.xaml">
       <SubType>Designer</SubType>

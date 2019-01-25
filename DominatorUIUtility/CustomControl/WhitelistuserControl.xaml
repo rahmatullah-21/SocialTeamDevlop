@@ -85,7 +85,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <CheckBox x:Name="ChkWhitlistuser"  IsChecked="{Binding IsWhiteListUserChecked}"
-                                      Command="{Binding DataContext.SelectCommand}">
+                                      Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=ListBox}}">
                                 <CheckBox.Content>
                                     <TextBlock Text="{Binding WhitelistUser}"/>
                                 </CheckBox.Content>
@@ -93,7 +93,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Grid.Row="1" Name="DeletedSelected" Content="{DynamicResource LangKeyRemoveSelectedFromWhitelist}"
+                <Button Grid.Row="1" Name="DeleteSelected" Content="{DynamicResource LangKeyRemoveSelectedFromWhitelist}"
                         Background="{DynamicResource AccentBaseColorBrush}" 
                         Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                         Command="{Binding DeleteCommand}">
