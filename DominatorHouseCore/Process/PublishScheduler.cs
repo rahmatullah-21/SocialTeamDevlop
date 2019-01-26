@@ -814,7 +814,7 @@ namespace DominatorHouseCore.Process
 
                 // Validate whether all destinations contains posts or not
                 if (pendingPostList.Count < postsDestinations.Count)
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required count!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required random destination count!");
 
                 #region Assigning the Posts to Destinations
 
@@ -924,7 +924,7 @@ namespace DominatorHouseCore.Process
 
                     // Validate whether all destinations contains posts or not
                     if (pendingPostList.Count < postsDestinations.Count)
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required count!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required  random destination count!");
 
                     #region Assigning the Posts to Destinations
 

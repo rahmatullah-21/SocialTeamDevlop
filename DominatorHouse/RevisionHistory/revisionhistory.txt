@@ -1,3 +1,66 @@
+Version[1.0.0.34],[23rd-January-19]
+New Features:-
+	Pintrest:-
+		Skip users who Already Received A message.
+Fixed:-
+	Other Configuration:-
+		Fixed issue with account synchronizing simultaneously as per given input.
+	Socialpublisher:-
+		Fixed issue with create multiple post with source url.
+	Twitter:-
+		Account Manager => Account Status => Fixed issue with ReType Email.
+		Account Manager => Account Status => Fixed issue with ReType phone number.
+	Pintrest:-
+		Scraper => Pin scraper => keywords => fixed issue with crasing issue with keywords.
+		Pinposter => Repin => Fixed issue with Repin keyboard query type.
+
+Version[1.0.0.33],[19th-January-19]
+New Features:-
+Youtube:-
+	All Modules => Select Account => Select Channels.
+	Watch Video => View Increaser => Firefox browser.
+
+Fixed:-
+	Reddit:-
+		Fixed issue with reply to comments.
+		Fixed issue with upvote.
+	Linkedin:-
+		Account Manager => Account Details => Fixed issue with showing "proxy not working" as status even after not adding proxy.
+		Grow connection => Withdraw connection request => Fixed issue with not withdrawing request and saying failed.
+		Scraper => User Scraper => Fixed issue with not scraping the details of 1st connections.
+	Facebook:-
+		Account Activity => Send Greeting to friends => fixed issue with status buttom.
+	Twitter:-
+		Sociopublisher => Post Configuration => Advanced settings => Twitter => Enable dynamic hashtags.
+		Account Manager => assigning working private proxy to successfull account.
+	Pintrest:-
+		Pin messanger => Broadcast message => manage blacklist users => group Black list => Fixed issue with skip sending message with block users.
+	Youtube:-
+		Watch Video => View Increaser => Edit and Update campaign.
+		Watch Video => View Increaser => Pause and Resume campaign.
+
+Version[1.0.0.32],[15th-January-19]
+New Features:-
+	Sociopublisher:-
+		Reddit => Added feature to approve post after publishing.
+	Software Setting:-
+		Added feature for stop auto synchronization account.
+	Instagram :-
+		Instachat => Auto reply to new message => Added  feature attch image with text message.
+		Instachat => Send message to new followers => Added  feature attch image with text message.
+Fixed:-
+	Instagram :-
+		Grow Followers => Follower => Fixed issue with following users when select option skip followers.
+		Instachat => Fixed issue with showing no more data found after complete the 1st job or reached per hour limit.
+		Account Activity => Send Message To New Followers => Fixed issue with showing report.
+	Linkedin:-
+		Grow Connection => Connection Request => Fixed issue with add personal note.
+		Engage => Share Post => Fixed issue with share post.
+	Facebook:-
+		Grow Friends => Send Friend Request=> Fixed issue with  Event url query type.
+		Grow Friends=> Unfriend=>Custom user list=> Fixed issue with unfriend user.
+		Broadcast Message => Fixed issue  with User follower query type.
+		
 Version[1.0.0.31],[11th-January-19]
 New Features:-
 	Facebook:-

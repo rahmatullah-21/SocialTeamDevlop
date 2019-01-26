@@ -445,19 +445,23 @@ namespace DominatorUIUtility.ViewModel
 
                         if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                         {
-                            _pendingActions = _pendingActions.Enqueue(() => AddAccount(objDominatorAccountBaseModel, cookies,
-                                (action) =>
-                                {
-                                    _pendingActions = _pendingActions.Enqueue(action);
-                                    return () =>
-                                    {
-                                        var oldqueue = _pendingActions;
-                                        _pendingActions = ImmutableQueue<Action>.Empty;
-                                        oldqueue
-                                            .Except(new[] { action })
-                                            .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
-                                    };
-                                }));
+
+                            if (SocinatorInitialize.ActiveSocialNetwork == objDominatorAccountBaseModel.AccountNetwork || SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                            {
+                                _pendingActions = _pendingActions.Enqueue(() => AddAccount(objDominatorAccountBaseModel, cookies,
+                                                                              (action) =>
+                                                                              {
+                                                                                  _pendingActions = _pendingActions.Enqueue(action);
+                                                                                  return () =>
+                                                                                  {
+                                                                                      var oldqueue = _pendingActions;
+                                                                                      _pendingActions = ImmutableQueue<Action>.Empty;
+                                                                                      oldqueue
+                                                                                          .Except(new[] { action })
+                                                                                          .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
+                                                                                  };
+                                                                              }));
+                            }
                         }
                         else
                         {

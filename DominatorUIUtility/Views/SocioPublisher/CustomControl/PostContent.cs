@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -476,6 +477,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             if (mediaViewer != null)
             {
                 var mediaUtilites = new MediaUtilites();
+                if (mediaViewer.MediaList == null)
+                    mediaViewer.MediaList = new ObservableCollection<string>();
                 files.ForEach(x =>
                 {
                     MediaViewerAssist.SetMediaList(this, mediaViewer.MediaList);
@@ -496,8 +499,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 if (mediaViewer != null)
                 {
-                    mediaViewer.MediaList = (mediaViewer.DataContext as PublisherPostlistModel).MediaList;
-
+                    mediaViewer.MediaList = (mediaViewer.DataContext as PostDetailsModel)?.MediaViewer.MediaList;
+                    if (mediaViewer.MediaList == null)
+                        mediaViewer.MediaList = new ObservableCollection<string>();
                     mediaViewer.Initialize();
                 }
             }
@@ -505,7 +509,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 if (mediaViewer != null)
                     mediaViewer.Initialize();
-                ex.DebugLog();
             }
 
         }

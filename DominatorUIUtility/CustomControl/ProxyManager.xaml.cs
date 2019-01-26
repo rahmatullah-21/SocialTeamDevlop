@@ -1,5 +1,6 @@
 ﻿using DominatorUIUtility.ViewModel;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -14,5 +15,6 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             MainGrid.DataContext = proxyManagerViewModel;
         }
+       
     }
 }

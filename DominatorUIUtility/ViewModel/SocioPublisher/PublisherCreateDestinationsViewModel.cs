@@ -1166,7 +1166,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                var accounts = _accountsFileManager.GetAll();
+                var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
+                var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
+               
                 accounts.ForEach(x =>
                 {
                     if (PublisherCreateDestinationModel.ListSelectDestination.All(y => y.AccountId != x.AccountId))

@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -48,7 +49,8 @@ namespace DominatorHouseCore.Converters
                                                        || a.AccountProxy.ProxyName.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0);
                 }
             }
-
+            if (collection != null)
+                collection = new ObservableCollection<ProxyManagerModel>(collection);
             return collection;
         }
 

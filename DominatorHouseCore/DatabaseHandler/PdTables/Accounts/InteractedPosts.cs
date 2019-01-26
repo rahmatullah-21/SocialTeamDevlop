@@ -84,6 +84,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string DestinationBoard { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
         public string Comment { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        public string PublishedDate { get; set; }
         public ActivityType GetActivityType()
         {
             return OperationType;

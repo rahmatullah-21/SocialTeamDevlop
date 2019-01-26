@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:AverageConverter x:Key="AverageConverter"/>
+        <converter:NumberConverter x:Key="NumberConverter"/>
     </UserControl.Resources>
     <Grid Name="MainGrid">
         <StackPanel>
@@ -107,8 +108,8 @@
                         <Label  FontSize="14" FontWeight="SemiBold"  HorizontalAlignment="Center">
                             <Label.Content>
                                 <MultiBinding Converter="{StaticResource AverageConverter}">
-                                    <Binding  Path="JobConfiguration.ActivitiesPerDay.StartValue" />
-                                    <Binding Path="JobConfiguration.ActivitiesPerDay.EndValue" />
+                                    <Binding Converter="{StaticResource NumberConverter}" Path="JobConfiguration.ActivitiesPerDay.StartValue" />
+                                    <Binding Converter="{StaticResource NumberConverter}" Path="JobConfiguration.ActivitiesPerDay.EndValue" />
                                 </MultiBinding>
                             </Label.Content>
                         </Label>

@@ -111,6 +111,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string SinAccUsername { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
+        public bool IsFollowedByMe { get; set; }
 
     }
 }

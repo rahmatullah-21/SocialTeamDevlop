@@ -1335,10 +1335,16 @@ namespace DominatorUIUtility.CustomControl
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
                 if (!moduleConfiguration.IsEnabled)
+                {
                     _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                         moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
+                    ToasterNotification.ShowSuccess("Successfully stopped");
+                }
                 else
+                {
+                    ToasterNotification.ShowSuccess("Successfully activated");
                     _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                }
                 return moduleConfiguration.IsEnabled;
             }
             catch (Exception ex)
@@ -1470,7 +1476,7 @@ namespace DominatorUIUtility.CustomControl
 
                 // need to check whether its running or not, if its running then need to stop process
                 _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
-                    moduleConfiguration.TemplateId, false);
+                    moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
 
                 // update the template
                 UpdateTemplate(accountModel, moduleConfiguration.TemplateId,
@@ -1478,7 +1484,7 @@ namespace DominatorUIUtility.CustomControl
 
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
-                _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                //_dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
                 ToasterNotification.ShowSuccess("Successfully Saved !!!");
                 #endregion
             }
