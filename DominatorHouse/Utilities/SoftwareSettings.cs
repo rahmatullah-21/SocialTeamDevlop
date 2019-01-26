@@ -1,30 +1,3 @@
-using CommonServiceLocator;
-using DominatorHouseCore;
-using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Settings;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel;
-using FluentScheduler;
-using Microsoft.Win32;
-using System;
-using System.Collections.Concurrent;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using DominatorHouseCore.Diagnostics;
-using DominatorUIUtility.ViewModel;
-using Registry = Microsoft.Win32.Registry;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
-using FluentScheduler;
-using Registry = Microsoft.Win32.Registry;
-
 namespace DominatorHouse.Utilities
 {
 
@@ -62,22 +35,22 @@ namespace DominatorHouse.Utilities
 
     //    }
 
-        private void ActivityManagerInitializer()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                try
-                {
-                    var accounts = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>();
-                    var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
-                    runningActivityManager.Initialize(accounts.GetCopySync());
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            });
-        }
+    //private void ActivityManagerInitializer()
+    //{
+    //    Application.Current.Dispatcher.Invoke(() =>
+    //    {
+    //        try
+    //        {
+    //            var accounts = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>();
+    //            var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+    //            runningActivityManager.Initialize(accounts.GetCopySync());
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            ex.DebugLog();
+    //        }
+    //    });
+    //}
     //    private void ActivityManagerInitializer()
     //    {
     //        Application.Current.Dispatcher.Invoke(() =>
