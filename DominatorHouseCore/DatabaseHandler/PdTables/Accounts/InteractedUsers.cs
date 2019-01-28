@@ -101,5 +101,15 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string DirectMessage
         { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public bool? Filtered
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
+        public bool? FullDetailsScraped
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 30)]
+        public bool IsFollowedByMe { get; set; }
     }
 }

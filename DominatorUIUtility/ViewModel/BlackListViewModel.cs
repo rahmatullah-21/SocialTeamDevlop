@@ -19,6 +19,10 @@ using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel
 {
+    public interface IPrivateBlickListViewModel
+    {
+
+    }
     public class BlackListViewModel : BindableBase
     {
         public BlackListViewModel()
@@ -46,7 +50,22 @@ namespace DominatorUIUtility.ViewModel
 
         private bool IsUnCheckedFromUser { get; set; }
 
+        private PrivateBlacklistUserModel _privateBlacklistUserModel = new PrivateBlacklistUserModel();
 
+        public PrivateBlacklistUserModel PrivateBlacklistUserModel
+        {
+            get
+            {
+                return _privateBlacklistUserModel;
+            }
+            set
+            {
+                if (_privateBlacklistUserModel == value)
+                    return;
+                _privateBlacklistUserModel = value;
+                SetProperty(ref _privateBlacklistUserModel, value);
+            }
+        }
         private BlacklistUserModel _blacklistUserModel = new BlacklistUserModel();
 
         public BlacklistUserModel BlacklistUserModel
@@ -75,9 +94,11 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (value == _isAllBlackListUserChecked)
                     return;
-                _isAllBlackListUserChecked = value;
-                SelectAll(_isAllBlackListUserChecked);
                 SetProperty(ref _isAllBlackListUserChecked, value);
+
+                SelectAll(_isAllBlackListUserChecked);
+                if (IsUnCheckedFromUser)
+                    IsUnCheckedFromUser = false;
             }
         }
         private string _blacklistUser = string.Empty;
@@ -97,6 +118,7 @@ namespace DominatorUIUtility.ViewModel
         }
 
         List<BlackListUser> _blackListUser = new List<BlackListUser>();
+
         private ObservableCollection<BlacklistUserModel> _lstBlackListUsers = new ObservableCollection<BlacklistUserModel>();
 
         public ObservableCollection<BlacklistUserModel> LstBlackListUsers
@@ -136,7 +158,7 @@ namespace DominatorUIUtility.ViewModel
             });
         }
 
-        private void AddToBlackList(object sender)
+        public virtual void AddToBlackList(object sender)
         {
             if (string.IsNullOrEmpty(BlacklistUser.Trim()))
             {
@@ -194,7 +216,7 @@ namespace DominatorUIUtility.ViewModel
         {
             BlacklistUser = string.Empty;
         }
-        private void Refresh(object sender)
+        public virtual void Refresh(object sender)
         {
             LstBlackListUsers.Clear();
             ThreadFactory.Instance.Start(() =>
@@ -230,9 +252,7 @@ namespace DominatorUIUtility.ViewModel
 
             }
         }
-
-
-        private void Delete(object sender)
+        public virtual void Delete(object sender)
         {
             var selectedUser = LstBlackListUsers.Where(x => x.IsBlackListUserChecked).ToList();
             if (selectedUser.Count == 0)
@@ -253,8 +273,5 @@ namespace DominatorUIUtility.ViewModel
                 });
             });
         }
-
     }
-
-
 }

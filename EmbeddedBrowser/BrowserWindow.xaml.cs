@@ -315,7 +315,8 @@ namespace EmbeddedBrowser
             }
         }
 
-        private enum ActType
+
+        public enum ActType
         {
             ClickByClass,
             ClickById,
@@ -421,7 +422,7 @@ namespace EmbeddedBrowser
                 // BrowserAct(ActType.ClickById,"sign-in-btn",delayAfter:3);
                 lock (_googleLock)
                 {
-                    if (_isLoggedIn) return;
+                    if (_isLoggedIn || Browser.IsDisposed) return;
 
                     string pageText;
                     var last30Secs = DateTime.Now;
@@ -476,7 +477,7 @@ namespace EmbeddedBrowser
         {
             try
             {
-                if (_isLoggedIn || TargetUrl.ToLower().Contains("www.youtube.com/watch?")
+                if (_isLoggedIn || Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")
                                 || htmlHasUserName || string.IsNullOrEmpty(pageText) || pageText == "Account\n\n\n"
                                 || pageText.Contains("Protect your account") || pageText.Contains("Loading, please wait ...")
                                 || pageText.Contains("English (") || pageText.Contains("Personal info"))
@@ -499,7 +500,7 @@ namespace EmbeddedBrowser
 
         private void SetVideoQualityAs144P()
         {
-            if (SetVideoQuality || !TargetUrl.ToLower().Contains("www.youtube.com/watch?")) return;
+            if (SetVideoQuality || !Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")) return;
 
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                 BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 1.5); // for Skipping add
@@ -607,10 +608,11 @@ namespace EmbeddedBrowser
                         "You have entered wrong Verification code. Try again.");
                 else if (isWrong = (pageText.Contains("Too many failed attempts") && pageText.Contains("Unavailable because of too many failed attempts. Try again in a few hours.")))
                 {
-                    DominatorAccountModel.IsUserLoggedIn = false;
-                    _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
-                    DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
-                    return true;
+                    GlobusLogHelper.log.Info(Log.CustomMessage,
+                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login",
+                        "Too many failed attempts on Phone Verification. Try again in a few hours.");
+                    DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
                 }
             }
 
@@ -842,6 +844,13 @@ namespace EmbeddedBrowser
                 {
                     if (!(objResponseParameter.Response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || objResponseParameter.Response.Contains("{\"iconType\":\"SUBSCRIPTIONS\"}") || objResponseParameter.Response.Contains("\"LOGGED_IN\":true")))
                         return;
+
+                    DominatorAccountModel.AccountBaseModel.ProfileId =
+                        Utilities.GetBetween(objResponseParameter.Response, "\"delegatedSessionId\":\"", "\"");
+                    if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.ProfileId))
+                        DominatorAccountModel.AccountBaseModel.ProfileId = "Default Channel";
+                    DominatorAccountModel.AccountBaseModel.UserId =
+                        Utilities.GetBetween(objResponseParameter.Response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
                 }
 
                 _isLoggedIn = true;
@@ -900,7 +909,7 @@ namespace EmbeddedBrowser
 
         private void LinkedInBrowserLogin(string html)
         {
-            if (!string.IsNullOrEmpty(html) && html.Contains("LinkedIn: Log In or Sign Up") && html.Contains("Be great at what you do") && html.Contains("By clicking Join now, you agree to the LinkedIn"))
+            if (!string.IsNullOrEmpty(html) && html.Contains("LinkedIn: Log In or Sign Up"))
             {
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
                 {

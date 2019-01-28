@@ -294,7 +294,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             // Check if activity with the same id already running
             if (_runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
             {
-                GlobusLogHelper.log.Info($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
+                //GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.UserName, activityType,$"User {dominatorAccount.UserName} is already running with {activityType} activity");
                 return;
             }
             try
