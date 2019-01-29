@@ -350,11 +350,11 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                CampaignDetails campName = sender as CampaignDetails;
-                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                campaignFileManager.GetCampaignById(campName.CampaignId).
-                    CampaignName = campName.CampaignName.
-                                       Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+                CampaignDetails camp = sender as CampaignDetails;
+                var campName = camp.DeepCloneObject();
+                campName.CampaignName = camp?.CampaignName.
+                                              Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
                     .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
             }

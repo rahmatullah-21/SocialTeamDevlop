@@ -18,11 +18,10 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order =4)]
         public string VideosCount { get; set; }
+     
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public string ChannelUrl { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string PageId { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public bool IsSelected { get; set; }
 
     }
