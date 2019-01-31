@@ -583,6 +583,8 @@
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\PrivateBlacklistUserModel.cs" />
+    <Compile Include="Models\PrivateWhitelistUserModel.cs" />
     <Compile Include="Models\ProcessScopeModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
@@ -629,6 +631,7 @@
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
+    <Compile Include="Utility\AccountScopeFactory.cs" />
     <Compile Include="Utility\CacheText.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\DateProvider.cs" />
@@ -666,6 +669,7 @@
     <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
+    <Compile Include="Utility\ThreadUtility.cs" />
     <Compile Include="Utility\ToasterNotification.cs" />
     <Compile Include="Utility\WebService.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />

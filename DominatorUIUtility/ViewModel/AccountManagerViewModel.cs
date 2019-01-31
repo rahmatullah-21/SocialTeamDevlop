@@ -1,11 +1,11 @@
-﻿using System;
-using DominatorHouseCore.Utility;
-using System.Windows.Controls;
-using DominatorHouseCore;
+﻿using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
+using System;
+using System.Windows.Controls;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -40,12 +40,10 @@ namespace DominatorUIUtility.ViewModel
                     var accountCustomControl = AccountCustomControl.GetAccountCustomControl(network);
                     SelectedUserControl = null;
                     SelectedUserControl = accountCustomControl;
-                    accountCustomControl.GetRespectiveAccounts(network);
-
                 }
                 else
                     SelectedUserControl = new AccountDetail(dominatorAccountModel);
-                
+
             }
             catch (Exception ex)
             {

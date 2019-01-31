@@ -20,6 +20,7 @@ namespace DominatorUIUtility.ViewModel
         private int _verified;
         private int _total;
         private string _urlToUseToVerifyProxies = "https://www.google.com";
+        private readonly IProxyFileManager _proxyFileManager;
 
         public string URLToUseToVerifyProxies
         {
@@ -37,6 +38,11 @@ namespace DominatorUIUtility.ViewModel
         {
             get { return _verified; }
             set { SetProperty(ref _verified, value); }
+        }
+
+        public VerifyProxiesViewModel(IProxyFileManager proxyFileManager)
+        {
+            _proxyFileManager = proxyFileManager;
         }
 
         public async Task Verify(params ProxyManagerModel[] models)
@@ -58,7 +64,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                await ProxyFileManager.UpdateProxyStatusAsync(currentProxyManager, URLToUseToVerifyProxies);
+                await _proxyFileManager.UpdateProxyStatusAsync(currentProxyManager, URLToUseToVerifyProxies);
                 GlobusLogHelper.log.Info(Log.ProxyVerificationCompleted, SocialNetworks.Social,
                     currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
             }

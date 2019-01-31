@@ -58,6 +58,12 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
+        public NetworkCoreLibraryBuilder AddAdsScraperFactory(IAdScraperFactory adScraperFactory)
+        {
+            NetworkCoreFactory.AdScraperFactory = adScraperFactory;
+            return this;
+        }
+
         public NetworkCoreLibraryBuilder AddCampaignDbConnection(IDatabaseConnection campaignDbConnection)
         {
             NetworkCoreFactory.CampaignDatabase = campaignDbConnection;

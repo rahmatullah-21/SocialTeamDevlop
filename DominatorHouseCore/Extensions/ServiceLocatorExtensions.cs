@@ -21,5 +21,12 @@ namespace DominatorHouseCore.Extensions
                 new ParameterOverride("networks", networks),
                 new ParameterOverride("type", ConstantVariable.GetAccountDb));
         }
+        public static IDbOperations ResolveCampaignDbOperations(this IServiceLocator locator, string accountId, SocialNetworks networks)
+        {
+            return locator.GetInstance<IUnityContainer>().Resolve<IDbOperations>(
+                new ParameterOverride("id", accountId),
+                new ParameterOverride("networks", networks),
+                new ParameterOverride("type", ConstantVariable.GetCampaignDb));
+        }
     }
 }

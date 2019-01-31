@@ -5,9 +5,6 @@
         string ChannelId { get; set; }
 
         string ChannelName { get; set; }
-
-        string FullName { get; set; }
-
         string ProfilePicUrl { get; set; }
     }
 }

@@ -25,6 +25,7 @@ namespace DominatorHouseCore.Settings
         void InitializeOnLoadConfigurations();
         void ActivityManagerInitializer();
         void ScheduleAutoUpdation();
+        void ScheduleAdsScraping();
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
     }
@@ -176,6 +177,20 @@ namespace DominatorHouseCore.Settings
             //});
         }
 
+
+        public void ScheduleAdsScraping()
+        {
+            var accounts = _accountsFileManager.GetAll();
+
+            var cancellationtokenSource = new CancellationTokenSource();
+
+            accounts.ForEach(account =>
+            {
+                UpdateAds(account, cancellationtokenSource);
+                
+            });
+        }
+
         private void AccountUpdateProducer(BlockingCollection<DominatorAccountModel> accountUpdateCollection, CancellationTokenSource cancellationTokenSource, int accountSynchronizationHours)
         {
             var accounts = _accountsFileManager.GetAll();
@@ -310,11 +325,11 @@ namespace DominatorHouseCore.Settings
             if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
                 return;
 
-            var accountFactory = SocinatorInitialize
+            var adsFactory = SocinatorInitialize
                 .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                .GetNetworkCoreFactory().AccountUpdateFactory;
+                .GetNetworkCoreFactory().AdScraperFactory;
 
-            var asyncAccount = accountFactory as IAdScraperFactory;
+            var asyncAccount = adsFactory as IAdScraperFactory;
 
             if (asyncAccount == null)
                 return;
@@ -332,11 +347,12 @@ namespace DominatorHouseCore.Settings
 
                     cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
+                    await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
 
-                    new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                        .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
-                        .SaveToBinFile();
+                    var jobId = Guid.NewGuid().ToString();
+
+                    JobManager.AddJob(() => { UpdateAds(account,cancellationTokenSource);},
+                        s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(2)));
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -351,6 +367,7 @@ namespace DominatorHouseCore.Settings
             updateAd.Start();
         }
 
+       
         #endregion
     }
 }

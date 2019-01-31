@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using CommonServiceLocator;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
@@ -14,6 +6,14 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -41,14 +41,12 @@ namespace DominatorUIUtility.CustomControl
 
         public SelectAccountControl(ICollection<string> lstSelectedAccount, bool filterForActiveSocialNetwork = true)
         {
-            DataContext = ObjAccountViewModel;
-            //Assign the view to ICollectionView         
-            ObjAccountViewModel.AccountCollectionView =
-                CollectionViewSource.GetDefaultView(ObjAccountViewModel.LstSelectAccount);
             InitializeComponent();
-            
-            var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
-            var savedAccounts = accountList.Where(x => x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork);
+
+            DataContext = ObjAccountViewModel;
+
+            var savedAccounts = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>()
+                .BySocialNetwork(SocinatorInitialize.ActiveSocialNetwork);
 
             ObjAccountViewModel.LstSelectAccount.Clear();
             savedAccounts.ForEach(x =>
@@ -78,7 +76,9 @@ namespace DominatorUIUtility.CustomControl
                 x.IsAccountSelected = lstSelectedAccount.Contains(x.UserName);
             });
 
-          
+            //Assign the view to ICollectionView         
+            ObjAccountViewModel.AccountCollectionView =
+                CollectionViewSource.GetDefaultView(ObjAccountViewModel.LstSelectAccount);
         }
 
         private void chkgroup_Checked(object sender, RoutedEventArgs e)
