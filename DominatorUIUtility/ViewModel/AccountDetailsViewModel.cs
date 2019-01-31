@@ -149,7 +149,7 @@ namespace DominatorUIUtility.ViewModel
             RemoveCookiesCommand = new BaseCommand<object>(RemoveCookiesCanExecute, RemoveCookiesExecute);
             VerifyAccountCommand = new BaseCommand<object>(VerifyAccountCanExecute, VerifyAccountExecute);
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
-
+            SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
         }
         #endregion
 
@@ -161,7 +161,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand RemoveCookiesCommand { get; set; }
         public ICommand VerifyAccountCommand { get; set; }
         public ICommand SendVerificationCodeCommand { get; set; }
-
+        public ICommand SetNewPasswordCommand { get; set; }
         #endregion
 
         private bool SaveCanExecute(object arg) => true;
@@ -555,6 +555,56 @@ namespace DominatorUIUtility.ViewModel
             if (ObjectComparer.Compare(DominatorAccountModel.CookieHelperList, OldDominatorAccountModel.CookieHelperList))
             {
                 DominatorAccountModel.CookieHelperList = OldDominatorAccountModel.CookieHelperList;
+            }
+        }
+
+        private void SetNewPasswordExecute(object sender)
+        {
+            try
+            {
+                var networkCoreFactory = SocinatorInitialize
+                     .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                     .GetNetworkCoreFactory();
+
+                var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
+                var verificationType = IsEmailVerification ? VerificationType.Email : VerificationType.Phone;
+                Task.Factory.StartNew(() =>
+                {
+                    if (DominatorAccountModel.IsAutoVerifyByEmail)
+                    {
+                        accountVerificationFactory.AutoVerifyByEmail(DominatorAccountModel,
+                            DominatorAccountModel.Token);
+                    }
+                    else
+                    {
+                        if (accountVerificationFactory
+                            .SendVerificationCode(DominatorAccountModel, verificationType, DominatorAccountModel.Token).Result)
+                            Application.Current.Dispatcher.Invoke(
+                                () =>
+                                {
+                                    if (IsEmailVerification)
+                                        IsEmailVerificationCodeSent = true;
+                                    else
+                                        IsPhoneVerificationCodeSent = true;
+                                    CodeSectionVisibility = Visibility.Visible;
+                                    // GlobusLogHelper.log.Info(Log.SentVerificationCode, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
+                                });
+                        else
+                            Application.Current.Dispatcher.Invoke(
+                                () =>
+                                {
+                                    BtnSendVerificationCodeVisibility = Visibility.Visible;
+                                    CodeSectionVisibility = Visibility.Collapsed;
+                                });
+                    }
+
+
+                });
+            }
+            catch (Exception ex)
+            {
+                BtnSendVerificationCodeVisibility = Visibility.Visible;
+                ex.DebugLog();
             }
         }
     }

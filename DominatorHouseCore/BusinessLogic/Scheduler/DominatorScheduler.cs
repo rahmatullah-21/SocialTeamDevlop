@@ -426,8 +426,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 _accountsCacheService.UpsertAccounts(jobProcess.DominatorAccountModel);
             }
 
-            ScheduleNextActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType);
-            StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, false);
+           // ScheduleNextActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType);
+            StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, moduleConfiguration.IsEnabled);
             _jobCountersManager.Reset(jobProcess.Id);
 
         }

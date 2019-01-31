@@ -392,6 +392,34 @@ namespace DominatorHouseCore.Models
         [ProtoMember(25)]
         public Dictionary<string, string> PaginationId { get; set; }
             = new Dictionary<string, string>();
+
+        private string _newPassword = string.Empty;
+
+        public string NewPassword
+        {
+            get
+            {
+                return _newPassword;
+            }
+            set
+            {
+                SetProperty(ref _newPassword, value);
+            }
+        }
+
+        private string _resetPasswordLink = string.Empty;
+
+        public string ResetPasswordLink
+        {
+            get
+            {
+                return _resetPasswordLink;
+            }
+            set
+            {
+                SetProperty(ref _resetPasswordLink, value);
+            }
+        }
         public string two_factor_identifier { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
