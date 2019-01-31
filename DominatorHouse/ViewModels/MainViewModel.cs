@@ -367,7 +367,8 @@ namespace DominatorHouse.ViewModels
                                     var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
                                     softwareSetting.InitializeOnLoadConfigurations();
                                     softwareSetting.ActivityManagerInitializer();
-                                    softwareSetting.ScheduleAutoUpdation();
+                                    softwareSetting.ScheduleAdsScraping();
+                                    //softwareSetting.ScheduleAutoUpdation();
                                 },
                                 () =>
                                 {

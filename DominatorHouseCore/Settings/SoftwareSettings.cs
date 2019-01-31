@@ -17,6 +17,8 @@ using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Microsoft.Win32;
 using Registry = Microsoft.Win32.Registry;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Settings
 {
@@ -320,10 +322,14 @@ namespace DominatorHouseCore.Settings
         }
 
 
-        public void UpdateAds(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource)
+        public void UpdateAds(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource, string jobId="")
         {
-            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork)
+                || account.AccountBaseModel.AccountNetwork!=SocialNetworks.Facebook )
                 return;
+
+            GlobusLogHelper.log.Info(Log.CustomMessage, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName, "", $"Started Ads scraping process with account {account.AccountBaseModel.UserName}");
+           
 
             var adsFactory = SocinatorInitialize
                 .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
@@ -347,12 +353,12 @@ namespace DominatorHouseCore.Settings
 
                     cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+                    await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token, jobId);
 
-                    var jobId = Guid.NewGuid().ToString();
+                    jobId = Guid.NewGuid().ToString();
 
-                    JobManager.AddJob(() => { UpdateAds(account,cancellationTokenSource);},
-                        s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(2)));
+                    JobManager.AddJob(() => { UpdateAds(account,cancellationTokenSource, jobId);},
+                        s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(30)));
                 }
                 catch (OperationCanceledException ex)
                 {
