@@ -3362,5 +3362,17 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySelectAccount">Select Account</system:String>
     <system:String x:Key="LangKeyPrivateWhitelistUsers">Private Whitelist Users</system:String>
     <system:String x:Key="LangKeyPrivateBlacklistUsers">Private Blacklist Users</system:String>
-
+    <system:String x:Key="LangKeyEnterNewPassword">Enter New Password</system:String>
+    <system:String x:Key="LangKeyResetPassword">Reset Password</system:String>
+    <system:String x:Key="LangKeyAddBoardCollaborators">Add Board Collaborators</system:String>
+    <system:String x:Key="LangKeyBoardUrl">Board Url</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerDay">Number Of Send Board Invitation Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerHour">Number Of Send Board Invitation Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerJob">Number Of Send Board Invitation Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerWeek">Number Of Send Board Invitation Per Week</system:String>
+    <system:String x:Key="LangKeySendBoardInvitationPerDay">Max Send Board Invitation Per Day</system:String>
+    <system:String x:Key="LangKeySendBoardInvitation">Send Board Invitation</system:String>
+    <system:String x:Key="LangKeyBoardCollaboratorsList">Board Collaborators List</system:String>
+    <system:String x:Key="LangKeySendResetPasswordLink">Send Reset Password Link</system:String>
+    <system:String x:Key="LangKeyNoOfPostForEngagementRate">No Of Post For Engagement Rate</system:String>
 </ResourceDictionary>

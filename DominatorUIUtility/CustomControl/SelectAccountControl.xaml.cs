@@ -41,10 +41,6 @@ namespace DominatorUIUtility.CustomControl
 
         public SelectAccountControl(ICollection<string> lstSelectedAccount, bool filterForActiveSocialNetwork = true)
         {
-            DataContext = ObjAccountViewModel;
-            //Assign the view to ICollectionView         
-            ObjAccountViewModel.AccountCollectionView =
-                CollectionViewSource.GetDefaultView(ObjAccountViewModel.LstSelectAccount);
             InitializeComponent();
 
             DataContext = ObjAccountViewModel;
@@ -80,7 +76,9 @@ namespace DominatorUIUtility.CustomControl
                 x.IsAccountSelected = lstSelectedAccount.Contains(x.UserName);
             });
 
-          
+            //Assign the view to ICollectionView         
+            ObjAccountViewModel.AccountCollectionView =
+                CollectionViewSource.GetDefaultView(ObjAccountViewModel.LstSelectAccount);
         }
 
         private void chkgroup_Checked(object sender, RoutedEventArgs e)
