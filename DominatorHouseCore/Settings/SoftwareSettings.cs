@@ -304,6 +304,53 @@ namespace DominatorHouseCore.Settings
             updateAccount.Start();
         }
 
+
+        public void UpdateAds(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource)
+        {
+            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+                return;
+
+            var accountFactory = SocinatorInitialize
+                .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                .GetNetworkCoreFactory().AccountUpdateFactory;
+
+            var asyncAccount = accountFactory as IAdScraperFactory;
+
+            if (asyncAccount == null)
+                return;
+
+            var updateAd = new Task(async () =>
+            {
+                try
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+                    if (!checkResult)
+                        return;
+
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
+
+                    new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                        .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+                        .SaveToBinFile();
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Cancellation Requested!");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }, account.Token);
+
+            updateAd.Start();
+        }
+
         #endregion
     }
 }
