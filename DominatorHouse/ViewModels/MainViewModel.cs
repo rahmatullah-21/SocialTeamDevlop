@@ -114,16 +114,13 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-
                 e.Cancel = true;
                 bool isClose = Dialog.ShowCustomDialog("Confirmation", "Are you sure to close Socinator?", "Yes", "No") == MessageDialogResult.Affirmative;
                 if (isClose)
                 {
-                    Application.Current.Dispatcher.Invoke(DominatorHouseCore.Utility.Utilities.KillGecko);
+                    DominatorHouseCore.Utility.Utilities.KillGecko();
                     Application.Current.Shutdown();
-                   
                     Process.GetCurrentProcess().Kill();
-
                 }
                 else if (IsCancelFromLicenceValidationState)
                     FatalErrorDiagnosis();
