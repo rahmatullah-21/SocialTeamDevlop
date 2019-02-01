@@ -317,5 +317,7 @@ namespace DominatorHouseCore.Enums
         EditPin = 110,
         [Description("Pinterest")]
         AcceptBoardInvitation = 111,
+        [Description("Pinterest")]
+        SendBoardInvitation = 112,
     }
 }

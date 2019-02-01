@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -320,26 +321,44 @@ namespace DominatorHouseCore.Utility
             );
             return messeges;
         }
-        public static List<IWebDriver> RunningWebDrivers = new List<IWebDriver>();
+
         public static bool AppClosing;
+        public static readonly object LockOpeningBrowser = new object();
+        public static List<Tuple<int, DateTime, DateTime>> RunningWebDrivers =
+            new List<Tuple<int, DateTime, DateTime>>();
         public static void KillGecko()
         {
             try
             {
                 AppClosing = true;
-                if (RunningWebDrivers.Count == 0) return;
-                var listOfGecko = System.Diagnostics.Process.GetProcessesByName("geckodriver");
-                if (listOfGecko.Length == 0) return;
-                var runningWebDrivers = new List<IWebDriver>(RunningWebDrivers);
-                
-                foreach (var webDrivers in runningWebDrivers)
+
+                lock (LockOpeningBrowser)
                 {
-                    try
+                    if (RunningWebDrivers.Count == 0) return;
+                    var listOfFirefox = System.Diagnostics.Process.GetProcessesByName("firefox").ToList();
+                    foreach (var geckoProcessId in RunningWebDrivers)
                     {
-                        webDrivers.Quit();
+                        try
+                        {
+                            System.Diagnostics.Process.GetProcessById(geckoProcessId.Item1).Kill();
+                        }
+                        catch (Exception ex)
+                        { ex.DebugLog(); }
+
+                        if (listOfFirefox.Count == 0) return;
+                        var processFirefox = listOfFirefox.Where(x =>
+                            x.StartTime >= geckoProcessId.Item2 && x.StartTime < geckoProcessId.Item3);
+                        try
+                        {
+                            foreach (var each in processFirefox)
+                            {
+                                if (!each.HasExited)
+                                    each.Kill();
+                            }
+                        }
+                        catch (Exception ex)
+                        { /*Ignore*/ }
                     }
-                    catch (Exception)
-                    {/*Ignore*/ }
                 }
             }
             catch (Exception ex)
