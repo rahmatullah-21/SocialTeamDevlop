@@ -4,12 +4,12 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Converters;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using MahApps.Metro.Controls;
@@ -28,16 +28,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore.DatabaseHandler.CoreModels;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class CampaignViewModel : INotifyPropertyChanged
     {
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IDataBaseHandler _dataBaseHandler;
         public CampaignViewModel()
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
             SettingCommand = new BaseCommand<object>((sender) => true, SettingExecute);
             DeleteCommand = new BaseCommand<object>((sender) => true, DeleteExecute);
             EditCommand = new BaseCommand<object>((sender) => true, EditExecute);
@@ -290,7 +291,7 @@ namespace DominatorUIUtility.ViewModel
                         reportControl.ReportModel.LstReports = new ObservableCollection<object>();
                         reportControl.ReportModel.ReportCollection =
                             CollectionViewSource.GetDefaultView(reportControl.ReportModel.LstReports);
-                     
+
                         Task.Factory.StartNew(() =>
                         {
                             reportDetails.ForEach(item =>
@@ -349,11 +350,11 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                CampaignDetails campName = sender as CampaignDetails;
-                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                campaignFileManager.GetCampaignById(campName.CampaignId).
-                    CampaignName = campName.CampaignName.
-                                       Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+                CampaignDetails camp = sender as CampaignDetails;
+                var campName = camp.DeepCloneObject();
+                campName.CampaignName = camp?.CampaignName.
+                                              Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
                     .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
             }
@@ -397,7 +398,7 @@ namespace DominatorUIUtility.ViewModel
 
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     campaignFileManager.Delete(campaign);
-                    DataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
+                    _dataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -449,7 +450,7 @@ namespace DominatorUIUtility.ViewModel
                             LstCampaignDetails.Remove(
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
                         });
-                        DataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
+                        _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
                         if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
                             IsAllCampaignChecked = false;
 
@@ -546,7 +547,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
-                var addedAccountDetails = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel.Where(x => x.AccountBaseModel.AccountNetwork == selectedCampaign.SocialNetworks);
+                var addedAccountDetails = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().BySocialNetwork(selectedCampaign.SocialNetworks);
                 var lstAccountDetails = _accountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 
@@ -632,6 +633,7 @@ namespace DominatorUIUtility.ViewModel
 
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 var moduleConfiguration = jobActivityConfigurationManager[account.AccountId, module];
 
                 if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
@@ -639,7 +641,6 @@ namespace DominatorUIUtility.ViewModel
 
                 jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(account);
-                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 if (isToggleSwitchSelected)
                 {
                     dominatorScheduler.ScheduleNextActivity(account, module);
@@ -659,9 +660,9 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var module = (ActivityType)Enum.Parse(typeof(ActivityType), camp.SubModule);
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 // remove template from each account
                 allAccounts.ForEach(x =>
                 {
@@ -669,7 +670,7 @@ namespace DominatorUIUtility.ViewModel
                     if (moduleConfig != null)
                     {
                         // Stop active task related to campaign
-                        JobProcess.Stop(x.AccountId, camp.TemplateId);
+                        dominatorScheduler.StopActivity(x, camp.SubModule, camp.TemplateId, false);
 
                         // Remove task from list
                         foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId).ToList())
@@ -678,8 +679,8 @@ namespace DominatorUIUtility.ViewModel
                         }
                     }
 
-
                 });
+
                 accountsCacheService.UpsertAccounts(allAccounts.ToArray());
 
             }

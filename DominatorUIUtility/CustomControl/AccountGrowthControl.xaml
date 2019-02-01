@@ -84,7 +84,7 @@
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                             <ListView.ItemsSource>
                                 <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
-                                    <Binding Path="DominatorAccountViewModel.LstDominatorAccountModel" IsAsync="True"/>
+                                    <Binding Path="Accounts"/>
                                     <Binding Path="SelectedNetworkViewModel.Selected"/>
                                 </MultiBinding>
                             </ListView.ItemsSource>
@@ -238,7 +238,7 @@
                                                SelectedValuePath="AccountId"  SelectedItem="{Binding SelectedAccount}" >
                                     <ComboBox.ItemsSource>
                                         <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
-                                            <Binding Path="DominatorAccountViewModel.LstDominatorAccountModel"/>
+                                            <Binding Path="Accounts"/>
                                             <Binding Path="SelectedNetworkViewModel.Selected"/>
                                         </MultiBinding>
                                     </ComboBox.ItemsSource>

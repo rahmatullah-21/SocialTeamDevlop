@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Request
 {
-    public class HttpHelper : IHttpHelper
+    public abstract class HttpHelper : IHttpHelper
     {
         public HttpHelper() : this(new RequestParameters())
         {

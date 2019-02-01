@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -10,6 +7,10 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -18,10 +19,12 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AddOrUpdateProxyControl : UserControl
     {
+        private readonly IProxyFileManager _proxyFileManager;
         public ProxyManagerModel ProxyManagerModel { get; set; }
         private ProxyManagerViewModel ProxyManagerViewModel { get; set; }
         public AddOrUpdateProxyControl(ProxyManagerViewModel ProxyManagerViewModel)
         {
+            _proxyFileManager = ServiceLocator.Current.GetInstance<IProxyFileManager>();
             InitializeComponent();
             this.ProxyManagerViewModel = ProxyManagerViewModel;
             ProxyManagerModel = new ProxyManagerModel();
@@ -47,7 +50,7 @@ namespace DominatorUIUtility.CustomControl
 
             try
             {
-                var proxyById = ProxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
+                var proxyById = _proxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
                 if (proxyById != null && !string.IsNullOrEmpty(proxyById.AccountProxy.ProxyId))
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Proxy Warning",
@@ -64,12 +67,12 @@ namespace DominatorUIUtility.CustomControl
                     }
 
                 }
-                
+
                 if (ProxyManagerViewModel.IsAllProxySelected)
                     ProxyManagerModel.IsProxySelected = true;
                 if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyName))
                     ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}{ProxyManagerModel.AccountProxy.ProxyPort}";
-                ProxyFileManager.SaveProxy(ProxyManagerModel);
+                _proxyFileManager.SaveProxy(ProxyManagerModel);
                 ProxyManagerViewModel.LstProxyManagerModel.Add(ProxyManagerModel);
                 ProxyManagerModel.Index = ProxyManagerViewModel.LstProxyManagerModel.IndexOf(ProxyManagerModel) + 1;
                 GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +

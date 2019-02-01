@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
@@ -8,10 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using CommonServiceLocator;
-using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -26,14 +23,14 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
     public abstract class QueryScraper : IScraperActionTables
     {
-        protected QueryScraper(JobProcess jobProcess, Dictionary<string, Action<QueryInfo>> scrapeWithQueriesActionTable, Dictionary<string, Action> scrapeWithoutQueriesActionTable)
+        protected QueryScraper(IJobProcess jobProcess, Dictionary<string, Action<QueryInfo>> scrapeWithQueriesActionTable, Dictionary<string, Action> scrapeWithoutQueriesActionTable)
         {
             _jobProcess = jobProcess;
             ScrapeWithQueriesActionTable = scrapeWithQueriesActionTable;
             ScrapeWithoutQueriesActionTable = scrapeWithoutQueriesActionTable;
         }
 
-        private readonly JobProcess _jobProcess;
+        private readonly IJobProcess _jobProcess;
 
         public Dictionary<string, Action<QueryInfo>> ScrapeWithQueriesActionTable { get; }
 

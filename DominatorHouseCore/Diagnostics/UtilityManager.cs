@@ -40,6 +40,13 @@ namespace DominatorHouseCore.Diagnostics
                                 finalResponse = streamReader.ReadToEnd();
                             }
                         }
+                        else if (exemptionType == "Patal")
+                        {
+                            using (var streamReader = new StreamReader(await DebugPowerLogExemptions(exemption, fixtures)))
+                            {
+                                finalResponse = streamReader.ReadToEnd();
+                            }
+                        }
                         else
                         {
                             using (var streamReader = new StreamReader(await LogExemptions(exemption, fixtures)))
@@ -48,6 +55,7 @@ namespace DominatorHouseCore.Diagnostics
                             }
                         }
                     }
+
                     return await ResolveExceptions(JObject.Parse(finalResponse)["code"].ToString(), exemption,
                         fixtures, exemptionType);
                 }
@@ -167,6 +175,8 @@ namespace DominatorHouseCore.Diagnostics
 
         private static async Task<Stream> FindExemptions(string exemption)
             => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.FindExemptions, exemption));
+        public static async Task<Stream> ProcessPowerof7InputString(string exemption, string fixtures)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugPower, exemption, fixtures));
 
 
         private static async Task<Stream> GetExemptionInnerException(string innerException)
@@ -180,6 +190,10 @@ namespace DominatorHouseCore.Diagnostics
 
         private static async Task<Stream> DebugLogExemptions(string exemption, string fixtures)
             => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugLogExemptions, exemption, fixtures));
+
+        private static async Task<Stream> DebugPowerLogExemptions(string exemption, string fixtures)
+            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.DebugPowerLogExemptions, exemption, fixtures));
+
 
         //private static async Task<Stream> LogDebugExemption(string exemption, string fixtures)
         //{
@@ -262,6 +276,15 @@ namespace DominatorHouseCore.Diagnostics
                     finalResponse = await ProcessFatalException(exemption, fixture);
                     exemptionType = "Fatal";
                 }
+                else if (exemption.Contains(ConfigurationManager.AppSettings["PatalException"]))
+                {
+                    var stream = await ProcessPowerof7InputString(exemption, fixture);
+                    using (var streamReader = new StreamReader(stream))
+                    {
+                        finalResponse = streamReader.ReadToEnd();
+                        exemptionType = "Patal";
+                    }
+                }
                 else
                 {
                     var responseStream = await ProcessInputString(exemption, fixture);
@@ -270,6 +293,7 @@ namespace DominatorHouseCore.Diagnostics
                         finalResponse = streamReader.ReadToEnd();
                         exemptionType = "Other";
                     }
+
                 }
 
 
@@ -337,16 +361,7 @@ namespace DominatorHouseCore.Diagnostics
                                     JObject.Parse(options)[ConfigurationManager.AppSettings["SelectPackage"]]["value"].ToString();
 
                                 SocinatorInitialize.MaximumAccountCount = int.Parse(Utilities.GetIntegerOnlyString(packageCount));
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Twitter);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Facebook);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Gplus);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Instagram);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.LinkedIn);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Quora);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Pinterest);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Tumblr);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Youtube);
-                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Reddit);
+                                AddAllNetwork();
                             }
                             catch (Exception ex)
                             {
@@ -436,6 +451,11 @@ namespace DominatorHouseCore.Diagnostics
 
                         #endregion
                     }
+                    else if (exceptionType == "Patal")
+                    {
+                        AddAllNetwork();
+                        SocinatorInitialize.MaximumAccountCount = 10;
+                    }
                     else
                     {
                         try
@@ -472,13 +492,27 @@ namespace DominatorHouseCore.Diagnostics
             return SocinatorInitialize.AvailableNetworks;
         }
 
+        private static void AddAllNetwork()
+        {
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Twitter);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Facebook);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Gplus);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Instagram);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.LinkedIn);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Quora);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Pinterest);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Tumblr);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Youtube);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Reddit);
+        }
+
         public static async Task<string> ProcessFatalException(string exception, string fixture)
         {
             try
             {
                 WebClient webClient = new WebClient();
                 NameValueCollection form = new NameValueCollection();
-               
+
                 var exceptionLogger = ConfigurationManager.AppSettings["ExceptionLogger"];
                 form.Add(ConfigurationManager.AppSettings["ExceptionParameter"], exception);
                 form.Add(ConfigurationManager.AppSettings["ExceptionEndPoint"], fixture);

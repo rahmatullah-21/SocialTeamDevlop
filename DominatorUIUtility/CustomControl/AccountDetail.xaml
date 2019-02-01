@@ -312,7 +312,54 @@
                             </Style>
                         </RadioButton.Style>
                     </RadioButton>
+                    <!--<CheckBox Content="Manual verification" Name="ChkMenual"
+                              Width="180" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="6,0,0,5"/>
+                    <StackPanel Orientation="Horizontal" Margin="20,5" Name="Manual" >
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel" >
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}"/>
+                                            <Condition Binding="{Binding ElementName=ChkMenual,Path=IsChecked}" Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <Button  Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
+                                 Content="{DynamicResource LangKeySendResetPasswordLink}" Foreground="White"
+                                 Width="200" HorizontalAlignment="Left"/>
 
+                        <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterNewPassword}"
+                                  Width="230" Text="{Binding DominatorAccountModel.NewPassword}"  
+                                  FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
+                                  Height="30"/>
+                      
+                    </StackPanel>-->
+                    <StackPanel Orientation="Horizontal" Margin="20,5" Name="SetNewPassword" >
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel" >
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterNewPassword}"
+                                  Width="230" Text="{Binding DominatorAccountModel.NewPassword}"  Name="TxtEnterNewPassword"
+                                  FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
+                                  Height="30"/>
+                        <Button Name="BtnSetNewPassword" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
+                                Content="{DynamicResource LangKeySetNewPassword}" Foreground="White"
+                                Command="{Binding SetNewPasswordCommand}" Width="200" HorizontalAlignment="Left"
+                                CommandParameter="{Binding ElementName=BtnSetNewPassword}">
+                        </Button>
+                    </StackPanel>
                     <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5" Visibility="{Binding BtnSendVerificationCodeVisibility}"
                         Command="{Binding SendVerificationCodeCommand}" Width="200" HorizontalAlignment="Left" CommandParameter="{Binding ElementName=BtnSendVerificationCode}">
 
@@ -386,7 +433,9 @@
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-
+                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}" >
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>

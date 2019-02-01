@@ -1,14 +1,4 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
@@ -21,6 +11,16 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -817,7 +817,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void InitializeDestinationList()
         {
 
-            var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
+            var accountList = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync();
             var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
 
             if (!Application.Current.CheckAccess())
