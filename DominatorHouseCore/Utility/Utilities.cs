@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows;
+using OpenQA.Selenium;
 
 namespace DominatorHouseCore.Utility
 {
@@ -318,6 +319,31 @@ namespace DominatorHouseCore.Utility
                 m => ((char)int.Parse(m.Groups["Value"].Value, System.Globalization.NumberStyles.HexNumber)).ToString()
             );
             return messeges;
+        }
+        public static List<IWebDriver> RunningWebDrivers = new List<IWebDriver>();
+        public static bool AppClosing;
+        public static void KillGecko()
+        {
+            try
+            {
+                AppClosing = true;
+                if (RunningWebDrivers.Count == 0) return;
+                var listOfGecko = System.Diagnostics.Process.GetProcessesByName("geckodriver");
+                if (listOfGecko.Length == 0) return;
+                var runningWebDrivers = new List<IWebDriver>(RunningWebDrivers);
+                
+                foreach (var webDrivers in runningWebDrivers)
+                {
+                    try
+                    {
+                        webDrivers.Quit();
+                    }
+                    catch (Exception)
+                    {/*Ignore*/ }
+                }
+            }
+            catch (Exception ex)
+            { ex.DebugLog(); }
         }
         public static T DeepCloneObject<T>(this T instance)
         {
