@@ -10,7 +10,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows;
-using OpenQA.Selenium;
 
 namespace DominatorHouseCore.Utility
 {
