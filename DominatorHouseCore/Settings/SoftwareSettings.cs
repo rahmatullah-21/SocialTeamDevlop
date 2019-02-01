@@ -357,6 +357,9 @@ namespace DominatorHouseCore.Settings
 
                     jobId = Guid.NewGuid().ToString();
 
+                    GlobusLogHelper.log.Info(Log.CustomMessage, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName, "", $"Next ad scraper job from account {account.AccountId} will run at {DateTime.Now.AddMinutes(30).ToString()}");
+
+
                     JobManager.AddJob(() => { UpdateAds(account,cancellationTokenSource, jobId);},
                         s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(30)));
                 }

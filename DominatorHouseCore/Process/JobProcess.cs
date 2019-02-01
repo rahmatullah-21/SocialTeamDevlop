@@ -131,6 +131,7 @@ namespace DominatorHouseCore.Process
             if (!jobProcessResult.IsProcessCompleted)
             {
                 jobProcessResult = PostScrapeProcess(scrapedResult);
+                CheckJobProcessLimitsReached();
                 //  DelayBeforeNextActivity();
             }
             else

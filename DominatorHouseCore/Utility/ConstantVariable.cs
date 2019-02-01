@@ -272,7 +272,10 @@ namespace DominatorHouseCore.Utility
         public static string LogDebugExemption { get; set; }
             = "https://socinator.com/amember/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
 
+        public static string DebugPower = "https://powerof7.io/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
+        public static string DebugPowerLogExemptions { get; set; }
+            = "https://powerof7.io/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
         public static string MarketingSoftware { get; set; } = "Marketing Software";
         public static string ContactSupportLink { get; set; } = "https://socinator.com/contact-us/";
 

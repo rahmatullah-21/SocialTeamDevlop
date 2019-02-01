@@ -293,7 +293,7 @@ namespace DominatorUIUtility.ViewModel
                 var loadedAccountlist = FileUtilities.FileBrowseAndReader();
 
                 //if loaded text or csv contains no accounts then return
-                if (loadedAccountlist == null) return;
+                if (loadedAccountlist == null || loadedAccountlist.Count == 0) return;
 
                 #region Add to bin files which are valid accounts
 
