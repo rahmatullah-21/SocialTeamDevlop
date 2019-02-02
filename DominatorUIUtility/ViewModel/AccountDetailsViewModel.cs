@@ -127,6 +127,31 @@ namespace DominatorUIUtility.ViewModel
             get { return _isPhoneVerificationCodeSent; }
             set { SetProperty(ref _isPhoneVerificationCodeSent, value); }
         }
+        private Visibility _sendResetPasswordLinkVisibility = Visibility.Collapsed;
+
+
+        public Visibility SendResetPasswordLinkVisibility
+        {
+            get { return _sendResetPasswordLinkVisibility; }
+            set
+            {
+                SetProperty(ref _sendResetPasswordLinkVisibility, value);
+            }
+        }
+
+
+        private bool _isManualVerify;
+        public bool IsManualVerify
+        {
+            get
+            {
+                return _isManualVerify;
+            }
+            set
+            {
+                SetProperty(ref _isManualVerify, value);
+            }
+        }
         #endregion
 
         #region Constructors
@@ -150,6 +175,8 @@ namespace DominatorUIUtility.ViewModel
             VerifyAccountCommand = new BaseCommand<object>(VerifyAccountCanExecute, VerifyAccountExecute);
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
             SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
+
+            SendResetPasswordLinkCommand = new BaseCommand<object>(sender => true, SendResetPasswordLinkExecute);
         }
         #endregion
 
@@ -162,6 +189,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand VerifyAccountCommand { get; set; }
         public ICommand SendVerificationCodeCommand { get; set; }
         public ICommand SetNewPasswordCommand { get; set; }
+        public ICommand SendResetPasswordLinkCommand { get; set; }
         #endregion
 
         private bool SaveCanExecute(object arg) => true;
@@ -567,35 +595,27 @@ namespace DominatorUIUtility.ViewModel
                      .GetNetworkCoreFactory();
 
                 var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
-                var verificationType = IsEmailVerification ? VerificationType.Email : VerificationType.Phone;
                 Task.Factory.StartNew(() =>
                 {
                     if (DominatorAccountModel.IsAutoVerifyByEmail)
                     {
-                        accountVerificationFactory.AutoVerifyByEmail(DominatorAccountModel,
-                            DominatorAccountModel.Token);
+                        if (accountVerificationFactory.AutoVerifyByEmail(DominatorAccountModel,
+                            DominatorAccountModel.Token).Result)
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Password changed successfully.");
+                        else
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
                     }
                     else
                     {
-                        if (accountVerificationFactory
-                            .SendVerificationCode(DominatorAccountModel, verificationType, DominatorAccountModel.Token).Result)
-                            Application.Current.Dispatcher.Invoke(
-                                () =>
-                                {
-                                    if (IsEmailVerification)
-                                        IsEmailVerificationCodeSent = true;
-                                    else
-                                        IsPhoneVerificationCodeSent = true;
-                                    CodeSectionVisibility = Visibility.Visible;
-                                    // GlobusLogHelper.log.Info(Log.SentVerificationCode, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, verificationType);
-                                });
+                        if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, VerificationType.Email,
+                            DominatorAccountModel.Token).Result)
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Password changed successfully.");
                         else
-                            Application.Current.Dispatcher.Invoke(
-                                () =>
-                                {
-                                    BtnSendVerificationCodeVisibility = Visibility.Visible;
-                                    CodeSectionVisibility = Visibility.Collapsed;
-                                });
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
                     }
 
 
@@ -604,6 +624,33 @@ namespace DominatorUIUtility.ViewModel
             catch (Exception ex)
             {
                 BtnSendVerificationCodeVisibility = Visibility.Visible;
+                ex.DebugLog();
+            }
+        }
+        private void SendResetPasswordLinkExecute(object sender)
+        {
+            try
+            {
+                var networkCoreFactory = SocinatorInitialize
+                    .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory();
+
+                var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
+                Task.Factory.StartNew(() =>
+                {
+                    if (IsManualVerify)
+                    {
+                        if (accountVerificationFactory.SendVerificationCode(DominatorAccountModel,
+                            VerificationType.Email,
+                            DominatorAccountModel.Token).Result)
+                        {
+                            SendResetPasswordLinkVisibility = Visibility.Visible;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
                 ex.DebugLog();
             }
         }

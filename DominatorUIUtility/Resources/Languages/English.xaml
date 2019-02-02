@@ -3375,4 +3375,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyBoardCollaboratorsList">Board Collaborators List</system:String>
     <system:String x:Key="LangKeySendResetPasswordLink">Send Reset Password Link</system:String>
     <system:String x:Key="LangKeyNoOfPostForEngagementRate">No Of Post For Engagement Rate</system:String>
+    <system:String x:Key="LangKeyEnterResetPasswordLink">Enter Reset Password Link</system:String>
+    <system:String x:Key="LangKeyManualVerification">Manual verification</system:String>
 </ResourceDictionary>

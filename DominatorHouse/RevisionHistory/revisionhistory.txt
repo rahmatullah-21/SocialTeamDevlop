@@ -1,3 +1,49 @@
+Version[1.0.0.36],[1st-February-19]
+New Features:-
+	Pintrest:- 
+		 Reset password.
+Fixed:-
+	Social:-
+		Account Activity => Fixed issue with showing schedule to next job.
+	Youtube:-
+		Watch Video => View increaser => Fixed issue with pausing campaign.
+	Instagram:-
+		Instaliker/instacommemter => Like Comment => Fixed issue with like on comment.
+		Instascrape => Comment Scraper => Fixed issue with comment scraper.
+		Account Manager => Fixed issue with showing proxy not working.
+
+Version[1.0.0.35],[31st-January-19]
+New Features:-
+	Social:-
+		Account Activity => For all network added private whitelist users and private blacklist users
+	Pintrest:-
+		Account => Block account replace of set new password showing over account.
+	Linkedin:-
+		Grow Connection => Export Connection => Other Configurations => Recent Connection => As soon as the new connection added it will export those connections.
+		Grow Connection => Connection Request => Search Query => Query Type => SalesNavigatorUserScraper campaign => It will send request based on salesnavigator scraper campaign id.
+	Instagram:-
+		Instascraper => User scraper => Other configuration => Required Data => Added feature (Engagement Rate).
+Fixed:-
+	Social:-
+		Accounts Activity => Fixed issue with activity toggle.
+	Twitter:-
+		Fixed hanging issue of campaigns while running multiple campiagns.
+	Pintrest:- 
+		Pinposter => Repin => Keywords => Fixed issue with keywords query type.
+		Pin poster => Edit pin => Fixed issue with campaign in showing trying to login.
+		Growfollower => unfollower => Followed by software => Fixed issue with people followed by software. 
+		Account => Update all details => Fixed issue with Upadate all details.
+	Linkedin:-
+		Messenger => Send Greetings To Connections => Fixed issue with not sending greetings for job and work anniversary
+		Messenger => Auto Reply to new message => Fixed issue with not working "Add to message List" button
+		Grow Connection => Remove Connection => Fixed issue with not removing connections
+	Facebook:-
+		Account => Account Manager => Fixed issue with  Friends Synchronization.
+	Instagram:-
+		Account activity => Fixed issue with toggle status.
+		Grow Followers => Follow => Fixed issue with showing non-protocol error.
+		Grow Followers => Follow => Fixed issue with location users.
+
 Version[1.0.0.34],[23rd-January-19]
 New Features:-
 	Pintrest:-
