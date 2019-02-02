@@ -1,3 +1,17 @@
+Version[1.0.0.36],[1st-February-19]
+New Features:-
+	Pintrest:- 
+		 Reset password.
+Fixed:-
+	Social:-
+		Account Activity => Fixed issue with showing schedule to next job.
+	Youtube:-
+		Watch Video => View increaser => Fixed issue with pausing campaign.
+	Instagram:-
+		Instaliker/instacommemter => Like Comment => Fixed issue with like on comment.
+		Instascrape => Comment Scraper => Fixed issue with comment scraper.
+		Account Manager => Fixed issue with showing proxy not working.
+
 Version[1.0.0.35],[31st-January-19]
 New Features:-
 	Social:-
