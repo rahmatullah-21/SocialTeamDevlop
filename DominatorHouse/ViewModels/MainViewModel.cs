@@ -368,6 +368,7 @@ namespace DominatorHouse.ViewModels
                                     softwareSetting.InitializeOnLoadConfigurations();
                                     softwareSetting.ActivityManagerInitializer();
                                     softwareSetting.ScheduleAutoUpdation();
+                                    softwareSetting.ScheduleAdsScraping();
                                 },
                                 () =>
                                 {

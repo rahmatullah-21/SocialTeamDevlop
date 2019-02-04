@@ -3377,4 +3377,14 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNoOfPostForEngagementRate">No Of Post For Engagement Rate</system:String>
     <system:String x:Key="LangKeyEnterResetPasswordLink">Enter Reset Password Link</system:String>
     <system:String x:Key="LangKeyManualVerification">Manual verification</system:String>
+    <system:String x:Key="LangKeySendMessageToGroupMembers">Send message to members of the group</system:String>
+    <system:String x:Key="LangKeyEneterJoinedGroupUrls">Enter Joined Group Urls</system:String>
+
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerDay">Number Of Users To Block Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerHour">Number Of Users To Block Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerJob">Number Of Users To Block Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerWeek">Number Of Users To Block Per Week</system:String>
+    <system:String x:Key="LangKeyMaxUsersToBlockPerDay">Max Users To Block Per Day</system:String>
+    <system:String x:Key="LangKeyBlockUser">Block User</system:String>
+
 </ResourceDictionary>
