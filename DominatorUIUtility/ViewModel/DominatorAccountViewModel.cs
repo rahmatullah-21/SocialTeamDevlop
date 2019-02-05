@@ -640,7 +640,7 @@ namespace DominatorUIUtility.ViewModel
             #endregion
             //if (dominatorAccountBaseModel.Status != AccountStatus.Success)
             //{
-            if (!(bool)_softwareSettings.Settings.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
+            if (!_softwareSettings.Settings.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
             {
                 try
                 {

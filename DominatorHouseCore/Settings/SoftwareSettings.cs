@@ -311,70 +311,22 @@ namespace DominatorHouseCore.Settings
 
         public void ScheduleAdsScraping()
         {
-
-            var accounts = _accountsFileManager.GetAll();
-
-            var cancellationtokenSource = new CancellationTokenSource();
-
-            var jobId = Guid.NewGuid().ToString();
-
-            JobManager.AddJob(() => { ScheduleAdsScraping(); },
-                s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(30)));
-
-            accounts.ForEach(account => { UpdateAds(account, cancellationtokenSource); });
-        }
-
-        public void UpdateAds(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource,
-            string jobId = "")
-        {
-            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork)
-                || account.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
-                return;
-
-            var adScraperFactory =
-                ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
-
-            if (adScraperFactory == null)
-                return;
-
-            var updateAd = new Task(async () =>
-            {
-                try
-                {
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                    var checkResult = await adScraperFactory.CheckStatusAsync(account, cancellationTokenSource.Token);
-
-                    if (!checkResult)
-                        return;
-
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                    await adScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token, jobId);
-
-                }
-                catch (OperationCanceledException)
-                {
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-            }, account.Token);
-
-            updateAd.Start();
-        }
-
-        private void StartScrapAds()
-        {
             var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-                async job => await job.StartAdScarperAsync(),
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+                async job =>
+                {
+                    await job.StartAdScarperAsync();
+                },
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 10 });
 
             ScrapAdsProducer(adScraperblock);
         }
 
         private void ScrapAdsProducer(ActionBlock<ScrapAdsDetails> adsActionBuffer)
+        {
+            var result = ScrapAdsProduceAsync(adsActionBuffer).Result;
+        }
+
+        private async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer)
         {
             var dominatorAccountViewModel =
                 ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
@@ -383,15 +335,20 @@ namespace DominatorHouseCore.Settings
 
             ListHelper.Shuffle(accounts);
 
-            accounts.ForEach(async account => { await adsActionBuffer.SendAsync(new ScrapAdsDetails(account)); });
-
+            foreach (var account in accounts)
+            {
+                await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+            }
 
             var jobId = Guid.NewGuid().ToString();
 
             JobManager.AddJob(() => { ScheduleAdsScraping(); },
-                s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(10)));
+                s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
+
+            return true;
         }
     }
+
     public class ScrapAdsDetails
     {
         public string AccountId { get; set; }
@@ -419,19 +376,18 @@ namespace DominatorHouseCore.Settings
                 var cancellationTokenSource =
                     AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
 
-                if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
+                if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork)
+                        && account.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
                     return;
 
                 var asyncAccount =
                     ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
 
                 var runningAccounts = ServiceLocator.Current
-                    .GetInstance<IPostScraperConstants>(SocialNetworks.Facebook.ToString()).LstRunningAccounts;
+                    .GetInstance<IPostScraperConstants>().LstRunningAccounts;
 
                 if (runningAccounts.Contains(account.AccountId))
-                {
-                    await Task.Delay(1800 * 1000);
-                }
+                    return;
 
                 if (asyncAccount == null)
                     return;
@@ -450,20 +406,19 @@ namespace DominatorHouseCore.Settings
                     await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
 
                 }
-                catch (OperationCanceledException)
+                catch (OperationCanceledException ex)
                 {
+                    ex.DebugLog("Cancellation Requested!");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // ignored
+                    ex.DebugLog();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored
+
             }
         }
-
-
     }
 }
