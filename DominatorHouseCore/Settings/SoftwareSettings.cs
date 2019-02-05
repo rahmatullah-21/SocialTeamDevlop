@@ -331,7 +331,7 @@ namespace DominatorHouseCore.Settings
             var dominatorAccountViewModel =
                 ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
 
-            var accounts = _accountsFileManager.GetAll();
+            var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
 
             ListHelper.Shuffle(accounts);
 
@@ -375,10 +375,6 @@ namespace DominatorHouseCore.Settings
             {
                 var cancellationTokenSource =
                     AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
-
-                if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork)
-                        && account.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
-                    return;
 
                 var asyncAccount =
                     ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
