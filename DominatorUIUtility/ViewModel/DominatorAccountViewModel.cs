@@ -984,28 +984,6 @@ namespace DominatorUIUtility.ViewModel
                     }
             };
 
-
-            #region remove account from AccountsAssignedto if any proxy having account
-
-            _proxyFileManager.GetAllProxy().ForEach(proxy =>
-            {
-                _accountsFileManager.GetAll().ForEach(acc =>
-                {
-                    if (proxy.AccountsAssignedto.Any(x =>
-                        x.UserName == acc.UserName && x.AccountNetwork == acc.AccountBaseModel.AccountNetwork))
-                    {
-                        proxy.AccountsAssignedto.Remove(proxy.AccountsAssignedto.FirstOrDefault(x => x.UserName ==
-                            acc.UserName
-                                && x.AccountNetwork == acc.AccountBaseModel.AccountNetwork));
-
-                    }
-                });
-
-                _proxyFileManager.EditProxy(proxy);
-            });
-
-            #endregion
-
             Application.Current.Dispatcher.Invoke(() =>
             {
                 _proxyManagerViewModel.LstProxyManagerModel.ForEach(x =>

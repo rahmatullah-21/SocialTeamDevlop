@@ -1394,49 +1394,6 @@ namespace DominatorUIUtility.CustomControl
 
         #region Save last selected accounts in account configuration mode
 
-        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter", true)]
-        public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
-        {
-            var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
-
-            _accountGrowthModeHeader.AccountItemSource = accounts;
-
-            switch (networks)
-            {
-                case SocialNetworks.Facebook:
-                    SelectedDominatorAccounts.FdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Instagram:
-                    SelectedDominatorAccounts.GdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Twitter:
-                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Pinterest:
-                    SelectedDominatorAccounts.PdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.LinkedIn:
-                    SelectedDominatorAccounts.LdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Reddit:
-                    SelectedDominatorAccounts.RdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Quora:
-                    SelectedDominatorAccounts.QdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Gplus:
-                    SelectedDominatorAccounts.GplusAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Youtube:
-                    SelectedDominatorAccounts.YdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Tumblr:
-                    SelectedDominatorAccounts.TumblrAccounts = selectedAccounts;
-                    break;
-            }
-            _accountGrowthModeHeader.SelectedItem = selectedAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");
-        }
-
         public void SetSelectedAccounts(SocialNetworks networks)
         {
             var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
@@ -1741,7 +1698,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var networks = SocinatorInitialize.AccountModeActiveSocialNetwork;
-                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks && x.AccountBaseModel.Status == AccountStatus.Success).Select(x => x.UserName));
 
                 _accountGrowthModeHeader.AccountItemSource = accounts;
 
