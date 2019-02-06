@@ -3389,4 +3389,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMakeCommentAsSpinText">Make Comment as spin text</system:String>
     <system:String x:Key="LangKeyLastPostAgeInDays">Posted in Last</system:String>
     <system:String x:Key="LangKeyBeforePostInDays">Posted before</system:String>
+    <system:String x:Key="LangKeyActionBlock">Temporary Block</system:String>
 </ResourceDictionary>
