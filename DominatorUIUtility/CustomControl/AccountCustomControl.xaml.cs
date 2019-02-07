@@ -105,7 +105,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
-            if (dominatorAccountModel == null)
+            if (dominatorAccountModel == null || dominatorAccountModel.AccountBaseModel.Status != AccountStatus.Success)
                 return;
 
             TabSwitcher.ChangeTabWithNetwork(3, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);

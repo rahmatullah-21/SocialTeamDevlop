@@ -175,7 +175,6 @@ namespace DominatorUIUtility.ViewModel
             VerifyAccountCommand = new BaseCommand<object>(VerifyAccountCanExecute, VerifyAccountExecute);
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
             SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
-
             SendResetPasswordLinkCommand = new BaseCommand<object>(sender => true, SendResetPasswordLinkExecute);
         }
         #endregion
@@ -617,7 +616,7 @@ namespace DominatorUIUtility.ViewModel
                             GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
                                 "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
                     }
-
+                    OldDominatorAccountModel = DominatorAccountModel;
 
                 });
             }
@@ -626,6 +625,7 @@ namespace DominatorUIUtility.ViewModel
                 BtnSendVerificationCodeVisibility = Visibility.Visible;
                 ex.DebugLog();
             }
+           
         }
         private void SendResetPasswordLinkExecute(object sender)
         {

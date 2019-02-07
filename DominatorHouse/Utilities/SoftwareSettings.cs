@@ -35,6 +35,22 @@ namespace DominatorHouse.Utilities
 
     //    }
 
+    //private void ActivityManagerInitializer()
+    //{
+    //    Application.Current.Dispatcher.Invoke(() =>
+    //    {
+    //        try
+    //        {
+    //            var accounts = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>();
+    //            var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+    //            runningActivityManager.Initialize(accounts.GetCopySync());
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            ex.DebugLog();
+    //        }
+    //    });
+    //}
     //    private void ActivityManagerInitializer()
     //    {
     //        Application.Current.Dispatcher.Invoke(() =>

@@ -368,6 +368,8 @@ namespace DominatorHouse.ViewModels
                                     softwareSetting.InitializeOnLoadConfigurations();
                                     softwareSetting.ActivityManagerInitializer();
                                     softwareSetting.ScheduleAutoUpdation();
+                                    if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
+                                        softwareSetting.ScheduleAdsScraping();
                                 },
                                 () =>
                                 {

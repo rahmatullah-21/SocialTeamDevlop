@@ -49,6 +49,7 @@
             <CollectionViewSource.Source>
                 <MultiBinding Converter="{StaticResource ProxyManagerSourceConverter}">
                     <Binding Path="LstProxyManagerModel" IsAsync="True"/>
+                    <Binding Path="LstProxyManagerModel.Count" IsAsync="True"/>
                     <Binding Path="IsChecked" Source="{x:Reference ShowProxiesWithError}" IsAsync="True"/>
                     <Binding Path="IsChecked" Source="{x:Reference ChkShowUnassignedProxies}" IsAsync="True"/>
                     <Binding Path="IsChecked" Source="{x:Reference FilterByGroup}" IsAsync="True"/>

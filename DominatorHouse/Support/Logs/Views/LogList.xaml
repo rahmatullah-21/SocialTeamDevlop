@@ -12,7 +12,11 @@
     <UserControl.Template>
         <ControlTemplate>
             <Grid>
-                <ListView x:Name="ErrorLogger" SelectedItem="{Binding SelectedLoggerModel, Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}">
+                <ListView x:Name="ErrorLogger" 
+                          SelectedItem="{Binding SelectedLoggerModel, Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                          ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingPanel.IsContainerVirtualizable="True"
+                          VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+                          VirtualizingPanel.ScrollUnit="Pixel">
                     <ListView.ItemsSource>
                         <MultiBinding UpdateSourceTrigger="Explicit"  Mode="TwoWay" Converter="{StaticResource LogViewItemsSourceConverter}">
                             <Binding Path="SyncObject" RelativeSource="{RelativeSource TemplatedParent}"></Binding>

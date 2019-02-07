@@ -319,5 +319,7 @@ namespace DominatorHouseCore.Enums
         AcceptBoardInvitation = 111,
         [Description("Pinterest")]
         SendBoardInvitation = 112,
+        [Description("LinkedIn")]
+        BlockUser = 113,
     }
 }

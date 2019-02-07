@@ -335,7 +335,8 @@ namespace DominatorHouseCore.Utility
                 {
                     if (RunningWebDrivers.Count == 0) return;
                     var listOfFirefox = System.Diagnostics.Process.GetProcessesByName("firefox").ToList();
-                    foreach (var geckoProcessId in RunningWebDrivers)
+                    var localListDrivers = new List<Tuple<int, DateTime, DateTime>>(RunningWebDrivers);
+                    foreach (var geckoProcessId in localListDrivers)
                     {
                         try
                         {
@@ -345,8 +346,8 @@ namespace DominatorHouseCore.Utility
                         { ex.DebugLog(); }
 
                         if (listOfFirefox.Count == 0) return;
-                        var processFirefox = listOfFirefox.Where(x =>
-                            x.StartTime >= geckoProcessId.Item2 && x.StartTime < geckoProcessId.Item3);
+                        var processFirefox = listOfFirefox.Where(x => !x.HasExited &&
+                                                                      x.StartTime >= geckoProcessId.Item2 && x.StartTime < geckoProcessId.Item3);
                         try
                         {
                             foreach (var each in processFirefox)
@@ -363,6 +364,7 @@ namespace DominatorHouseCore.Utility
             catch (Exception ex)
             { ex.DebugLog(); }
         }
+
         public static T DeepCloneObject<T>(this T instance)
         {
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(instance));

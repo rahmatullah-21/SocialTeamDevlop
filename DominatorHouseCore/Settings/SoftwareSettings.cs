@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows;
 using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
@@ -25,6 +27,7 @@ namespace DominatorHouseCore.Settings
         void InitializeOnLoadConfigurations();
         void ActivityManagerInitializer();
         void ScheduleAutoUpdation();
+        void ScheduleAdsScraping();
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
     }
@@ -305,5 +308,113 @@ namespace DominatorHouseCore.Settings
         }
 
         #endregion
+
+        public void ScheduleAdsScraping()
+        {
+            var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+                async job =>
+                {
+                    await job.StartAdScarperAsync();
+                },
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 10 });
+
+            ScrapAdsProducer(adScraperblock);
+        }
+
+        private void ScrapAdsProducer(ActionBlock<ScrapAdsDetails> adsActionBuffer)
+        {
+            var result = ScrapAdsProduceAsync(adsActionBuffer).Result;
+        }
+
+        private async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer)
+        {
+            var dominatorAccountViewModel =
+                ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
+
+            var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
+
+            ListHelper.Shuffle(accounts);
+
+            foreach (var account in accounts)
+            {
+                await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+            }
+
+            var jobId = Guid.NewGuid().ToString();
+
+            JobManager.AddJob(() => { ScheduleAdsScraping(); },
+                s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
+
+            return true;
+        }
+    }
+
+    public class ScrapAdsDetails
+    {
+        public string AccountId { get; set; }
+
+        public DominatorAccountModel account { get; set; }
+
+        public ScrapAdsDetails(DominatorAccountModel AccountModel)
+        {
+            account = AccountModel;
+        }
+
+        public static ConcurrentDictionary<string, CancellationTokenSource> AccountUpdatesCancellationToken
+        {
+            get;
+            set;
+        }
+            = new ConcurrentDictionary<string, CancellationTokenSource>();
+
+
+        public async Task StartAdScarperAsync()
+        {
+
+            try
+            {
+                var cancellationTokenSource =
+                    AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
+
+                var asyncAccount =
+                    ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
+
+                var runningAccounts = ServiceLocator.Current
+                    .GetInstance<IPostScraperConstants>().LstRunningAccounts;
+
+                if (runningAccounts.Contains(account.AccountId))
+                    return;
+
+                if (asyncAccount == null)
+                    return;
+
+                try
+                {
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+
+                    if (!checkResult)
+                        return;
+
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    await asyncAccount.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+
+                }
+                catch (OperationCanceledException ex)
+                {
+                    ex.DebugLog("Cancellation Requested!");
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }
