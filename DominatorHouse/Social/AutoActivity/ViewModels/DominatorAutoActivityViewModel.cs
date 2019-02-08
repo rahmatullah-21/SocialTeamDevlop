@@ -184,7 +184,9 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
 
             Task.Factory.StartNew(() =>
             {
-                foreach (var account in _accountCollectionViewModel.GetCopySync())
+                var accountCollection = _accountCollectionViewModel.GetCopySync()
+                    .Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
+                foreach (var account in accountCollection)
                 {
                     try
                     {
