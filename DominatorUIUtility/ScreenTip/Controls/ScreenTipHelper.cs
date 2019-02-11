@@ -133,13 +133,5 @@ namespace DominatorUIUtility.Controls
 
         #endregion
     }
-
-
-
-
-
-  
-
-
-
+    
 }

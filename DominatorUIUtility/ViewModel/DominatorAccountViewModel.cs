@@ -131,45 +131,19 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateAccountDetailsCommand { get; }
         public ICommand UpdateGroupCommand { get; }
         public ICommand UpdateUserCradCommand { get; }
+        public ICommand CmdStartOverView { get; }
+        public ICommand CmdStartIntroduction { get; }
         #endregion
 
         #region Tour
-
-        private ICommand _cmdStartIntroduction;
+        
         private Placement _placement;
-
-        public ICommand CmdStartIntroduction
-        {
-            get
-            {
-                if (_cmdStartIntroduction == null)
-                {
-                    _cmdStartIntroduction = new BaseCommand<object>((sender) => true, PopUpStarter.StartIntroduction);
-                }
-                return _cmdStartIntroduction;
-            }
-        }
-
         public Placement Placement
         {
             get { return _placement; }
             set { SetProperty(ref _placement, value); }
         }
-
-        private ICommand _cmdStartOverView;
-
-        public ICommand CmdStartOverView
-        {
-            get
-            {
-                if (_cmdStartOverView == null)
-                {
-                    _cmdStartOverView = new BaseCommand<object>((sender) => true, PopUpStarter.StartOverView);
-                }
-                return _cmdStartOverView;
-            }
-        }
-
+        
         #endregion
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler, IProxyFileManager proxyFileManager)
@@ -227,7 +201,8 @@ namespace DominatorUIUtility.ViewModel
             UpdateGroupCommand = new DelegateCommand(UpdateGroupDetailsExecute);
 
             UpdateUserCradCommand = new BaseCommand<object>((sender) => true, UpdateUserCradExecute);
-
+            CmdStartOverView = new DelegateCommand<object>(PopUpStarter.StartOverView);
+            CmdStartIntroduction = new DelegateCommand<object>(PopUpStarter.StartIntroduction);
             #endregion
 
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;

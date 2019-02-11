@@ -45,7 +45,8 @@ namespace DominatorUIUtility.CustomControl
         {
             _dominatorAccountViewModel = (DominatorAccountViewModel)ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
             InitializeComponent();
-           // DataContext = DominatorAccountViewModel.Instance;
+            AccountModule.DataContext = DominatorAccountViewModel;
+            
             //var navigator = FeatureTour.GetNavigator();
 
             //navigator.OnStepEntering("Rectangle").Execute(s =>

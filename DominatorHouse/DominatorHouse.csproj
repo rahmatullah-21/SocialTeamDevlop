@@ -468,10 +468,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\pindominator-library\PinDominator\PinDominatorUI.csproj">
-      <Project>{107cebc6-409b-47ca-a248-4a5e03d86e66}</Project>
-      <Name>PinDominatorUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\tumblrdominator-library\TumblrDominatorCore\TumblrDominatorCore.csproj">
       <Project>{5898e952-8c43-40b7-9527-eb814650d50f}</Project>
       <Name>TumblrDominatorCore</Name>
@@ -512,9 +508,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="WindowsInstaller">
@@ -559,9 +552,7 @@
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
