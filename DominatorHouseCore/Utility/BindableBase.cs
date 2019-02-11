@@ -1,8 +1,6 @@
-﻿using GalaSoft.MvvmLight;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
 
 namespace DominatorHouseCore.Utility
 {
@@ -24,13 +22,9 @@ namespace DominatorHouseCore.Utility
             this.OnPropertyChanged(propertyName);
             return true;
         }
-
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-       
-
     }
 }
