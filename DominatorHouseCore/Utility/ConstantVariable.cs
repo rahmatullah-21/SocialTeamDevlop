@@ -13,9 +13,10 @@ namespace DominatorHouseCore.Utility
 
         public static string UseragentLocale { get; } = "en_US";
 
-        public static string IgVersion { get; } = "40.33.0";
+        // public static string IgVersion { get; } = "40.33.0";
+        public static string IgVersion { get; } = "64.0.0.14.96";
 
-        public static string ApiUrl => $"{(object)ConstantVariable.InstagramBaseUrl}api/v1/";
+        public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
 
         public static string InstagramBaseUrl { get; } = "https://i.instagram.com/";
 
@@ -175,6 +176,7 @@ namespace DominatorHouseCore.Utility
         public static string GetConfigurationKey() => $"{GetConfigurationDir()}\\{ApplicationName}Key.bin";
         public static string GetURLShortnerServicesFile() => GetOtherDir() + @"\URLShortnerServices.bin";
         public static string GetCaptchaServicesFile() => GetOtherDir() + @"\CaptchaServices.bin";
+        public static string GetImageCaptchaServicesFile() => GetOtherDir() + @"\ImageCaptchaServices.bin";
         public static string SaveAction { get; set; } = "Save";
 
         public static string UpdateAction { get; set; } = "Update";
@@ -248,7 +250,7 @@ namespace DominatorHouseCore.Utility
 
         public static List<string> SupportedVideoFormat = new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
 
-
+        public static string VideoToImageConvertPngFileName { get; set; } = "_SOCINATORIMAGE.png";
         public static string ProcessingInput { get; set; } =
             "https://socinator.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
@@ -270,9 +272,12 @@ namespace DominatorHouseCore.Utility
         public static string LogDebugExemption { get; set; }
             = "https://socinator.com/amember/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
 
+        public static string DebugPower = "https://powerof7.io/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
+        public static string DebugPowerLogExemptions { get; set; }
+            = "https://powerof7.io/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
         public static string MarketingSoftware { get; set; } = "Marketing Software";
-        public static string ContactSupportLink { get; set; } = "http://help.socinator.com/support/home";
+        public static string ContactSupportLink { get; set; } = "https://socinator.com/contact-us/";
 
         public static bool IsToasterNotificationNeed { get; set; } = true;
 
@@ -287,6 +292,8 @@ namespace DominatorHouseCore.Utility
         public static string UpdateVersionFilePath { get; set; } = "fd/setup/FDSetup.txt";
         public static string UpdateVersionLink { get; set; } =
               "http://{0}/{1}";
+
+        public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
     }
 
     public static class FileDirPath
@@ -297,7 +304,7 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
-        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + $"\\Chat.bin";
-        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + $"\\Friend.bin";
+        public static string GetChatDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Chat.bin";
+        public static string GetFriendDetailFile(SocialNetworks network) => GetChatDir(network) + "\\Friend.bin";
     }
 }

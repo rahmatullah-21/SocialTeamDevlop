@@ -1,19 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using DominatorHouseCore.Enums;
-using SQLite;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         /// <summary>
         /// UserName of the Account from which Interaction is done
         /// </summary>
@@ -171,5 +163,10 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string CommentId { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

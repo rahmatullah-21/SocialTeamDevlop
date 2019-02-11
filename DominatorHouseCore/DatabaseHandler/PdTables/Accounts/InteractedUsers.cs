@@ -1,17 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
 
@@ -28,8 +20,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int InteractionTime
-        { get; set; }
+        public int InteractionTime { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string ActivityType
@@ -75,7 +66,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string FullName
         { get; set; }
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public bool? HasAnonymousProfilePicture
         { get; set; }
@@ -110,5 +101,15 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string DirectMessage
         { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public bool? Filtered
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 29)]
+        public bool? FullDetailsScraped
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 30)]
+        public bool IsFollowedByMe { get; set; }
     }
 }

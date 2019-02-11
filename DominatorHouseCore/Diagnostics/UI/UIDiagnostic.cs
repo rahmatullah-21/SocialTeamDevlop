@@ -34,7 +34,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public static void Error(Exception ex, string message)
         {            
-            Error($"{message}\r\n{ex.ToString()}");            
+            Error($"{message}\r\n{ex}");            
         }
 
         public static void Error(Exception ex)
@@ -69,13 +69,6 @@ namespace DominatorHouseCore.Diagnostics
             var appName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
             message += "\r\n\r\n" + $"NOTE: While you may be able to continue, restarting {appName} is advisable.\r\n\r\n" +
                        $"Do you want to continue running {appName}?";
-
-            //if (MessageBox.Show(message, "Application Exception", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.No) ==
-            //        MessageBoxResult.Yes)
-            //{
-            //    return;         // user choose to continue run app
-            //}
-
             GlobusLogHelper.log.Error("Fatal Exit...");
             GlobusLogHelper.log.Error(message);
 

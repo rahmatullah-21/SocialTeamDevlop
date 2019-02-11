@@ -146,6 +146,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             });
                         }
                         else
+                            // ReSharper disable once RedundantAssignment
                             itemToUpdate = PublisherRssFeedModel;
                     }
 

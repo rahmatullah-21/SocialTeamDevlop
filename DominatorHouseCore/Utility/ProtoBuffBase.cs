@@ -24,41 +24,64 @@ namespace DominatorHouseCore.Utility
         }
     }
 
-    internal class ProtoBuffBase
+    public interface IProtoBuffBase
     {
-        #region Serialize
-
-        
         /// <summary>
         /// SerializeObjects<T>() method is used to serialize the LIST of objects
         /// </summary>
         /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
         /// <param name="objectType">The object which is going to serialize</param>
         /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
-        internal static bool SerializeList<T>(List<T> list, string filePath) where T : class
+        bool SerializeList<T>(List<T> list, string filePath) where T : class;
+
+        void AppendObject<T>(T obj, string filePath);
+
+        /// <summary>
+        /// DeserializeObjects<T>() Method is used to deserialize the file and return  List ofType(T)
+        /// </summary>
+        /// <typeparam name="T">Class which is goes convert back</typeparam>
+        /// <param name="filePath">Source of the file </param>
+        /// <returns>List of Type T</returns>
+        List<T> DeserializeList<T>(string filePath) where T : class;
+        T Deserialize<T>(string filePath) where T : class, new();
+    }
+
+
+    internal class ProtoBuffBase : IProtoBuffBase
+    {
+        #region Serialize
+
+
+        /// <summary>
+        /// SerializeObjects<T>() method is used to serialize the LIST of objects
+        /// </summary>
+        /// <typeparam name="T">Specify the object is belongs to which Type </typeparam>
+        /// <param name="objectType">The object which is going to serialize</param>
+        /// <param name="filePath">Specify the filepath where the serialized object is going to save </param>
+        public bool SerializeList<T>(List<T> list, string filePath) where T : class
         {
             if (list == null)
                 throw new ArgumentNullException(nameof(list));
 
             if (!(list is IList))
                 throw new ArgumentException(nameof(list));
-            
+
             try
-            {                
+            {
                 DirectoryUtilities.CreateDirectory(Path.GetDirectoryName(filePath));
-                if (!File.Exists(filePath))                
+                if (!File.Exists(filePath))
                     File.Create(filePath).Close();
 
                 using (var stream = File.Open(filePath, FileMode.Truncate))
-                {                    
+                {
                     Serializer.Serialize(stream, new ListWrapper<T>(list));
                     stream.SetLength(stream.Position);
                 }
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");                
-                throw;        
+                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");
+                throw;
             }
 
 
@@ -66,7 +89,7 @@ namespace DominatorHouseCore.Utility
         }
 
         // Method to append new object to file
-        internal static void AppendObject<T>(T obj, string filePath)
+        public void AppendObject<T>(T obj, string filePath)
         {
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
@@ -111,28 +134,53 @@ namespace DominatorHouseCore.Utility
         /// <typeparam name="T">Class which is goes convert back</typeparam>
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
-        internal static List<T> DeserializeList<T>(string filePath) where T : class
-            
+        public List<T> DeserializeList<T>(string filePath) where T : class
         {
             try
             {
-                using (var stream = File.OpenRead(filePath))
+                if (File.Exists(filePath))
                 {
-                    if (filePath.ToLower().Contains("account"))
-                        Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
+                    using (var stream = File.OpenRead(filePath))
+                    {
+                        if (filePath.ToLower().Contains("account"))
+                            Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
 
-                    var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);  
+                        var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);
 
-                    return wrapper.List ?? new List<T>();
+                        return wrapper.List ?? new List<T>();
+                    }
                 }
             }
             catch (Exception ex)
             {
                 ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
                 return new List<T>();
-            }            
+            }
+            return new List<T>();
         }
 
-        #endregion        
+        public T Deserialize<T>(string filePath) where T : class, new()
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    using (var stream = File.OpenRead(filePath))
+                    {     // account model have to be only DominatorAccountModel
+
+                        var wrapper = Serializer.Deserialize<T>(stream);
+
+                        return wrapper ?? new T();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+
+            }
+            return new T();
+        }
+        #endregion
     }
 }

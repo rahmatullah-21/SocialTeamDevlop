@@ -1,18 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using DominatorHouseCore.Enums;
-using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         //ID of the Pin
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string PinId { get; set; }
@@ -90,6 +82,13 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string BoardLabel { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public string DestinationBoard { get; set; }
-
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public string Comment { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        public string PublishedDate { get; set; }
+        public ActivityType GetActivityType()
+        {
+            return OperationType;
+        }
     }
 }

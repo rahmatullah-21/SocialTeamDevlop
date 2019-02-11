@@ -51,11 +51,10 @@ namespace DominatorHouseCore.Models
             {
                 return
                     Enum.GetValues(typeof(DayOfWeek))
-                        ?.
+                        .
                         Cast<DayOfWeek>()
-                        ?.
-                        Select((Func<DayOfWeek, RunningTimes>)
-                        (day =>
+                        .
+                        Select(day =>
                         {
                             var model = new RunningTimes
                             {
@@ -65,7 +64,8 @@ namespace DominatorHouseCore.Models
                             };
                             model.Timings.Add(new TimingRange(new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59)));
                             return model;
-                        }))
+                        })
+                        // ReSharper disable once ConstantConditionalAccessQualifier
                         ?.ToList();
             }
 

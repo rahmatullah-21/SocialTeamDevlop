@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class QueryInfo : BindableBase, ICloneable
     {
-        private string _id = Utilities.GetGuid(true);
+        private string _id = Utilities.GetGuid();
 
         private string _queryValue;
         private bool _isCustomFilterSelected;
@@ -22,7 +22,16 @@ namespace DominatorHouseCore.Models
         private string _queryTypeDisplayName;
 
         public static readonly QueryInfo NoQuery = new QueryInfo();
-
+        private int _index;
+        [ProtoMember(10)]
+        public int Index
+        {
+            get { return _index; }
+            set
+            {
+                SetProperty(ref _index, value);
+            }
+        }
         /// <summary>
         /// Id is the unique id for the query, which contains guid without dashes
         /// </summary>

@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -10,20 +6,27 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
     /// Interaction logic for Tumblr.xaml
     /// </summary>
-    public partial class Tumblr : UserControl,INotifyPropertyChanged
+    public partial class Tumblr : UserControl, INotifyPropertyChanged
     {
+        private readonly IGenericFileManager _genericFileManager;
         public Tumblr()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();
             MainGrid.DataContext = TumblrViewModel;
         }
-        static Tumblr ObjTumblr = null;
+        static Tumblr ObjTumblr;
         public static Tumblr GetSingeltonTumblr()
         {
             if (ObjTumblr == null)
@@ -57,10 +60,10 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var tumblrModel = GenericFileManager.GetModuleDetails<TumblrModel>
+            var tumblrModel = _genericFileManager.GetModuleDetails<TumblrModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            TumblrViewModel.TumblrModel = tumblrModel ?? (tumblrModel = new TumblrModel());
+            TumblrViewModel.TumblrModel = tumblrModel ?? (new TumblrModel());
         }
     }
 }

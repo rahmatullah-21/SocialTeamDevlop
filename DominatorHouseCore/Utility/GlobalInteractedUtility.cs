@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
@@ -40,6 +39,7 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        // ReSharper disable once UnusedParameter.Global
         public void CheckAndAddInteractedData(string campaignId, string interactedData, ActivityType activityType)
         {
             lock (Synclock)

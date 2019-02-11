@@ -1,9 +1,11 @@
-﻿using System;
+﻿using DominatorHouseCore.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
-using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.Converters
 {
@@ -47,10 +49,12 @@ namespace DominatorHouseCore.Converters
                                                        || a.AccountProxy.ProxyName.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0);
                 }
             }
-
+            if (collection != null)
+                collection = new ObservableCollection<ProxyManagerModel>(collection);
             return collection;
         }
 
+        [ExcludeFromCodeCoverage]
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

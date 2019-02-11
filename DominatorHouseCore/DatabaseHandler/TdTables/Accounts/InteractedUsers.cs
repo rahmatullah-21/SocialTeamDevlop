@@ -1,18 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-      
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string SinAccUsername { get; set; }
 
@@ -117,6 +109,5 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
         public int IsVerified { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string MediaPath { get; set; }
-
     }
 }

@@ -304,12 +304,10 @@ namespace DominatorHouseCore.Models
             {
                 if (value == _IsRecieved) return;
                 _IsRecieved = value;
-                this.OnPropertyChanged("IsRecieved");
+                OnPropertyChanged();
               
             }
         }
-
-        public AllignmentConvertor allignmentConvertor = new AllignmentConvertor();
 
     }
 
@@ -318,7 +316,7 @@ namespace DominatorHouseCore.Models
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-           return (bool)value == true ? HorizontalAlignment.Right: HorizontalAlignment.Left;
+           return (bool)value ? HorizontalAlignment.Right: HorizontalAlignment.Left;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

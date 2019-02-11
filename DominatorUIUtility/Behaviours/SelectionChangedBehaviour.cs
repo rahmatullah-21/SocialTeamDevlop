@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -17,7 +15,7 @@ namespace DominatorUIUtility.Behaviours
             Selector selector = (Selector)depObj;
             if (selector != null)
             {
-                selector.SelectionChanged += new SelectionChangedEventHandler(SelectionChanged);
+                selector.SelectionChanged += SelectionChanged;
             }
 
         }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
@@ -65,5 +63,10 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string MessageToChannelOwner { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string MyChannelId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string MyChannelPageId { get; set; }
     }
 }

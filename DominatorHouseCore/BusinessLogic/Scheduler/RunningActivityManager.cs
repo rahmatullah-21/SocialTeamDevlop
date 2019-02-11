@@ -1,56 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DominatorHouseCore.FileManagers;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
-    public class RunningActivityManager
+    public interface IRunningActivityManager
     {
-        public static void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
-        {
-            // decide activities to run
-            //IEnumerable<Tuple<DominatorAccountModel, Utility.ModuleConfiguration>> jobConfigs;
-            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
-            {
-                // everything is allowed
+        void Initialize(IEnumerable<DominatorAccountModel> accountDetails);
+        void StartNextRound(DominatorAccountModel accountModel);
 
-                foreach (var account in accountDetails)
-                {
-                    DominatorScheduler.ScheduleEachActivity(account);
-                }
-            }
-            else
-            {
-                // be picky - only one per account (choose wisely)
-                foreach (var account in accountDetails)
-                {
-                    StartNextRound(account);
-                }
-            }
+    }
+    public class RunningActivityManager : IRunningActivityManager
+    {
+        public void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
+        {
+            Task.Factory.StartNew(() =>
+             {
+                 var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                 if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
+                 {
+                     var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                     // everything is allowed
+                     foreach (var account in accountDetails)
+                         dominatorScheduler.ScheduleEachActivity(account);
+                 }
+                 else
+                 {
+                     // be picky - only one per account (choose wisely)
+                     foreach (var account in accountDetails)
+                         StartNextRound(account);
+                 }
+             });
         }
-        public static void InitializeSingleAccount(DominatorAccountModel account)
-        {
-            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
-            {
-                // everything is allowed
 
-                DominatorScheduler.ScheduleEachActivity(account);
-            }
-            else
-            {
-                // be picky - only one per account (choose wisely)
-                StartNextRound(account);
-            }
-        }
-        public static void StartNextRound(DominatorAccountModel accountModel)
+        public void StartNextRound(DominatorAccountModel accountModel)
         {
-
-            var moduleConfiguration = accountModel.ActivityManager.LstModuleConfiguration.Where(arg => arg.IsEnabled && arg.LstRunningTimes != null)
-                .OrderByDescending(PickNextActivity).FirstOrDefault();
+            var jobActivityConfigurationManager =
+                ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId].Where(x => x.IsEnabled)
+                .OrderByDescending(PickNextActivity)
+                .FirstOrDefault();
+            //var moduleConfiguration = jobActivityConfigurationManager
+            //    .AllEnabled()
+            //    .OrderByDescending(PickNextActivity)
+            //    .FirstOrDefault();
             if (moduleConfiguration == null) return;
             //Check if any job process is already scheduled before to run after this activity.
             var schedules = JobManager.AllSchedules;
@@ -60,7 +60,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             if (ofScheduledJobs.Any())
             {
                 var latestScheduledJob = ofScheduledJobs.OrderBy(x => x.NextRun).FirstOrDefault();
-                if (moduleConfiguration != null && (latestScheduledJob != null && latestScheduledJob.NextRun < moduleConfiguration.NextRun))
+                if ((latestScheduledJob != null && latestScheduledJob.NextRun < moduleConfiguration.NextRun))
                 {
                     return;
                 }
@@ -69,29 +69,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     JobManager.RemoveJob(scheduledJob.Name);
                 }
             }
-            DominatorScheduler.ScheduleActivityForNextJob(accountModel, accountModel.AccountBaseModel.AccountNetwork, moduleConfiguration.ActivityType);
+
+            dominatorScheduler.ScheduleActivityForNextJob(accountModel, moduleConfiguration.ActivityType);
         }
 
-        /// <summary>
-        /// Scores a configuration
-        /// </summary>
-        /// <param name="arg">the configuration</param>
-        /// <returns>an opaque number where greater is better candidate for running now</returns>
-        private static int PonderConfiguration(ModuleConfiguration arg)
-        {
-            int score = 0; // start from zero
-            score += 100 - (int)arg.ActivityType; // a lower type gets you more points
-            if (arg.Status == "Active") score += 50; // prefer an active-status campaign
-            var wd = (int)DateTime.Today.DayOfWeek;
-            score += 50 * arg.LstRunningTimes?
-                .Where(rt => rt.IsEnabled) // only if enabled
-                .Select(rt => (7 + wd - (int)rt.DayOfWeek) % 7) // how many days ago
-                .FirstOrDefault() ?? 0; // the closest (0 today or none enabled)
-
-            return score;
-        }
-
-        private static int PickNextActivity(ModuleConfiguration arg)
+        private int PickNextActivity(ModuleConfiguration arg)
         {
             int score = 0; //start from zero
             if (arg.IsEnabled) score += 50;

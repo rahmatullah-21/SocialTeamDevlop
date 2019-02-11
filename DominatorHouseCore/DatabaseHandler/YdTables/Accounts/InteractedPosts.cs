@@ -1,17 +1,11 @@
-﻿using SQLite;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.Enums;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountUsername { get; set; }
 
@@ -59,7 +53,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string SubscribeCount { get; set; }
-        
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string CommentCount { get; set; }
 
@@ -83,5 +77,17 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
         public string CommentId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
+        public string MyChannelId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
+        public string MyChannelPageId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public int ViewingCountPerAccount { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

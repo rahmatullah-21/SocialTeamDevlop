@@ -20,9 +20,9 @@ namespace DominatorHouseCore.Models
 
         public Proxy()
         {
-            this.HasCredentials = false;
-            this.HasProxy = false;
-            ProxyId = Utilities.GetGuid(true);
+            HasCredentials = false;
+            HasProxy = false;
+            ProxyId = Utilities.GetGuid();
         }
 
         [ProtoMember(10)]
@@ -133,69 +133,37 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        public void ChangeProxy(string proxyIp, string proxyPort)
-        {
-            if (string.IsNullOrWhiteSpace(proxyIp) || string.IsNullOrWhiteSpace(proxyPort))
-                throw new ArgumentException("Invalid proxy format.");
-            if (!Proxy.IsValidProxy(proxyIp, proxyPort))
-                throw new ArgumentException("Invalid proxy format.");
-            this.ProxyIp = proxyIp;
-            this.ProxyPort = proxyPort;
-            this.HasProxy = true;
-            this.SetProxyCredentials();
-        }
-
-
-
-        public void ChangeProxy()
-        {
-            this.ProxyIp = (string)null;
-            this.ProxyPort = (string)null;
-            this.HasProxy = false;
-            this.SetProxyCredentials();
-        }
-
-
+      
 
         public void SetProxyCredentials(string proxyUsername, string proxyPassword)
         {
-            this.ProxyUsername = proxyUsername;
-            this.ProxyPassword = proxyPassword;
-            this.HasCredentials = true;
+            ProxyUsername = proxyUsername;
+            ProxyPassword = proxyPassword;
+            HasCredentials = true;
         }
-
-
-
-        private void SetProxyCredentials()
-        {
-            this.ProxyUsername = (string)null;
-            this.ProxyPassword = (string)null;
-            this.HasCredentials = false;
-        }
-
-
 
         public string GetProxy()
         {
-            if (!string.IsNullOrWhiteSpace(this.ProxyIp))
-                return this.ProxyIp + ":" + this.ProxyPort;
+            if (!string.IsNullOrWhiteSpace(ProxyIp))
+                return ProxyIp + ":" + ProxyPort;
 
             return Resources.UserAccountEditPasswordNotValue;
         }
 
 
+        // ReSharper disable once UnusedMember.Global
         public bool TestProxy()
         {
-            if (this.ProxyIp == null && this.ProxyPort == null)
+            if (ProxyIp == null && ProxyPort == null)
                 throw new ArgumentException("Need to set proxies first");
             try
             {
-                var webClientExtended = new Proxy.WebClientExtended();
-                var webProxy1 = new WebProxy(this.GetProxy(), true);
-                if (this.HasCredentials)
-                    webProxy1.Credentials = (ICredentials)new NetworkCredential(this.ProxyUsername, this.ProxyPassword);
+                var webClientExtended = new WebClientExtended();
+                var webProxy1 = new WebProxy(GetProxy(), true);
+                if (HasCredentials)
+                    webProxy1.Credentials = new NetworkCredential(ProxyUsername, ProxyPassword);
                 var webProxy2 = webProxy1;
-                webClientExtended.Proxy = (IWebProxy)webProxy2;
+                webClientExtended.Proxy = webProxy2;
                 var address = "http://google.com/";
                 webClientExtended.DownloadString(address);
                 return true;
@@ -209,7 +177,6 @@ namespace DominatorHouseCore.Models
 
         public static bool IsValidProxy(string ip, string port)
         {
-
             return Regex.IsMatch(ip + ":" + port, "^\\d{1,3}(\\.\\d{1,3}){3}:\\d{1,5}$");
         }
 
@@ -217,22 +184,12 @@ namespace DominatorHouseCore.Models
         public static bool IsValidProxyIp(string proxyAddress)
         {
             return ProxyIpValidationRegex.IsMatch(proxyAddress);
-
         }
 
         public static bool IsValidProxyPort(string proxyPort)
         {
             return ProxyPortValidationRegex.IsMatch(proxyPort);
         }
-
-
-        // [return: TupleElementNames(new string[] { "username", "password" })]
-        public ValueTuple<string, string> GetCredentials()
-        {
-            return new ValueTuple<string, string>(this.ProxyUsername, this.ProxyPassword);
-        }
-
-
 
         private class WebClientExtended : WebClient
         {
@@ -246,7 +203,7 @@ namespace DominatorHouseCore.Models
                 int num2 = 0;
                 webRequest.KeepAlive = num2 != 0;
                 webRequest.ServicePoint.SetTcpKeepAlive(false, 1000, 5000);
-                return (WebRequest)webRequest;
+                return webRequest;
             }
         }
 

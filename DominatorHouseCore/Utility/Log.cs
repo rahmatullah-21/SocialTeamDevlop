@@ -1,7 +1,4 @@
-﻿using System.Net.Mime;
-using System.Windows;
-
-namespace DominatorHouseCore.Utility
+﻿namespace DominatorHouseCore.Utility
 {
     public static class Log
     {
@@ -76,27 +73,11 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         public static string JobPaused { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyStoppedCurrentJobTo".FromResourceDictionary() + " {2} " + "LangKeyAs".FromResourceDictionary() + "\t" + CodeConstants.JobPaused;
 
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = CampaignName
-        /// </summary>
-        public static string SavedCampaign { get; set; } = "{0}\t {1}\t Campaign \t " + "LangKeySuccessfullySaved".FromResourceDictionary() + "\t" + CodeConstants.SavedCampaign;
-
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
         /// </summary>
         public static string CampaignDeleted { get; set; } = "{0}\t {1}\t Campaign\t " + "LangKeySuccessfullyDeleted".FromResourceDictionary() + "\t" + CodeConstants.CampaignDeleted;
-
-
-        /// <summary>
-        /// 0 = Account's SocialNetwork
-        /// 1 = CampaignName
-        /// </summary>
-        public static string CampaignUpdated { get; set; } = "{0}\t {1}\t Campaign\t " + "LangKeySuccessfullyUpdated".FromResourceDictionary() + "\t" + CodeConstants.CampaignUpdated;
-
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -179,6 +160,12 @@ namespace DominatorHouseCore.Utility
 
         public static string AccountNeedsVerification { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyNeedsToVerifiedToPerformNextActivities".FromResourceDictionary() + "\t" + CodeConstants.AccountNeedsVerification;
 
+        /// <summary>
+        /// 0.Account's SocialNetwork
+        /// 1.campaign name/AccountName
+        /// 2.ActivityType
+        /// 3.Message
+        /// </summary>
         public static string CustomMessage { get; set; } = "{0}\t {1}\t {2}\t{3}\t" + CodeConstants.CustomMessage;
 
         /// <summary>
@@ -420,5 +407,12 @@ namespace DominatorHouseCore.Utility
         /// 3 = Error Details
         /// </summary>
         public static string PublishingFailedWithError { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyErrorWhilePublishingOn".FromResourceDictionary() + " {2}-[{3}] with error {4}\t" + CodeConstants.PublishingFailedWithError;
+
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username   
+        /// 2 = Varification type[Phone/Email]      
+        /// </summary>
+        public static string SentVerificationCodeForAutoVerify { get; set; } = "{0}\t {1}\t " + "LangKeyVerification".FromResourceDictionary() + "\t" + "LangKeyVerificationCodeHasBeenSentToRregistered".FromResourceDictionary() + " {2}. " + "\t" + CodeConstants.SentVerificationCode;
     }
 }

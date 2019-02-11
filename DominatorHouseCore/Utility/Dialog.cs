@@ -1,7 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,44 +9,7 @@ namespace DominatorHouseCore.Utility
 {
     public class Dialog
     {
-        public Window GetCustomDialog(BaseMetroDialog dialog)
-        {
-            var dialogWindow = new MetroWindow
-            {
-                ShowInTaskbar = true,
-                ShowActivated = true,
-                Topmost = false,
-                ResizeMode = ResizeMode.NoResize,
-                WindowStyle = WindowStyle.SingleBorderWindow,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                ShowTitleBar = true,
-                ShowCloseButton = true,
-                WindowTransitionsEnabled = false,
-                Background = dialog.Background,
-                BorderThickness = new Thickness(0),
-                GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
-            };
-
-
-
-            try
-            {
-                dialogWindow.GlowBrush = dialogWindow.FindResource("AccentColorBrush") as SolidColorBrush;
-            }
-            catch (Exception)
-            {
-
-            }
-            dialogWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 4.0;
-            dialogWindow.MinWidth = SystemParameters.PrimaryScreenHeight / 1.3;
-            dialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
-            dialogWindow.Content = dialog;
-            return dialogWindow;
-        }
-
-
-        public Window GetCustomDialog(BaseMetroDialog dialog, string title)
+        public Window GetCustomDialog(BaseMetroDialog dialog, string title = "")
         {
             var dialogWindow = new MetroWindow
             {
@@ -154,19 +116,6 @@ namespace DominatorHouseCore.Utility
             return MetroWindow;
         }
 
-        [Obsolete("SetMetroDialogButton without parameter is deprecated, please use SetMetroDialogButton(AffirmativeText,NegativeText) instead.")]
-        public static MetroDialogSettings SetMetroDialogButton()
-        {
-            var metroDialogButton = new MetroDialogSettings()
-            {
-                AffirmativeButtonText = "Yes",
-                NegativeButtonText = "No",
-                AnimateShow = true,
-                AnimateHide = false,
-                DefaultButtonFocus = MessageDialogResult.Affirmative
-            };
-            return metroDialogButton;
-        }
         public static MetroDialogSettings SetMetroDialogButton(string affirmativeText, string negativeText)
         {
             var metroDialogButton = new MetroDialogSettings()
@@ -215,7 +164,7 @@ namespace DominatorHouseCore.Utility
                     AffirmativeButtonText = firstButtonContent,
                     NegativeButtonText = secondButtonContent
                 };
-              return  DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, title, message, settings);
+                return DialogCoordinator.Instance.ShowModalInputExternal(Application.Current.MainWindow, title, message, settings);
             }
             catch (Exception ex)
             {

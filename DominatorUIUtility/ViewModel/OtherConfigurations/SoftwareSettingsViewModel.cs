@@ -1,28 +1,33 @@
-﻿using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System;
+using System.Diagnostics;
 using System.Windows;
+using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
     public class SoftwareSettingsViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {
+        private readonly ISoftwareSettings _softwareSettings;
         public SoftwareSettingsModel SoftwareSettingsModel { get; }
         public DelegateCommand SaveCmd { get; }
 
-        public SoftwareSettingsViewModel() : base("LangKeySoftwareSettings", "SoftwareSettingsControlTemplate")
+        public SoftwareSettingsViewModel(ISoftwareSettings softwareSettings) : base("LangKeySoftwareSettings", "SoftwareSettingsControlTemplate")
         {
+            _softwareSettings = softwareSettings;
             SaveCmd = new DelegateCommand(Save);
-            SoftwareSettingsModel = SoftwareSettingsFileManager.GetSoftwareSettings() ?? new SoftwareSettingsModel();
+            SoftwareSettingsModel = softwareSettings.Settings;
         }
 
         private void Save()
         {
-            if (SoftwareSettingsFileManager.SaveSoftwareSettings(SoftwareSettingsModel))
+            if (_softwareSettings.Save())
             {
                 var result = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
                     "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", MessageDialogStyle.AffirmativeAndNegative,
@@ -30,7 +35,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                 if (result == MessageDialogResult.Affirmative)
                 {
                     Application.Current.Shutdown();
-                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                    Process.Start(Application.ResourceAssembly.Location);
                     Environment.Exit(0);
 
                 }

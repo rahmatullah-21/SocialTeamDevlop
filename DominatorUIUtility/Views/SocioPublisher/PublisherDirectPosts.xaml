@@ -2,8 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              mc:Ignorable="d"  xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
              xmlns:control="http://metro.mahapps.com/winfx/xaml/controls">
@@ -93,9 +92,27 @@
 
             <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding PostDetailsModel.IsMultipleImagePost,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel>
-                    <CheckBox Name="CheckBoxUseFileNameAsDescription" Margin="2"
+                    <RadioButton Name="CheckBoxUseFileNameAsDescription" Margin="2" GroupName="Description"
                                   Content="{DynamicResource LangKeyUseFileNameAsPostDescription}"
                                   IsChecked="{Binding PostDetailsModel.IsUseFileNameAsDescription}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Margin="2" Content="{DynamicResource LangKeyUploadPostDescription}" GroupName="Description"
+                                 IsChecked="{Binding PostDetailsModel.IsUploadPostDescription}"  VerticalAlignment="Center"/>
+                        <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand" 
+                                Visibility="{Binding PostDetailsModel.IsUploadPostDescription,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Background="{DynamicResource AccentBaseColorBrush}"  Height="30"  VerticalAlignment="Center" 
+                                Command="{Binding UploadDescriptionCommand}" CommandParameter="SaveToDraft">
+                            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
+                                <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Left">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_upload}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyUploadDescription}"  Foreground="White"
+                                       FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                     <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource LangKeyAddOnlyUniquePost}"
                                   IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
                     <StackPanel Orientation="Horizontal">

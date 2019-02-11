@@ -1,15 +1,16 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -18,14 +19,16 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
     /// </summary>
     public partial class Facebook : UserControl, INotifyPropertyChanged
     {
-        private Facebook()
+        private readonly IGenericFileManager _genericFileManager;
+        public Facebook()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();
             MainGrid.DataContext = FacebookViewModel;
             FacebookViewModel.FacebookModel.CampaignId = "";
         }
 
-        static Facebook ObjFacebook = null;
+        static Facebook ObjFacebook;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -35,6 +38,8 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 ObjFacebook = new Facebook();
             return ObjFacebook;
         }
+
+
         private FacebookViewModel _facebookViewModel = new FacebookViewModel();
 
         public FacebookViewModel FacebookViewModel
@@ -61,10 +66,12 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var facebookModel = GenericFileManager.GetModuleDetails<FacebookModel>
+            var facebookModel = _genericFileManager.GetModuleDetails<FacebookModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            FacebookViewModel.FacebookModel = facebookModel ?? (facebookModel=new FacebookModel()) ;
+            FacebookViewModel.FacebookModel = facebookModel ?? (new FacebookModel());
         }
+
+
     }
 }

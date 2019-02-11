@@ -18,7 +18,7 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class MessageMediaControl : UserControl
     {
-        public bool Isupdated { get; set; } = false;
+        public bool Isupdated { get; set; }
         public MessageMediaControl()
         {
             InitializeComponent();
@@ -104,13 +104,40 @@ namespace DominatorUIUtility.CustomControl
             }
 
         }
-
+        private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
-            if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
+            var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
+            if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
             {
+
+                if (!IsChecked)
+                {
+                    _isUncheckfromList = true;
+                    Messages.LstQueries[0].IsContentSelected = false;
+                }
+            }
+            if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            {
+                _isUncheckfromList = false;
+                Messages.LstQueries[0].IsContentSelected = IsChecked;
+            }
+            if (_isUncheckfromList)
+            {
+                _isUncheckfromList = false;
+                return;
+            }
+
+            if (currentQuery == "All" || currentQuery == "Default")
+            {
+                _isUncheckfromList = false;
                 Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
             }
+
+            //if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
+            //{
+            //    Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+            //}
 
         }
         private void AddCheckedQueryToList()
@@ -137,10 +164,9 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-
                 OpenFileDialog opf = new OpenFileDialog();
                 opf.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
-                if (opf.ShowDialog().Value == true)
+                if (opf.ShowDialog().Value)
                 {
                     Messages.MediaPath = opf.FileName;
                 }
@@ -191,9 +217,10 @@ namespace DominatorUIUtility.CustomControl
                     {
                         x.MessagesText = Messages.MessagesText;
                         x.LstQueries = Messages.LstQueries;
+                        x.MediaPath = Messages.MediaPath;
                     }
                     return x;
-                });
+                }).ToList();
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Isupdated = true;
@@ -204,12 +231,10 @@ namespace DominatorUIUtility.CustomControl
                 AddCommentToListEventHandler();
             }
         }
-
-
-
+        
         public object CommandParameter
         {
-            get { return (object)GetValue(CommandParameterProperty); }
+            get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
         }
 

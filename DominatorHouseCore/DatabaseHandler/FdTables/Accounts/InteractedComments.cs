@@ -1,7 +1,5 @@
 ﻿using SQLite;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
@@ -81,5 +79,13 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public DateTime InteractionDateTime { get; set; }
 
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string LikeAsPageId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        public string Mentions { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string ReplyForComment { get; set; }
     }
 }

@@ -1,18 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 {
-    public class UnfollowedUsers
+    public class UnfollowedUsers : Entity
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string SinAccUsername { get; set; }
 
@@ -52,8 +44,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
-        public DateTime InteractionDate
-        { get; set; }
+        public DateTime InteractionDate { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string ProcessType { get; set; }

@@ -1,15 +1,16 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-using DominatorHouseCore.Annotations;
+﻿using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -18,12 +19,14 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
     /// </summary>
     public partial class Pinterest : UserControl
     {
-        private Pinterest()
+        private readonly IGenericFileManager _genericFileManager;
+        public Pinterest()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();
             MainGrid.DataContext = PinterestViewModel;
         }
-        static Pinterest ObjPinterest = null;
+        static Pinterest ObjPinterest;
         public static Pinterest GetSingeltonPinterestObject()
         {
             if (ObjPinterest == null)
@@ -57,10 +60,10 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var pinterestModel = GenericFileManager.GetModuleDetails<PinterestModel>
+            var pinterestModel = _genericFileManager.GetModuleDetails<PinterestModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            PinterestViewModel.PinterestModel = pinterestModel ?? (pinterestModel = new PinterestModel());
+            PinterestViewModel.PinterestModel = pinterestModel ?? (new PinterestModel());
         }
     }
 }

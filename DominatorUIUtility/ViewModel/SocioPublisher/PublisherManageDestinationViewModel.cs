@@ -1,4 +1,13 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher;
+using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,22 +16,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
-using MahApps.Metro.Controls.Dialogs;
-using DominatorHouseCore;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherManageDestinationViewModel : BindableBase
     {
+        private readonly IGenericFileManager _genericFileManager;
         #region Constructor
         public PublisherManageDestinationViewModel()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             SelectionCommand = new BaseCommand<object>(SelectionCanExecute, SelectionExecute);
             DeleteDestinationCommand = new BaseCommand<object>(DeleteDestinationCanExecute, DeleteDestinationExecute);
@@ -227,7 +230,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Update to bin file
                 ManageDestinationFileManager.Delete(d => d.DestinationId == destination.DestinationId);
-                GenericFileManager.DeleteBinFiles(
+                _genericFileManager.DeleteBinFiles(
                     $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{destination.DestinationId}.bin");
             }
             else
@@ -256,7 +259,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     // To update to bin files
                     ListPublisherManageDestinationModels.Remove(x);
-                    GenericFileManager.DeleteBinFiles(
+                    _genericFileManager.DeleteBinFiles(
                         $"{ConstantVariable.GetPublisherCreateDestinationsFolder()}\\{x.DestinationId}.bin");
                 });
 
@@ -353,7 +356,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     Application.Current.Dispatcher.Invoke(delegate
                     {
                         // get the updating destinations
-                        var destination = ListPublisherManageDestinationModels.FirstOrDefault(x =>   x.DestinationId == publisherManageDestinationModel.DestinationId);
+                        var destination = ListPublisherManageDestinationModels.FirstOrDefault(x => x.DestinationId == publisherManageDestinationModel.DestinationId);
 
                         // void checker
                         if (destination == null)
@@ -377,7 +380,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 else
                 {
                     // get the updating destinations
-                    var destination = ListPublisherManageDestinationModels.FirstOrDefault(x =>  x.DestinationId == publisherManageDestinationModel.DestinationId);
+                    var destination = ListPublisherManageDestinationModels.FirstOrDefault(x => x.DestinationId == publisherManageDestinationModel.DestinationId);
 
                     // void checker
                     if (destination != null)

@@ -1,4 +1,13 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls.Dialogs;
+using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,16 +15,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls.Dialogs;
-using ProtoBuf;
+using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Patterns;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -24,8 +25,11 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class JobConfigControl : UserControl, INotifyPropertyChanged
     {
+        private readonly IGenericFileManager _genericFileManager;
         public JobConfigControl()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+
             InitializeComponent();
             MainGrid.DataContext = this;
             InitilizeFavoriteTime();
@@ -36,8 +40,8 @@ namespace DominatorUIUtility.CustomControl
         private void RemoveFavoriteTimeExecute(object sender)
         {
             var itemTodelete = sender as string;
-            LstFavoriteTime.Remove(LstFavoriteTime.FirstOrDefault(x=>x.FavoriteTimeName==itemTodelete));
-            GenericFileManager.UpdateModuleDetails<FavoriteTime>(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
+            LstFavoriteTime.Remove(LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == itemTodelete));
+            _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
 
         }
 
@@ -51,7 +55,8 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty JobConfigurationProperty =
             DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(JobConfigControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
             {
-                BindsTwoWayByDefault = true
+                BindsTwoWayByDefault = true,
+                DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
 
 
@@ -129,7 +134,7 @@ namespace DominatorUIUtility.CustomControl
 
                 if (JobConfiguration.SelectedItem == "Slow")
                 {
-                    var slowSpeed = ((dynamic)model).SlowSpeed;
+                    var slowSpeed = model.SlowSpeed;
                     JobConfiguration.ActivitiesPerDay = slowSpeed.ActivitiesPerDay;
                     JobConfiguration.ActivitiesPerHour = slowSpeed.ActivitiesPerHour;
                     JobConfiguration.ActivitiesPerWeek = slowSpeed.ActivitiesPerWeek;
@@ -139,7 +144,7 @@ namespace DominatorUIUtility.CustomControl
                 }
                 else if (JobConfiguration.SelectedItem == "Medium")
                 {
-                    var mediumSpeed = ((dynamic)model).MediumSpeed;
+                    var mediumSpeed = model.MediumSpeed;
                     JobConfiguration.ActivitiesPerDay = mediumSpeed.ActivitiesPerDay;
                     JobConfiguration.ActivitiesPerHour = mediumSpeed.ActivitiesPerHour;
                     JobConfiguration.ActivitiesPerWeek = mediumSpeed.ActivitiesPerWeek;
@@ -149,7 +154,7 @@ namespace DominatorUIUtility.CustomControl
                 }
                 else if (JobConfiguration.SelectedItem == "Fast")
                 {
-                    var fastSpeed = ((dynamic)model).FastSpeed;
+                    var fastSpeed = model.FastSpeed;
                     JobConfiguration.ActivitiesPerDay = fastSpeed.ActivitiesPerDay;
                     JobConfiguration.ActivitiesPerHour = fastSpeed.ActivitiesPerHour;
                     JobConfiguration.ActivitiesPerWeek = fastSpeed.ActivitiesPerWeek;
@@ -159,7 +164,7 @@ namespace DominatorUIUtility.CustomControl
                 }
                 else if (JobConfiguration.SelectedItem == "Superfast")
                 {
-                    var superfastSpeed = ((dynamic)model).SuperfastSpeed;
+                    var superfastSpeed = model.SuperfastSpeed;
                     JobConfiguration.ActivitiesPerDay = superfastSpeed.ActivitiesPerDay;
                     JobConfiguration.ActivitiesPerHour = superfastSpeed.ActivitiesPerHour;
                     JobConfiguration.ActivitiesPerWeek = superfastSpeed.ActivitiesPerWeek;
@@ -190,7 +195,7 @@ namespace DominatorUIUtility.CustomControl
                 {
 
                     favoriteTimeName = Dialog.GetInputDialog("Favorite Time", "Enter Favorite time", favoriteTimeName, "Save", "Cancel");
-                    if (!string.IsNullOrEmpty(favoriteTimeName))
+                    if (!string.IsNullOrEmpty(favoriteTimeName?.Trim()))
                     {
                         if (!LstFavoriteTime.Any(x => x.FavoriteTimeName == favoriteTimeName))
                         {
@@ -199,7 +204,7 @@ namespace DominatorUIUtility.CustomControl
                                 FavoriteTimeName = favoriteTimeName,
                                 LstFavoriteTimes = JobConfiguration.RunningTime.DeepCloneObject()
                             };
-                            GenericFileManager.AddModule<FavoriteTime>(favoriteTime, ConstantVariable.GetFavoriteTimeFile());
+                            _genericFileManager.AddModule(favoriteTime, ConstantVariable.GetFavoriteTimeFile());
                             LstFavoriteTime.Add(favoriteTime);
 
                             break;
@@ -211,14 +216,19 @@ namespace DominatorUIUtility.CustomControl
                             {
                                 var oldLstFavoriteTime = LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == favoriteTimeName);
                                 oldLstFavoriteTime.LstFavoriteTimes = JobConfiguration.RunningTime;
-                                GenericFileManager.UpdateModuleDetails<FavoriteTime>(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
+                                _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
                                 break;
                             }
 
                         }
                     }
+                    else if (favoriteTimeName == null)
+                        break;
                     else
                     {
+                        var result = Dialog.ShowCustomDialog("Error", "Favorite Time should not empty.\nPlease type some name.", "Ok", "Cancel");
+                        if (result == MessageDialogResult.Affirmative)
+                            continue;
                         break;
                     }
                 }
@@ -248,9 +258,9 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var lstFavoriteTimes = GenericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
+                var lstFavoriteTimes = _genericFileManager.GetModuleDetails<FavoriteTime>(ConstantVariable.GetFavoriteTimeFile());
 
-                App.Current.Dispatcher.Invoke((Action)delegate
+                Application.Current.Dispatcher.Invoke(delegate
                 {
                     LstFavoriteTime.Clear();
                     lstFavoriteTimes.ForEach(x =>
@@ -269,8 +279,8 @@ namespace DominatorUIUtility.CustomControl
         private void JobConfigControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitilizeFavoriteTime();
-            if (!IsSelectionChangedExecute)
-                Selector_OnSelectionChanged(Speed, null);
+            //if (!IsSelectionChangedExecute)
+            Selector_OnSelectionChanged(Speed, null);
             IsSelectionChangedExecute = false;
         }
 

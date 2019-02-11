@@ -1,17 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
 
@@ -35,11 +27,10 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public int FollowedBack
         { get; set; }
 
-        
+
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public int Date
-        { get; set; }
+        public int Date { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public int FollowerCount

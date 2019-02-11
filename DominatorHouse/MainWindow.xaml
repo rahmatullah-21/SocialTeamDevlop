@@ -1,18 +1,16 @@
 ﻿<controls:MetroWindow
         x:Class="Socinator.MainWindow"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:Controls="clr-namespace:DominatorUIUtility.Controls;assembly=DominatorUIUtility"
-     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
- xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
-        xmlns:views1="clr-namespace:DominatorHouse.Support.Perf.Views"
-
+        xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
         BorderThickness="1" Icon="SociNator.ico"
@@ -29,19 +27,18 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="{x:Type dragable:TabablzControl}" x:Key="TabablzControlStyle">
+            <Style TargetType="{x:Type dragable:TabablzControl}" >
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
             </Style>
+            
         </ResourceDictionary>
     </Window.Resources>
 
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-
             <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
             <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
-
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid Name="MainGrid" >
@@ -51,8 +48,6 @@
             <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="600"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-
-
        
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
@@ -65,10 +60,13 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <UserControl Content="{Binding Content.Value}"/>
+                    <Grid>
+                        <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
+        <ContentControl regions:RegionManager.RegionName="AutoActivityRegion" />
 
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>
@@ -79,7 +77,8 @@
         </Grid>
 
         <Grid Grid.Row="3" VerticalAlignment="Bottom">
-            <views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>
+            <!--<views1:PerfCounterView ViewModel="{Binding PerfCounterViewModel, Mode=OneWay}" x:Name="statusbar"/>-->
+            <ContentControl regions:RegionManager.RegionName="PerfCounterRegion"  x:Name="statusbar"/>
         </Grid>
 
     </Grid>

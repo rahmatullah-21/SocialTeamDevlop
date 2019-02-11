@@ -1,14 +1,12 @@
 ﻿using CsvHelper;
+using ExcelDataReader;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using ExcelDataReader;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace DominatorHouseCore.Utility
 {
@@ -46,6 +44,7 @@ namespace DominatorHouseCore.Utility
                             fileData.AddRange(GetCsvFileContent(fileName));
                         else if (extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase))
                             fileData.AddRange(GetTextFileContent(fileName));
+                        // ReSharper disable once RedundantJumpStatement
                         else continue;
 
                         //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
@@ -98,6 +97,7 @@ namespace DominatorHouseCore.Utility
                             fileData.AddRange(GetCsvFileContent(fileName));
                         else if (extension.Contains(".txt"))
                             fileData.AddRange(GetTextFileContent(fileName));
+                        // ReSharper disable once RedundantJumpStatement
                         else continue;
 
                         //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
@@ -121,6 +121,7 @@ namespace DominatorHouseCore.Utility
         /// </summary>
         /// <param name="fileName">given input file</param>
         /// <returns>Unique file details</returns>
+        // ReSharper disable once UnusedMember.Global
         public static List<string> GetFileContent(string fileName)
         {
             const int bufferSize = 16384;
@@ -279,7 +280,7 @@ namespace DominatorHouseCore.Utility
                         string rowContent = String.Empty;
                         int columnCount = 0;
                         bool hasColumn = true;
-                        string columnValue = String.Empty;
+                        string columnValue;
 
                         while (hasColumn)
                         {
@@ -310,10 +311,12 @@ namespace DominatorHouseCore.Utility
             using (StreamReader file = new StreamReader(fileName))
             {
                 List<string> csvSplitList = new List<string>();
-                var line = String.Empty;
+                string line;
                 while ((line = file.ReadLine()) != null)
                 {
-                    csvSplitList.Add(ImageExtracter.CheckUrlValid(line) ? line : line.Replace(":", "\t"));
+                    var data = line.Trim();
+                    if(!string.IsNullOrEmpty(data))
+                    csvSplitList.Add(ImageExtracter.CheckUrlValid(data) ? data : data.Replace(":", "\t"));
 
                 }
                 return csvSplitList;

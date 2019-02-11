@@ -1,18 +1,10 @@
-﻿using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -26,7 +18,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
         public string QueryValue { get; set; }
 
-       
+
         /// <summary>
         /// Describes Activity 
         /// </summary>
@@ -66,8 +58,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public DateTime InteractionDateTime { get; set; }
-
-    
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
+        public string ScrapedProfileUrl { get; set; }
 
     }
 }

@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
@@ -23,19 +11,31 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
-using DominatorUIUtility.Views.SocioPublisher.Suggestions;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using PublisherEditPost = DominatorUIUtility.Views.SocioPublisher.CustomControl.PublisherEditPost;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherPostlistBaseViewModel : BindableBase
     {
+        private readonly IGenericFileManager _genericFileManager;
         public PublisherPostlistBaseViewModel()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             OpenContextMenuCommand = new BaseCommand<object>(OpenContextMenuCanExecute, OpenContextMenuExecute);
             SelectCommand = new BaseCommand<object>(SelectCanExecute, SelectExecute);
             EditCommand = new BaseCommand<object>(EditPostDetailsCanExecute, EditPostDetailsExecute);
@@ -370,7 +370,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     PublisherPostlist.Remove(x);
                     // Remove the deletion process after post has successfully published
-                    GenericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId && x.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
+                    _genericFileManager.Delete<PostDeletionModel>(y => x.CampaignId == y.CampaignId && x.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
                 });
             }
 
@@ -400,7 +400,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PostlistFileManager.Delete(campaign.CampaignId, y => campaign.PostId == y.PostId);
 
             // Remove from deletion process after post has successfully published
-            GenericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId && campaign.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
+            _genericFileManager.Delete<PostDeletionModel>(y => campaign.CampaignId == y.CampaignId && campaign.PostId == y.PostId, ConstantVariable.GetDeletePublisherPostModel);
 
             // Remove from bin file
             PublisherPostlist.Remove(campaign);
@@ -750,7 +750,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     readdPost.LstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
 
                     // Get the general settings
-                    var generalModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                    var generalModel = _genericFileManager.GetModuleDetails<GeneralModel>
                                                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == readdPost.CampaignId) ?? new GeneralModel();
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Utility
 {
@@ -628,8 +627,6 @@ namespace DominatorHouseCore.Utility
             var extension = System.IO.Path.GetExtension(filePath);
             return GetMimeType(extension);
         }
-
-
         public static byte[] GetImageBytesFromUrl(string url)
         {
             using (var webClient = new WebClient())
@@ -637,6 +634,25 @@ namespace DominatorHouseCore.Utility
                 var buffer = webClient.DownloadData(url);
                 return buffer;
             }
+        }
+        public string GetThumbnailPng(string filePath)
+        {
+            var extension = System.IO.Path.GetExtension(filePath)?.Replace(".", "");
+            if (ConstantVariable.SupportedVideoFormat.Contains(extension))
+            {
+                var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertPngFileName}";
+                try
+                {
+                    var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                    ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+                return newFilePath;
+            }
+            return filePath;
         }
     }
 }

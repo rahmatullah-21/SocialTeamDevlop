@@ -1,13 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.Models
 {
     public class BlacklistUserModel : BindableBase
     {
-    
+
         private string _blacklistUser;
-       
+
         public string BlacklistUser
         {
             get
@@ -33,6 +32,6 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isBlackListUserChecked, value);
             }
         }
-      
+
     }
 }

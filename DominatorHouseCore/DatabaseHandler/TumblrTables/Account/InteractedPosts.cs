@@ -1,18 +1,12 @@
-﻿using DominatorHouseCore.Enums;
-using SQLite;
-using System.ComponentModel.DataAnnotations;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.Enums;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-        
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -70,7 +64,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string Comments { get; set; }
-        
+
         /// <summary>
         /// TimeStamp when interacted with the Post
         /// </summary>
@@ -81,5 +75,10 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         public string CommentId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public string InteractedUserName { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

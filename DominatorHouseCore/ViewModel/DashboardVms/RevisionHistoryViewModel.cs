@@ -18,6 +18,7 @@ namespace DominatorHouseCore.ViewModel.DashboardVms
         {
             try
             {
+                // ReSharper disable once RedundantAssignment
                 var text = string.Empty;
                 using (var stream = Assembly.GetEntryAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Utility;
@@ -11,7 +12,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
     {
         public PublisherCreateCampaignModel()
         {
-            CampaignId = Utilities.GetGuid(true);
+            CampaignId = Utilities.GetGuid();
             JobConfigurations = new JobConfigurationModel();
         }
         /// <summary>
@@ -287,6 +288,18 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// </summary>
         [ProtoMember(19)]
         public ObservableCollection<PostDetailsModel> LstMultipleImagePostCollection { get; set; } = new ObservableCollection<PostDetailsModel>();
+        private List<string> _lstUploadPostDescription = new List<string>();
+
+        public List<string> LstUploadPostDescription
+        {
+            get { return _lstUploadPostDescription; }
+            set
+            {
+                SetProperty(ref _lstUploadPostDescription, value);
+            }
+        }
+
+
 
     }
 }

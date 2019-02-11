@@ -1,28 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces.SocioPublisher;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -314,7 +302,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
 
 
-            this.Loaded += PostContentLoad;
+            Loaded += PostContentLoad;
 
         }
 
@@ -456,6 +444,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                         case SocialNetworks.Gplus:
                         case SocialNetworks.Youtube:
                             break;
+                        // ReSharper disable once RedundantEmptySwitchSection
                         default:
                             break;
                     }
@@ -488,6 +477,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             if (mediaViewer != null)
             {
                 var mediaUtilites = new MediaUtilites();
+                if (mediaViewer.MediaList == null)
+                    mediaViewer.MediaList = new ObservableCollection<string>();
                 files.ForEach(x =>
                 {
                     MediaViewerAssist.SetMediaList(this, mediaViewer.MediaList);
@@ -508,8 +499,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 if (mediaViewer != null)
                 {
-                    mediaViewer.MediaList = (mediaViewer.DataContext as PublisherPostlistModel).MediaList;
-
+                    mediaViewer.MediaList = (mediaViewer.DataContext as PostDetailsModel)?.MediaViewer.MediaList;
+                    if (mediaViewer.MediaList == null)
+                        mediaViewer.MediaList = new ObservableCollection<string>();
                     mediaViewer.Initialize();
                 }
             }
@@ -517,7 +509,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 if (mediaViewer != null)
                     mediaViewer.Initialize();
-                ex.DebugLog();
             }
 
         }

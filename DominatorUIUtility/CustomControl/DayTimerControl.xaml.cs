@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -42,7 +41,7 @@ namespace DominatorUIUtility.CustomControl
 
         private void AddTimer_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            RunningTimes.IsEnabled = RunningTimes.Timings.Count > 0 ? true : false;
+            RunningTimes.IsEnabled = RunningTimes.Timings.Count > 0;
 
             var objDialogWindow = new Dialog();
 
@@ -64,8 +63,11 @@ namespace DominatorUIUtility.CustomControl
                 {
 
                     if (TimeSpan.Compare(objSchedulerControl.StartTimePicker.SelectedTime.Value, objSchedulerControl
-                            .EndTimePicker.SelectedTime.Value) > 0)
+                            .EndTimePicker.SelectedTime.Value) >= 0)
+                    {
+                        ToasterNotification.ShowWarning("End time should be more then Start time");
                         return;
+                    }
 
                     var isAlreadyGivenTimeAdded = true;
 
@@ -84,7 +86,7 @@ namespace DominatorUIUtility.CustomControl
                         RunningTimes.AddTimeRange(new TimingRange(objSchedulerControl.StartTimePicker.SelectedTime.Value,
                             objSchedulerControl.EndTimePicker.SelectedTime.Value));
 
-                        RunningTimes.IsEnabled = RunningTimes.Timings.Count > 0 ? true : false;
+                        RunningTimes.IsEnabled = RunningTimes.Timings.Count > 0;
 
                         objSchedulerControl.TextBlockWarning.Visibility = Visibility.Collapsed;
                         dialogWindow.Close();
@@ -111,7 +113,7 @@ namespace DominatorUIUtility.CustomControl
             if (RunningTimes.Timings.Any(range => range.TimeId == currentTimer.TimeId))
             {
                 RunningTimes.Timings.Remove(currentTimer);
-                RunningTimes.IsEnabled = RunningTimes.Timings.Count > 0 ? true : false;
+                RunningTimes.IsEnabled = RunningTimes.Timings.Count > 0;
             }
         }
     }

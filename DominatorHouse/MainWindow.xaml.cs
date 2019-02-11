@@ -1,4 +1,5 @@
 ﻿#region Namespaces
+using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
@@ -10,7 +11,6 @@ using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Unity;
 using DominatorUIUtility.ScreenTip.PopUpstyle;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.Models;
@@ -19,14 +19,15 @@ using DominatorHouseCore.Models;
 
 namespace Socinator
 {
+    public interface IMainWindow
+    {
+
+    }
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : IMainWindow
     {
-
-        private readonly IMainViewModel _mainViewModel;
-
         private bool IsClickedFromMainWindow { get; set; } = true;
         public object PropertyChanged { get; private set; }
 
@@ -39,14 +40,11 @@ namespace Socinator
                 InitializeComponent();
 
                 SocinatorInitialize.LogInitializer(this);
-
                 FeatureTour.SetViewModelFactoryMethod(tourRun => new CustomTourViewModel(tourRun));
                 var navigator = FeatureTour.GetNavigator();
-                SocinatorWindow.DataContext = this;
 
-                _mainViewModel = IoC.Container.Resolve<IMainViewModel>();
-                SocinatorWindow.DataContext = _mainViewModel;
-
+                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
                     GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");

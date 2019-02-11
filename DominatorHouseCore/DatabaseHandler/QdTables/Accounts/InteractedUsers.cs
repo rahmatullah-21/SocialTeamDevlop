@@ -1,18 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {
-    public class InteractedUsers
+    public class InteractedUsers : Entity
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
 
@@ -81,6 +72,5 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string ProfilePicUrl
         { get; set; }
-    
     }
 }

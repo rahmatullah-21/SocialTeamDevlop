@@ -11,3 +11,5 @@ CodeMap1.dgml
 **/UpgradeLog*.htm
 *.rar
 DominatorHouse/publish/
+packages/
+TestResults/

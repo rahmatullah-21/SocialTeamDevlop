@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
@@ -88,7 +86,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
     }
 
 
-    public enum FollowType : int
+    public enum FollowType
     {
         Following = 1,
         Followers = 2,

@@ -10,14 +10,19 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     /// Interaction logic for PublisherCreateDestination.xaml
     /// </summary>
-    public partial class PublisherCreateDestination : UserControl ,INotifyPropertyChanged
+    public partial class PublisherCreateDestination : UserControl, INotifyPropertyChanged
     {
         private PublisherCreateDestination()
         {
             InitializeComponent();
+            PublisherCreateDestinationsViewModel.IsNeedToNavigate = false;
             CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
         }
-
+        public PublisherCreateDestination(bool isNeedToNevigate) : this()
+        {
+            PublisherCreateDestinationsViewModel.IsNeedToNavigate = isNeedToNevigate;
+            CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
+        }
         public PublisherCreateDestinationsViewModel PublisherCreateDestinationsViewModel
         {
             get
@@ -36,7 +41,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         public static PublisherCreateDestination Instance { get; set; }
             = _indexPage ?? (_indexPage = new PublisherCreateDestination());
-      
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -47,6 +52,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void PublisherCreateDestination_OnLoaded(object sender, RoutedEventArgs e)
         {
+            PublisherCreateDestinationsViewModel.NetworkSelectionChangedExecute(selectedNetwork.SelectedItem);
             if (!PublisherCreateDestinationsViewModel.IsSavedDestination)
                 return;
 
@@ -60,7 +66,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                 PublisherCreateDestinationsViewModel.Title = "Create Destination";
                 PublisherCreateDestinationsViewModel = new PublisherCreateDestinationsViewModel();
                 CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
-            }          
+            }
         }
     }
 }

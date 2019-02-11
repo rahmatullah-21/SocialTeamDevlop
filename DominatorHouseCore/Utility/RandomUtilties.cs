@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Utility
         public static T GetRandomItem<T>(this IList<T> inputList)
         {
             // Get the random index from list max count and min count 
-            var index = RandomUtilties.GetRandomNumber(inputList.Count - 1, 0);
+            var index = GetRandomNumber(inputList.Count - 1);
 
             // return the random item from the input list based on index value
             return inputList[index];
@@ -35,7 +35,7 @@ namespace DominatorHouseCore.Utility
             // increase the maxValue for getting a chance for select a last item as random number
             ++maxValue;
             // Collect the random value from min and max value
-            return RandomUtilties.ObjRandom.Next(minValue, maxValue);
+            return ObjRandom.Next(minValue, maxValue);
         }
 
 
@@ -49,9 +49,9 @@ namespace DominatorHouseCore.Utility
         {
             // returns random string from alphanumeric character
             return new string
-                (Enumerable.Repeat<string>("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", outputStringLength).
-                Select<string, char>((Func<string, char>)(s => s[RandomUtilties.ObjRandom.Next(s.Length)])).
-                ToArray<char>());
+                (Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", outputStringLength).
+                Select(s => s[ObjRandom.Next(s.Length)]).
+                ToArray());
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace DominatorHouseCore.Utility
         {
             // returns random string from alphanumeric character
             return new string
-            (Enumerable.Repeat<string>("ABCDEFGHIJKLMNOPQRSTUVWXYZ", outputTextLength).
-                Select<string, char>((Func<string, char>)(s => s[RandomUtilties.ObjRandom.Next(s.Length)])).
-                ToArray<char>());
+            (Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ", outputTextLength).
+                Select(s => s[ObjRandom.Next(s.Length)]).
+                ToArray());
         }
 
 
@@ -76,7 +76,7 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static string RandomString(int length)
         {
-            return new string(Enumerable.Repeat<string>("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length).Select<string, char>((Func<string, char>)(s => s[RandomUtilties.ObjRandom.Next(s.Length)])).ToArray<char>());
+            return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length).Select(s => s[ObjRandom.Next(s.Length)]).ToArray());
         }
        
     }

@@ -41,7 +41,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             try
             {
                 PublishedPostDetailsViewModel.PublisherPostlist = PostlistFileManager.GetByPostId(currentData.CampaignId, currentData.PostId);
-                this.DataContext = PublishedPostDetailsViewModel;
+                DataContext = PublishedPostDetailsViewModel;
             }
             catch (Exception ex)
             {

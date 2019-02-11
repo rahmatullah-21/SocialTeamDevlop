@@ -4,13 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" 
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
-             xmlns:dhenums="clr-namespace:DominatorHouseCore.Enums.DHEnum;assembly=DominatorHouseCore"
-             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              Name="AccountModule"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -25,12 +22,12 @@
         <VisualBrush x:Key="ArrowDownVisualBrush" Visual="{StaticResource appbar_down_arrow}" Stretch="Fill" />
         <converters:BoolToValueConverter x:Key="BoolToValueConverterArrowBrush" TrueValue="{StaticResource GreenBrush}" FalseValue="{StaticResource RedBrush}" NullValue="{StaticResource RedBrush}"/>
         <converters:BoolToValueConverter x:Key="BoolToValueConverterArrowType" TrueValue="{StaticResource ArrowUpVisualBrush}" FalseValue="{StaticResource ArrowDownVisualBrush}" NullValue="{StaticResource ArrowDownVisualBrush}"/>
-        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+        <!--<ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
                         ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="dhenums:GrowthPeriod"/>
             </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        </ObjectDataProvider>-->
         <ControlTemplate x:Key="ArrowCellControlTemplate">
             <Rectangle Fill="{Binding Converter={StaticResource BoolToValueConverterArrowBrush}}" Width="20" Height="20" 
                        OpacityMask="{Binding Converter={StaticResource BoolToValueConverterArrowType}}"/>
@@ -39,7 +36,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Template"  Value="{StaticResource ArrowCellControlTemplate}"/>
         </Style>
-
+        <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
     </UserControl.Resources>
     <Grid Name="MainGrid">
         <TabControl ItemContainerStyle="{StaticResource TabItemStyle}">
@@ -72,8 +69,8 @@
                                 <StackPanel Orientation="Horizontal"    Margin="0,5,0,10">
                                     <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeyFilterBy}" HorizontalAlignment="Right" Height="25"/>
 
-                                    <ComboBox  Name="cmbGrowthPeriod" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
-                                      SelectedIndex="0" SelectionChanged="cmbGrowthPeriod_SelectionChanged" DropDownClosed="CmbboxGrowthPeriod_OnDropDownClosed">
+                                    <ComboBox  DataContext="{Binding GrowthPeriods}" ItemsSource="{Binding ItemsCollection}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
+                                      SelectedIndex="0" SelectedItem="{Binding Selected}">
                                     </ComboBox>
                                 </StackPanel>
 
@@ -83,9 +80,14 @@
                     </Grid>
                     <!--Data grid view-->
                     <Grid Grid.Row="1">
-                        <ListView x:Name="AccountListView" ItemsSource="{Binding AccountCollectionView}" 
+                        <ListView x:Name="AccountListView"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
-
+                            <ListView.ItemsSource>
+                                <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
+                                    <Binding Path="Accounts"/>
+                                    <Binding Path="SelectedNetworkViewModel.Selected"/>
+                                </MultiBinding>
+                            </ListView.ItemsSource>
                             <ListView.View>
                                 <GridView >
                                     <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
@@ -100,10 +102,7 @@
                                                                 <Setter Property="Content">
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
-                                                                            <Rectangle.Resources>
-                                                                                <SolidColorBrush x:Key="BlackBrush" Color="Black" />
-                                                                            </Rectangle.Resources>
-                                                                            <Rectangle.OpacityMask>
+                                                                           <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -234,21 +233,35 @@
                             <StackPanel  Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal"  VerticalAlignment="Center" Margin="0,0,10,0">
                                 <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Account" HorizontalAlignment="Right" Height="25"/>
 
-                                <ComboBox  Name="cmbGrowthAcount"  Width="200"  ItemsSource="{Binding AccountCollectionView}"   VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
-                                               SelectedIndex="0" SelectionChanged="cmbGrowthAcount_SelectionChanged"   DisplayMemberPath="AccountBaseModel.UserName" 
-                                               SelectedValuePath="AccountId"  SelectedValue="{Binding GrowthChartAccountNumber}" />
+                                <ComboBox Width="200" VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
+                                               SelectedIndex="0" DisplayMemberPath="UserName" 
+                                               SelectedValuePath="AccountId"  SelectedItem="{Binding SelectedAccount}" >
+                                    <ComboBox.ItemsSource>
+                                        <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
+                                            <Binding Path="Accounts"/>
+                                            <Binding Path="SelectedNetworkViewModel.Selected"/>
+                                        </MultiBinding>
+                                    </ComboBox.ItemsSource>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged" >
+                                            <i:InvokeCommandAction Command="{Binding AccountSelectionChangedCmd}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ComboBox>
 
 
                                 <Label  VerticalAlignment="Top"  Foreground="White" Content="Select Period"  HorizontalAlignment="Right" Height="25"/>
 
-                                <ComboBox  Name="cmbGrowthChartPeriod" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"   
-                                               ItemsSource="{Binding GrowthChartPeriods}"                                   
-                                               SelectedIndex="0" SelectedValue="{Binding GrowthChartPeriod}"  SelectionChanged="cmbGrowthChartPeriod_SelectionChanged"/>
+                                <ComboBox Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"   
+                                          DataContext="{Binding GrowthChartPeriods}"
+                                          ItemsSource="{Binding ItemsCollection}"
+                                          SelectedIndex="0" SelectedItem="{Binding Selected}"/>
                                 <Label VerticalAlignment="Top"  Foreground="White" Content="Select Type"  HorizontalAlignment="Right" Height="25"/>
 
-                                <ComboBox  Name="cmbGrowthChartType" Width="100"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"  
-                                               ItemsSource="{Binding GrowthChartTypes}"                                   
-                                               SelectedValue="{Binding GrowthChartType}" SelectionChanged="cmbGrowthChartType_SelectionChanged"/>
+                                <ComboBox  Width="100"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"  
+                                           DataContext="{Binding GrowthChartTypes}"
+                                           ItemsSource="{Binding ItemsCollection}"
+                                           SelectedItem="{Binding Selected}"/>
 
                             </StackPanel>
 
@@ -258,7 +271,7 @@
                     <Grid Grid.Row="1">
                         <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Left" >
                             <StackPanel Orientation="Horizontal"    Margin="0,0,0,0">
-                                <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin = "5">
+                                <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin = "5">
                                     <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties}" Focusable="False" Foreground="Black">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -266,10 +279,10 @@
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
+                                            <DataTemplate DataType="{x:Type viewModel:GrowthProperty}">
                                                 <CheckBox Name="CheckBoxZone" Content="{Binding PropertyName}"
-                                              Tag="{Binding PropertyValue}"  Checked="HandleGrowthTypeCheck"  
-                                              Unchecked = "HandleGrowthTypeUnCheck"  Margin="0,5,5,0" IsChecked="True"/>
+                                                          Command="{Binding DataContext.GrowthPropertyCheckedCmd, Source={x:Reference list}}"
+                                                          CommandParameter="{Binding}" Margin="0,5,5,0" IsChecked="{Binding IsChecked}"/>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
@@ -280,20 +293,9 @@
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Row="2">
-                            <lvc:CartesianChart Name="chart" Series="{Binding SeriesCollection}" LegendLocation="Right"  >
-                                <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis Title="Growth" LabelFormatter="{Binding YFormatter}" MaxValue="{Binding YMaxValue}"></lvc:Axis>
-                                </lvc:CartesianChart.AxisY>
-                                <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis Title="Month" Labels="{Binding Labels}"></lvc:Axis>
-                                </lvc:CartesianChart.AxisX>
-                            <lvc:CartesianChart.DataTooltip>
-                                <lvc:DefaultTooltip BulletSize="20" Background="Gray"/>
-                            </lvc:CartesianChart.DataTooltip>
-                            <lvc:CartesianChart.ChartLegend>
-                                <lvc:DefaultLegend BulletSize="20" Foreground="Black"/>
-                            </lvc:CartesianChart.ChartLegend>
-                        </lvc:CartesianChart>
+                        <local:AccountGrowthChartControl SeriesCollection="{Binding SeriesCollection}" AxisXLabels="{Binding AxisXLabels}"
+                                                         GrowthList="{Binding GrowthList}" GrowthChartPeriod="{Binding GrowthChartPeriods.Selected}"
+                                                         AxisXTitle="{Binding AxisXTitle}"/>
                     </Grid>
                 </Grid>
             </TabItem>

@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-
-namespace DominatorHouseCore.Models
-{
-    //public class JsonElements
+﻿//namespace DominatorHouseCore.Models
+//{
+//    //public class JsonElements
     //{
     //    [JsonProperty(PropertyName = "action")]
     //    public string Action { get; set; }
@@ -338,4 +336,4 @@ namespace DominatorHouseCore.Models
     //        public int SourceWidth { get; set; }
     //    }
     //}
-}
+//}

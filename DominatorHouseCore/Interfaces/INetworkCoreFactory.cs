@@ -1,6 +1,4 @@
-﻿using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.BusinessLogic.Scraper;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -10,18 +8,6 @@ namespace DominatorHouseCore.Interfaces
         ///     Specify the network of the dominator
         /// </summary>
         SocialNetworks Network { get; set; }
-
-        /// <summary>
-        ///     creates job process based on social network and module
-        /// </summary>
-        IJobProcessFactory JobProcessFactory { get; set; }
-
-        /// <summary>
-        ///     Scraps data from social network feed based on query (queries)
-        /// </summary>
-       // IScraperFactory QueryScraperFactory { get; set; }
-
-        IQueryScraperFactory QueryScraperFactory { get; set; }
 
         ITabHandlerFactory TabHandlerFactory { get; set; }
 
@@ -42,11 +28,9 @@ namespace DominatorHouseCore.Interfaces
 
         IViewCampaignsFactory ViewCampaigns { get; set; }
 
-        ICampaignInteractionDetails CampaignInteractionDetails { get; set; }
         IAccountVerificationFactory AccountVerificationFactory { get; set; }
         ProfileFactory ProfileFactory { get; set; }
         ChatFactory ChatFactory { get; set; }
-        IGlobalInteractionDetails GlobalInteractionDetails { get; set; }
 
         //IAdScraperFactory AdScraperFactory { get; set; }
 

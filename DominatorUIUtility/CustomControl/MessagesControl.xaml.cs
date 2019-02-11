@@ -7,7 +7,6 @@ using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
-using System;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -92,7 +91,7 @@ namespace DominatorUIUtility.CustomControl
                         x.LstQueries = Messages.LstQueries;
                     }
                     return x;
-                });
+                }).ToList();
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Isupdated = true;
@@ -106,19 +105,44 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
+        private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
-            if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
+            var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
+            if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
             {
-                Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+
+                if (!IsChecked)
+                {
+                    _isUncheckfromList = true;
+                    Messages.LstQueries[0].IsContentSelected = false;
+                }
+            }
+            if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            {
+                _isUncheckfromList = false;
+                Messages.LstQueries[0].IsContentSelected = IsChecked;
+            }
+            if (_isUncheckfromList)
+            {
+                _isUncheckfromList = false;
+                return;
             }
 
+            if (currentQuery == "All")
+            {
+                _isUncheckfromList = false;
+                Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+            }
+          
+            
         }
         private void AddCheckedQueryToList()
         {
             Messages.SelectedQuery.Clear();
             Messages.LstQueries.ToList().ForEach(query =>
             {
+                query.Content.Index = Messages.LstQueries.IndexOf(query);
                 if (query.IsContentSelected)
                     Messages.SelectedQuery.Add(query);
             });
@@ -134,7 +158,7 @@ namespace DominatorUIUtility.CustomControl
             CheckUncheckAll(sender, false);
         }
 
-        public bool Isupdated { get; set; } = false;
+        public bool Isupdated { get; set; }
 
 
 
@@ -187,7 +211,7 @@ namespace DominatorUIUtility.CustomControl
 
         public object CommandParameter
         {
-            get { return (object)GetValue(CommandParameterProperty); }
+            get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
         }
 

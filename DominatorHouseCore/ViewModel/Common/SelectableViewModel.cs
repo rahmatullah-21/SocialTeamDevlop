@@ -10,7 +10,7 @@ namespace DominatorHouseCore.ViewModel.Common
 {
     public interface ISelectableViewModel<T> : INotifyPropertyChanged
     {
-        T Selected { get; }
+        T Selected { get; set; }
         INotifyCollectionChanged ItemsCollection { get; }
         void Add(T item);
         void Renew(IEnumerable<T> items);
@@ -60,18 +60,18 @@ namespace DominatorHouseCore.ViewModel.Common
 
         public SelectableViewModel(IEnumerable<T> collection)
         {
-            this._itemsCollection = new ObservableCollection<T>(collection);
+            _itemsCollection = new ObservableCollection<T>(collection);
             BindingOperations.EnableCollectionSynchronization(_itemsCollection, _syncContext);
         }
 
         public SelectableViewModel(IEnumerable<T> collection, T value) : this(collection)
         {
-            this.Selected = value;
+            Selected = value;
         }
 
         public void Add(T item)
         {
-            lock (this._syncContext)
+            lock (_syncContext)
             {
                 _itemsCollection.Add(item);
             }
@@ -88,7 +88,7 @@ namespace DominatorHouseCore.ViewModel.Common
 
         public void Remove(T item)
         {
-            lock (this._syncContext)
+            lock (_syncContext)
             {
                 _itemsCollection.Remove(item);
                 if (item.Equals(Selected))
@@ -100,7 +100,7 @@ namespace DominatorHouseCore.ViewModel.Common
 
         public void Remove(IEnumerable<T> items)
         {
-            lock (this._syncContext)
+            lock (_syncContext)
             {
                 foreach (var item in items)
                 {
@@ -121,7 +121,7 @@ namespace DominatorHouseCore.ViewModel.Common
 
         public bool Contains(T socialNetworks)
         {
-            lock (this._syncContext)
+            lock (_syncContext)
                 return _itemsCollection.Contains(socialNetworks);
         }
 
@@ -138,7 +138,7 @@ namespace DominatorHouseCore.ViewModel.Common
 
         public void SetSelected(T selected)
         {
-            this.Selected = selected;
+            Selected = selected;
         }
     }
 }

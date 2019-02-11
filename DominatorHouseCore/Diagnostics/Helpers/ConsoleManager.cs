@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace Socinator.Helpers
+namespace DominatorHouseCore.Diagnostics.Helpers
 {
     /// <summary>
     /// Utility class to attach console to application for viewing logs at runtime
@@ -27,10 +27,7 @@ namespace Socinator.Helpers
         [DllImport(Kernel32_DllName)]
         private static extern int GetConsoleOutputCP();
 
-        public static bool HasConsole
-        {
-            get { return GetConsoleWindow() != IntPtr.Zero; }
-        }
+        public static bool HasConsole => GetConsoleWindow() != IntPtr.Zero;
 
         /// <summary>
         /// Creates a new console instance if the process is not attached to a console already.
@@ -74,7 +71,7 @@ namespace Socinator.Helpers
 
         static void InvalidateOutAndError()
         {
-            Type type = typeof(System.Console);
+            Type type = typeof(Console);
 
             System.Reflection.FieldInfo _out = type.GetField("_out",
                 System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
@@ -88,7 +85,7 @@ namespace Socinator.Helpers
             Debug.Assert(_out != null);
             Debug.Assert(_error != null);
 
-            System.Diagnostics.Debug.Assert(_InitializeStdOutError != null);
+            Debug.Assert(_InitializeStdOutError != null);
 
             _out.SetValue(null, null);
             _error.SetValue(null, null);

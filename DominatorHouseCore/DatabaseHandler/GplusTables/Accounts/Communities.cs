@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
 {
@@ -58,10 +56,7 @@ namespace DominatorHouseCore.DatabaseHandler.GplusTables.Accounts
         public string OwnerId
         { get; set; }
 
-
-
-
-        public enum JoinType : int
+        public enum JoinType
         {
             Joined, NotJoined, UnJoined
         }

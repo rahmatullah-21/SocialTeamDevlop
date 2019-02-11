@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DominatorHouseCore.Enums;
+﻿using System.Collections.Generic;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using ProtoBuf;

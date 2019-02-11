@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using DominatorUIUtility.Behaviours;
 using System.Windows.Input;
 
@@ -96,7 +93,7 @@ namespace DominatorUIUtility.CustomControl
 
         void RaiseInfoEventHandler()
         {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(HeaderControl.InfoRoutedEvent);
+            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(InfoRoutedEvent);
             RaiseEvent(objRoutedEventArgs);
         }
 
@@ -110,7 +107,7 @@ namespace DominatorUIUtility.CustomControl
 
         void CancelEditClickHandler()
         {
-            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(HeaderControl.CancelEditRoutedEvent);
+            RoutedEventArgs objRoutedEventArgs = new RoutedEventArgs(CancelEditRoutedEvent);
             RaiseEvent(objRoutedEventArgs);
         }
 
@@ -131,7 +128,7 @@ namespace DominatorUIUtility.CustomControl
                 BindsTwoWayByDefault = true
             });
 
-        private void Info_OnMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Info_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             RaiseInfoEventHandler();
         }

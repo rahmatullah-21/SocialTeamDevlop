@@ -16,7 +16,7 @@ namespace DominatorHouseCore.FileManagers
                 using (var stream = File.Create(ConstantVariable.GetOtherEmbeddedBrowserSettingsFile()))
                 {
                     Serializer.Serialize(stream, embeddedBrowserSettings);
-                    GlobusLogHelper.log.Debug($"Setting successfully saved");
+                    GlobusLogHelper.log.Debug("Setting successfully saved");
                     return true;
                 }
 

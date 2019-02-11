@@ -1,5 +1,4 @@
-﻿using System;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System.Collections.ObjectModel;
 
@@ -11,7 +10,7 @@ namespace DominatorHouseCore.Models
 
         public ManageCommentModel()
         {
-            CommentId = Utilities.GetGuid(true);
+            CommentId = Utilities.GetGuid();
         }
         private string _commentId;
 

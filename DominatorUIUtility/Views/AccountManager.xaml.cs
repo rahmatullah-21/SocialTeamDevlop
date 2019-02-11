@@ -1,8 +1,7 @@
-
-﻿using System.ComponentModel;
+﻿
+ using System.ComponentModel;
  using System.Runtime.CompilerServices;
- using System.Threading.Tasks;
-using System.Windows.Controls;
+ using System.Windows.Controls;
  using DominatorHouseCore.Annotations;
  using DominatorHouseCore.Enums;
  using DominatorHouseCore.Models;
@@ -32,7 +31,7 @@ namespace DominatorUIUtility.Views
             AccountManagerPage.DataContext = AccountManagerViewModel;
         }
 
-        public static AccountManager ObjAccountManager = null;
+        public static AccountManager ObjAccountManager;
         private AccountManagerViewModel _accountManagerViewModel;
 
         public static AccountManager GetSingletonAccountManager(string controlType, [CanBeNull] DominatorAccountModel dominatorAccountModel, SocialNetworks network)

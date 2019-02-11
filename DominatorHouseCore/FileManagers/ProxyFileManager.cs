@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -11,14 +12,32 @@ using System.Threading.Tasks;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public static class ProxyFileManager
+    public interface IProxyFileManager
     {
-        public static bool SaveProxy(ProxyManagerModel proxy)
+        bool SaveProxy(ProxyManagerModel proxy);
+        List<ProxyManagerModel> GetAllProxy();
+        void EditProxy(ProxyManagerModel proxy);
+        void EditAllProxy(List<ProxyManagerModel> proxy);
+        void Delete(Predicate<ProxyManagerModel> match);
+        ProxyManagerModel GetProxyById(string ProxyId);
+        Task UpdateProxyStatusAsync(ProxyManagerModel currentProxyManager, string url);
+    }
+
+    public class ProxyFileManager : IProxyFileManager
+    {
+        private readonly IBinFileHelper _binFileHelper;
+
+        public ProxyFileManager()
+        {
+            _binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+        }
+
+        public bool SaveProxy(ProxyManagerModel proxy)
         {
             try
             {
-                BinFileHelper.SaveProxy(proxy);
-                GlobusLogHelper.log.Debug($"Proxy successfully saved");
+                _binFileHelper.SaveProxy(proxy);
+                GlobusLogHelper.log.Debug("Proxy successfully saved");
                 return true;
             }
             catch (Exception)
@@ -26,30 +45,29 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
-        public static List<ProxyManagerModel> GetAllProxy()
+        public List<ProxyManagerModel> GetAllProxy()
         {
-            return BinFileHelper.GetProxyDetails();
+            return _binFileHelper.GetProxyDetails();
         }
 
 
-        public static void EditProxy(ProxyManagerModel proxy) => BinFileHelper.UpdateProxy(proxy);
-        public static void EditAllProxy(List<ProxyManagerModel> proxy) => BinFileHelper.UpdateAllProxy(proxy);
+        public void EditProxy(ProxyManagerModel proxy) => _binFileHelper.UpdateProxy(proxy);
+        public void EditAllProxy(List<ProxyManagerModel> proxy) => _binFileHelper.UpdateAllProxy(proxy);
 
 
-        public static void Delete(Predicate<ProxyManagerModel> match)
+        public void Delete(Predicate<ProxyManagerModel> match)
         {
-            var proxy = BinFileHelper.GetProxyDetails();
-            var toDelete = proxy.FindAll(match);
+            var proxy = _binFileHelper.GetProxyDetails();
             proxy.RemoveAll(match);
-            BinFileHelper.UpdateAllProxy(proxy);
+            _binFileHelper.UpdateAllProxy(proxy);
         }
 
-       
-        public static ProxyManagerModel GetProxyById(string ProxyId)
+
+        public ProxyManagerModel GetProxyById(string ProxyId)
         {
-           return GetAllProxy().FirstOrDefault(x => x.AccountProxy.ProxyId == ProxyId);
+            return GetAllProxy().FirstOrDefault(x => x.AccountProxy.ProxyId == ProxyId);
         }
-        public static async Task UpdateProxyStatusAsync(ProxyManagerModel currentProxyManager,string url)
+        public async Task UpdateProxyStatusAsync(ProxyManagerModel currentProxyManager, string url)
         {
             try
             {
@@ -98,7 +116,7 @@ namespace DominatorHouseCore.FileManagers
                 }
             }
 
-            ProxyFileManager.EditProxy(currentProxyManager);
+            EditProxy(currentProxyManager);
 
         }
     }

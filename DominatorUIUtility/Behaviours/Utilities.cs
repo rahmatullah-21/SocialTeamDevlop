@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Controls;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore;
 
 namespace DominatorUIUtility.Behaviours

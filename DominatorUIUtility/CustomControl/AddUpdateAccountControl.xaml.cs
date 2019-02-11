@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.IoC;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.IoC;
-using Unity;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -25,7 +24,7 @@ namespace DominatorUIUtility.CustomControl
         public AddUpdateAccountControl()
         {
             InitializeComponent();
-            foreach (var item in DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network))
+            foreach (var item in ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network))
             {
                 ComboBoxSocialNetworks.Items.Add(item);
             }
@@ -62,7 +61,8 @@ namespace DominatorUIUtility.CustomControl
 
             if (socialNetwork == SocialNetworks.Social.ToString())
             {
-                foreach (var item in DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>().Select(y => y.Network))
+
+                foreach (var item in ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network))
                 {
                     if (item == SocialNetworks.Social)
                         continue;

@@ -60,7 +60,7 @@ namespace DominatorHouseCore.Models.Publisher
                 return _isSpecifyPostingIntervalChecked;
             }
             set
-            {               
+            {
                 if (value == _isSpecifyPostingIntervalChecked)
                     return;
                 SetProperty(ref _isSpecifyPostingIntervalChecked, value);
@@ -79,7 +79,7 @@ namespace DominatorHouseCore.Models.Publisher
                 return _isRandomizePublishingTimerChecked;
             }
             set
-            {             
+            {
                 if (value == _isRandomizePublishingTimerChecked)
                     return;
                 SetProperty(ref _isRandomizePublishingTimerChecked, value);
@@ -330,7 +330,7 @@ namespace DominatorHouseCore.Models.Publisher
         {
             get { return _weekday; }
             set
-            {                
+            {
                 SetProperty(ref _weekday, value);
             }
         }
@@ -374,12 +374,12 @@ namespace DominatorHouseCore.Models.Publisher
         }
 
 
-      
+
 
         /// <summary>
         /// To specify the delay between each post
         /// </summary>
-        private RangeUtilities _delayBetween = new RangeUtilities(10,30);
+        private RangeUtilities _delayBetween = new RangeUtilities(10, 30);
         [ProtoMember(30)]
         public RangeUtilities DelayBetween
         {
@@ -398,7 +398,7 @@ namespace DominatorHouseCore.Models.Publisher
         /// <summary>
         /// To specify the post range for campaign
         /// </summary>
-        private RangeUtilities _postRange = new RangeUtilities(2,4);
+        private RangeUtilities _postRange = new RangeUtilities(2, 4);
         [ProtoMember(31)]
         public RangeUtilities PostRange
         {
@@ -417,7 +417,7 @@ namespace DominatorHouseCore.Models.Publisher
         /// <summary>
         /// To specify the delay in minutes for multiple posts
         /// </summary>
-        private RangeUtilities _delayBetweenPost = new RangeUtilities(10,30);
+        private RangeUtilities _delayBetweenPost = new RangeUtilities(10, 30);
         [ProtoMember(32)]
         public RangeUtilities DelayBetweenPost
         {
@@ -471,8 +471,29 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _campaignEndDate, value);
             }
         }
-
-
+        private bool _isDelayPostChecked;
+        [ProtoMember(35)]
+        public bool IsDelayPostChecked
+        {
+            get { return _isDelayPostChecked; }
+            set { SetProperty(ref _isDelayPostChecked, value); }
+        }
+        /// <summary>
+        /// To specify the delay in minutes for multiple posts
+        /// </summary>
+        private RangeUtilities _delayBetweenEachPost = new RangeUtilities(5, 30);
+        [ProtoMember(36)]
+        public RangeUtilities DelayBetweenEachPost
+        {
+            get
+            {
+                return _delayBetweenEachPost;
+            }
+            set
+            {
+                SetProperty(ref _delayBetweenEachPost, value);
+            }
+        }
         public void InitializeDefaultJobConfiguration()
         {
             Weekday.Clear();
@@ -497,14 +518,14 @@ namespace DominatorHouseCore.Models.Publisher
     {
         public TimeRange()
         {
-            
+
         }
 
         // Constructor for initialize the start time and end time to local property
         public TimeRange(TimeSpan startTime, TimeSpan endTime)
         {
-            this.StartTime = startTime;
-            this.EndTime = endTime;
+            StartTime = startTime;
+            EndTime = endTime;
 
         }
         /// <summary>

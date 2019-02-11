@@ -8,7 +8,7 @@ namespace DominatorHouseCore.Utility
 
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
         {
-            return source.MinBy<TSource, TKey>(selector, (IComparer<TKey>)null);
+            return source.MinBy(selector, null);
         }
 
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Utility
                 throw new ArgumentNullException(nameof(source));
             if (selector == null)
                 throw new ArgumentNullException(nameof(selector));
-            comparer = comparer ?? (IComparer<TKey>)Comparer<TKey>.Default;
+            comparer = comparer ?? Comparer<TKey>.Default;
             using (IEnumerator<TSource> enumerator = source.GetEnumerator())
             {
                 if (!enumerator.MoveNext())
@@ -40,7 +40,7 @@ namespace DominatorHouseCore.Utility
 
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source)
         {
-            return source.ToHashSet<TSource>((IEqualityComparer<TSource>)null);
+            return source.ToHashSet(null);
         }
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
         {

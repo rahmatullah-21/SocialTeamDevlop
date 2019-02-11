@@ -1,30 +1,6 @@
-
-using DominatorHouseCore;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using DominatorHouseCore.BusinessLogic.Scheduler;
-using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
-using DominatorHouseCore.Converters;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Process;
-using DominatorHouseCore.DatabaseHandler.Utility;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
@@ -59,14 +35,14 @@ namespace DominatorUIUtility.CustomControl
             CampaignViewModel.SetActivityTypes();
             Campaign.DataContext = CampaignViewModel;
             CampaignViewModel.CampaignCollection = CollectionViewSource.GetDefaultView(CampaignViewModel.LstCampaignDetails);
-            instance = this;
+            _instance = this;
         }
 
-        private static Campaigns instance = null;
+        private static Campaigns _instance;
 
         public static Campaigns GetCampaignsInstance(SocialNetworks socialNetworks)
         {
-            return instance ?? (instance = new Campaigns(socialNetworks));
+            return _instance ?? (_instance = new Campaigns(socialNetworks));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -488,7 +488,8 @@
     <system:String x:Key="LangKeyDelayBetweenActivities">Delay Between Activities</system:String>
     <system:String x:Key="LangKeyDelayBetweenDownloads">Delay Between Downloads</system:String>
     <system:String x:Key="LangKeyDelayBetweenEachOperation">Delay Between Each Operation</system:String>
-    <system:String x:Key="LangKeyDelayBetweenEachPost">Delay Between Each Post</system:String>
+    <system:String x:Key="LangKeyDelayBetweenEachDestinationPost">Delay Between Each Destination Post</system:String>
+    <system:String x:Key="LangKeyDelayBetweenPost">Delay Between Post</system:String>
     <system:String x:Key="LangKeyDelayBetweenFindingPhotos">Delay Between Finding Photos</system:String>
     <system:String x:Key="LangKeyDelayBetweenFollows">Delay Between Follows</system:String>
     <system:String x:Key="LangKeyDelayBetweenJobs">Delay Between Jobs</system:String>
@@ -2688,9 +2689,9 @@ They are replaced with user info.</system:String>
     <system:String x:Key="LangKeySourceUrl">Source Url</system:String>
 
     <system:String x:Key="LangKeyImportAccountDescription"  xml:space="preserve">Format :
-Type 1. Group Name:SocialNetwork:User Name:Password
-Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port
-Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password
+Type 1. Group Name:SocialNetwork:User Name:Password:Alternate Email (For YouTube/Gplus)
+Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Alternate Email (For YouTube/Gplus)
+Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password:Alternate Email (For YouTube/Gplus)
     </system:String>
     <system:String x:Key="LangKeyImportProxyDescription"  xml:space="preserve">Format :
 Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
@@ -2758,6 +2759,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWillPerformIn">Will Perform In</system:String>
     <system:String x:Key="LangKeyIsScheduledToRunBy">Is Scheduled To Run By</system:String>
     <system:String x:Key="LangKeyNextJobTo">Next Job To</system:String>
+    <system:String x:Key="LangKeyNextPostTo">Next Post To</system:String>
     <system:String x:Key="LangKeyIsExpectedToStartBy">Is Expected To Start By</system:String>
     <system:String x:Key="LangKeyHasReachedPerJobLimitOf">Has Reached Per Job Limit Of</system:String>
     <system:String x:Key="LangKeyHasReachedPerDayLimitOf">Has Reached Per Day Limit Of</system:String>
@@ -2995,7 +2997,7 @@ Type 3. IP:Port
 
     <!--Newly Added on 17-07-2018-->
     <system:String x:Key="LangKeyEditCampaign">Edit Campaign</system:String>
-    <system:String x:Key="LangKeyPostSaved">Post has been successfully saved!</system:String>
+    <system:String x:Key="LangKeyPostSaved">Post has been successfully saved</system:String>
     <system:String x:Key="LangKeySavePostToDraft">Save To Draft Post List</system:String>
     <system:String x:Key="LangKeySavePostToPending">Save To Pending Post List</system:String>
     <system:String x:Key="LangKeyUpdateFeedUrl">Update Feed Url</system:String>
@@ -3061,7 +3063,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCustomProfileUrl">Custom Profile Url</system:String>
 
     <system:String x:Key="LangKeyFilenameFormat">Custom Html Filename Format</system:String>
-    <system:String x:Key="LangKeyWaterMarkTextFilenameFormat">Input Filename As Eg: {FirstName}_{MiddleName}_{LastName}_{PhoneNumber}_{EmailAddress}_{ProfileUrl}</system:String>
+    <system:String x:Key="LangKeyWaterMarkTextFilenameFormat">Input Filename As Eg: {FirstName}_{MiddleName}_{LastName}_{PhoneNumber}_{EmailAddress}_{ProfileUrl}_{FromAccountEmail}</system:String>
     <system:String x:Key="LangKeyDownloadPdf">Download Pdf</system:String>
 
     <system:String x:Key="LangKeyNumberOfBlockFollowersPerDay">Number Of Block Followers Per Day</system:String>
@@ -3221,4 +3223,173 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyTotalNumberMutualFriendsShouldBeSmallerThan">Total Number Mutual Friends Should be smaller than</system:String>
     <system:String x:Key="LangKeyPostUsingGeoLocationWithLocationName">Geo Location Name</system:String>
     <system:String x:Key="LangKeyPostUsingGeoLocationWithLocationId">Geo Location Id</system:String>
+
+    <system:String x:Key="LangKeyAutoTagSpecificPosts">Tag Specific Posts</system:String>
+    <system:String x:Key="LangKeyPostAsPageOption">Post As Page Option (Only for posting to pages)</system:String>
+    <system:String x:Key="LangKeyPostAsOwnAccount">Post As Own Account</system:String>
+    <system:String x:Key="LangKeyPostAsPage">Post As Page</system:String>
+    <system:String x:Key="LangKeyPagePostComments">Page Post Comment(s)</system:String>
+    <system:String x:Key="LangKeyGroupPostComments">Group Post Comment(s)</system:String>
+    <system:String x:Key="LangKeyNewsFeedPosts">Newsfeed Post(s)</system:String>
+    <system:String x:Key="LangKeyLikePageAs">Like Page As</system:String>
+    <system:String x:Key="LangKeyCommentOnPageAs">Comment On Page As</system:String>
+    <system:String x:Key="LangKeySendUniqueMessageFromEachAccount">Send Unique Message From Each Account</system:String>
+    <system:String x:Key="LangKeySendUniqueCommentFromEachAccount">Send Unique Comment From Each Account</system:String>
+    <system:String x:Key="LangKeySendUniqueCommentForEachPost">Send Unique Comment For Each Post</system:String>
+    <system:String x:Key="LangKeySendMessageToNewFriends">Message To New Friends</system:String>
+    <system:String x:Key="LangKeySendUniqueMessageToEachUser">Send Unique Message To Each User</system:String>
+    <system:String x:Key="LangKeyTagFriendsOption">Tag Friends Option</system:String>
+    <system:String x:Key="LangKeyMutualFriends">Mutual Friends</system:String>
+    <system:String x:Key="LangKeyFriendsShouldHaveBeenAddedBefore">Friends Should Have Been Added Before</system:String>
+
+    <system:String x:Key="LangLastSynchronizedAt">Last Synchronized At :</system:String>
+
+    <system:String x:Key="LangKeyNumberOfSharesPerJob">Number Of Shares Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfSharesPerHour">Number Of Shares Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfSharesPerDay">Number Of Shares Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfSharesPerWeek">Number Of Shares Per Week</system:String>
+    <system:String x:Key="LangKeyMaxSharesPerDay">Max Shares Per Day</system:String>
+
+    <system:String x:Key="LangKeyBoards">Boards</system:String>
+    <system:String x:Key="LangKeyChannels">Channels</system:String>
+    
+    <system:String x:Key="LangKeyMuteFollowerAfterFollow">Mute Follower After Follow</system:String>
+    <system:String x:Key="LangKeyMuteFollowerPostAfterFollow">Mute Follower Post After Follow</system:String>
+    <system:String x:Key="LangKeyMuteFollowerStoryAfterFollow">Mute Follower Story After Follow</system:String>
+    <system:String x:Key="LangKeyMuteFollowerPostStoryAfterFollow">Mute Follower Post And Story After Follow</system:String>
+    <system:String x:Key="LangKeyAfterLikeFanPageAction">After FanPage Like Action</system:String>
+    <system:String x:Key="LangKeyLikeFanPagesLatestPosts">Like FanPages Latest Posts</system:String>
+    <system:String x:Key="LangKeyCommentOnFanPageLatestPosts">Comment On FanPages Latest Posts</system:String>
+    <system:String x:Key="LangKeyActionByAllOwnPages">Action By All Own Pages</system:String>
+    <system:String x:Key="LangKeyUploadPostDescription">Upload Post Description</system:String>
+    <system:String x:Key="LangKeyUploadDescription">Upload Description</system:String>
+    <system:String x:Key="LangKeyMention">Mention</system:String>
+    <system:String x:Key="LangKeyRandomFriendsOnEachComment">Random Friends On Each Comment</system:String>
+    <system:String x:Key="LangKeyAlreadySavedFriends">Already Saved Friends</system:String>
+    <system:String x:Key="LangKeyCustomFriendList">Custom Friend List</system:String>
+    <system:String x:Key="LangKeyNoteWatchPartyInviter">Group Members (Note: Only for WatchParties Published on Group)</system:String>
+    <system:String x:Key="LangKeyEnterWtchPartyUrl">Enter WatchParty Url</system:String>
+    <system:String x:Key="LangKeyInviteForWatchPartyUrl">Invite For WatchParty Url(S)</system:String>
+    <system:String x:Key="LangKeyWatchPartyInviter">WatchParty Inviter</system:String>
+    <system:String x:Key="LangKeyEnableFacebookWatchPartyPost">Enable Watch Party Post</system:String>
+    <system:String x:Key="LangKeyDownloadAlbum">Download Album</system:String>
+    <system:String x:Key="LangKeyDownloadvideo">Download Video</system:String>
+    <system:String x:Key="LangKeyDownloadPhotoAfterScrap">Download Photo After Scrap</system:String>
+    <system:String x:Key="LangKeyLoadingPostPleaseWait">Loading post please wait...</system:String>
+    <system:String x:Key="LangKeyCommentPlusoneBetween">Comment's Likes Count Between</system:String>
+    <system:String x:Key="LangKeyTwoFactorLoginAttempt">Two Factor Login Attempt</system:String>
+    <system:String x:Key="LangKeyWouldYouStillLikeToProceed">Would you still like to proceed ?</system:String>
+    <system:String x:Key="LangKeyTwoFactorLoginRequired">Two Factor Login Required</system:String>
+    <system:String x:Key="LangKeyCancelPrivateRequest">Cancel Private Request</system:String>
+    <system:String x:Key="LangKeyAddFacebookVideoUrls">Add Facebook Video Urls</system:String>
+    <system:String x:Key="LangKeyAddVideoUrlsFromPages">Add Video Urls From Pages</system:String>
+    <system:String x:Key="LangKeyMentionSpecificUsers">Mention Specific Users in Post</system:String>
+    <system:String x:Key="LangKeyAddMultipleCommentsSeparatedByNewLine">Add Multiple Comments Separated By New Line</system:String>
+    <system:String x:Key="LangKeyUserShouldHaveSpecifiedWordsInBioDescription">User Should Have Specified Words In Bio Description</system:String>
+    <system:String x:Key="LangKeyIgnoreConnectionSource">Ignore Connection Source</system:String>
+    <system:String x:Key="LangKeyEnableAutoFollow">Enable Auto Follow</system:String>
+    <system:String x:Key="LangKeyEnableAutoUnfollow">Enable Auto Unfollow</system:String>
+    <system:String x:Key="LangKeySavePagination">Save Pagination</system:String>
+    <system:String x:Key="LangKeyLikeOnSpecificComment">Like On Specific Comment of Post</system:String>
+    <system:String x:Key="LangKeyPostAsSamePage">Post As Same Page (For Ex:- Post on Socinator Page with Socinator account)</system:String>
+    <system:String x:Key="LangKeySendGreetingsToFriends">Send Greetings To Friends</system:String>
+    <system:String x:Key="LangKeyTodaysBirthdays">Today's Birthdays</system:String>
+    <system:String x:Key="LangKeyUpcomingBirthdays">Upcoming Birthdays</system:String>
+    <system:String x:Key="LangKeywebpagecomment">Webpost Comment</system:String>
+    <system:String x:Key="LangKeywebpagereplycomments">Webpost Re-Comment</system:String>
+    <system:String x:Key="LangKeyWebPostsliker">Web Posts Liker</system:String>
+    <system:String x:Key="LangKeyWebPostscommenter">Web Posts Commenter</system:String>
+    <system:String x:Key="LangKeyNewFollowersToSendMessage">New Followers To Send Message</system:String>
+    <system:String x:Key="LangKeyImageCaptchaServices">Image Captcha Services</system:String>
+    <system:String x:Key="LangKeyReplyToPendingPageMessages">Reply To Pending Page Messages</system:String>
+    <system:String x:Key="LangKeyUsersToSendAutoReplyMessageAccordingToMessageFilter">Users to Send Auto Reply Message According to Message Filter</system:String>
+    <system:String x:Key="LangKeySecondsBetweenEachFollow">Seconds Between Each Follow</system:String>
+    <system:String x:Key="LangKeyAutoSchedule">Auto Schedule</system:String>
+    <system:String x:Key="LangKeyPostMultipleImagesPostsAsAlbum">Post Multiple Images Posts As Album</system:String>
+    <system:String x:Key="LangKeyEditPin">Edit Pin</system:String>
+    <system:String x:Key="LangKeyPinsList">Pins List</system:String>
+    <system:String x:Key="LangKeyBoard">Board</system:String>
+    <system:String x:Key="LangKeySection">Section</system:String>
+    <system:String x:Key="LangKeyWebsiteUrl">Website Url</system:String>
+    <system:String x:Key="LangKeyPinIdToBeEdit">Pin Id To Be Edit</system:String>
+    <system:String x:Key="LangKeyAccount">Account</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerDay">Number Of Edit Pins Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerHour">Number Of Edit Pins Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerJob">Number Of Edit Pins Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfEditPinsPerWeek">Number Of Edit Pins Per Week</system:String>
+    <system:String x:Key="LangKeyEditPinsPerDay">Max Edit Pins Per Day</system:String>
+    <system:String x:Key="LangKeyCommentsOfOnePost">Comments Of One Post</system:String>
+    <system:String x:Key="LangKeyEnableAdvanceBioAndSkills">Enable Advance Bio And Skills</system:String>
+    <system:String x:Key="LangKeyNext">Next >></system:String>
+    <system:String x:Key="LangKeyPrevious">&lt;&lt; Previous</system:String>
+    <system:String x:Key="LangKeyFinish">Finish</system:String>
+    <system:String x:Key="LangKeyAccountPerProxy">Account Per Proxy</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoCommentScraper">This Socinator feature helps to scrape Comments from Instagram.</system:String>
+    <system:String x:Key="LangKeySavePostToProfile">Save Post(s) To profile</system:String>
+    <system:String x:Key="LangKeySelectGroup">Select Group</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeComments">This Socinator feature helps to scrape comments from posts on Gplus. It allows to filter comments and posts and scrape them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">This Socinator feature helps to automate mentioning users on a tweet . It allows to search and filter posts with different query types and perform the tweet action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">This Socinator feature helps to automate mentioning new followers as welcome tweet. It allows to search and filter posts with different query types and perform the welcome tweet action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">This Socinator feature helps to automate Unlike on Twitter. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
+    <system:String x:Key="LangKeyConnectedWithin">Connected Within</system:String>
+    <system:String x:Key="LangKeyProfileScraperCampaigns">Profile Scraper Campaigns</system:String>
+    <system:String x:Key="LangKeyPublisherCampaigns">Publisher Campaigns</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerDay">Number Of Accept Board Invitations Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerHour">Number Of Accept Board Invitations Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerJob">Number Of Accept Board Invitations Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerWeek">Number Of Accept Board Invitations Per Week</system:String>
+    <system:String x:Key="LangKeyMaxAcceptBoardInvitationsPerDay">Max Accept Board Invitations Per Day</system:String>
+    <system:String x:Key="LangKeyAcceptBoardInvitation">Accept Board Invitation</system:String>
+    <system:String x:Key="LangKeyTooManyAttemptsOnSignIn">Too many attempts on sign in. Try again later.</system:String>
+    <system:String x:Key="LangKeyBirthdayShouldHaveBeenBetween">Birthday should have been between</system:String>
+    <system:String x:Key="LangKeyAfterPostLikeAction">After Post Like Action</system:String>
+    <system:String x:Key="LangKeySendRequestIfUserPost">Send FriendRequest If User's Post</system:String>
+    <system:String x:Key="LangKeyAfterPostCommentAction">After Post Comment Action</system:String>
+    <system:String x:Key="LangKeyAlternateEmail">Alternate Email</system:String>
+    <system:String x:Key="LangkeycommentonpostAfterLike">Comment Post After Like</system:String>
+    <system:String x:Key="LangKeySetNewPassword">Set New Password</system:String>
+    <system:String x:Key="LangKeySkipFriendsAlreadyMemberOfGroup">Skip Friends Already Member Of Group</system:String>
+    <system:String x:Key="LangKeyCheckForApproveYourPostForReddit">Check for approve your post [For Reddit]</system:String>
+    <system:String x:Key="LangKeyStopAutoSynchronizeAccount">Stop Auto Synchronize account</system:String>
+    <system:String x:Key="LangKeySelectBrowser">Select Browser</system:String>
+    <system:String x:Key="LangKeyMozillaBrowser">Mozilla Firefox Browser</system:String>
+    <system:String x:Key="LangKeyCefSharpBrowser">CefSharp Embedded Browser</system:String>
+    <system:String x:Key="LangKeyRequiresFirefox" xml:space="preserve">Requires Mozilla firefox(v64.0.0+) browser.
+        Note: Can't work with private proxy</system:String>
+    <system:String x:Key="LangKeySalesNavUserScraperCampaign">Sales Navigator UserScraper Campaign</system:String>
+    <system:String x:Key="RecentConnections">Recent Connections</system:String>
+    <system:String x:Key="ConnectedWithinDaysValueShouldBeLessThan">Connected Within days value should be less than 8</system:String>
+    <system:String x:Key="LangKeySelectAccount">Select Account</system:String>
+    <system:String x:Key="LangKeyPrivateWhitelistUsers">Private Whitelist Users</system:String>
+    <system:String x:Key="LangKeyPrivateBlacklistUsers">Private Blacklist Users</system:String>
+    <system:String x:Key="LangKeyEnterNewPassword">Enter New Password</system:String>
+    <system:String x:Key="LangKeyResetPassword">Reset Password</system:String>
+    <system:String x:Key="LangKeyAddBoardCollaborators">Add Board Collaborators</system:String>
+    <system:String x:Key="LangKeyBoardUrl">Board Url</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerDay">Number Of Send Board Invitation Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerHour">Number Of Send Board Invitation Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerJob">Number Of Send Board Invitation Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerWeek">Number Of Send Board Invitation Per Week</system:String>
+    <system:String x:Key="LangKeySendBoardInvitationPerDay">Max Send Board Invitation Per Day</system:String>
+    <system:String x:Key="LangKeySendBoardInvitation">Send Board Invitation</system:String>
+    <system:String x:Key="LangKeyBoardCollaboratorsList">Board Collaborators List</system:String>
+    <system:String x:Key="LangKeySendResetPasswordLink">Send Reset Password Link</system:String>
+    <system:String x:Key="LangKeyNoOfPostForEngagementRate">No Of Post For Engagement Rate</system:String>
+    <system:String x:Key="LangKeyEnterResetPasswordLink">Enter Reset Password Link</system:String>
+    <system:String x:Key="LangKeyManualVerification">Manual verification</system:String>
+    <system:String x:Key="LangKeySendMessageToGroupMembers">Send message to members of the group</system:String>
+    <system:String x:Key="LangKeyEneterJoinedGroupUrls">Enter Joined Group Urls</system:String>
+
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerDay">Number Of Users To Block Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerHour">Number Of Users To Block Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerJob">Number Of Users To Block Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerWeek">Number Of Users To Block Per Week</system:String>
+    <system:String x:Key="LangKeyMaxUsersToBlockPerDay">Max Users To Block Per Day</system:String>
+    <system:String x:Key="LangKeyBlockUser">Block User</system:String>
+    <system:String x:Key="LangKeyMakeCommentAsSpinText">Make Comment as spin text</system:String>
+    <system:String x:Key="LangKeyLastPostAgeInDays">Posted in Last</system:String>
+    <system:String x:Key="LangKeyBeforePostInDays">Posted before</system:String>
+    <system:String x:Key="LangKeyActionBlock">Temporary Block</system:String>
+    <system:String x:Key="LangKeyEnterEmail">Enter Email</system:String>
+    <system:String x:Key="LangKeyEnterPhone">Enter Phone</system:String>
 </ResourceDictionary>

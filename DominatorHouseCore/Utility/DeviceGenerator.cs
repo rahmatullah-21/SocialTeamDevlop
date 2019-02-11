@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using ProtoBuf;
 using System.Text;
 
@@ -24,7 +23,7 @@ namespace DominatorHouseCore.Utility
         public string Device { get; private set; }
 
         [ProtoMember(2)]
-        public string DeviceId { get; private set; }
+        public string DeviceId { get;  set; }
 
         [ProtoMember(3)]
         public string Manufacturer { get; private set; }
@@ -33,10 +32,10 @@ namespace DominatorHouseCore.Utility
         public string Model { get; private set; }
 
         [ProtoMember(5)]
-        public string PhoneId { get; private set; }
+        public string PhoneId { get;  set; }
 
         public string Useragent =>
-            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)this.AndroidVersion, (object)this.AndroidRelease, (object)this.Dpi, (object)this.Resolution, (object)this.ManufacturerBrand, (object)this.Model, (object)this.Device, (object)this.Cpu, (object)ConstantVariable.UseragentLocale);
+            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)AndroidVersion, (object)AndroidRelease, (object)Dpi, (object)Resolution, (object)ManufacturerBrand, (object)Model, (object)Device, (object)Cpu, (object)ConstantVariable.UseragentLocale+ "; 125398471");
 
         //"Instagram 10.33.0 Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})"
         //"Instagram 6.21.2 Android 23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom;en_US";
@@ -55,9 +54,9 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(this.Brand))
-                    return this.Manufacturer;
-                return string.Format("{0}/{1}", (object)this.Manufacturer, (object)this.Brand);
+                if (string.IsNullOrWhiteSpace(Brand))
+                    return Manufacturer;
+                return string.Format("{0}/{1}", Manufacturer, Brand);
             }
         }
 
@@ -71,26 +70,26 @@ namespace DominatorHouseCore.Utility
 
         public void GenerateDetails()
         {
-            var splitDeviceDetails = DeviceGenerator.GetRandomDevice().Split(';');
+            var splitDeviceDetails = GetRandomDevice().Split(';');
             var splitAndroidDetails = splitDeviceDetails[0].Split('/');
-            this.AndroidVersion = splitAndroidDetails[0];
-            this.AndroidRelease = splitAndroidDetails[1];
+            AndroidVersion = splitAndroidDetails[0];
+            AndroidRelease = splitAndroidDetails[1];
 
-            this.Dpi = splitDeviceDetails[1];
-            this.Resolution = splitDeviceDetails[2];
+            Dpi = splitDeviceDetails[1];
+            Resolution = splitDeviceDetails[2];
 
             var splitManufacture = splitDeviceDetails[3].Split('/');
-            this.Manufacturer = splitManufacture[0];
+            Manufacturer = splitManufacture[0];
             if (splitManufacture.Length == 2)
-                this.Brand = splitManufacture[1];
+                Brand = splitManufacture[1];
 
-            this.Model = splitDeviceDetails[4];
-            this.Device = splitDeviceDetails[5];
-            this.Cpu = splitDeviceDetails[6];
-            this.PhoneId = Utilities.GetGuid(true); ;
-            this.DeviceId = Utilities.GetMobileDeviceId();
-            this.AdId = Utilities.GetGuid(true);
-            this.Guid = Utilities.GetGuid(true);
+            Model = splitDeviceDetails[4];
+            Device = splitDeviceDetails[5];
+            Cpu = splitDeviceDetails[6];
+            PhoneId = Utilities.GetGuid(); ;
+            DeviceId = Utilities.GetMobileDeviceId();
+            AdId = Utilities.GetGuid();
+            Guid = Utilities.GetGuid();
         }
 
         /// <summary>
@@ -99,20 +98,9 @@ namespace DominatorHouseCore.Utility
         /// <returns>Return the any one from list of devices</returns>
         private static string GetRandomDevice()
         {
-
             // retrun any one from device items
-            return ((IList<string>)new string[60]
+            return new[]
             {
-
-                //23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom;en_US
-                /*Format : AndroidVersion/AndroidRelease; dpi; Resolutions; Manufacturer/Brand; Model; Device; CPU  */
-                //"24/7.0;380dpi;1080x1920;OnePlus;ONEPLUS A3010;OnePlus3T;qcom",
-                //"23/6.0.1;640dpi;1440x2392;LGE/lge;RS988;h1;h1",
-                //"24/7.0;640dpi;1440x2560;HUAWEI;LON-L29;HWLON;hi3660",
-                //"23/6.0.1;640dpi;1440x2560;ZTE;ZTE A2017U;ailsa_ii;qcom",
-                //"23/6.0.1;640dpi;1440x2560;samsung;SM-G935F;hero2lte;samsungexynos8890",
-                //"23/6.0.1;640dpi;1440x2560;samsung;SM-G930F;herolte;samsungexynos8890"
-               // "24/7.0; 640dpi; 1080x1920; OnePlus; ONEPLUS A3010; OnePlus3T; qcom;",
                 "23/6.0.1; 480dpi; 1080x1920; Samsung; GT - I5800L; GT - I5800L; qcom; en_US",
                 "23/6.0.1; 480dpi; 1080x1920; Samsung;GT-N7000B;GT-N7000B; qcom; en_US",
                 "26/8.0.0; 480dpi; 1080x1920; Samsung;GT-P7300B;GT-P7300B; qcom; en_US",
@@ -173,9 +161,7 @@ namespace DominatorHouseCore.Utility
                 "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G930F; herolte; samsungexynos8890; en_US",
                 "23/6.0; 640dpi; 1920x1152; Yota; RN2; RN2; trident; en_US",
                 "23/6.0.1; 640dpi; 1440x2560; samsung; SM-G935F; hero2lte; samsungexynos8890; en_US",
-
-
-            }).GetRandomItem();
+            }.GetRandomItem();
         }
 
 
@@ -183,19 +169,19 @@ namespace DominatorHouseCore.Utility
         /// Generate a unique id for each device
         /// </summary>
         /// <returns></returns>
-        public static string GenerateGuid()
-        {
-            var rand = new System.Random();
-            return string.Format("{0}{1}-{2}-{3}-{4}-{5}{6}{7}",
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(16384, 20479).ToString("x4"),
-                rand.Next(32768, 49151).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"),
-                rand.Next(0, 65535).ToString("x4"));
-        }
+        //public static string GenerateGuid()
+        //{
+        //    var rand = new System.Random();
+        //    return string.Format("{0}{1}-{2}-{3}-{4}-{5}{6}{7}",
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(16384, 20479).ToString("x4"),
+        //        rand.Next(32768, 49151).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"),
+        //        rand.Next(0, 65535).ToString("x4"));
+        //}
 
 
         /// <summary>

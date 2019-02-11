@@ -12,8 +12,8 @@ namespace DominatorHouseCore.Utility
 
         public RangeUtilities(int start, int end) : this()
         {
-            this.StartValue = start;
-            this.EndValue = end;
+            StartValue = start;
+            EndValue = end;
         }
         private int _startValue;
 
@@ -56,21 +56,21 @@ namespace DominatorHouseCore.Utility
         /// <summary>
         /// IsValidRange Property is return true if endrange is greater that begin range
         /// </summary>
-        public bool IsValidRange => EndValue >= this.StartValue;
+        public bool IsValidRange => EndValue >= StartValue;
 
 
         /// <summary>
         /// GetRandom is used to get the random numbers between the Begin and EndValue
         /// </summary>
         /// <returns>Returns a integer value which lies between those two ranges</returns>
-        public int GetRandom() => RandomUtilties.GetRandomNumber(this.EndValue, this.StartValue);
+        public int GetRandom() => RandomUtilties.GetRandomNumber(EndValue, StartValue);
 
         /// <summary>
         /// InRange is used to check whether the given numbers in between the StartValue and EndValue
         /// </summary>
         /// <param name="number">number which is used to check in between the ranges</param>
         /// <returns></returns>
-        public bool InRange(int number) => number >= StartValue && number <= this.EndValue;
+        public bool InRange(int number) => number >= StartValue && number <= EndValue;
 
     }
 }

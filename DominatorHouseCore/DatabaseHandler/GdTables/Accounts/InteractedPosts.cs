@@ -1,18 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using DominatorHouseCore.Enums;
-using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
-        [PrimaryKey]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        [Indexed]
-        [AutoIncrement]
-        public int Id { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public int InteractionDate { get; set; }
 
@@ -54,5 +46,24 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string Status { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string TotalLike { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        public string TotalComment { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string PostLocation { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string CommentOwnerName { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string CommentOwnerId { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return ActivityType;
+
+        }
     }
 }

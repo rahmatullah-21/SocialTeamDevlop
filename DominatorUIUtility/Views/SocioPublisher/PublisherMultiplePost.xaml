@@ -3,18 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
-        xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
         mc:Ignorable="d" Name="MultiplePost"
           Height="600" Width="950" Loaded="PublisherMultiplePost_OnLoaded"
         xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
-
- 
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>
         <suggestions:SuggestionProvider x:Key="MacrosSuggestionProvider" />
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <DataTemplate x:Key="MacroTemplate">
             <Grid>
                 <TextBlock Text="{Binding Path=Key}"/>
@@ -28,11 +23,28 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-           <Grid.ColumnDefinitions>
-               <ColumnDefinition Width="*"/>
-               <ColumnDefinition Width="*"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
+            <StackPanel Orientation="Horizontal" Visibility="{Binding IsProgressVisibile}" VerticalAlignment="Center" Margin="5">
+                <mah:ProgressRing IsActive="{Binding IsProgressActive}" HorizontalAlignment="Left" Margin="15,0,5,0"  Height="25" Width="25" />
+                <Label Content="{DynamicResource LangKeyLoadingPostPleaseWait}"/>
+                <Button Background="Transparent"  Margin="5,0" Command="{Binding StopLoadingPostCommand}"  Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Fill="Red" Height="17" Width="15">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{StaticResource appbar_control_stop}" Stretch="Fill"></VisualBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Label Content="{DynamicResource LangKeyStop}" FontWeight="SemiBold" Foreground="Red" />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                 <Button Name="BtnDeleteAll" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}" 
                         Cursor="Hand" HorizontalAlignment="Center"  Height="30" VerticalAlignment="Center"
@@ -98,13 +110,13 @@
                 </Button>
 
             </StackPanel>
-           
+
         </Grid>
 
         <Grid Grid.Row="1">
             <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" Width="950" BorderThickness="0" BorderBrush="Transparent" 
                       ItemsSource="{Binding PostListsCollectionView,IsAsync=True}" Margin="2" HorizontalAlignment="Center"
-                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.IsVirtualizing="True" Name="posts"
                       VirtualizingStackPanel.VirtualizationMode="Recycling" >
                 <ListView.Resources>
                     <ContextMenu x:Key="ItemContextMenu">
@@ -171,7 +183,7 @@
                                 </customControl:SocinatorTextBox>
                                 <customControl:PostContent x:Name="PostContentControl" HorizontalAlignment="Center" Foreground="Black"
                                                            PublisherPostSettings="{Binding PublisherPostSettings,Mode=TwoWay}" 
-                                                           customControl:MediaViewerAssist.MediaList="{Binding MediaViewer.MediaList,Mode=TwoWay}" 
+                                                           customControl:MediaViewerAssist.MediaList="{Binding MediaViewer.MediaList,Mode=TwoWay,IsAsync=True}" 
                                                            customControl:MediaViewerAssist.CurrentMediaUrl="{Binding MediaViewer.MediaUrl,Mode=TwoWay}"
                                                            customControl:MediaViewerAssist.MediaHeight="75"
                                                            customControl:MediaViewerAssist.MediaWidth="75"

@@ -76,8 +76,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\CommonServiceLocator.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -103,22 +102,12 @@
       <HintPath>..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight">
-      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
-    </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Extras">
-      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.8.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
@@ -142,13 +131,14 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.3.7.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.3.7\lib\net40\protobuf-net.dll</HintPath>
@@ -157,6 +147,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -164,6 +155,10 @@
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.9.0\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
@@ -171,8 +166,7 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -198,8 +192,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Container.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Interception, Version=5.5.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Interception.5.5.5\lib\net46\Unity.Interception.dll</HintPath>
@@ -224,18 +217,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\ActivitiesWorkflow\ILoginProcessAsync.cs" />
     <Compile Include="BusinessLogic\Factories\DominatorAccountCountFactory.cs" />
     <Compile Include="BusinessLogic\GlobalRoutines\CampaignGlobalRoutines.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
-    <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.Helpers.cs" />
     <Compile Include="BusinessLogic\Scheduler\IPublisherJobProcessFactory.cs" />
+    <Compile Include="BusinessLogic\Scheduler\JobProcessScopeFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\RunningActivityManager.cs" />
+    <Compile Include="BusinessLogic\Scheduler\SchedulerProxy.cs" />
     <Compile Include="BusinessLogic\Scraper\IQueryScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\NotImplementedQueryScraper.cs" />
     <Compile Include="BusinessLogic\Scraper\DominatorScraperFactory.cs" />
     <Compile Include="BusinessLogic\Scraper\QueryScraper.cs" />
     <Compile Include="Command\BaseCommand.cs" />
+    <Compile Include="Converters\AccountsFilterConverter.cs" />
     <Compile Include="Converters\AverageConverter.cs" />
     <Compile Include="Converters\BooleanToStringSelectConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
@@ -246,6 +242,7 @@
     <Compile Include="Converters\FeatureVisibilityConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\IndexToRowNoConverter.cs" />
+    <Compile Include="Converters\IntToDateTimeConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\IsPositiveValueConvertor.cs" />
     <Compile Include="Converters\ListCountBoolConverter.cs" />
@@ -259,14 +256,35 @@
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
     <Compile Include="Converters\SocialNetworkToColorBrushConverter.cs" />
     <Compile Include="Converters\SocialNetworkToVisualBrushConverter.cs" />
+    <Compile Include="Converters\StringLengthToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
+    <Compile Include="Converters\StringToPasswordConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
+    <Compile Include="Converters\TwoListSynchronizer.cs" />
+    <Compile Include="Converters\VisibleIfEqualConverter.cs" />
     <Compile Include="CoreUnityExtension.cs" />
     <Compile Include="Dal\DbConnection.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseMigrations.cs" />
     <Compile Include="Dal\DbMigrationUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\CounterKeyFactory.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunction.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionInstagramRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionLinkedinRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionPinterestRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTumblrRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionQuoraRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionRedditRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionFaceBookRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionGplusRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionYoutubeRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTwitterRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\Entity.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\FilterPredicate.cs" />
+    <Compile Include="DatabaseHandler\Common\IActivityTypeEntity.cs" />
+    <Compile Include="DatabaseHandler\Common\IPrimaryKey.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DbVersions.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
     <Compile Include="DatabaseHandler\DHTables\BlackListUser.cs" />
@@ -310,12 +328,14 @@
     <Compile Include="DatabaseHandler\GplusTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\Friendship.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedCommunities.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedGplusComments.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedCommunitiesReport.cs" />
+    <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedGplusCommentsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedPostsReport.cs" />
     <Compile Include="DatabaseHandler\GplusTables\Campaigns\InteractedUsersReport.cs" />
     <Compile Include="DatabaseHandler\LdTables\Account\Connections.cs" />
@@ -346,6 +366,8 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\OwnBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\PrivateWhitelist.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\ScrapBoards.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\ScrapPins.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />
@@ -406,6 +428,7 @@
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnFollowedUser.cs" />
     <Compile Include="Dal\DbMigrations\BaseDbMigrations.cs" />
+    <Compile Include="DatabaseHandler\Utility\DbAccountServiceBase.cs" />
     <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
     <Compile Include="DatabaseHandler\Utility\GlobalDatabaseConnection.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
@@ -433,6 +456,7 @@
     <Compile Include="Diagnostics\NetworkCoreLibraryBuilder.cs" />
     <Compile Include="Diagnostics\PublisherInitialize.cs" />
     <Compile Include="Diagnostics\SocinatorAccountBuilder.cs" />
+    <Compile Include="Diagnostics\UtilityManager.cs" />
     <Compile Include="EmailService\MailCredentials.cs" />
     <Compile Include="Enums\AccountStatus.cs" />
     <Compile Include="Enums\ActivitySpeed.cs" />
@@ -441,6 +465,7 @@
     <Compile Include="Enums\DHEnum\GrowthChartPeriod.cs" />
     <Compile Include="Enums\DHEnum\GrowthPeriod.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
+    <Compile Include="Enums\FdQuery\FbEntityTypes.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
     <Compile Include="Enums\FdQuery\FdGroupJoinerQuery.cs" />
@@ -467,10 +492,13 @@
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
     <Compile Include="Enums\VerificationType.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
+    <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
     <Compile Include="FileManagers\AccountsCacheService.cs" />
+    <Compile Include="FileManagers\CampaignInteractionDetails.cs" />
     <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\GenericFileManager.cs" />
+    <Compile Include="FileManagers\GlobalInteractionDetails.cs" />
     <Compile Include="FileManagers\IGFileManager.cs" />
     <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
@@ -493,6 +521,7 @@
     <Compile Include="Interfaces\ICompany.cs" />
     <Compile Include="Interfaces\IDestinationSelectors.cs" />
     <Compile Include="Interfaces\IDatabaseConnection.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IGlobalInteractionDetails.cs" />
     <Compile Include="Interfaces\IJob.cs" />
@@ -527,6 +556,8 @@
     <Compile Include="Interfaces\IGeneralSettings.cs" />
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
     <Compile Include="Interfaces\IPage.cs" />
+    <Compile Include="Interfaces\IPostComment.cs" />
+    <Compile Include="Interfaces\IPostScraperConstants.cs" />
     <Compile Include="Interfaces\IPublisherCollectionFactory.cs" />
     <Compile Include="Interfaces\IPublisherCoreFactory.cs" />
     <Compile Include="Interfaces\IPublisherPostScraper.cs" />
@@ -542,19 +573,24 @@
     <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\IRedditSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
-    <Compile Include="IoC.cs" />
     <Compile Include="Models\AccessorStrategies.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
+    <Compile Include="Models\IModuleSetting.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
     <Compile Include="Models\CampaignInteractionDataModel.cs" />
     <Compile Include="Models\Config\CaptchaServicesModel.cs" />
+    <Compile Include="Models\Config\ImageCaptchaServicesModel.cs" />
     <Compile Include="Models\Config\URLShortnerServicesModel.cs" />
     <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
+    <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\PrivateBlacklistUserModel.cs" />
+    <Compile Include="Models\PrivateWhitelistUserModel.cs" />
+    <Compile Include="Models\ProcessScopeModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\InstagramModel.cs" />
@@ -564,6 +600,7 @@
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\TwitterModel.cs" />
     <Compile Include="Models\QuoraModel.cs" />
     <Compile Include="Models\RevisionHistoryModel.cs" />
+    <Compile Include="Models\SelectAccountModel.cs" />
     <Compile Include="Models\SocioPublisher\DetailedFileInfo.cs" />
     <Compile Include="Interfaces\SocioPublisher\IPublisherDestinationDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\MonitorFolderModel.cs" />
@@ -571,9 +608,24 @@
     <Compile Include="Models\SocioPublisher\PublishedPostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCustomDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
+    <Compile Include="Models\SocioPublisher\SelctAccountDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
+    <Compile Include="Process\ExecutionCounters\InteractedEntityCounterKey.cs" />
+    <Compile Include="Process\ExecutionCounters\EntityCounter.cs" />
+    <Compile Include="Process\ExecutionCounters\InteractionPerActivityCounterKey.cs" />
+    <Compile Include="Process\ExecutionCounters\JobCountersManager.cs" />
+    <Compile Include="Process\JobConfigurations\CommonJobConfiguration.cs" />
+    <Compile Include="Process\JobLimits\ExecutionLimitsManager.cs" />
+    <Compile Include="Process\JobConfigurations\JobConfigurationProvider.cs" />
+    <Compile Include="Process\JobKey.cs" />
+    <Compile Include="Process\ExecutionCounters\EntityCountersManager.cs" />
+    <Compile Include="Process\JobLimits\JobLimits.cs" />
+    <Compile Include="Process\JobLimits\JobLimitsHolder.cs" />
+    <Compile Include="Process\JobLimits\ReachedLimitInfo.cs" />
+    <Compile Include="Process\JobProcessUnityExtension.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="AppResources\ApplicationResourceProvider.cs" />
+    <Compile Include="Process\RunningJobsHolder.cs" />
     <Compile Include="ProxyServerManagment\Models\ProxyParsingResult.cs" />
     <Compile Include="ProxyServerManagment\ProxyManagmentUnityExtension.cs" />
     <Compile Include="ProxyServerManagment\ProxyServerParserService.cs" />
@@ -582,8 +634,15 @@
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
+    <Compile Include="UIExtensions\GridViewExtension.cs" />
+    <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
+    <Compile Include="Utility\AccountScopeFactory.cs" />
+    <Compile Include="Utility\CacheText.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
-    <Compile Include="Utility\GlobalInteractedUtility.cs" />
+    <Compile Include="Utility\DateProvider.cs" />
+    <Compile Include="Utility\EnumExtensions.cs" />
+    <Compile Include="Utility\FileSystemProvider.cs" />
+    <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
@@ -610,11 +669,14 @@
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />
+    <Compile Include="Utility\PerfCounterService.cs" />
     <Compile Include="Utility\PublisherHelper.cs" />
+    <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
+    <Compile Include="Utility\ThreadUtility.cs" />
     <Compile Include="Utility\ToasterNotification.cs" />
-    <Compile Include="ViewModel\AdvancedSettings\FacebookViewModel.cs" />
+    <Compile Include="Utility\WebService.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GooglePlusViewModel.cs" />
     <Compile Include="ViewModel\AdvancedSettings\InstagramViewModel.cs" />
@@ -631,7 +693,7 @@
     <Compile Include="Models\EmailNotificationsModel.cs" />
     <Compile Include="Models\EmbeddedBrowserSettingsFileManager.cs" />
     <Compile Include="Models\EmbeddedBrowserSettingsModel.cs" />
-    <Compile Include="Models\FacebookModel.cs" />
+    <Compile Include="Models\ConfigFacebookModel.cs" />
     <Compile Include="Models\GenderFilter.cs" />
     <Compile Include="Models\IncreaseActivityRange.cs" />
     <Compile Include="Models\JobActivityManager.cs" />
@@ -723,10 +785,8 @@
     <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Models\UserFilterModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
-    <Compile Include="Utility\CampaignInteractedUtility.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DataBaseHandler.cs" />
-    <Compile Include="Utility\DateTimeHelper.cs" />
     <Compile Include="Utility\Dialog.cs" />
     <Compile Include="Utility\EnumUtility.cs" />
     <Compile Include="Utility\FeatureFlags.cs" />
@@ -787,7 +847,16 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.def">
+      <Link>sqlite3.def</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\sqlite-dll-win32-x86-3250200\sqlite3.dll">
+      <Link>sqlite3.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
       <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>

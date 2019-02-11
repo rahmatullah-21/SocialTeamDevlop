@@ -11,7 +11,6 @@ using System.Windows.Input;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
@@ -27,8 +26,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             CreateNewPost = new BaseCommand<object>(CanExecuteCreateNewPost, ExecuteCreateNewPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             DeletePostCommand = new BaseCommand<object>(DeletePostCanExecute, DeletePostExecute);
+            StopLoadingPostCommand = new BaseCommand<object>((sender) => true, StopLoadingPost);
 
             BindingOperations.EnableCollectionSynchronization(LstPostDetailsModel, lockObject);
+        }
+
+        private void StopLoadingPost(object sender)
+        {
+            IsStopLoadingPost = true;
         }
 
         #region Command
@@ -36,12 +41,36 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand CreateNewPost { get; set; }
         public ICommand ImportFromCsvCommand { get; set; }
         public ICommand DeletePostCommand { get; set; }
+        public ICommand StopLoadingPostCommand { get; set; }
 
         #endregion
 
         #region Properties
 
         private static object lockObject = new object();
+        private bool _isProgressActive;
+
+        public bool IsProgressActive
+        {
+            get { return _isProgressActive; }
+            set { SetProperty(ref _isProgressActive, value); }
+        }
+
+        private bool _isStopLoadingPost;
+
+        public bool IsStopLoadingPost
+        {
+            get { return _isStopLoadingPost; }
+            set { SetProperty(ref _isStopLoadingPost, value); }
+        }
+
+        private Visibility _isProgressVisibile = Visibility.Collapsed;
+
+        public Visibility IsProgressVisibile
+        {
+            get { return _isProgressVisibile; }
+            set { SetProperty(ref _isProgressVisibile, value); }
+        }
 
         private ObservableCollection<PostDetailsModel> _lstPostDetailsModel;
 
@@ -55,7 +84,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 if (_lstPostDetailsModel == value)
                     return;
-                _lstPostDetailsModel = value;
                 SetProperty(ref _lstPostDetailsModel, value);
             }
         }
@@ -72,7 +100,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 if (_postListsCollectionView == value)
                     return;
-                _postListsCollectionView = value;
                 SetProperty(ref _postListsCollectionView, value);
             }
         }
@@ -107,80 +134,91 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void ImportFromCsvExecute(object sender)
         {
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
+
             var separator = ConstantVariable.Separator;
 
-            ThreadFactory.Instance.Start(() =>
+            if (listPostDetailsModel.Count != 0)
             {
+                ThreadFactory.Instance.Start(() =>
+                  {
+                      IsProgressVisibile = Visibility.Visible;
+                      IsProgressActive = true;
+                      Thread.Sleep(1000);
+                      // Iterate selected file name
+                      listPostDetailsModel.ForEach(x =>
+                            {
+                                if (IsStopLoadingPost)
+                                    return;
+                                PostDetailsModel postDetailsModel = new PostDetailsModel();
+                                try
+                                {
+                                    // Split the file details
+                                    var allData = x.Split('\t');
 
-                // Iterate selected file name
-                listPostDetailsModel.ForEach(x =>
-                {
-                    PostDetailsModel postDetailsModel = new PostDetailsModel();
-                    try
-                    {
-                        // Split the file details
-                        var allData = x.Split('\t');
+                                    postDetailsModel.PostDescription = allData[0];
 
-                        postDetailsModel.PostDescription = allData[0];
+                                    // Media list
 
-                        // Media list
+                                    #region Medialist
 
-                        #region Medialist
+                                    var mediaDetails = allData.Length > 1 ? allData[1] : string.Empty;
 
-                        var mediaDetails = allData.Length > 1 ? allData[1] : string.Empty;
+                                    var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
+                                    mediaUrl.ForEach(media =>
+                                    {
+                                        if (File.Exists(media))
+                                            postDetailsModel.MediaViewer.MediaList.Add(media);
+                                    });
 
-                        var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
-                        mediaUrl.ForEach(media =>
-                        {
-                            if (File.Exists(media))
-                                postDetailsModel.MediaViewer.MediaList.Add(media);
-                        });
+                                    #endregion
 
-                        #endregion
+                                    // Title
+                                    postDetailsModel.PublisherInstagramTitle = allData.Length > 2 ? allData[2] : string.Empty;
 
-                        // Title
-                        postDetailsModel.PublisherInstagramTitle = allData.Length > 2 ? allData[2] : string.Empty;
+                                    // Source url
+                                    postDetailsModel.PdSourceUrl = allData.Length > 3 ? allData[3] : string.Empty;
 
-                        // Source url
-                        postDetailsModel.PdSourceUrl = allData.Length > 3 ? allData[3] : string.Empty;
+                                    // Facebook Sell post details
 
-                        // Facebook Sell post details
+                                    #region FdSell
 
-                        #region FdSell
+                                    var FdSellDetails = allData.Length > 4 ? allData[4] : string.Empty;
 
-                        var FdSellDetails = allData.Length > 4 ? allData[4] : string.Empty;
+                                    var Fdsell = Regex.Split(FdSellDetails, separator);
 
-                        var Fdsell = Regex.Split(FdSellDetails, separator);
+                                    if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                                        string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                                        string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
+                                    {
+                                        postDetailsModel.IsFdSellPost = true;
+                                        postDetailsModel.FdSellProductTitle = Fdsell[1];
+                                        postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                                        postDetailsModel.FdSellLocation = Fdsell[3];
+                                    }
 
-                        if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
-                            string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
-                            string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
-                        {
-                            postDetailsModel.IsFdSellPost = true;
-                            postDetailsModel.FdSellProductTitle = Fdsell[1];
-                            postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
-                            postDetailsModel.FdSellLocation = Fdsell[3];
-                        }
+                                    #endregion
+                                    // Created date
+                                    postDetailsModel.CreatedDateTime = DateTime.Now;
 
-                        #endregion
-                        // Created date
-                        postDetailsModel.CreatedDateTime = DateTime.Now;
+                                    // Post id
+                                    postDetailsModel.PostDetailsId = Utilities.GetGuid();
 
-                        // Post id
-                        postDetailsModel.PostDetailsId = Utilities.GetGuid();
+                                    // Add to Collections
+                                    //postDetails.Add(postDetailsModel);
+                                    Application.Current.Dispatcher.Invoke(() => LstPostDetailsModel.Add(postDetailsModel));
+                                    Thread.Sleep(50);
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.DebugLog();
+                                }
 
-                        // Add to Collections
-                        //postDetails.Add(postDetailsModel);
-                        Application.Current.Dispatcher.Invoke(() => LstPostDetailsModel.Add(postDetailsModel));
-                        Thread.Sleep(50);
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-
-                });
-            });
+                            });
+                      IsProgressVisibile = Visibility.Collapsed;
+                      IsProgressActive = false;
+                      IsStopLoadingPost = false;
+                  });
+            }
         }
         #endregion
 

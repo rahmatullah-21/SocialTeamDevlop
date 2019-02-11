@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SQLite;
+﻿using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
 {
@@ -83,5 +81,12 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
         public string CommentId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
+        public string MyChannelId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
+        public string MyChannelPageId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public int ViewingCountPerAccount { get; set; }
     }
 }

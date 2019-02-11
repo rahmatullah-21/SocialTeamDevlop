@@ -21,5 +21,7 @@ namespace DominatorHouseCore.Models
 
         public IComments ResultComment { get; set; }
         public IEvent ResultEvent { get; set; }
+        public IEntity ResultEntity { get; set; }
+        public IPostComment ResultPostComment { get; set; }
     }
 }

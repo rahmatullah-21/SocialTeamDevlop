@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
@@ -54,7 +52,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public string Category { get; set; }
 
-
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        public string BoardUrl { get; set; }
 
 
     }

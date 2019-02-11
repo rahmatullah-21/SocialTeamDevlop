@@ -1,53 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     ///     Interaction logic for SelectAccountControl.xaml
     /// </summary>
-    public partial class SelectAccountControl : UserControl
+    public partial class SelectAccountControl : UserControl, INotifyPropertyChanged
     {
         private bool IsUnCheckedFromAccountDetails { get; set; }
-        private readonly SelectAccountViewModel _objAccountViewModel = new SelectAccountViewModel();
+
+        private SelectAccountViewModel _objAccountViewModel = new SelectAccountViewModel();
+
+        public SelectAccountViewModel ObjAccountViewModel
+        {
+            get { return _objAccountViewModel; }
+            set
+            {
+                if (_objAccountViewModel == value)
+                    return;
+                _objAccountViewModel = value;
+                OnPropertyChanged(nameof(ObjAccountViewModel));
+            }
+        }
+
 
         public SelectAccountControl(ICollection<string> lstSelectedAccount, bool filterForActiveSocialNetwork = true)
         {
             InitializeComponent();
 
-            DataContext = _objAccountViewModel;
+            DataContext = ObjAccountViewModel;
 
-            var accountModels = filterForActiveSocialNetwork
-                ? AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork)
-                : AccountsFileManager.GetAll();
+            var savedAccounts = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>()
+                .BySocialNetwork(SocinatorInitialize.ActiveSocialNetwork);
 
-            _objAccountViewModel.LstSelectAccount.Clear();
-
-            accountModels.ForEach(x =>
+            ObjAccountViewModel.LstSelectAccount.Clear();
+            savedAccounts.ForEach(x =>
             {
 
                 //add only account status should be success
 
                 if (x.AccountBaseModel.Status == AccountStatus.Success)
                 {
-                    _objAccountViewModel.LstSelectAccount.Add(new SelectAccountViewModel
+                    ObjAccountViewModel.LstSelectAccount.Add(new SelectAccountModel
                     {
                         UserName = x.UserName,
                         GroupName = x.AccountBaseModel.AccountGroup.Content
                     });
-                    if (_objAccountViewModel.Groups.Any(group => group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
-                        _objAccountViewModel.Groups.Add(
+                    if (ObjAccountViewModel.SelectAccountModel.Groups.Any(group => group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
+                        ObjAccountViewModel.SelectAccountModel.Groups.Add(
                             new ContentSelectGroup
                             {
                                 Content = x.AccountBaseModel.AccountGroup.Content
@@ -56,21 +71,20 @@ namespace DominatorUIUtility.CustomControl
             });
 
             //Select the account which is already selected
-            _objAccountViewModel.LstSelectAccount?.ToList().ForEach(x =>
+            ObjAccountViewModel.LstSelectAccount?.ToList().ForEach(x =>
             {
                 x.IsAccountSelected = lstSelectedAccount.Contains(x.UserName);
             });
 
             //Assign the view to ICollectionView         
-            _objAccountViewModel.AccountCollectionView =
-                CollectionViewSource.GetDefaultView(_objAccountViewModel.LstSelectAccount.ToList());
+            ObjAccountViewModel.AccountCollectionView =
+                CollectionViewSource.GetDefaultView(ObjAccountViewModel.LstSelectAccount);
         }
 
         private void chkgroup_Checked(object sender, RoutedEventArgs e)
         {
-            
-            SelectDeselectAccountByGroup(true);
-            AccountGroupSelected();
+            ObjAccountViewModel.SelectDeselectAccountByGroup(true);
+            ObjAccountViewModel.AccountGroupSelected();
         }
 
         private void chkgroup_Unchecked(object sender, RoutedEventArgs e)
@@ -79,28 +93,43 @@ namespace DominatorUIUtility.CustomControl
             if (IsUnCheckedFromAccountDetails)
                 return;
 
-            SelectDeselectAccountByGroup(false);
-            AccountGroupSelected();
+            ObjAccountViewModel.SelectDeselectAccountByGroup(false);
+            ObjAccountViewModel.AccountGroupSelected();
         }
 
         private void cmbAllGroups_DropDownClosed(object sender, EventArgs e)
         {
-            AccountGroupSelected();
+            ObjAccountViewModel.AccountGroupSelected();
         }
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            switch (cmbSearchFilter.SelectedIndex)
+            FilterAccount();
+        }
+
+        private void FilterAccount()
+        {
+            try
             {
-                case 0:
-                    _objAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
-                    break;
-                case 1:
-                    _objAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
-                    break;
-                default:
-                    _objAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
-                    break;
+                switch (cmbSearchFilter.SelectedIndex)
+                {
+                    case 0:
+                        ObjAccountViewModel.AccountCollectionView.Filter = FilterByGroupName;
+                        break;
+                    case 1:
+                        ObjAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
+                        break;
+                    default:
+                        if (!string.IsNullOrEmpty(txtSearch.Text))
+                            ObjAccountViewModel.AccountCollectionView.Filter = FilterByAccounts;
+                        else
+                            ObjAccountViewModel.AccountCollectionView.Filter = null;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 
@@ -108,7 +137,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var objAccountViewModel = groupName as SelectAccountViewModel;
+                var objAccountViewModel = groupName as SelectAccountModel;
 
                 return objAccountViewModel != null &&
                        objAccountViewModel.GroupName.IndexOf(txtSearch.Text,
@@ -126,7 +155,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                var objAccountViewModel = accountName as SelectAccountViewModel;
+                var objAccountViewModel = accountName as SelectAccountModel;
                 return objAccountViewModel != null &&
                        objAccountViewModel.UserName.IndexOf(txtSearch.Text,
                            StringComparison.InvariantCultureIgnoreCase) >= 0;
@@ -139,34 +168,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
         /// <summary>
-        ///     SelectDeselectAccountByGroup method take a boolean value.
-        ///     pass true if you want to select account by selected groups.
-        ///     pass false if you want to deselect account by selected groups.
-        /// </summary>
-        /// <param name="isChecked"></param>
-        private void SelectDeselectAccountByGroup(bool isChecked)
-        {
-            try
-            {
-                var checkedGroup = _objAccountViewModel.Groups.Where(group => group.IsContentSelected == isChecked);
-                _objAccountViewModel.LstSelectAccount.ForEach(account =>
-                {
-                    checkedGroup.ForEach(group =>
-                    {
-                        if (account.GroupName == group.Content)
-                            account.IsAccountSelected = isChecked;
-                    });
-                });
-                if (_objAccountViewModel.LstSelectAccount.All(account => account.IsAccountSelected == isChecked))
-                    _objAccountViewModel.IsAllAccountSelected = isChecked;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        /// <summary>
         ///     SelectDeselectAllAccount method take a boolean value.
         ///     pass true if you want to select all account.
         ///     pass false if you want to deselect all account.
@@ -176,7 +177,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                _objAccountViewModel.LstSelectAccount.Select(x =>
+                ObjAccountViewModel.LstSelectAccount.Select(x =>
                 {
                     x.IsAccountSelected = isChecked;
                     return x;
@@ -188,63 +189,23 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        private void AccountGroupSelected()
-        {
-            try
-            {
-                var selectedGroups = _objAccountViewModel.Groups.Count(x => x.IsContentSelected);
-                cmbAllGroups.Text = $"{selectedGroups} {FindResource("LangKeyGroupSSelected").ToString()}";
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
         public ObservableCollectionBase<string> GetSelectedAccount()
         {
-            return new ObservableCollectionBase<string>(_objAccountViewModel.LstSelectAccount
+            return new ObservableCollectionBase<string>(ObjAccountViewModel.LstSelectAccount
                 .Where(x => x.IsAccountSelected).Select(x => x.UserName).ToList());
         }
 
-        private void AllAccount_OnChecked(object sender, RoutedEventArgs e)
+        private void Filter(object sender, SelectionChangedEventArgs e)
         {
-            SelectDeselectAllAccount(true);
+            FilterAccount();
         }
 
-        private void AllAccount_OnUnchecked(object sender, RoutedEventArgs e)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            SelectDeselectAllAccount(false);
-            _objAccountViewModel.Groups.Select(group =>
-            {
-                group.IsContentSelected = false;
-                return group;
-            }).ToList();
-        }
-
-        private void SingleAccount_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            _objAccountViewModel.LstSelectAccount.ForEach(account =>
-            {
-
-                if (!account.IsAccountSelected)
-                    _objAccountViewModel.Groups.ForEach(group =>
-                    {
-                        if (account.GroupName == group.Content && group.IsContentSelected)
-                        {
-                            IsUnCheckedFromAccountDetails = true;
-                            group.IsContentSelected = false;
-
-                        }
-                    });
-            });
-            AccountGroupSelected();
-            IsUnCheckedFromAccountDetails = false;
-            if (!_objAccountViewModel.IsAllAccountSelected)
-                return;
-            AllAccount.Unchecked -= AllAccount_OnUnchecked;
-            _objAccountViewModel.IsAllAccountSelected = false;
-            AllAccount.Unchecked += AllAccount_OnUnchecked;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

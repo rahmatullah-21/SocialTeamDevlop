@@ -1,14 +1,13 @@
-﻿using System.Net;
+﻿using DominatorHouseCore.EmailService;
 using DominatorHouseCore.Utility;
-using ProtoBuf;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DominatorHouseCore.Request;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading;
-using DominatorHouseCore.EmailService;
 
 namespace DominatorHouseCore.Models
 {
@@ -102,10 +101,7 @@ namespace DominatorHouseCore.Models
         public string UserAgentMobile { get; set; } = string.Empty;
 
         [ProtoMember(11)]
-        public bool UseMobileRequestOnly { get; set; } = false;
-
-        [ProtoIgnore]
-        public HttpHelper HttpHelper { get; set; } = new HttpHelper();
+        public bool UseMobileRequestOnly { get; set; }
 
         [ProtoIgnore]
         public bool IsloggedinWithPhone { get; set; }
@@ -152,7 +148,7 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                this.ModulePrivateDetails = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                ModulePrivateDetails = Newtonsoft.Json.JsonConvert.SerializeObject(model);
             }
             catch (Exception Ex)
             {
@@ -165,9 +161,9 @@ namespace DominatorHouseCore.Models
         {
             try
             {
-                JObject jObject = JObject.Parse(this.ModulePrivateDetails);
+                JObject jObject = JObject.Parse(ModulePrivateDetails);
                 jObject[PropertyName] = value.ToString();
-                this.ModulePrivateDetails = jObject.ToString();
+                ModulePrivateDetails = jObject.ToString();
             }
             catch (Exception Ex)
             {
@@ -260,8 +256,9 @@ namespace DominatorHouseCore.Models
 
         #endregion
 
-        [ProtoMember(13)]
+
         private HashSet<CookieHelper> _cookieHelperList = new HashSet<CookieHelper>();
+        [ProtoMember(13)]
         public HashSet<CookieHelper> CookieHelperList
         {
             get { return _cookieHelperList; }
@@ -291,13 +288,16 @@ namespace DominatorHouseCore.Models
             {
                 var cookieCollection = new CookieCollection();
 
-                foreach (var cookieHelper in _cookieHelperList)
-                    cookieCollection.Add(new Cookie()
-                    {
-                        Domain = cookieHelper.Domain,
-                        Name = cookieHelper.Name,
-                        Value = cookieHelper.Value
-                    });
+                if (_cookieHelperList != null)
+                {
+                    foreach (var cookieHelper in _cookieHelperList)
+                        cookieCollection.Add(new Cookie()
+                        {
+                            Domain = cookieHelper.Domain,
+                            Name = cookieHelper.Name,
+                            Value = cookieHelper.Value
+                        });
+                }
 
                 return cookieCollection;
             }
@@ -378,6 +378,7 @@ namespace DominatorHouseCore.Models
             }
         }
         private bool _isUseSSL;
+
         [ProtoMember(24)]
         public bool IsUseSSL
         {
@@ -392,10 +393,38 @@ namespace DominatorHouseCore.Models
         public Dictionary<string, string> PaginationId { get; set; }
             = new Dictionary<string, string>();
 
+        private string _newPassword = string.Empty;
+
+        public string NewPassword
+        {
+            get
+            {
+                return _newPassword;
+            }
+            set
+            {
+                SetProperty(ref _newPassword, value);
+            }
+        }
+
+        private string _resetPasswordLink = string.Empty;
+
+        public string ResetPasswordLink
+        {
+            get
+            {
+                return _resetPasswordLink;
+            }
+            set
+            {
+                SetProperty(ref _resetPasswordLink, value);
+            }
+        }
+        public string two_factor_identifier { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
         {
-            return (DominatorAccountModel)this.MemberwiseClone();
+            return (DominatorAccountModel)MemberwiseClone();
         }
     }
 }

@@ -61,7 +61,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(DetailUrl));
             }
         }
-        private bool _isOwnPage = false;
+        private bool _isOwnPage;
 
         public bool IsOwnPage
         {
@@ -80,7 +80,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
 
-        private bool _isLikePage = false;
+        private bool _isLikePage;
 
         public bool IsLikePage
         {
@@ -98,7 +98,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private bool _isFanpage = false;
+        private bool _isFanpage;
 
         public bool IsFanpage
         {

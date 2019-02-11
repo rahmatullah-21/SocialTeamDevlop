@@ -1,20 +1,11 @@
-﻿using DominatorHouseCore.Enums;
-using SQLite;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.Enums;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
-    public class InteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
-        [PrimaryKey]
-        [AutoIncrement]
-        [Indexed]
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
-        public int Id { get; set; }
-       
-
         /// <summary>
         /// Contains QueryType For Interaction
         /// </summary>
@@ -93,7 +84,6 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public string LikeType { get; set; }
 
 
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public DateTime InteractionDateTime { get; set; }
 
@@ -104,6 +94,17 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public string CommentId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string PostUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string Mentions { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string WatchPartInvitedTo { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string WatchPartInvitedToUserName { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

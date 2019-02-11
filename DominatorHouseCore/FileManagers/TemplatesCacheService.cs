@@ -1,10 +1,7 @@
-﻿using System;
+﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.FileManagers
 {
@@ -13,30 +10,30 @@ namespace DominatorHouseCore.FileManagers
         IReadOnlyCollection<TemplateModel> GetTemplateModels();
         bool UpsertTemplates(params TemplateModel[] accounts);
         bool Delete(params TemplateModel[] accounts);
+        TemplateModel this[string template]
+        {
+            get;
+        }
     }
     public class TemplatesCacheService : ITemplatesCacheService
     {
         private readonly object _syncContext = new object();
         private readonly Dictionary<string, TemplateModel> _cache;
+        private readonly IBinFileHelper _binFileHelper;
 
-        public TemplatesCacheService()
+        public TemplatesCacheService(IBinFileHelper binFileHelper)
         {
+            _binFileHelper = binFileHelper;
             _cache = new Dictionary<string, TemplateModel>();
         }
 
-        private static TemplatesCacheService _templatesCacheService;
-
-        public static TemplatesCacheService GetTemplatesCacheService()
-        {
-            return _templatesCacheService??(_templatesCacheService = new TemplatesCacheService());
-        }
         public IReadOnlyCollection<TemplateModel> GetTemplateModels()
         {
             lock (_syncContext)
             {
                 if (_cache.Count == 0)
                 {
-                    foreach (var template in BinFileHelper.GetTemplateDetails())
+                    foreach (var template in _binFileHelper.GetTemplateDetails())
                     {
                         _cache.Add(template.Id, template);
                     }
@@ -52,7 +49,7 @@ namespace DominatorHouseCore.FileManagers
             {
                 var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
                 UpsertData(cacheCopy, accounts);
-                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                var result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
                     _cache.Clear();
@@ -81,7 +78,7 @@ namespace DominatorHouseCore.FileManagers
                     }
                 }
 
-                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                var result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
                     _cache.Clear();
@@ -93,6 +90,19 @@ namespace DominatorHouseCore.FileManagers
                 return result;
             }
         }
+
+        public TemplateModel this[string template]
+        {
+            get
+            {
+                lock (_syncContext)
+                    if (_cache.ContainsKey(template))
+                        return _cache[template];
+                    else
+                        return null;
+            }
+        }
+
         private void UpsertData(IDictionary<string, TemplateModel> target, params TemplateModel[] source)
         {
             lock (_syncContext)

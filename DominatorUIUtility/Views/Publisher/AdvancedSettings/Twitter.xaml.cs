@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -10,20 +6,27 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
     /// Interaction logic for Twitter.xaml
     /// </summary>
-    public partial class Twitter : UserControl,INotifyPropertyChanged
+    public partial class Twitter : UserControl, INotifyPropertyChanged
     {
-        private Twitter()
+        private readonly IGenericFileManager _genericFileManager;
+        public Twitter()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();
             MainGrid.DataContext = TwitterViewModel;
         }
-        static Twitter ObjTwitter = null;
+        static Twitter ObjTwitter;
         public static Twitter GetSingletonTwitterObject()
         {
             if (ObjTwitter == null)
@@ -57,10 +60,10 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var twitterModel = GenericFileManager.GetModuleDetails<TwitterModel>
+            var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            TwitterViewModel.TwitterModel = twitterModel ?? (twitterModel = new TwitterModel());
+            TwitterViewModel.TwitterModel = twitterModel ?? (new TwitterModel());
         }
     }
 }

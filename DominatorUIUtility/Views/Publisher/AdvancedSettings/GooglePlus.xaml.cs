@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -10,20 +6,27 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
     /// Interaction logic for GooglePlus.xaml
     /// </summary>
-    public partial class GooglePlus : UserControl,INotifyPropertyChanged
+    public partial class GooglePlus : UserControl, INotifyPropertyChanged
     {
-        private GooglePlus()
+        private readonly IGenericFileManager _genericFileManager;
+        public GooglePlus()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();
             MainGrid.DataContext = GooglePlusViewModel;
         }
-        static GooglePlus ObJGooglePlus = null;
+        static GooglePlus ObJGooglePlus;
         public static GooglePlus GetSingeltonGooglePlusObject()
         {
             if (ObJGooglePlus == null)
@@ -57,10 +60,10 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var googlePlusModel = GenericFileManager.GetModuleDetails<GooglePlusModel>
+            var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            GooglePlusViewModel.GooglePlusModel = googlePlusModel ?? (googlePlusModel = new GooglePlusModel());
+            GooglePlusViewModel.GooglePlusModel = googlePlusModel ?? (new GooglePlusModel());
         }
     }
 }

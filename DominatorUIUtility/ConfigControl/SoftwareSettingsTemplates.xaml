@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DominatorUIUtility.ConfigControl"
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <ControlTemplate x:Key="SoftwareSettingsControlTemplate">
         <ControlTemplate.Resources>
@@ -35,6 +34,8 @@
                               Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
                     <CheckBox Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
                               IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>
+                    <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyStopAutoSynchronizeAccount}"
+                              IsChecked="{Binding IsStopAutoSynchronizeAccount}"/>-->
                     <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel  Orientation="Horizontal">
                             <Label Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"/>
@@ -75,19 +76,20 @@
                         <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="5" Text="{DynamicResource LangKeySynchronizeAccountInformationsEvery}"/>
-                        <mah:NumericUpDown Minimum="0" Margin="5" 
-                                                Value="{Binding AccountSynchronizationHours}"/>
+                        <CheckBox Margin="5" Content="{DynamicResource LangKeySynchronizeAccountInformationsEvery}"  
+                                  IsChecked="{Binding IsStopAutoSynchronizeAccount}"/>
+                        <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding AccountSynchronizationHours}"/>
                         <Label Margin="5" Content="{DynamicResource LangKeyHours}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
-                        <mah:NumericUpDown Minimum="0" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
+                        <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
                     </StackPanel>
                     <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
                     <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
                               IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
+                   
 
                 </StackPanel>
             </ScrollViewer>

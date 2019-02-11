@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
@@ -94,5 +92,9 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string BoardLabel { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public string DestinationBoard { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
+        public string Comment { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
+        public string PublishedDate { get; set; }
     }
 }

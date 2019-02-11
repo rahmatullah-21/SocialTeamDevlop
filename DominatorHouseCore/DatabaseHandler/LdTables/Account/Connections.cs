@@ -1,7 +1,5 @@
 ﻿using SQLite;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 {
@@ -101,7 +99,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
     }
 
 
-    public enum ConnectionType : int
+    public enum ConnectionType
     {
         FirstDegree = 1,
         SeondDegree = 2,

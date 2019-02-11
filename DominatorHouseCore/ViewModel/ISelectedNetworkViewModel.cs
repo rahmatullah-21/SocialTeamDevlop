@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DominatorHouseCore.ViewModel
 {
-    public interface ISelectedNetworkViewModel : Common.ISelectableViewModel<SocialNetworks?>
+    public interface ISelectedNetworkViewModel : ISelectableViewModel<SocialNetworks?>
     {
     }
 

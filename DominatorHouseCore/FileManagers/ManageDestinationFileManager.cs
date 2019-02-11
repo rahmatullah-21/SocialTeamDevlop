@@ -1,18 +1,23 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.FileManagers
 {
     public static class ManageDestinationFileManager
     {
-        private static List<PublisherManageDestinationModel> _allDestinationsCache = new List<PublisherManageDestinationModel>();
+      //  private static List<PublisherManageDestinationModel> _allDestinationsCache = new List<PublisherManageDestinationModel>();
+        private static readonly IBinFileHelper BinFileHelper;
+
+        static ManageDestinationFileManager()
+        {
+            BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+        }
 
         // Same as above, but Func must return true if file needs to be overwritten        
         public static void ApplyFunc(Func<PublisherManageDestinationModel, bool> funcToApply)
@@ -53,7 +58,7 @@ namespace DominatorHouseCore.FileManagers
             }
             BinFileHelper.UpdateAllManageDestination(all);
         }
-       
+
 
         public static void FillList<T>(ObservableCollection<T> destinationList) where T : class
         {
@@ -83,7 +88,7 @@ namespace DominatorHouseCore.FileManagers
 
         public static bool AddRange(List<PublisherManageDestinationModel> destinationList)
         {
-            var lst = GetAll() ?? new List<PublisherManageDestinationModel>();          
+            var lst = GetAll() ?? new List<PublisherManageDestinationModel>();
             lst.AddRange(destinationList);
             BinFileHelper.UpdateAllManageDestination(lst);
             return true;

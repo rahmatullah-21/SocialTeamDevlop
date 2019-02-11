@@ -7,7 +7,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
     [Serializable]
     [ProtoContract]
-    public class GdPostSettings : BindableBase, IGdPostSettings 
+    public class GdPostSettings : BindableBase, IGdPostSettings
     {
         private string _postTitle;
         private bool _isPostAsStoryPost;
@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         private string _geoLocationList;
         private bool _isTagUser;
         private string _tagUserList;
-        private bool _isLocationName;
+        private bool _isLocationName = true;
         private bool _isLocationId;
 
         [ProtoMember(1)]
@@ -28,9 +28,9 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 return _postTitle;
             }
             set
-            {               
+            {
                 if (_postTitle == value)
-                    return;               
+                    return;
                 SetProperty(ref _postTitle, value);
             }
         }
@@ -44,9 +44,9 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {
-              
+
                 if (_isPostAsStoryPost == value)
-                    return;             
+                    return;
                 SetProperty(ref _isPostAsStoryPost, value);
             }
         }
@@ -59,10 +59,10 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 return _isDeletePostAfterHours;
             }
             set
-            {              
+            {
                 if (_isDeletePostAfterHours == value)
                     return;
-                
+
                 SetProperty(ref _isDeletePostAfterHours, value);
             }
         }
@@ -75,10 +75,10 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 return _deletePostAfterHours;
             }
             set
-            {              
+            {
                 if (_deletePostAfterHours == value)
                     return;
-             
+
                 SetProperty(ref _deletePostAfterHours, value);
             }
         }
@@ -94,7 +94,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
                 if (_isGeoLocation == value)
                     return;
-              
+
                 SetProperty(ref _isGeoLocation, value);
             }
         }
@@ -108,10 +108,10 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {
-               
+
                 if (_geoLocationList == value)
                     return;
-              
+
                 SetProperty(ref _geoLocationList, value);
             }
         }
@@ -124,10 +124,10 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 return _isTagUser;
             }
             set
-            {             
+            {
                 if (_isTagUser == value)
                     return;
-             
+
                 SetProperty(ref _isTagUser, value);
             }
         }
@@ -143,7 +143,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             {
                 if (_tagUserList == value)
                     return;
-              
+
                 SetProperty(ref _tagUserList, value);
             }
         }
@@ -156,8 +156,8 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {
-                if (_isLocationName == value)
-                    return;
+                if (value)
+                    IsGeoLocationName = false;
 
                 SetProperty(ref _isLocationName, value);
             }
@@ -171,8 +171,8 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
             set
             {
-                if (_isLocationId == value)
-                    return;
+                if (value)
+                    IsGeoLocationName = false;
 
                 SetProperty(ref _isLocationId, value);
             }

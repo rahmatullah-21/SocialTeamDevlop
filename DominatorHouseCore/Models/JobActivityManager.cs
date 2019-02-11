@@ -1,115 +1,58 @@
-﻿using System.Collections.Generic;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
-using DominatorHouseCore.Enums;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class JobActivityManager:BindableBase
+    public class JobActivityManager : BindableBase
     {
         private List<ModuleConfiguration> _lstModuleConfiguration = new List<ModuleConfiguration>();
 
-        /// <summary>
-        /// Module Configurations. FollowModule, UnfollowModule, LikeModule etc.
-        /// </summary>
         [ProtoMember(1)]
         public List<ModuleConfiguration> LstModuleConfiguration
         {
-            get { return _lstModuleConfiguration; }
+            get
+            {
+                return _lstModuleConfiguration;
+            }
             set
             {
-                if(_lstModuleConfiguration == value)return;
+                if (_lstModuleConfiguration == value) return;
                 SetProperty(ref _lstModuleConfiguration, value);
             }
         }
 
-        /// <summary>
-        /// Day of week and Time when particular modules will be running
-        /// </summary>
         [ProtoMember(2)]
         public List<RunningTimes> RunningTime { get; set; } = new List<RunningTimes>();
 
-
-        public JobActivityManager()
+        public void AddOrUpdateModuleConfig(ModuleConfiguration moduleConfiguration)
         {
-#if DEBUG            
-            //FillConfigurations();
-            //FillRunningTime();
-#endif
-        }
-
-        private void FillRunningTime()
-        {
-            RunningTime = RunningTimes.DayWiseRunningTimes;
-        }
-
-
-        // TODO: have to be loaded from binary files
-        void FillConfigurations()
-        {            
-            LstModuleConfiguration.Add(new ModuleConfiguration()
+            var index = FindIndexByActivityType(moduleConfiguration.ActivityType);
+            if (index >= 0)
             {
-                TemplateId = "",
-                IsEnabled = true,         
-                Status = "",
-                LastUpdatedDate = DateTimeUtilities.GetEpochTime(),
-                LstRunningTimes = new List<RunningTimes>(),
-                ActivityType = ActivityType.Follow,
-            });
+                _lstModuleConfiguration[index] = moduleConfiguration;
+            }
+            else
+            {
+                _lstModuleConfiguration.Add(moduleConfiguration);
+            }
+
         }
 
+        public void DeleteModuleConfig(ActivityType activityType)
+        {
+            var index = FindIndexByActivityType(activityType);
+            if (index >= 0)
+            {
+                _lstModuleConfiguration.RemoveAt(index);
+            }
+        }
 
-        #region Not Implemented Modules
-
-        //[ProtoMember(2)]
-        //public ModuleConfiguration UnfollowModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(3)]
-        //public ModuleConfiguration LikeModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(4)]
-        //public ModuleConfiguration UnlikeModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(5)]
-        //public ModuleConfiguration CommentModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(6)]
-        //public ModuleConfiguration DeleteCommentModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(7)]
-        //public ModuleConfiguration PostingModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(8)]
-        //public ModuleConfiguration RepostModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(9)]
-        //public ModuleConfiguration DeletePostModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(10)]
-        //public ModuleConfiguration MonitorFolderModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(11)]
-        //public ModuleConfiguration MessageModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(12)]
-        //public ModuleConfiguration UserScraperModule { get; set; } = new ModuleConfiguration();
-
-
-        //[ProtoMember(13)]
-        //public ModuleConfiguration PhotoScraperModule { get; set; } = new ModuleConfiguration();
-
-        #endregion
-
+        private int FindIndexByActivityType(ActivityType activityType)
+        {
+            return _lstModuleConfiguration.FindIndex(a => a.ActivityType == activityType);
+        }
     }
 }

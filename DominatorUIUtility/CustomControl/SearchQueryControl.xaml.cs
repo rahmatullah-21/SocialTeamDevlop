@@ -292,7 +292,7 @@ namespace DominatorUIUtility.CustomControl
 
         public object CommandParameter
         {
-            get { return (object)GetValue(CommandParameterProperty); }
+            get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
         }
 
@@ -318,7 +318,7 @@ namespace DominatorUIUtility.CustomControl
             RaiseEvent(routedEventArgs);
         }
 
-        private void DeleteSingle_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DeleteSingle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             CurrentQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
             DeleteQueryEventHandler();
@@ -540,6 +540,11 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                if (!ListQueryInfo.Any(x => x.IsQuerySelected))
+                {
+                    Dialog.ShowDialog("Error", "Please select atleast one query.");
+                    return;
+                }
                 SaveFileDialog saveFiledialog = new SaveFileDialog
                 {
                     Filter = "CSV file (.csv)|*.csv",
@@ -549,7 +554,6 @@ namespace DominatorUIUtility.CustomControl
                 if (saveFiledialog.ShowDialog() == true)
                 {
                     string filename = saveFiledialog.FileName;
-                    var csvData = new List<string>();
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
                         ListQueryInfo.ForEach(x =>
@@ -560,6 +564,7 @@ namespace DominatorUIUtility.CustomControl
                             }
 
                         });
+                        ToasterNotification.ShowSuccess("Query exported successfully.");
                     }
 
                 }

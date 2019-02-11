@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -10,6 +6,11 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
 using DominatorUIUtility.Views.SocioPublisher;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
@@ -18,15 +19,17 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
     /// </summary>
     public partial class Reddit : UserControl
     {
-        private Reddit()
+        private readonly IGenericFileManager _genericFileManager;
+        public Reddit()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();
             MainGrid.DataContext = RedditViewModel;
         }
 
         static Reddit _objReddit;
 
-        public static Reddit GetSingeltonRedditObject() 
+        public static Reddit GetSingeltonRedditObject()
             => _objReddit ?? (_objReddit = new Reddit());
 
         private RedditViewModel _redditViewModel = new RedditViewModel();
@@ -57,10 +60,10 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var redditModel = GenericFileManager.GetModuleDetails<RedditModel>
+            var redditModel = _genericFileManager.GetModuleDetails<RedditModel>
                 (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            RedditViewModel.RedditModel = redditModel ?? (redditModel = new RedditModel());
+            RedditViewModel.RedditModel = redditModel ?? (new RedditModel());
         }
     }
 }

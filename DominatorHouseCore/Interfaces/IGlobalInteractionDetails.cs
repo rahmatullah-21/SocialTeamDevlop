@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Interfaces
 {
     public interface IGlobalInteractionDetails
     {
-        void InitializeInteraction();
+        GlobalInteractionDataModel this[SocialNetworks networks, ActivityType activityType] { get; }
 
-        void UpdateInteractedData();
+        void AddInteractedData(SocialNetworks networks, ActivityType activityType, string interactedData);
 
-        void ReadInteractedData();
-
-        Dictionary<ActivityType, GlobalInteractionDataModel> GlobalInteractedCollections { get; set; }
+        void RemoveIfExist(SocialNetworks networks, ActivityType activityType, string interactedData);
     }
 }

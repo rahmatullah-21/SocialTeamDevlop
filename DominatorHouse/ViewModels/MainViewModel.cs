@@ -1,7 +1,9 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouse.Social.AutoActivity.ViewModels;
+using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
-using DominatorHouseCore.Command;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -9,6 +11,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Process;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.ViewModel.Common;
@@ -18,9 +21,7 @@ using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
-using FluentScheduler;
 using MahApps.Metro.Controls.Dialogs;
-using Socinator.Social.AutoActivity.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,21 +30,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using Unity;
 
 namespace DominatorHouse.ViewModels
 {
     public class MainViewModel : BindableBase, IMainViewModel
     {
         private readonly IApplicationResourceProvider _applicationResourceProvider;
+        private readonly ISchedulerProxy _schedulerProxy;
         private Dock _tabDock;
         public ILogViewModel LogViewModel { get; }
         public IPerfCounterViewModel PerfCounterViewModel { get; }
 
         public SelectableViewModel<string> Languages { get; }
 
-        public SelectableViewModel<SocialNetworks?> AvailableNetworks { get; }
+        public ISelectedNetworkViewModel AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
 
@@ -61,9 +61,7 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
-        public ICommand WinActivateCommand { get; set; }
-        public ICommand WinClosingCommand { get; set; }
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel)
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             FatalErrorDiagnosis();
 
@@ -72,8 +70,9 @@ namespace DominatorHouse.ViewModels
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
+            AvailableNetworks = availableNetworks;
+            _schedulerProxy = schedulerProxy;
             Languages = new SelectableViewModel<string>(new[] { "English" });
-            AvailableNetworks = new SelectableViewModel<SocialNetworks?>(new List<SocialNetworks?>());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;
@@ -87,7 +86,7 @@ namespace DominatorHouse.ViewModels
                 //TODO : it's awful! (use dymanic for it) change it later!
                 var selectedTabObject = TabItems.Selected?.Content.Value;
 
-                ((dynamic)selectedTabObject)?.setIndex((int)subTabIndex);
+                ((dynamic)selectedTabObject)?.SetIndex((int)subTabIndex);
             };
 
             // Go to campaign from respective module after campaign saved
@@ -115,11 +114,11 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-
                 e.Cancel = true;
                 bool isClose = Dialog.ShowCustomDialog("Confirmation", "Are you sure to close Socinator?", "Yes", "No") == MessageDialogResult.Affirmative;
                 if (isClose)
                 {
+                    DominatorHouseCore.Utility.Utilities.KillGecko();
                     Application.Current.Shutdown();
                     Process.GetCurrentProcess().Kill();
                 }
@@ -159,46 +158,64 @@ namespace DominatorHouse.ViewModels
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (!Application.Current.Dispatcher.CheckAccess())
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        Application.Current.Shutdown();
-                        Process.GetCurrentProcess().Kill();
-                    });
-                }
-                else
-                {
-                    Application.Current.Shutdown();
-                    Process.GetCurrentProcess().Kill();
-                }
+                ex.DebugLog();
+                //if (!Application.Current.Dispatcher.CheckAccess())
+                //{
+                //    Application.Current.Dispatcher.Invoke(() =>
+                //    {
+                //        Application.Current.Shutdown();
+                //        Process.GetCurrentProcess().Kill();
+                //    });
+                //}
+                //else
+                //{
+                //    Application.Current.Shutdown();
+                //    Process.GetCurrentProcess().Kill();
+                //}
             }
         }
 
+        private bool _isStartedfirstTime;
         private async Task FatalErrorDiagnosis()
         {
             string fatalError;
             var key = SocinatorKeyHelper.GetKey();
             if (key != null)
             {
-                var settings = new MetroDialogSettings()
+                _isStartedfirstTime = true;
+                if (await DiagnoseFatalError(key.FatalErrorMessage))
                 {
-                    DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
-                    AffirmativeButtonText = "Validate"
-                };
-                while (true)
-                {
-                    try
+                    if (!_isStartedfirstTime)
+                        return;
+                    var settings = new MetroDialogSettings()
                     {
-                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
-                        if (await IsProcessFatalError(fatalError))
-                            continue;
-                        else break;
-                    }
-                    catch (Exception ex)
+                        DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
+                        AffirmativeButtonText = "Validate"
+                    };
+                    while (true)
                     {
+                        try
+                        {
+                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
+                            if (string.IsNullOrEmpty(fatalError))
+                            {
+                                Application.Current.MainWindow.Close();
+                                continue;
+                            }
+                            if (await IsProcessFatalError(fatalError))
+                                // ReSharper disable once RedundantJumpStatement
+                                continue;
+                            // ReSharper disable once RedundantIfElseBlock
+                            else if (_isStartedfirstTime)
+                                continue;
+                            else
+                                break;
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                     }
                 }
             }
@@ -209,6 +226,7 @@ namespace DominatorHouse.ViewModels
                     {
                         fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License");
                         if (await IsProcessFatalError(fatalError))
+                            // ReSharper disable once RedundantJumpStatement
                             continue;
                         else break;
                     }
@@ -234,13 +252,15 @@ namespace DominatorHouse.ViewModels
             }
             if (networks.Count <= 1)
             {
-                Application.Current.MainWindow.Close();
+
                 await controller.CloseAsync();
-                await FatalErrorDiagnosis();
+                if (!_isStartedfirstTime)
+                    await FatalErrorDiagnosis();
                 return true;
             }
+            _isStartedfirstTime = false;
             IsCancelFromLicenceValidationState = false;
-            var fatalErrorHandler = new DominatorHouseCore.Models.FatalErrorHandler
+            var fatalErrorHandler = new FatalErrorHandler
             {
                 FatalErrorMessage = fatalError,
                 FatalErrorAddedDate = DateTime.Now,
@@ -277,7 +297,7 @@ namespace DominatorHouse.ViewModels
             try
             {
                 FeatureFlags.UpdateFeatures();
-                var modules = DominatorHouseCore.IoC.Container.ResolveAll<ISocialNetworkModule>();
+                var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
                 foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                 {
                     var module = socialNetworkModule;
@@ -303,7 +323,7 @@ namespace DominatorHouse.ViewModels
                 SetActiveNetwork(SocialNetworks.Social);
                 ThreadFactory.Instance.Start(() =>
                 {
-                    JobManager.AddJob(() => InitializeJobCores(_fatalError), x => x.ToRunNow());
+                    _schedulerProxy.AddJob(() => InitializeJobCores(), x => x.ToRunNow());
                 });
 
                 //Init UI delegates            
@@ -327,8 +347,7 @@ namespace DominatorHouse.ViewModels
         }
 
 
-
-        public void InitializeJobCores(string license)
+        private void InitializeJobCores()
         {
             try
             {
@@ -336,51 +355,46 @@ namespace DominatorHouse.ViewModels
                 {
                     var nextDayTime = DateTime.Now.AddDays(1);
 
-                    JobManager.AddJob(() => InitializeJobCores(license),
+                    _schedulerProxy.AddJob(InitializeJobCores,
                         x => x.ToRunOnceAt(new DateTime(nextDayTime.Year, nextDayTime.Month, nextDayTime.Day, 0, 0, 1))
                             .AndEvery(1).Days());
                 });
 
                 FeatureFlags.UpdateFeatures();
 
-                var softWareSettings = new DominatorHouse.Utilities.SoftwareSettings();
-                ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(Strategies); });
-
-                var softWareSetting = new DominatorHouseCore.Settings.SoftwareSettings();
-                ThreadFactory.Instance.Start(() => { softWareSetting.InitializeOnLoadConfigurations(); });
-
-                // For Every day backup
-                ThreadFactory.Instance.Start(() =>
-                {
-                    DirectoryUtilities.DeleteOldLogsFile();
-                    //DirectoryUtilities.Compress();
-                });
-
-                #region Publisher
-
-                ThreadFactory.Instance.Start(() =>
-                {
-                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
-                    PublishScheduler.ScheduleTodaysPublisher();
-                    PublishScheduler.UpdateNewGroupList();
-                });
-
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var publisherPostFetcher = new PublisherPostFetcher();
-                    publisherPostFetcher.StartFetchingPostData();
-                });
-
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var deletionPostlist =
-                    GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                        .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
-                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
-                });
-
-                #endregion
-
+                Parallel.Invoke(() =>
+                                {
+                                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                                    softwareSetting.InitializeOnLoadConfigurations();
+                                    softwareSetting.ActivityManagerInitializer();
+                                    softwareSetting.ScheduleAutoUpdation();
+                                    if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
+                                        softwareSetting.ScheduleAdsScraping();
+                                },
+                                () =>
+                                {
+                                    DirectoryUtilities.DeleteOldLogsFile();
+                                    // DirectoryUtilities.Compress();
+                                },
+                                () =>
+                                {
+                                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                                    PublishScheduler.ScheduleTodaysPublisher();
+                                    PublishScheduler.UpdateNewGroupList();
+                                },
+                               () =>
+                                {
+                                    var publisherPostFetcher = new PublisherPostFetcher();
+                                    publisherPostFetcher.StartFetchingPostData();
+                                },
+                                () =>
+                                {
+                                    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                                    var deletionPostlist =
+                                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
+                                });
             }
             catch (Exception ex)
             {
@@ -391,7 +405,7 @@ namespace DominatorHouse.ViewModels
             {
                 ThreadFactory.Instance.Start(() =>
                 {
-                    JobManager.AddJob(async () => await IsCheck(),
+                    _schedulerProxy.AddJob(async () => await IsCheck(),
                         x => x.ToRunOnceAt(DateTime.Now.AddHours(1))
                             .AndEvery(1).Hours());
                 });
@@ -504,7 +518,7 @@ namespace DominatorHouse.ViewModels
                     _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
                         .LangKeyAccountsActivity))
                 {
-                    DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
+                    ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
                 }
 
                 if (itemTemplate.Title ==
@@ -581,13 +595,13 @@ namespace DominatorHouse.ViewModels
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
                 TabItems.SelectByIndex(index);
-                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
+                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().NewAutoActivityObject(network, selectedAccount);
             }
             else
             {
                 TabItems.SelectByIndex(index);
-                DominatorAutoActivity.GetSingletonDominatorAutoActivity(SocialNetworks.Social);
-                SocialAutoActivity.GetSingletonSocialAutoActivity().NewAutoActivityObject(network, selectedAccount);
+                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
+                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().NewAutoActivityObject(network, selectedAccount);
             }
         }
 

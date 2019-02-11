@@ -1,21 +1,11 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 
 namespace DominatorUIUtility.CustomControl
@@ -49,7 +39,8 @@ namespace DominatorUIUtility.CustomControl
         public AccountDetail(DominatorAccountModel dataContext) : this()
         {
             AccountDetailsViewModel = new AccountDetailsViewModel(dataContext);
-            this.DataContext = AccountDetailsViewModel;
+            DataContext = AccountDetailsViewModel;
+            AccountDetailsViewModel.CodeSectionVisibility= dataContext.AccountBaseModel.Status == AccountStatus.TwoFactorLoginAttempt ? Visibility.Visible : Visibility.Collapsed;
         }
         private void OnKeyDown(object sender, KeyEventArgs e)
         {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,10 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Windows;
-using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Utility
 {
@@ -126,7 +125,7 @@ namespace DominatorHouseCore.Utility
                 }
                 return string.Empty;
             }
-            catch (Exception ex)
+            catch
             {
                 return string.Empty;
             }
@@ -162,13 +161,13 @@ namespace DominatorHouseCore.Utility
 
         public static void ExportReports(string fileName, string csvHeader, List<string> csvData)
         {
-            using (var streamWriter = new StreamWriter(fileName, true))
+            using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
                 streamWriter.WriteLine(csvHeader);
             try
             {
                 foreach (var item in csvData)
                 {
-                    using (var streamWriter = new StreamWriter(fileName, true))
+                    using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
                     {
                         streamWriter.WriteLine(item);
                     }
@@ -314,13 +313,58 @@ namespace DominatorHouseCore.Utility
         }
         public static string ReplaceUniCode(string messeges)
         {
-            messeges= HttpUtility.HtmlDecode(messeges);
+            messeges = HttpUtility.HtmlDecode(messeges);
             Regex _regex = new Regex(@"\\u(?<Value>[a-zA-Z0-9]{4})", RegexOptions.Compiled);
             messeges = _regex.Replace(messeges,
                 m => ((char)int.Parse(m.Groups["Value"].Value, System.Globalization.NumberStyles.HexNumber)).ToString()
             );
             return messeges;
         }
+
+        public static bool AppClosing;
+        public static readonly object LockOpeningBrowser = new object();
+        public static List<Tuple<int, DateTime, DateTime>> RunningWebDrivers =
+            new List<Tuple<int, DateTime, DateTime>>();
+        public static void KillGecko()
+        {
+            try
+            {
+                AppClosing = true;
+
+                lock (LockOpeningBrowser)
+                {
+                    if (RunningWebDrivers.Count == 0) return;
+                    var listOfFirefox = System.Diagnostics.Process.GetProcessesByName("firefox").ToList();
+                    var localListDrivers = new List<Tuple<int, DateTime, DateTime>>(RunningWebDrivers);
+                    foreach (var geckoProcessId in localListDrivers)
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.GetProcessById(geckoProcessId.Item1).Kill();
+                        }
+                        catch (Exception ex)
+                        { ex.DebugLog(); }
+
+                        if (listOfFirefox.Count == 0) return;
+                        var processFirefox = listOfFirefox.Where(x => !x.HasExited &&
+                                                                      x.StartTime >= geckoProcessId.Item2 && x.StartTime < geckoProcessId.Item3);
+                        try
+                        {
+                            foreach (var each in processFirefox)
+                            {
+                                if (!each.HasExited)
+                                    each.Kill();
+                            }
+                        }
+                        catch (Exception ex)
+                        { /*Ignore*/ }
+                    }
+                }
+            }
+            catch (Exception ex)
+            { ex.DebugLog(); }
+        }
+
         public static T DeepCloneObject<T>(this T instance)
         {
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(instance));

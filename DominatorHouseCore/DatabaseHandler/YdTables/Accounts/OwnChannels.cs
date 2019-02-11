@@ -1,11 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
@@ -16,8 +9,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [Indexed]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 1)]
         public int Id { get; set; }
-
-        [Unique]
+        
         [System.ComponentModel.DataAnnotations.Schema.Column(Order =2)]
         public string ChannelName { get; set; }
 
@@ -26,5 +18,11 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order =4)]
         public string VideosCount { get; set; }
+     
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
+        public string PageId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
+        public bool IsSelected { get; set; }
+
     }
 }

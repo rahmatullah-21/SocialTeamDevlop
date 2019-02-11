@@ -1,6 +1,6 @@
-﻿using System;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
 
 namespace DominatorHouseCore.Models
 {
@@ -11,7 +11,7 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class ContentSelectGroup : BindableBase
     {
-      
+
         private string _content;
         /// <summary>
         /// Provide the content
@@ -51,7 +51,28 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isContentSelected, value);
             }
         }
-      
+
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as ContentSelectGroup;
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (other.Content == null && Content == null)
+            {
+                return true;
+            }
+
+            return Content?.Equals(other.Content, StringComparison.CurrentCultureIgnoreCase) ?? false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Content.GetHashCode();
+        }
     }
 
 

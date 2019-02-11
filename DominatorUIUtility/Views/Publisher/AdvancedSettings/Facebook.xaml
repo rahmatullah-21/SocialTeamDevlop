@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.Views.Publisher.AdvancedSettings"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-           xmlns:custom="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:custom="clr-namespace:DominatorUIUtility.CustomControl"
              Loaded="Facebook_OnLoaded">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -123,24 +122,125 @@
                     <TextBox Height="50" Width="300" AcceptsReturn="True"
                              HorizontalAlignment="Left" Margin="50,5" Text="{Binding FacebookModel.HashtagsFromList2}"/>
                 </StackPanel>
-                <CheckBox Content="{DynamicResource LangKeyAutoTagFriendsInPosts}"
-                          VerticalAlignment="Center" Margin="5"
-                          IsChecked="{Binding FacebookModel.IsAutoTagFriends}"/>
-                <StackPanel Margin="25,5" Visibility="{Binding FacebookModel.IsAutoTagFriends,
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="{DynamicResource LangKeyTagFriendsOption}"
+                              VerticalAlignment="Center" Margin="5"
+                              IsChecked="{Binding FacebookModel.IsTagOptionChecked}"/>
+                    <StackPanel Orientation="Vertical" Margin="25,5" Visibility="{Binding FacebookModel.IsTagOptionChecked,
                             Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal">
-                        <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Maximum="100" 
+                        <StackPanel Orientation="Vertical">
+                            <RadioButton GroupName="TagFriends" Content="{DynamicResource LangKeyAutoTagFriendsInPosts}"
+                                     VerticalAlignment="Center" Margin="5"
+                                     IsChecked="{Binding FacebookModel.IsAutoTagFriends}"/>
+                            <StackPanel Margin="25,5" Visibility="{Binding FacebookModel.IsAutoTagFriends,
+                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Maximum="100" 
+                                                        Margin="5,0" Value="{Binding FacebookModel.UsersForEachPost.StartValue}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTo}" Margin="0,0,5,0"/>
+                                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" 
+                                                        Minimum="0" Maximum="100"
+                                                        Value="{Binding FacebookModel.UsersForEachPost.EndValue}"/>
+                                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyUsersForEachPosts}" Margin="0,0,10,0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,10">
+                                    <CheckBox Content="{DynamicResource LangKeyTagUniqueUsresForEachPost}"
+                                          VerticalAlignment="Center" Margin="5"
+                                          IsChecked="{Binding FacebookModel.IsTagUniqueFriends}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <RadioButton GroupName="TagFriends" Content="{DynamicResource LangKeyTagSpecificUsersInYourPost}"
+                          VerticalAlignment="Center" Margin="5,5,5,10"
+                          IsChecked="{Binding FacebookModel.IsTagSpecificFriends}"/>
+                            <StackPanel Margin="25,5" Visibility="{Binding FacebookModel.IsTagSpecificFriends,
+                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Maximum="100" 
                                                 Margin="5,0" Value="{Binding FacebookModel.UsersForEachPost.StartValue}" />
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTo}" Margin="0,0,5,0"/>
-                        <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" 
+                                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTo}" Margin="0,0,5,0"/>
+                                    <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" 
                                                 Minimum="0" Maximum="100"
                                                 Value="{Binding FacebookModel.UsersForEachPost.EndValue}"/>
-                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyUsersForEachPosts}" Margin="0,0,10,0"/>
+                                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyUsersForEachPosts}" Margin="0,0,10,0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Visibility="{Binding FacebookModel.IsTagSpecificFriends,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <custom:InputBoxControl Margin="5,10" InputText="{Binding FacebookModel.CustomTaggedUser}" InputCollection="{Binding FacebookModel.ListCustomTaggedUser}"  SaveCommand="{Binding SaveFriendCommad}" />
+
+                                    <Button Content="{DynamicResource LangKeySelectFriends}" Width="200" Height="30" x:Name="btnSelectInput" Command="{Binding SelectFriendsCommand}" CommandParameter="Friend"
+                    Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Left" Foreground="White" Margin="85,10,0,0" />
+
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,10">
-                        <CheckBox Content="{DynamicResource LangKeyTagUniqueUsresForEachPost}"
+
+
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="{DynamicResource LangKeyPostAsPageOption}"
                           VerticalAlignment="Center" Margin="5"
-                          IsChecked="{Binding FacebookModel.IsTagUniqueFriends}"/>
+                          IsChecked="{Binding FacebookModel.IsReactAsPageOptionChecked}"/>
+                    <StackPanel Orientation="Vertical" Margin="25,5" Visibility="{Binding FacebookModel.IsReactAsPageOptionChecked,
+                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Vertical">
+                            <RadioButton GroupName="PostOption" Content="{DynamicResource LangKeyPostAsPage}"
+                                         VerticalAlignment="Center" Margin="5,10,5,10"
+                                         IsChecked="{Binding FacebookModel.IsPostAsPage}"/>
+                            <StackPanel Margin="25,5" Visibility="{Binding FacebookModel.IsPostAsPage,
+                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel Orientation="Vertical" Visibility="{Binding FacebookModel.IsPostAsPage,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <custom:InputBoxControl Margin="5,10" InputText="{Binding FacebookModel.CustomPageUrl}" InputCollection="{Binding FacebookModel.ListCustomPageUrl}" SaveCommand="{Binding SavePageCommad}"  />
+
+                                    <Button Content="{DynamicResource LangKeySelectPages}" Width="200" Height="30" x:Name="btnSelectPage" Command="{Binding SelectPagesCommand}" CommandParameter="Page"
+                                            Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Left" Foreground="White" Margin="85,10,0,0" />
+
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <RadioButton GroupName="PostOption" Content="{DynamicResource LangKeyPostAsOwnAccount}"
+                          VerticalAlignment="Center" Margin="5"
+                          IsChecked="{Binding FacebookModel.IsPostAsOwnAccount}"/>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <RadioButton GroupName="PostOption" Content="{DynamicResource LangKeyPostAsSamePage}"
+                                         VerticalAlignment="Center" Margin="5,10,5,10"
+                                         IsChecked="{Binding FacebookModel.IsPostAsSamePage}"/>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="{DynamicResource LangKeyMentionSpecificUsers}"
+                          VerticalAlignment="Center" Margin="5,5,5,10"
+                          IsChecked="{Binding FacebookModel.IsMentionSpecificFriends}"/>
+                    <StackPanel Margin="25,5" Visibility="{Binding FacebookModel.IsMentionSpecificFriends,
+                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" Maximum="100" 
+                                                Margin="5,0" Value="{Binding FacebookModel.MentionUsersForEachPost.StartValue}" />
+                            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTo}" Margin="0,0,5,0"/>
+                            <controls:NumericUpDown VerticalAlignment="Center" Margin="5,0" 
+                                                Minimum="0" Maximum="100"
+                                                Value="{Binding FacebookModel.MentionUsersForEachPost.EndValue}"/>
+                            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyUsersForEachPosts}" Margin="0,0,10,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Visibility="{Binding FacebookModel.IsMentionSpecificFriends,Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <custom:InputBoxControl Margin="5,10" InputText="{Binding FacebookModel.CustomMentionUser}" InputCollection="{Binding FacebookModel.ListCustomMentionUser}"  SaveCommand="{Binding SaveMentionCommad}" />
+
+                            <Button Content="{DynamicResource LangKeySelectFriends}" Width="200" Height="30" x:Name="BtnSelectMentionInput" Command="{Binding SelectMentionCommand}" CommandParameter="Friend"
+                    Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Left" Foreground="White" Margin="85,10,0,0" />
+
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource LangKeyGlobalSellPostsZipcode}"

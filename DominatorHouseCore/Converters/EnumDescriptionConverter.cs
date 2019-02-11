@@ -1,18 +1,15 @@
-﻿using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Data;
 
 namespace DominatorHouseCore.Converters
 {
     public class EnumDescriptionConverter : IValueConverter
     {
-        static EnumDescriptionConverter _instance;
-        static EnumDescriptionConverter Instance => _instance ?? (_instance = new EnumDescriptionConverter());
+        //static EnumDescriptionConverter _instance;
+        //static EnumDescriptionConverter Instance => _instance ?? (_instance = new EnumDescriptionConverter());
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -26,19 +23,6 @@ namespace DominatorHouseCore.Converters
 
 
             return discription;
-
-            //if (value == null) return DependencyProperty.UnsetValue;
-
-            //try
-            //{
-            //    var v = (UserQueryParameters)Enum.Parse(typeof(UserQueryParameters), value.ToString());
-            //    var desc = GetDescription(v);
-            //    return desc.FromResourceDictionary();
-            //}
-            //catch(Exception)
-            //{
-            //    return value;
-            //}
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -56,10 +40,10 @@ namespace DominatorHouseCore.Converters
         {
             Type type = en.GetType();
             MemberInfo[] memInfo = type.GetMember(en.ToString());
-            if (memInfo != null && memInfo.Length > 0)
+            if (memInfo.Length > 0)
             {
                 object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attrs != null && attrs.Length > 0)
+                if (attrs.Length > 0)
                 {
                     return ((DescriptionAttribute)attrs[0]).Description;
                 }

@@ -5,6 +5,9 @@ using DominatorHouseCore.Utility;
 using System.Windows.Input;
 using DominatorHouseCore;
 using System;
+using System.Windows.Threading;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -91,15 +94,56 @@ namespace DominatorUIUtility.CustomControl
                         InputCollection.Add(text);
 
                 }
+
                 InputText = string.Empty;
-                InputCollection.ForEach(x =>
+
+                List<string> tmpLstInputs = InputCollection;
+
+
+                ThreadFactory.Instance.Start(() =>
                 {
-                    InputText = string.IsNullOrEmpty(InputText) ? x : InputText + "\r\n" + x;
+                    CacheText cache = new CacheText
+                    {
+                        Limit = tmpLstInputs.Count
+                    };
+
+                    for (int counter = 0; counter < tmpLstInputs.Count; counter++)
+                    {
+                        string input = tmpLstInputs[counter];
+                        input = counter == 0 ? input : "\r\n" + input;
+
+                        cache.AddToCache(input);
+
+                        //if (cache.AddToCache(input))
+                        //    continue;
+                        //AddTextToInputBox(cache.GetCacheText());
+
+                        // System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    }
+
+                    AddTextToInputBox(cache.GetCacheText());
+
+                    GlobusLogHelper.log.Info("Text file content uploaded successfully!");
+                    ToasterNotification.ShowSuccess("Text file content uploaded successfully!");
                 });
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+        public void AddTextToInputBox(string inputText)
+        {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    InputText += inputText;
+                }, DispatcherPriority.Background);
+            }
+            else
+            {
+                InputText += inputText;
             }
         }
 
@@ -207,7 +251,7 @@ namespace DominatorUIUtility.CustomControl
 
         public object CommandParameter
         {
-            get { return (object)GetValue(CommandParameterProperty); }
+            get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
         }
 

@@ -5,6 +5,7 @@
         Following,
         FollowingBack,
         Unfollowed,
-        Blocked
+        Blocked,
+        Requested
     }
 }

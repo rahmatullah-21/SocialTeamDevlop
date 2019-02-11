@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace DominatorHouseCore.Command
 {
- public   class BaseCommand<T>: ICommand
+    public class BaseCommand<T> : ICommand
     {
         //Constructor
         #region Constructor
@@ -39,18 +39,18 @@ namespace DominatorHouseCore.Command
 
         public bool CanExecute(object parameter)
         {
-            return this.CanExecuteMethod(parameter);
+            return CanExecuteMethod != null && CanExecuteMethod(parameter);
         }
 
         public void NotifyCanExecuteChanged()
         {
-            CanExecuteChanged.Invoke(this, EventArgs.Empty);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void Execute(object parameter)
         {
 
-            this.ExecuteMethod(parameter);
+            ExecuteMethod(parameter);
         }
 
         #endregion

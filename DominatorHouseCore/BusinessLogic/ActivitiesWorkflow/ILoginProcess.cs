@@ -1,6 +1,4 @@
 ﻿using DominatorHouseCore.Models;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
 {
@@ -14,14 +12,5 @@ namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
         void LoginWithDataBaseCookies(DominatorAccountModel dominatorAccountModel, bool isMobileRequired);
 
         void LoginWithAlternativeMethod(DominatorAccountModel dominatorAccountModel);
-    }
-
-    public interface ILoginProcessAsync : ILoginProcess
-    {
-        Task<bool> CheckLoginAsync(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken);
-
-        Task LoginWithDataBaseCookiesAsync(DominatorAccountModel dominatorAccountModel, bool isMobileRequired, CancellationToken cancellationToken);
-
-        Task LoginWithAlternativeMethodAsync(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken);
     }
 }

@@ -28,14 +28,16 @@ namespace DominatorUIUtility.Views.SocioPublisher
         }
 
         private static JobConfiguration _jobConfiguration;
-
-        public static JobConfiguration GetInstance(JobConfigurationModel jobConfigurationModel)
+        private bool _isEditMode { get; set; }
+        public static JobConfiguration GetInstance(JobConfigurationModel jobConfigurationModel, bool isEditMode)
         {
 
             if (_jobConfiguration == null)
                 _jobConfiguration = new JobConfiguration(jobConfigurationModel);
+            _jobConfiguration._isEditMode = isEditMode;
             _jobConfiguration.CancelToken();
-            _jobConfiguration.LastPostCount = 0;
+            // _jobConfiguration.LastPostCount = 0;
+            _jobConfiguration.LastPostCount = jobConfigurationModel.LstTimer.Count;
             _jobConfiguration.JobConfigurations = jobConfigurationModel;
             _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
 
@@ -202,7 +204,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         }
                         catch (Exception ex)
                         {
-                            return;
+                            ex.DebugLog();
                         }
                     });
                     cancellectionToken.Token.ThrowIfCancellationRequested();
@@ -236,6 +238,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             cancellectionToken?.Dispose();
             cancellectionToken = new CancellationTokenSource();
         }
+
 
         #region Commented code
         #region Random Post Interval Generation
@@ -316,6 +319,18 @@ namespace DominatorUIUtility.Views.SocioPublisher
         //} 
         #endregion
 
+        private void PostCountChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            if (_isEditMode)
+            {
+                _isEditMode = false;
+                return;
+            }
+            CancelToken();
+            JobConfigurations.LstTimer.Clear();
+            if (numericMaxPost.Value != null && JobConfigurations.MaxPost != 0)
+                SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
 
+        }
     }
 }

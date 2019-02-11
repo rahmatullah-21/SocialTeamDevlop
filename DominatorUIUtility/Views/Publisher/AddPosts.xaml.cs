@@ -4,25 +4,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore.Annotations;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Views.Publisher.AdvancedOptions;
-using MahApps.Metro.Controls;
 using DominatorHouseCore.FileManagers;
 using Microsoft.Win32;
 
@@ -82,7 +71,7 @@ namespace DominatorUIUtility.Views.Publisher
             //manageDraft.Visibility = Visibility.Visible;
             //Campaigns.Visibility = Visibility.Collapsed;
         }
-        static AddPosts ObjAddPosts = null;
+        static AddPosts ObjAddPosts;
         public static AddPosts GetSingeltonAddPosts()
         {
             if (ObjAddPosts == null)
@@ -115,7 +104,7 @@ namespace DominatorUIUtility.Views.Publisher
 
         private void btnPhotos_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Multiselect = true,
                 Filter = "Jpg images|*.jpg|Png images|*.png|All files (*.*)|*.*"
@@ -131,7 +120,7 @@ namespace DominatorUIUtility.Views.Publisher
 
         private void btnVideo_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Multiselect = true,
                 Filter = "Mp4 videos|*.mp4|Avi videos|*.avi|All files (*.*)|*.*"
@@ -166,9 +155,9 @@ namespace DominatorUIUtility.Views.Publisher
         {
             Campaigns ObjCampaigns = Campaigns.GetSingltonCreateCampaignObject();
             var portDetails = PostFileManager.GetAllPost();
-            int PendingCount = 0;
-            int DraftCount = 0;
-            int PublishedCount = 0;
+            int PendingCount;
+            int DraftCount;
+            int PublishedCount;
             if (!string.IsNullOrEmpty(ObjCampaigns.cmbCampaign.Text) && ObjCampaigns.cmbCampaign.Text == AddPostViewModel.AddPostModel.CampaignDetails.CampaignName)
             {
                 var postToupdate = portDetails.FirstOrDefault(post => post.CampaignDetails.CampaignName == AddPostViewModel.AddPostModel.CampaignDetails.CampaignName);

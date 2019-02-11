@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.LogHelper;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System;
@@ -8,15 +9,21 @@ namespace DominatorHouseCore.FileManagers
 {
     public static class PostFileManager
     {
+        private static readonly IBinFileHelper BinFileHelper;
+
+        static PostFileManager()
+        {
+            BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+        }
         public static bool SavePost<T>(T post) where T : class
         {
             try
             {
                 BinFileHelper.SavePosts(post);
-                GlobusLogHelper.log.Debug($"Post successfully saved");
+                GlobusLogHelper.log.Debug("Post successfully saved");
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
@@ -27,12 +34,14 @@ namespace DominatorHouseCore.FileManagers
         }
 
 
-        public static void EditPost(AddPostModel post) => BinFileHelper.UpdatePost(post);
+        public static void EditPost(AddPostModel post)
+        {
+            BinFileHelper.UpdatePost(post);
+        }
 
         public static void Delete(Predicate<AddPostModel> match)
         {
             var posts = BinFileHelper.GetPostDetails();
-            var toDelete = posts.FindAll(match);
             posts.RemoveAll(match);
             BinFileHelper.UpdateAllPosts(posts);
         }

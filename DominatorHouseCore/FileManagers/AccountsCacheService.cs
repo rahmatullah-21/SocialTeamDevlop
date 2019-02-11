@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,73 +11,94 @@ namespace DominatorHouseCore.FileManagers
         IReadOnlyCollection<DominatorAccountModel> GetAccountDetails();
         bool UpsertAccounts(params DominatorAccountModel[] accounts);
         bool Delete(params DominatorAccountModel[] accounts);
+        event EventHandler<IEnumerable<DominatorAccountModel>> CacheUpdated;
+        DominatorAccountModel this[string accountId] { get; }
     }
 
     public class AccountsCacheService : IAccountsCacheService
     {
         private readonly object _syncContext = new object();
-        private readonly Dictionary<string, DominatorAccountModel> _cache;
+        private readonly Lazy<Dictionary<string, DominatorAccountModel>> _cache;
+        private readonly IBinFileHelper _binFileHelper;
+        public event EventHandler<IEnumerable<DominatorAccountModel>> CacheUpdated;
 
-        public AccountsCacheService()
+        public DominatorAccountModel this[string accountId]
         {
-            _cache = new Dictionary<string, DominatorAccountModel>();
+            get
+            {
+                lock (_syncContext) return _cache.Value[accountId];
+            }
+        }
+
+
+        public AccountsCacheService(IBinFileHelper binFileHelper)
+        {
+            _binFileHelper = binFileHelper;
+            _cache = new Lazy<Dictionary<string, DominatorAccountModel>>(() =>
+            {
+                return _binFileHelper.GetAccountDetails().ToDictionary(a => a.AccountId, a => a);
+            });
         }
 
         public IReadOnlyCollection<DominatorAccountModel> GetAccountDetails()
         {
             lock (_syncContext)
             {
-                if (_cache.Count == 0)
-                {
-                    foreach (var account in BinFileHelper.GetAccountDetails())
-                    {
-                        _cache.Add(account.AccountId, account);
-                    }
-                }
-
-                return _cache.Values;
+                return _cache.Value.Values;
             }
         }
 
         public bool UpsertAccounts(params DominatorAccountModel[] accounts)
         {
+            bool result = false;
+            IEnumerable<DominatorAccountModel> cachedAccounts = new DominatorAccountModel[0];
             lock (_syncContext)
             {
-                var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
+                var cacheCopy = _cache.Value.ToDictionary(a => a.Key, a => a.Value);
                 UpsertData(cacheCopy, accounts);
-                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
-                    _cache.Clear();
+                    _cache.Value.Clear();
                     foreach (var model in cacheCopy)
                     {
-                        _cache.Add(model.Key, model.Value);
+                        _cache.Value.Add(model.Key, model.Value);
                     }
+
+                    cachedAccounts = _cache.Value.Values;
                 }
 
-                return result;
+
             }
+
+            if (result)
+                OnCacheUpdated(cachedAccounts);
+
+            return result;
         }
 
         public bool Delete(params DominatorAccountModel[] accounts)
         {
             lock (_syncContext)
             {
-                var cacheCopy = _cache.ToDictionary(a => a.Key, a => a.Value);
+                var cacheCopy = _cache.Value.ToDictionary(a => a.Key, a => a.Value);
                 foreach (var model in accounts)
                 {
                     if (cacheCopy.ContainsKey(model.AccountId))
                         cacheCopy.Remove(model.AccountId);
                 }
-                var result = BinFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                var result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
-                    _cache.Clear();
+                    _cache.Value.Clear();
                     foreach (var model in cacheCopy)
                     {
-                        _cache.Add(model.Key, model.Value);
+                        _cache.Value.Add(model.Key, model.Value);
                     }
+
+                    OnCacheUpdated(_cache.Value.Values);
                 }
+
                 return result;
             }
         }
@@ -97,6 +119,11 @@ namespace DominatorHouseCore.FileManagers
                     }
                 }
             }
+        }
+
+        protected virtual void OnCacheUpdated(IEnumerable<DominatorAccountModel> e)
+        {
+            CacheUpdated?.Invoke(this, e);
         }
     }
 }

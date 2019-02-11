@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.ViewModel
 {
-    public class GrowthProperty:BindableBase
+    public class GrowthProperty : BindableBase
     {
         private string _propertyName;
         private int _propertyValue;
+        private bool _isChecked = true;
 
         public string PropertyName
         {
@@ -20,8 +16,6 @@ namespace DominatorHouseCore.ViewModel
             }
             set
             {
-                if(_propertyName == value)
-                    return;
                 SetProperty(ref _propertyName, value);
             }
         }
@@ -34,10 +28,14 @@ namespace DominatorHouseCore.ViewModel
             }
             set
             {
-                if(_propertyValue == value)
-                    return;
                 SetProperty(ref _propertyValue, value);
             }
+        }
+
+        public bool IsChecked
+        {
+            get { return _isChecked; }
+            set { SetProperty(ref _isChecked, value); }
         }
     }
 }

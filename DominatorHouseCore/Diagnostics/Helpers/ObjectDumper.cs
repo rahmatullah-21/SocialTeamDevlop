@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 using Newtonsoft.Json;
 
-namespace Socinator.Helpers
+namespace DominatorHouseCore.Diagnostics.Helpers
 {
     /// <summary>
     /// Uses to dump object to string with name=value. Uses for diagnostics.

@@ -10,8 +10,6 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class SingleAccountControl : CustomDialog
     {
-        SingleAccountModel objSingleAccountModel = new SingleAccountModel();
-
         public SingleAccountControl()
         {
             InitializeComponent();
@@ -19,10 +17,7 @@ namespace DominatorUIUtility.CustomControl
         }
         public SingleAccountControl(SingleAccountModel objSingleAccountModelBinding) : this()
         {
-            this.objSingleAccountModel = objSingleAccountModelBinding;
-
-
-            this.DataContext = objSingleAccountModel;
+            DataContext = objSingleAccountModelBinding;
         }
     }
 

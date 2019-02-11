@@ -2,18 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"             
              mc:Ignorable="d" 
              xmlns:Controls="clr-namespace:DominatorUIUtility.Controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
-
-    <UserControl.Resources>
+       <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
-        <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
     </UserControl.Resources>
 
     <Grid Name="MainGrid">
@@ -110,8 +105,9 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding IsQuerySelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="9,0"
-                                                      Content="{Binding AlternationIndex,RelativeSource={RelativeSource AncestorType=DataGridRow},
-                                                      Converter={StaticResource IndexToRowNoConverter}}" Click="OnQuerySelect" Controls:ScreenTipHelper.ElementID="IsCheckQuery"   Controls:ScreenTipHelper.Placement="BottomCenter" />
+                                                      Controls:ScreenTipHelper.ElementID="IsCheckQuery"  
+                                                      Controls:ScreenTipHelper.Placement="BottomCenter" 
+                                                      Content="{Binding Index}" Click="OnQuerySelect"/>
 
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -126,11 +122,11 @@
                                         <TextBlock Text="{DynamicResource LangKeyQuery}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn  Width="*"  FontSize="12"   Binding="{Binding IsCustomFilterSelected}" IsReadOnly="True">
+                                <!--<DataGridTextColumn  Width="*"  FontSize="12"   Binding="{Binding IsCustomFilterSelected}" IsReadOnly="True">
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="{DynamicResource LangKeyCustomFilters}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
+                                </DataGridTextColumn>-->
                                 <DataGridTemplateColumn Width="*" IsReadOnly="True">
                                     <DataGridTemplateColumn.HeaderTemplate>
                                         <DataTemplate>

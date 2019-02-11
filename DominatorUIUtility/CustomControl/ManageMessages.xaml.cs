@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using DominatorHouseCore;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -53,20 +52,21 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
-                var editMessage = new MessagesControl();
-                editMessage.btnAddMessagesToList.Content = "Update Message";
-                editMessage.Messages = new ManageMessagesModel
+                var editMessage = new MessagesControl
                 {
-                    MessagesText = currentItem.MessagesText,
-                    LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
-                    MessageId = currentItem.MessageId,
-                    SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
-                    MediaPath = currentItem.MediaPath
+                    btnAddMessagesToList = {Content = "Update Message"},
+                    Messages = new ManageMessagesModel
+                    {
+                        MessagesText = currentItem.MessagesText,
+                        LstQueries = new ObservableCollection<QueryContent>(currentItem.LstQueries),
+                        MessageId = currentItem.MessageId,
+                        SelectedQuery = new ObservableCollection<QueryContent>(currentItem.SelectedQuery),
+                    },
+                    LstManageMessagesModel = LstManageMessagesModel
                 };
                 editMessage.Messages.LstQueries.ToList().ForEach(x =>
                 {
-                    if (editMessage.Messages.SelectedQuery.Any(y=>y.Content.QueryValue==x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType))
-                        x.IsContentSelected = true;
+                    x.IsContentSelected = editMessage.Messages.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType);
                 });
                
 
@@ -81,7 +81,8 @@ namespace DominatorUIUtility.CustomControl
                          var indexToUpdate = LstManageMessagesModel.IndexOf(currentItem);
                          LstManageMessagesModel[indexToUpdate] = editMessage.Messages;
                      }
-                 };
+                    currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
+                };
             }
             catch (Exception ex)
             {

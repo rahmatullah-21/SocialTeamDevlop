@@ -10,7 +10,7 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null && value.ToString().Equals(ConstantVariable.NeedUpdateStatusSync) ? true : false;
+            return value != null && value.ToString().Equals(ConstantVariable.NeedUpdateStatusSync);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

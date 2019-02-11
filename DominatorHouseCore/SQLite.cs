@@ -1353,7 +1353,7 @@ namespace SQLite
             }
 
             var insertCmd = map.GetInsertCommand(this, extra);
-            int count;
+            int count = 0;
 
             try
             {
@@ -1366,7 +1366,7 @@ namespace SQLite
                 {
                     throw NotNullConstraintViolationException.New(ex.Result, ex.Message, map, obj);
                 }
-                throw;
+                //  throw;
             }
 
             if (map.HasAutoIncPK)
@@ -1521,7 +1521,7 @@ namespace SQLite
                 throw new NotSupportedException("Cannot delete " + map.TableName + ": it has no PK");
             }
             var q = string.Format("delete from \"{0}\" where \"{1}\" = ?", map.TableName, pk.Name);
-            return Execute(q,( (dynamic)primaryKey).Id);
+            return Execute(q, ((dynamic)primaryKey).Id);
         }
 
         /// <summary>
@@ -1571,7 +1571,7 @@ namespace SQLite
                             sqlInsertCommand.Dispose();
                         }
                     }
-                    var r = SQLite3.Close(Handle);
+                    var r = SQLite3.Close_v2(Handle);
                     if (r != SQLite3.Result.OK)
                     {
                         string msg = SQLite3.GetErrmsg(Handle);
@@ -3279,6 +3279,8 @@ namespace SQLite
 
         [DllImport("sqlite3", EntryPoint = "sqlite3_close", CallingConvention = CallingConvention.Cdecl)]
         public static extern Result Close(IntPtr db);
+        [DllImport("sqlite3", EntryPoint = "sqlite3_close_v2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Result Close_v2(IntPtr db);
 
         [DllImport("sqlite3", EntryPoint = "sqlite3_initialize", CallingConvention = CallingConvention.Cdecl)]
         public static extern Result Initialize();

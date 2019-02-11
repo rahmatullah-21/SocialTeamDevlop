@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
@@ -100,7 +98,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
     }
 
     [Flags]
-    public enum FollowType : int
+    public enum FollowType
     {
         Following = 1,
         FollowingBack  = 2,

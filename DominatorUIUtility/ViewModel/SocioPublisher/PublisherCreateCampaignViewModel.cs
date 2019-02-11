@@ -1,4 +1,19 @@
-﻿using System;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.SocioPublisher;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Patterns;
+using DominatorHouseCore.Process;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,38 +23,26 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Enums.SocioPublisher;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorHouseCore.Patterns;
-using DominatorHouseCore.Process;
-using DominatorUIUtility.Views.Publisher.AdvancedSettings;
-using Newtonsoft.Json;
 using JobConfiguration = DominatorUIUtility.Views.SocioPublisher.JobConfiguration;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateCampaignViewModel : INotifyPropertyChanged
     {
+        private readonly IGenericFileManager _genericFileManager;
 
         #region Constructor
 
-        public PublisherCreateCampaignViewModel()
+        public PublisherCreateCampaignViewModel(IGenericFileManager genericFileManager)
         {
+            _genericFileManager = genericFileManager;
+
             #region Command initilization
 
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             SaveCommand = new BaseCommand<object>(SaveCanExecute, SaveExecute);
             SelectDestinationCommand = new BaseCommand<object>(SelectDestinationCanExecute, SelectDestinationExecute);
+            SelectAccountCommand = new BaseCommand<object>(sender => true, SelectAccountExecute);
             CampaignChangedCommand = new BaseCommand<object>(CampaignChangedCanExecute, CampaignChangedExecute);
 
             #endregion
@@ -48,13 +51,30 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             BindTabItemsControlProperties();
             CampaignList = new ObservableCollection<string>(
-                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
+                _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
 
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
 
-            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations,false);
 
             JobConfigurationControl = JobConfiguration;
+        }
+
+        private void SelectAccountExecute(object sender)
+        {
+
+            var publisherCreateDestination = new PublisherCreateDestination(true);
+            publisherCreateDestination.PublisherCreateDestinationsViewModel =
+                PublisherCreateDestination.Instance.PublisherCreateDestinationsViewModel;
+            var dialog = new Dialog();
+
+            // Pass the UI object with Title of the Page
+            var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
+            publisherCreateDestination.Margin = new Thickness(7);
+            metroWindow.ShowDialog();
+            var newCreatedDestination = ManageDestinationFileManager.GetAll().LastOrDefault();
+
+            _publisherCreateCampaignModel.LstDestinationId.Add(newCreatedDestination.DestinationId);
         }
 
         #endregion
@@ -166,9 +186,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-
-
-
         public List<TabItemTemplates> PostTabItems { get; set; }
 
         #endregion
@@ -189,6 +206,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// For selecting saved destinations
         /// </summary>
         public ICommand SelectDestinationCommand { get; set; }
+
+        /// <summary>
+        /// For creating and selecting new destinations
+        /// </summary>
+        public ICommand SelectAccountCommand { get; set; }
+
 
         /// <summary>
         /// Switching between one campaign for another campaign
@@ -265,7 +288,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 // Gettings general settings of current campaign
-                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                var generalSettingsModel = _genericFileManager.GetModuleDetails<GeneralModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                     .FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId) ?? new GeneralModel();
 
@@ -326,8 +349,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                                 // check whether user need to use File name as post description
                                 if (!post.IsUseFileNameAsDescription)
                                 {
-                                    // postData.PostDescription = string.Empty;
-                                    postData.PostDescription = "image " + (PublisherCreateCampaignModel.PostCollection.IndexOf(post) + 1);
+                                    int index = PublisherCreateCampaignModel.PostCollection.IndexOf(post);
+                                    if (index < PublisherCreateCampaignModel.LstUploadPostDescription.Count)
+                                        postData.PostDescription = PublisherCreateCampaignModel.LstUploadPostDescription[index];
+                                    else
+                                        postData.PostDescription = "image " + (index + 1);
+
                                 }
                                 // check whether user need to use unique post
                                 if (post.IsUniquePost)
@@ -510,7 +537,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #endregion
 
-                GenericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
+                _genericFileManager.AddRangeModule(currentCampaignsFetchDetails, ConstantVariable.GetPublisherPostFetchFile);
 
                 var publisherPostFetcher = new PublisherPostFetcher();
                 publisherPostFetcher.FetchPostsForCampaign(PublisherCreateCampaignModel.CampaignId);
@@ -529,7 +556,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)
                     endTime = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate;
 
-
+                List<TimeSpan> specificRunningTime = null;
+                if (PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked)
+                {
+                    specificRunningTime = new List<TimeSpan>();
+                    specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
+                    for (int i = 0; i < PublisherCreateCampaignModel.JobConfigurations.MaxPost - 1; i++)
+                    {
+                        specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
+                    }
+                }
                 // Current Campaign Status Details for display in default pages
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                 {
@@ -545,8 +581,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     TimeRange = PublisherCreateCampaignModel.JobConfigurations.TimeRange,
                     IsRandomRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsRandomizePublishingTimerChecked,
                     MaximumTime = PublisherCreateCampaignModel.JobConfigurations.MaxPost,
-                    SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                    ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday,
+                    SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked ? specificRunningTime : PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
+                    ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday.Where(x => x.IsContentSelected).ToList(),
                     PendingCount = publisherPostlistModel.LstPublishedPostDetailsModels.Count,
                     IsTakeRandomDestination = !PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnDestinationsChecked,
                     TotalRandomDestination = PublisherCreateCampaignModel.JobConfigurations.RandomDestinationCount,
@@ -581,7 +617,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #region Saving Campign to PublisherCampaign.bin file
 
-                var lstCampaign = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
+                var lstCampaign = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(
                     ConstantVariable.GetPublisherCampaignFile());
 
                 //PublisherCreateCampaignModel.PostDetailsModel = new PostDetailsModel();
@@ -599,7 +635,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     lstCampaign[campaignIndex] = PublisherCreateCampaignModel;
 
-                    if (GenericFileManager.UpdateModuleDetails<PublisherCreateCampaignModel>(lstCampaign,
+                    if (_genericFileManager.UpdateModuleDetails(lstCampaign,
                         ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully updated.");
 
@@ -612,7 +648,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #region Save the campaigns
                 else
                 {
-                    if (GenericFileManager.AddModule<PublisherCreateCampaignModel>(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
+                    if (_genericFileManager.AddModule(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
                         Dialog.ShowDialog("Success", "Campaign successfully saved.");
 
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
@@ -622,9 +658,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #endregion
 
                 // If campaign is active then schedule for posting
+                #region Schedule Posting
+
                 if (PublisherCreateCampaignModel.CampaignStatus == PublisherCampaignStatus.Active)
                     PublishScheduler.ScheduleTodaysPublisherByCampaign(PublisherCreateCampaignModel.CampaignId);
 
+                #endregion
                 // Send back to default page
                 PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherDefaultPage.Instance();
@@ -674,6 +713,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PostRunningStatus = PostRunningStatus.Active,
                     PostDescription = post.PostDescription,
                     PdSourceUrl = post.PdSourceUrl,
+                    PublisherInstagramTitle = post.PublisherInstagramTitle,
                     MediaList = post.MediaViewer.MediaList,
                     FdSellLocation = post.FdSellLocation,
                     PostId = post.PostDetailsId,
@@ -752,10 +792,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
             CampaignList = new ObservableCollection<string>(
-                GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
+                _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             SelectedItem = null;
             PageTitle = Application.Current.FindResource("LangKeyCreateCampaign")?.ToString();
-            SetDataContext();
+            SetDataContext(false);
         }
 
         private bool SelectDestinationCanExecute(object sender) => true;
@@ -801,7 +841,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 // Fetch the campaign Models from bin file
-                var campaignlists = GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
+                var campaignlists = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>
                     (ConstantVariable.GetPublisherCampaignFile());
 
                 // Get the current campaign Name 
@@ -814,7 +854,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PageTitle = Application.Current.FindResource("LangKeyEditCampaign")?.ToString();
 
                 // Assign the Data Context
-                SetDataContext();
+                SetDataContext(true);
             }
             catch (Exception)
             {
@@ -826,7 +866,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <summary>
         /// To set the data context for Post fetecher details
         /// </summary>
-        private void SetDataContext()
+        private void SetDataContext(bool isEditMode)
         {
             // get the direct posts ui 
             var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
@@ -844,7 +884,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
 
             // get the job configurations
-            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations, isEditMode);
 
             JobConfigurationControl = JobConfiguration;
 

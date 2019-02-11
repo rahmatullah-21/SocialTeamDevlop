@@ -1,61 +1,23 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.EmailService;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using DominatorHouseCore.EmailService;
 
 namespace DominatorHouseCore.Diagnostics
 {
     public class SocinatorAccountBuilder
     {
+        private readonly IAccountsFileManager _accountsFileManager;
         private DominatorAccountModel DominatorAccountModel { get; set; }
 
         public SocinatorAccountBuilder(string accountId)
         {
-            var account = AccountsFileManager.GetAccountById(accountId);
-            DominatorAccountModel = account;
-        }
-
-        public SocinatorAccountBuilder AddOrUpdateModuleSettings(ActivityType activityType,
-            ModuleConfiguration moduleConfiguration)
-        {
-            var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
-
-            if (moduleSettings == null)
-                DominatorAccountModel.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
-            else
-            {
-                try
-                {
-                    //if(!moduleConfiguration.IsEnabled)
-                    //DominatorScheduler.StopActivity(DominatorAccountModel.AccountBaseModel.AccountId,
-                    //           activityType.ToString(), moduleSettings.TemplateId);
-
-                    DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-                    DominatorAccountModel.ActivityManager.LstModuleConfiguration.Add(moduleConfiguration);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-
-            return this;
-        }
-
-
-        public SocinatorAccountBuilder RemoveModuleSettings(ActivityType activityType)
-        {
-            var moduleSettings = DominatorAccountModel.ActivityManager.LstModuleConfiguration.FirstOrDefault(x => x.ActivityType == activityType);
-
-            if (moduleSettings != null)
-                DominatorAccountModel.ActivityManager.LstModuleConfiguration.Remove(moduleSettings);
-
-            return this;
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            DominatorAccountModel = _accountsFileManager.GetAccountById(accountId);
         }
 
         public SocinatorAccountBuilder AddOrUpdateCookies(CookieCollection cookies)
@@ -183,6 +145,6 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
         public bool SaveToBinFile()
-            => AccountsFileManager.Edit(DominatorAccountModel);
+            => _accountsFileManager.Edit(DominatorAccountModel);
     }
 }

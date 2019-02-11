@@ -1,29 +1,32 @@
-﻿using System.ComponentModel;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
+using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel.AdvancedSettings;
+using DominatorUIUtility.Views.SocioPublisher;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.ViewModel.AdvancedSettings;
-using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
 
 namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
     /// Interaction logic for Instagram.xaml
     /// </summary>
-    public partial class Instagram : UserControl,INotifyPropertyChanged
+    public partial class Instagram : UserControl, INotifyPropertyChanged
     {
-        private Instagram()
+        private readonly IGenericFileManager _genericFileManager;
+        public Instagram()
         {
+            _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             InitializeComponent();
             MainGrid.DataContext = InstagramViewModel;
         }
-        static Instagram ObjInstagram = null;
+        static Instagram ObjInstagram;
         public static Instagram GetSingeltonInstagramObject()
         {
             if (ObjInstagram == null)
@@ -58,10 +61,10 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var instagramModel = GenericFileManager.GetModuleDetails<InstagramModel>
+            var instagramModel = _genericFileManager.GetModuleDetails<InstagramModel>
                     (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
-            InstagramViewModel.InstagramModel = instagramModel ?? (instagramModel = new InstagramModel());
+            InstagramViewModel.InstagramModel = instagramModel ?? (new InstagramModel());
         }
     }
 }

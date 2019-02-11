@@ -1,34 +1,51 @@
 ﻿using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public class TemplatesFileManager
+    public interface ITemplatesFileManager
     {
-        private static readonly ITemplatesCacheService TemplatesCacheService;
-
-        static TemplatesFileManager()
+        void ApplyAction(Action<TemplateModel> actionToApply);
+        void ApplyFunc(Func<TemplateModel, bool> funcToApply);
+        void ApplyActionForId(string templateId, Action<TemplateModel> actionToApply);
+        void UpdateActivitySettings(string templateId, string activitySettingsJson);
+        List<TemplateModel> Get();
+        TemplateModel GetTemplateById(string id);
+        void Save(List<TemplateModel> templates);
+        void Add(TemplateModel template);
+        void Delete(TemplateModel template);
+        void Delete(Func<TemplateModel, bool> match);
+        void Edit(TemplateModel template);
+        TemplateModel this[string template]
         {
-            TemplatesCacheService = IoC.Container.Resolve<ITemplatesCacheService>();
-            TemplatesCacheService.GetTemplateModels();
+            get;
+        }
+    }
+
+    public class TemplatesFileManager : ITemplatesFileManager
+    {
+        private readonly ITemplatesCacheService _templatesCacheService;
+
+        public TemplatesFileManager(ITemplatesCacheService cacheService)
+        {
+            _templatesCacheService = cacheService;
+            _templatesCacheService.GetTemplateModels();
         }
         // Updates Template with applying action to it and writes changes back to file
-        public static void ApplyAction(Action<TemplateModel> actionToApply)
+        public void ApplyAction(Action<TemplateModel> actionToApply)
         {
             var templates = Get();
 
             foreach (var t in templates)
                 actionToApply(t);
 
-            TemplatesCacheService.UpsertTemplates(templates.ToArray());
+            _templatesCacheService.UpsertTemplates(templates.ToArray());
         }
 
         // Same as above, but Func must return true if file needs to be overwritten        
-        public static void ApplyFunc(Func<TemplateModel, bool> funcToApply)
+        public void ApplyFunc(Func<TemplateModel, bool> funcToApply)
         {
             var templates = Get();
             bool updated = false;
@@ -37,10 +54,10 @@ namespace DominatorHouseCore.FileManagers
                 updated |= funcToApply(t);
 
             if (updated)
-                TemplatesCacheService.UpsertTemplates(templates.ToArray());
+                _templatesCacheService.UpsertTemplates(templates.ToArray());
         }
 
-        public static void ApplyActionForId(string templateId, Action<TemplateModel> actionToApply)
+        public void ApplyActionForId(string templateId, Action<TemplateModel> actionToApply)
         {
             ApplyFunc(t =>
             {
@@ -54,18 +71,18 @@ namespace DominatorHouseCore.FileManagers
             });
         }
 
-        public static void UpdateActivitySettings(string templateId, string activitySettingsJson)
+        public void UpdateActivitySettings(string templateId, string activitySettingsJson)
         {
             ApplyActionForId(templateId, t => t.ActivitySettings = activitySettingsJson);
         }
 
 
-        public static List<TemplateModel> Get()
+        public List<TemplateModel> Get()
         {
-            return TemplatesCacheService.GetTemplateModels().ToList();
+            return _templatesCacheService.GetTemplateModels().ToList();
         }
 
-        public static TemplateModel GetTemplateById(string id)
+        public TemplateModel GetTemplateById(string id)
         {
             var templates = Get();
             var result = templates.FirstOrDefault(t => t.Id == id);
@@ -73,16 +90,16 @@ namespace DominatorHouseCore.FileManagers
             return result;
         }
 
-        public static void Save(List<TemplateModel> templates)
+        public void Save(List<TemplateModel> templates)
         {
-            TemplatesCacheService.UpsertTemplates(templates.ToArray());
+            _templatesCacheService.UpsertTemplates(templates.ToArray());
         }
 
 
-        public static void Add(TemplateModel template) => TemplatesCacheService.UpsertTemplates(template);
+        public void Add(TemplateModel template) => _templatesCacheService.UpsertTemplates(template);
 
         // finds by id and delete
-        public static void Delete(TemplateModel template)
+        public void Delete(TemplateModel template)
         {
             var templates = Get();
             var toDelete = templates.FirstOrDefault(t => t.Id == template.Id);
@@ -92,13 +109,13 @@ namespace DominatorHouseCore.FileManagers
                 Save(templates);
             }
         }
-        public static void Delete(Func<TemplateModel, bool> match)
+        public void Delete(Func<TemplateModel, bool> match)
         {
             var templates = Get();
-            TemplatesCacheService.Delete(templates.Where(match).ToArray());
+            _templatesCacheService.Delete(templates.Where(match).ToArray());
         }
 
-        public static void Edit(TemplateModel template)
+        public void Edit(TemplateModel template)
         {
             var templates = Get();
             var index = templates.FindIndex(t => t.Id == template.Id);
@@ -108,5 +125,7 @@ namespace DominatorHouseCore.FileManagers
                 Save(templates);
             }
         }
+
+        public TemplateModel this[string template] => _templatesCacheService[template];
     }
 }

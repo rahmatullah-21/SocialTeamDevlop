@@ -7,7 +7,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using DominatorHouseCore.LogHelper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -543,7 +542,7 @@ namespace DominatorHouseCore.Utility
         }
       };
             if (!dictionary.ContainsKey(threeLetterCoutryCode))
-                return (string)null;
+                return null;
             return dictionary[threeLetterCoutryCode];
         }
 
@@ -578,10 +577,10 @@ namespace DominatorHouseCore.Utility
         public static string GetRegexPatern(string patern, string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                return (string)null;
+                return null;
             Match match = Regex.Match(value, patern);
             if (!match.Success)
-                return (string)null;
+                return null;
             return match.Value;
         }
 
@@ -589,12 +588,12 @@ namespace DominatorHouseCore.Utility
         {
             if (!string.IsNullOrWhiteSpace(value))
                 return Regex.Matches(value, patern);
-            return (MatchCollection)null;
+            return null;
         }
 
         public static string GetSha256(string randomString, byte[] key = null)
         {
-            return StringHelper.ByteToString(StringHelper.GetSha256Raw(randomString, key)).ToLower();
+            return ByteToString(GetSha256Raw(randomString, key)).ToLower();
         }
 
         public static byte[] GetSha256Raw(string randomString, byte[] key = null)
@@ -666,7 +665,7 @@ namespace DominatorHouseCore.Utility
 
         private static string ByteToString(byte[] buff)
         {
-            return ((IEnumerable<byte>)buff).Aggregate<byte, string>(string.Empty, (Func<string, byte, string>)((current, t) => current + t.ToString("X2")));
+            return buff.Aggregate(string.Empty, (current, t) => current + t.ToString("X2"));
         }
     }
 }

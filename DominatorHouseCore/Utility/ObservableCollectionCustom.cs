@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace DominatorHouseCore.Utility
 {
-    public sealed class ObservableCollectionCustom<T> : IList, ICollection, IEnumerable, IList<T>, ICollection<T>, IEnumerable<T>, INotifyPropertyChanged, INotifyCollectionChanged, IReadOnlyCollection<T>
+    public sealed class ObservableCollectionCustom<T> : IList, IList<T>, INotifyPropertyChanged, INotifyCollectionChanged, IReadOnlyCollection<T>
     {
         private readonly object listLock = new object();
         private readonly IList<T> collection;
@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Utility
 
         public ObservableCollectionCustom()
         {
-            this.collection = (IList<T>)new List<T>();
+            collection = new List<T>();
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -34,8 +34,8 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                lock (this.listLock)
-                    return this.collection.Count;
+                lock (listLock)
+                    return collection.Count;
             }
         }
 
@@ -54,7 +54,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                return this.collection.IsReadOnly;
+                return collection.IsReadOnly;
             }
         }
 
@@ -70,17 +70,17 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                if (this.syncRoot != null)
-                    return this.syncRoot;
-                lock (this.listLock)
+                if (syncRoot != null)
+                    return syncRoot;
+                lock (listLock)
                 {
                     ICollection collection = this.collection as ICollection;
                     if (collection != null)
-                        this.syncRoot = collection.SyncRoot;
+                        syncRoot = collection.SyncRoot;
                     else
-                        Interlocked.CompareExchange<object>(ref this.syncRoot, new object(), (object)null);
+                        Interlocked.CompareExchange<object>(ref syncRoot, new object(), null);
                 }
-                return this.syncRoot;
+                return syncRoot;
             }
         }
 
@@ -88,7 +88,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                return this.collection.IsReadOnly;
+                return collection.IsReadOnly;
             }
         }
 
@@ -96,13 +96,13 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                lock (this.listLock)
-                    return this.collection[index];
+                lock (listLock)
+                    return collection[index];
             }
             set
             {
-                lock (this.listLock)
-                    this.collection[index] = value;
+                lock (listLock)
+                    collection[index] = value;
             }
         }
 
@@ -110,7 +110,7 @@ namespace DominatorHouseCore.Utility
         {
             get
             {
-                return (object)this[index];
+                return this[index];
             }
             set
             {
@@ -120,121 +120,121 @@ namespace DominatorHouseCore.Utility
 
         public void Add(T item)
         {
-            lock (this.listLock)
+            lock (listLock)
             {
-                this.collection.Add(item);
-                this.OnPropertyChanged("Count");
-                this.OnPropertyChanged("Item[]");
-                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (object)item));
+                collection.Add(item);
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
             }
         }
 
         public void AddRange(IList<T> objects)
         {
-            lock (this.listLock)
+            lock (listLock)
             {
-                ((List<T>)this.collection).AddRange((IEnumerable<T>)objects);
-                this.OnPropertyChanged("Count");
-                this.OnPropertyChanged("Item[]");
-                this.OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (object)objects));
+                ((List<T>)collection).AddRange(objects);
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, objects));
             }
         }
 
         public void Clear()
         {
-            lock (this.listLock)
-                this.collection.Clear();
+            lock (listLock)
+                collection.Clear();
         }
 
         public bool Contains(T item)
         {
-            lock (this.listLock)
-                return this.collection.Contains(item);
+            lock (listLock)
+                return collection.Contains(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            lock (this.listLock)
-                this.collection.CopyTo(array, arrayIndex);
+            lock (listLock)
+                collection.CopyTo(array, arrayIndex);
         }
 
         public int IndexOf(T item)
         {
-            lock (this.listLock)
-                return this.collection.IndexOf(item);
+            lock (listLock)
+                return collection.IndexOf(item);
         }
 
         public void Insert(int index, T item)
         {
-            lock (this.listLock)
-                this.collection.Insert(index, item);
+            lock (listLock)
+                collection.Insert(index, item);
         }
 
         public bool Remove(T item)
         {
-            lock (this.listLock)
+            lock (listLock)
             {
-                if (!this.collection.Remove(item))
+                if (!collection.Remove(item))
                     return false;
-                this.OnPropertyChanged("Count");
-                this.OnPropertyChanged("Item[]");
-                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)item));
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
                 return true;
             }
         }
 
         public void RemoveAll(Predicate<T> predicate)
         {
-            lock (this.listLock)
+            lock (listLock)
             {
                 List<T> collection = (List<T>)this.collection;
-                IEnumerable<T> objs = collection.Where<T>((Func<T, bool>)(x => predicate(x)));
+                IEnumerable<T> objs = collection.Where(x => predicate(x));
                 collection.RemoveAll(predicate);
-                this.OnPropertyChanged("Count");
-                this.OnPropertyChanged("Item[]");
-                this.OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)objs));
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, objs));
             }
         }
 
         public void RemoveAt(int index)
         {
-            lock (this.listLock)
+            lock (listLock)
             {
-                T obj = this.collection[index];
-                this.collection.RemoveAt(index);
-                this.OnPropertyChanged("Count");
-                this.OnPropertyChanged("Item[]");
-                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)obj));
+                T obj = collection[index];
+                collection.RemoveAt(index);
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, obj));
             }
         }
 
         public void RemoveRange(int begin, int end)
         {
-            lock (this.listLock)
+            lock (listLock)
             {
                 List<T> collection = (List<T>)this.collection;
                 collection.RemoveRange(begin, end);
                 List<T> range = collection.GetRange(begin, end);
-                this.OnPropertyChanged("Count");
-                this.OnPropertyChanged("Item[]");
-                this.OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (IList)range));
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
+                OnCollectionChangedMultiItem(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, range));
             }
         }
 
         int IList.Add(object value)
         {
-            this.Add((T)value);
-            return this.Count - 1;
+            Add((T)value);
+            return Count - 1;
         }
 
         bool IList.Contains(object value)
         {
-            return this.Contains((T)value);
+            return Contains((T)value);
         }
 
         void ICollection.CopyTo(Array array, int index)
         {
-            lock (this.listLock)
+            lock (listLock)
             {
                 if (array.Rank != 1)
                     throw new ArgumentException("Multidimension arrays are not supported");
@@ -242,80 +242,80 @@ namespace DominatorHouseCore.Utility
                     throw new ArgumentException("Non-zero lower bound arrays are not supported");
                 if (index < 0)
                     throw new ArgumentOutOfRangeException();
-                if (array.Length - index < this.collection.Count)
+                if (array.Length - index < collection.Count)
                     throw new ArgumentException("Array is too small");
                 T[] array1 = array as T[];
                 if (array1 == null)
                     throw new ArrayTypeMismatchException("Invalid array type");
-                this.collection.CopyTo(array1, index);
+                collection.CopyTo(array1, index);
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            lock (this.listLock)
-                return (IEnumerator)this.collection.GetEnumerator();
+            lock (listLock)
+                return collection.GetEnumerator();
         }
 
         int IList.IndexOf(object value)
         {
-            return this.IndexOf((T)value);
+            return IndexOf((T)value);
         }
 
         void IList.Insert(int index, object value)
         {
             T obj = (T)value;
-            this.Insert(index, obj);
+            Insert(index, obj);
         }
 
         void IList.Remove(object value)
         {
-            this.Remove((T)value);
+            Remove((T)value);
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            lock (this.listLock)
-                return this.collection.GetEnumerator();
+            lock (listLock)
+                return collection.GetEnumerator();
         }
 
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
             // ISSUE: reference to a compiler-generated field
-            NotifyCollectionChangedEventHandler handler = this.CollectionChanged;
+            NotifyCollectionChangedEventHandler handler = CollectionChanged;
             if (handler == null)
                 return;
             if (Application.Current.Dispatcher.Thread != Thread.CurrentThread)
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => handler((object)this, args)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => handler(this, args)));
             else
-                handler((object)this, args);
+                handler(this, args);
         }
 
         private void OnCollectionChangedMultiItem(NotifyCollectionChangedEventArgs e)
         {
             // ISSUE: reference to a compiler-generated field
-            NotifyCollectionChangedEventHandler collectionChanged = this.CollectionChanged;
+            NotifyCollectionChangedEventHandler collectionChanged = CollectionChanged;
             if (collectionChanged == null)
                 return;
             foreach (Delegate invocation in collectionChanged.GetInvocationList())
             {
                 CollectionView view = invocation.Target as CollectionView;
                 if (Application.Current.Dispatcher.Thread != Thread.CurrentThread)
-                    Application.Current.Dispatcher.BeginInvoke(view != null ? (new Action(() => view.Refresh())) : (new Action(() => collectionChanged((object)this, e))));
+                    Application.Current.Dispatcher.BeginInvoke(view != null ? (() => view.Refresh()) : (new Action(() => collectionChanged(this, e))));
                 else if (view != null)
                     view.Refresh();
                 else
-                    collectionChanged((object)this, e);
+                    collectionChanged(this, e);
             }
         }
 
         private void OnPropertyChanged(string propertyName = null)
         {
             // ISSUE: reference to a compiler-generated field
-            PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            PropertyChangedEventHandler propertyChanged = PropertyChanged;
             if (propertyChanged == null)
                 return;
-            propertyChanged((object)this, new PropertyChangedEventArgs(propertyName));
+            propertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

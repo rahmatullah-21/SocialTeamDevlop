@@ -1,19 +1,15 @@
-﻿using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.ViewModel;
+using DominatorUIUtility.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Controls;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -41,13 +37,11 @@ namespace DominatorUIUtility.CustomControl
 
         public void InitilizeDefaultValue(SocialNetworks socialNetworks)
         {
-            var accountCustom = AccountCustomControl.GetAccountCustomControl(socialNetworks);
-
-            var accountModel = accountCustom.DominatorAccountViewModel.LstDominatorAccountModel
-                .Where(x => x.AccountBaseModel.AccountNetwork == socialNetworks).ToList();
+            var accountModel = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>()
+                .BySocialNetwork(socialNetworks);
 
             LiveChatViewModel.LiveChatModel.AccountNames = new ObservableCollection<string>(accountModel.Select(x => x.UserName).ToList());
-            
+
             if (LiveChatViewModel.LiveChatModel.AccountNames.Count > 0)
             {
                 LiveChatViewModel.LiveChatModel.DominatorAccountModel = accountModel[0];
@@ -57,9 +51,6 @@ namespace DominatorUIUtility.CustomControl
             
             try
             {
-                //LiveChatViewModel.LstAccountModel =
-                //    accountCustom.DominatorAccountViewModel.LstDominatorAccountModel.ToList();
-
                 LiveChatViewModel.LstAccountModel = accountModel;
 
                 LiveChatViewModel.LiveChatModel.DominatorAccountModel =

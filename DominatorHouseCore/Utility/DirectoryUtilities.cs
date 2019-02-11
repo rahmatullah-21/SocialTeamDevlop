@@ -1,12 +1,10 @@
 ﻿using System;
-using DominatorHouseCore.LogHelper;
 using System.IO;
 using System.IO.Compression;
-using System.Diagnostics;
 
 namespace DominatorHouseCore.Utility
 {
-   public class DirectoryUtilities
+    public class DirectoryUtilities
     {
         public static void CreateDirectory(string folder)
         {
@@ -18,14 +16,12 @@ namespace DominatorHouseCore.Utility
             catch (IOException ex)
             {
                 ex.DebugLog();
-                throw;        
+                throw;
             }
         }
 
-        private static volatile int i;
         public static void Compress()
         {
-                var sw = Stopwatch.StartNew();
             try
             {
                 var extractPath =

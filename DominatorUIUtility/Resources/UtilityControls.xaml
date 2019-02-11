@@ -8,6 +8,7 @@
         
         <ResourceDictionary Source="../ConfigControl/CaptchaServicesTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/URLShortnerServicesTemplates.xaml"/>
+        <ResourceDictionary Source="../ConfigControl/ImageCaptchaServicesTemplates.xaml"/>
         
         <ResourceDictionary Source="../CustomControl/MediaGeneratorTemplates.xaml"/>
     </ResourceDictionary.MergedDictionaries>

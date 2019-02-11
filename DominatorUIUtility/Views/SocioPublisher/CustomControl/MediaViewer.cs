@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DominatorHouseCore;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
@@ -189,7 +178,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         // Using a DependencyProperty as the backing store for DeleteMenuVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DeleteMenuVisibilityProperty =
-            DependencyProperty.Register("DeleteMenuVisibility", typeof(Visibility), typeof(MediaViewer), new PropertyMetadata(System.Windows.Visibility.Collapsed));
+            DependencyProperty.Register("DeleteMenuVisibility", typeof(Visibility), typeof(MediaViewer), new PropertyMetadata(Visibility.Collapsed));
 
         public int ImagePointer
         {
@@ -235,68 +224,75 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public override void OnApplyTemplate()
         {
-            base.OnApplyTemplate();
-
-            MediaList.CollectionChanged += MediaListChanged;
-
-            if (Template == null)
-                return;
-
-            //Previous image button event register
-            #region Previous image button event register
-
-            var buttonPreviousImage = Template.FindName(ButtonNavigatePreviousImage, this) as Button;
-            if (!_buttonPreviousImage.Equals(buttonPreviousImage))
+            try
             {
-                //Unhook existing events
-                if (buttonPreviousImage != null)
-                    buttonPreviousImage.Click -= PreviousImageClick;
+                base.OnApplyTemplate();
 
-                _buttonPreviousImage = buttonPreviousImage;
+                MediaList.CollectionChanged += MediaListChanged;
 
-                //Add new events
-                if (buttonPreviousImage != null)
-                    buttonPreviousImage.Click += PreviousImageClick;
+                if (Template == null)
+                    return;
+
+                //Previous image button event register
+                #region Previous image button event register
+
+                var buttonPreviousImage = Template.FindName(ButtonNavigatePreviousImage, this) as Button;
+                if (!_buttonPreviousImage.Equals(buttonPreviousImage))
+                {
+                    //Unhook existing events
+                    if (buttonPreviousImage != null)
+                        buttonPreviousImage.Click -= PreviousImageClick;
+
+                    _buttonPreviousImage = buttonPreviousImage;
+
+                    //Add new events
+                    if (buttonPreviousImage != null)
+                        buttonPreviousImage.Click += PreviousImageClick;
+                }
+
+                #endregion
+
+                //Next image button event register
+                #region Next image button event register
+
+                var buttonNextImage = Template.FindName(ButtonNavigateNextImage, this) as Button;
+                if (!_buttonNextImage.Equals(buttonNextImage))
+                {
+                    //Unhook existing events
+                    if (buttonNextImage != null)
+                        buttonNextImage.Click -= NextImageClick;
+
+                    _buttonNextImage = buttonNextImage;
+
+                    //Add new events
+                    if (buttonNextImage != null)
+                        buttonNextImage.Click += NextImageClick;
+                }
+
+                #endregion
+
+                //Previous image button event register
+                #region Previous image button event register
+
+                var buttonImageDelete = Template.FindName(ImageDeleteMenu, this) as MenuItem;
+                if (!_imageDelete.Equals(buttonImageDelete))
+                {
+                    //Unhook existing events
+                    if (buttonImageDelete != null)
+                        buttonImageDelete.Click -= DeleteImageClick;
+
+                    _imageDelete = buttonImageDelete;
+
+                    //Add new events
+                    if (buttonImageDelete != null)
+                        buttonImageDelete.Click += DeleteImageClick;
+                }
+
             }
-
-            #endregion
-
-            //Next image button event register
-            #region Next image button event register
-
-            var buttonNextImage = Template.FindName(ButtonNavigateNextImage, this) as Button;
-            if (!_buttonNextImage.Equals(buttonNextImage))
+            catch (Exception ex)
             {
-                //Unhook existing events
-                if (buttonNextImage != null)
-                    buttonNextImage.Click -= NextImageClick;
 
-                _buttonNextImage = buttonNextImage;
-
-                //Add new events
-                if (buttonNextImage != null)
-                    buttonNextImage.Click += NextImageClick;
             }
-
-            #endregion
-
-            //Previous image button event register
-            #region Previous image button event register
-
-            var buttonImageDelete = Template.FindName(ImageDeleteMenu, this) as MenuItem;
-            if (!_imageDelete.Equals(buttonImageDelete))
-            {
-                //Unhook existing events
-                if (buttonImageDelete != null)
-                    buttonImageDelete.Click -= DeleteImageClick;
-
-                _imageDelete = buttonImageDelete;
-
-                //Add new events
-                if (buttonImageDelete != null)
-                    buttonImageDelete.Click += DeleteImageClick;
-            }
-
             #endregion
 
         }
@@ -405,8 +401,15 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public void UpdateNavigationPointer()
         {
-            IsEnableNextPointer = (TotalMediaCount - CurrentMediaPointer) > 0;
-            IsEnablePreviousPointer = ImagePointer > 0;
+            try
+            {
+                IsEnableNextPointer = (TotalMediaCount - CurrentMediaPointer) > 0;
+                IsEnablePreviousPointer = ImagePointer > 0;
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void PreviousImageNavigator()

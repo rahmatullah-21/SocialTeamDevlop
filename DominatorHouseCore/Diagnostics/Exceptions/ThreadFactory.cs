@@ -51,18 +51,18 @@ namespace DominatorHouseCore.Diagnostics
             task.Start();            
         }
 
-        public Task<T> Start<T>(Func<T> action, TaskCreationOptions options)
-        {
+        //public Task<T> Start<T>(Func<T> action, TaskCreationOptions options)
+        //{
 
-            var task = new Task<T>(action, options);
+        //    var task = new Task<T>(action, options);
 
-            task.ContinueWith(t => InvokeError(t, t.Exception.InnerException),
-                                TaskContinuationOptions.OnlyOnFaulted |
-                                TaskContinuationOptions.ExecuteSynchronously);
+        //    task.ContinueWith(t => InvokeError(t, t.Exception.InnerException),
+        //                        TaskContinuationOptions.OnlyOnFaulted |
+        //                        TaskContinuationOptions.ExecuteSynchronously);
 
-            task.Start();
+        //    task.Start();
 
-            return task;
-        }
+        //    return task;
+        //}
     }
 }

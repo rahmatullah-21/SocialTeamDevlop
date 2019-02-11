@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
-using System.Windows;
 using DominatorHouseCore.Enums.SocioPublisher;
 using ProtoBuf;
 
@@ -16,7 +15,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// To specify the Post Description
         /// </summary>
-        private string _postDescription =string.Empty;
+        private string _postDescription = string.Empty;
 
         [ProtoMember(1)]
         public string PostDescription
@@ -76,7 +75,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// Is need to use file name as a description for multiple image posts
         /// </summary>
-        private bool _isUseFileNameAsDescription;
+        private bool _isUseFileNameAsDescription = true;
         [ProtoMember(4)]
         public bool IsUseFileNameAsDescription
         {
@@ -115,7 +114,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// Image url for multiple image post
         /// </summary>
-        private string _imagesUrl=string.Empty;
+        private string _imagesUrl = string.Empty;
 
         [ProtoMember(6)]
         public string ImagesUrl
@@ -135,7 +134,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// Title of the post
         /// </summary>
-        private string _publisherInstagramTitle =string.Empty;
+        private string _publisherInstagramTitle = string.Empty;
 
         [ProtoMember(7)]
         public string PublisherInstagramTitle
@@ -214,7 +213,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// Media Viewer Details
         /// </summary>
-        private PublisherMediaViewerModel _mediaViewer =new PublisherMediaViewerModel();
+        private PublisherMediaViewerModel _mediaViewer = new PublisherMediaViewerModel();
 
         [ProtoMember(11)]
         public PublisherMediaViewerModel MediaViewer
@@ -256,7 +255,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// <summary>
         /// Is a single or direct post
         /// </summary>
-        private bool _isSinglePost=true;
+        private bool _isSinglePost = true;
 
         [ProtoMember(13)]
         public bool IsSinglePost
@@ -297,7 +296,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         /// Soruce url
         /// </summary>
 
-        private string _pdSourceUrl=string.Empty;
+        private string _pdSourceUrl = string.Empty;
 
         [ProtoMember(15)]
         public string PdSourceUrl
@@ -428,7 +427,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isRemoveTitleOnceUsed, value);
             }
         }
+        private bool _isUploadPostDescription;
+        [ProtoMember(22)]
+        public bool IsUploadPostDescription
+        {
+            get
+            {
+                return _isUploadPostDescription;
+            }
+            set
+            {
+                if (value == _isUploadPostDescription)
+                    return;
+                SetProperty(ref _isUploadPostDescription, value);
 
+            }
+        }
 
     }
 }

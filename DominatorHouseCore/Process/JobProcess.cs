@@ -1,126 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.ActivitiesWorkflow;
 using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Process.ExecutionCounters;
+using DominatorHouseCore.Process.JobLimits;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json;
-using DominatorHouseCore.Interfaces;
-using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Process
 {
+    public interface IJobProcess
+    {
+        Task StartProcessAsync();
+        void Stop();
+        JobKey Id { get; }
+        ReachedLimitInfo CheckLimit();
+        JobConfiguration JobConfiguration { get; }
+        CancellationTokenSource JobCancellationTokenSource { get; }
+        DominatorAccountModel DominatorAccountModel { get; }
+        ActivityType ActivityType { get; }
+        string TemplateId { get; }
+        string AccountId { get; }
+        string AccountName { get; }
+        bool IsNeedToSchedule { get; }
+        List<QueryInfo> SavedQueries { get; }
+        SocialNetworks SocialNetworks { get; }
+        void DelayBeforeNextActivity();
+        void StartOtherConfiguration(ScrapeResultNew scrapeResult);
+    }
+
     /// <summary>
     ///     Base abstract class for other jobs: FollowProcess, LikeProcess
     ///     Contains: account, job configuration (schedule), activity type (follow, unfollow, etc),
     ///     other helper objects.
     ///     Derived class have to implement PostScrapeProcess
     /// </summary>
-    public abstract class JobProcess
+    public abstract class JobProcess : IJobProcess
     {
-        public JobProcess(string account, string template, ActivityType activityType, TimingRange currentJobTimeRange, SocialNetworks network)
+        private readonly IRunningJobsHolder _runningJobsHolder;
+        private readonly IJobCountersManager _jobCountersManager;
+        private readonly IQueryScraperFactory _queryScraperFactory;
+        private readonly IHttpHelper _httpHelper;
+        private readonly IDominatorScheduler _dominatorScheduler;
+        public CampaignDetails CampaignDetails { get; }
+
+
+        //[Obsolete("only for test! DO NOT DELETE, DO NOT USE!", true)]
+        //public JobProcess()
+        //{
+        //}
+
+        public bool IsNeedToSchedule { get; set; } = false;
+        protected JobProcess(IProcessScopeModel processScopeModel, IQueryScraperFactory queryScraperFactory, IHttpHelper httpHelper)
         {
+            _queryScraperFactory = queryScraperFactory;
+            _httpHelper = httpHelper;
             // Get the current account details 
-            DominatorAccountModel = AccountsFileManager.GetAccount(account, network);
+            _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
+            _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
+            _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            TemplateId = processScopeModel.TemplateId;
+            ActivityType = processScopeModel.ActivityType;
+            SocialNetworks = processScopeModel.Network;
+            CurrentJobTimeRange = processScopeModel.TimingRange;
+            DominatorAccountModel = processScopeModel.Account;
 
-            SocialNetworks = network;
+            IsNeedToSchedule = processScopeModel.IsNeedToSchedule;
+            JobConfiguration = processScopeModel.JobConfiguration;
+            SavedQueries = processScopeModel.SavedQueries;
 
-            CurrentJobTimeRange = currentJobTimeRange;
-
-            // Get the Template Model from the given template id
-          //  var model = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().FirstOrDefault(x => x.Id == template);
-            var model = TemplatesFileManager.GetTemplateById(template);
-
-            if (model != null)
-            {
-                JObject jsonObject = JObject.Parse(model.ActivitySettings);
-                //dynamic deserializedValue = JsonConvert.DeserializeObject(model.ActivitySettings); ----//Todo 
-                JobConfiguration = jsonObject["JobConfiguration"]?.ToObject<JobConfiguration>();
-                //  JsonConvert.DeserializeObject<JobConfiguration>(jsonObject["JobConfiguration"].ToString());
-                try
-                {
-                    SavedQueries = jsonObject["SavedQueries"]?.ToObject<List<QueryInfo>>();
-                    // JsonConvert.DeserializeObject<List<QueryInfo>>(jsonObject["SavedQueries"].ToString());
-                }
-                catch
-                {
-                    SavedQueries = new List<QueryInfo>();
-                }
-            }
-
-            TemplateId = template;
-            CampaignId = CampaignsFileManager.Get().FirstOrDefault(x => x.TemplateId == TemplateId)?.CampaignId;
-            ActivityType = activityType;
-
-            InitializeActivityCount(account);
-
+            CampaignDetails = processScopeModel.CampaignDetails;
+            CampaignId = processScopeModel.CampaignId;
+            JobCancellationTokenSource = new CancellationTokenSource();
         }
 
-        protected void InitializeActivityCount(string account)
-        {
-            MaxNoOfActionPerJob = JobConfiguration.ActivitiesPerJob.GetRandom();
-            MaxNoOfActionPerHour = JobConfiguration.ActivitiesPerHour.GetRandom();
-            MaxNoOfActionPerDay = JobConfiguration.ActivitiesPerDay.GetRandom();
-            MaxNoOfActionPerWeek = JobConfiguration.ActivitiesPerWeek.GetRandom();
-            InitializeDatabaseConnection();
-        }
-
-        private void InitializeDatabaseConnection()
-        {
-            var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory();
-            if (CampaignId != null)
-            {
-                try
-                {
-                    DataBaseConnectionCampaign = networkCoreFactory.CampaignDatabase;
-                    networkCoreFactory.CampaignInteractionDetails.InitializeInteraction();
-                    networkCoreFactory.GlobalInteractionDetails.InitializeInteraction();
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-
-            DataBaseConnectionAccount = networkCoreFactory.AccountDatabase;
-
-            //  DataBaseConnectionAccount = objDatabaseHandler.GetDataBaseConnection(DominatorAccountModel.AccountBaseModel.AccountId, SocialNetworks);            
-        }
-
-        protected void ScheduleNextJob(DateTime dateTime)
-        {
-            //Stop();
-            if (SoftwareSettingsFileManager.GetSoftwareSettings()?.IsEnableParallelActivitiesChecked ?? false)
-            {
-                DominatorScheduler.ScheduleActivityForNextJob(DominatorAccountModel, DominatorAccountModel.AccountBaseModel.AccountNetwork, ActivityType);
-            }
-            else
-            {
-                if (RunningJobProcesses != null)
-                {
-                    foreach (var jobProcess in RunningJobProcesses.Values)
-                    {
-                        if (jobProcess.Id.Contains(AccountId + "-------"))
-                        {
-                            return;
-                        }
-                    }
-                }
-                RunningActivityManager.StartNextRound(DominatorAccountModel);
-            }
-
-        }
-
-
+    
         /// <summary>
         ///     Will be called when JobProcess complete.
         ///     Starts actions that was selected by user from Other Configuration section.
@@ -145,6 +110,7 @@ namespace DominatorHouseCore.Process
             if (!jobProcessResult.IsProcessCompleted)
             {
                 jobProcessResult = PostScrapeProcess(scrapedResult);
+                CheckJobProcessLimitsReached();
                 //  DelayBeforeNextActivity();
             }
             else
@@ -152,7 +118,6 @@ namespace DominatorHouseCore.Process
                 StartOtherConfiguration(scrapedResult);
 
                 GlobusLogHelper.log.Info(Log.ProcessCompleted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
-
             }
 
             return jobProcessResult;
@@ -165,17 +130,41 @@ namespace DominatorHouseCore.Process
         /// 
         /// </summary>
         /// <returns></returns>
-        protected abstract bool CheckJobProcessLimitsReached();
+        /// 
+        protected virtual bool CheckJobProcessLimitsReached()
+        {
+            var limitType = ReachedLimitType.NoLimit;
+            try
+            {
+                var limitInfo = CheckLimit();
+                limitType = limitInfo.ReachedLimitType;
+                if (limitType != ReachedLimitType.NoLimit)
+                {
+                    _dominatorScheduler.RescheduleifLimitReached(this, limitInfo, limitType);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return limitType != ReachedLimitType.NoLimit;
+        }
+
+        public abstract ReachedLimitInfo CheckLimit();
+
+        //// TODO: don't think that it works. template.ActivitySettings effectively isn't changed, hence no changes is saved 
 
         protected void StopFollow()
         {
             Stop();
 
-            var lstTemplateModel = TemplatesCacheService.GetTemplatesCacheService().GetTemplateModels().ToList();
+            var lstTemplateModel = ServiceLocator.Current.GetInstance<ITemplatesCacheService>().GetTemplateModels().ToList();
             foreach (var template in lstTemplateModel)
                 if (template.Id == TemplateId)
                     JsonConvert.DeserializeObject<JobConfiguration>(template.ActivitySettings).RunningTime.Clear();
 
+            var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
             TemplatesFileManager.Save(lstTemplateModel);
         }
 
@@ -186,15 +175,13 @@ namespace DominatorHouseCore.Process
         ///     3. Executes scraping based on queries for certain social network and job process
         /// </summary>
 
-        public void RunScrapper()
+        private void RunScrapper()
         {
             try
             {
-                var scraperFactory = SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().QueryScraperFactory;
+                var scraper = _queryScraperFactory.Create(this);
 
-                var scraper = scraperFactory.Create(this);
-
-                if (SavedQueries==null || SavedQueries?.Count == 0)
+                if (SavedQueries == null || SavedQueries?.Count == 0)
                     scraper.ScrapeWithoutQueries(ActivityType.ToString());
                 else
                     scraper.ScrapeWithQueries();
@@ -206,46 +193,6 @@ namespace DominatorHouseCore.Process
         }
 
         #region Required Properties
-
-        /// <summary>
-        ///     To specific the action count for a current job
-        /// </summary>
-        protected int NoOfActionPerformedCurrentJob = 0;
-
-        /// <summary>
-        ///     To specify the maximum action count for a job
-        /// </summary>
-        protected int MaxNoOfActionPerJob;
-
-        /// <summary>
-        ///     To specific the action count for a current hour
-        /// </summary>
-        protected int NoOfActionPerformedCurrentHour;
-
-        /// <summary>
-        ///     To specify the maximum action count for a hour
-        /// </summary>
-        protected int MaxNoOfActionPerHour;
-
-        /// <summary>
-        ///     To specific the action count for a current day
-        /// </summary>
-        protected int NoOfActionPerformedCurrentDay;
-
-        /// <summary>
-        ///     To specify the maximum action count for a day
-        /// </summary>
-        protected int MaxNoOfActionPerDay;
-
-        /// <summary>
-        ///     To specific the action count for a current week
-        /// </summary>
-        protected int MaxNoOfActionPerWeek;
-
-        /// <summary>
-        ///     To specify the maximum action count for a week
-        /// </summary>
-        protected int NoOfActionPerformedCurrentWeek;
 
         /// <summary>
         /// To get the template Id
@@ -260,7 +207,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// To specify from which account the neccessary actions takes place.
         /// </summary>
-        public DominatorAccountModel DominatorAccountModel { get; set; }
+        public DominatorAccountModel DominatorAccountModel { get; }
 
         /// <summary>
         /// To get the job configurations from <see cref="DominatorHouseCore.Models.TemplateModel.ActivitySettings"/>
@@ -270,7 +217,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// To get the activity type
         /// </summary>
-        public ActivityType ActivityType { get; set; }
+        public ActivityType ActivityType { get; }
 
         /// <summary>
         /// To get the list of saved queries from <see cref="DominatorHouseCore.Models.TemplateModel.ActivitySettings"/>
@@ -283,10 +230,6 @@ namespace DominatorHouseCore.Process
         public TimingRange CurrentJobTimeRange { get; set; }
 
         public CancellationTokenSource JobCancellationTokenSource { get; set; }
-
-        protected IDatabaseConnection DataBaseConnectionCampaign { get; set; }
-
-        protected IDatabaseConnection DataBaseConnectionAccount { get; set; }
 
         public string AccountName => DominatorAccountModel?.UserName;
 
@@ -302,39 +245,30 @@ namespace DominatorHouseCore.Process
 
         #region Job Process workflow routines
 
-
-        // stores all running job processes. Key - TemplateId
-        public static readonly Dictionary<string, JobProcess> RunningJobProcesses = new Dictionary<string, JobProcess>();
-
         private static readonly object SyncJobProcess = new object();
 
-        public string Id => AsId(AccountId, TemplateId);
+        public JobKey Id => AsId(AccountId, TemplateId);
 
-        public static string AsId(string account, string templateId)
+        public static JobKey AsId(string account, string templateId)
         {
-            return $"{account}-------{templateId}";
+            return new JobKey(account, templateId);
         }
 
         /// <summary>
         ///     Main method to start process in thread
         /// </summary>
         /// <returns></returns>
-        public void StartProcessAsync()
+        public Task StartProcessAsync()
         {
             lock (SyncJobProcess)
             {
-                if (RunningJobProcesses.ContainsKey(Id)) return;
-
-                Debug.Assert(JobCancellationTokenSource == null);
-
-                JobCancellationTokenSource = new CancellationTokenSource();
-
-                RunningJobProcesses.Add(Id, this);
+                if (!_runningJobsHolder.StartIfNotRunning(Id, this)) return Task.CompletedTask;
 
                 var task = ThreadFactory.Instance.Start(() =>
                 {
 
-                    GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+                    GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                        DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                     // Login and run scraper/poster from derived concrete classes
                     if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
@@ -343,15 +277,21 @@ namespace DominatorHouseCore.Process
                             RunScrapper();
                         else
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "did not get processed as account failed to login");
-                            DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                            GlobusLogHelper.log.Info(Log.CustomMessage,
+                                DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                                DominatorAccountModel.AccountBaseModel.UserName, ActivityType,
+                                $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
+                            _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                         }
 
                     }
                     else
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
-                        DominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                        GlobusLogHelper.log.Info(Log.CustomMessage,
+                            DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                            DominatorAccountModel.AccountBaseModel.UserName, ActivityType,
+                            "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
+                        _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                     }
 
 
@@ -361,16 +301,8 @@ namespace DominatorHouseCore.Process
                 {
                     Console.WriteLine("Cancellation requested!");
                 });
-            }
-        }
 
-
-
-        public static bool IsStarted(string accountName, string templateId)
-        {
-            lock (SyncJobProcess)
-            {
-                return RunningJobProcesses.ContainsKey(AsId(accountName, templateId));
+                return task;
             }
         }
 
@@ -378,43 +310,10 @@ namespace DominatorHouseCore.Process
         {
             lock (SyncJobProcess)
             {
-                if (JobCancellationTokenSource == null ||
-                    !RunningJobProcesses.ContainsKey(Id))
-                    return;
-
-
-                //DominatorAccountModel.NotifyCancelled();
-                JobCancellationTokenSource.Cancel();
-
+                JobCancellationTokenSource?.Cancel();
                 GlobusLogHelper.log.Info(Log.ProcessStopped, DominatorAccountModel.AccountBaseModel.AccountNetwork,
                     DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
-                RunningJobProcesses.Remove(Id);
-                //JobCancellationTokenSource = null;
-            }
-        }
-
-        public static bool Stop(string accountName, string templateId)
-        {
-            try
-            {
-                lock (SyncJobProcess)
-                {
-                    var id = AsId(accountName, templateId);
-                    if (!RunningJobProcesses.ContainsKey(id))
-                    {
-                        GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
-                        return false;
-                    }
-                    var jobProcess = RunningJobProcesses[id];
-                    jobProcess.Stop();
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog(ex.StackTrace);
-                return false;
             }
         }
 
@@ -448,11 +347,8 @@ namespace DominatorHouseCore.Process
 
                 GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
-                if (ActivityType == ActivityType.ExportConnection)
-                {
-                    DominatorAccountModel.IsUserLoggedIn = false;
-                }
-                if (!DominatorAccountModel.IsUserLoggedIn || (DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies == null))
+
+                if (!DominatorAccountModel.IsUserLoggedIn || (_httpHelper.GetRequestParameter().Cookies == null))
                 {
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
@@ -489,11 +385,12 @@ namespace DominatorHouseCore.Process
         public void DelayBeforeNextActivity()
         {
             if (IsStopped()) return;
-            if (NoOfActionPerformedCurrentJob >= MaxNoOfActionPerJob || NoOfActionPerformedCurrentWeek >= MaxNoOfActionPerWeek ||
-                NoOfActionPerformedCurrentDay >= MaxNoOfActionPerDay || NoOfActionPerformedCurrentHour >= MaxNoOfActionPerHour)
+            var limitType = CheckLimit();
+            if (limitType.ReachedLimitType != ReachedLimitType.NoLimit)
             {
                 return;
             }
+
             var seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
@@ -517,5 +414,10 @@ namespace DominatorHouseCore.Process
         }
 
         #endregion
+
+        protected void IncrementCounters()
+        {
+            _jobCountersManager.InitOrIncrement(Id);
+        }
     }
 }

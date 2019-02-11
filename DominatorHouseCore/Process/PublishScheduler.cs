@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.SocioPublisher;
@@ -14,6 +9,12 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using FluentScheduler;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Process
 {
@@ -77,6 +78,7 @@ namespace DominatorHouseCore.Process
                 AttachedActionCounts.AddOrUpdate(campaignId, runningCount, (id, count) =>
                 {
                     if (count < 0)
+                        // ReSharper disable once RedundantAssignment
                         count = 0;
                     count = runningCount;
                     return count;
@@ -244,6 +246,7 @@ namespace DominatorHouseCore.Process
             try
             {
                 // create a new cancellation token source
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var currentCampaignsCancallationToken = new CancellationTokenSource();
 
                 // If CampaignsCancellationTokens dictionary doesnt contains for current campaign, add to with proper campaign Id
@@ -255,17 +258,17 @@ namespace DominatorHouseCore.Process
 
                 // Get he post fetcher details
                 var publisherPostFetchModel =
-                    GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
                 // Get the success published details
-                var publishedDetails = GenericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
+                var publishedDetails = genericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails).Where(x => x.CampaignId == campaignStatusModel.CampaignId).ToList();
 
                 // Filter the success published details with destination url
                 var usedDestination = publishedDetails.Select(x => x.DestinationUrl);
 
                 // Get the advanced settings for current campaign Id
-                var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
+                var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
                                        new GeneralModel();
 
                 var runningCount = 0;
@@ -286,7 +289,7 @@ namespace DominatorHouseCore.Process
                 var accountsWithDestinations = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
 
                 //Get the general settings from bin files
-                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
                                                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
 
@@ -313,7 +316,8 @@ namespace DominatorHouseCore.Process
                 publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                 {
                     // Get destination details
-                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+                    var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                    var destinationDetails = binFileHelper.GetSingleDestination(destinationId);
 
                     // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
                     if (destinationDetails == null)
@@ -362,7 +366,7 @@ namespace DominatorHouseCore.Process
 
                 #region Random Destinations
 
-                if (!advancedSettings.IsWhenPublishingSendOnePostChecked  && campaignStatusModel.IsTakeRandomDestination)
+                if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination)
                 {
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)
@@ -469,6 +473,7 @@ namespace DominatorHouseCore.Process
             try
             {
                 // Get the campaign Details
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var campaignDetails =
                     PublisherInitialize.GetInstance.GetSavedCampaigns().ToList();
 
@@ -502,12 +507,12 @@ namespace DominatorHouseCore.Process
 
                 // Get he post fetcher details
                 var publisherPostFetchModel =
-                    GenericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId);
 
 
                 // Get the advanced settings for current campaign Id
-                var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
+                var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ??
                                        new GeneralModel();
 
                 #region Assigning Destinations with posts
@@ -515,7 +520,7 @@ namespace DominatorHouseCore.Process
                 #region Initializations
 
                 //Get the general settings from bin files
-                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
                                                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignStatusModel.CampaignId) ?? new GeneralModel();
 
@@ -540,7 +545,8 @@ namespace DominatorHouseCore.Process
                 publisherPostFetchModel?.SelectedDestinations.ToList().ForEach(destinationId =>
                 {
                     // Get destination details
-                    var destinationDetails = BinFileHelper.GetSingleDestination(destinationId);
+                    var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                    var destinationDetails = binFileHelper.GetSingleDestination(destinationId);
 
                     // If destination is aleady deleted, process will give null from above statement, if its null increase destination count
                     if (destinationDetails == null)
@@ -571,7 +577,7 @@ namespace DominatorHouseCore.Process
 
                 // Check any destinations has been deleted
                 if (deletedDestinationCount > 0)
-                    GlobusLogHelper.log.Info(Log.CustomMessage,SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                         $"{deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} Destination has been deleted from {campaignStatusModel.CampaignName}");
 
                 var destinations = UpdatePostDetails(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, allDestination, post, allDestinaionGuid);
@@ -775,6 +781,7 @@ namespace DominatorHouseCore.Process
             try
             {
                 // Getting all pending post lists
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                 var pendingPostList = PostlistFileManager.GetAll(campaignId)
                     .Where(x => x.PostQueuedStatus == PostQueuedStatus.Pending).ToList();
 
@@ -786,7 +793,7 @@ namespace DominatorHouseCore.Process
                 }
 
                 //Get the general settings from bin files
-                var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
                                                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
@@ -807,7 +814,7 @@ namespace DominatorHouseCore.Process
 
                 // Validate whether all destinations contains posts or not
                 if (pendingPostList.Count < postsDestinations.Count)
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required count!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required random destination count!");
 
                 #region Assigning the Posts to Destinations
 
@@ -845,6 +852,7 @@ namespace DominatorHouseCore.Process
            string campaignName,
            int postsMaximumDestinationCount)
         {
+            var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
 
             var updatelock = GetPostsForPublishing.GetOrAdd(campaignId, _lock => new object());
@@ -896,7 +904,7 @@ namespace DominatorHouseCore.Process
                     }
 
                     //Get the general settings from bin files
-                    var generalSettingsModel = GenericFileManager.GetModuleDetails<GeneralModel>
+                    var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
                                                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
                                                    .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
@@ -916,7 +924,7 @@ namespace DominatorHouseCore.Process
 
                     // Validate whether all destinations contains posts or not
                     if (pendingPostList.Count < postsDestinations.Count)
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required count!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required  random destination count!");
 
                     #region Assigning the Posts to Destinations
 
@@ -1203,6 +1211,7 @@ namespace DominatorHouseCore.Process
                 if (CampaignsCancellationTokens.ContainsKey(campaignId))
                 {
                     CampaignsCancellationTokens.Remove(campaignId);
+                    // ReSharper disable once NotAccessedVariable
                     var deletedList = new LinkedList<Action>();
                     PublisherActionList.TryRemove(campaignId, out deletedList);
                     DecreasePublishingCount(campaignId);
@@ -1224,7 +1233,8 @@ namespace DominatorHouseCore.Process
         public static void EnableDeletePost(PostDeletionModel postDeletionModel)
         {
             // Add into bin files
-            GenericFileManager.AddModule(postDeletionModel,
+            var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+            genericFileManager.AddModule(postDeletionModel,
                 ConstantVariable.GetDeletePublisherPostModel);
 
             // Schedule delete post itmes
@@ -1244,6 +1254,7 @@ namespace DominatorHouseCore.Process
                 JobManager.AddJob(() =>
                     {
                         // Get the publisher Job Process factory
+                        var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                         var publisherJobProcess = PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
                             .GetPublisherCoreFactory()
                             .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null,
@@ -1261,7 +1272,7 @@ namespace DominatorHouseCore.Process
 
                             // Get deletion model
                             var allDeletionList =
-                                GenericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                                genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
                                     .GetDeletePublisherPostModel);
 
                             // Find the index of particular published Id
@@ -1272,7 +1283,7 @@ namespace DominatorHouseCore.Process
                             allDeletionList[index].IsDeletedAlready = true;
 
                             // save the updated details into bin files
-                            GenericFileManager.UpdateModuleDetails(allDeletionList,
+                            genericFileManager.UpdateModuleDetails(allDeletionList,
                                 ConstantVariable.GetDeletePublisherPostModel);
                         }
 
@@ -1406,51 +1417,52 @@ namespace DominatorHouseCore.Process
             }
 
             // Iterate running times 
+            var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             timeRange.ForEach(runningTime =>
-                {
-                    // Make start time
-                    var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
+                     {
+                         // Make start time
+                         var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
 
-                    // If start time is greater than current time
-                    if (startTime > DateTime.Now)
-                    {
-                        // Generate job name
-                        var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
+                         // If start time is greater than current time
+                         if (startTime > DateTime.Now)
+                         {
+                             // Generate job name
+                             var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
 
-                        // Add into scheduled lsit
-                        PublisherScheduledList.Add(addJobName);
+                             // Add into scheduled lsit
+                             PublisherScheduledList.Add(addJobName);
 
-                        // Add job manager
-                        JobManager.AddJob(() =>
-                        {
-                            // Call the start publishing
-                            StartPublishingPosts(campaign);
-                        }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
+                             // Add job manager
+                             JobManager.AddJob(() =>
+                                  {
+                                      // Call the start publishing
+                                      StartPublishingPosts(campaign);
+                                  }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
-                        // Get the advanced settings details of an campaigns
-                        var advancedSettings = GenericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+                             // Get the advanced settings details of an campaigns
+                             var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
-                        // Check whether campaign destination time out options
-                        if (advancedSettings?.DestinationTimeout > 0)
-                        {
-                            // Generate the job name for stopping campaigns
-                            var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
+                             // Check whether campaign destination time out options
+                             if (advancedSettings?.DestinationTimeout > 0)
+                             {
+                                 // Generate the job name for stopping campaigns
+                                 var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
 
-                            // Add into schedule list
-                            PublisherScheduledList.Add(stopJobName);
+                                 // Add into schedule list
+                                 PublisherScheduledList.Add(stopJobName);
 
-                            // Calculate stopping time
-                            var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
+                                 // Calculate stopping time
+                                 var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
 
-                            // Add job process for stop publishing after some x minutes
-                            JobManager.AddJob(() =>
-                            {
-                                // Call stop publishing
-                                StopPublishingPosts(campaign.CampaignId);
-                            }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
-                        }
-                    }
-                });
+                                 // Add job process for stop publishing after some x minutes
+                                 JobManager.AddJob(() =>
+                                      {
+                                          // Call stop publishing
+                                          StopPublishingPosts(campaign.CampaignId);
+                                      }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
+                             }
+                         }
+                     });
 
             #endregion
         }

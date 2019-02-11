@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Models;
@@ -7,54 +9,56 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Data;
 using DominatorHouseCore.Enums;
-using MahApps.Metro.Controls.Dialogs;
 using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
 
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for Reports.xaml
     /// </summary>
-    public partial class Reports : UserControl
+    public partial class Reports : UserControl, INotifyPropertyChanged
     {
         public Reports()
         {
             InitializeComponent();
-            MainGrid.DataContext = this;
         }
 
-        public Reports(ReportModel ReportModel) : this()
+        public Reports(CampaignDetails campaign) : this()
         {
-            this.ReportModel = ReportModel;
+            Campaign = campaign;
+            ReportModel.CampaignId = campaign.CampaignId;
+            ReportModel.ActivityType = (ActivityType)Enum.Parse(typeof(ActivityType), campaign.SubModule);
             MainGrid.DataContext = this;
         }
         public CampaignDetails Campaign { get; set; }
-        public Reports(ReportModel ReportModel, CampaignDetails campaign) : this()
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.ReportModel = ReportModel;
-            Campaign = campaign;
-            MainGrid.DataContext = this;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        private ReportModel _reportModel = new ReportModel();
         public ReportModel ReportModel
         {
-            get { return (ReportModel)GetValue(ReportModelProperty); }
-            set { SetValue(ReportModelProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ReportModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ReportModelProperty =
-            DependencyProperty.Register("ReportModel", typeof(ReportModel), typeof(Reports), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            get
             {
-                BindsTwoWayByDefault = true
-            });
-
-
-        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = e.NewValue;
+                return _reportModel;
+            }
+            set
+            {
+                if (_reportModel == value)
+                    return;
+                _reportModel = value;
+                OnPropertyChanged(nameof(ReportModel));
+            }
         }
-
         private void ExportReport_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -82,6 +86,26 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
 
             }
+        }
+
+        private void RefreshReport(object sender, RoutedEventArgs e)
+        {
+            var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory();
+            var reportDetails=networkCoreFactory.ReportFactory.GetReportDetail(ReportModel, ReportModel.LstCurrentQueries, Campaign);
+
+            ReportModel.LstReports = new ObservableCollection<object>();
+            ReportModel.ReportCollection =
+                CollectionViewSource.GetDefaultView(ReportModel.LstReports);
+
+            Task.Factory.StartNew(() =>
+            {
+                reportDetails.ForEach(item =>
+                {
+                    Application.Current.Dispatcher.Invoke(() => ReportModel.LstReports.Add(item));
+                    Thread.Sleep(10);
+                });
+            });
+
         }
     }
 }

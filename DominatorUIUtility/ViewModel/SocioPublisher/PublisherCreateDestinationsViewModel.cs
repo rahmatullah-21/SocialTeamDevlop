@@ -1,4 +1,17 @@
-﻿using System;
+﻿
+using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.Views.SocioPublisher;
+using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,26 +21,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.Views.SocioPublisher;
-using MahApps.Metro.Controls.Dialogs;
+
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateDestinationsViewModel : BindableBase
     {
+        public bool IsNeedToNavigate { get; set; }
         //ConstructorS
+        private readonly IAccountsFileManager _accountsFileManager;
         public PublisherCreateDestinationsViewModel()
         {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             NavigationCommand = new BaseCommand<object>(NavigationCanExecute, NavigationExecute);
             GetSingleAccountGroupsCommand = new BaseCommand<object>(GetSingleAccountGroupsCanExecute, GetSingleAccountGroupsExecute);
             GetSingleAccountPagesOrBoardsCommand = new BaseCommand<object>(GetSingleAccountPagesOrBoardsCanExecute, GetSingleAccountPagesOrBoardsExecute);
@@ -45,7 +50,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             IsSavedDestination = false;
         }
 
-        private void NetworkSelectionChangedExecute(object sender)
+        public void NetworkSelectionChangedExecute(object sender)
         {
             try
             {
@@ -795,13 +800,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : $"No row(s) found !";
+                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
                 });
             }
             else
             {
                 accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : $"No row(s) found !";
+                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
             }
         }
 
@@ -811,7 +816,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeDestinationList()
         {
-            var accounts = AccountsFileManager.GetAll();
+
+            var accountList = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync();
+            var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
 
             if (!Application.Current.CheckAccess())
                 Application.Current.Dispatcher.Invoke(() => { PublisherCreateDestinationModel.ListSelectDestination.Clear(); });
@@ -989,7 +996,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var publisherManageDestinationModel = new PublisherManageDestinationModel
                     {
                         AccountCount = PublisherCreateDestinationModel.SelectedAccountIds.Count,
-                        CampaignsCount = 0,
+                        CampaignsCount = !IsNeedToNavigate ? 0 : 1,
                         CreatedDate = DateTime.Now,
                         DestinationId = PublisherCreateDestinationModel.DestinationId,
                         DestinationName = PublisherCreateDestinationModel.DestinationName,
@@ -999,7 +1006,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         WallsOrProfilesCount = PublisherCreateDestinationModel.PublishOwnWallAccount.Count,
                         CustomDestinationsCount = PublisherCreateDestinationModel.CustomDestinations.Count,
                         IsAddNewGroups = PublisherCreateDestinationModel.IsAddedNewGroups,
-                        IsRemoveGroupsRequiresValidation = PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval
+                        IsRemoveGroupsRequiresValidation = PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval,
+
+
                     };
 
                     PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.AddDestinations(
@@ -1041,17 +1050,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     publisherManageDestinationModel.IsRemoveGroupsRequiresValidation =
                         PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval;
 
-                    // To call a method to update the manage destination user interface
-                    PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
+                    if (!IsNeedToNavigate)
+                        // To call a method to update the manage destination user interface
+                        PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
                         publisherManageDestinationModel);
                 }
 
                 InitializeProperties();
 
                 IsSavedDestination = true;
-
-                PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
+                if (!IsNeedToNavigate)
+                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
                     = PublisherManageDestinations.Instance();
+                Dialog.CloseDialog(sender);
             }
             else
             {
@@ -1155,7 +1166,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                var accounts = AccountsFileManager.GetAll();
+                var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
+                var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
+               
                 accounts.ForEach(x =>
                 {
                     if (PublisherCreateDestinationModel.ListSelectDestination.All(y => y.AccountId != x.AccountId))

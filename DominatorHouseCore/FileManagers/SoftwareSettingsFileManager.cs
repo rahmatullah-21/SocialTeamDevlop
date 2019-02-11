@@ -1,39 +1,43 @@
-﻿using System;
-using System.IO;
-using DominatorHouseCore.LogHelper;
+﻿using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
+using System.IO;
 
 namespace DominatorHouseCore.FileManagers
 {
-    public class SoftwareSettingsFileManager
+    public interface ISoftwareSettingsFileManager
     {
-        public static bool SaveSoftwareSettings(SoftwareSettingsModel softwareSetting)
+        bool SaveSoftwareSettings(SoftwareSettingsModel softwareSetting);
+        SoftwareSettingsModel GetSoftwareSettings();
+
+    }
+    public class SoftwareSettingsFileManager : ISoftwareSettingsFileManager
+    {
+        public bool SaveSoftwareSettings(SoftwareSettingsModel softwareSetting)
         {
             try
             {
                 using (var stream = File.Create(ConstantVariable.GetOtherSoftwareSettingsFile()))
                 {
                     Serializer.Serialize(stream, softwareSetting);
-                    SoftwareSettings.Settings = softwareSetting;
                     return true;
                 }
             }
             catch (Exception ex)
             {
-               
+
                 ex.DebugLog();
                 return false;
             }
-           
+
         }
-        public static SoftwareSettingsModel GetSoftwareSettings()
+        public SoftwareSettingsModel GetSoftwareSettings()
         {
             try
             {
-               using (var stream = File.OpenRead(ConstantVariable.GetOtherSoftwareSettingsFile()))
+                using (var stream = File.OpenRead(ConstantVariable.GetOtherSoftwareSettingsFile()))
                 {
                     return Serializer.Deserialize<SoftwareSettingsModel>(stream);
                 }
@@ -42,7 +46,7 @@ namespace DominatorHouseCore.FileManagers
             {
                 GlobusLogHelper.log.Debug(ex.Message);
             }
-            return null;
+            return new SoftwareSettingsModel();
         }
     }
 }

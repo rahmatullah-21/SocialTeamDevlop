@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using CommonServiceLocator;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
@@ -15,22 +9,37 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Process
 {
     public abstract class PublisherJobProcess
     {
+        protected readonly IGenericFileManager GenericFileManager;
+        private readonly IAccountsFileManager _accountsFileManager;
+
         #region Constructor
 
-        protected PublisherJobProcess(string campaignId, 
-            string accountId, 
+        public PublisherJobProcess()
+        {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            GenericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+        }
+        protected PublisherJobProcess(string campaignId,
+            string accountId,
             SocialNetworks network,
-            List<string> groupDestinationLists, 
-            List<string> pageDestinationList, 
+            List<string> groupDestinationLists,
+            List<string> pageDestinationList,
             List<PublisherCustomDestinationModel> customDestinationModels,
             bool isPublishOnOwnWall,
-            CancellationTokenSource campaignCancellationToken)
+            CancellationTokenSource campaignCancellationToken):this()
         {
+            
             // assign campaign Id
             CampaignId = campaignId;
 
@@ -43,7 +52,7 @@ namespace DominatorHouseCore.Process
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
             // Get the full account details from account Id
-            AccountModel = AccountsFileManager.GetAccountById(accountId);
+            AccountModel = _accountsFileManager.GetAccountById(accountId);
 
             PageDestinationList = pageDestinationList;
 
@@ -78,9 +87,9 @@ namespace DominatorHouseCore.Process
         }
 
 
-        protected PublisherJobProcess(string campaignId, string campaignName, string accountId,SocialNetworks network,
+        protected PublisherJobProcess(string campaignId, string campaignName, string accountId, SocialNetworks network,
             IEnumerable<PublisherDestinationDetailsModel> destinationDetails,
-            CancellationTokenSource campaignCancellationToken)
+            CancellationTokenSource campaignCancellationToken) : this()
         {
 
             // assign campaign Id
@@ -95,11 +104,11 @@ namespace DominatorHouseCore.Process
                                        .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
             // Get the full account details from account Id
-            AccountModel = AccountsFileManager.GetAccountById(accountId);
+            AccountModel = _accountsFileManager.GetAccountById(accountId);
 
             PublisherDestinationDetailsModels = destinationDetails.ToList();
 
-               // Get the campaigns full model
+            // Get the campaigns full model
             var publisherCampaign =
                 GenericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable
                     .GetPublisherCampaignFile()).FirstOrDefault(x => x.CampaignId == CampaignId);
@@ -157,6 +166,7 @@ namespace DominatorHouseCore.Process
         /// </summary>
         private static readonly object SyncJobProcess = new object();
 
+
         /// <summary>
         /// Current account details
         /// </summary>
@@ -173,7 +183,7 @@ namespace DominatorHouseCore.Process
         public List<string> PageDestinationList { get; set; }
 
 
-        public List<PublisherDestinationDetailsModel> PublisherDestinationDetailsModels { get; set; } 
+        public List<PublisherDestinationDetailsModel> PublisherDestinationDetailsModels { get; set; }
 
         /// <summary>
         /// Custom destination collections
@@ -264,12 +274,12 @@ namespace DominatorHouseCore.Process
         {
             return true;
         }
- 
+
         /// <summary>
         /// To Start publishing a post for an account
         /// </summary>      
         /// <param name="isRunParallel">Specify whether need to run on parallely or not</param>
-        public void StartPublishingPosts( bool isRunParallel)
+        public void StartPublishingPosts(bool isRunParallel)
         {
             lock (SyncJobProcess)
             {
@@ -314,7 +324,7 @@ namespace DominatorHouseCore.Process
         /// </summary>     
         private void StartPublish()
         {
-            PublishedCount=0;
+            PublishedCount = 0;
             try
             {
                 // Getting the delay while running after a x posts completions
@@ -337,7 +347,7 @@ namespace DominatorHouseCore.Process
                     {
                         // call networks to publishing on groups 
                         PublishOnGroups(AccountModel.AccountId, destination.DestinationUrl, destination.PublisherPostlistModel, destination != PublisherDestinationDetailsModels.Last());
-                        
+
                     }
                     else if (destination.DestinationType == ConstantVariable.PageOrBoard)
                     {
@@ -370,7 +380,7 @@ namespace DominatorHouseCore.Process
                     // check whether multiple post delay reached or not
                     if (PublishedCount % multipostDelayCount == 0)
                         DelayBetweenMultiPublish();
-                }              
+                }
             }
             catch (OperationCanceledException ex)
             {

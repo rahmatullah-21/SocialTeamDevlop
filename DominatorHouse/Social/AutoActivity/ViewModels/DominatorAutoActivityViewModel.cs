@@ -1,53 +1,34 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel;
+using Prism.Commands;
+using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using DominatorHouseCore;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel;
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels
 {
-    public class DominatorAutoActivityViewModel : BindableBase
+    public interface IDominatorAutoActivityViewModel
     {
-        private DominatorAutoActivityViewModel()
-        {
-            _selectedUserControl = new UserControl();
-            AccountsCollection = new ObservableCollection<AccountsActivityDetailModel>();
-        }
+        void CallRespectiveView(SocialNetworks networks);
+        bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts);
+    }
 
-        private static DominatorAutoActivityViewModel ObjDominatorAutoActivityViewModel { get; set; } = null;
-
-        public static DominatorAutoActivityViewModel GetSingletonDominatorAutoActivityViewModel()
-          => ObjDominatorAutoActivityViewModel ?? (ObjDominatorAutoActivityViewModel = new DominatorAutoActivityViewModel());
-
-
-
-        private ICollectionView _accountsCollectionView;
-        /// <summary>
-        /// To give the itemsource for account details
-        /// </summary>
-        public ICollectionView AccountsCollectionView
-        {
-            get
-            {
-                return _accountsCollectionView;
-            }
-            set
-            {
-                if (Equals(_accountsCollectionView, value))
-                    return;
-                SetProperty(ref _accountsCollectionView, value);
-            }
-        }
-
+    public class DominatorAutoActivityViewModel : BindableBase, IDominatorAutoActivityViewModel
+    {
+        private readonly object _syncObject = new object();
+        private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IAccountCollectionViewModel _accountCollectionViewModel;
 
 
         private UserControl _selectedUserControl;
@@ -62,31 +43,52 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             }
             set
             {
-                if (Equals(_selectedUserControl, value))
-                    return;
                 SetProperty(ref _selectedUserControl, value);
+                OnPropertyChanged(nameof(ShowContent));
+                OnPropertyChanged(nameof(ShowSocial));
             }
         }
 
+        public DelegateCommand<AccountsActivityDetailModel> GoToToolsCmd { get; }
+        public DelegateCommand<ActivityDetailsModel> ChangeActivityStatusCmd { get; }
 
-        private ObservableCollection<AccountsActivityDetailModel> _accountsCollection;
         /// <summary>
         /// To hold all accounts important activities enable status
         /// </summary>
-        public ObservableCollection<AccountsActivityDetailModel> AccountsCollection
+        public ObservableCollection<AccountsActivityDetailModel> AccountsCollection { get; }
+
+        public bool ShowContent => SelectedUserControl != null;
+        public bool ShowSocial => SelectedUserControl == null;
+
+        public DominatorAutoActivityViewModel(IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel)
         {
-            get
-            {
-                return _accountsCollection;
-            }
-            set
-            {
-                if (Equals(_accountsCollection, value))
-                    return;
-                SetProperty(ref _accountsCollection, value);
-            }
+            _accountsFileManager = accountsFileManager;
+            _accountCollectionViewModel = accountCollectionViewModel;
+            _selectedUserControl = new UserControl();
+            AccountsCollection = new ObservableCollection<AccountsActivityDetailModel>();
+
+            BindingOperations.EnableCollectionSynchronization(AccountsCollection, _syncObject);
+            GoToToolsCmd = new DelegateCommand<AccountsActivityDetailModel>(GoToTools);
+            ChangeActivityStatusCmd = new DelegateCommand<ActivityDetailsModel>(ChangeActivityStatus);
         }
 
+        public bool NewAutoActivityObject(SocialNetworks soicalNetworks, string selectedAccounts)
+        {
+            try
+            {
+                CallRespectiveView(soicalNetworks);
+
+                SocinatorInitialize.GetSocialLibrary(soicalNetworks)
+                    .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = selectedAccounts;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
 
         /// <summary>
         /// To bind the respective network view for auto activity
@@ -102,16 +104,17 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
                     Application.Current.Dispatcher.Invoke(() =>
-                        SelectedUserControl = accountToolsView.GetStartupToolsView());
+                        SelectedUserControl = networks == SocialNetworks.Social ? null : accountToolsView.GetStartupToolsView());
                 }
                 else
                 {
-                    SelectedUserControl = accountToolsView.GetStartupToolsView();
+                    SelectedUserControl = networks == SocialNetworks.Social ? null : accountToolsView.GetStartupToolsView();
                 }
+
                 SocinatorInitialize.AccountModeActiveSocialNetwork = networks;
                 // If passed network is social then initialize the account details
                 if (networks == SocialNetworks.Social)
-                    ThreadFactory.Instance.Start(InitializeAccounts);
+                    InitializeAccounts();
             }
             catch (Exception ex)
             {
@@ -119,140 +122,165 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             }
         }
 
+        private void ChangeActivityStatus(ActivityDetailsModel currentDataContext)
+        {
+
+            var account = _accountsFileManager.GetAccountById(currentDataContext.AccountId);
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            var currentAccountActivity =
+                jobActivityConfigurationManager[account.AccountId, currentDataContext.Title];
+            var campaignStatus = campaignFileManager.FirstOrDefault(x => x.TemplateId == currentAccountActivity?.TemplateId)?.Status;
+            if (campaignStatus == "Paused" && currentDataContext.Status)
+            {
+                Dialog.ShowDialog("Error", "This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                currentDataContext.Status = false;
+                return;
+            }
+
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            var status = dominatorScheduler.ChangeAccountsRunningStatus(currentDataContext.Status, currentDataContext.AccountId,
+                currentDataContext.Title);
+
+            if (!status)
+            {
+                try
+                {
+                    Dialog.ShowDialog("Error", $"Please configure your {currentDataContext.Title} settings, before starting the activity. Make sure you have added enough queries and have clicked on SAVE button");
+                    currentDataContext.Status = false;
+                }
+                catch (Exception ex)
+                {
+
+                    ex.DebugLog();
+                }
+            }
+        }
+
+
+        private void GoToTools(AccountsActivityDetailModel accountsActivityDetailModel)
+        {
+            if (accountsActivityDetailModel == null)
+                return;
+
+            SocinatorInitialize.GetSocialLibrary(accountsActivityDetailModel.AccountNetwork).GetNetworkCoreFactory()
+                    .AccountUserControlTools.RecentlySelectedAccount =
+                accountsActivityDetailModel.AccountName;
+
+            CallRespectiveView(accountsActivityDetailModel.AccountNetwork);
+        }
 
 
         /// <summary>
         /// To Initialize the account details with enable status 
         /// </summary>
-        public void InitializeAccounts()
+        private void InitializeAccounts()
         {
-            try
+            // read from bin file for getting all accounts
+
+
+            // if accounts count more than one means generate the activities
+            AccountsCollection.Clear();
+
+            Task.Factory.StartNew(() =>
             {
-                // read from bin file for getting all accounts
-                var accounts = AccountsFileManager.GetAll();
-
-
-                if (!Application.Current.Dispatcher.CheckAccess())
+                var accountCollection = _accountCollectionViewModel.GetCopySync()
+                    .Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
+                foreach (var account in accountCollection)
                 {
-                    // add the item to account collection
-                    Application.Current.Dispatcher.Invoke(() =>
+                    try
                     {
-                        // clear saved account details
-                        AccountsCollection.Clear();
-                    });
-                }
-                else
-                {
-                    // clear saved account details
-                    AccountsCollection.Clear();
-                }
+                        // initialize the activity details
+                        var accountsActivityDetailModel = new AccountsActivityDetailModel
+                        {
+                            AccountName = account.AccountBaseModel.UserName,
+                            AccountId = account.AccountBaseModel.AccountId,
+                            AccountNetwork = account.AccountBaseModel.AccountNetwork,
+                            ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
+                        };
 
-
-
-                // if accounts count more than one means generate the activities
-                if (accounts != null)
-                    foreach (var account in accounts)
-                    {
+                        // get the respective network details
+                        var activities = SocinatorInitialize
+                            .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                            .GetNetworkCoreFactory()
+                            .AccountUserControlTools
+                            .GetImportantActivityTypes();
                         try
                         {
-                            // initialize the activity details
-                            var accountsActivityDetailModel = new AccountsActivityDetailModel
+                            var jobActivityConfigurationManager = ServiceLocator.Current
+                                .GetInstance<IJobActivityConfigurationManager>();
+                            foreach (var x in activities)
                             {
-                                AccountName = account.AccountBaseModel.UserName,
-                                AccountId = account.AccountBaseModel.AccountId,
-                                AccountNetwork = account.AccountBaseModel.AccountNetwork,
-                                ActivityDetailsCollections = new ObservableCollection<ActivityDetailsModel>()
-                            };
-
-                            // get the respective network details
-                            var activities = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                .GetNetworkCoreFactory()
-                                .AccountUserControlTools
-                                .GetImportantActivityTypes();
-                            try
-                            {
-                                foreach (var x in activities)
+                                try
                                 {
-                                    try
-                                    {
-                                        // get the activity details                    
-                                        var activityData = account.ActivityManager.LstModuleConfiguration.FirstOrDefault(y =>
-                                            y.ActivityType == x);
+                                    // get the activity details                    
+                                    var activityData =
+                                        jobActivityConfigurationManager[account.AccountId, x];
 
-                                        // if activity present then add to list with status
-                                        if (activityData != null)
-                                        {
-                                            accountsActivityDetailModel.ActivityDetailsCollections
-                                                .Add(new ActivityDetailsModel
-                                                {
-                                                    Status = activityData.IsEnabled,
-                                                    Title = x,
-                                                    AccountId = account.AccountId
-                                                });
-                                        }
-                                        // if activity not present then add to list with default status
-                                        else
-                                        {
-                                            accountsActivityDetailModel.ActivityDetailsCollections
-                                                .Add(new ActivityDetailsModel
-                                                {
-                                                    Status = false,
-                                                    Title = x,
-                                                    AccountId = account.AccountId
-                                                });
-                                        }
-                                    }
-                                    catch (Exception ex)
+                                    // if activity present then add to list with status
+                                    if (activityData != null)
                                     {
-                                        ex.DebugLog();
+                                        accountsActivityDetailModel.ActivityDetailsCollections
+                                            .Add(new ActivityDetailsModel
+                                            {
+                                                Status = activityData.IsEnabled,
+                                                Title = x,
+                                                AccountId = account.AccountId
+                                            });
+                                    }
+                                    // if activity not present then add to list with default status
+                                    else
+                                    {
+                                        accountsActivityDetailModel.ActivityDetailsCollections
+                                            .Add(new ActivityDetailsModel
+                                            {
+                                                Status = false,
+                                                Title = x,
+                                                AccountId = account.AccountId
+                                            });
                                     }
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
-
-                            if (!Application.Current.Dispatcher.CheckAccess())
-                            {
-                                // add the item to account collection
-                                Application.Current.Dispatcher.Invoke(() =>
+                                catch (Exception ex)
                                 {
-                                    if (AccountsCollection.All(x => x.AccountId != account.AccountBaseModel.AccountId))
-                                        AccountsCollection.Add(accountsActivityDetailModel);
-                                });
-                            }
-                            else
-                            {
-                                // add the item to account collection
-                                if (AccountsCollection.All(x => x.AccountId != account.AccountBaseModel.AccountId))
-                                    AccountsCollection.Add(accountsActivityDetailModel);
+                                    ex.DebugLog();
+                                }
                             }
                         }
                         catch (Exception ex)
                         {
                             ex.DebugLog();
                         }
-                    }
 
-                if (!Application.Current.Dispatcher.CheckAccess())
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                        // Initialize to collection view
-                        AccountsCollectionView = CollectionViewSource.GetDefaultView(AccountsCollection));
+                        if (!Application.Current.Dispatcher.CheckAccess())
+                        {
+                            // add the item to account collection
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                lock (_syncObject)
+                                {
+                                    if (AccountsCollection.All(x =>
+                                        x.AccountId != account.AccountBaseModel.AccountId))
+                                        AccountsCollection.Add(accountsActivityDetailModel);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            lock (_syncObject)
+                            {
+                                // add the item to account collection
+                                if (AccountsCollection.All(x => x.AccountId != account.AccountBaseModel.AccountId))
+                                    AccountsCollection.Add(accountsActivityDetailModel);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
                 }
-                else
-                {
-                    // Initialize to collection view
-                    AccountsCollectionView = CollectionViewSource.GetDefaultView(AccountsCollection);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+            });
 
         }
-
     }
 }

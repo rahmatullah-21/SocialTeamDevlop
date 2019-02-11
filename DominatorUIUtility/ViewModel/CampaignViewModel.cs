@@ -1,4 +1,20 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Annotations;
+using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Converters;
+using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
@@ -6,36 +22,23 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
-using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Converters;
-using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
-using DominatorHouseCore.Process;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using System.Threading.Tasks;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class CampaignViewModel : INotifyPropertyChanged
     {
+        private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IDataBaseHandler _dataBaseHandler;
         public CampaignViewModel()
         {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
             SettingCommand = new BaseCommand<object>((sender) => true, SettingExecute);
             DeleteCommand = new BaseCommand<object>((sender) => true, DeleteExecute);
             EditCommand = new BaseCommand<object>((sender) => true, EditExecute);
@@ -54,13 +57,17 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var lstOfCampaign = CampaignsFileManager.Get();
+                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                 Task.Factory.StartNew(() =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Clear());
-                    lstOfCampaign.ForEach(camp =>
+                    campaignFileManager.ForEach(camp =>
                     {
-                        Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Add(camp));
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            if (LstCampaignDetails.All(x => x.CampaignId != camp.CampaignId))
+                                LstCampaignDetails.Add(camp);
+                        });
                         Thread.Sleep(50);
                     });
                 });
@@ -214,114 +221,95 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 CampaignDetails campName = sender as CampaignDetails;
-
-                ReportModel reportModel = new ReportModel();
-                Reports reportControl = new Reports(reportModel, campName);
-
-                Dialog objDialog = new Dialog();
-
-                reportControl.ReportModel.ModuleType = campName.SubModule;
-
-                var ActivitySettings = TemplatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
-
-                var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);
-
-                var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory();
-
-                ObservableCollection<QueryInfo> lstSavedQuery = networkCoreFactory.ReportFactory.GetSavedQuery(activityType, ActivitySettings);
-
-                List<KeyValuePair<string, string>> lstCurrentQueries = new List<KeyValuePair<string, string>>();
-
-
-                lstSavedQuery?.ToList().ForEach(x =>
+                if (campName != null)
                 {
-                    lstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
-                    #region Update QueryList for combobox
+                    Reports reportControl = new Reports(campName);
+                    Dialog objDialog = new Dialog();
 
-                    if (reportControl.ReportModel.QueryList.Any(query => query.Content == x.QueryType) == false)
-                        reportControl.ReportModel.QueryList.Add(new ContentSelectGroup() { IsContentSelected = false, Content = x.QueryType });
+                    var templatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
 
-                    #endregion
+                    var activitySettings = templatesFileManager.GetTemplateById(campName.TemplateId).ActivitySettings;
 
-                });
+                    var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campName.SubModule);
 
+                    var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory();
 
-                try
-                {
-                    #region Update AccountList & StatusList for combobox
+                    ObservableCollection<QueryInfo> lstSavedQuery = networkCoreFactory.ReportFactory.GetSavedQuery(activityType, activitySettings);
 
-                    campName.SelectedAccountList.ToList().ForEach(acc =>
+                    lstSavedQuery?.ToList().ForEach(x =>
                     {
-                        DominatorAccountModel objDominatorAccountModel = AccountsFileManager.GetAccount(acc, campName.SocialNetworks);
+                        reportControl.ReportModel.LstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
+                        #region Update QueryList for combobox
 
-                        reportControl.ReportModel.AccountList.Add(new ContentSelectGroup()
-                        {
-                            IsContentSelected = false,
-                            Content = objDominatorAccountModel.AccountBaseModel.UserName
-                        });
+                        if (reportControl.ReportModel.QueryList.All(query => query.Content != x.QueryType))
+                            reportControl.ReportModel.QueryList.Add(new ContentSelectGroup() { Content = x.QueryType });
 
-                        if (reportControl.ReportModel.StatusList.Count > 1 &&
-                            reportControl.ReportModel.StatusList.Any(status => status.Content == objDominatorAccountModel.AccountBaseModel.Status.ToString()) ==
-                            false)
-                            reportControl.ReportModel.StatusList.Add(new ContentSelectGroup()
-                            {
-                                IsContentSelected = false,
-                                Content = objDominatorAccountModel.AccountBaseModel.Status.ToString()
-                            });
+                        #endregion
 
                     });
-                    #endregion
-
-                    var dataBase = new DbOperations(campName.CampaignId, SocialNetworks, ConstantVariable.GetCampaignDb);
-
-                    if (networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel, lstCurrentQueries, campName) == 0)
+                    try
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Report", "Reports for " + campName.CampaignName + " Campaign not available", MessageDialogStyle.Affirmative);
-                        return;
+                        #region Update AccountList & StatusList for combobox
+
+                        campName.SelectedAccountList.ToList().ForEach(acc =>
+                        {
+                            DominatorAccountModel objDominatorAccountModel = _accountsFileManager.GetAccount(acc, campName.SocialNetworks);
+
+                            reportControl.ReportModel.AccountList.Add(new ContentSelectGroup()
+                            {
+                                IsContentSelected = false,
+                                Content = objDominatorAccountModel.AccountBaseModel.UserName
+                            });
+
+                            if (reportControl.ReportModel.StatusList.Count > 1 &&
+                                reportControl.ReportModel.StatusList.All(status => status.Content != objDominatorAccountModel.AccountBaseModel.Status.ToString()))
+                                reportControl.ReportModel.StatusList.Add(new ContentSelectGroup()
+                                {
+                                    IsContentSelected = false,
+                                    Content = objDominatorAccountModel.AccountBaseModel.Status.ToString()
+                                });
+
+                        });
+                        #endregion
+
+                        var reportDetails = networkCoreFactory.ReportFactory.GetReportDetail(reportControl.ReportModel,
+                            reportControl.ReportModel.LstCurrentQueries, campName);
+                        if (reportDetails.Count == 0)
+                        {
+                            Dialog.ShowDialog("Report", "Reports for " + campName.CampaignName + " Campaign not available");
+                            return;
+                        }
+
+                        Window win = objDialog.GetMetroWindow(reportControl, "Reports");
+                        win.Owner = Application.Current.MainWindow;
+                        win.WindowStartupLocation = WindowStartupLocation.Manual;
+                        var mainWindow = Application.Current.MainWindow;
+                        var width = mainWindow.Width;
+                        var height = mainWindow.Height;
+                        win.Top = 0;
+                        win.Left = 0;
+                        reportControl.ReportModel.LstReports = new ObservableCollection<object>();
+                        reportControl.ReportModel.ReportCollection =
+                            CollectionViewSource.GetDefaultView(reportControl.ReportModel.LstReports);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            reportDetails.ForEach(item =>
+                            {
+                                Application.Current.Dispatcher.Invoke(() => reportControl.ReportModel.LstReports.Add(item));
+                                Thread.Sleep(10);
+                            });
+                        });
+
+
+                        win.ShowDialog();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
                     }
                 }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
 
-                Window win = objDialog.GetMetroWindow(reportControl, "Reports");
-                win.Owner = Application.Current.MainWindow;
-
-                #region Commented
-                //reportControl.ExportReport.Click += (senders, events) =>
-                //{
-                //    try
-                //    {
-                //        var exportPath = FileUtilities.GetExportPath(win);
-
-                //        if (string.IsNullOrEmpty(exportPath))
-                //            return;
-
-                //        var filename = Regex.Replace(
-                //            input: $"{ campName.CampaignName }-Reports[{DateTimeUtilities.GetEpochTime()}]",
-                //            pattern: "[\\/:*?<>|\"]",
-                //            replacement: "-");
-
-                //        filename = $"{exportPath}\\{filename}.csv";
-                //        //TODO
-
-                //        SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
-                //        Dialog.ShowDialog("Sucess", "Sucessfully Exported to " + filename);
-                //        GlobusLogHelper.log.Info(Log.CustomMessage, campName.SocialNetworks, activityType, campName.CampaignName, "Sucessfully Exported to " + filename);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fail",
-                //            "Export fail !!");
-                //        ex.DebugLog();
-
-                //    }
-
-                //}; 
-                #endregion
-
-                win.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -341,7 +329,7 @@ namespace DominatorUIUtility.ViewModel
                         return;
                     GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
                     selectedCampaign.Status = "Paused";
-                    // return;
+                    return;
                 }
 
                 var isChecked = ((ToggleSwitch)sender).IsChecked;
@@ -362,10 +350,11 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                CampaignDetails campName = sender as CampaignDetails;
-                CampaignsFileManager.GetCampaignById(campName.CampaignId).
-                    CampaignName = campName.CampaignName.
-                                       Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+                CampaignDetails camp = sender as CampaignDetails;
+                var campName = camp.DeepCloneObject();
+                campName.CampaignName = camp?.CampaignName.
+                                              Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
                     .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
             }
@@ -407,11 +396,12 @@ namespace DominatorUIUtility.ViewModel
                         return;
                     var selectedAccount = campaign.SelectedAccountList;
 
-                    CampaignsFileManager.Delete(campaign);
-
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                    campaignFileManager.Delete(campaign);
+                    _dataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
 
-                    var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+                    var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
                     UpdateAccount(allAccounts, campaign, selectedAccount);
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork,
                         campaign.CampaignName);
@@ -420,7 +410,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     ex.DebugLog();
                 }
-                if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
+                if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
                     IsAllCampaignChecked = false;
             }
             else
@@ -447,25 +437,25 @@ namespace DominatorUIUtility.ViewModel
                         Dialog.SetMetroDialogButton("Delete Anyway", "Cancel"));
                     if (dialogResult != MessageDialogResult.Affirmative)
                         return;
-                    var allAccounts = AccountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+                    var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         campaign.ForEach(camp =>
                         {
                             var selectedAccount = camp.SelectedAccountList;
-                            CampaignsFileManager.Delete(camp);
+                            campaignFileManager.Delete(camp);
 
                             UpdateAccount(allAccounts, camp, selectedAccount);
                             LstCampaignDetails.Remove(
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
-                            //  GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, camp.CampaignName, camp.SubModule, "  Campaign deleted permanently from campaigns.","");
                         });
-                        if (LstCampaignDetails.Count == 0 && IsAllCampaignChecked)
+                        _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
+                        if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
                             IsAllCampaignChecked = false;
 
                     });
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
-
 
                 }
                 catch (Exception ex)
@@ -512,7 +502,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 // To check whether all destinations are selected, then make the tick mark on column header
-                if (LstCampaignDetails.All(x => x.IsCampaignChecked))
+                if (LstCampaignDetails.Where(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork).All(y => y.IsCampaignChecked))
                     IsAllCampaignChecked = true;
                 else
                 {
@@ -534,6 +524,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
+
                 if (CampaignModel.SelectedActivity == "All" || string.IsNullOrEmpty(CampaignModel.SelectedActivity))
                     CampaignCollection.Filter = (x) =>
                         ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
@@ -556,16 +547,19 @@ namespace DominatorUIUtility.ViewModel
             {
                 ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
-                var lstAccountDetails = AccountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
-                if (selectedCampaign == null)
-                    return;
-
+                var addedAccountDetails = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().BySocialNetwork(selectedCampaign.SocialNetworks);
+                var lstAccountDetails = _accountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 
                 lstAccountDetails.ForEach(account =>
                 {
                     try
                     {
+                        if (!addedAccountDetails.Any(x => x.AccountId == account.AccountId))
+                        {
+                            return;
+                        }
+
                         updatingAccountsBinFiles = updatingAccountsBinFiles.Enqueue(() =>
                          {
                              UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);
@@ -616,7 +610,8 @@ namespace DominatorUIUtility.ViewModel
                         GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
                     }
 
-                    CampaignsFileManager.UpdateCampaigns(LstCampaignDetails.ToList());
+                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                    campaignFileManager.UpdateCampaigns(LstCampaignDetails.ToList());
                 }
 
                 catch (Exception ex)
@@ -635,22 +630,24 @@ namespace DominatorUIUtility.ViewModel
 
             try
             {
-                var moduleConfiguration = account.ActivityManager.LstModuleConfiguration
-                       .FirstOrDefault(y => y.ActivityType == module);
+
+                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                var moduleConfiguration = jobActivityConfigurationManager[account.AccountId, module];
 
                 if (moduleConfiguration?.TemplateId == selectedCampaign.TemplateId)
                     moduleConfiguration.IsEnabled = isToggleSwitchSelected;
 
-                var socinatorAccountBuilder = new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                    .AddOrUpdateModuleSettings(module, moduleConfiguration)
-                    .SaveToBinFile();
+                jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                accountsCacheService.UpsertAccounts(account);
                 if (isToggleSwitchSelected)
                 {
-                    DominatorScheduler.ScheduleNextActivity(account, module);
+                    dominatorScheduler.ScheduleNextActivity(account, module);
                 }
                 else
                 {
-                    DominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, true);
+                    dominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, false);
                 }
             }
             catch (Exception ex)
@@ -663,26 +660,28 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var module = (ActivityType)Enum.Parse(typeof(ActivityType), camp.SubModule);
+                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                 // remove template from each account
                 allAccounts.ForEach(x =>
                 {
-                    var moduleConfig =
-                        x.ActivityManager.LstModuleConfiguration.FirstOrDefault(mc => mc.TemplateId == camp.TemplateId);
-
+                    var moduleConfig = jobActivityConfigurationManager[x.AccountId].FirstOrDefault(mc => mc.TemplateId == camp.TemplateId);
                     if (moduleConfig != null)
                     {
                         // Stop active task related to campaign
-                        JobProcess.Stop(x.AccountId, camp.TemplateId);
+                        dominatorScheduler.StopActivity(x, camp.SubModule, camp.TemplateId, false);
 
                         // Remove task from list
-                        x.ActivityManager.LstModuleConfiguration.RemoveAll(y => y.TemplateId == camp.TemplateId);
-                        var socinatorAccountBuilder = new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                            .RemoveModuleSettings(module)
-                            .SaveToBinFile();
+                        foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId).ToList())
+                        {
+                            jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
+                        }
                     }
 
                 });
+
+                accountsCacheService.UpsertAccounts(allAccounts.ToArray());
 
             }
             catch (Exception ex)
@@ -705,7 +704,7 @@ namespace DominatorUIUtility.ViewModel
 
         public object Data
         {
-            get { return (object)GetValue(DataProperty); }
+            get { return GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 

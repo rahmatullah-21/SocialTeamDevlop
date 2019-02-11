@@ -1,9 +1,6 @@
-﻿using DominatorHouseCore;
-using DominatorHouseCore.Models;
-using DominatorUIUtility.ViewModel;
-using System;
+﻿using DominatorUIUtility.ViewModel;
 using System.Windows.Controls;
-using Unity;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -12,34 +9,12 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class ProxyManager : UserControl
     {
-        public ProxyManagerViewModel ProxyManagerViewModel
-        {
-            get
-            {
-                return (ProxyManagerViewModel)DominatorHouseCore.IoC.Container.Resolve<IProxyManagerViewModel>();
-            }
-        }
-
-        public ProxyManager()
+        public ProxyManager(IProxyManagerViewModel proxyManagerViewModel)
         {
 
             InitializeComponent();
-            MainGrid.DataContext = ProxyManagerViewModel;
+            MainGrid.DataContext = proxyManagerViewModel;
         }
-
-        private static ProxyManager _proxyManagerInstance = null;
-        public static ProxyManager GetProxyManagerControl(AccessorStrategies strategies)
-        {
-            try
-            {
-                return _proxyManagerInstance ?? (_proxyManagerInstance = new ProxyManager());
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-                return _proxyManagerInstance;
-            }
-        }
-
+       
     }
 }

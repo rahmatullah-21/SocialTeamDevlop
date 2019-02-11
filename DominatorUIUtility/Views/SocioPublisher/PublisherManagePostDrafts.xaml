@@ -2,11 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:mediaviewer="clr-namespace:DominatorUIUtility.Views.SocioPublisher"
              xmlns:customcontrol="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:socioPublisher="clr-namespace:DominatorHouseCore.Enums.SocioPublisher;assembly=DominatorHouseCore"
@@ -233,7 +230,20 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
+                   
+                    <GridViewColumn Width="180">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{DynamicResource LangKeySourceUrl}"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <TextBlock  VerticalAlignment="Center" Margin="6,2,6,2" Text="{Binding PdSourceUrl}"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
                     <GridViewColumn Width="180">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyCreatedDate}"/>

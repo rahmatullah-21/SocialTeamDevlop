@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Twitter,Instagram,Gplus,Pinterest,Reddit,LinkedIn,Tumblr,Youtube")]
+        [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube")]
         Comment = 5,
 
         [Description("Twitter,Instagram,Reddit")]
@@ -35,10 +35,10 @@ namespace DominatorHouseCore.Enums
         //[Description("Facebook,Twitter,Instagram")]
         //Message = 10,
 
-        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest")]
+        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit")]
         UserScraper = 11,
 
-        [Description("Twitter,Instagram")]
+        [Description("Twitter")]
         DownloadScraper = 12,
 
         [Description("Twitter,Instagram")]
@@ -89,10 +89,10 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         FanpageScraper = 28,
 
-        [Description("Facebook")]
+        [Description("Facebook,Gplus,Instagram,Reddit")]
         CommentScraper = 29,
 
-        [Description("Facebook,Gplus,Youtube")]
+        [Description("Facebook,Gplus,Youtube,Instagram")]
         PostScraper = 30,
 
         [Description("Facebook,LinkedIn")]
@@ -152,10 +152,10 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         ConnectionRequest = 50,
 
-        [Description("Youtube")]
+        [Description("Youtube,Reddit")]
         Subscribe = 51,
 
-        [Description("Facebook")]
+        [Description("Facebook,LinkedIn")]
         Share = 52,
 
         //[Description("Youtube")]
@@ -202,7 +202,7 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         SalesNavigatorUserScraper = 67,
 
-        [Description("Youtube")]
+        [Description("Youtube,Reddit")]
         ChannelScraper = 68,
 
         [Description("Youtube")]
@@ -265,8 +265,8 @@ namespace DominatorHouseCore.Enums
         [Description("Reddit")]
         Upvote = 88,
 
-        [Description("Reddit")]
-        SubredditScraper = 89,
+        //[Description("Reddit")]
+        //SubredditScraper = 89,
 
         [Description("Pinterest")]
         DeletePin = 90,
@@ -303,6 +303,23 @@ namespace DominatorHouseCore.Enums
         SalesNavigatorCompanyScraper = 103,
         [Description("Twitter")]
         TweetTo = 104,
-
+        [Description("Facebook")]
+        SendMessageToNewFriends = 105,
+        [Description("Facebook")]
+        WatchPartyInviter = 106,
+        [Description("Facebook")]
+        MarketPlaceScraper = 107,
+        [Description("Facebook")]
+        SendGreetingsToFriends = 108,
+        [Description("Facebook")]
+        WebPostLikeComment = 109,
+        [Description("Pinterest")]
+        EditPin = 110,
+        [Description("Pinterest")]
+        AcceptBoardInvitation = 111,
+        [Description("Pinterest")]
+        SendBoardInvitation = 112,
+        [Description("LinkedIn")]
+        BlockUser = 113,
     }
 }

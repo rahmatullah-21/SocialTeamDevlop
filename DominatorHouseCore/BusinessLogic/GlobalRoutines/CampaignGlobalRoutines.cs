@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
@@ -17,6 +17,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
     /// </summary>
     public class CampaignGlobalRoutines
     {
+        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
         static CampaignGlobalRoutines _instance = new CampaignGlobalRoutines();
         public static CampaignGlobalRoutines Instance => _instance;
 
@@ -27,9 +28,97 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
             return false;
         };
 
+        private IAccountsFileManager _accountsFileManager;
 
-        private CampaignGlobalRoutines() { }
 
+        private CampaignGlobalRoutines()
+        {
+            _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+        }
+
+
+        ///// <summary>
+        ///// Creates and saves new template: ActiviySettings as json, activity type 
+        ///// </summary>
+        ///// <param name="activitySettingsJson"></param>
+        ///// <param name="activityType"></param>
+        ///// <param name="socialNetworks"></param>
+        ///// <param name="templateName"></param>
+        ///// <returns></returns>
+        //private TemplateModel CreateTempale(string activitySettingsJson, string activityType, SocialNetworks socialNetworks, string templateName)
+        //{
+        //    // Initialize and assign the values to TemplateModel for store in bin files
+        //    TemplateModel newTemplate = new TemplateModel
+        //    {
+        //        ActivityType = activityType,
+        //        ActivitySettings = activitySettingsJson,
+        //        CreationDate = DateTime.Now.GetCurrentEpochTime(),
+        //        Name = templateName,
+        //        SocialNetwork = socialNetworks,
+        //    };
+
+
+        //    // Serialize the template configuration to bin files
+        //    ServiceLocator.Current.GetInstance<ITemplatesFileManager>().Add(newTemplate);
+
+        //    return newTemplate;
+        //}
+
+
+
+        ///// <summary>
+        ///// Checks wheter running activities exists for selected users. Asks to overwrite them.
+        ///// </summary>
+        ///// <param name="activityType"></param>
+        ///// <param name="selectedAccounts"></param>
+        ///// <returns>false - user choose to stop execution</returns>
+        //private bool CheckExistingActivities(ActivityType activityType, List<string> selectedAccounts)
+        //{
+        //    Debug.Assert(selectedAccounts.Count > 0);
+
+        //    var allAccounts = AccountsFileManager.GetAll();
+
+        //    List<DominatorAccountModel> accountsWithRunningActivity =
+        //    allAccounts.Where(
+        //        x => _jobActivityConfigurationManager[x.AccountId, activityType]?.TemplateId != null).ToList();
+
+        //    if (accountsWithRunningActivity.Count == 0)
+        //        return true;
+
+        //    var selectedAccountsWithRunningActivity = accountsWithRunningActivity.Where(a => selectedAccounts.Contains(a.UserName)).ToList();
+        //    if (selectedAccountsWithRunningActivity.Count == 0)
+        //        return true;
+
+        //    // Asks for select and overwriting through UI
+        //    string accs = string.Join(", ", selectedAccountsWithRunningActivity.Select(a => a.UserName));
+        //    string msg = $"{selectedAccountsWithRunningActivity.Count} account(s) already set up to run {activityType} activity." +
+        //                  $"Would you like to overwrite settings of those accounts?\r\n{accs}";
+
+        //    if (ConfirmDialog(msg))
+        //        return true;
+
+        //    return false;
+        //}
+
+
+        ///// <summary>
+        ///// Runs when user clicks Create Campaign
+        ///// </summary>
+        ///// <param name="newCampaign"></param>
+        //public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)
+        //{
+        //    string activitySettingsJson = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettings);
+        //    SocialNetworks socialNetwork = SocinatorInitialize.ActiveSocialNetwork;
+        //    TemplateModel template = CreateTempale(activitySettingsJson, activityType.ToString(), socialNetwork, templateName: campaignName);
+
+        //    // Check existing activities and overwrite them if selected account already has running activity with the same type
+        //    if (!CheckExistingActivities(activityType, selectedAccounts))
+        //        // ReSharper disable once RedundantJumpStatement
+        //        return;
+
+        //    // Save 
+        //}
 
         /// <summary>
         /// Creates and saves new template: ActiviySettings as json, activity type 
@@ -53,9 +142,9 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 
 
             // Serialize the template configuration to bin files
-            TemplatesFileManager.Add(newTemplate);
+            ServiceLocator.Current.GetInstance<ITemplatesFileManager>().Add(newTemplate);
 
-            return newTemplate;            
+            return newTemplate;
         }
 
 
@@ -70,12 +159,11 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         {
             Debug.Assert(selectedAccounts.Count > 0);
 
-            var allAccounts = AccountsFileManager.GetAll();
+            var allAccounts = _accountsFileManager.GetAll();
 
             List<DominatorAccountModel> accountsWithRunningActivity =
-                        allAccounts.Where(
-                            x => x.ActivityManager.LstModuleConfiguration.FirstOrDefault(y => y.ActivityType == activityType)
-                                                     ?.TemplateId != null)?.ToList() ?? new List<DominatorAccountModel>();
+            allAccounts.Where(
+                x => _jobActivityConfigurationManager[x.AccountId, activityType]?.TemplateId != null).ToList();
 
             if (accountsWithRunningActivity.Count == 0)
                 return true;
@@ -100,7 +188,7 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
         /// Runs when user clicks Create Campaign
         /// </summary>
         /// <param name="newCampaign"></param>
-        public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)                
+        public void Create(object activitySettings, ActivityType activityType, string campaignName, List<string> selectedAccounts)
         {
             string activitySettingsJson = Newtonsoft.Json.JsonConvert.SerializeObject(activitySettings);
             SocialNetworks socialNetwork = SocinatorInitialize.ActiveSocialNetwork;
@@ -108,9 +196,11 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 
             // Check existing activities and overwrite them if selected account already has running activity with the same type
             if (!CheckExistingActivities(activityType, selectedAccounts))
+                // ReSharper disable once RedundantJumpStatement
                 return;
 
             // Save 
         }
+
     }
 }
