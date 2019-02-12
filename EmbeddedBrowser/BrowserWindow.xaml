@@ -63,7 +63,7 @@
                     <Label  FontWeight="SemiBold" Content="Url" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="13" Foreground="White" Background="{DynamicResource AccentColorBrush}" Height="34" Width="40"></Label>
 
                     <TextBox  FontSize="13" FontWeight="SemiBold"  Width="900" Height="34" Style="{StaticResource SearchMetroTextBox}"
-                              control:TextBoxHelper.ButtonCommand="{Binding SerachCommand}"
+                              control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}"
                               BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" x:Name="UrlBar" VerticalContentAlignment="Center"  Text=""/>
 
                     <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
