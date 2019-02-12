@@ -345,7 +345,7 @@ namespace DominatorUIUtility.ViewModel
                         var groupname = splitAccount[0];
 
                         var socialNetwork = splitAccount[1];
-                        if (socialNetwork == "AccountNetwork") continue;
+                        if (socialNetwork == "AccountNetwork" || socialNetwork == SocialNetworks.Social.ToString()) continue;
                         var username = splitAccount[2];
                         var password = splitAccount[3];
 

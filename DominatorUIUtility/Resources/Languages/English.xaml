@@ -3394,4 +3394,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEnterPhone">Enter Phone</system:String>
     <system:String x:Key="LangKeyAddPhoneNumber" xml:space="preserve">Add existing phone number Or add a new phone number if the account doesn't have. (Including country code)
         example: +1•••9•9•••9</system:String>
+    <system:String x:Key="LangKeyMakeNoteAsSpinText">Make note as spin text</system:String>
 </ResourceDictionary>
