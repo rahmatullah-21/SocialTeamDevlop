@@ -1,3 +1,13 @@
+Version[1.0.0.38],[11th-February-19]
+New Features:-
+	Twitter:-
+		Added save pagination feature in unfollower module
+Fixed:-
+	Linkedin:-
+		Accounts Activity => Block user => Fixed issue of showing active status even after pausing.
+		Campaign => Block user => Fixed issue with showing export connection section after editing it.
+		Grow connection => connection request => profile url => Fixed issue with showing "email required to connect".
+
 Version[1.0.0.37],[6th-February-19]
 New Features:-
 	Instagram:-
