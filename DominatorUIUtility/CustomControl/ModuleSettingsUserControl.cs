@@ -44,6 +44,7 @@ namespace DominatorUIUtility.CustomControl
         private readonly IAccountsCacheService _accountsCacheService;
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDominatorScheduler _dominatorScheduler;
+        private readonly IDataBaseHandler _dataBaseHandler;
 
 
         #region Constructor
@@ -54,6 +55,7 @@ namespace DominatorUIUtility.CustomControl
             _accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
             CreateCampaignCommand = new BaseCommand<object>((sender) => true, CreateOrUpdateCampaign);
             SelectAccountCommand = new BaseCommand<object>((sender) => true, (sender) => SelectAccount());
             CancelEditCommand = new BaseCommand<object>((sender) => true, (sender) =>
@@ -92,16 +94,15 @@ namespace DominatorUIUtility.CustomControl
 
         #region Properties
 
-        HeaderControl _headerControl;
+        private HeaderControl _headerControl;
         public FooterControl _footerControl;
         public SearchQueryControl _queryControl;
-        Grid _mainGrid;
+        private Grid _mainGrid;
         public AccountGrowthModeHeader _accountGrowthModeHeader;
-        ActivityType _activityType;
-        string _moduleName;
+        private ActivityType _activityType;
+        private string _moduleName;
         protected SocialNetworks SocialNetwork = SocinatorInitialize.ActiveSocialNetwork;
-
-        bool _initialized;
+        private bool _initialized;
         private bool _isCancelledUpdate = false;
 
         #endregion
@@ -506,7 +507,7 @@ namespace DominatorUIUtility.CustomControl
             var dbOperations =
                 new DbOperations(campaignDetails.CampaignId, SocialNetwork, ConstantVariable.GetCampaignDb);
 
-            DataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
+            _dataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             campaignFileManager.Add(campaignDetails);
@@ -883,7 +884,7 @@ namespace DominatorUIUtility.CustomControl
 
         }
 
-        string GetWarningLangRsrc()
+        private string GetWarningLangRsrc()
         {
             try
             {
@@ -897,7 +898,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        bool UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
+        private bool UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
         {
             bool isProcessSuccessful = false;
             bool needToCancel = false;
@@ -1393,49 +1394,6 @@ namespace DominatorUIUtility.CustomControl
 
         #region Save last selected accounts in account configuration mode
 
-        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter", true)]
-        public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
-        {
-            var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
-
-            _accountGrowthModeHeader.AccountItemSource = accounts;
-
-            switch (networks)
-            {
-                case SocialNetworks.Facebook:
-                    SelectedDominatorAccounts.FdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Instagram:
-                    SelectedDominatorAccounts.GdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Twitter:
-                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Pinterest:
-                    SelectedDominatorAccounts.PdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.LinkedIn:
-                    SelectedDominatorAccounts.LdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Reddit:
-                    SelectedDominatorAccounts.RdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Quora:
-                    SelectedDominatorAccounts.QdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Gplus:
-                    SelectedDominatorAccounts.GplusAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Youtube:
-                    SelectedDominatorAccounts.YdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Tumblr:
-                    SelectedDominatorAccounts.TumblrAccounts = selectedAccounts;
-                    break;
-            }
-            _accountGrowthModeHeader.SelectedItem = selectedAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");
-        }
-
         public void SetSelectedAccounts(SocialNetworks networks)
         {
             var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
@@ -1740,7 +1698,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var networks = SocinatorInitialize.AccountModeActiveSocialNetwork;
-                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks && x.AccountBaseModel.Status == AccountStatus.Success).Select(x => x.UserName));
 
                 _accountGrowthModeHeader.AccountItemSource = accounts;
 

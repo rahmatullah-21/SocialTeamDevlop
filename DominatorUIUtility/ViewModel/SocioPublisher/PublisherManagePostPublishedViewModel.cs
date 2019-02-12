@@ -1,16 +1,15 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.SocioPublisher;
+using EmbeddedBrowser;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using DominatorHouseCore;
-using DominatorHouseCore.Command;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Models.SocioPublisher;
-using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.Views.SocioPublisher;
-using EmbeddedBrowser;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -217,12 +216,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private static void ExportPosts(PublisherPostlistModel currentData,string filename)
+        private static void ExportPosts(PublisherPostlistModel currentData, string filename)
         {
             try
             {
                 if (currentData?.LstPublishedPostDetailsModels.Count != 0)
-                {                  
+                {
                     currentData?.LstPublishedPostDetailsModels.ForEach(post =>
                     {
                         var newpostDescription = "\"" + post.Description.Replace("\"", "\"\"") + "\"";
@@ -242,10 +241,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     Dialog.ShowDialog("Warning", "Please select path to export.");
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 ex.DebugLog();
-            }            
+            }
         }
 
 
@@ -296,9 +295,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void ViewInBrowserExecute(object sender)
         {
             var currentPost = (PublishedPostDetailsModel)sender;
-            var dominatorAccountModel = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social).DominatorAccountViewModel
-                  .LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == currentPost.AccountId);
-            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link,false);
+            var dominatorAccountModel = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync()
+                .FirstOrDefault(x => x.AccountId == currentPost.AccountId);
+            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link, false);
             browserWindow.Show();
         }
 

@@ -1,8 +1,10 @@
 ﻿using Dominator.Tests.Utils;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
+using DominatorHouseCore.Process.ExecutionCounters;
 using DominatorHouseCore.Process.JobLimits;
 using DominatorHouseCore.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,8 +22,11 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
         private ISchedulerProxy _schedulerProxy;
         private IJobProcessFactory _jobProcessFactory;
         private IJobLimitsHolder _jobLimitsHolder;
-
+        private IAccountsCacheService _accountsCacheService;
         private IJobProcessScopeFactory _jobProcessScopeFactory;
+        private IJobCountersManager _jobCountersManager;
+        private IJobActivityConfigurationManager _jobActivityConfigurationManager;
+        private IRunningJobsHolder _runningJobsHolder;
 
 
         [TestInitialize]
@@ -31,9 +36,13 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             _runningActivityManager = Substitute.For<IRunningActivityManager>();
             _schedulerProxy = Substitute.For<ISchedulerProxy>();
             _jobLimitsHolder = Substitute.For<IJobLimitsHolder>();
+            _accountsCacheService = Substitute.For<IAccountsCacheService>();
+            _jobCountersManager = Substitute.For<IJobCountersManager>();
+            _jobActivityConfigurationManager = Substitute.For<IJobActivityConfigurationManager>();
+            _runningJobsHolder = Substitute.For<IRunningJobsHolder>();
 
             _jobProcessScopeFactory = Substitute.For<IJobProcessScopeFactory>();
-            _sut = new DominatorScheduler(_runningActivityManager, _schedulerProxy, _jobLimitsHolder, _jobProcessScopeFactory);
+            _sut = new DominatorScheduler(_runningActivityManager, _schedulerProxy, _jobLimitsHolder, _jobProcessScopeFactory, _accountsCacheService, _jobCountersManager, _jobActivityConfigurationManager, _runningJobsHolder);
 
             _jobProcessFactory = Substitute.For<IJobProcessFactory>();
             Container.RegisterInstance<IJobProcessFactory>(SocialNetworks.Twitter.ToString(), _jobProcessFactory);

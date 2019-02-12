@@ -155,6 +155,10 @@
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.9.0\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
@@ -553,6 +557,7 @@
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
     <Compile Include="Interfaces\IPage.cs" />
     <Compile Include="Interfaces\IPostComment.cs" />
+    <Compile Include="Interfaces\IPostScraperConstants.cs" />
     <Compile Include="Interfaces\IPublisherCollectionFactory.cs" />
     <Compile Include="Interfaces\IPublisherCoreFactory.cs" />
     <Compile Include="Interfaces\IPublisherPostScraper.cs" />
@@ -583,6 +588,8 @@
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\PrivateBlacklistUserModel.cs" />
+    <Compile Include="Models\PrivateWhitelistUserModel.cs" />
     <Compile Include="Models\ProcessScopeModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
@@ -629,6 +636,7 @@
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
+    <Compile Include="Utility\AccountScopeFactory.cs" />
     <Compile Include="Utility\CacheText.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\DateProvider.cs" />
@@ -666,6 +674,7 @@
     <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
+    <Compile Include="Utility\ThreadUtility.cs" />
     <Compile Include="Utility\ToasterNotification.cs" />
     <Compile Include="Utility\WebService.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />

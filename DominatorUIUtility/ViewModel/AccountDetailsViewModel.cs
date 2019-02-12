@@ -17,12 +17,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Unity;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class AccountDetailsViewModel : BindableBase
     {
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IAccountScopeFactory _accountScopeFactory;
+        private readonly IHttpHelper _httpHelper;
+        private readonly IProxyFileManager _proxyFileManager;
+
         #region Properties
         public DominatorAccountModel DominatorAccountModel { get; set; }
         public DominatorAccountModel OldDominatorAccountModel { get; set; }
@@ -122,7 +127,31 @@ namespace DominatorUIUtility.ViewModel
             get { return _isPhoneVerificationCodeSent; }
             set { SetProperty(ref _isPhoneVerificationCodeSent, value); }
         }
+        private Visibility _sendResetPasswordLinkVisibility = Visibility.Collapsed;
 
+
+        public Visibility SendResetPasswordLinkVisibility
+        {
+            get { return _sendResetPasswordLinkVisibility; }
+            set
+            {
+                SetProperty(ref _sendResetPasswordLinkVisibility, value);
+            }
+        }
+
+
+        private bool _isManualVerify;
+        public bool IsManualVerify
+        {
+            get
+            {
+                return _isManualVerify;
+            }
+            set
+            {
+                SetProperty(ref _isManualVerify, value);
+            }
+        }
         #endregion
 
         #region Constructors
@@ -130,6 +159,10 @@ namespace DominatorUIUtility.ViewModel
         public AccountDetailsViewModel(DominatorAccountModel dataContext)
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
+            _proxyFileManager = ServiceLocator.Current.GetInstance<IProxyFileManager>();
+            _httpHelper = _accountScopeFactory[dataContext.AccountId]
+                .Resolve<IHttpHelper>(dataContext.AccountBaseModel.AccountNetwork.ToString());
             DominatorAccountModel = dataContext;
 
             // Take backup of current DominatorAccountModel object
@@ -141,7 +174,8 @@ namespace DominatorUIUtility.ViewModel
             RemoveCookiesCommand = new BaseCommand<object>(RemoveCookiesCanExecute, RemoveCookiesExecute);
             VerifyAccountCommand = new BaseCommand<object>(VerifyAccountCanExecute, VerifyAccountExecute);
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
-
+            SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
+            SendResetPasswordLinkCommand = new BaseCommand<object>(sender => true, SendResetPasswordLinkExecute);
         }
         #endregion
 
@@ -153,7 +187,8 @@ namespace DominatorUIUtility.ViewModel
         public ICommand RemoveCookiesCommand { get; set; }
         public ICommand VerifyAccountCommand { get; set; }
         public ICommand SendVerificationCodeCommand { get; set; }
-
+        public ICommand SetNewPasswordCommand { get; set; }
+        public ICommand SendResetPasswordLinkCommand { get; set; }
         #endregion
 
         private bool SaveCanExecute(object arg) => true;
@@ -220,7 +255,7 @@ namespace DominatorUIUtility.ViewModel
             #endregion
         }
 
-        void EditAccount()
+        private void EditAccount()
         {
 
             if (OldDominatorAccountModel == null) return;
@@ -248,12 +283,8 @@ namespace DominatorUIUtility.ViewModel
                     || OldDominatorAccountModel.AccountBaseModel.Password != DominatorAccountModel.AccountBaseModel.Password
                     || OldDominatorAccountModel.UserAgentWeb != DominatorAccountModel.UserAgentWeb)
                 {
-                    //if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList,
-                    //    DominatorAccountModel.CookieHelperList))
-                    //{
-                        DominatorAccountModel.CookieHelperList?.Clear();
-                        DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
-                    //}
+                    DominatorAccountModel.CookieHelperList?.Clear();
+                    _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
                 }
             }
             catch (Exception ex)
@@ -262,7 +293,7 @@ namespace DominatorUIUtility.ViewModel
             }
 
             var proxyManagerViewModel = ServiceLocator.Current.GetInstance<IProxyManagerViewModel>();
-            var oldproxies = ProxyFileManager.GetAllProxy();
+            var oldproxies = _proxyFileManager.GetAllProxy();
 
             #region If proxy not empty or null
 
@@ -551,6 +582,76 @@ namespace DominatorUIUtility.ViewModel
             if (ObjectComparer.Compare(DominatorAccountModel.CookieHelperList, OldDominatorAccountModel.CookieHelperList))
             {
                 DominatorAccountModel.CookieHelperList = OldDominatorAccountModel.CookieHelperList;
+            }
+        }
+
+        private void SetNewPasswordExecute(object sender)
+        {
+            try
+            {
+                var networkCoreFactory = SocinatorInitialize
+                     .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                     .GetNetworkCoreFactory();
+
+                var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
+                Task.Factory.StartNew(() =>
+                {
+                    if (DominatorAccountModel.IsAutoVerifyByEmail)
+                    {
+                        if (accountVerificationFactory.AutoVerifyByEmail(DominatorAccountModel,
+                            DominatorAccountModel.Token).Result)
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Password changed successfully.");
+                        else
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
+                    }
+                    else
+                    {
+                        if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, VerificationType.Email,
+                            DominatorAccountModel.Token).Result)
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Password changed successfully.");
+                        else
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
+                    }
+                    OldDominatorAccountModel = DominatorAccountModel;
+
+                });
+            }
+            catch (Exception ex)
+            {
+                BtnSendVerificationCodeVisibility = Visibility.Visible;
+                ex.DebugLog();
+            }
+           
+        }
+        private void SendResetPasswordLinkExecute(object sender)
+        {
+            try
+            {
+                var networkCoreFactory = SocinatorInitialize
+                    .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory();
+
+                var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
+                Task.Factory.StartNew(() =>
+                {
+                    if (IsManualVerify)
+                    {
+                        if (accountVerificationFactory.SendVerificationCode(DominatorAccountModel,
+                            VerificationType.Email,
+                            DominatorAccountModel.Token).Result)
+                        {
+                            SendResetPasswordLinkVisibility = Visibility.Visible;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
     }

@@ -30,7 +30,9 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyTooManyAttemptsOnSignIn")]
         TooManyAttemptsOnSignIn,
         [Description("LangKeySetNewPassword")]
-        SetNewPassword
+        SetNewPassword,
+        [Description("LangKeyActionBlock")]
+        ActionBlocked
 
     }
 }

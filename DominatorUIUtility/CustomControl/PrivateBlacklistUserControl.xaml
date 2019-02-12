@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.PrivateBlacklistUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+              xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
+
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Background="{DynamicResource AccentBaseColorBrush}" Margin="0,0,0,5">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Label Content="{DynamicResource LangKeySelectAccount}" Foreground="White"/>
+                <ComboBox VerticalAlignment="Top" Width="200" Margin="5,0,15,0" ItemsSource="{Binding PrivateBlacklistUserModel.LstAccountModel}"
+                          DisplayMemberPath="UserName"  behaviours:SelectionChangedBehaviour.Command="{Binding RefreshCommand}"
+                          SelectedItem="{Binding PrivateBlacklistUserModel.SelectedAccount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox >
+                <GroupBox.Header>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Blacklist User" Foreground="White"  FontSize="30" FontWeight="SemiBold"/>
+                        <Rectangle Width="20" Height="20" Fill="White"  Margin="10,0" Grid.Column="1"
+                                   VerticalAlignment="Center" HorizontalAlignment="Right"
+                                   ToolTip="{DynamicResource LangKeyClearUsersList}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding ClearCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Grid>
+                </GroupBox.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <TextBox  Controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
+                              TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding BlacklistUser,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                              ToolTip="{DynamicResource LangKeyPleaseEnterUsernamesToAddToBlacklistOneUsernamePerLine}"  
+                              Name="Txtusername"  VerticalScrollBarVisibility="Auto" 
+                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                              BorderBrush="{DynamicResource AccentBaseColorBrush}" BorderThickness="2"/>
+                    <Button Grid.Row="1" Name="BtnAddtoBlacklist" x:FieldModifier="public" Content="{DynamicResource LangKeyAddToBlacklist}" 
+                            VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Stretch" Background="Red" Foreground="White"
+                           Command="{Binding AddToBlackListCommand}"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Margin="5,0,0,0">
+                <GroupBox.Header>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label  Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="White"
+                                VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >
+                            <CheckBox Name="SelectAll" Foreground="White" IsChecked="{Binding IsAllBlackListUserChecked}"
+                              Margin="10,0"    VerticalAlignment="Center" Content="{DynamicResource LangKeySelectAll}"/>
+                            <Rectangle Width="15" Height="18" Fill="White"  Margin="10,0" VerticalAlignment="Center"
+                               x:Name="Refresh" ToolTip="{DynamicResource LangKeyRefresh}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers,IsAsync=True}" 
+                         Background="White" VerticalAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox x:Name="ChkBlacklistuser"  IsChecked="{Binding IsBlackListUserChecked}"
+                                     Command="{Binding DataContext.SelectCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}">
+                                    <CheckBox.Content>
+                                        <TextBlock Text="{Binding BlacklistUser}"/>
+                                    </CheckBox.Content>
+                                </CheckBox>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Grid.Row="1" Name="DeleteSelected" Content="{DynamicResource LangKeyRemoveSelectedFromBlacklist}"
+                        Background="{DynamicResource AccentBaseColorBrush}" 
+                        Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
+                        Command="{Binding DeleteCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Setter Property="Foreground" Value="White" />
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=LstBlackListUsers.Count}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="Foreground" Value="DarkGray" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

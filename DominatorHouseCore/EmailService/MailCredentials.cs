@@ -184,7 +184,8 @@ namespace DominatorHouseCore.EmailService
                     mailData.From = senderEmail;
                     mailData.Date = a.Headers.Date;
                     mailData.Subject = a.Headers.Subject;
-                    mailData.Message = a.MessagePart.GetBodyAsText();
+                    mailData.Message = a.MessagePart.Body == null ? a.MessagePart.MessageParts[0].GetBodyAsText() : a.MessagePart.GetBodyAsText();
+
                     return mailData;
                 }
             }

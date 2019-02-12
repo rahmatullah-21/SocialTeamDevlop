@@ -19,6 +19,10 @@ using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel
 {
+    public interface IPrivateWhiteListViewModel
+    {
+
+    }
     public class WhiteListViewModel : BindableBase
     {
         public WhiteListViewModel()
@@ -30,7 +34,6 @@ namespace DominatorUIUtility.ViewModel
             DeleteCommand = new BaseCommand<object>((sender) => true, Delete);
             BindingOperations.EnableCollectionSynchronization(LstWhiteListUsers, _lock);
         }
-
 
         private static object _lock = new object();
         public ICommand AddToWhiteListCommand { get; set; }
@@ -63,6 +66,15 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _whitelistUserModel, value);
             }
         }
+
+        private PrivateWhitelistUserModel _privateWhitelistUserModel = new PrivateWhitelistUserModel();
+
+        public PrivateWhitelistUserModel PrivateWhitelistUserModel
+        {
+            get { return _privateWhitelistUserModel; }
+            set { SetProperty(ref _privateWhitelistUserModel, value); }
+        }
+
         private bool _isAllWhiteistUserChecked;
 
         public bool IsAllWhiteListUserChecked
@@ -75,9 +87,10 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (value == _isAllWhiteistUserChecked)
                     return;
-                _isAllWhiteistUserChecked = value;
-                SelectAll(_isAllWhiteistUserChecked);
                 SetProperty(ref _isAllWhiteistUserChecked, value);
+                SelectAll(_isAllWhiteistUserChecked);
+                if (IsUnCheckedFromUser)
+                    IsUnCheckedFromUser = false;
             }
         }
         private string _whitelistUser = string.Empty;
@@ -112,7 +125,7 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _lstWhiteListUsers, value);
             }
         }
-
+       
         public void InitializeData()
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
@@ -136,7 +149,7 @@ namespace DominatorUIUtility.ViewModel
             });
         }
 
-        private void AddToWhiteList(object sender)
+        public virtual void AddToWhiteList(object sender)
         {
             if (string.IsNullOrEmpty(WhitelistUser.Trim()))
             {
@@ -193,7 +206,7 @@ namespace DominatorUIUtility.ViewModel
         {
             WhitelistUser = string.Empty;
         }
-        private void Refresh(object sender)
+        public virtual void Refresh(object sender)
         {
             LstWhiteListUsers.Clear();
             ThreadFactory.Instance.Start(() =>
@@ -230,8 +243,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
-        private void Delete(object sender)
+        public virtual void Delete(object sender)
         {
             var selectedUser = LstWhiteListUsers.Where(x => x.IsWhiteListUserChecked).ToList();
             if (selectedUser.Count == 0)
@@ -254,4 +266,7 @@ namespace DominatorUIUtility.ViewModel
         }
 
     }
+
+
+
 }

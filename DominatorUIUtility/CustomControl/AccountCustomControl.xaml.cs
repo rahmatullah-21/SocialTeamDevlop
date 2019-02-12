@@ -52,7 +52,10 @@ namespace DominatorUIUtility.CustomControl
             if (_accountCustomInstance == null)
                 _accountCustomInstance = new AccountCustomControl();
 
-            _accountCustomInstance.GetRespectiveAccounts(socialNetworks);
+            ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync().ForEach(x =>
+            {
+                x.IsAccountManagerAccountSelected = false;
+            });
             return _accountCustomInstance;
         }
 
@@ -65,15 +68,6 @@ namespace DominatorUIUtility.CustomControl
         {
             return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
         }
-
-        public void GetRespectiveAccounts(SocialNetworks socialNetworks)
-        {
-            DominatorAccountViewModel.LstDominatorAccountModel.ForEach(x =>
-            {
-                x.IsAccountManagerAccountSelected = false;
-            });
-        }
-
         private void CopyAccountId(object sender, RoutedEventArgs e)
         {
             var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
@@ -111,7 +105,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
 
-            if (dominatorAccountModel == null)
+            if (dominatorAccountModel == null || dominatorAccountModel.AccountBaseModel.Status != AccountStatus.Success)
                 return;
 
             TabSwitcher.ChangeTabWithNetwork(3, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);

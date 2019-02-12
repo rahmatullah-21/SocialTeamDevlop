@@ -4,6 +4,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
+using DominatorHouseCore.Process.ExecutionCounters;
 using DominatorHouseCore.Process.JobLimits;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
@@ -27,6 +28,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         void ScheduleEachActivity(DominatorAccountModel account);
         void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType);
         void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType);
+        void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType);
     }
 
     public class DominatorScheduler : IDominatorScheduler
@@ -35,16 +37,22 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         private readonly IRunningActivityManager _runningActivityManager;
         private readonly ISchedulerProxy _schedulerProxy;
         private readonly IJobLimitsHolder _jobLimitsHolder;
-
+        private readonly IAccountsCacheService _accountsCacheService;
+        private readonly IJobCountersManager _jobCountersManager;
+        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
+        private readonly IRunningJobsHolder _runningJobsHolder;
         private readonly IJobProcessScopeFactory _jobProcessScopeFactory;
 
-        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder, IJobProcessScopeFactory jobProcessScopeFactory)
+        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder, IJobProcessScopeFactory jobProcessScopeFactory, IAccountsCacheService accountsCacheService, IJobCountersManager jobCountersManager, IJobActivityConfigurationManager jobActivityConfigurationManager, IRunningJobsHolder runningJobsHolder)
         {
             _runningActivityManager = runningActivityManager;
             _schedulerProxy = schedulerProxy;
             _jobLimitsHolder = jobLimitsHolder;
             _jobProcessScopeFactory = jobProcessScopeFactory;
-
+            _accountsCacheService = accountsCacheService;
+            _jobCountersManager = jobCountersManager;
+            _jobActivityConfigurationManager = jobActivityConfigurationManager;
+            _runningJobsHolder = runningJobsHolder;
         }
 
         /// <summary>
@@ -83,7 +91,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
 
 
-                        jobProcess.RescheduleifLimitReached(limitInfo, limitInfo.ReachedLimitType);
+                        RescheduleifLimitReached(jobProcess, limitInfo, limitInfo.ReachedLimitType);
                         return;
                     }
 
@@ -100,16 +108,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             lock (RunStopActivityLocker)
             {
-                JobProcess.Stop(account.AccountId, templateId);
+                Stop(account.AccountId, templateId);
                 try
                 {
-                    var jobActivityConfigurationManager =
-                              ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
 
                     var moduleConfiguration =
-                        jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
+                        _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
                     moduleConfiguration.IsEnabled = needRestart;
-                    jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                    _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                    _accountsCacheService.UpsertAccounts(account);
                 }
                 catch { }
                 var id = JobProcess.AsId(account.AccountId, templateId);
@@ -120,8 +127,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     if (!needRestart)
                     {
-                        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
-                        runningActivityManager.StartNextRound(account);
+                        _runningActivityManager.StartNextRound(account);
                         return;
                     }
                     if (scheduledJob == null)
@@ -190,19 +196,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-                var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-                var accountModel = accountsFileManager.GetAccountById(accountId);
-
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                 var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, activityType];
+                var accountModel = _accountsCacheService[accountId];
+                var moduleConfiguration = _jobActivityConfigurationManager[accountModel.AccountId, activityType];
 
                 var accountstemplateId = moduleConfiguration?.TemplateId;
-                //if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
-                //{
-                //    return false;
-                //}
                 if (isStart)
                 {
                     try
@@ -231,8 +229,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         activityType.ToString(), accountstemplateId, false);
                 }
 
-                jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, activityType, moduleConfiguration);
-                accountsCacheService.UpsertAccounts(accountModel);
+                _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, activityType, moduleConfiguration);
+                _accountsCacheService.UpsertAccounts(accountModel);
 
                 return true;
             }
@@ -274,33 +272,27 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public void ScheduleEachActivity(DominatorAccountModel account)
         {
-            Task.Factory.StartNew(() =>
+            try
             {
-                try
+                foreach (var moduleConfiguration in _jobActivityConfigurationManager[account.AccountId])
                 {
-                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                    foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
-                    {
-                        ScheduleNextActivity(account, moduleConfiguration.ActivityType);
-                    }
+                    ScheduleNextActivity(account, moduleConfiguration.ActivityType);
                 }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType)
         {
-            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
-            var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
+            var moduleConfiguration = _jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
             if (moduleConfiguration == null || !moduleConfiguration.IsEnabled)
                 return;
 
             // Check if activity with the same id already running
-            if (runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
+            if (_runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
             {
                 //GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.UserName, activityType,$"User {dominatorAccount.UserName} is already running with {activityType} activity");
                 return;
@@ -369,16 +361,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             else
             {
-                var jobActivityConfigurationManager =
-                    ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var moduleConfiguration = jobActivityConfigurationManager[dominatorAccountModel.AccountId]
+                var moduleConfiguration = _jobActivityConfigurationManager[dominatorAccountModel.AccountId]
                     .Where(x => x.IsEnabled);
-                var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
 
                 foreach (var config in moduleConfiguration)
                 {
                     var id = JobProcess.AsId(dominatorAccountModel.AccountId, config.TemplateId);
-                    if (runningJobsHolder.IsRunning(id))
+                    if (_runningJobsHolder.IsRunning(id))
                         return;
 
                 }
@@ -386,6 +375,25 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 _runningActivityManager.StartNextRound(dominatorAccountModel);
             }
 
+        }
+
+        public bool Stop(string accountName, string templateId)
+        {
+            try
+            {
+                var id = new JobKey(accountName, templateId);
+                if (!_runningJobsHolder.Stop(id))
+                {
+                    GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(ex.StackTrace);
+                return false;
+            }
         }
 
         private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, DateTime timeToRunNext, DateTime stopTime)
@@ -396,6 +404,32 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             _schedulerProxy.AddJob(() => { StopActivity(dominatorAccount, timing.Module, templateId, true); },
                 s => s.ToRunOnceAt(stopTime));
+        }
+
+        public void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType)
+        {
+            GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
+                jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                jobProcess.DominatorAccountModel.AccountBaseModel.UserName, jobProcess.ActivityType, limitInfo.LimitValue);
+            Stop(jobProcess.DominatorAccountModel.AccountId, jobProcess.TemplateId);
+            var moduleConfiguration = _jobActivityConfigurationManager[jobProcess.DominatorAccountModel.AccountId, jobProcess.ActivityType];
+            var nextStartTime = limitType == ReachedLimitType.Job
+                ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
+                    jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom())
+                : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+            if (moduleConfiguration != null)
+            {
+                moduleConfiguration.NextRun = nextStartTime;
+                moduleConfiguration.IsEnabled = true;
+                _jobActivityConfigurationManager.AddOrUpdate(jobProcess.DominatorAccountModel.AccountBaseModel.AccountId, jobProcess.ActivityType,
+                    moduleConfiguration);
+                _accountsCacheService.UpsertAccounts(jobProcess.DominatorAccountModel);
+            }
+
+           // ScheduleNextActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType);
+            StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, moduleConfiguration.IsEnabled);
+            _jobCountersManager.Reset(jobProcess.Id);
+
         }
     }
 }

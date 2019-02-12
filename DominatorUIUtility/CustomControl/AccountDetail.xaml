@@ -195,6 +195,25 @@
                     </StackPanel.Style>
                 </StackPanel>
                 <StackPanel  Orientation="Horizontal" >
+                    <TextBlock Text="{DynamicResource LangKeyPhoneNumber}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBox Name="GooglePhoneNumber" Text="{Binding DominatorAccountModel.AccountBaseModel.PhoneNumber}" KeyDown="OnKeyDown"
+                             controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPhoneNumber}" Width="230" ToolTip="{DynamicResource LangKeyAddPhoneNumber}"
+                             FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" />
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel"  >
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}" >
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyStatus}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <Label Name="TxtStatus" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}" Width="230"
                        FontSize="13" FontWeight="Bold"  Margin="5,0,5,0" >
@@ -257,6 +276,10 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyRetypePhoneNumber}" />
                                         <Setter Property="Foreground" Value="#701f28" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypeEmail}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyRetypeEmail}" />
+                                        <Setter Property="Foreground" Value="#701f28" />
+                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TooManyAttemptsOnSignIn}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyTooManyAttemptsOnSignIn}" />
                                         <Setter Property="Foreground" Value="#9b111e" />
@@ -285,9 +308,6 @@
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}" >
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </RadioButton.Style>
@@ -305,14 +325,76 @@
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NeedsVerification}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypeEmail}" >
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </RadioButton.Style>
                     </RadioButton>
 
+                    <CheckBox Content="{DynamicResource LangKeyManualVerification}" Name="ChkMenual" IsChecked="{Binding IsManualVerify}"
+                              Width="180" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="5">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                    <StackPanel Orientation="Horizontal" Margin="5" Name="Manual" >
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel" >
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}"/>
+                                            <Condition Binding="{Binding ElementName=ChkMenual,Path=IsChecked}" Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <Button  Background="Transparent" Name="BtnSendResetPasswordLink"  Cursor="Hand" FontWeight="SemiBold"
+                                 Content="{DynamicResource LangKeySendResetPasswordLink}" Foreground="{DynamicResource AccentBaseColorBrush}"
+                                 Command="{Binding SendResetPasswordLinkCommand}"
+                                 CommandParameter="{Binding ElementName=BtnSendResetPasswordLink}"
+                                 Width="200" HorizontalAlignment="Left"/>
+
+                        <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterResetPasswordLink}"
+                                  Visibility="{Binding SendResetPasswordLinkVisibility}"
+                                  Width="230" Text="{Binding DominatorAccountModel.ResetPasswordLink}"  
+                                  FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
+                                  Height="30"/>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="20,5" Name="SetNewPassword" >
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel" >
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SendResetPasswordLinkVisibility}" Value="Visible">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.IsAutoVerifyByEmail}" Value="true">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterNewPassword}"
+                                  Width="230" Text="{Binding DominatorAccountModel.NewPassword}"  Name="TxtEnterNewPassword"
+                                  FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
+                                  Height="30"/>
+                        <Button Name="BtnSetNewPassword" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5"
+                                Content="{DynamicResource LangKeySetNewPassword}" Foreground="White"
+                                Command="{Binding SetNewPasswordCommand}" Width="200" HorizontalAlignment="Left"
+                                CommandParameter="{Binding ElementName=BtnSetNewPassword}">
+                        </Button>
+                    </StackPanel>
                     <Button Name="BtnSendVerificationCode" Background="{DynamicResource AccentBaseColorBrush}" Margin="25,5" Visibility="{Binding BtnSendVerificationCodeVisibility}"
                         Command="{Binding SendVerificationCodeCommand}" Width="200" HorizontalAlignment="Left" CommandParameter="{Binding ElementName=BtnSendVerificationCode}">
 
@@ -340,11 +422,46 @@
                             </Style>
                         </CheckBox.Style>
                     </CheckBox>
-                    <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection" Visibility="{Binding CodeSectionVisibility}">
-                        <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterVerificationCode}"
+                    <StackPanel  Orientation="Horizontal" Margin="20,5" Name="CodeSection">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ReTypeEmail}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"
+                                                 Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CodeSectionVisibility}" Value="Visible">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBox 
                               Width="230" Text="{Binding DominatorAccountModel.VarificationCode}"  Name="TxtVarificationCode"
                               FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" VerticalAlignment="Center"  
-                              Height="30" KeyDown="OnVerificationKeyDown"/>
+                              Height="30" KeyDown="OnVerificationKeyDown">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                    <Setter Property="controls:TextBoxHelper.Watermark" Value="{DynamicResource LangKeyEnterVerificationCode}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"
+                                                     Value="{x:Static enums:AccountStatus.ReTypeEmail}">
+                                            <Setter Property="controls:TextBoxHelper.Watermark" Value="{DynamicResource LangKeyEnterEmail}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}"
+                                                     Value="{x:Static enums:AccountStatus.ReTypePhoneNumber}">
+                                            <Setter Property="controls:TextBoxHelper.Watermark"
+                                                    Value="{DynamicResource LangKeyEnterPhone}" />
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
 
                         <Button x:Name="btnVerifyAccount"  Margin="5,0"  Foreground="White" 
                             Command="{Binding VerifyAccountCommand}">
@@ -386,7 +503,9 @@
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-
+                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}" >
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
