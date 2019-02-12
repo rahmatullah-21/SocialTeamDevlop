@@ -420,6 +420,22 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _resetPasswordLink, value);
             }
         }
+
+        private bool _isVerificationCodeSent;
+        public bool IsVerificationCodeSent
+        {
+            get
+            {
+                return _isVerificationCodeSent;
+            }
+            set
+            {
+                if (_isVerificationCodeSent == value)
+                    return;
+                SetProperty(ref _isVerificationCodeSent, value);
+            }
+        }
+
         public string two_factor_identifier { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
         public DominatorAccountModel Clone()
