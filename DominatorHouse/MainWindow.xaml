@@ -16,9 +16,8 @@
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
-        Name="SocinatorWindow"
+        Name="SocinatorWindow" MinWidth="500" MinHeight="500"
         WindowState="Maximized" >
-    
 
     <Window.Resources>
         <ResourceDictionary>
@@ -28,7 +27,6 @@
             <Style TargetType="{x:Type dragable:TabablzControl}" >
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
             </Style>
-            
         </ResourceDictionary>
     </Window.Resources>
 
@@ -36,7 +34,8 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
 
-            <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
+            <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                      ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
             <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
 
         </controls:WindowCommands>
@@ -45,15 +44,23 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"/>
             <RowDefinition Height="4"/>
-            <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="600"/>
+            <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-
 
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
-                    ItemContainerStyle="{StaticResource TabItemStyle}">
+                    ItemContainerStyle="{StaticResource TabItemStyle}" BorderThickness="0">
+            <TabControl.Style>
+                <Style TargetType="TabControl">
+                    <Style.Triggers>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="Template" Value="{StaticResource LeftTabstyle}"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.Style>
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                     <TextBlock Text="{Binding Title}"/>
