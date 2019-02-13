@@ -316,7 +316,7 @@ namespace DominatorHouseCore.Settings
                 {
                     await job.StartAdScarperAsync();
                 },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 10 });
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
             ScrapAdsProducer(adScraperblock);
         }
@@ -328,22 +328,31 @@ namespace DominatorHouseCore.Settings
 
         private async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer)
         {
-            var dominatorAccountViewModel =
-                ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
-
-            var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
-
-            ListHelper.Shuffle(accounts);
-
-            foreach (var account in accounts)
+            try
             {
-                await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+                var dominatorAccountViewModel =
+                        ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
+
+                var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
+
+                ListHelper.Shuffle(accounts);
+
+                foreach (var account in accounts)
+                {
+                    await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+                }
+
+                var jobId = Guid.NewGuid().ToString();
+
+                JobManager.AddJob(() => { ScheduleAdsScraping(); },
+                    s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
+
+                return true;
             }
-
-            var jobId = Guid.NewGuid().ToString();
-
-            JobManager.AddJob(() => { ScheduleAdsScraping(); },
-                s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
+            catch (Exception ex)
+            {
+                Console.WriteLine();
+            }
 
             return true;
         }
