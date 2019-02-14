@@ -44,7 +44,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.Pinterest,operation =>{operation.Count<PdTables.Campaigns.InteractedUsers>();} },
             {SocialNetworks.Quora,operation =>{ operation.Count<QdTables.Campaigns.InteractedUsers>(); } },
             {SocialNetworks.LinkedIn,operation=>{operation.Count<LdTables.Campaign.InteractedUsers>();} },
-            {SocialNetworks.Youtube,operation=>{operation.Count<YdTables.Campaign.InteractedUsers>(); }},
+            {SocialNetworks.Youtube,operation=>{operation.Count<YdTables.Campaign.InteractedChannels>(); }},
             {SocialNetworks.Reddit,(operation) => {operation.Count<RdTables.Campaigns.InteractedUsers>();} },
             {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Campaign.InteractedUser>(); }}
         };
