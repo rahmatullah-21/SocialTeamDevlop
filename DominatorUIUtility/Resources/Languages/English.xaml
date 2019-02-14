@@ -2386,7 +2386,7 @@
     <system:String x:Key="LangKeyTries">Tries</system:String>
     <system:String x:Key="LangKeyTriesCount">Tries Count</system:String>
     <system:String x:Key="LangKeyTriesPerOperation">Tries Per Operation</system:String>
-    <system:String x:Key="LangKeyTriggerANotificationWhenThereAre">Trigger A Notification When There Are</system:String>
+    <system:String x:Key="LangKeyTriggerANotificationWhenPendingPostsCountReachesTo">Trigger a notification when pending posts count reaches to</system:String>
     <system:String x:Key="LangKeyTry">Try</system:String>
     <system:String x:Key="LangKeyTryAMaximumOf">Try A Maximum Of</system:String>
     <system:String x:Key="LangKeyTryBetween">Try Between</system:String>

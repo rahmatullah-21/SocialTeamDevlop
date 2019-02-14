@@ -55,7 +55,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
 
-            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations,false);
+            JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations, false);
 
             JobConfigurationControl = JobConfiguration;
         }
@@ -73,8 +73,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             publisherCreateDestination.Margin = new Thickness(7);
             metroWindow.ShowDialog();
             var newCreatedDestination = ManageDestinationFileManager.GetAll().LastOrDefault();
-
-            _publisherCreateCampaignModel.LstDestinationId.Add(newCreatedDestination.DestinationId);
+            if (newCreatedDestination != null)
+                _publisherCreateCampaignModel.LstDestinationId.Add(newCreatedDestination.DestinationId);
         }
 
         #endregion
