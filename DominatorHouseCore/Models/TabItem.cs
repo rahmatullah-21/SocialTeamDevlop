@@ -8,5 +8,6 @@ namespace DominatorHouseCore.Models
         public string Title { get; set; }
 
         public Lazy<UserControl> Content { get; set; }
+        public string ElementId { get; set; }
     }
 }

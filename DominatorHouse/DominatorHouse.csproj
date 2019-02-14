@@ -216,6 +216,10 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="ThinkSharp.FeatureTour, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Thinksharp.FeatureTour.2.1.0\lib\net40\ThinkSharp.FeatureTour.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ToastNotifications, Version=2.3.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
       <HintPath>..\packages\ToastNotifications.2.3.1\lib\net40\ToastNotifications.dll</HintPath>
       <Private>True</Private>
@@ -582,9 +586,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="WindowsInstaller">
       <Guid>{000C1092-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -627,9 +628,7 @@
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

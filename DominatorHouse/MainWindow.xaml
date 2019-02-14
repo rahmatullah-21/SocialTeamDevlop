@@ -9,6 +9,7 @@
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
+        xmlns:featureTouring="clr-namespace:ThinkSharp.FeatureTouring;assembly=ThinkSharp.FeatureTour"
         mc:Ignorable="d"
         Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
         BorderThickness="1" Icon="SociNator.ico"
@@ -33,7 +34,7 @@
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-
+            <Button Content="Tour" Command="{Binding StartTourCommand}"/>
             <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                       ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
             <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
@@ -63,7 +64,8 @@
             </TabControl.Style>
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <TextBlock Text="{Binding Title}"/>
+                    <TextBlock Text="{Binding Title}" featureTouring:TourHelper.Placement="RightCenter"
+                               featureTouring:TourHelper.ElementID="{Binding ElementId}" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>

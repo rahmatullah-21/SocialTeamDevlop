@@ -30,6 +30,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Prism.Commands;
+using ThinkSharp.FeatureTouring.Models;
 
 namespace DominatorHouse.ViewModels
 {
@@ -61,6 +64,9 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
+
+        public ICommand StartTourCommand { get; set; }
+
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             FatalErrorDiagnosis();
@@ -106,8 +112,30 @@ namespace DominatorHouse.ViewModels
                 EditProfile = EditProfile,
                 RemovePhoneVerification = RemovePhoneVerification
             };
-
+            StartTourCommand = new DelegateCommand(StartTour);
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
+        }
+
+        private void StartTour()
+        {
+            var tour = new Tour
+            {
+                Name = "Introduction to Socinator",
+                ShowNextButtonDefault = true,
+                Steps = new[]
+                {
+                   new Step("SocialAccountsManager","Accounts Manager","Here you can add, remove, update, import, export accounts."),
+                   new Step("SocialAccountGrowth","Accounts Growth","Here you can see accounts growth."),
+                   new Step("Dashboard","Dashboard","Here you can see Socinator revision history."),
+                   new Step("AccountsActivity","Accounts Activity","Here you can see all account activities."),
+                   new Step("Sociopublisher","Publisher","Here you can create campaign for publishing post.\nYou can create destination.\nYou can see all details of published post."),
+                   new Step("ProxyManager", "Proxy Manager", "Here you can see,add,remove Proxy and also assing proxy to account."),
+                   new Step("OtherConfigurations", "Configurations", "Here you can update settings for Socinator."),
+                   new Step("OtherTools", "Tools", "Here you can update settings for any networks."),
+
+                }
+            };
+            tour.Start();
         }
 
         private void OnClosing(CancelEventArgs e)
