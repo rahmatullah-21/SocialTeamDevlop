@@ -41,16 +41,16 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             // arrange
             var predicate = new DateEpochFilterPredicate<DummyEntity>(a => a.InteractedDate);
             var sut = new EntityCounterFunction<DummyEntity>(predicate);
-            var utcNow = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Utc); // UTC +4
+            var localTime = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Local); // UTC +4
 
-            _dateProvider.UtcNow().Returns(utcNow);
+            _dateProvider.Now().Returns(localTime);
 
             var list = new List<DummyEntity>
             {
-                new DummyEntity {InteractedDate = utcNow.AddMinutes(-21).ConvertToEpoch()}, // should go into hour day and week
-                new DummyEntity {InteractedDate = utcNow.AddHours(-8).ConvertToEpoch()}, // should go into day and week
-                new DummyEntity {InteractedDate = utcNow.AddDays(-1).ConvertToEpoch()}, // should go into week
-                new DummyEntity {InteractedDate = utcNow.AddDays(-8).ConvertToEpoch()}
+                new DummyEntity {InteractedDate = localTime.AddMinutes(-21).ConvertToEpoch()}, // should go into hour day and week
+                new DummyEntity {InteractedDate = localTime.AddHours(-8).ConvertToEpoch()}, // should go into day and week
+                new DummyEntity {InteractedDate = localTime.AddDays(-1).ConvertToEpoch()}, // should go into week
+                new DummyEntity {InteractedDate = localTime.AddDays(-8).ConvertToEpoch()}
             };
 
             _dbOperations.Count(Arg.Any<Expression<Func<DummyEntity, bool>>>()).Returns((CallInfo info) =>

@@ -65,8 +65,6 @@ namespace DominatorHouse.ViewModels
             }
         }
 
-        public ICommand StartTourCommand { get; set; }
-
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             FatalErrorDiagnosis();
@@ -112,11 +110,56 @@ namespace DominatorHouse.ViewModels
                 EditProfile = EditProfile,
                 RemovePhoneVerification = RemovePhoneVerification
             };
-            StartTourCommand = new DelegateCommand(StartTour);
+
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
+
+            StartTourCommand = new DelegateCommand(StartTour);
+            TabIntroCommand = new DelegateCommand(StartTabTour);
+            StartModuleOverViewCommand = new DelegateCommand(StartModuleOverView);
+
         }
 
-        private void StartTour()
+        private void StartModuleOverView()
+        {
+            new Tour
+            {
+                Name = "AccountManagers",
+                ShowNextButtonDefault = true,
+                Steps = new[]
+                {
+                    new Step("AddSingleAccount", "Add Account", "Click to add account."),
+                    new Step("ImportAccount", "Import Account", "Click to import account from txt | csv | xls | xlsx."),
+                    new Step("SelectAccount", "Select Account", "Click to get option for select account."),
+                    new Step("UpdateAccount", "Update Account", "Click to get option for updation of account."),
+                    new Step("ExportAccount", "Export Account", "Click to export selected account."),
+                    new Step("DeleteAccount", "Delete Account", "Click to delete selected account."),
+                    new Step("InfoAccount", "Account Manager Information", "Click to get info of account manager."),
+                }
+            }.Start();
+        }
+
+        public ICommand StartTourCommand { get; set; }
+        public ICommand StartModuleOverViewCommand { get; set; }
+        public ICommand TabIntroCommand { get; set; }
+
+        public void StartTour()
+        {
+
+            var tour = new Tour
+            {
+                Name = "Socinator Overview",
+                Steps = new[]
+                {
+                    new Step("MainWindowView", "Welcome - Start your Tour", this)
+                    {
+                        ContentDataTemplateKey = "PopupWithTwoButton"
+                    },
+                }
+            };
+            tour.Start();
+        }
+
+        private void StartTabTour()
         {
             var tour = new Tour
             {

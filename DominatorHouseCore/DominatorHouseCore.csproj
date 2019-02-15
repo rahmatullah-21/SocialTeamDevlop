@@ -436,15 +436,11 @@
     <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\OwnChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateWhitelist.cs" />
-    <Compile Include="DatabaseHandler\YdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedUsers.cs" />
-    <Compile Include="DatabaseHandler\YdTables\Campaign\UnfollowedUsers.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseWhiteListMigrations.cs" />
     <Compile Include="Dal\VersionedDbConnection.cs" />
     <Compile Include="Diagnostics\AesDecryption.cs" />

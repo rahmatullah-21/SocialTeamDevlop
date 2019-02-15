@@ -58,12 +58,7 @@ namespace DominatorUIUtility.CustomControl
             });
             return _accountCustomInstance;
         }
-
-
-        public static AccountCustomControl GetAccountCustomControl(AccessorStrategies strategies)
-        {
-            return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
-        }
+        
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNework)
         {
             return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
@@ -124,8 +119,6 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-
-
         public void CheckinStatus(object sender, RoutedEventArgs e)
         {
             try
@@ -165,34 +158,7 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
-
-        public void InstaCheckAccount(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-                DominatorAccountViewModel.ActionCheckAccount(dominatorAccountModel);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        public void FacebookRemovePhoneVerification(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-                DominatorAccountViewModel.RemovePhoneVerification(dominatorAccountModel);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-
+     
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -200,5 +166,6 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }

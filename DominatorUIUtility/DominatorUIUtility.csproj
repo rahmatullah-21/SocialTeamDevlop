@@ -179,6 +179,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="ThinkSharp.FeatureTour">
+      <HintPath>..\packages\Thinksharp.FeatureTour.2.1.0\lib\net40\ThinkSharp.FeatureTour.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>

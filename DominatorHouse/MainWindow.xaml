@@ -34,7 +34,7 @@
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button Content="Tour" Command="{Binding StartTourCommand}"/>
+            <Button Content="Tour" Command="{Binding StartTourCommand}" Foreground="White" />
             <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                       ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
             <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
@@ -49,6 +49,10 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
+        <Rectangle HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   featureTouring:TourHelper.ElementID="MainWindowView"
+                   featureTouring:TourHelper.Placement="Center" />
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"

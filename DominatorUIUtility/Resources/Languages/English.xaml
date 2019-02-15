@@ -2386,7 +2386,7 @@
     <system:String x:Key="LangKeyTries">Tries</system:String>
     <system:String x:Key="LangKeyTriesCount">Tries Count</system:String>
     <system:String x:Key="LangKeyTriesPerOperation">Tries Per Operation</system:String>
-    <system:String x:Key="LangKeyTriggerANotificationWhenThereAre">Trigger A Notification When There Are</system:String>
+    <system:String x:Key="LangKeyTriggerANotificationWhenPendingPostsCountReachesTo">Trigger a notification when pending posts count reaches to</system:String>
     <system:String x:Key="LangKeyTry">Try</system:String>
     <system:String x:Key="LangKeyTryAMaximumOf">Try A Maximum Of</system:String>
     <system:String x:Key="LangKeyTryBetween">Try Between</system:String>
@@ -3214,7 +3214,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfTweetToPerJob">Number Of TweetTo Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfTweetToPerWeek">Number Of TweetTo Per Week</system:String>
     <system:String x:Key="LangKeyMaxTweetToPerDay">Max TweetTo Per Day</system:String>
-    <system:String x:Key="LangKeyStoppedAllActivitiesOfAccount">Stopped All Activities Of Account</system:String>
+    <system:String x:Key="LangKeyStoppedAllActivitiesOf">Stopped All Activities Of</system:String>
     <system:String x:Key="LangKeyWriteANoteEvent">Write a note to include in your invitation (Only in case of personal message)</system:String>
     <system:String x:Key="LangKeyUserTag">Tag users in post</system:String>
     <system:String x:Key="LangKeyLogin">Login</system:String>
@@ -3395,4 +3395,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAddPhoneNumber" xml:space="preserve">Add existing phone number Or add a new phone number if the account doesn't have. (Including country code)
         example: +1•••9•9•••9</system:String>
     <system:String x:Key="LangKeyMakeNoteAsSpinText">Make note as spin text</system:String>
+    <system:String x:Key="LangKeyAccountActivities">Account Activities</system:String>
+    <system:String x:Key="LangKeyAccountUpdation">Account Updation</system:String>
 </ResourceDictionary>

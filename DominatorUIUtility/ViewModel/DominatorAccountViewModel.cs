@@ -1415,22 +1415,16 @@ namespace DominatorUIUtility.ViewModel
         {
             var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
 
-            // ReSharper disable once HeuristicUnreachableCode
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (selectedAccount == null) return;
-
             if (selectedAccount.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "Please select account to update !!");
+                Dialog.ShowDialog("Alert", "Please select account to update !!");
                 return;
             }
             var updateMenuItem = sender as string;
 
-
             if (updateMenuItem == "StopProcess")
             {
-                StopProcess();
+                StopProcess(selectedAccount);
                 return;
             }
             if (updateMenuItem == "StopAllActivity")
@@ -1488,7 +1482,7 @@ namespace DominatorUIUtility.ViewModel
 
         public void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
         {
-            if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
+            if (accountFactory is IAccountUpdateFactoryAsync)
             {
                 // this account supports async modules
                 var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
@@ -1558,12 +1552,6 @@ namespace DominatorUIUtility.ViewModel
                     }, account.Token);
                     checkAccount.Start();
                 }
-
-                else if (updateMenuItem == "StopProcess")
-                {
-                    StopProcess();
-                }
-
             }
         }
 
@@ -1576,10 +1564,13 @@ namespace DominatorUIUtility.ViewModel
                 {
                     var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                     var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    jobActivityConfigurationManager[account.AccountId].ForEach(x =>
+                    jobActivityConfigurationManager[account.AccountId].ToList().ForEach(x =>
                     {
-                        x.IsEnabled = false;
-                        dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
+                        if (x.IsEnabled)
+                        {
+                            x.IsEnabled = false;
+                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
+                        }
                     });
 
                     // ReSharper disable once ConstantConditionalAccessQualifier
@@ -1595,13 +1586,13 @@ namespace DominatorUIUtility.ViewModel
             });
         }
 
-        private void StopProcess()
+        private void StopProcess(List<DominatorAccountModel> selectedAccounts)
         {
             ThreadFactory.Instance.Start(() =>
             {
-                _updateAccountList.ForEach(accountSelected =>
+                selectedAccounts.ForEach(accountSelected =>
                 {
-                    var accountFullDetails = LstDominatorAccountModel.FirstOrDefault(x => x.UserName == accountSelected);
+                    var accountFullDetails = LstDominatorAccountModel.FirstOrDefault(x => x.UserName == accountSelected.UserName);
 
                     accountFullDetails?.NotifyCancelled();
 

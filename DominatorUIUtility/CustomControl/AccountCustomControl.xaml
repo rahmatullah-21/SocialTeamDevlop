@@ -10,6 +10,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:uiExtensions="clr-namespace:DominatorHouseCore.UIExtensions;assembly=DominatorHouseCore"
              Name="AccountModule"
+             xmlns:featureTouring="clr-namespace:ThinkSharp.FeatureTouring;assembly=ThinkSharp.FeatureTour"
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
@@ -82,12 +83,13 @@
                                Foreground="White" Margin="5,0,0,0"
                                Content="{DynamicResource LangKeyAccountDetails}" />
 
-
-
             <Grid  Background="{DynamicResource AccentColorBrush}" DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
 
-                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" 
+                            BorderThickness="0" Command="{Binding AddSingleAccountCommand}"
+                            featureTouring:TourHelper.ElementID="AddSingleAccount"
+                            featureTouring:TourHelper.Placement="BottomLeft">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -101,7 +103,10 @@
                     </Button>
 
                     <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnLoadMultipleAccounts" 
-                            Command="{Binding LoadMultipleAccountsCommand}" ToolTip="{DynamicResource LangKeyImportAccountDescription}">
+                            Command="{Binding LoadMultipleAccountsCommand}"
+                            featureTouring:TourHelper.ElementID="ImportAccount"
+                            featureTouring:TourHelper.Placement="BottomLeft"
+                            ToolTip="{DynamicResource LangKeyImportAccountDescription}">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -118,7 +123,10 @@
                         </Button.Template>
                     </Button>
 
-                    <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="BtnSelect">
+                    <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent"
+                                              BorderThickness="0" Name="BtnSelect" 
+                                              featureTouring:TourHelper.ElementID="SelectAccount"
+                                              featureTouring:TourHelper.Placement="BottomLeft">
                         <Controls:DropDownButton.Content>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
@@ -128,7 +136,8 @@
                             </Border>
                         </Controls:DropDownButton.Content>
                         <Controls:DropDownButton.Items>
-                            <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
+                            <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccounts"
+                                      Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
                                 <MenuItem.Icon>
                                     <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
                                 </MenuItem.Icon>
@@ -136,7 +145,8 @@
 
                             <Separator />
 
-                            <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
+                            <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccounts"
+                                      Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
                                 <MenuItem.Icon>
                                     <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
                                 </MenuItem.Icon>
@@ -181,7 +191,10 @@
                         </Controls:DropDownButton.Items>
                     </Controls:DropDownButton>
 
-                    <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnUpdate">
+                    <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent"
+                                              BorderThickness="0" 
+                                              featureTouring:TourHelper.ElementID="UpdateAccount"
+                                              featureTouring:TourHelper.Placement="BottomLeft">
                         <Controls:DropDownButton.Content>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
@@ -241,7 +254,9 @@
                         </Controls:DropDownButton.Items>
                     </Controls:DropDownButton>
 
-                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
+                    <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" 
+                            Command="{Binding ExportCommand}" featureTouring:TourHelper.ElementID="ExportAccount"
+                            featureTouring:TourHelper.Placement="BottomRight">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -249,16 +264,15 @@
                                         <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
                                         <Label Content="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
-
-
                                 </Border>
-
                             </ControlTemplate>
                         </Button.Template>
-
                     </Button>
 
-                    <Button Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
+                    <Button Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0" 
+                            Command="{Binding DeleteAccountsCommand}"
+                            featureTouring:TourHelper.ElementID="DeleteAccount"
+                            featureTouring:TourHelper.Placement="BottomRight">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
@@ -277,7 +291,9 @@
 
                     </Button>
 
-                    <Button Background="Transparent" Name="btnInfo" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
+                    <Button Background="Transparent" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" 
+                            Command="{Binding InfoCommand}" featureTouring:TourHelper.ElementID="InfoAccount"
+                            featureTouring:TourHelper.Placement="BottomRight">
                         <Rectangle Width="25" Height="25" Fill="White" x:Name="Info"
                                    VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}">
                             <Rectangle.OpacityMask>

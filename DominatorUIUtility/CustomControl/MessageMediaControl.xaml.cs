@@ -66,44 +66,6 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty LstManageMessagesModelProperty =
             DependencyProperty.Register("LstManageMessagesModel", typeof(ObservableCollection<ManageMessagesModel>), typeof(MessageMediaControl), new PropertyMetadata(new ObservableCollection<ManageMessagesModel>()));
 
-        private void BtnAddMessagesToList_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(Messages.MessagesText) && string.IsNullOrEmpty(Messages.MediaPath))
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please type some message !!");
-                return;
-            }
-
-            AddCheckedQueryToList();
-            if (Messages.SelectedQuery.Count == 0)
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please add atleast one query!!");
-                return;
-            }
-            if (btnAddMessagesToList.Content.ToString() == "Update Message")
-            {
-                LstManageMessagesModel.Select(x =>
-                {
-                    if (x.MessageId == Messages.MessageId)
-                    {
-                        x.MessagesText = Messages.MessagesText;
-                        x.LstQueries = Messages.LstQueries;
-                    }
-                    return x;
-                });
-                Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
-                Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
-                Isupdated = true;
-                Dialog.CloseDialog(this);
-            }
-            else
-            {
-                AddCommentToListEventHandler();
-            }
-
-        }
         private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
@@ -209,6 +171,11 @@ namespace DominatorUIUtility.CustomControl
                     "Please add atleast one query!!");
                 return;
             }
+            if (!Messages.LstQueries.Any(x => x.IsContentSelected))
+            {
+                Dialog.ShowDialog("Warning", "Please select atleast one query.");
+                return;
+            }
             if (btnAddMessagesToList.Content.ToString() == "Update Message")
             {
                 LstManageMessagesModel.Select(x =>
@@ -231,7 +198,7 @@ namespace DominatorUIUtility.CustomControl
                 AddCommentToListEventHandler();
             }
         }
-        
+
         public object CommandParameter
         {
             get { return GetValue(CommandParameterProperty); }
