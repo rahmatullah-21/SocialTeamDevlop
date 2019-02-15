@@ -291,9 +291,6 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-                <ScrollViewer.Resources>
-                    <system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</system:Double>
-                </ScrollViewer.Resources>
                 <TabPanel IsItemsHost="True" Margin="0,4,0,0" />
             </ScrollViewer>
             <ContentPresenter Margin="4" ContentSource="SelectedContent" Grid.Row="1" />
@@ -335,7 +332,7 @@
 
 
     <!--Begin Socinator Textbox Items-->
-    
+
     <Style TargetType="ListBoxItem" x:Key="SuggestionItemStyle">
         <Setter Property="Template">
             <Setter.Value>
@@ -380,6 +377,6 @@
     </Style>
 
     <!--End Socinator Textbox Items-->
-    
-    
+
+
 </ResourceDictionary>
