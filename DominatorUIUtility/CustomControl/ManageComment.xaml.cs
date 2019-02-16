@@ -81,7 +81,7 @@ namespace DominatorUIUtility.CustomControl
                 editComment.MainGrid.Margin = new Thickness(20);
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(editComment, "Edit comment");
-                window.Show();
+                window.ShowDialog();
                 window.Closed += (s, evnt) =>
                 {
                     if (editComment.Isupdated)

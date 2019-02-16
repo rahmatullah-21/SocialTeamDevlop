@@ -38,6 +38,7 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyMyConnectionsPostS".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapUsersWhoMessagedUs".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapAllLikes".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyNewsFeedPosts".FromResourceDictionary());
             DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
             DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
 
@@ -198,8 +199,7 @@ namespace DominatorUIUtility.CustomControl
 
                 if (QueryCollection.Count != 0)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
-                           "Queries are ready to add !!");
+                    Dialog.ShowDialog("Info", "Queries are ready to add !!");
                     GlobusLogHelper.log.Info("Query sucessfully uploaded !!");
                 }
                 else
@@ -388,33 +388,6 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void DeleteMultiple(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                if (IsAllQuerySelected)
-                {
-                    QueryCollection.Clear();
-                    ListQueryInfo.Clear();
-                    IsAllQuerySelected = false;
-                    return;
-                }
-                foreach (var queryInfo in ListQueryInfo.ToList())
-                {
-                    if (queryInfo.IsQuerySelected)
-                    {
-                        QueryCollection.Remove(queryInfo.QueryValue);
-                        ListQueryInfo.Remove(queryInfo);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-
         private void OnQuerySelect(object sender, RoutedEventArgs e)
         {
             if (ListQueryInfo.All(x => x.IsQuerySelected))
@@ -466,10 +439,12 @@ namespace DominatorUIUtility.CustomControl
                 {
                     CurrentQuery.QueryValue = "NA";
                     IsEnable = false;
+                    BtnImportQuery.IsEnabled = false;
                 }
                 else
                 {
                     IsEnable = true;
+                    BtnImportQuery.IsEnabled = true;
                     CurrentQuery.QueryValue = string.Empty;
                 }
 
