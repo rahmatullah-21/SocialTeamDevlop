@@ -68,13 +68,11 @@ namespace DominatorUIUtility.CustomControl
             LoadedCommand = new BaseCommand<object>((sender) => true, (sender) => SetSelectedAccounts());
             SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
             StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
-
-
         }
 
+        #endregion
         private void CreateOrUpdateCampaign(object sender)
         {
-
             var control = sender as FooterControl;
             if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
@@ -82,6 +80,7 @@ namespace DominatorUIUtility.CustomControl
                 UpdateCampaign();
         }
 
+        #region Commands
         public ICommand CreateCampaignCommand { get; set; }
         public ICommand SelectAccountCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
@@ -764,23 +763,18 @@ namespace DominatorUIUtility.CustomControl
 
                 accountToRemoveModuleConfiguration.ForEach(account =>
                 {
-
                     try
                     {
-
                         var moduleSettings = _jobActivityConfigurationManager[account.AccountId, _activityType];
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
                         _dominatorScheduler.StopActivity(account, _activityType.ToString(),
-                            moduleSettings?.TemplateId, true);
+                            moduleSettings?.TemplateId, false);
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
-
                     }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
-
-
                 });
 
                 _accountsCacheService.UpsertAccounts(accountToRemoveModuleConfiguration.ToArray());
@@ -791,8 +785,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
-
 
             // Update Template Details
             var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
@@ -817,9 +809,8 @@ namespace DominatorUIUtility.CustomControl
                         {
                             var moduleSettings = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
                             moduleSettings.LstRunningTimes = secondRunningTime;
-                            _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, true);
+                            _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, false);
                         }
-
                     }
                     catch (Exception ex)
                     {
@@ -835,7 +826,7 @@ namespace DominatorUIUtility.CustomControl
 
 
             // Update Campaign Details
-            campaignFileManager.ForEach(campaign =>
+            campaignFileManager.ToList().ForEach(campaign =>
             {
 
                 if (campaign.TemplateId == TemplateId)
@@ -869,19 +860,17 @@ namespace DominatorUIUtility.CustomControl
 
                     #endregion
 
+                    campaignFileManager.Edit(campaign);
                 }
             });
-
 
             // Update Account Detail
             var accountDetails = _accountsFileManager.GetAll(SocialNetwork);
             if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
                 ToasterNotification.ShowSuccess($"Campaign:- {CampaignName } updated successfully");
 
-
             SetDataContext();
             TabSwitcher.GoToCampaign();
-
         }
 
         private string GetWarningLangRsrc()
@@ -1150,8 +1139,6 @@ namespace DominatorUIUtility.CustomControl
 
             return isAccountDetailsUpdated;
         }
-
-
 
         #endregion
 
@@ -1691,7 +1678,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
         public void SetSelectedAccounts()
         {
@@ -1710,7 +1696,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
 
         public void SetAccountModeDataContext()

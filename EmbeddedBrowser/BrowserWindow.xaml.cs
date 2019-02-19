@@ -27,7 +27,7 @@ using Unity;
 namespace EmbeddedBrowser
 {
     /// <summary>
-    ///     Interaction logic for BrowserWindow.xaml
+    /// Interaction logic for BrowserWindow.xaml
     /// </summary>
     public partial class BrowserWindow : MetroWindow, INotifyPropertyChanged, IComponentConnector, IDisposable
     {
@@ -36,13 +36,13 @@ namespace EmbeddedBrowser
 
         private readonly object _syncLock = new object();
 
-        private readonly object _googleLock = new object();
+        private readonly object _cefLock = new object();
 
         public BrowserWindow()
         {
             InitializeComponent();
             WindowBrowsers.DataContext = this;
-            SerachCommand = new DelegateCommand(GoToUrl);
+            SearchCommand = new DelegateCommand(GoToUrl);
             _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
         }
 
@@ -62,6 +62,9 @@ namespace EmbeddedBrowser
             {
                 CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
+
+            InitializeGoogleLoginStatusActions();
+
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = new RequestHandlerCustom(this);
             var url = GetNetworksHomeUrl();
@@ -70,7 +73,7 @@ namespace EmbeddedBrowser
             Browser.IsBrowserInitializedChanged += LoadSettings;
 
         }
-        public ICommand SerachCommand { get; }
+        public ICommand SearchCommand { get; }
         public string TargetUrl { get; set; } = string.Empty;
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl, bool CustomUse)
@@ -89,6 +92,8 @@ namespace EmbeddedBrowser
             });
 
             Browser.RequestHandler = new RequestHandlerCustom(this);
+
+            InitializeGoogleLoginStatusActions();
 
             var url = string.Empty;
 
@@ -199,12 +204,9 @@ namespace EmbeddedBrowser
             Browser.Load(homePage);
 
             Browser.LoadingStateChanged += BrowserOnLoaded;
-
         }
-
-
+        
         private void BrowserOnLoaded(object sender, LoadingStateChangedEventArgs loadingStateChangedEventArgs)
-
         {
             try
             {
@@ -275,8 +277,6 @@ namespace EmbeddedBrowser
                             ex.DebugLog();
                         }
                     });
-
-
                 }
 
             }
@@ -314,14 +314,16 @@ namespace EmbeddedBrowser
                 LoadPostPage(true);
             }
         }
-
-
+        
         public enum ActType
         {
             ClickByClass,
             ClickById,
+            ClickByName,
+            EnterValueByClass,
             EnterValueById,
-            EnterValueByName
+            EnterValueByName,
+            GetValueByName
         }
 
         /// <summary>
@@ -336,7 +338,7 @@ namespace EmbeddedBrowser
         private void BrowserAct(ActType actType, string element, double delayBefore = 0, double delayAfter = 0, string value = "", int clickIndex = 0)
         {
             if (delayBefore > 0)
-                Thread.Sleep((int)(delayBefore * 1000));
+                Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
 
             if (Browser.IsDisposed) return;
             switch (actType)
@@ -349,6 +351,14 @@ namespace EmbeddedBrowser
                     Browser.ExecuteScriptAsync($"document.getElementById('{element}').click()");
                     break;
 
+                case ActType.ClickByName:
+                    Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].click()");
+                    break;
+
+                case ActType.EnterValueByClass:
+                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].value= '{value}'");
+                    break;
+
                 case ActType.EnterValueById:
                     Browser.ExecuteScriptAsync($"document.getElementById('{element}').value= '{value}'");
                     break;
@@ -358,7 +368,29 @@ namespace EmbeddedBrowser
                     break;
             }
             if (delayAfter > 0)
-                Thread.Sleep((int)(delayAfter * 1000));
+                Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
+        }
+
+        /// <summary>
+        /// Browser actions
+        /// </summary>
+        /// <param name="actType">Type of activity doing on browser window</param>
+        /// <param name="element">type of element by which the action gonna be performed</param>
+        /// <param name="delayBefore">delay before the action (In seconds)</param>
+        /// <param name="clickIndex">Sometimes multiple buttons have same tag-value</param>
+        private string GetElementValue(ActType actType, string element, double delayBefore = 0, int clickIndex = 0)
+        {
+            if (delayBefore > 0)
+                Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return "";
+            switch (actType)
+            {
+                case ActType.GetValueByName:
+                    return Browser.EvaluateScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value").Result?.Result?.ToString() ?? "";
+                default:
+                    return "";
+            }
         }
 
         /// <summary>
@@ -369,7 +401,7 @@ namespace EmbeddedBrowser
         /// <param name="ke">Browser KeyEvent</param>
         /// <param name="winKeyCode">WindowsKeycode of any key in keyboard</param>
         /// /// <param name="delayAtLast">Set delay at last (In seconds)</param>
-        private void PressAnyKey(int n, int delay = 90, KeyEvent ke = new KeyEvent(), int winKeyCode = 0, double delayAtLast = 0)
+        private void PressAnyKey(int n=1, int delay = 90, KeyEvent ke = new KeyEvent(), int winKeyCode = 0, double delayAtLast = 0)
         {
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
@@ -380,7 +412,7 @@ namespace EmbeddedBrowser
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
             }
             if (delayAtLast > 0)
-                Thread.Sleep((int)(delayAtLast * 1000));
+                Thread.Sleep(TimeSpan.FromSeconds(delayAtLast));
         }
 
         /// <summary>
@@ -390,62 +422,65 @@ namespace EmbeddedBrowser
         /// <param name="typingDelay">Delay between typing</param>
         /// <param name="delayBefore">Set delay before the typing</param>
         /// <param name="delayAtLast">Set delay at last</param>
-        private void EnterChars(string charString, double typingDelay = 0.09, double delayBefore = 0, double delayAtLast = 0)
+        private void EnterChars(string charString, double typingDelay = 0.09, double delayBefore = 0,
+            double delayAtLast = 0)
         {
             if (string.IsNullOrEmpty(charString)) return;
 
             if (delayBefore > 0)
-                Thread.Sleep((int)(delayBefore * 1000));
+                Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
+
+            var ke = new KeyEvent {FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char};
 
             charString.ToList().ForEach(x =>
             {
-                var ke = new KeyEvent
-                {
-                    WindowsKeyCode = x,
-                    FocusOnEditableField = false,
-                    IsSystemKey = false,
-                    Type = KeyEventType.Char
-                };
-                Thread.Sleep((int)(typingDelay * 1000));
+                ke.WindowsKeyCode = x;
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
+                Thread.Sleep(TimeSpan.FromSeconds(typingDelay));
             });
             if (delayAtLast > 0)
-                Thread.Sleep((int)(delayAtLast * 1000));
+                Thread.Sleep(TimeSpan.FromSeconds(delayAtLast));
         }
 
+        private void CustomLog(string message)=> GlobusLogHelper.log.Info(Log.CustomMessage,
+            DominatorAccountModel.AccountBaseModel.AccountNetwork,
+            DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", message);
+
         private bool _htmlHasUserName;
+        private string _html;
+        private string _pageText;
         private void GoogleBrowserLogin(string html)
         {
             try
             {
                 if (html == "<html><head></head><body></body></html>") return;
                 // BrowserAct(ActType.ClickById,"sign-in-btn",delayAfter:3);
-                lock (_googleLock)
+                lock (_cefLock)
                 {
+                    _html = html;
                     if (_isLoggedIn || Browser.IsDisposed) return;
 
-                    string pageText;
                     var last30Secs = DateTime.Now;
-                    while (string.IsNullOrEmpty((pageText = Browser.GetTextAsync().Result).Trim()))
+                    while (string.IsNullOrEmpty((_pageText = Browser.GetTextAsync().Result).Trim()))
                     {
                         Thread.Sleep(1000);
                         if (last30Secs.AddSeconds(30) < DateTime.Now) return;
                     }
 
                     if (!_htmlHasUserName)
-                        _htmlHasUserName = html.ToLower().Contains($"\"opep7c\":\"{DominatorAccountModel.UserName.ToLower()}\"")
-                                           || pageText.Contains("Protect your account") && pageText.ToLower().Contains(DominatorAccountModel.UserName.ToLower());
-                    SetGoogleLangAsEng(pageText, _htmlHasUserName);
+                        _htmlHasUserName = _html.ToLower().Contains($"\"opep7c\":\"{DominatorAccountModel.UserName.ToLower()}\"")
+                                           || _pageText.Contains("Protect your account") && _pageText.ToLower().Contains(DominatorAccountModel.UserName.ToLower());
+                    SetGoogleLangAsEng(_pageText, _htmlHasUserName);
 
-                    if (!IsGoogleAccountLoginFailed(pageText, ref html))
+                    if (!_isLoggedIn && _pageText.Contains("English (") && !IsGoogleAccountLoginFailed())
                     {
-                        if (/*html.Contains("identifierNext")*/ pageText.Contains("\nForgot email?\n") && (pageText.Contains("\nEmail or phone\n") || pageText.ToLower().Contains($"\n{DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()}\n")) && !pageText.Contains("Confirm the recovery email address"))
+                        if (/*Html.Contains("identifierNext")*/ _pageText.Contains("\nForgot email?\n") && (_pageText.Contains("\nEmail or phone\n") || _pageText.ToLower().Contains($"\n{DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()}\n")) && !_pageText.Contains("Confirm the recovery email address"))
                         {
                             BrowserAct(ActType.EnterValueById, "identifierId", value: DominatorAccountModel.AccountBaseModel.UserName, delayAfter: 1);
                             PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key //BrowserAct(ActType.ClickById,"identifierNext", 3, 2);
                             return;
                         }
-                        if (/*html.Contains("passwordNext")*/(pageText.Trim().ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()) || pageText.Contains("To continue, first verify it's you")) && pageText.Contains("\nEnter your password\n"))
+                        if (/*Html.Contains("passwordNext")*/(_pageText.Trim().ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()) || _pageText.Contains("To continue, first verify it's you")) && _pageText.Contains("\nEnter your password\n"))
                         {
                             BrowserAct(ActType.EnterValueByName, "password", value: DominatorAccountModel.AccountBaseModel.Password, delayAfter: 1);
                             PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3);//Press Enter key //BrowserAct(ActType.ClickById,"passwordNext", 2, 2);
@@ -472,7 +507,7 @@ namespace EmbeddedBrowser
             catch
             { /*ignored*/}
         }
-
+        
         private void SetGoogleLangAsEng(string pageText, bool htmlHasUserName)
         {
             try
@@ -495,44 +530,109 @@ namespace EmbeddedBrowser
             { /* Ignored */}
 
         }
-
-        public bool SetVideoQuality;
-
-        private void SetVideoQualityAs144P()
+        
+        private Dictionary<Predicate<string>, Func<bool>> _predicateDict;
+        private bool _loginFailed;
+        private void InitializeGoogleLoginStatusActions()
         {
-            if (SetVideoQuality || !Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")) return;
+            if (!(DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus ||
+                  DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube))
+                return;
 
-            if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 1.5); // for Skipping add
-
-            BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 3, 0.1); // To Open Volume Slider
-
-            var ke = new KeyEvent();
-            PressAnyKey(21, 100, ke, 40); //Press Down Arrow key 40 times to mute the music
-
-            BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3, 0.5); // for Skipping add
-
-            //ClickByClass("ytp-mute-button ytp-button"); // Direct Mute the music
-
-            BrowserAct(ActType.ClickByClass, "ytp-button ytp-settings-button", 0.5, 1.5); // Click Youtube MediaPlayer Setting Button
-
-            PressAnyKey(4, 900, ke, 40, 1); //Press Down Arrow key 4 times
-            PressAnyKey(1, 0, ke, 39, 1); //Press right Arrow key 1 time
-            PressAnyKey(6, 900, ke, 40, 1); //Press Down Arrow key 6 times
-            PressAnyKey(1, 0, ke, 38, 1); //Press up Arrow key 1 time
-            PressAnyKey(1, 0, ke, 13); //Press Enter key
-
-            SetVideoQuality = true;
-
-            new System.Threading.Tasks.Task(() =>
+            _predicateDict = new Dictionary<Predicate<string>, Func<bool>>
             {
-                while (!Browser.IsDisposed)
                 {
-                    if (!Browser.IsDisposed)
-                        BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3.5); // for Skipping add
-                }
-            }).Start();
+                    pageData =>
+                        pageData.Contains("Couldn't find your Google Account") || pageData.Contains("Enter a valid email or phone number")
+                                                                               || pageData.Contains("Wrong password. Try again or click Forgot password to reset it")
+                                                                               || pageData.Contains("Your password was changed"),
+                    InvalidCredentials
+                },
+                {
+                    pageData => pageData.Contains("Change password")
+                                && pageData.Contains("There's been suspicious activity on your Google Account. For your protection, you need to change your password.")
+                                && pageData.Contains("Those passwords didn't match. Try again."),
+                    SetNewPasswordNotMatched
+                },
+                {
+                    pageData => pageData.Contains("Change password")
+                                && pageData.Contains("There's been suspicious activity on your Google Account. For your protection, you need to change your password.")
+                                && pageData.Contains("Use a mix of letters, numbers and symbols to create a stronger password"),
+                    SetNewPasswordCreateStrongPassword
+                },
+                {
+                    pageData => pageData.Contains("Change password")
+                                && pageData.Contains("There's been suspicious activity on your Google Account. For your protection, you need to change your password.")
+                                && pageData.Contains("Create password"),
+                    SetNewPasswordAfterSuspiciousActivity
+                },
+                {
+                    pageData =>
+                        pageData.Contains("Unavailable because of too many attempts. Please try again later.")
+                        || pageData.Contains("It is not available because too many attempts have been failed. Try again in a few hours.")
+                        || pageData.Contains("Too many failed attempts") &&
+                        pageData.Contains("Unavailable because of too many failed attempts. Try again in a few hours."),
+                    ManyAttemptsOnPhoneVerification
+                },
+                {
+                    pageData => pageData.Contains("Confirm your recovery email") ||
+                                pageData.Contains("Confirm your recovery phone number"),
+                    ClickOptionConfirmRecovery
+                },
+                {pageData => pageData.Contains("Confirm the recovery email address"), ConfirmRecoveryEmailAddress},
+                {pageData => pageData.Contains("Confirm the phone number"), ConfirmRecoveryPhoneNumber},
+                {
+                    pageData => pageData.Contains("Enter a phone number to get a text message with a verification code"),
+                    AddPhoneNumber
+                },
+                {
+                    pageData => pageData.Contains("A text message with a 6-digit verification code was just sent to"),
+                    VerifyCodeFromPhone
+                },
+                {
+                    pageData => pageData.Contains("Get a verification code")
+                                || pageData.Contains("Do you have your phone?")
+                                || pageData.Contains("Google will send a notification to your phone to verify that it's you"),
+                    NeedPhoneVerification
+                },
+                {
+                    pageData => pageData.Contains("Type the text you hear or see")
+                                || pageData.Contains("Google couldn't verify this account belongs to you.")
+                                || pageData.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
+                                || pageData.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you."),
+                    NeedsVerification
+                },
+                {
+                    pageData => pageData.Contains("An error occurred. please try again.") ||
+                                pageData.ToLower().Contains("something went wrong"),
+                    FailedGotUnknownError
+                },
+                {
+                    pageData => pageData.Contains("Protect your account") &&
+                                pageData.Contains("Tell Google how to reach you in case you forget your password"),
+                    () =>
+                    {
+                        _html = DominatorAccountModel.UserName.ToLower();
+                        return false;
+                    }
+                },
+                {pageData => pageData.Contains("You've tried to sign in too many times."), TooManyAttemptsOnSignIn}
+            };
+        }
 
+        private bool IsGoogleAccountLoginFailed()
+        {
+            var predicateKey = _predicateDict.Keys.FirstOrDefault(x => x.Invoke(_pageText));
+
+            if (predicateKey==null) return false;
+            var loginFailed = _predicateDict[predicateKey].Invoke();
+
+            if (!loginFailed || _loginFailed) return loginFailed;
+
+            _loginFailed = true;
+            DominatorAccountModel.IsUserLoggedIn = false;
+            _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
+            return true;
         }
 
         private bool RetypeEmail()
@@ -543,10 +643,9 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.EnterValueById, "identifierId", 1.5, 2, DominatorAccountModel.AccountBaseModel.AlternateEmail);
                 PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3.5); //Press Enter key //BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 2.5);
                 var pageText = Browser.GetTextAsync().Result;
-                if (isRetype = pageText.Contains("The email you entered is incorrect. Try again.") || pageText.Contains("Try again with a valid email address"))
-                    GlobusLogHelper.log.Info(Log.CustomMessage,
-                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                        DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", "Alternate Email is incorrect for verification");
+                isRetype = pageText.Contains("The email you entered is incorrect. Try again.") || pageText.Contains("Try again with a valid email address");
+                if (isRetype)
+                    CustomLog("Alternate Email is incorrect for verification");
             }
 
             if (isRetype)
@@ -563,10 +662,9 @@ namespace EmbeddedBrowser
                 EnterChars(DominatorAccountModel.AccountBaseModel.PhoneNumber, delayAtLast: 1);
                 PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
                 var pageText = Browser.GetTextAsync().Result;
-                if (isRetype = pageText.Contains("This number doesn't match the one you provided. Try again."))
-                    GlobusLogHelper.log.Info(Log.CustomMessage,
-                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                        DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", $"This number({DominatorAccountModel.AccountBaseModel.PhoneNumber}) doesn't match the one you provided. Try again.");
+                isRetype = pageText.Contains("This number doesn't match the one you provided. Try again.");
+                if(isRetype)
+                    CustomLog($"This number({DominatorAccountModel.AccountBaseModel.PhoneNumber}) doesn't match the one you provided. Try again.");
             }
 
             if (isRetype)
@@ -579,26 +677,31 @@ namespace EmbeddedBrowser
         {
             if ((DominatorAccountModel.AccountBaseModel.Status == AccountStatus.PhoneVerification
                || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TooManyAttemptsOnPhoneVerification
-               || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount) && !DominatorAccountModel.IsAutoVerifyByEmail)
+               || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount) && !DominatorAccountModel.IsVerificationCodeSent)
                 return true;
 
             PressAnyKey(3, 200, winKeyCode: 9); //Press Tab 3 Times key
             var isWrong = true;
             var iterateNTimes = 0;
             var codeBefore = "";
-            while (isWrong)
+            do
             {
                 var last2Min = DateTime.Now;
-                
-                while ((!DominatorAccountModel.IsAutoVerifyByEmail || codeBefore != DominatorAccountModel.VarificationCode.Trim() && DominatorAccountModel.VarificationCode.Trim().Length<6) && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
-                    Thread.Sleep(2000);  // Waiting to get code from UI
+
+                while ((!DominatorAccountModel.IsVerificationCodeSent || codeBefore != DominatorAccountModel.VarificationCode.Trim() &&
+                        DominatorAccountModel.VarificationCode.Trim().Length < 6) && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
+                    Thread.Sleep(2000); // Waiting to get code from UI
+
                 codeBefore = DominatorAccountModel.VarificationCode.Trim();
                 if (DominatorAccountModel.VarificationCode.Trim().Length > 0)
                 {
-                    EnterChars(DominatorAccountModel.VarificationCode.Trim(), 0.3);  //Entering Verification Code
-                    EnterChars(DominatorAccountModel.VarificationCode.Trim(), 0.3); //Re-Entering Verification Code
-                    PressAnyKey(6, 300, winKeyCode: 37, delayAtLast: 0.5); //Taking Cursor 6 step behind on Code Text
-                    PressAnyKey(6, 300, winKeyCode: 8, delayAtLast: 0.5); //Now removing first 5 numbers of entered code
+                    Browser.SelectAll();
+                    PressAnyKey(winKeyCode:8,delayAtLast:0.2);
+                    EnterChars(" " + DominatorAccountModel.VarificationCode.Trim(), 0.3); //Entering Verification Code
+                    //EnterChars(DominatorAccountModel.VarificationCode.Trim(), 0.3); //Entering Verification Code
+                    //EnterChars(DominatorAccountModel.VarificationCode.Trim(), 0.3); //Re-Entering Verification Code
+                    //PressAnyKey(6, 300, winKeyCode: 37, delayAtLast: 0.5); //Taking Cursor 6 step behind on Code Text
+                    //PressAnyKey(6, 300, winKeyCode: 8, delayAtLast: 0.5); //Now removing first 5 numbers of entered code
 
                     PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 5); //Press Enter key
 
@@ -610,41 +713,98 @@ namespace EmbeddedBrowser
                         iterateNTimes++;
                         if (iterateNTimes < 2)
                         {
-                            PressAnyKey(6, 300, winKeyCode: 46,
-                                delayAtLast: 0.5); //Now removing all digits of entered code
-                            GlobusLogHelper.log.Info(Log.CustomMessage,
-                                DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                                DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login",
-                                "You have entered wrong Verification code. Try again.");
+                            PressAnyKey(6, 300, winKeyCode: 46, delayAtLast: 0.5); //Now removing all digits of entered code
+                            CustomLog("You have entered wrong Verification code. Try again.");
                             DominatorAccountModel.VarificationCode = "";
                             continue;
                         }
-                        
                     }
-                    else if (isWrong = pageText.Contains("Too many attempts. Please try again later.") || (pageText.Contains("Too many failed attempts") && pageText.Contains("Unavailable because of too many failed attempts. Try again in a few hours.")))
+                    else
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage,
-                            DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                            DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login",
-                            "Too many failed attempts on Phone Verification. Try again in a few hours.");
-                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
-                    } 
+                        isWrong = pageText.Contains("Too many attempts. Please try again later.") || pageText.Contains("Too many failed attempts")
+                                  && pageText.Contains("Unavailable because of too many failed attempts. Try again in a few hours.");
+                        if (isWrong)
+                        {
+                            CustomLog("Too many failed attempts on Phone Verification. Try again in a few hours.");
+                            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
+                        }
+                    }
                 }
                 break;
-            }
+            } while (true);
 
             if (isWrong && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.TooManyAttemptsOnPhoneVerification)
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
 
-            DominatorAccountModel.IsAutoVerifyByEmail = false;
+            DominatorAccountModel.IsVerificationCodeSent = false;
 
             DominatorAccountModel.VarificationCode = "";
             return isWrong;
         }
+        
+        private bool InvalidCredentials()
+        {
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.InvalidCredentials;
+            return true;
+        }
+
+        private bool SetNewPasswordNotMatched()
+        {
+            CustomLog("Those passwords didn't match. Try again.");
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.SetNewPassword;
+            return true;
+        }
+
+        private bool SetNewPasswordCreateStrongPassword()
+        {
+            CustomLog("Use a mix of letters, numbers and symbols to create a stronger password");
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.SetNewPassword;
+            return true;
+        }
+
+        private bool SetNewPasswordAfterSuspiciousActivity()
+        {
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.SetNewPassword;
+            return true;
+        }
+
+        private bool ManyAttemptsOnPhoneVerification()
+        {
+            CustomLog("Too many failed attempts on Phone Verification. Try again in a few hours.");
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
+            return true;
+        }
+
+        private bool ClickOptionConfirmRecovery()
+        {
+            BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5);
+            return false;
+        }
+       
+        private bool ConfirmRecoveryEmailAddress()
+        {
+           var loginFailed = RetypeEmail();
+            var gotEmailFromPage = Utilities.GetBetween(_pageText, "your account:", "\n").Trim();
+            if (!IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim(),
+                gotEmailFromPage))
+                DominatorAccountModel.AccountBaseModel.AlternateEmail = gotEmailFromPage;
+           return loginFailed;
+        }
+
+        private bool ConfirmRecoveryPhoneNumber()
+        {
+           var loginFailed = RetypePhoneNumber();
+            var gotNumberFromPage = Utilities.GetBetween(_pageText, "security settings:", "\n").Replace(" ", "")
+                .Replace("(", "").Replace(")", "").Replace("-", "").Replace("_", "").Trim();
+            if (!IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),
+                gotNumberFromPage))
+                DominatorAccountModel.AccountBaseModel.PhoneNumber = gotNumberFromPage;
+            return loginFailed;
+        }
 
         private bool AddPhoneNumber()
         {
-            if (!DominatorAccountModel.IsAutoVerifyByEmail &&
+            if (!DominatorAccountModel.IsVerificationCodeSent &&
                 !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber)
                  && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
             {
@@ -655,7 +815,7 @@ namespace EmbeddedBrowser
             var isWrong = true;
             if (!(DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TooManyAttemptsOnPhoneVerification
                   || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount)
-                && DominatorAccountModel.IsAutoVerifyByEmail
+                && DominatorAccountModel.IsVerificationCodeSent
                 && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber)
                 && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
             {
@@ -671,24 +831,21 @@ namespace EmbeddedBrowser
                 if (!isWrong)
                 {
                     var number = Utilities.GetBetween(text, "code was just sent to", "\n");
-                    GlobusLogHelper.log.Info(Log.CustomMessage,
-                        DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                        DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login",
-                        $"A text message with a 6-digit verification code was just sent to {number}. Enter the code within 2 minutes.");
+                    CustomLog($"A text message with a 6-digit verification code was just sent to {number}. Enter the code within 2 minutes.");
                 }
                 else
                 {
-                    isWrong = text.Contains(
-                                  "Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
-                              text.Contains(
-                                  "Sorry, Google didn't recognize the number that you have entered. Please check the country and number.");
+                    isWrong = text.Contains("There was a problem with your phone number") || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
+                              text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.");
 
-                    if (isWrong)
+                    if (isWrong && text.Contains("There was a problem with your phone number"))
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage,
-                            DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                            DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login",
-                            $"Google didn't recognize the number that you have entered. Please check the country code and number({DominatorAccountModel.AccountBaseModel.PhoneNumber}).Please re-enter the phone number and try again later");
+                        CustomLog($"There was a problem with your phone number({DominatorAccountModel.AccountBaseModel.PhoneNumber}). Please use another phone number");
+                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
+                    }
+                    else if (isWrong)
+                    {
+                        CustomLog($"Google didn't recognize the number that you have entered. Please check the country code and number({DominatorAccountModel.AccountBaseModel.PhoneNumber}).Please re-enter the phone number and try again later");
                         DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
                     }
                 }
@@ -697,169 +854,58 @@ namespace EmbeddedBrowser
             if (isWrong && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.TooManyAttemptsOnPhoneVerification)
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
 
-            DominatorAccountModel.IsAutoVerifyByEmail = false;
+            DominatorAccountModel.IsVerificationCodeSent = false;
             return isWrong;
         }
 
-
-        private bool _loginFailed;
-        private bool IsGoogleAccountLoginFailed(string pageText, ref string html)
+        private bool NeedPhoneVerification()
         {
-            if (_isLoggedIn) return false;
-
-            #region Google, Set with English Language
-
-            if (!pageText.Contains("English (")) return false;
-            var loginFailed = false;
-            if (pageText.Contains("Couldn't find your Google Account")
-                || pageText.Contains("Enter a valid email or phone number")
-                || pageText.Contains("Wrong password. Try again or click Forgot password to reset it")
-                || pageText.Contains("Your password was changed"))
-            {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.InvalidCredentials;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("Change password")
-                     && pageText.Contains("There's been suspicious activity on your Google Account. For your protection, you need to change your password.")
-                     && pageText.Contains("Those passwords didn't match. Try again."))
-            {
-                GlobusLogHelper.log.Info(Log.CustomMessage,
-                    DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                    DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", "Those passwords didn't match. Try again.");
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.SetNewPassword;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("Change password")
-                     && pageText.Contains("There's been suspicious activity on your Google Account. For your protection, you need to change your password.")
-                     && pageText.Contains("Use a mix of letters, numbers and symbols to create a stronger password"))
-            {
-                GlobusLogHelper.log.Info(Log.CustomMessage,
-                    DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                    DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", "Use a mix of letters, numbers and symbols to create a stronger password");
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.SetNewPassword;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("Change password")
-                && pageText.Contains("There's been suspicious activity on your Google Account. For your protection, you need to change your password.")
-                && pageText.Contains("Create password"))
-            {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.SetNewPassword;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("Unavailable because of too many attempts. Please try again later.")
-                || pageText.Contains("It is not available because too many attempts have been failed. Try again in a few hours."))
-            {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("Confirm your recovery email"))
-            {
-                BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5);
-            }
-            else if (pageText.Contains("Confirm the recovery email address"))
-            {
-                loginFailed = RetypeEmail();
-                var gotEmailFromPage = Utilities.GetBetween(pageText, "your account:", "\n").Trim();
-                if (!IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim(), gotEmailFromPage))
-                    DominatorAccountModel.AccountBaseModel.AlternateEmail = gotEmailFromPage;
-            }
-            else if (pageText.Contains("Confirm your recovery phone number"))
-            {
-                BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5);
-            }
-            else if (pageText.Contains("Confirm the phone number"))
-            {
-                loginFailed = RetypePhoneNumber();
-                var gotNumberFromPage = Utilities.GetBetween(pageText, "security settings:", "\n").Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "").Replace("_", "").Trim();
-                if (!IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),gotNumberFromPage))
-                    DominatorAccountModel.AccountBaseModel.PhoneNumber = gotNumberFromPage;
-            }
-            else if (pageText.Contains("Enter a phone number to get a text message with a verification code"))
-            {
-                loginFailed = AddPhoneNumber();
-            }
-            else if (pageText.Contains("Too many failed attempts") && pageText.Contains("Unavailable because of too many failed attempts. Try again in a few hours."))
-            {
-                GlobusLogHelper.log.Info(Log.CustomMessage,
-                    DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                    DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login",
-                    "Too many failed attempts on Phone Verification. Try again in a few hours.");
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("A text message with a 6-digit verification code was just sent to"))
-            {
-                loginFailed = VerifyCodeFromPhone();
-            }
-            else if (pageText.Contains("Get a verification code")
-                || pageText.Contains("Do you have your phone?")
-                || pageText.Contains("Google will send a notification to your phone to verify that it's you")
-            )
-            {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("Type the text you hear or see")
-                     || pageText.Contains("Google couldn't verify this account belongs to you.")
-                     || pageText.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
-                     || pageText.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you."))
-            {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("An error occurred. please try again.") || pageText.ToLower().Contains("something went wrong"))
-            {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Failed;
-                loginFailed = true;
-            }
-            else if (pageText.Contains("Protect your account") && pageText.Contains("Tell Google how to reach you in case you forget your password"))
-            {
-                html = DominatorAccountModel.UserName.ToLower();
-                return false;
-            }
-            else if (pageText.Contains("You've tried to sign in too many times."))
-            {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnSignIn;
-                loginFailed = true;
-            }
-
-            if (loginFailed && !_loginFailed)
-            {
-                _loginFailed = true;
-                DominatorAccountModel.IsUserLoggedIn = false;
-                _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
-                return true;
-            }
-            #endregion
-
-            return loginFailed;
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
+            return true;
         }
 
-        private bool IsExistingEmailOrNumberSame(string enteredNumber , string alreadyExistedNumberInAccount)
+        private bool NeedsVerification()
+        {
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
+            return true;
+        }
+
+        private bool FailedGotUnknownError()
+        {
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Failed;
+            return true;
+        }
+
+        private bool TooManyAttemptsOnSignIn()
+        {
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnSignIn;
+            return true;
+        }
+
+        private bool IsExistingEmailOrNumberSame(string enteredNumber, string alreadyExistedNumberInAccount)
         {
             try
             {
                 var reverseAlreadyExistedNumberInAccount = alreadyExistedNumberInAccount.Reverse().ToList();
 
                 var indexIterate = 0;
-                foreach(var eachNumb in enteredNumber.Reverse())
+                foreach (var eachNumb in enteredNumber.Reverse())
                 {
                     var selectedDigit = reverseAlreadyExistedNumberInAccount[indexIterate];
                     if (selectedDigit != '•' && selectedDigit != eachNumb)
-                       return false;
+                        return false;
                     ++indexIterate;
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ex.DebugLog();
                 return true;
             }
         }
-
+        
         private bool _isLoggedIn;
-
         private void SaveCookie()
         {
             if (_isLoggedIn) return;
@@ -875,20 +921,19 @@ namespace EmbeddedBrowser
                 {
                     try
                     {
-                        cookieCollection.Add(new System.Net.Cookie
-                        {
-                            Expires = (DateTime)item.Expires,
-                            Name = item.Name,
-                            Value = item.Value,
-                            Domain = item.Domain,
-                            Path = item.Path,
-                            Secure = item.Secure
-                        });
+                        if (item.Expires != null)
+                            cookieCollection.Add(new System.Net.Cookie
+                            {
+                                Expires = (DateTime) item.Expires,
+                                Name = item.Name,
+                                Value = item.Value,
+                                Domain = item.Domain,
+                                Path = item.Path,
+                                Secure = item.Secure
+                            });
                     }
                     catch
-                    {
-                        //ignored
-                    }
+                    {/*ignored*/}
                 }
 
                 var requestParameters = (RequestParameters)_httpHelper.GetRequestParameter();
@@ -927,7 +972,7 @@ namespace EmbeddedBrowser
                 CreateChannelOnYoutube();
 
                 DominatorAccountModel.Cookies = cookieCollection;
-                DominatorAccountModel.IsAutoVerifyByEmail = false;
+                DominatorAccountModel.IsVerificationCodeSent = false;
                 DominatorAccountModel.IsUserLoggedIn = true;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
@@ -971,11 +1016,153 @@ namespace EmbeddedBrowser
                 Browser.Load("https://www.youtube.com/");
             }
             catch
+            {/*ignored*/}
+        }
+
+        public bool SetVideoQuality;
+
+        private void SetVideoQualityAs144P()
+        {
+            if (SetVideoQuality || !Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")) return;
+
+            if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
+                BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 1.5); // for Skipping add
+
+            BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 3, 0.1); // To Open Volume Slider
+
+            var ke = new KeyEvent();
+            PressAnyKey(21, 100, ke, 40); //Press Down Arrow key 40 times to mute the music
+
+            BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3, 0.5); // for Skipping add
+
+            //ClickByClass("ytp-mute-button ytp-button"); // Direct Mute the music
+
+            BrowserAct(ActType.ClickByClass, "ytp-button ytp-settings-button", 0.5, 1.5); // Click Youtube MediaPlayer Setting Button
+
+            PressAnyKey(4, 900, ke, 40, 1); //Press Down Arrow key 4 times
+            PressAnyKey(1, 0, ke, 39, 1); //Press right Arrow key 1 time
+            PressAnyKey(6, 900, ke, 40, 1); //Press Down Arrow key 6 times
+            PressAnyKey(1, 0, ke, 38, 1); //Press up Arrow key 1 time
+            PressAnyKey(1, 0, ke, 13); //Press Enter key
+
+            SetVideoQuality = true;
+
+            new System.Threading.Tasks.Task(() =>
             {
-                //ignored
+                while (!Browser.IsDisposed)
+                {
+                    if (!Browser.IsDisposed)
+                        BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3.5); // for Skipping add
+                }
+            }).Start();
+
+        }
+
+        private void PinterestBrowserLogin(string html)
+        {
+            lock (_cefLock)
+            {
+                if (!string.IsNullOrEmpty(html)
+                    && (html.Contains("type=\"email\"") || html.Contains("type=\"password\""))
+                    && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName)
+                    && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password)
+                    && !Browser.IsDisposed)
+                {
+                    // Click on username textbox
+                    BrowserAct(ActType.ClickByName, "id", delayAfter: 0.5);
+
+                    // Enter account's username in username textbox
+                    EnterChars(DominatorAccountModel.AccountBaseModel.UserName, delayBefore: 1);
+
+                    // Press Tab button now
+                    PressAnyKey(1, winKeyCode: 9, delayAtLast: 1);
+
+                    // Click on password textbox
+                    BrowserAct(ActType.ClickByName, "password", delayAfter: 0.5);
+
+                    // Enter account's password in password textbox
+                    EnterChars(" " + DominatorAccountModel.AccountBaseModel.Password, 0.1, delayAtLast: 0.5);
+
+                    // Press Tab button now
+                    PressAnyKey(1, winKeyCode: 9, delayAtLast: 1);
+
+                    // Click on Login button 
+                    BrowserAct(ActType.ClickByClass, !html.Contains("type=\"email\"") ? "red SignupButton active" : "SignupButton", delayAfter: 2);
+                }
+
+                var result = GetLoggedInPageSource();
+
+                if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true"))
+                    LoadPostPage(true);
             }
         }
 
+        private void InstagramBrowserLogin(string html)
+        {
+            lock (_cefLock)
+            {
+                if (html.Contains("Phone number, username, or email"))
+                {
+                    // Press Tab
+                    PressAnyKey(winKeyCode: 9);
+
+                    // Click over username textbox
+                    BrowserAct(ActType.ClickByName, "username", delayAfter: 1);
+
+                    // Enter username
+                    EnterChars(" " + DominatorAccountModel.AccountBaseModel.UserName,0.15, delayAtLast: 1);
+
+                    // Press Tab
+                    PressAnyKey(winKeyCode: 9);
+
+                    // Enter password
+                    EnterChars(" " + DominatorAccountModel.AccountBaseModel.Password, 0.15, delayAtLast: 1);
+
+                    // Press Enter
+                    PressAnyKey(winKeyCode: 9, delayAtLast: 1);
+
+                    // Get Loaded PageSource
+                    var updatedHtml = Browser.GetSourceAsync().Result;
+
+                    var require = updatedHtml.Contains("choice_1") && updatedHtml.Contains("choice_0");
+                    if (!require && !updatedHtml.Contains("Submit"))
+                    {
+                        //BrowserAct(ActType.ClickByClass, "_5f5mN");
+                        BrowserAct(ActType.ClickByClass, "sqdOP", clickIndex: 1, delayAfter: 2);
+                    }
+                } 
+            }
+
+            var result = GetLoggedInPageSource();
+            if (!string.IsNullOrEmpty(result) && result.Contains("logged-in"))
+            {
+                LoadPostPage(true);
+            }
+        }
+
+        private void TwitterLogin(string html)
+        {
+            if (html != null && html.Contains("js-username-field email-input js-initial-focus") && html.Contains("js-password-field"))
+            {
+                lock (_cefLock)
+                {
+                    // Enter Username
+                    BrowserAct(ActType.EnterValueByClass, "js-username-field email-input js-initial-focus", value: DominatorAccountModel.AccountBaseModel.UserName, delayAfter: 2);
+
+                    // Enter password
+                    BrowserAct(ActType.EnterValueByClass, "js-password-field", value: DominatorAccountModel.AccountBaseModel.Password.Replace("'", "\\'"), delayAfter: 2);
+
+                    // Click on submit
+                    BrowserAct(ActType.ClickByClass, "submit EdgeButton EdgeButton--primary EdgeButtom--medium", delayAfter: 4); 
+                }
+            }
+
+            var result = GetLoggedInPageSource();
+
+            if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box"))
+                LoadPostPage(true);
+        }
+        
         private void LinkedInBrowserLogin(string html)
         {
             if (!string.IsNullOrEmpty(html) && html.Contains("LinkedIn: Log In or Sign Up"))
@@ -1008,190 +1195,7 @@ namespace EmbeddedBrowser
 
             }
         }
-
-        private void PinterestBrowserLogin(string html)
-        {
-            if (!string.IsNullOrEmpty(html) && html.Contains("type=\"email\"") || html.Contains("type=\"password\""))
-            {
-                if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
-                {
-                    KeyEvent k = new KeyEvent();
-
-                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
-                    var userName = DominatorAccountModel.AccountBaseModel.UserName;
-                    Browser.ExecuteScriptAsync("document.getElementsByName(\"id\")[0].click()");
-                    Thread.Sleep(TimeSpan.FromSeconds(1));
-                    userName.ToList<char>().ForEach((x) =>
-                    {
-                        k = new KeyEvent
-                        {
-                            WindowsKeyCode = (int)x,
-                            FocusOnEditableField = false,
-                            IsSystemKey = false,
-                            Type = KeyEventType.Char
-                        };
-                        Thread.Sleep(50);
-                        Browser.GetBrowser().GetHost().SendKeyEvent(k);
-                    });
-
-                    k = new KeyEvent();
-                    k.FocusOnEditableField = false;
-                    k.WindowsKeyCode = 9;
-                    k.IsSystemKey = false;
-                    k.Type = KeyEventType.KeyDown;
-                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
-                    var password = " " + DominatorAccountModel.AccountBaseModel.Password;
-                    Browser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
-                    password.ToList<char>().ForEach((x) =>
-                    {
-                        k = new KeyEvent();
-                        k.WindowsKeyCode = (int)x;
-                        k.FocusOnEditableField = false;
-                        k.IsSystemKey = false;
-                        k.Type = KeyEventType.Char;
-                        Browser.GetBrowser().GetHost().SendKeyEvent(k);
-                    });
-
-                    k = new KeyEvent();
-                    k.FocusOnEditableField = false;
-                    k.WindowsKeyCode = 13;
-                    k.IsSystemKey = false;
-                    k.Type = KeyEventType.KeyDown;
-                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
-                    Thread.Sleep(1000);
-                    if (!html.Contains("type=\"email\""))
-                        Browser.ExecuteScriptAsync("document.getElementsByClassName('red SignupButton active')[0].click()");
-                    else
-                        Browser.ExecuteScriptAsync("document.getElementsByClassName('SignupButton')[0].click()");
-                    Thread.Sleep(2000);
-
-                }
-            }
-
-            var result = GetLoggedInPageSource();
-
-            if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true"))
-            {
-                LoadPostPage(true);
-            }
-
-
-        }
-
-        private void InstagramBrowserLogin(string html)
-        {
-            if (html.Contains("Phone number, username, or email"))
-            {
-                KeyEvent k = new KeyEvent();
-                k.FocusOnEditableField = false;
-                k.WindowsKeyCode = 9;
-                k.IsSystemKey = false;
-                k.Type = KeyEventType.KeyDown;
-                Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
-                var userName = " " + DominatorAccountModel.AccountBaseModel.UserName;
-                Browser.ExecuteScriptAsync("document.getElementsByName(\"username\")[0].click()");
-                Thread.Sleep(TimeSpan.FromSeconds(1));
-
-
-                foreach (var x in userName.ToList<char>())
-                {
-                    k = new KeyEvent
-                    {
-                        WindowsKeyCode = (int)x,
-                        FocusOnEditableField = false,
-                        IsSystemKey = false,
-                        Type = KeyEventType.Char
-                    };
-                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
-                }
-
-                Thread.Sleep(TimeSpan.FromSeconds(1));
-                k = new KeyEvent();
-                k.FocusOnEditableField = false;
-                k.WindowsKeyCode = 9;
-                k.IsSystemKey = false;
-                k.Type = KeyEventType.KeyDown;
-                Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
-
-                var password = " " + DominatorAccountModel.AccountBaseModel.Password;
-                //cefBrowser.ExecuteScriptAsync("document.getElementsByName(\"password\")[0].click()");
-                foreach (var x in password.ToList<char>())
-                {
-                    k = new KeyEvent();
-                    k.WindowsKeyCode = (int)x;
-                    k.FocusOnEditableField = false;
-                    k.IsSystemKey = false;
-                    k.Type = KeyEventType.Char;
-                    Browser.GetBrowser().GetHost().SendKeyEvent(k);
-                }
-                //password.ToList<char>().ForEach((x) =>
-                //{
-                //    k = new KeyEvent();
-                //    k.WindowsKeyCode = (int)x;
-                //    k.FocusOnEditableField = false;
-                //    k.IsSystemKey = false;
-                //    k.Type = KeyEventType.Char;
-                //    Browser.GetBrowser().GetHost().SendKeyEvent(k);
-
-                //});
-
-                k = new KeyEvent();
-                k.FocusOnEditableField = false;
-                k.WindowsKeyCode = 13;
-                k.IsSystemKey = false;
-                k.Type = KeyEventType.KeyDown;
-                Browser.GetBrowser().GetHost().SendKeyEvent(k);
-                Thread.Sleep(1000);
-
-                var updatedHtml = Browser.GetSourceAsync().Result;
-
-                var require = updatedHtml.Contains("choice_1") && updatedHtml.Contains("choice_0");
-                if (!require && !updatedHtml.Contains("Submit"))
-                {
-                    // Browser.ExecuteScriptAsync("document.getElementsByClassName(\"_5f5mN\")[0].click()");
-                    Browser.ExecuteScriptAsync("document.getElementsByClassName(\"sqdOP\")[1].click()");
-                    Thread.Sleep(2000);
-                }
-
-            }
-
-            var result = GetLoggedInPageSource();
-            if (!string.IsNullOrEmpty(result) && result.Contains("logged-in"))
-            {
-                LoadPostPage(true);
-            }
-        }
-
-        private void TwitterLogin(string html)
-        {
-            if (html != null && html.Contains("js-username-field email-input js-initial-focus") && html.Contains("js-password-field"))
-            {
-                Browser.ExecuteScriptAsync(
-                    "document.getElementsByClassName('js-username-field email-input js-initial-focus')[0].value= '" +
-                    DominatorAccountModel.AccountBaseModel.UserName + "'");
-
-                Thread.Sleep(2000);
-                Browser.ExecuteScriptAsync("document.getElementsByClassName('js-password-field')[0].value= '" +
-                                           DominatorAccountModel.AccountBaseModel.Password.Replace("'", "\\'") + "'");
-                Thread.Sleep(2000);
-                Browser.ExecuteScriptAsync(
-                    "document.getElementsByClassName('submit EdgeButton EdgeButton--primary EdgeButtom--medium')[0].click()");
-                Thread.Sleep(4000);
-
-            }
-
-            var result = GetLoggedInPageSource();
-
-            if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box"))
-            {
-                LoadPostPage(true);
-            }
-        }
-
+        
         private void QuoraLogin(string html)
         {
             lock (_syncLock)
@@ -1205,8 +1209,6 @@ namespace EmbeddedBrowser
                     Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction submit_button_disabled')[0].class='submit_button ignore_interaction'");
 
                     Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction')[0].click()");
-
-
                 }
 
                 var result = GetLoggedInPageSource();
@@ -1215,9 +1217,7 @@ namespace EmbeddedBrowser
                 {
                     LoadPostPage(true);
                 }
-
             }
-
         }
 
         private void RedditBrowserLogin(string html)
@@ -1227,8 +1227,6 @@ namespace EmbeddedBrowser
                 Browser.ExecuteScriptAsync("document.getElementById('loginUsername').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
                 Browser.ExecuteScriptAsync("document.getElementById('loginPassword').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('AnimatedForm__submitButton')[0].click()");
-
-
             }
 
             if (html.Contains("login_login-main"))
@@ -1237,15 +1235,12 @@ namespace EmbeddedBrowser
                 Browser.ExecuteScriptAsync("document.getElementsByName('passwd')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
                 Thread.Sleep(1000);
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
-
             }
 
             var result = GetLoggedInPageSource();
 
             if (result != null && result.Contains("Log out") || result.Contains("logged in"))
-            {
                 LoadPostPage(true);
-            }
         }
 
         private void TumblrBrowserLogin(string html)
@@ -1287,6 +1282,7 @@ namespace EmbeddedBrowser
                 LoadPostPage(true);
             }
         }
+
         private void LoadPostPage(bool isLoggedIn)
         {
             if (isLoggedIn)

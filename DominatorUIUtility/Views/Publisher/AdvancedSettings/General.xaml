@@ -9,10 +9,10 @@
         <ScrollViewer>
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTriggerANotificationWhenThereAre}" Margin="0,0,10,0"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTriggerANotificationWhenPendingPostsCountReachesTo}" Margin="0,0,10,0"/>
                     <controls:NumericUpDown VerticalAlignment="Center" Minimum="0"
                                             Value="{Binding GeneralModel.TriggerNotificationCount}"/>
-                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyPostInThePostsList0ToDisable}" Margin="10,0"/>
+                   
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyWaitAMaximumOf}" Margin="0,0,10,0"/>

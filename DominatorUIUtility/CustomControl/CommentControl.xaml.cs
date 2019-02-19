@@ -64,41 +64,6 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty LstManageCommentModelProperty =
             DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageCommentModel>), typeof(CommentControl), new PropertyMetadata(new ObservableCollection<ManageCommentModel>()));
 
-        private void btnAddCommentToList_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(Comments.CommentText))
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please type some comment !!");
-                return;
-            }
-
-            AddCheckedQueryToList();
-            if (btnAddCommentToList.Content.ToString() == "Update Comment")
-            {
-                LstManageCommentModel.Select(x =>
-                {
-                    if (x.CommentId == Comments.CommentId)
-                    {
-                        x.CommentText = Comments.CommentText;
-                        x.FilterText = Comments.FilterText;
-                        x.LstQueries = Comments.LstQueries;
-                    }
-                    return x;
-                });
-                Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
-                Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
-                Isupdated = true;
-                Dialog.CloseDialog(this);
-            }
-            else
-            {
-                AddCommentToListEventHandler();
-            }
-
-
-        }
-
         private void chkQuery_Checked(object sender, RoutedEventArgs e)
         {
             CheckUncheckAll(sender, true);
@@ -133,7 +98,7 @@ namespace DominatorUIUtility.CustomControl
                 return;
             }
 
-            if (currentQuery == "All" || currentQuery== "Default")
+            if (currentQuery == "All" || currentQuery == "Default")
             {
                 _isUncheckfromList = false;
                 Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
@@ -170,11 +135,14 @@ namespace DominatorUIUtility.CustomControl
         {
             if (string.IsNullOrEmpty(Comments.CommentText))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please type some comment !!");
+                Dialog.ShowDialog("Warning", "Please type some comment !!");
                 return;
             }
-
+            if (!Comments.LstQueries.Any(x => x.IsContentSelected))
+            {
+                Dialog.ShowDialog("Warning", "Please select atleast one query.");
+                return;
+            }
             AddCheckedQueryToList();
             if (btnAddCommentToList.Content.ToString() == "Update Comment")
             {

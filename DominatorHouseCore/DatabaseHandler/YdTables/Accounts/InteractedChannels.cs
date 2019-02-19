@@ -35,7 +35,7 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         public string SubscriberCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public string SubscribeStatus { get; set; }
+        public bool IsSubscribed { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string ViewsCount { get; set; }
@@ -62,11 +62,9 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         public string ChannelUrl { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
-        public string MessageToChannelOwner { get; set; }
+        public string MyChannelId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
-        public string MyChannelId { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public string MyChannelPageId { get; set; }
     }
 }

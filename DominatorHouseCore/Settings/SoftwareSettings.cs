@@ -316,7 +316,7 @@ namespace DominatorHouseCore.Settings
                 {
                     await job.StartAdScarperAsync();
                 },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 10 });
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
             ScrapAdsProducer(adScraperblock);
         }

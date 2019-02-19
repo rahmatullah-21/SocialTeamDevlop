@@ -43,6 +43,8 @@ namespace DominatorUIUtility.ViewModel
 
     public class ProxyManagerViewModel : BaseTabViewModel, IProxyManagerViewModel
     {
+        #region Properties
+        
         private readonly IMainViewModel _mainViewModel;
         private readonly IProxyServerParserService _proxyServerParserService;
         private readonly IAccountsFileManager _accountsFileManager;
@@ -110,7 +112,9 @@ namespace DominatorUIUtility.ViewModel
             get { return _isRandomSelected; }
             set { SetProperty(ref _isRandomSelected, value); }
         }
-
+        
+        #endregion
+        
         #region Commands
 
         public ICommand AddProxyCommand { get; }
@@ -594,7 +598,7 @@ namespace DominatorUIUtility.ViewModel
                     .SaveToBinFile();
 
                 var accountToUpdate = _accountsFileManager.GetAccount(acc.UserName, acc.AccountBaseModel.AccountNetwork);
-                UpdateAccountsProxy(accountToUpdate, _mainViewModel.Strategies);
+                UpdateAccountsProxy(accountToUpdate);
             });
             DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
                 $"{oldProxy.AccountProxy.ProxyIp}:{oldProxy.AccountProxy.ProxyPort} Successfully updated.");
@@ -641,7 +645,7 @@ namespace DominatorUIUtility.ViewModel
                 socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(accountToDeleteProxy.AccountBaseModel)
                     .SaveToBinFile();
 
-                UpdateAccountsProxy(accountToDeleteProxy, _mainViewModel.Strategies);
+                UpdateAccountsProxy(accountToDeleteProxy);
                 StartLogin(accountToDeleteProxy, socinatorAccountBuilder);
                 LstProxyManagerModel.ForEach(oldProxy =>
                  AccountsAlreadyAssigned.Remove(AccountsAlreadyAssigned.FirstOrDefault(x => x.UserName == accountToDelete.UserName && x.AccountNetwork == accountToDelete.AccountNetwork))
@@ -689,7 +693,7 @@ namespace DominatorUIUtility.ViewModel
                 var socinatorAccountBuilder = new SocinatorAccountBuilder(accountToUpdateProxy.AccountBaseModel.AccountId);
                 socinatorAccountBuilder.AddOrUpdateDominatorAccountBase(accountToUpdateProxy.AccountBaseModel)
                     .SaveToBinFile();
-                UpdateAccountsProxy(accountToUpdateProxy, _mainViewModel.Strategies);
+                UpdateAccountsProxy(accountToUpdateProxy);
                 StartLogin(accountToUpdateProxy, socinatorAccountBuilder);
 
                 var item = LstProxyManagerModel.FirstOrDefault(proxy => proxy.AccountProxy.ProxyName == ProxyManagerModel.AccountProxy.ProxyName);
@@ -758,7 +762,7 @@ namespace DominatorUIUtility.ViewModel
             account.DisplayColumnValue4 = 0;
         }
 
-        private void UpdateAccountsProxy(DominatorAccountModel accountToUpdateProxy, AccessorStrategies strategies)
+        private void UpdateAccountsProxy(DominatorAccountModel accountToUpdateProxy)
         {
             try
             {
