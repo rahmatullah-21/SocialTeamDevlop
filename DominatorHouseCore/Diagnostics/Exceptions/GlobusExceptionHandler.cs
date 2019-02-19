@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 using Microsoft.Win32;
 
 namespace DominatorHouseCore.Diagnostics.Exceptions
@@ -51,7 +53,7 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             try
             {
                 var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting\Consent", true);
-                if(key != null)
+                if (key != null)
                     key.SetValue("DefaultConsent", 1);
 
                 key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting\Consent", true);
@@ -66,7 +68,7 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             try
             {
                 var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Windows Error Reporting", true);
-                key.SetValue("DontShowUI", 1);                
+                key.SetValue("DontShowUI", 1);
             }
             catch { }
 
@@ -84,16 +86,23 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             {
                 try
                 {
-                   
+
                     HandleGlobalException(e.ExceptionObject as Exception, o.ToString());
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ex.DebugLog();
-                    
                 }
-            };            
+            };
 
+            Application.Current.DispatcherUnhandledException += (o, e) =>
+             {
+                 e.Exception.DebugLog();
+             };
+            Application.Current.Dispatcher.UnhandledExceptionFilter += (o, e) =>
+            {
+                e.Exception.DebugLog();
+            };
             TaskScheduler.UnobservedTaskException += (o, e) =>
             {
                 try
@@ -118,12 +127,12 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
                 catch (Exception ex)
                 {
                     ex.DebugLog();
-
                 }
             };
+
         }
 
-        
+
         /// <summary>
         /// Application will be exit after notifying user on Unhandled exception occurred
         /// </summary>
@@ -132,7 +141,7 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
         internal static void HandleGlobalException(Exception exception, string senderString)
         {
             try
-            {                
+            {
                 if (exception != null)
                 {
                     UIDiagnostic.Fatal(exception, "Unhandled exception has been thrown from {0}", senderString);
@@ -142,7 +151,7 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             }
             catch (Exception ex)
             {
-                UIDiagnostic.Fatal(ex, "Unhandled exception has been thrown in HandleGlobalException()");                
+                UIDiagnostic.Fatal(ex, "Unhandled exception has been thrown in HandleGlobalException()");
             }
         }
 

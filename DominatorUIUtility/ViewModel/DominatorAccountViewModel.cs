@@ -35,6 +35,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorUIUtility.Views;
+using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
 
 namespace DominatorUIUtility.ViewModel
@@ -121,6 +123,16 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateAccountDetailsCommand { get; }
         public ICommand UpdateGroupCommand { get; }
         public ICommand UpdateUserCradCommand { get; }
+        public ICommand ProfileDetailsCommand { get; }
+        public ICommand DeleteAccountCommand { get; }
+        public ICommand BrowserLoginCommand { get; }
+        public ICommand GotoToolsCommand { get; }
+        public ICommand CheckLoginCommand { get; }
+        public ICommand UpdateFriendshipCommand { get; }
+        public ICommand EditNetworkProfileCommand { get; }
+        public ICommand CopyAccountIdCommand { get; }
+
+
         #endregion
 
 
@@ -152,7 +164,6 @@ namespace DominatorUIUtility.ViewModel
 
             _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
 
-
             #region Command Initialization
 
             AddSingleAccountCommand = new DelegateCommand(AddSingleAccountExecute);
@@ -178,6 +189,19 @@ namespace DominatorUIUtility.ViewModel
             UpdateGroupCommand = new DelegateCommand(UpdateGroupDetailsExecute);
 
             UpdateUserCradCommand = new BaseCommand<object>((sender) => true, UpdateUserCradExecute);
+
+            #region Context Menu Command
+
+            ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
+            DeleteAccountCommand = new DelegateCommand<DominatorAccountModel>(DeleteAccountByContextMenu);
+            BrowserLoginCommand = new DelegateCommand<DominatorAccountModel>(AccountBrowserLogin);
+            GotoToolsCommand = new DelegateCommand<DominatorAccountModel>(GotoTools);
+            CheckLoginCommand = new DelegateCommand<DominatorAccountModel>(AccountStatusChecker);
+            UpdateFriendshipCommand = new DelegateCommand<DominatorAccountModel>(AccountUpdate);
+            EditNetworkProfileCommand = new DelegateCommand<DominatorAccountModel>(EditProfile);
+            CopyAccountIdCommand = new DelegateCommand<DominatorAccountModel>(CopyAccountId);
+
+            #endregion
 
             #endregion
 
@@ -345,7 +369,7 @@ namespace DominatorUIUtility.ViewModel
                         var groupname = splitAccount[0];
 
                         var socialNetwork = splitAccount[1];
-                        if (socialNetwork == "AccountNetwork") continue;
+                        if (socialNetwork == "AccountNetwork" || socialNetwork == SocialNetworks.Social.ToString()) continue;
                         var username = splitAccount[2];
                         var password = splitAccount[3];
 
@@ -1415,22 +1439,16 @@ namespace DominatorUIUtility.ViewModel
         {
             var selectedAccount = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
 
-            // ReSharper disable once HeuristicUnreachableCode
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (selectedAccount == null) return;
-
             if (selectedAccount.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "Please select account to update !!");
+                Dialog.ShowDialog("Alert", "Please select account to update !!");
                 return;
             }
             var updateMenuItem = sender as string;
 
-
             if (updateMenuItem == "StopProcess")
             {
-                StopProcess();
+                StopProcess(selectedAccount);
                 return;
             }
             if (updateMenuItem == "StopAllActivity")
@@ -1488,7 +1506,7 @@ namespace DominatorUIUtility.ViewModel
 
         public void MultipleUpdate(DominatorAccountModel account, string updateMenuItem, IAccountUpdateFactory accountFactory)
         {
-            if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
+            if (accountFactory is IAccountUpdateFactoryAsync)
             {
                 // this account supports async modules
                 var asyncAccount = (IAccountUpdateFactoryAsync)accountFactory;
@@ -1558,12 +1576,6 @@ namespace DominatorUIUtility.ViewModel
                     }, account.Token);
                     checkAccount.Start();
                 }
-
-                else if (updateMenuItem == "StopProcess")
-                {
-                    StopProcess();
-                }
-
             }
         }
 
@@ -1576,10 +1588,13 @@ namespace DominatorUIUtility.ViewModel
                 {
                     var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                     var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    jobActivityConfigurationManager[account.AccountId].ForEach(x =>
+                    jobActivityConfigurationManager[account.AccountId].ToList().ForEach(x =>
                     {
-                        x.IsEnabled = false;
-                        dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
+                        if (x.IsEnabled)
+                        {
+                            x.IsEnabled = false;
+                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
+                        }
                     });
 
                     // ReSharper disable once ConstantConditionalAccessQualifier
@@ -1595,13 +1610,13 @@ namespace DominatorUIUtility.ViewModel
             });
         }
 
-        private void StopProcess()
+        private void StopProcess(List<DominatorAccountModel> selectedAccounts)
         {
             ThreadFactory.Instance.Start(() =>
             {
-                _updateAccountList.ForEach(accountSelected =>
+                selectedAccounts.ForEach(accountSelected =>
                 {
-                    var accountFullDetails = LstDominatorAccountModel.FirstOrDefault(x => x.UserName == accountSelected);
+                    var accountFullDetails = LstDominatorAccountModel.FirstOrDefault(x => x.UserName == accountSelected.UserName);
 
                     accountFullDetails?.NotifyCancelled();
 
@@ -1658,27 +1673,30 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
-
-        public void AccountBrowserLogin(DominatorAccountModel model)
-            => strategyPack.AccountBrowserLogin(model);
-
-        public void ActionCheckAccount(DominatorAccountModel model)
-            => strategyPack.ActionCheckAccount(model);
-
-        public void ActionUpdateAccount(DominatorAccountModel model)
-            => strategyPack.action_UpdateFollower(model);
-        public void EditProfile(DominatorAccountModel model)
-            => strategyPack.EditProfile(model);
-        public void RemovePhoneVerification(DominatorAccountModel model)
-            => strategyPack.RemovePhoneVerification(model);
-        public void UpdateProxyStatus(DominatorAccountBaseModel objDominatorAccountBaseModel)
+        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
         {
             try
             {
-                var ProxyToBeUpdated = _proxyFileManager.GetProxyById(objDominatorAccountBaseModel.AccountProxy.ProxyId);
-                ProxyToBeUpdated.Status = "Working";
-                _proxyFileManager.EditProxy(ProxyToBeUpdated);
+                var browserWindow = new BrowserWindow(dominatorAccountModel);
+                browserWindow.Show();
+            }
+            catch (Exception ex)
+            {
+                GlobusLogHelper.log.Error(ex.Message);
+            }
+        }
+
+        public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var accountUpdateFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    accountUpdateFactory.CheckStatus(dominatorAccountModel);
+                });
             }
             catch (Exception ex)
             {
@@ -1686,23 +1704,98 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        public void DeleteAccount(object sender, RoutedEventArgs e)
+        public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
-            var dataContext = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-
-            if (dataContext != null)
-                DeleteAccountByContextMenu(dataContext);
-            // AccountListView.ItemsSource = AccountCollectionView;
-
+            try
+            {
+                ThreadFactory.Instance.Start(() =>
+                {
+                    var accountUpdateFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    accountUpdateFactory.UpdateDetails(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private void EditProfile(DominatorAccountModel dominatorAccountModel)
+        {
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    var profileFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().ProfileFactory;
+                    profileFactory.EditProfile(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
-        public void GotoTools(object sender, RoutedEventArgs e)
+        private void RemovePhoneVerification(DominatorAccountModel dominatorAccountModel)
         {
-            var dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    var profileFactory = SocinatorInitialize
+                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().ProfileFactory;
+                    profileFactory.RemovePhoneVerification(dominatorAccountModel);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        public void UpdateProxyStatus(DominatorAccountBaseModel objDominatorAccountBaseModel)
+        {
+            try
+            {
+                var proxyToBeUpdated = _proxyFileManager.GetProxyById(objDominatorAccountBaseModel.AccountProxy.ProxyId);
+                proxyToBeUpdated.Status = "Working";
+                _proxyFileManager.EditProxy(proxyToBeUpdated);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private void ProfileDetails(DominatorAccountModel acount)
+        {
+            try
+            {
+                AccountManager.GetSingletonAccountManager(String.Empty, acount,
+                      acount.AccountBaseModel.AccountNetwork);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private void CopyAccountId(DominatorAccountModel account)
+        {
+            if (!string.IsNullOrEmpty(account.AccountId))
+            {
+                Clipboard.SetText(account.AccountId);
+                ToasterNotification.ShowSuccess("AccountId copied");
+            }
 
-            if (dominatorAccountModel == null)
+        }
+        public void GotoTools(DominatorAccountModel account)
+        {
+            if (account == null || account.AccountBaseModel.Status != AccountStatus.Success)
                 return;
-            TabSwitcher.ChangeTabWithNetwork(3, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName);
+
+            TabSwitcher.ChangeTabWithNetwork(3, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
         }
     }
 

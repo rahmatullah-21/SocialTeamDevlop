@@ -98,13 +98,8 @@ namespace DominatorHouse.ViewModels
 
             Strategies = new AccessorStrategies
             {
-                ActionCheckAccount = AccountStatusChecker,
-                AccountBrowserLogin = AccountBrowserLogin,
                 _determine_available = a => AvailableNetworks.Contains(a),
                 _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower = AccountUpdate,
-                EditProfile = EditProfile,
-                RemovePhoneVerification = RemovePhoneVerification
             };
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
@@ -346,7 +341,6 @@ namespace DominatorHouse.ViewModels
             }
         }
 
-
         private void InitializeJobCores()
         {
             try
@@ -417,92 +411,6 @@ namespace DominatorHouse.ViewModels
             catch (AggregateException ex)
             {
                 ex.DebugLog();
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-
-        private void RemovePhoneVerification(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    var profileFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().ProfileFactory;
-                    profileFactory.RemovePhoneVerification(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        private void EditProfile(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    var profileFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().ProfileFactory;
-                    profileFactory.EditProfile(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-
-        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                var browserWindow = new BrowserWindow(dominatorAccountModel);
-                browserWindow.Show();
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error(ex.Message);
-            }
-        }
-        public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var accountUpdateFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    accountUpdateFactory.CheckStatus(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var accountUpdateFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    accountUpdateFactory.UpdateDetails(dominatorAccountModel);
-                });
             }
             catch (Exception ex)
             {
@@ -588,7 +496,6 @@ namespace DominatorHouse.ViewModels
                 ex.DebugLog();
             }
         }
-
 
         private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
         {
