@@ -3397,10 +3397,4 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMakeNoteAsSpinText">Make note as spin text</system:String>
     <system:String x:Key="LangKeyAccountActivities">Account Activities</system:String>
     <system:String x:Key="LangKeyAccountUpdation">Account Updation</system:String>
-
-    <system:String x:Key="LangRepeatWatchingCount">Repeat Watching Count</system:String>
-    <system:String x:Key="LangKeyBrowserOption">Browser Option</system:String>
-    <system:String x:Key="LangKeyBrowserVisibility">Browser Visibility</system:String>
-    <system:String x:Key="LangKeyHidden">Hidden</system:String>
-    <system:String x:Key="LangKeyVisible">Visible</system:String>
 </ResourceDictionary>
