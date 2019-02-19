@@ -321,5 +321,8 @@ namespace DominatorHouseCore.Enums
         SendBoardInvitation = 112,
         [Description("LinkedIn")]
         BlockUser = 113,
+
+        [Description("Facebook")]
+        MessageToFanpages = 114
     }
 }

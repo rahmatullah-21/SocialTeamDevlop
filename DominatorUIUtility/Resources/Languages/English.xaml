@@ -3414,4 +3414,35 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfCommentScrapePerDay">Number Of Comment Scrape Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfCommentScrapePerWeek">Number Of Comment Scrape Per Week</system:String>
     <system:String x:Key="LangKeyNumberOfMaxCommentScrapePerDay">Number Of Max Comment Scrape Per Day</system:String>
+=======
+    <system:String x:Key="LangKeySendMessageToFanpages">Send Message To Fanpages</system:String>
+
+    <system:String x:Key="LangKeyLocationDistance">Location Distance</system:String>
+    <system:String x:Key="LangKeyOnlySortBy">Sort By</system:String>
+    <system:String x:Key="LangKeySubCategory">Sub Category</system:String>
+    <system:String x:Key="LangKeyOnlyShowFreeListings">Only Show Free Listings</system:String>
+    <system:String x:Key="LangKeyOnlyScrapItemsWithPriceRangeBetween">Scrap Items With Price Range Between</system:String>
+
+    <system:String x:Key="LangKeyTwoKilometers">Two Kilometers</system:String>
+    <system:String x:Key="LangKeyFiveKilometers">Five Kilometers</system:String>
+    <system:String x:Key="LangKeyTenKilometers">Ten Kilometers</system:String>
+    <system:String x:Key="LangKeyTwentyKilometers">Twenty Kilometers</system:String>
+    <system:String x:Key="LangKeyFortyKilometers">Forty Kilometers</system:String>
+    <system:String x:Key="LangKeySixtyKilometers">Sixty Kilometers</system:String>
+    <system:String x:Key="LangKeyEightyKilometers">Eighty Kilometers</system:String>
+    <system:String x:Key="LangKeyHundredKilometers">Hundred Kilometers</system:String>
+    <system:String x:Key="LangKeyMarketplaceScraper">Marketplace Scraper</system:String>
+
+
+    <system:String x:Key="LangKeyAllMarketplace">All Marketplace</system:String>
+    <system:String x:Key="LangKeyVehicles">Vehicles</system:String>
+    <system:String x:Key="LangKeyHomeAndGarden">Home And Garden</system:String>
+    <system:String x:Key="LangKeyHousing">Housing</system:String>
+    
+    <system:String x:Key="LangKeyClothingAndAccessories">Clothing And Accessories</system:String>
+    <system:String x:Key="LangKeyFamily">Family</system:String>
+    <system:String x:Key="LangKeyHobbies">Hobbies</system:String>
+    <system:String x:Key="LangKeyClassifieds">Classifieds</system:String>
+    <system:String x:Key="LAngKeyDeals">Deals</system:String>
+    
 </ResourceDictionary>
