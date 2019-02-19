@@ -3414,4 +3414,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfCommentScrapePerDay">Number Of Comment Scrape Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfCommentScrapePerWeek">Number Of Comment Scrape Per Week</system:String>
     <system:String x:Key="LangKeyNumberOfMaxCommentScrapePerDay">Number Of Max Comment Scrape Per Day</system:String>
+    <system:String x:Key="LangKeyPostLoaded">Post Loaded</system:String>
+    <system:String x:Key="LangRepeatWatchingCount">Repeat Watching Count</system:String>
+    <system:String x:Key="LangKeyBrowserOption">Browser Option</system:String>
+    <system:String x:Key="LangKeyBrowserVisibility">Browser Visibility</system:String>
+    <system:String x:Key="LangKeyHidden">Hidden</system:String>
+    <system:String x:Key="LangKeyVisible">Visible</system:String>
 </ResourceDictionary>

@@ -29,8 +29,8 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Visibility="{Binding IsProgressVisibile}" VerticalAlignment="Center" Margin="5">
                 <mah:ProgressRing IsActive="{Binding IsProgressActive}" HorizontalAlignment="Left" Margin="15,0,5,0"  Height="25" Width="25" />
-                <Label Content="{DynamicResource LangKeyLoadingPostPleaseWait}"/>
-                <Button Background="Transparent"  Margin="5,0" Command="{Binding StopLoadingPostCommand}"  Cursor="Hand">
+                <Label Content="{DynamicResource LangKeyLoadingPostPleaseWait}" VerticalAlignment="Center" />
+                <Button Background="Transparent"  Margin="5,0" Command="{Binding StopLoadingPostCommand}"  Cursor="Hand" Visibility="{Binding IsProgressVisibile}">
                     <Button.Template>
                         <ControlTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -44,8 +44,11 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+                <Label Content="{Binding PostCount}" VerticalAlignment="Center" />
+                <Label Content="{DynamicResource LangKeyPostLoaded}" VerticalAlignment="Center" />
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+
                 <Button Name="BtnDeleteAll" Foreground="White" Margin="2"  Background="{DynamicResource AccentBaseColorBrush}" 
                         Cursor="Hand" HorizontalAlignment="Center"  Height="30" VerticalAlignment="Center"
                         Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 

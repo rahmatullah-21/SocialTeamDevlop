@@ -33,6 +33,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void StopLoadingPost(object sender)
         {
+            IsProgressVisibile = Visibility.Collapsed;
+            IsProgressActive = false;
             IsStopLoadingPost = true;
         }
 
@@ -62,6 +64,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             get { return _isStopLoadingPost; }
             set { SetProperty(ref _isStopLoadingPost, value); }
+        }
+        private int _postCount;
+
+        public int PostCount
+        {
+            get { return _postCount; }
+            set { SetProperty(ref _postCount, value); }
         }
 
         private Visibility _isProgressVisibile = Visibility.Collapsed;

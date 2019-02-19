@@ -32,7 +32,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             MultiplePostCommand = new BaseCommand<object>(CanExecuteMultiPost, ExecuteMultiPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
-            SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, CanSaveSinglePost);
+            SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, SavePost);
             UploadDescriptionCommand = new BaseCommand<object>((sender) => true, UploadDescription);
             LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
             BindingOperations.EnableCollectionSynchronization(LstPostDetailsModels, _lock);
@@ -154,7 +154,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// Save the post list
         /// </summary>
         /// <param name="sender"></param>
-        public void CanSaveSinglePost(object sender)
+        public void SavePost(object sender)
         {
             var saveLocation = sender as string;
             var status = saveLocation == "SaveToPending" ? PostQueuedStatus.Pending : PostQueuedStatus.Draft;
@@ -214,7 +214,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (createCampaignModel.LstPostDetailsModels.Count > 0 ||
                             createCampaignModel.LstMultipleImagePostCollection.Count > 0)
                 {
+                    //Task.Factory.StartNew(() =>
+                    //{
                     // Iterate the Multiple posts images
+
                     createCampaignModel.LstPostDetailsModels.ForEach(post =>
                     {
                         post.PostQueuedStatus = status;
@@ -224,46 +227,48 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
                             post.IsUniquePost = PostDetailsModel.IsUniquePost;
                         }
-                        // Add to Post Collections 
-                        postCollectionDetails.Add(post);
+                            // Add to Post Collections 
+                            postCollectionDetails.Add(post);
                     });
+                    //   });
 
-                    // Iterate the Multiple image posts
+                    //Task.Factory.StartNew(() =>
+                    //{
+                    //    // Iterate the Multiple image posts
                     createCampaignModel.LstMultipleImagePostCollection.ForEach(post =>
-                    {
-                        post.PostQueuedStatus = saveLocation == "SaveToPending"
-                            ? PostQueuedStatus.Pending
-                            : PostQueuedStatus.Draft;
-
-                        if (post.IsMultipleImagePost)
                         {
-                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
-                            post.IsUniquePost = PostDetailsModel.IsUniquePost;
-                        }
+                            post.PostQueuedStatus = saveLocation == "SaveToPending"
+                                ? PostQueuedStatus.Pending
+                                : PostQueuedStatus.Draft;
 
+                            if (post.IsMultipleImagePost)
+                            {
+                                post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
+                                post.IsUniquePost = PostDetailsModel.IsUniquePost;
+                            }
 
-                        // Add to Post Collections 
-                        postCollectionDetails.Add(post);
-                    });
+                                // Add to Post Collections 
+                                postCollectionDetails.Add(post);
+                                // });
 
-                    if (!Application.Current.Dispatcher.CheckAccess())
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            //Clear the current object values
-                            createCampaignModel.LstMultipleImagePostCollection =
-                                new ObservableCollection<PostDetailsModel>();
+                                if (!Application.Current.Dispatcher.CheckAccess())
+                            {
+                                Application.Current.Dispatcher.Invoke(() =>
+                                    {
+                                //Clear the current object values
+                                createCampaignModel.LstMultipleImagePostCollection =
+                                    new ObservableCollection<PostDetailsModel>();
                             createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
                         });
-                    }
-                    else
-                    {
-                        //Clear the current object values
-                        createCampaignModel.LstMultipleImagePostCollection =
-                            new ObservableCollection<PostDetailsModel>();
-                        createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-                    }
-
+                            }
+                            else
+                            {
+                                    //Clear the current object values
+                                    createCampaignModel.LstMultipleImagePostCollection =
+                                        new ObservableCollection<PostDetailsModel>();
+                                createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+                            }
+                        });
                     isLoggerNeeded = true;
 
 
@@ -422,7 +427,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             {
                                 publisherMultiplePost.PublisherMultiplePostViewModel.LstPostDetailsModel.Add(x);
                             });
-                            Thread.Sleep(20);
                         });
 
                     });
@@ -460,6 +464,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressVisibile = Visibility.Visible;
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressActive = true;
+                publisherMultiplePost.PublisherMultiplePostViewModel.PostCount = 0;
                 Thread.Sleep(1000);
                 // Iterate selected file name
                 listPostDetailsModel.ForEach(x =>
@@ -526,8 +531,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         // Add to Collections
                         //postDetails.Add(postDetailsModel);
-                        Application.Current.Dispatcher.Invoke(() => LstPostDetailsModels.Add(postDetailsModel));
-                        Thread.Sleep(50);
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            try
+                            {
+                                LstPostDetailsModels.Add(postDetailsModel);
+                                publisherMultiplePost.PublisherMultiplePostViewModel.PostCount++;
+                            }
+                            catch (OutOfMemoryException ex)
+                            {
+
+
+                            }
+                        });
+
+                        Thread.Sleep(5);
                     }
                     catch (Exception ex)
                     {
@@ -540,34 +558,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsStopLoadingPost = false;
             });
 
-            // If all post read, open and show in UI for Updation
-            //if (postDetails?.Count != 0)
-            //{
-            //    try
-            //    {
-            //        // Get the object of multiple post UI
-            //        var publisherMultiplePost = new PublisherMultiplePost(postDetails);
-
-            //        // Get the core dialog object
-            //        var dialog = new Dialog();
-
-            //        // Pass the object with Title
-            //        var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
-
-            //        //DisplayAttribute the dialog
-            //        window.ShowDialog();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        ex.DebugLog();
-            //    }
-            //}
-
         }
 
         #endregion
-
     }
-
-
 }

@@ -213,13 +213,11 @@ namespace DominatorHouseCore.Utility
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
                     bool result = _protoBuffBase.SerializeList(accountDetailsList, file);
-                    GlobusLogHelper.log.Debug("Accounts succesfully saved");
                     return result;
                 });
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
@@ -517,7 +515,6 @@ namespace DominatorHouseCore.Utility
                 return _lockFileConfigProvider.WithFile<PublisherPostlistModel, bool>(file =>
                 {
                     bool result = _protoBuffBase.SerializeList(publisherPostlist, $"{file}\\{campaignId}.bin");
-                    GlobusLogHelper.log.Debug("Publisher Post list saved");
                     return result;
                 });
             }
@@ -541,7 +538,6 @@ namespace DominatorHouseCore.Utility
                 return _lockFileConfigProvider.WithFile<T, bool>(file =>
                 {
                     bool result = _protoBuffBase.SerializeList(publishDestinations, file);
-                    GlobusLogHelper.log.Debug("Publisher destination saved");
                     return result;
                 });
             }

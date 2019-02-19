@@ -634,10 +634,6 @@ namespace DominatorUIUtility.ViewModel
             {
                 var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
 
-                //DataBaseHandler.DbInitialCounters[objDominatorAccountBaseModel.AccountNetwork](dbOperations);
-
-                // DataBaseHandler.CreateDataBase(objDominatorAccountBaseModel.AccountId, objDominatorAccountBaseModel.AccountNetwork, DatabaseType.AccountType);
-
                 #region Saving Account detail to AccountDetails database
 
                 globalDbOperation.Add(new AccountDetails
@@ -662,8 +658,7 @@ namespace DominatorUIUtility.ViewModel
             dominatorAccountModel.Token.Register(databaseCreation);
 
             #endregion
-            //if (dominatorAccountBaseModel.Status != AccountStatus.Success)
-            //{
+            
             if (!_softwareSettings.Settings.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
             {
                 try
@@ -751,7 +746,7 @@ namespace DominatorUIUtility.ViewModel
                     ex.DebugLog();
                 }
             }
-            //}
+          
         }
         public bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {

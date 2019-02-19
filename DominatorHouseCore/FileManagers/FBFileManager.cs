@@ -27,15 +27,14 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-               return _lockFileConfigProvider.WithFile<ConfigFacebookModel, bool>(file =>
-                {
-                    using (var stream = _fileSystemProvider.Create(file))
-                    {
-                        Serializer.Serialize(stream, configFacebookModel);
-                        GlobusLogHelper.log.Info("Details successfully saved");
-                        return true;
-                    }
-                });
+                return _lockFileConfigProvider.WithFile<ConfigFacebookModel, bool>(file =>
+                 {
+                     using (var stream = _fileSystemProvider.Create(file))
+                     {
+                         Serializer.Serialize(stream, configFacebookModel);
+                         return true;
+                     }
+                 });
             }
             catch (Exception ex)
             {
