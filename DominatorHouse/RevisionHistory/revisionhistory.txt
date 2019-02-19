@@ -1,3 +1,19 @@
+Version[1.0.0.39],[19th-February-19]
+Fixed:-
+	LinkedIn:-
+		Grow Connection => Connection Request => Fixed issue with send connection request using search URL.
+		Messenger => Send message to new connection => Fixed issue with send message to new connection according to souce filter.
+		Scraper => User Scraper => Fixed issue with scrape profile using search URL.
+		Engage => Like => My Connection => User filter => Must have profile picture => Fixed issue with not liking the post.
+	Twitter:-
+		Account Activity => Fixed issue with hourly limit reached.
+	Quora:-
+		Voting => Fixed issue with upvote answer.
+		Voting => Fixed issue with downvote answer.
+	YouTube:-
+		Comment => FIxed issue in report is not showing.
+		Enage => Like => Fixed issue in data exported report.
+
 Version[1.0.0.38],[11th-February-19]
 New Features:-
 	Twitter:-

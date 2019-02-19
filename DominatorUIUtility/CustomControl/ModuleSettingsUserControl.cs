@@ -768,7 +768,7 @@ namespace DominatorUIUtility.CustomControl
                         var moduleSettings = _jobActivityConfigurationManager[account.AccountId, _activityType];
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
                         _dominatorScheduler.StopActivity(account, _activityType.ToString(),
-                            moduleSettings?.TemplateId, true);
+                            moduleSettings?.TemplateId, false);
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
                     }
                     catch (Exception ex)
@@ -809,7 +809,7 @@ namespace DominatorUIUtility.CustomControl
                         {
                             var moduleSettings = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
                             moduleSettings.LstRunningTimes = secondRunningTime;
-                            _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, true);
+                            _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, false);
                         }
                     }
                     catch (Exception ex)
