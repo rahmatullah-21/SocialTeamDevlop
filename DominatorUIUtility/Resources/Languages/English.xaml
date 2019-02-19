@@ -3252,7 +3252,7 @@ Type 3. IP:Port
 
     <system:String x:Key="LangKeyBoards">Boards</system:String>
     <system:String x:Key="LangKeyChannels">Channels</system:String>
-    
+
     <system:String x:Key="LangKeyMuteFollowerAfterFollow">Mute Follower After Follow</system:String>
     <system:String x:Key="LangKeyMuteFollowerPostAfterFollow">Mute Follower Post After Follow</system:String>
     <system:String x:Key="LangKeyMuteFollowerStoryAfterFollow">Mute Follower Story After Follow</system:String>
@@ -3397,4 +3397,21 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMakeNoteAsSpinText">Make note as spin text</system:String>
     <system:String x:Key="LangKeyAccountActivities">Account Activities</system:String>
     <system:String x:Key="LangKeyAccountUpdation">Account Updation</system:String>
+    <system:String x:Key="LangKeyNumOfPhotos">#Photos</system:String>
+    <system:String x:Key="LangKeyNumberOfChannelScrapePerJob">Number Of Channel Scrape Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfChannelScrapePerHour">Number Of Channel Scrape Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfChannelScrapePerDay">Number Of Channel Scrape Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfChannelScrapePerWeek">Number Of Channel Scrape Per Week</system:String>
+    <system:String x:Key="LangKeyNumberOfMaxChannelScrapePerday">Number Of MaxChannel Scrape Per day</system:String>
+    <system:String x:Key="LangKeyNumberOfSubscribesPerJob">Number Of Subscribes Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfSubscribesPerHour">Number Of Subscribes Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfSubscribesPerDay">Number Of Subscribes Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfSubscribesPerWeek">Number Of Subscribes Per Week</system:String>
+    <system:String x:Key="LangKeyMaxSubscribesPerDay">MaxSubscribes Per Day</system:String>
+    <system:String x:Key="LangKeyMaxRemoveVoteDay">Max RemoveVote Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfCommentScrapePerJob">Number Of Comment Scrape Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfCommentScrapePerHour">Number Of Comment Scrape Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfCommentScrapePerDay">Number Of Comment Scrape Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfCommentScrapePerWeek">Number Of Comment Scrape Per Week</system:String>
+    <system:String x:Key="LangKeyNumberOfMaxCommentScrapePerDay">Number Of Max Comment Scrape Per Day</system:String>
 </ResourceDictionary>
