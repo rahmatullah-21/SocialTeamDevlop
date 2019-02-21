@@ -22,8 +22,6 @@ namespace DominatorUIUtility.CustomControl
             AddCommentsCommand = new BaseCommand<object>((sender) => true, AddCommentsExecute);
 
         }
-
-
         private static readonly RoutedEvent AddCommentToListEvent =
        EventManager.RegisterRoutedEvent("AddCommentToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
            typeof(CommentControl));
@@ -80,7 +78,6 @@ namespace DominatorUIUtility.CustomControl
             var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
             if (!Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
             {
-
                 if (!IsChecked)
                 {
                     _isUncheckfromList = true;
@@ -103,12 +100,6 @@ namespace DominatorUIUtility.CustomControl
                 _isUncheckfromList = false;
                 Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
             }
-
-            //if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
-            //{
-            //    Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
-            //}
-
         }
         private void AddCheckedQueryToList()
         {
@@ -165,10 +156,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 AddCommentToListEventHandler();
             }
-
         }
-
-
 
         public object CommandParameter
         {
