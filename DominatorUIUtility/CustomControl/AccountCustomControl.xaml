@@ -75,12 +75,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--<Grid Grid.Row="0" Background="{DynamicResource AccentColorBrush}">-->
-        <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>-->
-
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
 
             <Label  HorizontalAlignment="Left" DockPanel.Dock="Left"
@@ -89,8 +83,6 @@
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
                                Content="{DynamicResource LangKeyAccountDetails}" />
-
-
 
             <Grid  Background="{DynamicResource AccentColorBrush}" DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
@@ -301,7 +293,9 @@
 
         <!--Data grid view-->
         <Grid Grid.Row="1">
-            <ListView x:Name="AccountListView"
+            <ListView x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
+                      VirtualizingPanel.IsContainerVirtualizable="True" Grid.Row="1"
+                      VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                 <ListView.Resources>
                     <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
@@ -342,7 +336,7 @@
 
                 <ListView.ItemsSource>
                     <MultiBinding Converter="{StaticResource AccountsFilterConverter}" >
-                        <Binding Path="LstDominatorAccountModel"/>
+                        <Binding Path="LstDominatorAccountModel" IsAsync="True"/>
                         <Binding Path="SelectedNetworkViewModel.Selected"/>
                         <Binding Path="LstDominatorAccountModel.Count"/>
                     </MultiBinding>

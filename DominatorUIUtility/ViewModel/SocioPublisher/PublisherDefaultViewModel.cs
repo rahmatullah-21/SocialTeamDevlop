@@ -302,6 +302,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Navigate to campaign UI
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = createCampign;
+                    
                 }
                 catch (Exception ex)
                 {

@@ -65,13 +65,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             get { return _isStopLoadingPost; }
             set { SetProperty(ref _isStopLoadingPost, value); }
         }
-        private int _postCount;
-
-        public int PostCount
-        {
-            get { return _postCount; }
-            set { SetProperty(ref _postCount, value); }
-        }
 
         private Visibility _isProgressVisibile = Visibility.Collapsed;
 
@@ -81,7 +74,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             set { SetProperty(ref _isProgressVisibile, value); }
         }
 
-        private ObservableCollection<PostDetailsModel> _lstPostDetailsModel;
+        private ObservableCollection<PostDetailsModel> _lstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
 
         public ObservableCollection<PostDetailsModel> LstPostDetailsModel
         {
@@ -128,10 +121,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PostDetailsId = Utilities.GetGuid()
             };
 
-            LstPostDetailsModel.Add(postDetailsModel);
 
-            PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                LstPostDetailsModel.Add(postDetailsModel);
+                PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel);
+                PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
+            });
+
         }
 
 
@@ -254,7 +252,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ex.DebugLog();
                     }
                 }
-
+                Application.Current.Dispatcher.Invoke(() =>
+                        PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel));
             }
             catch (Exception ex)
             {

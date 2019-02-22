@@ -38,6 +38,21 @@ namespace DominatorHouseCore.Utility
             }
         }
 
+        public static void CompressAccountDetails()
+        {
+            try
+            {
+                var file = $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now.ToString("yy-MM-dd")}.bin";
+                var oldfile = $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now.AddDays(-1).ToString("yy-MM-dd")}.bin";
+                if (File.Exists(oldfile))
+                    File.Delete(oldfile);
+                File.Copy(ConstantVariable.GetIndexAccountFile(), file, true);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
         public static void DeleteOldBackupFile()
         {
             try
