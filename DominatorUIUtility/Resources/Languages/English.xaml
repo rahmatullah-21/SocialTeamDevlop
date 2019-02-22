@@ -3420,4 +3420,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyBrowserVisibility">Browser Visibility</system:String>
     <system:String x:Key="LangKeyHidden">Hidden</system:String>
     <system:String x:Key="LangKeyVisible">Visible</system:String>
+    <system:String x:Key="LangKeyDisableAccount">Account Disable</system:String>
 </ResourceDictionary>
