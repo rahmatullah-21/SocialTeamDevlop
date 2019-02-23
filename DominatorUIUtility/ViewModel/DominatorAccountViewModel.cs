@@ -590,7 +590,7 @@ namespace DominatorUIUtility.ViewModel
                 RowNo = LstDominatorAccountModel.Count + 1,
                 AccountId = dominatorAccountBaseModel.AccountId
             };
-            if (!string.IsNullOrEmpty(cookies) && dominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube)
+            if (!string.IsNullOrEmpty(cookies)/* && dominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube*/)
                 try
                 {
                     dominatorAccountModel.CookieHelperList = JArray.Parse(cookies).ToObject<HashSet<CookieHelper>>();
