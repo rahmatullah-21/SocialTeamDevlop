@@ -95,13 +95,7 @@ namespace DominatorUIUtility.CustomControl
                 _isUncheckfromList = false;
                 Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
             }
-
-            //if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
-            //{
-            //    Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
-            //}
-
-        }
+          }
         private void AddCheckedQueryToList()
         {
             Messages.SelectedQuery.Clear();
@@ -185,6 +179,7 @@ namespace DominatorUIUtility.CustomControl
                         x.MessagesText = Messages.MessagesText;
                         x.LstQueries = Messages.LstQueries;
                         x.MediaPath = Messages.MediaPath;
+                        x.SelectedQuery = Messages.SelectedQuery;
                     }
                     return x;
                 }).ToList();

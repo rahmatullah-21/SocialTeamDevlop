@@ -30,6 +30,11 @@
                     <ListView.InputBindings>
                         <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCmd}"/>
                     </ListView.InputBindings>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsVirtualizing="True"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Copy" Command="{Binding CopyCmd}"/>

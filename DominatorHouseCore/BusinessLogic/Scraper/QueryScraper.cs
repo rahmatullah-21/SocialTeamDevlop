@@ -90,7 +90,6 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 {
                     try
                     {
-                        //  ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.SelectedQueryEnumId}"]?.Invoke(query);
                         _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                         ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
@@ -166,7 +165,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     _jobProcess.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(_jobProcess?.DominatorAccountModel);
             }
-          
+
             GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks,
                 _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
             var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();

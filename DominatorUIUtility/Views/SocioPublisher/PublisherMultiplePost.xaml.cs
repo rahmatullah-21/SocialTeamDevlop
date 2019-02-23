@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -9,6 +11,7 @@ using System.Windows.Data;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 
 namespace DominatorUIUtility.Views.SocioPublisher
@@ -16,29 +19,27 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// <summary>
     /// Interaction logic for PublisherMultiplePost.xaml
     /// </summary>
-    public partial class PublisherMultiplePost : UserControl, INotifyPropertyChanged
+
+    public partial class PublisherMultiplePost : UserControl, INotifyPropertyChanged, IDisposable
     {
         public PublisherMultiplePost()
         {
             InitializeComponent();
             PublisherMultiplePostViewModel = new PublisherMultiplePostViewModel();
             MultiplePost.DataContext = PublisherMultiplePostViewModel;
-            posts.ItemContainerGenerator.StatusChanged += StatusChanged;
+            _instance = this;
         }
 
+        private static PublisherMultiplePost _instance;
 
+        public static PublisherMultiplePost GetMultiplePost(ObservableCollection<PostDetailsModel> postDetails)
+        {
+            return _instance ?? (_instance = new PublisherMultiplePost(postDetails));
+        }
         public PublisherMultiplePost(ObservableCollection<PostDetailsModel> postDetails) : this()
         {
             PublisherMultiplePostViewModel.LstPostDetailsModel = postDetails;
         }
-
-        public Action<PublisherMultiplePost> UpdatePostDetails { get; set; }
-        public PublisherMultiplePost(Action<PublisherMultiplePost> updatePostDetails) : this()
-        {
-            UpdatePostDetails = updatePostDetails;
-        }
-
-
         public ObservableCollection<PostDetailsModel> GetFinalPostDetails()
         {
             return PublisherMultiplePostViewModel.LstPostDetailsModel;
@@ -71,48 +72,28 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void PublisherMultiplePost_OnLoaded(object sender, RoutedEventArgs e)
         {
+            var lstPostDetails = PublisherMultiplePostViewModel.LstPostDetailsModel = PublisherCreateCampaigns
+                 .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                 .PublisherCreateCampaignModel.LstPostDetailsModels;
+            PublisherMultiplePostViewModel.LstPostDetailsModel = lstPostDetails;
 
             if (!Application.Current.Dispatcher.CheckAccess())
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    PublisherMultiplePostViewModel.LstPostDetailsModel = PublisherCreateCampaigns
-                        .GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                        .PublisherCreateCampaignModel.LstPostDetailsModels;
+
                     PublisherMultiplePostViewModel.PostListsCollectionView =
                         CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
                 });
             }
             else
-            {
-                PublisherMultiplePostViewModel.LstPostDetailsModel = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                    .PublisherCreateCampaignModel.LstPostDetailsModels;
-                PublisherMultiplePostViewModel.PostListsCollectionView = CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
-
-            }
+                PublisherMultiplePostViewModel.PostListsCollectionView =
+                    CollectionViewSource.GetDefaultView(PublisherMultiplePostViewModel.LstPostDetailsModel);
 
         }
-        void StatusChanged(object sender, EventArgs e)
+        public void Dispose()
         {
-            try
-            {
-                if (posts.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
-                {
-                    if (posts.Items.Count > 0)
-                    {
-                        var info = posts.Items[posts.Items.Count - 1] as PostDetailsModel;
-                        if (info == null)
-                            return;
-
-                        posts.ScrollIntoView(info);
-                    }
-                 
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
+            _instance = null;
         }
     }
 }

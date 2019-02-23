@@ -368,7 +368,7 @@ namespace DominatorHouse.ViewModels
                                 () =>
                                 {
                                     DirectoryUtilities.DeleteOldLogsFile();
-                                    // DirectoryUtilities.Compress();
+                                    DirectoryUtilities.CompressAccountDetails();
                                 },
                                 () =>
                                 {

@@ -144,6 +144,7 @@ namespace DominatorUIUtility.CustomControl
                         x.CommentText = Comments.CommentText;
                         x.FilterText = Comments.FilterText;
                         x.LstQueries = Comments.LstQueries;
+                        x.SelectedQuery = Comments.SelectedQuery;
                     }
                     return x;
                 }).ToList();

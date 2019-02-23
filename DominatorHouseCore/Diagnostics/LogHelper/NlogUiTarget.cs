@@ -1,4 +1,8 @@
-﻿using CommonServiceLocator;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Threading;
+using CommonServiceLocator;
 using DominatorHouseCore.ViewModel;
 using NLog;
 using NLog.Common;
@@ -16,13 +20,13 @@ namespace DominatorHouseCore.Diagnostics.LogHelper
             _logViewModel = ServiceLocator.Current.GetInstance<ILogViewModel>();
         }
 
-        protected override void Write(AsyncLogEventInfo[] logEvents)
-        {
-            foreach (var logEvent in logEvents)
-            {
-                Write(logEvent);
-            }
-        }
+        //protected override void Write(IList<AsyncLogEventInfo> logEvents)
+        //{
+        //    foreach (var logEvent in logEvents)
+        //    {
+        //        Write(logEvent);
+        //    }
+        //}
 
         protected override void Write(AsyncLogEventInfo logEvent)
         {
@@ -31,8 +35,9 @@ namespace DominatorHouseCore.Diagnostics.LogHelper
 
         protected override void Write(LogEventInfo logEvent)
         {
-            _logViewModel.Add(logEvent.FormattedMessage, logEvent.Level);
-
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, (Action)(() =>
+             _logViewModel.Add(logEvent.FormattedMessage, logEvent.Level))
+            );
         }
     }
 }

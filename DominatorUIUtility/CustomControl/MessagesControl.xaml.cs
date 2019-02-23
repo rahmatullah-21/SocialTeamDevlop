@@ -143,6 +143,7 @@ namespace DominatorUIUtility.CustomControl
                     {
                         x.MessagesText = Messages.MessagesText;
                         x.LstQueries = Messages.LstQueries;
+                        x.SelectedQuery = Messages.SelectedQuery;
                     }
                     return x;
                 }).ToList();
