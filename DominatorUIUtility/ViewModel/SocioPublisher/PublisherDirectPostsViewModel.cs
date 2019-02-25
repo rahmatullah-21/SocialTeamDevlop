@@ -285,7 +285,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     GlobusLogHelper.log.Info("LangKeyPostSaved".FromResourceDictionary() + $" to {status} list");
                 }
-                _multipostWindow.Close();
+                _multipostWindow?.Close();
                 _multipostWindow = null;
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {

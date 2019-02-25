@@ -342,6 +342,11 @@
                     </MultiBinding>
                 </ListView.ItemsSource>
 
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                         <Setter Property="Height" Value="30"/>

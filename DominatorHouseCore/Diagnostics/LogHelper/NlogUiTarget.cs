@@ -28,16 +28,15 @@ namespace DominatorHouseCore.Diagnostics.LogHelper
         //    }
         //}
 
-        protected override void Write(AsyncLogEventInfo logEvent)
-        {
-            Write(logEvent.LogEvent);
-        }
+        //protected override void Write(AsyncLogEventInfo logEvent)
+        //{
+        //    Write(logEvent.LogEvent);
+        //}
+
 
         protected override void Write(LogEventInfo logEvent)
         {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, (Action)(() =>
-             _logViewModel.Add(logEvent.FormattedMessage, logEvent.Level))
-            );
+            _logViewModel.Add(logEvent.FormattedMessage, logEvent.Level);
         }
     }
 }

@@ -32,7 +32,7 @@
                     </ListView.InputBindings>
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel IsVirtualizing="True"/>
+                            <VirtualizingStackPanel/>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ContextMenu>

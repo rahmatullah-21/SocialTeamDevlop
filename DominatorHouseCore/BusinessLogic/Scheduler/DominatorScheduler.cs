@@ -396,14 +396,25 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, DateTime timeToRunNext, DateTime stopTime)
+        private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId,
+            string jobId, DateTime timeToRunNext, DateTime stopTime)
         {
+            Task.Factory.StartNew(() =>
+            {
+                _schedulerProxy.AddJob(() =>
+                    {
+                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                    },
+                    s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
 
-            _schedulerProxy.AddJob(() => { RunActivity(dominatorAccount, templateId, timing, timing.Module); },
-                s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
 
-            _schedulerProxy.AddJob(() => { StopActivity(dominatorAccount, timing.Module, templateId, true); },
-                s => s.ToRunOnceAt(stopTime));
+                _schedulerProxy.AddJob(() =>
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true);
+                    },
+                    s => s.ToRunOnceAt(stopTime));
+            });
+
         }
 
         public void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType)
@@ -426,7 +437,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 _accountsCacheService.UpsertAccounts(jobProcess.DominatorAccountModel);
             }
 
-           // ScheduleNextActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType);
+            // ScheduleNextActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType);
             StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, moduleConfiguration.IsEnabled);
             _jobCountersManager.Reset(jobProcess.Id);
 

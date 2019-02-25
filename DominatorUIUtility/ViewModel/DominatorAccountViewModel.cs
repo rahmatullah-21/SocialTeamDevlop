@@ -1400,29 +1400,20 @@ namespace DominatorUIUtility.ViewModel
 
                 try
                 {
-                    //LstDominatorAccountModel.Clear();
-                    Task.Factory.StartNew(() =>
+                    foreach (var account in savedAccounts)
                     {
-
-                        foreach (var account in savedAccounts)
+                        if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
+                            .AccountNetwork))
                         {
-                            if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
-                                .AccountNetwork))
+                            if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
                             {
-                                if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
-                                {
-                                    GlobusLogHelper.log.Info(
-                                        "You have already added maximum account as per your plan");
-                                    break;
-                                }
-
-                                LstDominatorAccountModel.AddSync(account);
+                                GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                                break;
                             }
 
+                            LstDominatorAccountModel.AddSync(account);
                         }
-
-                    });
-
+                    }
                 }
                 catch (Exception ex)
                 {
