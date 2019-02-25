@@ -76,12 +76,15 @@ namespace EmbeddedBrowser
             Browser.IsBrowserInitializedChanged += LoadSettings;
         }
         
+
+        /// <summary>
+        /// Set Account Model Cookies into the browser
+        /// </summary>
+        /// <param name="customUse"></param>
         private void SetCookie(ref bool customUse)
         {
             try
             {
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram) return;
-
                 var accountCookie = DominatorAccountModel.Cookies;
                 var callBack = new TaskCompletionCallback();
 
@@ -122,7 +125,7 @@ namespace EmbeddedBrowser
 
                     var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
 
-                    if (!set) { }
+                   // if (!set) { /*Is cookie set ?*/ }
                 }
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
@@ -132,8 +135,7 @@ namespace EmbeddedBrowser
                 }
 
                 // Just to check that how many cookie was inserted
-                cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack)
-                    .VisitAllCookiesAsync().Result;
+                //cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync().Result;
             }
             catch (Exception ex)
             {
