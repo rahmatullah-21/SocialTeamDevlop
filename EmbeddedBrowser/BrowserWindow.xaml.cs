@@ -91,7 +91,12 @@ namespace EmbeddedBrowser
                 var cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack)
                     .VisitAllCookiesAsync().Result;
 
-                if (accountCookie.Count ==0 || cefInitialCookies.Count > accountCookie.Count) return;
+                if (accountCookie.Count ==0 || cefInitialCookies.Count > accountCookie.Count)
+                {
+                    if (accountCookie.Count == 0 && DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
+                        Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
+                    return;
+                }
 
                 if(cefInitialCookies.Count >= accountCookie.Count)
                 {
@@ -125,7 +130,7 @@ namespace EmbeddedBrowser
 
                     var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
 
-                   // if (!set) { /*Is cookie set ?*/ }
+                    //if (!set) { /*Is cookie set ?*/ }
                 }
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
@@ -513,7 +518,7 @@ namespace EmbeddedBrowser
                                            || _pageText.Contains("Protect your account") && _pageText.ToLower().Contains(DominatorAccountModel.UserName.ToLower());
                     SetGoogleLangAsEng(_pageText, _htmlHasUserName);
 
-                    if (!_isLoggedIn && _pageText.Contains("English (") && !IsGoogleAccountLoginFailed())
+                    if (!_isLoggedIn && (_pageText.Contains("Verify your identity") ||_pageText.Contains("\n\nEnter verification code\n\n") || _pageText.Contains("English (")) && !IsGoogleAccountLoginFailed())
                     {
                         if (/*Html.Contains("identifierNext")*/ _pageText.Contains("\nForgot email?\n") && (_pageText.Contains("\nEmail or phone\n") || _pageText.ToLower().Contains($"\n{DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()}\n")) && !_pageText.Contains("Confirm the recovery email address"))
                         {
@@ -624,11 +629,13 @@ namespace EmbeddedBrowser
                 {pageData => pageData.Contains("Confirm the recovery email address"), ConfirmRecoveryEmailAddress},
                 {pageData => pageData.Contains("Confirm the phone number"), ConfirmRecoveryPhoneNumber},
                 {
-                    pageData => pageData.Contains("Enter a phone number to get a text message with a verification code"),
+                    pageData => pageData.Contains("Enter a phone number to get a text message with a verification code") ||
+                                pageData.Contains("Provide a phone number to continue. We'll send a verification code you can use to sign in.") ||
+                    pageData.Contains("Provide a phone number to continue. We'll send a verification code that you can use to sign in."),
                     AddPhoneNumber
                 },
                 {
-                    pageData => pageData.Contains("A text message with a 6-digit verification code was just sent to"),
+                    pageData => pageData.Contains("Enter verification code") || pageData.Contains("A text message with a 6-digit verification code was just sent to"),
                     VerifyCodeFromPhone
                 },
                 {
@@ -721,8 +728,8 @@ namespace EmbeddedBrowser
                || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TooManyAttemptsOnPhoneVerification
                || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount) && !DominatorAccountModel.IsVerificationCodeSent)
                 return true;
-
-            PressAnyKey(3, 200, winKeyCode: 9); //Press Tab 3 Times key
+            if(!Browser.GetTextAsync().Result.Contains("\n\nEnter verification code\n\n"))
+             PressAnyKey(3, 200, winKeyCode: 9); //Press Tab 3 Times key
             var isWrong = true;
             var iterateNTimes = 0;
             var codeBefore = "";
@@ -744,12 +751,14 @@ namespace EmbeddedBrowser
                     //EnterChars(DominatorAccountModel.VarificationCode.Trim(), 0.3); //Re-Entering Verification Code
                     //PressAnyKey(6, 300, winKeyCode: 37, delayAtLast: 0.5); //Taking Cursor 6 step behind on Code Text
                     //PressAnyKey(6, 300, winKeyCode: 8, delayAtLast: 0.5); //Now removing first 5 numbers of entered code
-
-                    PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 5); //Press Enter key
+                    if (!Browser.GetTextAsync().Result.Contains("\n\nEnter verification code\n\n"))
+                        PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 5); //Press Enter key
+                    else
+                        BrowserAct(ActType.ClickByName, "VerifyPhone", delayAfter: 3);
 
                     var pageText = Browser.GetTextAsync().Result;
 
-                    isWrong = pageText.Contains("Wrong code. Try again.") || pageText.Contains("Wrong number of digits. Please try again.");
+                    isWrong = pageText.Contains("That code doesn't match the one we sent.") || pageText.Contains("Wrong code. Try again.") || pageText.Contains("Wrong number of digits. Please try again.");
                     if (isWrong)
                     {
                         iterateNTimes++;
@@ -763,7 +772,7 @@ namespace EmbeddedBrowser
                     }
                     else
                     {
-                        isWrong = pageText.Contains("Too many attempts. Please try again later.") || pageText.Contains("Too many failed attempts")
+                        isWrong = pageText.Contains("Too many failed attempts. The previous code sent to you is no longer valid.")|| pageText.Contains("Too many attempts. Please try again later.") || pageText.Contains("Too many failed attempts")
                                   && pageText.Contains("Unavailable because of too many failed attempts. Try again in a few hours.");
                         if (isWrong)
                         {
@@ -862,22 +871,37 @@ namespace EmbeddedBrowser
                 && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
             {
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+                var text = Browser.GetTextAsync().Result;
+                if (text.Contains("Provide a phone number to continue. We'll send a verification code that you can use to sign in.") 
+                    || text.Contains("Provide a phone number to continue. We'll send a verification code you can use to sign in."))
+                {
+                    //PressAnyKey(9, 150, winKeyCode: 9,
+                    //    delayAtLast: 1);
+                }
                 //BrowserAct(ActType.ClickByClass, "whsOnd zHQkBf");
                 EnterChars(DominatorAccountModel.AccountBaseModel.PhoneNumber, delayAtLast: 1);
-                PressAnyKey(1, 0, winKeyCode: 13,
-                    delayAtLast: 3); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
+                if (text.Contains("Provide a phone number to continue. We'll send a verification code that you can use to sign in.")
+                    || text.Contains("Provide a phone number to continue. We'll send a verification code you can use to sign in."))
+                {
+                    BrowserAct(ActType.ClickByName, "SendCode",delayAfter:4);
+                }
+                else
+                    PressAnyKey(1, 0, winKeyCode: 13,
+                    delayAtLast: 4); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
 
-                var text = Browser.GetTextAsync().Result;
-                isWrong = !text.Contains("A text message with a 6-digit verification code was just sent to");
+                text = Browser.GetTextAsync().Result;
+                isWrong = !(text.Contains("A text message with a 6-digit verification code was just sent to")|| text.Contains("\n\nEnter verification code\n\n"));
 
                 if (!isWrong)
                 {
                     var number = Utilities.GetBetween(text, "code was just sent to", "\n");
+                    if (string.IsNullOrEmpty(number))
+                        number = "the number you submitted";
                     CustomLog($"A text message with a 6-digit verification code was just sent to {number}. Enter the code within 2 minutes.");
                 }
                 else
                 {
-                    isWrong = text.Contains("There was a problem with your phone number") || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
+                    isWrong = text.Contains("The phone number was invalid. Please correct it and try again.") || text.Contains("There was a problem with your phone number") || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
                               text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.");
 
                     if (isWrong && text.Contains("There was a problem with your phone number"))
