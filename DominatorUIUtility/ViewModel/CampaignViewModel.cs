@@ -486,12 +486,15 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var contextMenu = ((Button)sender).ContextMenu;
-                if (contextMenu != null)
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
                 {
-                    contextMenu.DataContext = ((Button)sender).DataContext;
-                    contextMenu.IsOpen = true;
-                }
+                    var contextMenu = ((Button)sender).ContextMenu;
+                    if (contextMenu != null)
+                    {
+                        contextMenu.DataContext = ((Button)sender).DataContext;
+                        contextMenu.IsOpen = true;
+                    }
+                }));
             }
             catch (Exception ex)
             {

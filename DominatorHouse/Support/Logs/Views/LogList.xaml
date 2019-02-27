@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" xmlns:pre="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:LogViewItemsSourceConverter x:Key="LogViewItemsSourceConverter"></converters:LogViewItemsSourceConverter>
@@ -53,12 +53,14 @@
                                                             <DataTrigger Binding="{Binding LogType}" Value="Info">
                                                                 <Setter Property="OpacityMask">
                                                                     <Setter.Value>
-                                                                        <VisualBrush Visual="{StaticResource appbar_information_circle}" Stretch="Fill" />
+                                                                        <VisualBrush pre:Freeze="true"
+                                                                                     Visual="{StaticResource appbar_information_circle}" Stretch="Fill" />
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Setter Property="Fill">
                                                                     <Setter.Value>
-                                                                        <SolidColorBrush Color="#33ff33"/>
+                                                                        <SolidColorBrush Color="#33ff33"
+                                                                                         pre:Freeze="true" />
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Setter Property="ToolTip" Value="{DynamicResource LangKeyInformations}"/>
@@ -66,12 +68,13 @@
                                                             <DataTrigger Binding="{Binding LogType}" Value="Error">
                                                                 <Setter Property="OpacityMask">
                                                                     <Setter.Value>
-                                                                        <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill" />
+                                                                        <VisualBrush pre:Freeze="true"
+                                                                                     Visual="{StaticResource appbar_stop}" Stretch="Fill" />
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Setter Property="Fill">
                                                                     <Setter.Value>
-                                                                        <SolidColorBrush Color="Red"/>
+                                                                        <SolidColorBrush Color="Red" pre:Freeze="true" />
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Setter Property="ToolTip" Value="{DynamicResource LangKeyError}"/>
@@ -79,12 +82,14 @@
                                                             <DataTrigger Binding="{Binding LogType}" Value="Warn">
                                                                 <Setter Property="OpacityMask">
                                                                     <Setter.Value>
-                                                                        <VisualBrush Visual="{StaticResource appbar_shield_alert}" Stretch="Fill"/>
+                                                                        <VisualBrush pre:Freeze="true"
+                                                                                     Visual="{StaticResource appbar_shield_alert}" Stretch="Fill"/>
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Setter Property="Fill">
                                                                     <Setter.Value>
-                                                                        <SolidColorBrush Color="#ffd700"/>
+                                                                        <SolidColorBrush Color="#ffd700"
+                                                                                         pre:Freeze="true" />
                                                                     </Setter.Value>
                                                                 </Setter>
                                                                 <Setter Property="ToolTip" Value="{DynamicResource LangKeyWarning}"/>

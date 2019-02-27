@@ -454,6 +454,12 @@
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}" >
                                                         <Setter Property="Text" Value="{DynamicResource LangKeySetNewPassword}" />
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ActionBlocked}">
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyActionBlock}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.DisableAccount}">
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyDisableAccount}" />
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>
