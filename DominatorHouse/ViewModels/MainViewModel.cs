@@ -20,7 +20,6 @@ using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
-using EmbeddedBrowser;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;

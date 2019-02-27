@@ -527,9 +527,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // Get all posts with specified post queued status
             var postItems = PostlistFileManager.GetAll(campaignId).Where(x => x.PostQueuedStatus == requiredPostList).ToList();
 
-            //// Call to clear already binding posts
-            //ClearPostlists();
-
             if (postItems.Count == 0)
             {
                 IsProgressRingActive = false;

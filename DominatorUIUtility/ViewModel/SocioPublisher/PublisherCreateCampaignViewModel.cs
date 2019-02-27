@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,17 +66,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
 
             var publisherCreateDestination = new PublisherCreateDestination(true);
-            publisherCreateDestination.PublisherCreateDestinationsViewModel =
-                PublisherCreateDestination.Instance.PublisherCreateDestinationsViewModel;
             var dialog = new Dialog();
 
             // Pass the UI object with Title of the Page
             var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
             publisherCreateDestination.Margin = new Thickness(7);
             metroWindow.ShowDialog();
-            var newCreatedDestination = ManageDestinationFileManager.GetAll().LastOrDefault();
-            if (newCreatedDestination != null)
-                _publisherCreateCampaignModel.LstDestinationId.Add(newCreatedDestination.DestinationId);
+            if (publisherCreateDestination.PublisherCreateDestinationsViewModel.IsSavedDestination)
+            {
+                var newCreatedDestination = ManageDestinationFileManager.GetAll().LastOrDefault();
+                if (newCreatedDestination != null)
+                    _publisherCreateCampaignModel.LstDestinationId.Add(newCreatedDestination.DestinationId);
+            }
+
         }
 
         #endregion
@@ -342,54 +345,71 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                             // Get deep clone of the post 
                             var postData = post.DeepClone();
-
-                            // Check whether current post is belongs to multiple images or not
-                            if (postData.IsMultipleImagePost)
+                            try
                             {
-                                // check whether user need to use File name as post description
-                                if (!post.IsUseFileNameAsDescription)
-                                {
-                                    int index = PublisherCreateCampaignModel.PostCollection.IndexOf(post);
-                                    if (index < PublisherCreateCampaignModel.LstUploadPostDescription.Count)
-                                        postData.PostDescription = PublisherCreateCampaignModel.LstUploadPostDescription[index];
-                                    else
-                                        postData.PostDescription = "image " + (index + 1);
 
-                                }
-                                // check whether user need to use unique post
-                                if (post.IsUniquePost)
+                                // Check whether current post is belongs to multiple images or not
+                                if (postData.IsMultipleImagePost)
                                 {
-                                    if (mediaUrl.Contains(postData.MediaList[0]))
-                                        continue;
+                                    // check whether user need to use File name as post description
+                                    if (!post.IsUseFileNameAsDescription)
+                                    {
+                                        int index = PublisherCreateCampaignModel.PostCollection.IndexOf(post);
+                                        if (index < PublisherCreateCampaignModel.LstUploadPostDescription.Count)
+                                            postData.PostDescription = PublisherCreateCampaignModel.LstUploadPostDescription[index];
+                                        else
+                                            postData.PostDescription = "image " + (index + 1);
 
-                                    mediaUrl.Add(postData.MediaList[0]);
+                                    }
+                                    // check whether user need to use unique post
+                                    if (post.IsUniquePost)
+                                    {
+                                        if (mediaUrl.Contains(postData.MediaList[0]))
+                                            continue;
+
+                                        mediaUrl.Add(postData.MediaList[0]);
+                                    }
                                 }
+                                ////old saving func
+                                // AddPostlists(postIdlist, postData);
+
+                                // Add the item into bin file
+                                AddPostlists(postIdlist, postData, lstPost);
+
+                                postCount++;
+
+                                // Check whether client needs to readd post or not
+                                if (!postData.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
+                                    continue;
+
                             }
-                            ////old saving func
-                            // AddPostlists(postIdlist, postData);
+                            catch (Exception ex)
+                            {
 
-                            // Add the item into bin file
-                            AddPostlists(postIdlist, postData, lstPost);
 
-                            postCount++;
-
-                            // Check whether client needs to readd post or not
-                            if (!postData.PublisherPostSettings.GeneralPostSettings.IsReaddCount)
-                                continue;
-
+                            }
                             // Iterate the current post to readding times 
                             for (var readdCount = 1; readdCount < postData.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
                             {
-                                if (postCount >= maxPostCount)
-                                    break;
-                                var newpost = postData.DeepClone();
-                                newpost.PostDetailsId = Utilities.GetGuid();
-                                AddPostlists(postIdlist, newpost, lstPost);
-                                // AddPostlists(postIdlist, newpost);
-                                postCount++;
+                                try
+                                {
+                                    if (postCount >= maxPostCount)
+                                        break;
+                                    var newpost = postData.DeepClone();
+                                    newpost.PostDetailsId = Utilities.GetGuid();
+                                    AddPostlists(postIdlist, newpost, lstPost);
+                                    // AddPostlists(postIdlist, newpost);
+                                    postCount++;
+                                }
+                                catch (Exception ex)
+                                {
+
+
+                                }
                             }
                         }
                     }
+                    Thread.Sleep(10);
                     PostlistFileManager.AddRange(PublisherCreateCampaignModel.CampaignId, lstPost);
                     #endregion
 
@@ -686,8 +706,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void AddPostlists(List<string> postIdlist, PostDetailsModel post, List<PublisherPostlistModel> lstPost)
         {
-            Task.Factory.StartNew(() =>
-            {
+            //Task.Factory.StartNew(() =>
+            //{
                 // Calculate the expire date for the campaigns
                 DateTime? expireDate = null;
 
@@ -737,7 +757,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Add new post details
                 else
                     lstPost.Add(postlistModel);
-            });
+            //});
         }
 
         private void UpdateCampaign(PublisherCampaignStatusModel publisherCampaignStatusModel,
@@ -857,8 +877,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PublisherCreateCampaignModel = new PublisherCreateCampaignModel();
             PublisherCreateCampaignModel.JobConfigurations.InitializeDefaultJobConfiguration();
             PublisherCreateCampaignModel.LstPostDetailsModels.Clear();
-          CampaignList = new ObservableCollection<string>(
-                _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
+            CampaignList = new ObservableCollection<string>(
+                  _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             SelectedItem = null;
             PageTitle = Application.Current.FindResource("LangKeyCreateCampaign")?.ToString();
             SetDataContext(false);

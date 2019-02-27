@@ -208,7 +208,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public string EditDestinationId { get; set; } = string.Empty;
 
-        public bool IsSavedDestination { get; set; }
+        //   public bool IsSavedDestination { get; set; }
+        private bool _isSavedDestination;
+
+        public bool IsSavedDestination
+        {
+            get { return _isSavedDestination; }
+            set { SetProperty(ref _isSavedDestination, value); }
+        }
 
         private string _title = string.Empty;
         public string Title
@@ -1168,7 +1175,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
                 var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
-               
+
                 accounts.ForEach(x =>
                 {
                     if (PublisherCreateDestinationModel.ListSelectDestination.All(y => y.AccountId != x.AccountId))

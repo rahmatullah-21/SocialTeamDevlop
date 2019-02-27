@@ -230,7 +230,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         postCollectionDetails.Add(post);
                     });
 
-                
+
                     // Iterate the Multiple image posts
                     createCampaignModel.LstMultipleImagePostCollection.ForEach(post =>
                         {
@@ -246,17 +246,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                             // Add to Post Collections 
                             postCollectionDetails.Add(post);
-                          
+
 
                             if (!Application.Current.Dispatcher.CheckAccess())
                             {
                                 Application.Current.Dispatcher.Invoke(() =>
-                                    {
-                                        //Clear the current object values
-                                        createCampaignModel.LstMultipleImagePostCollection =
-                                            new ObservableCollection<PostDetailsModel>();
-                                        createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-                                    });
+                                                           {
+                                                                   //Clear the current object values
+                                                                   createCampaignModel.LstMultipleImagePostCollection =
+                                                                                              new ObservableCollection<PostDetailsModel>();
+                                                               createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+                                                           });
+
                             }
                             else
                             {
@@ -290,12 +291,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
                     Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        //Clear the current object values
-                        createCampaignModel.LstMultipleImagePostCollection =
-                            new ObservableCollection<PostDetailsModel>();
-                        createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-                    });
+                               {
+                                   //Clear the current object values
+                                   createCampaignModel.LstMultipleImagePostCollection =
+                                                  new ObservableCollection<PostDetailsModel>();
+                                   createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+                               });
+
                 }
                 else
                 {
@@ -442,31 +444,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             if (listPostDetailsModel.Count == 0)
                 return;
             var publisherMultiplePost = PublisherMultiplePost.GetMultiplePost(LstPostDetailsModels);
-            try
+
+            // Get all post details from campaign View model
+            LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()?.PublisherCreateCampaignViewModel?
+                .PublisherCreateCampaignModel?.LstPostDetailsModels;
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                // Get all post details from campaign View model
-                LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()?.PublisherCreateCampaignViewModel?
-                    .PublisherCreateCampaignModel?.LstPostDetailsModels;
-                Application.Current.Dispatcher.InvokeAsync(() =>
-                {
-                    try
-                    {
-                        var window = GetMultiPost(LstPostDetailsModels);
-                        window.ShowDialog();
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-                });
-
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-
-
+                var window = GetMultiPost(LstPostDetailsModels);
+                window?.ShowDialog();
+            }));
             Task.Factory.StartNew(() =>
             {
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressVisibile = Visibility.Visible;
@@ -505,7 +491,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             {
                                 if (File.Exists(media))
                                 {
-                                    Application.Current.Dispatcher.Invoke(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media)));
+                                    Application.Current.Dispatcher.BeginInvoke(new Action(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media))));
                                     Thread.Sleep(2);
                                 }
 
@@ -547,8 +533,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             // Add to Collections
                             //postDetails.Add(postDetailsModel);
 
-                            Application.Current.Dispatcher.Invoke(() => LstPostDetailsModels.Add(postDetailsModel));
+                            Application.Current.Dispatcher.BeginInvoke(new Action(() => LstPostDetailsModels.Add(postDetailsModel)));
                             Thread.Sleep(1);
+
                         }
                     }
                     catch (Exception ex)
@@ -558,8 +545,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 });
 
-                publisherMultiplePost.PublisherMultiplePostViewModel.PostListsCollectionView =
-                    CollectionViewSource.GetDefaultView(LstPostDetailsModels);
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => publisherMultiplePost.PublisherMultiplePostViewModel.PostListsCollectionView =
+                    CollectionViewSource.GetDefaultView(LstPostDetailsModels)));
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressVisibile = Visibility.Collapsed;
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressActive = false;
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsStopLoadingPost = false;

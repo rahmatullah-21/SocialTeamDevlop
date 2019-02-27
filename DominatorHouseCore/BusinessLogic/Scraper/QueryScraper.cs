@@ -84,75 +84,73 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             int totalQueries = _jobProcess.SavedQueries.Count;
             int usedQueries = 0;
             _jobProcess.SavedQueries.Shuffle();
-            Task.Factory.StartNew(() =>
+
+            try
             {
-                try
+                foreach (var query in _jobProcess.SavedQueries)
                 {
-                    foreach (var query in _jobProcess.SavedQueries)
+                    try
                     {
-                        try
-                        {
-                            _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                        _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                            ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
-                            Thread.Sleep(5);
-                        }
-                        catch (KeyNotFoundException ex)
+                        ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
+                        Thread.Sleep(5);
+                    }
+                    catch (KeyNotFoundException ex)
+                    {
+                        ex.ErrorLog($"Unable to find key for query type - {query.QueryType}. {ex.Message}");
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw new OperationCanceledException(@"Cancellation Requested !");
+                    }
+                    catch (AggregateException ae)
+                    {
+                        foreach (var e in ae.InnerExceptions)
                         {
-                            ex.ErrorLog($"Unable to find key for query type - {query.QueryType}. {ex.Message}");
+                            if (e is TaskCanceledException || e is OperationCanceledException)
+                                throw new OperationCanceledException(@"Cancellation Requested !");
+                            else
+                                e.DebugLog(e.StackTrace + e.Message);
                         }
-                        catch (OperationCanceledException)
-                        {
-                            throw new OperationCanceledException(@"Cancellation Requested !");
-                        }
-                        catch (AggregateException ae)
-                        {
-                            foreach (var e in ae.InnerExceptions)
-                            {
-                                if (e is TaskCanceledException || e is OperationCanceledException)
-                                    throw new OperationCanceledException(@"Cancellation Requested !");
-                                else
-                                    e.DebugLog(e.StackTrace + e.Message);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog(
-                                $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
-                        }
-
-                        usedQueries++;
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog(
+                            $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
                     }
 
+                    usedQueries++;
+                }
 
-                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                    if (totalQueries == usedQueries)
-                    {
-                        //if (_jobProcess.IsNeedToSchedule)
-                        //{
-                        //}
-                        UpdateScheduleIfNoMoreData();
-                    }
-                }
-                catch (OperationCanceledException oce)
+
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                if (totalQueries == usedQueries)
                 {
-                    oce.DebugLog(@"Cancellation Requested !");
+                    //if (_jobProcess.IsNeedToSchedule)
+                    //{
+                    //}
+                    UpdateScheduleIfNoMoreData();
                 }
-                catch (AggregateException ae)
+            }
+            catch (OperationCanceledException oce)
+            {
+                oce.DebugLog(@"Cancellation Requested !");
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
                 {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            e.DebugLog("Cancellation requested before task completion!");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        e.DebugLog("Cancellation requested before task completion!");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
                 }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }, _jobProcess.JobCancellationTokenSource.Token);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void UpdateScheduleIfNoMoreData()

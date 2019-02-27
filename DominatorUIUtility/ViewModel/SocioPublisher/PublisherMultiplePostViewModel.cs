@@ -239,7 +239,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var content = sender as string;
                 if (content == "DeleteAll")
-                    LstPostDetailsModel.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() => LstPostDetailsModel.Clear()));
                 else
                 {
                     try
@@ -252,8 +252,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ex.DebugLog();
                     }
                 }
-                Application.Current.Dispatcher.Invoke(() =>
-                        PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                        PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel)));
             }
             catch (Exception ex)
             {

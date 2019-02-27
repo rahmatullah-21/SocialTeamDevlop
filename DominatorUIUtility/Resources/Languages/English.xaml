@@ -3451,4 +3451,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNewest">Newest</system:String>
     <system:String x:Key="LangKeyPriceLowToHigh">Price Low To High</system:String>
     <system:String x:Key="LangKeyPriceHighToLow">Price High To Low</system:String>
+    <system:String x:Key="LangKeyMustHaveEmailIdAndPhoneNO">User Must Have Email-Id And PhoneNo</system:String>
+    <system:String x:Key="LangRunEveryday">Run Everyday</system:String>
+    <system:String x:Key="LangKeyAfterMinutes">After Minutes</system:String>
 </ResourceDictionary>

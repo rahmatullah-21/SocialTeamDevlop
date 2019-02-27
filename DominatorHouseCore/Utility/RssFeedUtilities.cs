@@ -13,6 +13,7 @@ using HtmlAgilityPack;
 using System.Threading.Tasks;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Patterns;
+using DominatorHouseCore.Request;
 
 namespace DominatorHouseCore.Utility
 {
@@ -198,30 +199,29 @@ namespace DominatorHouseCore.Utility
                 var postdetails = campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost).Select(x => x.ShareUrl).ToList();
 
                 //// Requesting Rss feed urls
-                //var httpHelper = new HttpHelper();
-                //var htmlResponse = await httpHelper.GetRequestAsync(feedUrl, cancellationTokenSource.Token);
 
-                var client = new WebClient
+
+                var httpHelper = new SocialHttpHelper();
+                var requestParameter = new RequestParameters()
                 {
                     Headers =
                     {
                         ["User-Agent"] =
                         "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
-                    }
+                    },
+                    Cookies = new CookieCollection()
                 };
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                var pageSource = await client.DownloadDataTaskAsync(feedUrl);
+                httpHelper.SetRequestParameter(requestParameter);
 
-                var htmlResponse = Encoding.UTF8.GetString(pageSource);
+                var pageSource = await httpHelper.GetRequestAsync(feedUrl, cancellationTokenSource.Token);
 
                 // ReSharper disable once RedundantAssignment
                 var postlists = new List<PublisherPostlistModel>();
 
                 var htmlDoc = new HtmlDocument();
 
-                htmlResponse = WebUtility.HtmlDecode(htmlResponse);
+                var htmlResponse = WebUtility.HtmlDecode(pageSource.Response);
 
                 htmlDoc.LoadHtml(htmlResponse);
 
@@ -415,5 +415,9 @@ namespace DominatorHouseCore.Utility
         /// <param name="node">Rss node Details</param>
         /// <returns></returns>
         private static string RemoveCdata(string node) => node?.Replace("<![CDATA[", "").Replace("]]>", "") ?? string.Empty;
+    }
+
+    public class SocialHttpHelper : HttpHelper
+    {
     }
 }

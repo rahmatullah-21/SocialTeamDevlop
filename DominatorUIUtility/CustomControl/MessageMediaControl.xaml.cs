@@ -69,33 +69,40 @@ namespace DominatorUIUtility.CustomControl
         private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
-            var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
-            if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            var dataContext = (sender as CheckBox)?.DataContext;
+            if (dataContext is QueryContent)
             {
-
-                if (!IsChecked)
+                var currentQuery = ((QueryContent) dataContext).Content.QueryValue;
+                if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
                 {
-                    _isUncheckfromList = true;
-                    Messages.LstQueries[0].IsContentSelected = false;
+                    if (!IsChecked)
+                    {
+                        _isUncheckfromList = true;
+                        Messages.LstQueries[0].IsContentSelected = false;
+                    }
+                }
+                if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
+                {
+                    _isUncheckfromList = false;
+                    Messages.LstQueries[0].IsContentSelected = IsChecked;
+                }
+                if (_isUncheckfromList)
+                {
+                    _isUncheckfromList = false;
+                    return;
+                }
+
+                if (currentQuery == "All" || currentQuery == "Default")
+                {
+                    _isUncheckfromList = false;
+                    Messages.LstQueries.ToList().Select(query =>
+                    {
+                        query.IsContentSelected = IsChecked;
+                        return query;
+                    }).ToList();
                 }
             }
-            if (Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
-            {
-                _isUncheckfromList = false;
-                Messages.LstQueries[0].IsContentSelected = IsChecked;
-            }
-            if (_isUncheckfromList)
-            {
-                _isUncheckfromList = false;
-                return;
-            }
-
-            if (currentQuery == "All" || currentQuery == "Default")
-            {
-                _isUncheckfromList = false;
-                Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
-            }
-          }
+        }
         private void AddCheckedQueryToList()
         {
             Messages.SelectedQuery.Clear();

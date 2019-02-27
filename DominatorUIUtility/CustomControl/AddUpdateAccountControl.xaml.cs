@@ -28,7 +28,7 @@ namespace DominatorUIUtility.CustomControl
 
             if (socialNetwork == SocialNetworks.Social.ToString())
             {
-                foreach (var item in SocinatorInitialize.AvailableNetworks)
+                foreach (var item in SocinatorInitialize.GetRegisterNetwork())
                 {
                     if (item == SocialNetworks.Social)
                         continue;
