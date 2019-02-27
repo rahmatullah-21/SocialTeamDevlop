@@ -130,7 +130,7 @@ namespace EmbeddedBrowser
 
                     var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
 
-                    if (!set) { /*Is cookie set ?*/ }
+                    //if (!set) { /*Is cookie set ?*/ }
                 }
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
@@ -140,7 +140,7 @@ namespace EmbeddedBrowser
                 }
 
                 // Just to check that how many cookie was inserted
-                cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync().Result;
+                //cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync().Result;
             }
             catch (Exception ex)
             {
