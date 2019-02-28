@@ -17,12 +17,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Prism.Commands;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -41,6 +43,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PauseSelectedCampaignCommand = new BaseCommand<object>(PauseSelectedCampaignCanExecute, PauseSelectedCampaignExecute);
             PublishNowSelectedCampaignCommand = new BaseCommand<object>(PublishNowSelectedCampaignCanExecute, PublishNowSelectedCampaignExecute);
             CopyCampaignId = new BaseCommand<object>(CopyCampaignIdCanExecute, CopyCampaignIdExecute);
+            TutorialsCommand = new DelegateCommand(() => IsTutorialsOpen = true);
+            WatchTutorialCommand = new DelegateCommand<string>((url) => Process.Start(url));
             InitializeDefaultCampaignStatus();
         }
 
@@ -91,9 +95,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// </summary>
         public ICommand PublishNowSelectedCampaignCommand { get; set; }
 
+        public ICommand TutorialsCommand { get; set; }
+        public ICommand WatchTutorialCommand { get; set; }
+
         #endregion
 
         #region Properties
+        private bool _isTutorialsOpen;
+
+        public bool IsTutorialsOpen
+        {
+            get { return _isTutorialsOpen; }
+            set { SetProperty(ref _isTutorialsOpen, value); }
+        }
+
 
         /// <summary>
         /// To holds the default pages details

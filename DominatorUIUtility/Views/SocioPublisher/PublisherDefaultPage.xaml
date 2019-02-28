@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              Name="PublisherDefault"
              mc:Ignorable="d" 
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl">
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
@@ -88,7 +90,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            
+
             <!--Publisher Title Sections-->
             <TextBlock HorizontalAlignment="Left"  Margin="10,0,0,0" VerticalAlignment="Center" Foreground="White">
                     <Rectangle Width="25" Height="25" Fill="White" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -291,6 +293,20 @@
                     </Button.ContextMenu>
                 </Button>
 
+
+                <Button Background="Transparent" VerticalAlignment="Center"
+                        ToolTip="{DynamicResource LangKeyTutorials}" Command="{Binding TutorialsCommand}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="15" Height="15" Fill="White">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_video}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Text="{DynamicResource LangKeyTutorials}" Margin="6,0" Foreground="White"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </StackPanel>
         </Grid>
 
@@ -494,7 +510,52 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
+        <mah:FlyoutsControl Grid.Row="1">
+            <mah:Flyout Header="{DynamicResource LangKeyTutorials}" Position="Right"
+                             Visibility="Collapsed" Theme="Accent" FontWeight="Bold"
+                             Foreground="White" Width="300" BorderBrush="Black" BorderThickness="2"
+                             IsOpen="{Binding IsTutorialsOpen}" Background="{DynamicResource AccentBaseColorBrush}"
+                             FontSize="10">
+                <StackPanel Background="#3897F0">
+                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                               TextWrapping="Wrap" >
+                        <Hyperlink CommandParameter="https://youtu.be/ft5IKDMwbhw?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M"
+                                   Command="{Binding WatchTutorialCommand}">
+                            <Run Text="{DynamicResource LangKeySociopublisherCampaign}" />
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                               TextWrapping="Wrap">
+                      <Hyperlink CommandParameter="https://youtu.be/vuVAh26c34Q?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M"
+                                 Command="{Binding WatchTutorialCommand}">
+                          <Run Text="{DynamicResource LangKeySociopublisherDestination}" />
+                      </Hyperlink>
+                    </TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                               TextWrapping="Wrap" >
+                      <Hyperlink CommandParameter="https://youtu.be/O05T23h_sCs?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M"
+                                 Command="{Binding WatchTutorialCommand}">
+                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedsettingsforGooglePlush}" />
+                      </Hyperlink>
+                    </TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                               TextWrapping="Wrap">
+                      <Hyperlink CommandParameter="https://youtu.be/nfFDjqNVsOg?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M"
+                                 Command="{Binding WatchTutorialCommand}">
+                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedGeneralSettings}" />
+                      </Hyperlink>
+                    </TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                               TextWrapping="Wrap">
+                      <Hyperlink Command="{Binding WatchTutorialCommand}"
+                                 CommandParameter="https://youtu.be/v6kemmvpgy0?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M">
+                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedSettingsforTwitter}" />
+                      </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </mah:Flyout>
+        </mah:FlyoutsControl>
 
     </Grid>
 </UserControl>
+

@@ -3454,4 +3454,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMustHaveEmailIdAndPhoneNO">User Must Have Email-Id And PhoneNo</system:String>
     <system:String x:Key="LangRunEveryday">Run Everyday</system:String>
     <system:String x:Key="LangKeyAfterMinutes">After Minutes</system:String>
+    <system:String x:Key="LangKeySociopublisherCampaign">Sociopublisher Campaign</system:String>
+    <system:String x:Key="LangKeySociopublisherDestination">Sociopublisher Destination</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedsettingsforGooglePlush">Sociopublisher Advanced settings for Google+</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedGeneralSettings">Sociopublisher Advanced General Settings</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedSettingsforTwitter">Sociopublisher Advanced Settings for Twitter</system:String>
+   
 </ResourceDictionary>
