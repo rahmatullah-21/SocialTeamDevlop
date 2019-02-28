@@ -108,6 +108,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 _listPublisherCampaignStatusModels = value;
                 OnPropertyChanged(nameof(ListPublisherCampaignStatusModels));
+                if (IsAllCampaignSelected)
+                    ListPublisherCampaignStatusModels.Select(x =>
+                    {
+                        x.IsSelected = true;
+                        return x;
+                    }).ToList();
+
             }
         }
 
@@ -302,6 +309,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Navigate to campaign UI
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = createCampign;
+
                 }
                 catch (Exception ex)
                 {
@@ -789,6 +797,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 GlobusLogHelper.log.Info("Campaign deletion operation completed!");
 
             }
+            if (ListPublisherCampaignStatusModels.Count == 0 ||
+                !ListPublisherCampaignStatusModels.Any(x => x.IsSelected))
+                IsAllCampaignSelected = false;
         }
 
         /// <summary>

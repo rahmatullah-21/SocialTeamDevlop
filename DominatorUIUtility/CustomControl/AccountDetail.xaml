@@ -288,6 +288,15 @@
                                         <Setter Property="Content"  Value="{DynamicResource LangKeySetNewPassword}" />
                                         <Setter Property="Foreground" Value="#701f28" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ActionBlocked}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyActionBlock}" />
+                                        <Setter Property="Foreground" Value="#b22222" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"
+                                                 Value="{x:Static enums:AccountStatus.DisableAccount}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyDisableAccount}" />
+                                        <Setter Property="Foreground" Value="#b22222" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>

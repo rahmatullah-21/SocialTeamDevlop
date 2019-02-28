@@ -155,18 +155,20 @@ namespace DominatorHouseCore.Settings
                 DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
 
             int count = 0;
-
-            accountsToUpdate.ForEach(account =>
+            Task.Factory.StartNew(() =>
             {
-                UpdateAccount(account, cancellationtokenSource);
-                if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
+                accountsToUpdate.ForEach(account =>
                 {
-                    Thread.Sleep(20000);
-                    count = 0;
-                }
-            });
+                    UpdateAccount(account, cancellationtokenSource);
+                    if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
+                    {
+                        Thread.Sleep(20000);
+                        count = 0;
+                    }
+                    Thread.Sleep(2);
+                });
 
-
+            }, cancellationtokenSource.Token);
 
             //ThreadFactory.Instance.Start(() =>
             //{

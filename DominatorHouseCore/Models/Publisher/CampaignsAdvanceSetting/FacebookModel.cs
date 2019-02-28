@@ -666,7 +666,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
             }
         }
 
-        private bool _isPostAsOwnAccount = true;
+        private bool _isPostAsOwnAccount;
 
         [ProtoMember(42)]
         public bool IsPostAsOwnAccount

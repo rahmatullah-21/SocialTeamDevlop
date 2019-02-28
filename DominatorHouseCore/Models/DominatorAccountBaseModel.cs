@@ -209,7 +209,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _status, value);
             }
         }
-        private string _profileId=string.Empty;
+        private string _profileId = string.Empty;
         private List<GrowthProperty> _growthProperties;
 
         /// <summary>
@@ -274,6 +274,15 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _phoneNumber, value);
             }
         }
+        private string _banned = "No";
+
+        [ProtoMember(15)]
+        public string Banned
+        {
+            get { return _banned; }
+            set { SetProperty(ref _banned, value); }
+        }
+
         public override string ToString()
         {
             return string.Format("{0} on {1}", _userName, _accountNetwork);

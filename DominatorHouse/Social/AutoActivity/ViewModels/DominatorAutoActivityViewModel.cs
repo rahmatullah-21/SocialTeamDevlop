@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace DominatorHouse.Social.AutoActivity.ViewModels
 {
@@ -254,7 +255,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                         if (!Application.Current.Dispatcher.CheckAccess())
                         {
                             // add the item to account collection
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
                                 lock (_syncObject)
                                 {
@@ -262,7 +263,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                         x.AccountId != account.AccountBaseModel.AccountId))
                                         AccountsCollection.Add(accountsActivityDetailModel);
                                 }
-                            });
+                            }), DispatcherPriority.Render);
                         }
                         else
                         {

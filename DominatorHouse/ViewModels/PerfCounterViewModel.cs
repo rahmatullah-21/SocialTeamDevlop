@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.Timers;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace DominatorHouse.ViewModels
 {
@@ -15,7 +16,7 @@ namespace DominatorHouse.ViewModels
     public class PerfCounterViewModel : BindableBase, IPerfCounterViewModel
     {
         private readonly IPerfCounterService _perfCounterService;
-        private readonly Timer _timer;
+        private readonly DispatcherTimer _timer;
         private GridLength _logViewHeight;
         private string _cpuUsage;
         private string _availableMemory;
@@ -58,17 +59,29 @@ namespace DominatorHouse.ViewModels
             LoadedMemory = _perfCounterService.LoadedMemoryDescrption;
             LogViewHeight = new GridLength(3, GridUnitType.Star);
             ShowHideLogCmd = new DelegateCommand(ShowHideLog);
-            _timer = new Timer() { Interval = 1000 };
-            _timer.Elapsed += OnElapsed;
+            _timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(1000) };
+            _timer.Tick += OnElapsed;
             _timer.Start();
         }
 
-        private void OnElapsed(object sender, ElapsedEventArgs e)
+        private void OnElapsed(object sender, EventArgs e)
         {
             var counters = _perfCounterService.GetActualValues();
             AvailableMemory = counters.AvailableMemory.ToString(CultureInfo.InvariantCulture);
             CpuUsage = counters.CpuUsage.ToString(CultureInfo.InvariantCulture);
             CurrentDateTime = DateTime.Now;
+        }
+
+        private void OnElapsed(object sender, ElapsedEventArgs e)
+        {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                var counters = _perfCounterService.GetActualValues();
+                AvailableMemory = counters.AvailableMemory.ToString(CultureInfo.InvariantCulture);
+                CpuUsage = counters.CpuUsage.ToString(CultureInfo.InvariantCulture);
+                CurrentDateTime = DateTime.Now;
+            }));
+
         }
 
         private void ShowHideLog()
@@ -83,7 +96,7 @@ namespace DominatorHouse.ViewModels
 
         public void Dispose()
         {
-            _timer.Elapsed -= OnElapsed;
+            _timer.Tick -= OnElapsed;
             _timer.Stop();
         }
     }

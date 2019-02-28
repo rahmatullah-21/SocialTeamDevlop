@@ -9,7 +9,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 {
     [Serializable]
     [ProtoContract]
-    public class PostDetailsModel : BindableBase
+    public class PostDetailsModel : BindableBase, IDisposable
     {
 
         /// <summary>
@@ -442,6 +442,10 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isUploadPostDescription, value);
 
             }
+        }
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
 
     }

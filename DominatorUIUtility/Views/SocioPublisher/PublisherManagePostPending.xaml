@@ -208,6 +208,7 @@
                 </Style>
                 <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
             </ListView.Resources>
+            
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />

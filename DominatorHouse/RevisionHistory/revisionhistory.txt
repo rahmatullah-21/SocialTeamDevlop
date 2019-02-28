@@ -1,3 +1,43 @@
+Version[1.0.0.40],[27th-February-19]
+New Feature:-
+	Instagram:-
+		InstaScrape => User Scraper. Add a filter to scrape users who have Email ID/Contact number.
+
+Fixed:-
+	Instagram:-
+		InstaPoster => Delete. Issue fixed with deleting posts.
+	Facebook:-
+		Socialpublisher => Fixed issue with share rss feed.
+		Socialpublisher => Advance setting => Fixed issue with post on page as page post.
+		Broadcast Message => Message => Fixed issue with sending complete  message.
+		Scraper => Pagepost liker => Fixed issue with page post like.
+		Scraper => Profile scraoer => Fixed issue with profile scraper.
+	Twitter:-
+		Engage => Comment => Fixed issue with updating comment in commentlist
+		Querytype Modules => Fixed issue with no more data available
+	Linkedin:-
+		Account Manager => Fixed issue with  updating all details of accounts
+		Accounts Activity => Connection Request=>Fixed issue with not expanding details of other activity
+		SalesnavigatorScraper => Fixed issue with showing no more data available
+	Pinterest:-
+		Issue Fixed with sociopublisher
+		Issue fixed with Publishing of RSS feed
+		Issue fixed with Edit Message in Pin Messenger
+		Issue fixed with Running Of multiple campaign simultaneously
+		Issue fixed in Updating Pin In Repin
+	Youtube:-
+		Issue fixed with keyword comment
+		Issue fixed in editing comment in comment List
+	Reddit:-
+		Account Activity => Follow => Fixed issue with starting campaigns.
+		Social Publisher => Fixed issue with publishing images.
+		Engage => Comment => Fixed issue with the comment updation.
+	Quora:-
+		Report => Answer => Fixed issue with Report Answer.
+		Message => Broadcast Message => Fixed with broadcast message with spintax.
+	Tumblr:-
+		Engage => Like =>Fixed issue with like by using Keyword.
+
 Version[1.0.0.39],[19th-February-19]
 Fixed:-
 	LinkedIn:-

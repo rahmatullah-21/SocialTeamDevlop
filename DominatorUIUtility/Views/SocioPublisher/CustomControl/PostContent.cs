@@ -11,6 +11,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -500,6 +501,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 if (mediaViewer != null)
                 {
                     mediaViewer.MediaList = (mediaViewer.DataContext as PostDetailsModel)?.MediaViewer.MediaList;
+                    mediaViewer.MediaList = mediaViewer.MediaList ?? (mediaViewer.DataContext as PublisherDirectPostsViewModel)?.PostDetailsModel.MediaViewer.MediaList;
                     if (mediaViewer.MediaList == null)
                         mediaViewer.MediaList = new ObservableCollection<string>();
                     mediaViewer.Initialize();

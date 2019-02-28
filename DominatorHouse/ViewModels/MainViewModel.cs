@@ -20,7 +20,6 @@ using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
-using EmbeddedBrowser;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -291,45 +290,50 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-                FeatureFlags.UpdateFeatures();
-                var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
-                foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
+                Task.Factory.StartNew(() =>
                 {
-                    var module = socialNetworkModule;
-                    FeatureFlags.Check(module.Network.ToString(), () =>
+                    FeatureFlags.UpdateFeatures();
+                    var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
+                    foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                     {
-                        try
+                        var module = socialNetworkModule;
+                        FeatureFlags.Check(module.Network.ToString(), () =>
                         {
-                            SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                            PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
-                            AddNetwork(socialNetworkModule.Network);
-                        }
-                        catch (AggregateException ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    });
-                }
+                            try
+                            {
+                                SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
+                                PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                                AddNetwork(socialNetworkModule.Network);
+                            }
+                            catch (AggregateException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
+                        });
+                        Task.Delay(5);
+                    }
 
-                SetActiveNetwork(SocialNetworks.Social);
+                    SetActiveNetwork(SocialNetworks.Social);
+                });
                 ThreadFactory.Instance.Start(() =>
                 {
-                    _schedulerProxy.AddJob(() => InitializeJobCores(), x => x.ToRunNow());
+                    _schedulerProxy.AddJob(InitializeJobCores, x => x.ToRunNow());
                 });
 
                 //Init UI delegates            
                 CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirm", msg) ==
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirm",
+                        msg) ==
                     MessageDialogResult.Affirmative;
-
 
                 ConfigFileManager.ApplyTheme();
 
                 Application.Current.MainWindow.Closed += (o, e) => Process.GetCurrentProcess().Kill();
+
             }
             catch (AggregateException ex)
             {
@@ -362,13 +366,13 @@ namespace DominatorHouse.ViewModels
                                     softwareSetting.InitializeOnLoadConfigurations();
                                     softwareSetting.ActivityManagerInitializer();
                                     softwareSetting.ScheduleAutoUpdation();
-                                    if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Facebook))
+                                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
                                         softwareSetting.ScheduleAdsScraping();
                                 },
                                 () =>
                                 {
                                     DirectoryUtilities.DeleteOldLogsFile();
-                                    // DirectoryUtilities.Compress();
+                                    DirectoryUtilities.CompressAccountDetails();
                                 },
                                 () =>
                                 {

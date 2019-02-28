@@ -8,6 +8,7 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
@@ -90,10 +91,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 {
                     try
                     {
-                        //  ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.SelectedQueryEnumId}"]?.Invoke(query);
                         _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                         ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
+                        Thread.Sleep(5);
                     }
                     catch (KeyNotFoundException ex)
                     {
@@ -121,6 +122,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
                     usedQueries++;
                 }
+
+
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
                 {
@@ -166,7 +169,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     _jobProcess.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(_jobProcess?.DominatorAccountModel);
             }
-          
+
             GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks,
                 _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
             var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();

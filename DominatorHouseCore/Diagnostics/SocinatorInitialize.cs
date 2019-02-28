@@ -114,6 +114,10 @@ namespace DominatorHouseCore.Diagnostics
             RegisteredNetworks.Add(networks, networkCollectionFactory);
         }
 
+        public static IEnumerable<SocialNetworks> GetRegisterNetwork()
+        {
+            return RegisteredNetworks.Keys;
+        }
 
         private static void GlobalExceptionInitializer()
         {

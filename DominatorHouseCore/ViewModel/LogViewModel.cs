@@ -7,8 +7,10 @@ using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -101,11 +103,13 @@ namespace DominatorHouseCore.ViewModel
                         LogType = logLevel.ToString()
                     };
 
-                Logs.Insert(0, log);
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => Logs.Insert(0, log)));
+
                 OnPropertyChanged(nameof(Logs));
 
                 if (Logs.Count > MaxLogSize)
-                    Logs.RemoveAt(Logs.Count - 1);
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render,
+                        (Action)(() => Logs.RemoveAt(Logs.Count - 1)));
             }
         }
 

@@ -20,10 +20,8 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             MainGrid.DataContext = this;
             AddMessagesCommand = new BaseCommand<object>((sender) => true, AddMessagesExecute);
-
         }
-
-
+        
         private static readonly RoutedEvent AddMessagesToListEvent =
      EventManager.RegisterRoutedEvent("AddMessagesToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
          typeof(MessagesControl));
@@ -33,13 +31,6 @@ namespace DominatorUIUtility.CustomControl
             add { AddHandler(AddMessagesToListEvent, value); }
             remove { RemoveHandler(AddMessagesToListEvent, value); }
         }
-
-        void AddCommentToListEventHandler()
-        {
-            var routedEventArgs = new RoutedEventArgs(AddMessagesToListEvent);
-            RaiseEvent(routedEventArgs);
-        }
-
 
         public ManageMessagesModel Messages
         {
@@ -70,7 +61,6 @@ namespace DominatorUIUtility.CustomControl
             var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
             if (!Messages.LstQueries.Skip(1).All(x => x.IsContentSelected))
             {
-
                 if (!IsChecked)
                 {
                     _isUncheckfromList = true;
@@ -93,8 +83,6 @@ namespace DominatorUIUtility.CustomControl
                 _isUncheckfromList = false;
                 Messages.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
             }
-
-
         }
         private void AddCheckedQueryToList()
         {
@@ -118,9 +106,6 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public bool Isupdated { get; set; }
-
-
-
         public ICommand AddMessagesCommand
         {
             get { return (ICommand)GetValue(AddMessagesCommandProperty); }
@@ -147,8 +132,7 @@ namespace DominatorUIUtility.CustomControl
             AddCheckedQueryToList();
             if (Messages.SelectedQuery.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please add atleast one query!!");
+                Dialog.ShowDialog("Warning", "Please add atleast one query!!");
                 return;
             }
             if (btnAddMessagesToList.Content.ToString() == "Update Message")
@@ -159,9 +143,10 @@ namespace DominatorUIUtility.CustomControl
                     {
                         x.MessagesText = Messages.MessagesText;
                         x.LstQueries = Messages.LstQueries;
+                        x.SelectedQuery = Messages.SelectedQuery;
                     }
                     return x;
-                });
+                }).ToList();
                 Messages.SelectedQuery.Remove(Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
                 Messages.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
                 Isupdated = true;
@@ -181,7 +166,5 @@ namespace DominatorUIUtility.CustomControl
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register("CommandParameter", typeof(object), typeof(MessagesControl), new PropertyMetadata(OnAvailableItemsChanged));
-
-
     }
 }
