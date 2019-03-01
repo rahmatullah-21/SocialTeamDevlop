@@ -57,7 +57,7 @@ namespace DominatorHouseCore.Settings
             {
                 Settings = _softwareSettingsFileManager.GetSoftwareSettings();
             }
-            OtherInitializers();
+            //OtherInitializers();
             if (_fileSystemProvider.Exists(ConstantVariable.GetURLShortnerServicesFile()))
             {
                 var shortnerServices =
@@ -141,9 +141,6 @@ namespace DominatorHouseCore.Settings
             var socinatorSettings = softwareSettingsFileManager.GetSoftwareSettings();
             if (!socinatorSettings.IsStopAutoSynchronizeAccount)
                 return;
-
-            var accountUpdateCollection = new BlockingCollection<DominatorAccountModel>
-                    (socinatorSettings.SimultaneousAccountUpdateCount);
 
             var cancellationtokenSource = new CancellationTokenSource();
 

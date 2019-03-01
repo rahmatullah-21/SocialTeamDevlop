@@ -29,7 +29,7 @@ namespace EmbeddedBrowser
     /// <summary>
     /// Interaction logic for BrowserWindow.xaml
     /// </summary>
-    public partial class BrowserWindow : MetroWindow, INotifyPropertyChanged, IComponentConnector, IDisposable
+    public partial class BrowserWindow : INotifyPropertyChanged, IDisposable
     {
         private readonly IAccountScopeFactory _accountScopeFactory;
         private readonly IHttpHelper _httpHelper;
@@ -386,6 +386,10 @@ namespace EmbeddedBrowser
                 Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
 
             if (Browser.IsDisposed) return;
+
+            if (!string.IsNullOrEmpty(value) && value.Contains(@"\"))
+                value = value.Replace(@"\", "\\\\");
+            
             switch (actType)
             {
                 case ActType.ClickByClass:

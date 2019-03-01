@@ -103,13 +103,12 @@ namespace DominatorHouseCore.ViewModel
                         LogType = logLevel.ToString()
                     };
 
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action)(() => Logs.Insert(0, log)));
+                Logs.Insert(0, log);
 
                 OnPropertyChanged(nameof(Logs));
 
                 if (Logs.Count > MaxLogSize)
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render,
-                        (Action)(() => Logs.RemoveAt(Logs.Count - 1)));
+                    Logs.RemoveAt(Logs.Count - 1);
             }
         }
 

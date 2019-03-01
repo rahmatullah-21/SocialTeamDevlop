@@ -513,46 +513,66 @@
         <mah:FlyoutsControl Grid.Row="1">
             <mah:Flyout Header="{DynamicResource LangKeyTutorials}" Position="Right"
                              Visibility="Collapsed" Theme="Accent" FontWeight="Bold"
-                             Foreground="White" Width="300" BorderBrush="Black" BorderThickness="2"
+                             Foreground="White" Width="350" BorderBrush="Black" BorderThickness="2"
                              IsOpen="{Binding IsTutorialsOpen}" Background="{DynamicResource AccentBaseColorBrush}"
                              FontSize="10">
-                <StackPanel Background="#3897F0">
-                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Background="#478dff">
+                        <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap" >
                         <Hyperlink CommandParameter="https://youtu.be/ft5IKDMwbhw?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M"
                                    Command="{Binding WatchTutorialCommand}">
-                            <Run Text="{DynamicResource LangKeySociopublisherCampaign}" />
+                            <Run Text="{DynamicResource LangKeySociopublisherCampaign}" Foreground="White"/>
                         </Hyperlink>
-                    </TextBlock>
-                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                        </TextBlock>
+                    </Grid>
+                    <Grid Grid.Row="1" Background="#09d6ed">
+                        <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap">
                       <Hyperlink CommandParameter="https://youtu.be/vuVAh26c34Q?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M"
                                  Command="{Binding WatchTutorialCommand}">
-                          <Run Text="{DynamicResource LangKeySociopublisherDestination}" />
+                          <Run Text="{DynamicResource LangKeySociopublisherDestination}" Foreground="White"/>
                       </Hyperlink>
-                    </TextBlock>
-                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                        </TextBlock>
+                    </Grid>
+                    <Grid Grid.Row="2" Background="#119be0">
+                        <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap" >
                       <Hyperlink CommandParameter="https://youtu.be/O05T23h_sCs?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M"
                                  Command="{Binding WatchTutorialCommand}">
-                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedsettingsforGooglePlush}" />
+                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedsettingsforGooglePlush}"
+                               Foreground="White" />
                       </Hyperlink>
                     </TextBlock>
-                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                    </Grid>
+                    <Grid Grid.Row="3" Background="#3be2c6">
+                            <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap">
                       <Hyperlink CommandParameter="https://youtu.be/nfFDjqNVsOg?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M"
                                  Command="{Binding WatchTutorialCommand}">
-                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedGeneralSettings}" />
+                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedGeneralSettings}"
+                               Foreground="White" />
                       </Hyperlink>
                     </TextBlock>
-                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
+                    </Grid>
+                    <Grid Grid.Row="4" Background="#478dff">
+                                <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap">
                       <Hyperlink Command="{Binding WatchTutorialCommand}"
                                  CommandParameter="https://youtu.be/v6kemmvpgy0?list=PL60e8mIWfxobdAiDPD8h-TkelSRApOb5M">
-                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedSettingsforTwitter}" />
+                          <Run Text="{DynamicResource LangKeySociopublisherAdvancedSettingsforTwitter}"
+                               Foreground="White" />
                       </Hyperlink>
                     </TextBlock>
-                </StackPanel>
+                    </Grid>
+                </Grid>
             </mah:Flyout>
         </mah:FlyoutsControl>
 

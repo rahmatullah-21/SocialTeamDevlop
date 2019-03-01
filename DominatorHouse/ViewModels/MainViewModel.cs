@@ -297,12 +297,14 @@ namespace DominatorHouse.ViewModels
                     foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                     {
                         var module = socialNetworkModule;
-                        FeatureFlags.Check(module.Network.ToString(), () =>
+                        if(FeatureFlags.Instance.ContainsKey(module.Network.ToString()))
                         {
                             try
                             {
-                                SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                                PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                                SocinatorInitialize.SocialNetworkRegister(
+                                    module.GetNetworkCollectionFactory(Strategies), module.Network);
+                                PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(),
+                                    module.Network);
                                 AddNetwork(socialNetworkModule.Network);
                             }
                             catch (AggregateException ex)
@@ -313,7 +315,24 @@ namespace DominatorHouse.ViewModels
                             {
                                 ex.DebugLog();
                             }
-                        });
+                        }
+                        //FeatureFlags.Check(module.Network.ToString(), () =>
+                        //{
+                        //    try
+                        //    {
+                        //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
+                        //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                        //        AddNetwork(socialNetworkModule.Network);
+                        //    }
+                        //    catch (AggregateException ex)
+                        //    {
+                        //        Console.WriteLine(ex.Message);
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        ex.DebugLog();
+                        //    }
+                        //});
                         Task.Delay(5);
                     }
 
