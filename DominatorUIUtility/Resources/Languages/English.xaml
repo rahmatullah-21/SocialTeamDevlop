@@ -3459,5 +3459,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySociopublisherAdvancedsettingsforGooglePlush">Sociopublisher Advanced settings for Google+</system:String>
     <system:String x:Key="LangKeySociopublisherAdvancedGeneralSettings">Sociopublisher Advanced General Settings</system:String>
     <system:String x:Key="LangKeySociopublisherAdvancedSettingsforTwitter">Sociopublisher Advanced Settings for Twitter</system:String>
-   
+    <system:String x:Key="LangKeyCopySelected">Copy Selected</system:String>
+    <system:String x:Key="LangKeyRepinUpto">Repin up to</system:String>
+    <system:String x:Key="LangKeyBoardsFromAPin">Boards from a pin</system:String>
 </ResourceDictionary>

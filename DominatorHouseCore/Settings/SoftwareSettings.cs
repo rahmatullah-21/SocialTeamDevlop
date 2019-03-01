@@ -27,7 +27,7 @@ namespace DominatorHouseCore.Settings
         void InitializeOnLoadConfigurations();
         void ActivityManagerInitializer();
         void ScheduleAutoUpdation();
-        void ScheduleAdsScraping();
+        Task ScheduleAdsScraping();
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
     }
@@ -92,7 +92,7 @@ namespace DominatorHouseCore.Settings
 
         private void OtherInitializers()
         {
-            AddDHToStartup(Settings);
+            // AddDHToStartup(Settings);
         }
 
         private void AddDHToStartup(SoftwareSettingsModel settings)
@@ -311,7 +311,7 @@ namespace DominatorHouseCore.Settings
 
         #endregion
 
-        public void ScheduleAdsScraping()
+        public async Task ScheduleAdsScraping()
         {
             var adScraperblock = new ActionBlock<ScrapAdsDetails>(
                 async job =>
@@ -320,19 +320,12 @@ namespace DominatorHouseCore.Settings
                 },
                 new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-            ScrapAdsProducer(adScraperblock);
+            await ScrapAdsProduceAsync(adScraperblock);
         }
 
-        private void ScrapAdsProducer(ActionBlock<ScrapAdsDetails> adsActionBuffer)
-        {
-            var result = ScrapAdsProduceAsync(adsActionBuffer).Result;
-        }
 
         private async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer)
         {
-            var dominatorAccountViewModel =
-                ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
-
             var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
 
             ListHelper.Shuffle(accounts);
@@ -344,7 +337,7 @@ namespace DominatorHouseCore.Settings
 
             var jobId = Guid.NewGuid().ToString();
 
-            JobManager.AddJob(() => { ScheduleAdsScraping(); },
+            JobManager.AddJob(async () => { await ScrapAdsProduceAsync(adsActionBuffer); },
                 s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
 
             return true;
