@@ -164,15 +164,15 @@ namespace DominatorUIUtility.CustomControl
 
 
 
-        public string CommandParameter
+        public string VideoTutorialLink
         {
-            get { return (string)GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
+            get { return (string)GetValue(VideoTutorialLinkProperty); }
+            set { SetValue(VideoTutorialLinkProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(string), typeof(AccountGrowthModeHeader), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty VideoTutorialLinkProperty =
+            DependencyProperty.Register("VideoTutorialLink", typeof(string), typeof(AccountGrowthModeHeader), new PropertyMetadata(string.Empty));
 
 
 

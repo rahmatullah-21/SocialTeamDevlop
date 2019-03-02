@@ -380,7 +380,12 @@ namespace DominatorHouse.ViewModels
                 FeatureFlags.UpdateFeatures();
 
                 Parallel.Invoke(() =>
-                                {
+                                 {
+                                     DirectoryUtilities.DeleteOldLogsFile();
+                                     DirectoryUtilities.CompressAccountDetails();
+                                 },
+                                 () =>
+                                  {
                                     var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
                                     softwareSetting.InitializeOnLoadConfigurations();
                                     softwareSetting.ActivityManagerInitializer();
@@ -388,11 +393,7 @@ namespace DominatorHouse.ViewModels
                                     if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
                                         softwareSetting.ScheduleAdsScraping();
                                 },
-                                () =>
-                                {
-                                    DirectoryUtilities.DeleteOldLogsFile();
-                                    DirectoryUtilities.CompressAccountDetails();
-                                },
+                                
                                 () =>
                                 {
                                     PublisherInitialize.GetInstance.PublishCampaignInitializer();

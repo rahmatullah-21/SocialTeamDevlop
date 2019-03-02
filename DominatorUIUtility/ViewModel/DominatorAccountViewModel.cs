@@ -1120,11 +1120,10 @@ namespace DominatorUIUtility.ViewModel
 
                 if (selectAccounts.Count == 0)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                        "Please select atleast one account !!");
+                    Dialog.ShowDialog("Alert", "Please select atleast one account !!");
                     return;
                 }
-                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", "Delete Anyways", "Don't delete");
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 

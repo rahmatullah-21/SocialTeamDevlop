@@ -32,7 +32,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                      foreach (var account in accountDetails)
                      {
                          dominatorScheduler?.ScheduleEachActivity(account);
-                         Thread.Sleep(2);
+                         Task.Delay(2);
                      }
                  });
             }
@@ -44,7 +44,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     foreach (var account in accountDetails)
                     {
                         StartNextRound(account);
-                        Thread.Sleep(2);
+                        Task.Delay(2);
                     }
                 });
             }

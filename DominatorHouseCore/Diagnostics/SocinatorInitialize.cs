@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using DominatorHouseCore.Diagnostics.Exceptions;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -47,27 +46,27 @@ namespace DominatorHouseCore.Diagnostics
             }
         }
 
-        private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
-        {
-            {SocialNetworks.Social,ConfigurationManager.AppSettings["Social"] },
-            {SocialNetworks.Facebook,ConfigurationManager.AppSettings["Facebook"]},
-            {SocialNetworks.Twitter,ConfigurationManager.AppSettings["Twitter"]},
-            {SocialNetworks.Gplus,ConfigurationManager.AppSettings["Gplus"]},
-            {SocialNetworks.Instagram,ConfigurationManager.AppSettings["Instagram"]},
-            {SocialNetworks.LinkedIn,ConfigurationManager.AppSettings["LinkedIn"]},
-            {SocialNetworks.Quora,ConfigurationManager.AppSettings["Quora"]},
-            {SocialNetworks.Pinterest,ConfigurationManager.AppSettings["Pinterest"]},
-            {SocialNetworks.Tumblr,ConfigurationManager.AppSettings["Tumblr"]},
-            {SocialNetworks.Youtube,ConfigurationManager.AppSettings["Youtube"]},
-            {SocialNetworks.Reddit,ConfigurationManager.AppSettings["Reddit"]},
-        };
+        //private static Dictionary<SocialNetworks, string> NetworksNamespace { get; set; } = new Dictionary<SocialNetworks, string>()
+        //{
+        //    {SocialNetworks.Social,ConfigurationManager.AppSettings["Social"] },
+        //    {SocialNetworks.Facebook,ConfigurationManager.AppSettings["Facebook"]},
+        //    {SocialNetworks.Twitter,ConfigurationManager.AppSettings["Twitter"]},
+        //    {SocialNetworks.Gplus,ConfigurationManager.AppSettings["Gplus"]},
+        //    {SocialNetworks.Instagram,ConfigurationManager.AppSettings["Instagram"]},
+        //    {SocialNetworks.LinkedIn,ConfigurationManager.AppSettings["LinkedIn"]},
+        //    {SocialNetworks.Quora,ConfigurationManager.AppSettings["Quora"]},
+        //    {SocialNetworks.Pinterest,ConfigurationManager.AppSettings["Pinterest"]},
+        //    {SocialNetworks.Tumblr,ConfigurationManager.AppSettings["Tumblr"]},
+        //    {SocialNetworks.Youtube,ConfigurationManager.AppSettings["Youtube"]},
+        //    {SocialNetworks.Reddit,ConfigurationManager.AppSettings["Reddit"]},
+        //};
 
-        public static string GetNetworksNamespace(SocialNetworks networks)
-        {
-            var networksNamespace = NetworksNamespace[networks];
+        //public static string GetNetworksNamespace(SocialNetworks networks)
+        //{
+        //    var networksNamespace = NetworksNamespace[networks];
 
-            return networksNamespace;
-        }
+        //    return networksNamespace;
+        //}
 
         public static INetworkCollectionFactory ActiveNetwork { get; private set; }
 
