@@ -460,6 +460,11 @@
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.DisableAccount}">
                                                         <Setter Property="Text" Value="{DynamicResource LangKeyDisableAccount}" />
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"
+                                                                 Value="{x:Static enums:AccountStatus.InvalidSecurityCode}">
+                                                        <Setter Property="Text"
+                                                                Value="{DynamicResource LangKeyInvalidSecurityCode}" />
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>

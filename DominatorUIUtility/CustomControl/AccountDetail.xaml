@@ -297,6 +297,11 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyDisableAccount}" />
                                         <Setter Property="Foreground" Value="#b22222" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"
+                                                 Value="{x:Static enums:AccountStatus.InvalidSecurityCode}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyInvalidSecurityCode}" />
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
