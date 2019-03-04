@@ -26,8 +26,10 @@ namespace DominatorHouseCore.Interfaces
         Task<IResponseParameter> PostApiRequestAsync(string url, byte[] postData);
         Task<IResponseParameter> GetApiRequestAsync(string url);
     }
-    public interface IHttpHelperAsync
+    public interface IHttpHelperAsync : IRequestHelper
     {
+        HttpWebRequest Request { get; }
+        HttpWebResponse Response { get; }
         Task WritePostDataAsync(HttpWebRequest webRequest, string postData);
         Task WritePostDataAsync(HttpWebRequest webRequest, byte[] postBuffer);
         Task<IResponseParameter> GetFinalResponseAsync();
