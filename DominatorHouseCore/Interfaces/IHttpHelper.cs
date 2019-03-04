@@ -36,6 +36,7 @@ namespace DominatorHouseCore.Interfaces
         Task<IResponseParameter> GetReponseAsync(HttpWebResponse webResponse);
         Task<IResponseParameter> GetRequestAsync(string url, CancellationToken cancellationToken);
         Task<IResponseParameter> GetRequestAsync(string url, IRequestParameters requestParameters, CancellationToken cancellationToken);
+        Task<IResponseParameter> PostRequestAsync(string url, byte[] postData);
         Task<IResponseParameter> PostRequestAsync(string url, byte[] postData, CancellationToken cancellationToken);
         Task<IResponseParameter> PostRequestAsync(string url, string postData, CancellationToken cancellationToken);
         Task<IResponseParameter> PostRequestAsync(string url, string postData, IRequestParameters requestParameters);

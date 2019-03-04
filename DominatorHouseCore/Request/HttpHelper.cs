@@ -822,7 +822,7 @@ namespace DominatorHouseCore.Request
 
    
 
-    public sealed class HttpHelperAsync : IHttpHelperAsync
+    public  class HttpHelperAsync : IHttpHelperAsync
     {
         public HttpHelperAsync() : this(new RequestParameters())
         {
@@ -838,7 +838,7 @@ namespace DominatorHouseCore.Request
             Request = _request;
         }
 
-        private IRequestParameters RequestParameters { get; set; } = new RequestParameters();
+        public IRequestParameters RequestParameters { get; set; } = new RequestParameters();
         public HttpWebRequest Request
         {
             get { return _request; }
@@ -886,7 +886,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
         /// <param name="requestParameter"><see cref="IRequestParameters"/></param>
-        private void SetRequestParametersToWebRequest(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
+        public virtual void SetRequestParametersToWebRequest(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
         {
             try
             {
@@ -978,7 +978,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
         /// <param name="requestParameter"><see cref="IRequestParameters"/></param>
-        private void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
+        public void SetProxy(ref HttpWebRequest webRequest, IRequestParameters requestParameter)
         {
             try
             {
@@ -1051,7 +1051,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
         /// <param name="postData">Data which should pass as post data</param>
-        public async Task WritePostDataAsync(HttpWebRequest webRequest, string postData)
+        public virtual async Task WritePostDataAsync(HttpWebRequest webRequest, string postData)
         {
             try
             {
@@ -1069,7 +1069,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         /// <param name="webRequest"><see cref="HttpWebRequest"/></param>
         /// <param name="postBuffer">Post data in bytes array</param>
-        public async Task WritePostDataAsync(HttpWebRequest webRequest, byte[] postBuffer)
+        public virtual async Task WritePostDataAsync(HttpWebRequest webRequest, byte[] postBuffer)
         {
             try
             {
@@ -1232,6 +1232,14 @@ namespace DominatorHouseCore.Request
             return await GetFinalResponseAsync(cancellationToken);
         }
 
+
+        public virtual async Task<IResponseParameter> PostRequestAsync(string url, byte[] postData)
+        {
+            _request = (HttpWebRequest) WebRequest.Create(url);
+            SetRequestParametersToWebRequest(ref _request, RequestParameters);
+            await WritePostDataAsync(_request, postData);
+            return await GetFinalResponseAsync();
+        }
         /// <summary>
         /// Async Post Request
         /// </summary>
@@ -1248,6 +1256,7 @@ namespace DominatorHouseCore.Request
             await WritePostDataAsync(_request, postData);
             return await GetFinalResponseAsync(cancellationToken);
         }
+
 
         /// <summary>
         /// Async Post Request With RequestParameters
