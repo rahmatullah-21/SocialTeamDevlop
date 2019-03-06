@@ -169,6 +169,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BrowserHelper\BrowserLifeSpanHandler.cs" />
     <Compile Include="BrowserHelper\MenuHandler.cs" />
     <Compile Include="BrowserHelper\ProxyRequestHandler.cs" />
     <Compile Include="BrowserHelper\RequestHandlerCustom.cs" />

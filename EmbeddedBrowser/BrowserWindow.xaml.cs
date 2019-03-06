@@ -16,8 +16,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using EmbeddedBrowser.BrowserHelper;
@@ -38,7 +38,7 @@ namespace EmbeddedBrowser
 
         public ICommand SearchCommand { get; }
         public string TargetUrl { get; set; } = string.Empty;
-
+        public bool CustomUse { get; set; }
         public BrowserWindow()
         {
             InitializeComponent();
@@ -46,49 +46,56 @@ namespace EmbeddedBrowser
             SearchCommand = new DelegateCommand(GoToUrl);
             _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
         }
-        
+
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false)
             : this()
         {
-            DominatorAccountModel = dominatorAccountModel;
+            CustomUse = customUse;
+               DominatorAccountModel = dominatorAccountModel;
             _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
                 .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-            
+
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
-            
-            SetCookie(ref customUse);
 
-            if(!string.IsNullOrEmpty(targetUrl))
-             TargetUrl = targetUrl;
+           // SetCookie(ref customUse);
+
+            if (!string.IsNullOrEmpty(targetUrl))
+                TargetUrl = targetUrl;
 
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = new RequestHandlerCustom(this);
-           
+            Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
+
             InitializeGoogleLoginStatusActions();
-            
-            var url = customUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
+
+            var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
             Browser.Address = url;
             UrlBar.Text = url;
-            Browser.IsBrowserInitializedChanged += LoadSettings;
+            Browser.IsBrowserInitializedChanged += LoadSettings; 
         }
         
 
         /// <summary>
         /// Set Account Model Cookies into the browser
         /// </summary>
-        /// <param name="customUse"></param>
-        private void SetCookie(ref bool customUse)
+        public async Task SetCookie()
         {
             try
             {
                 var accountCookie = DominatorAccountModel.Cookies;
                 var callBack = new TaskCompletionCallback();
 
-                var cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack)
-                    .VisitAllCookiesAsync().Result;
+                if(accountCookie.Count == 0)
+                {
+                    Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
+                    return;
+                }
+
+                var cefInitialCookies =await Browser.RequestContext.GetDefaultCookieManager(callBack)
+                    .VisitAllCookiesAsync();
 
                 if (accountCookie.Count ==0 || cefInitialCookies.Count > accountCookie.Count)
                 {
@@ -101,8 +108,11 @@ namespace EmbeddedBrowser
                 {
                     if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                     {
-                        customUse = true;
+                        CustomUse = true;
                         TargetUrl = SocialHomeUrls();
+                        var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
+                        Browser.Address = url;
+                        UrlBar.Text = url;
                     }
                     return;
                 }
@@ -134,12 +144,15 @@ namespace EmbeddedBrowser
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                 {
-                    customUse = true;
+                    CustomUse = true;
                     TargetUrl = SocialHomeUrls();
+                    var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
+                    Browser.Address = url;
+                    UrlBar.Text = url;
                 }
 
                 // Just to check that how many cookie was inserted
-                //cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync().Result;
+                //cefInitialCookies = await Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync();
             }
             catch (Exception ex)
             {
@@ -185,7 +198,7 @@ namespace EmbeddedBrowser
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        public bool InitializedWell;
         private void LoadSettings(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             if (!Browser.IsBrowserInitialized)
@@ -249,6 +262,7 @@ namespace EmbeddedBrowser
             Browser.Load(homePage);
 
             Browser.LoadingStateChanged += BrowserOnLoaded;
+            InitializedWell = true;
         }
         
         private void BrowserOnLoaded(object sender, LoadingStateChangedEventArgs loadingStateChangedEventArgs)
@@ -527,12 +541,16 @@ namespace EmbeddedBrowser
                         {
                             BrowserAct(ActType.EnterValueById, "identifierId", value: DominatorAccountModel.AccountBaseModel.UserName, delayAfter: 1);
                             PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key //BrowserAct(ActType.ClickById,"identifierNext", 3, 2);
+                            _pageText = Browser.GetTextAsync().Result;
+                            IsGoogleAccountLoginFailed();
                             return;
                         }
                         if (/*Html.Contains("passwordNext")*/(_pageText.Trim().ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()) || _pageText.Contains("To continue, first verify it's you")) && _pageText.Contains("\nEnter your password\n"))
                         {
                             BrowserAct(ActType.EnterValueByName, "password", value: DominatorAccountModel.AccountBaseModel.Password, delayAfter: 1);
                             PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3);//Press Enter key //BrowserAct(ActType.ClickById,"passwordNext", 2, 2);
+                            _pageText = Browser.GetTextAsync().Result;
+                            IsGoogleAccountLoginFailed();
                             return;
                         }
                     }
