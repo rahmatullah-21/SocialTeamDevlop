@@ -181,6 +181,37 @@ namespace DominatorHouseCore.Utility
             //GlobusLogHelper.log.Info("Data has been exported successfully");
         }
 
+        public static void ExportReportsNew(List<Tuple<string, string, List<string>>> commentList)
+        {
+            commentList.ForEach(x =>
+            {
+
+                try
+                {
+                    if (!Directory.Exists(x.Item1))
+                    {
+                        DirectoryUtilities.CreateDirectory(x.Item1);
+                    }
+
+                    foreach (var item in x.Item3)
+                    {
+                        using (var streamWriter = new StreamWriter(x.Item2, true, Encoding.UTF8))
+                        {
+                            streamWriter.WriteLine(item);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
+            });
+
+
+
+            //GlobusLogHelper.log.Info("Data has been exported successfully");
+        }
+
 
         public static string GetUrlFormPostData(object obj)
         {

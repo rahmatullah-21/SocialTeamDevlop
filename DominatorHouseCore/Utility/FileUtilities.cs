@@ -63,6 +63,147 @@ namespace DominatorHouseCore.Utility
             return fileData;
         }
 
+        public static Dictionary<string, List<string>> FileBrowseAndReaderNew()
+        {
+
+            var queryFileData = new Dictionary<string, List<string>>();
+
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "Text documents (.txt)|*.txt|CSV files (*.csv)|*.csv|All files (*.*)|*.*"
+            };
+
+            var openFileDialogResult = openFileDialog.ShowDialog();
+
+            if (openFileDialogResult != true) return new Dictionary<string, List<string>>();
+
+            foreach (var fileName in openFileDialog.FileNames)
+            {
+                try
+                {
+                    var extension = Path.GetExtension(fileName);
+                    if (!string.IsNullOrEmpty(extension))
+                    {
+                        if (extension.Equals(".xls", StringComparison.CurrentCultureIgnoreCase) || extension.Equals(".xlsx", StringComparison.CurrentCultureIgnoreCase))
+                            GetCsvFileContentNew(fileName, ref queryFileData);
+                        else if (extension.Equals(".csv", StringComparison.CurrentCultureIgnoreCase))
+                            GetCsvFileContentNew(fileName, ref queryFileData);
+                        else if (extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase))
+                            GetTextFileContentNew(fileName, ref queryFileData);
+                        // ReSharper disable once RedundantJumpStatement
+                        else continue;
+
+                        //if (!extension.Contains(".txt") && !extension.Contains(".csv"))
+                        //        continue;
+
+                        //fileData.AddRange(GetFileContent(fileName));
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
+            }
+            return queryFileData;
+        }
+
+
+        public static void GetExcelFileContentNew(string fileName, ref Dictionary<string, List<string>> content)
+        {
+            if (!content.ContainsKey(fileName))
+            {
+                content.Add(fileName, new List<string>());
+            }
+            using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    do
+                    {
+                        while (reader.Read())
+                        {
+                            string rowContent = String.Empty;
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                var val = reader.GetValue(i);
+                                rowContent += (String.IsNullOrEmpty(val?.ToString()) ? String.Empty : val) + "\t";
+                            }
+                            if (string.IsNullOrEmpty(rowContent.Trim()))
+                                break;
+                            content[fileName].Add(rowContent);
+
+                        }
+                    } while (reader.NextResult());
+                }
+            }
+        }
+
+        public static void GetCsvFileContentNew(string fileName, ref Dictionary<string, List<string>> content)
+        {
+            if (!content.ContainsKey(fileName))
+            {
+                content.Add(fileName, new List<string>());
+            }
+
+            using (TextReader reader = File.OpenText(fileName))
+            {
+                try
+                {
+                    var csv = new CsvReader(reader);
+                    csv.Configuration.BadDataFound = null;
+
+                    while (csv.Read())
+                    {
+                        string rowContent = String.Empty;
+                        int columnCount = 0;
+                        bool hasColumn = true;
+                        string columnValue;
+
+                        while (hasColumn)
+                        {
+                            hasColumn = csv.TryGetField(columnCount, out columnValue);
+                            if (hasColumn)
+                            {
+                                columnCount += 1;
+                                rowContent += columnValue + "\t";
+                            }
+                        }
+                        var data = rowContent.Trim();
+                        if (!string.IsNullOrEmpty(data))
+                            content[fileName].Add(rowContent.Substring(0, rowContent.Length - 1));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+        }
+
+        public static void GetTextFileContentNew(string fileName, ref Dictionary<string, List<string>> csvSplitList)
+        {
+            using (StreamReader file = new StreamReader(fileName))
+            {
+
+                if (!csvSplitList.ContainsKey(fileName))
+                {
+                    csvSplitList.Add(fileName, new List<string>());
+                }
+
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    var data = line.Trim();
+                    if (!string.IsNullOrEmpty(data))
+                        csvSplitList[fileName].Add(ImageExtracter.CheckUrlValid(data) ? data : data.Replace(":", "\t"));
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// FileBrowseAndReader() is used to browse and read the file data from OpenFileDialog
