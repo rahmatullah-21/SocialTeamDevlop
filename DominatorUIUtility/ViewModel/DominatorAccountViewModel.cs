@@ -1696,6 +1696,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var browserWindow = new BrowserWindow(dominatorAccountModel);
+                browserWindow.SetCookie();
                 browserWindow.Show();
             }
             catch (Exception ex)
