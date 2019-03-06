@@ -86,11 +86,15 @@ namespace EmbeddedBrowser
             {
                 var accountCookie = DominatorAccountModel.Cookies;
                 var callBack = new TaskCompletionCallback();
-
+                if (accountCookie.Count == 0)
+                {
+                    Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
+                    return;
+                }
                 var cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack)
                     .VisitAllCookiesAsync().Result;
 
-                if (accountCookie.Count ==0 || cefInitialCookies.Count > accountCookie.Count)
+                if (cefInitialCookies.Count > accountCookie.Count)
                 {
                     if (accountCookie.Count == 0 && DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                         Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();

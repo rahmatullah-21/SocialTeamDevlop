@@ -35,7 +35,8 @@
                         </ComboBox>
                  </StackPanel>
                 </StackPanel>
-                    <dragablz:TabablzControl x:Name="InitialTabablzControl"  Style="{DynamicResource TabablzControlStyle}" Margin="0,5,0,0" >
+                    <dragablz:TabablzControl x:Name="InitialTabablzControl" SelectionChanged="TabSelectionChange"
+                                             Style="{DynamicResource TabablzControlStyle}" Margin="0,5,0,0" >
                         <TabItem Header="Info" Name="InfoTab" IsSelected="True" >
                             <views:LogList Logs="{Binding Logs}" 
                                            NetworkFilter="{Binding SelectedNetwork}" 
@@ -44,7 +45,7 @@
                                            SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"
                                            SyncObject="{Binding SyncObject, Mode=OneTime}"/>
                         </TabItem>
-                        <TabItem Header="Error List" Name="ErrorTab" >
+                        <TabItem Header="Error" Name="ErrorTab" >
                             <views:LogList Logs="{Binding Logs}" 
                                            NetworkFilter="{Binding SelectedNetwork}" 
                                            ActivityTypeFilter="{Binding ActivityTypes.Selected}" 

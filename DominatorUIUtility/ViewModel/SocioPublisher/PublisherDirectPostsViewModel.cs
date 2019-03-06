@@ -489,9 +489,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
                             mediaUrl.ForEach(media =>
                             {
-                                if (File.Exists(media))
+                                var path= media.Trim();
+                                if (File.Exists(path))
                                 {
-                                    Application.Current.Dispatcher.BeginInvoke(new Action(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media))));
+                                    Application.Current.Dispatcher.BeginInvoke(new Action(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(path))));
                                     Thread.Sleep(2);
                                 }
 

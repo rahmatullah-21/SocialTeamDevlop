@@ -1334,7 +1334,7 @@ namespace DominatorHouseCore.Request
 
             request.ContentLength = postData.Length;
 
-            using (var postDataStream = request.GetRequestStream())
+            using (var postDataStream =await request.GetRequestStreamAsync())
             {
                 await postDataStream.WriteAsync(postData, 0, postData.Length);
             }
