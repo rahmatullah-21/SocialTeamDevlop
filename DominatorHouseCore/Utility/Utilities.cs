@@ -165,13 +165,7 @@ namespace DominatorHouseCore.Utility
                 streamWriter.WriteLine(csvHeader);
             try
             {
-                foreach (var item in csvData)
-                {
-                    using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
-                    {
-                        streamWriter.WriteLine(item);
-                    }
-                }
+                File.AppendAllLines(fileName, csvData, Encoding.UTF8);
             }
             catch (Exception ex)
             {
@@ -183,7 +177,7 @@ namespace DominatorHouseCore.Utility
 
      
 
-        public static void ExportReportsNew(List<Tuple<string, string, List<string>>> commentList)
+        public static void ExportReportsNew(List<Tuple<string, string, string[]>> commentList)
         {
             commentList.ForEach(x =>
             {
@@ -195,23 +189,14 @@ namespace DominatorHouseCore.Utility
                         DirectoryUtilities.CreateDirectory(x.Item1);
                     }
 
-                    foreach (var item in x.Item3)
-                    {
-                        using (var streamWriter = new StreamWriter(x.Item2, true, Encoding.UTF8))
-                        {
-                            streamWriter.WriteLine(item);
-                            streamWriter.WriteLine();
-                        }
-                    }
+
+                    File.AppendAllLines(x.Item2, x.Item3, Encoding.UTF8);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.StackTrace);
                 }
             });
-
-           
-
             //GlobusLogHelper.log.Info("Data has been exported successfully");
         }
 
