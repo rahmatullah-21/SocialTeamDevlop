@@ -159,6 +159,8 @@ namespace DominatorUIUtility.CustomControl
 
         public List<string> QueryCollection { get; set; } = new List<string>();
 
+        public Dictionary<string, List<string>> QueryDictionary = new Dictionary<string, List<string>>();
+
         #endregion
 
         #region Import Query Details
@@ -195,9 +197,10 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 QueryCollection.Clear();
-                QueryCollection.AddRange(FileUtilities.FileBrowseAndReader());
+                string fileName = string.Empty;
+                QueryDictionary = FileUtilities.FileBrowseAndReaderNew();
 
-                if (QueryCollection.Count != 0)
+                if (QueryDictionary.Count != 0)
                 {
                     Dialog.ShowDialog("Info", "Queries are ready to add !!");
                     GlobusLogHelper.log.Info("Query sucessfully uploaded !!");

@@ -20,6 +20,7 @@ namespace DominatorHouseCore.Models
         private int _addedDateTime = DateTimeUtilities.GetEpochTime();
         private int _queryPriority;
         private string _queryTypeDisplayName;
+        private string _fileName;
 
         public static readonly QueryInfo NoQuery = new QueryInfo();
         private int _index;
@@ -215,6 +216,23 @@ namespace DominatorHouseCore.Models
 
                 var displayName = value;            // ConvertToDisplayName(value)
                 SetProperty(ref _queryTypeDisplayName, displayName);
+            }
+        }
+
+
+        [ProtoMember(9)]
+        public string FileName
+        {
+            get
+            {
+                return _fileName;
+            }
+            set
+            {
+                if (_fileName != null && _fileName == value)
+                    return;
+
+                SetProperty(ref _fileName, value);
             }
         }
 

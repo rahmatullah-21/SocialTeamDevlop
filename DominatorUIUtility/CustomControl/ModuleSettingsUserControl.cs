@@ -23,6 +23,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -1592,7 +1593,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue.Trim()) && _queryControl.QueryCollection.Count == 0)
+                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue.Trim()) && _queryControl.QueryDictionary.Count == 0)
                     return;
 
                 if (_queryControl.CurrentQuery.QueryValue.Contains(","))
@@ -1603,41 +1604,51 @@ namespace DominatorUIUtility.CustomControl
                 }
 
                 List<int> queryValuIndex = new List<int>();
-                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue) && _queryControl.QueryCollection.Count != 0)
+                if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue) && _queryControl.QueryDictionary.Count != 0)
                 {
-                    _queryControl.QueryCollection.ForEach(query =>
+                    _queryControl.QueryDictionary.ForEach(item =>
                     {
-                        var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
-
-                        if (currentQuery == null) return;
-
-                        currentQuery.QueryValue = query;
-                        currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
-                        //  currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
-
-                        currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
-
-                        if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
+                        foreach (var query in item.Value)
                         {
-                            queryValuIndex.Add(_queryControl.QueryCollection.IndexOf(query));
-                            return;
+                            var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
+
+                            if (currentQuery == null) return;
+
+                            currentQuery.QueryValue = query;
+                            currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                            //  currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
+
+                            currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+
+                            var split  = Regex.Split(item.Key, "\\\\");
+
+                            currentQuery.FileName = split[split.Length - 1];
+
+                            if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
+                            {
+                                queryValuIndex.Add(_queryControl.QueryCollection.IndexOf(query));
+                                return;
+                            }
+
+                            Model.SavedQueries.Add(currentQuery);
+                            currentQuery.Index = Model.SavedQueries.IndexOf(currentQuery) + 1;
+                            if (queryValuIndex.Count > 0)
+                            {
+                                if (queryValuIndex.Count <= 10)
+                                {
+                                    GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, "{ " + string.Join(" },{ ", queryValuIndex.ToArray()) + " }");
+                                }
+                                else
+                                {
+                                    GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, queryValuIndex.Count);
+
+                                }
+                            }
                         }
 
-                        Model.SavedQueries.Add(currentQuery);
-                        currentQuery.Index = Model.SavedQueries.IndexOf(currentQuery) + 1;
+                       
                     });
-                    if (queryValuIndex.Count > 0)
-                    {
-                        if (queryValuIndex.Count <= 10)
-                        {
-                            GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, "{ " + string.Join(" },{ ", queryValuIndex.ToArray()) + " }");
-                        }
-                        else
-                        {
-                            GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, queryValuIndex.Count);
-
-                        }
-                    }
+                    
                 }
                 else
                 {

@@ -94,5 +94,11 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string ReplyForComment { get; set; }
+
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string FileName { get; set; }
+
+        
     }
 }

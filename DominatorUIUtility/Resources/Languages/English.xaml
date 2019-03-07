@@ -3464,4 +3464,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyBoardsFromAPin">Boards from a pin</system:String>
     <system:String x:Key="LangKeyInvalidSecurityCode">Invalid Security Code</system:String>
     <system:String x:Key="LangKeySelectAllAccountsAndBoards">Select all accounts and boards</system:String>
+
+    <system:String x:Key="LangKeyNoOfCommentsPerKeyword">Comments Per Keyword</system:String>
 </ResourceDictionary>

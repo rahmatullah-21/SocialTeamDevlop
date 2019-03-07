@@ -17,6 +17,6 @@ namespace DominatorHouseCore.Interfaces
 
         ObservableCollection<object> GetReportDetail(ReportModel reportModel, List<KeyValuePair<string, string>> queryDetails, CampaignDetails campaignDetails);
        
-        void ExportReports(ActivityType activityType, string fileName, ReportType reportType);
+        void ExportReports(ActivityType activityType, string fileName, ReportType reportType, string folderName);
     }
 }

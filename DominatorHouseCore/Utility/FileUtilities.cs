@@ -205,6 +205,10 @@ namespace DominatorHouseCore.Utility
 
 
 
+
+      
+
+
         /// <summary>
         /// FileBrowseAndReader() is used to browse and read the file data from OpenFileDialog
         /// </summary>
@@ -464,6 +468,14 @@ namespace DominatorHouseCore.Utility
                 return csvSplitList;
             }
         }
+
+
+
+    
+
+        
+
+    
 
     }
 }

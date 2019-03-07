@@ -181,11 +181,13 @@ namespace DominatorHouseCore.Utility
             //GlobusLogHelper.log.Info("Data has been exported successfully");
         }
 
+     
+
         public static void ExportReportsNew(List<Tuple<string, string, List<string>>> commentList)
         {
             commentList.ForEach(x =>
             {
-
+               
                 try
                 {
                     if (!Directory.Exists(x.Item1))
@@ -198,6 +200,7 @@ namespace DominatorHouseCore.Utility
                         using (var streamWriter = new StreamWriter(x.Item2, true, Encoding.UTF8))
                         {
                             streamWriter.WriteLine(item);
+                            streamWriter.WriteLine();
                         }
                     }
                 }
@@ -207,7 +210,7 @@ namespace DominatorHouseCore.Utility
                 }
             });
 
-
+           
 
             //GlobusLogHelper.log.Info("Data has been exported successfully");
         }

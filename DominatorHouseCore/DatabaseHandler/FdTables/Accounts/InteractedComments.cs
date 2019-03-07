@@ -89,6 +89,6 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public string ReplyForComment { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
-        public object FileName { get; set; }
+        public string FileName { get; set; }
     }
 }
