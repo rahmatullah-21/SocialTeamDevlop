@@ -109,7 +109,8 @@ namespace EmbeddedBrowser
                     if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                     {
                         CustomUse = true;
-                        TargetUrl = SocialHomeUrls();
+                        if (string.IsNullOrEmpty(TargetUrl))
+                            TargetUrl = SocialHomeUrls();
                         var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
                         Browser.Address = url;
                         UrlBar.Text = url;
@@ -145,7 +146,8 @@ namespace EmbeddedBrowser
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                 {
                     CustomUse = true;
-                    TargetUrl = SocialHomeUrls();
+                    if (string.IsNullOrEmpty(TargetUrl))
+                        TargetUrl = SocialHomeUrls();
                     var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
                     Browser.Address = url;
                     UrlBar.Text = url;
@@ -288,6 +290,7 @@ namespace EmbeddedBrowser
                 {
                     Browser.GetSourceAsync().ContinueWith(taskHtml =>
                     {
+                        DominatorAccountModel.Token.ThrowIfCancellationRequested();
                         try
                         {
                             var html = taskHtml.Result;
@@ -338,6 +341,7 @@ namespace EmbeddedBrowser
                 }
 
             }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 ex.DebugLog(ex.StackTrace);
@@ -635,6 +639,10 @@ namespace EmbeddedBrowser
                     SetNewPasswordAfterSuspiciousActivity
                 },
                 {
+                    pageData => pageData.Contains("Try another way to sign in\nGet a verification code at") && pageData.Contains("\nConfirm your recovery phone number\n"),
+                    ClickOptionConfirmRecoveryClickIndex2
+                },
+                {
                     pageData =>
                         pageData.Contains("Unavailable because of too many attempts. Please try again later.")
                         || pageData.Contains("It is not available because too many attempts have been failed. Try again in a few hours.")
@@ -729,8 +737,17 @@ namespace EmbeddedBrowser
             var isRetype = true;
             if (DominatorAccountModel.AccountBaseModel.Status != AccountStatus.ReTypePhoneNumber && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber) && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
             {
-                EnterChars(DominatorAccountModel.AccountBaseModel.PhoneNumber, delayAtLast: 1);
+                if(_cameHereByClickingOption)
+                {
+                    PressAnyKey(5, 150, winKeyCode: 9, delayAtLast: 0.5); // Press Tab 5 times 
+                    BrowserAct(ActType.EnterValueById, "phoneNumberId", delayAfter: 1.5, value: DominatorAccountModel.AccountBaseModel.PhoneNumber);
+                    _cameHereByClickingOption = false;
+                }
+                else
+                    EnterChars(DominatorAccountModel.AccountBaseModel.PhoneNumber, delayAtLast: 1);
+
                 PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
+
                 var pageText = Browser.GetTextAsync().Result;
                 isRetype = pageText.Contains("This number doesn't match the one you provided. Try again.");
                 if(isRetype)
@@ -846,13 +863,21 @@ namespace EmbeddedBrowser
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
             return true;
         }
-
+        
         private bool ClickOptionConfirmRecovery()
         {
             BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5);
             return false;
         }
-       
+
+        bool _cameHereByClickingOption;
+        private bool ClickOptionConfirmRecoveryClickIndex2()
+        {
+            BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5, clickIndex: 2);
+            _cameHereByClickingOption = true;
+            return false;
+        }
+
         private bool ConfirmRecoveryEmailAddress()
         {
            var loginFailed = RetypeEmail();
@@ -868,7 +893,7 @@ namespace EmbeddedBrowser
            var loginFailed = RetypePhoneNumber();
             var gotNumberFromPage = Utilities.GetBetween(_pageText, "security settings:", "\n").Replace(" ", "")
                 .Replace("(", "").Replace(")", "").Replace("-", "").Replace("_", "").Trim();
-            if (!IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),
+            if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),
                 gotNumberFromPage))
                 DominatorAccountModel.AccountBaseModel.PhoneNumber = gotNumberFromPage;
             return loginFailed;
