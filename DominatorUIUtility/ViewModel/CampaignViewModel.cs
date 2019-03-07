@@ -399,7 +399,7 @@ namespace DominatorUIUtility.ViewModel
                     campaignFileManager.Delete(campaign);
                     _dataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
-
+                    Uncheck();
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
                     UpdateAccount(allAccounts, campaign, selectedAccount);
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork,
@@ -424,15 +424,12 @@ namespace DominatorUIUtility.ViewModel
 
                     if (campaign.Count == 0)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                            "Warning", "To delete Campaign please select atleast one Campaign !");
+                        Dialog.ShowDialog("Warning", "To delete Campaign please select atleast one Campaign !");
                         return;
                     }
 
-                    var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign ?",
-                        MessageDialogStyle.AffirmativeAndNegative,
-                        Dialog.SetMetroDialogButton("Delete Anyway", "Cancel"));
+                    var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign ?",
+                       "Delete Anyway", "Cancel");
                     if (dialogResult != MessageDialogResult.Affirmative)
                         return;
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -449,7 +446,7 @@ namespace DominatorUIUtility.ViewModel
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
                         });
                         _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
-
+                        Uncheck();
                     });
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
 
@@ -458,10 +455,14 @@ namespace DominatorUIUtility.ViewModel
                 {
                     ex.DebugLog();
                 }
-                if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
-                    IsAllCampaignChecked = false;
             }
+        }
 
+        private void Uncheck()
+        {
+            if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 &&
+                IsAllCampaignChecked)
+                IsAllCampaignChecked = false;
         }
 
         private void CopyCampaignIdExecute(object sender)
