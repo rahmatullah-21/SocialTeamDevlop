@@ -1,3 +1,54 @@
+Version[1.0.0.42],[7th-March-19]
+New Feature:-
+	Instagram:-
+		Added spintex format in broadcast message.
+Fixed:-
+	Instagram:-
+		Grow Follower => Follower => Fixed issue with custom user list.
+		Instachat => Broadcast Mesage => Fixed issue with custom user list.
+		Instachat => Broadcast Mesage => Fixed issue with using Tag in message.
+		Instaposter => Reposter => Fixed issue with posting multiple line caption.
+	Reddit:-
+		Fixed issue with report delete.
+	Pintrest:-
+		PinPoster => Repin => custom users => Fixed issue syncronised repin with board.
+		PinPoster => Delete => Delete Pins from Borad => Fixed issue with empty board.
+		PinPoster => Repin => Custom users => Fixed issue with failed to error board.
+		Board => Send Board Invitation => Fixed Issue with send board invitation.
+	Linkedin:-
+		Grow Connection => Remove connection => Manage Blacklist =>  Fixed issue with add user to blacklist after remove the connection.
+		Salesnavigator Scraper => FIxed issue with scrape profile Using search URL.
+	Quora:-
+		Voting => Downvote Questions =>  Custom Urls => Fixed issue with voting.
+	Youtube:-
+	    Account manager => Fixed issues with Account loading.
+		Account manager => Issue solved in browser login/ Check account status.
+		Account manager => Issue solved in hanging while adding account login.
+		Account manager => Issue solved over unable to see selected account on a edit running campaign.
+	
+Version[1.0.0.41],[2nd-March-19]
+New Feature:-
+	Pinterest:- 
+		 Repinning From Multiple boards.
+Fixed:-
+	Instagram:-
+		 Issue fixed with Scrapping custom user 
+		 Issue fixed with Not skipping Blacklisted users for follow/ messaging 
+		 Issue fixed with Not showing Two factor login option in Instagram mode.
+	Pinterest:-
+		Issue fixed with Adding users to Blacklist after Unfollowing.Issue fixed with After Repinning action.
+		Issue fixed over broadcast messeges through keyword
+		Issue fixed over messeges after follow action
+	Reddit:-
+		Issue fixed with Adding users to Blacklist after Unfollowing.
+		Issue fixed with Upvoting with No of voting count.
+		Grow follower => Custom user list => Fixed issue with Group Blacklist user.
+		Unsubscribe => custom comminity list => Fixed issue with community filter.
+	LinkedIn:-
+		Salesnavigator Scraper => User Scraper => Fixed issue with scrape profile using search URL.
+	Twitter:-
+		Minor improvement and changes.
+	
 Version[1.0.0.40],[27th-February-19]
 New Feature:-
 	Instagram:-

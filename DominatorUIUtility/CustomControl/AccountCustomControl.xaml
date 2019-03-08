@@ -19,6 +19,7 @@
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsInstagramConverter" Expected="{x:Static enums:SocialNetworks.Instagram}"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsTwitterConverter" Expected="{x:Static enums:SocialNetworks.Twitter}"/>
+        <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Social}"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
 
@@ -312,6 +313,7 @@
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                         <MenuItem Header="Go to Tools"  Icon="{StaticResource GoToToolsIcon}"
                                   CommandParameter="{Binding}"
+                                  Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
                                   Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
                         <MenuItem Header="Check Account Status" Icon="{StaticResource CheckStatusIcon}"
                                   CommandParameter="{Binding}"
@@ -460,6 +462,11 @@
                                                     <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.DisableAccount}">
                                                         <Setter Property="Text" Value="{DynamicResource LangKeyDisableAccount}" />
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"
+                                                                 Value="{x:Static enums:AccountStatus.InvalidSecurityCode}">
+                                                        <Setter Property="Text"
+                                                                Value="{DynamicResource LangKeyInvalidSecurityCode}" />
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>
@@ -510,7 +517,7 @@
             <Controls:FlyoutsControl>
                 <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
-                    <local:HelpControl ModuleDescription="Text for account"
+                    <local:HelpControl ModuleDescription="You can add/delete single account,you can import/export multiple account"
                                                  VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
                 </Controls:Flyout>

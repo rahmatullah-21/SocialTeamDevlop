@@ -9,8 +9,6 @@ using Prism.Unity;
 using System;
 using System.Threading;
 using System.Windows;
-using System.Windows.Forms;
-using DominatorHouseCore.Utility;
 using Unity;
 using Unity.Interception.ContainerIntegration;
 using MessageBox = System.Windows.MessageBox;
@@ -49,7 +47,7 @@ namespace Socinator
             if (IsAlreadyRunning())
             {
                 MessageBox.Show("Socinator already running.", "Warnning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                Environment.Exit(0);
             }
             var container = containerRegistry.GetContainer();
             container.AddNewExtension<Interception>();

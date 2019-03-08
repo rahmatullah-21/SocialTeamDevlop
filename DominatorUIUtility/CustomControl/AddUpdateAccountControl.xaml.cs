@@ -13,7 +13,8 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AddUpdateAccountControl : UserControl
     {
-        public DominatorAccountBaseModel DominatorAccountBaseModel { get; set; } = new DominatorAccountBaseModel();
+        public DominatorAccountBaseModel DominatorAccountBaseModel { get; set; }
+
 
         /// <summary>
         /// Constructor with dominatorAccountBaseModel as data context
@@ -22,11 +23,12 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="title">Show the title of the user control, like Add account</param>
         /// <param name="actionButtonContent">Pass the action button content like Save</param>
         /// <param name="showAdvance">Pass true only if proxy ip contains values otherwise false</param>
-        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance, string socialNetwork)
+        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance,
+            SocialNetworks socialNetwork)
         {
             InitializeComponent();
 
-            if (socialNetwork == SocialNetworks.Social.ToString())
+            if (socialNetwork == SocialNetworks.Social)
             {
                 foreach (var item in SocinatorInitialize.GetRegisterNetwork())
                 {

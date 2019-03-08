@@ -9,7 +9,6 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
-using MahApps.Metro.Controls;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -17,11 +16,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Markup;
+using EmbeddedBrowser.BrowserHelper;
 using Unity;
 
 namespace EmbeddedBrowser
@@ -29,7 +28,7 @@ namespace EmbeddedBrowser
     /// <summary>
     /// Interaction logic for BrowserWindow.xaml
     /// </summary>
-    public partial class BrowserWindow : MetroWindow, INotifyPropertyChanged, IComponentConnector, IDisposable
+    public partial class BrowserWindow : INotifyPropertyChanged, IDisposable
     {
         private readonly IAccountScopeFactory _accountScopeFactory;
         private readonly IHttpHelper _httpHelper;
@@ -39,7 +38,7 @@ namespace EmbeddedBrowser
 
         public ICommand SearchCommand { get; }
         public string TargetUrl { get; set; } = string.Empty;
-
+        public bool CustomUse { get; set; }
         public BrowserWindow()
         {
             InitializeComponent();
@@ -47,51 +46,58 @@ namespace EmbeddedBrowser
             SearchCommand = new DelegateCommand(GoToUrl);
             _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
         }
-        
+
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false)
             : this()
         {
-            DominatorAccountModel = dominatorAccountModel;
+            CustomUse = customUse;
+               DominatorAccountModel = dominatorAccountModel;
             _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
                 .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-            
+
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
             });
-            
-            SetCookie(ref customUse);
 
-            if(!string.IsNullOrEmpty(targetUrl))
-             TargetUrl = targetUrl;
+           // SetCookie(ref customUse);
+
+            if (!string.IsNullOrEmpty(targetUrl))
+                TargetUrl = targetUrl;
 
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = new RequestHandlerCustom(this);
-           
+            Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
+
             InitializeGoogleLoginStatusActions();
-            
-            var url = customUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
+
+            var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
             Browser.Address = url;
             UrlBar.Text = url;
-            Browser.IsBrowserInitializedChanged += LoadSettings;
+            Browser.IsBrowserInitializedChanged += LoadSettings; 
         }
         
 
         /// <summary>
         /// Set Account Model Cookies into the browser
         /// </summary>
-        /// <param name="customUse"></param>
-        private void SetCookie(ref bool customUse)
+        public async Task SetCookie()
         {
             try
             {
                 var accountCookie = DominatorAccountModel.Cookies;
                 var callBack = new TaskCompletionCallback();
 
-                var cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack)
-                    .VisitAllCookiesAsync().Result;
+                if (accountCookie.Count == 0)
+                {
+                    Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
+                    return;
+                }
+                
+                var cefInitialCookies =await Browser.RequestContext.GetDefaultCookieManager(callBack)
+                    .VisitAllCookiesAsync();
 
-                if (accountCookie.Count ==0 || cefInitialCookies.Count > accountCookie.Count)
+                if (cefInitialCookies.Count > accountCookie.Count)
                 {
                     if (accountCookie.Count == 0 && DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                         Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
@@ -102,8 +108,12 @@ namespace EmbeddedBrowser
                 {
                     if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                     {
-                        customUse = true;
-                        TargetUrl = SocialHomeUrls();
+                        CustomUse = true;
+                        if (string.IsNullOrEmpty(TargetUrl))
+                            TargetUrl = SocialHomeUrls();
+                        var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
+                        Browser.Address = url;
+                        UrlBar.Text = url;
                     }
                     return;
                 }
@@ -135,12 +145,16 @@ namespace EmbeddedBrowser
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                 {
-                    customUse = true;
-                    TargetUrl = SocialHomeUrls();
+                    CustomUse = true;
+                    if (string.IsNullOrEmpty(TargetUrl))
+                        TargetUrl = SocialHomeUrls();
+                    var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
+                    Browser.Address = url;
+                    UrlBar.Text = url;
                 }
 
                 // Just to check that how many cookie was inserted
-                //cefInitialCookies = Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync().Result;
+                //cefInitialCookies = await Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync();
             }
             catch (Exception ex)
             {
@@ -186,7 +200,7 @@ namespace EmbeddedBrowser
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        public bool InitializedWell;
         private void LoadSettings(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             if (!Browser.IsBrowserInitialized)
@@ -250,6 +264,7 @@ namespace EmbeddedBrowser
             Browser.Load(homePage);
 
             Browser.LoadingStateChanged += BrowserOnLoaded;
+            InitializedWell = true;
         }
         
         private void BrowserOnLoaded(object sender, LoadingStateChangedEventArgs loadingStateChangedEventArgs)
@@ -275,6 +290,7 @@ namespace EmbeddedBrowser
                 {
                     Browser.GetSourceAsync().ContinueWith(taskHtml =>
                     {
+                        DominatorAccountModel.Token.ThrowIfCancellationRequested();
                         try
                         {
                             var html = taskHtml.Result;
@@ -325,6 +341,7 @@ namespace EmbeddedBrowser
                 }
 
             }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 ex.DebugLog(ex.StackTrace);
@@ -386,6 +403,10 @@ namespace EmbeddedBrowser
                 Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
 
             if (Browser.IsDisposed) return;
+
+            if (!string.IsNullOrEmpty(value) && value.Contains(@"\"))
+                value = value.Replace(@"\", "\\\\");
+            
             switch (actType)
             {
                 case ActType.ClickByClass:
@@ -524,12 +545,16 @@ namespace EmbeddedBrowser
                         {
                             BrowserAct(ActType.EnterValueById, "identifierId", value: DominatorAccountModel.AccountBaseModel.UserName, delayAfter: 1);
                             PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key //BrowserAct(ActType.ClickById,"identifierNext", 3, 2);
+                            _pageText = Browser.GetTextAsync().Result;
+                            IsGoogleAccountLoginFailed();
                             return;
                         }
                         if (/*Html.Contains("passwordNext")*/(_pageText.Trim().ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.Trim().ToLower()) || _pageText.Contains("To continue, first verify it's you")) && _pageText.Contains("\nEnter your password\n"))
                         {
                             BrowserAct(ActType.EnterValueByName, "password", value: DominatorAccountModel.AccountBaseModel.Password, delayAfter: 1);
                             PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3);//Press Enter key //BrowserAct(ActType.ClickById,"passwordNext", 2, 2);
+                            _pageText = Browser.GetTextAsync().Result;
+                            IsGoogleAccountLoginFailed();
                             return;
                         }
                     }
@@ -612,6 +637,10 @@ namespace EmbeddedBrowser
                                 && pageData.Contains("There's been suspicious activity on your Google Account. For your protection, you need to change your password.")
                                 && pageData.Contains("Create password"),
                     SetNewPasswordAfterSuspiciousActivity
+                },
+                {
+                    pageData => pageData.Contains("Try another way to sign in\nGet a verification code at") && pageData.Contains("\nConfirm your recovery phone number\n"),
+                    ClickOptionConfirmRecoveryClickIndex2
                 },
                 {
                     pageData =>
@@ -708,8 +737,17 @@ namespace EmbeddedBrowser
             var isRetype = true;
             if (DominatorAccountModel.AccountBaseModel.Status != AccountStatus.ReTypePhoneNumber && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber) && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
             {
-                EnterChars(DominatorAccountModel.AccountBaseModel.PhoneNumber, delayAtLast: 1);
+                if(_cameHereByClickingOption)
+                {
+                    PressAnyKey(5, 150, winKeyCode: 9, delayAtLast: 0.5); // Press Tab 5 times 
+                    BrowserAct(ActType.EnterValueById, "phoneNumberId", delayAfter: 1.5, value: DominatorAccountModel.AccountBaseModel.PhoneNumber);
+                    _cameHereByClickingOption = false;
+                }
+                else
+                    EnterChars(DominatorAccountModel.AccountBaseModel.PhoneNumber, delayAtLast: 1);
+
                 PressAnyKey(1, 0, winKeyCode: 13, delayAtLast: 3); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
+
                 var pageText = Browser.GetTextAsync().Result;
                 isRetype = pageText.Contains("This number doesn't match the one you provided. Try again.");
                 if(isRetype)
@@ -825,13 +863,21 @@ namespace EmbeddedBrowser
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
             return true;
         }
-
+        
         private bool ClickOptionConfirmRecovery()
         {
             BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5);
             return false;
         }
-       
+
+        bool _cameHereByClickingOption;
+        private bool ClickOptionConfirmRecoveryClickIndex2()
+        {
+            BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5, clickIndex: 2);
+            _cameHereByClickingOption = true;
+            return false;
+        }
+
         private bool ConfirmRecoveryEmailAddress()
         {
            var loginFailed = RetypeEmail();
@@ -847,7 +893,7 @@ namespace EmbeddedBrowser
            var loginFailed = RetypePhoneNumber();
             var gotNumberFromPage = Utilities.GetBetween(_pageText, "security settings:", "\n").Replace(" ", "")
                 .Replace("(", "").Replace(")", "").Replace("-", "").Replace("_", "").Trim();
-            if (!IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),
+            if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),
                 gotNumberFromPage))
                 DominatorAccountModel.AccountBaseModel.PhoneNumber = gotNumberFromPage;
             return loginFailed;
@@ -1434,287 +1480,6 @@ namespace EmbeddedBrowser
         {
             Dispose();
 
-        }
-
-
-        private class RequestHandlerCustom : IRequestHandler
-        {
-            private readonly BrowserWindow embedBrowser;
-
-            public RequestHandlerCustom(BrowserWindow embedBrowser)
-            {
-                this.embedBrowser = embedBrowser;
-            }
-
-            public bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy,
-                string host, int port, string realm, string scheme, IAuthCallback callback)
-            {
-                if (isProxy)
-                {
-                    callback.Continue(embedBrowser.DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
-                        embedBrowser.DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword);
-
-                    return true;
-                }
-                return false;
-            }
-
-            public IResponseFilter GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                IRequest request, IResponse response)
-            {
-                return null;
-            }
-
-            public bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
-                bool isRedirect)
-            {
-                return false;
-            }
-
-            public CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                IRequest request, IRequestCallback callback)
-            {
-                callback.Dispose();
-                return CefReturnValue.Continue;
-            }
-
-            public bool OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode,
-                string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
-            {
-                return false;
-            }
-
-            public bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl,
-                WindowOpenDisposition targetDisposition, bool userGesture)
-            {
-                return false;
-            }
-
-            public void OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath)
-            {
-            }
-
-            public bool OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url)
-            {
-                return url.StartsWith("https://www.facebook.com");
-            }
-
-            public bool OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize,
-                IRequestCallback callback)
-            {
-                return false;
-            }
-
-            public void OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser,
-                CefTerminationStatus status)
-            {
-            }
-
-            public void OnRenderViewReady(IWebBrowser browserControl, IBrowser browser)
-            {
-            }
-
-
-            public void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
-            {
-                if (!embedBrowser.Dispatcher.CheckAccess())
-                    embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
-                    {
-                        embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
-                    }));
-                else
-                    embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
-            }
-
-            public void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
-                IResponse response, ref string newUrl)
-            {
-            }
-
-            public bool OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
-                IResponse response)
-            {
-                return false;
-            }
-
-            public bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy,
-                string host, int port, X509Certificate2Collection certificates,
-                ISelectClientCertificateCallback callback)
-            {
-                return false;
-            }
-        }
-
-        public class ProxyRequestHandler : IRequestHandler
-        {
-            private readonly BrowserWindow embedBrowser;
-
-            private readonly string password;
-
-            private readonly string userName;
-
-
-            public ProxyRequestHandler(string userName, string password, BrowserWindow embedBrowser)
-            {
-                // get the proxy username
-                this.userName = userName;
-
-                // get the proxy password
-                this.password = password;
-
-                this.embedBrowser = embedBrowser;
-            }
-
-
-            bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                IRequest request, bool isRedirect)
-            {
-                return false;
-            }
-
-            bool IRequestHandler.OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
-            {
-                return OnOpenUrlFromTab(browserControl, browser, frame, targetUrl, targetDisposition, userGesture);
-            }
-
-
-            bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser,
-                CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
-            {
-                return false;
-            }
-
-            void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath)
-            {
-            }
-
-            CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser,
-                IFrame frame, IRequest request, IRequestCallback callback)
-            {
-                return CefReturnValue.Continue;
-            }
-
-            bool IRequestHandler.GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
-            {
-                if (isProxy)
-                {
-                    callback.Continue(userName, password);
-
-                    return true;
-                }
-
-                return false;
-            }
-
-            void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser,
-                CefTerminationStatus status)
-            {
-            }
-
-            bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl,
-                long newSize, IRequestCallback callback)
-            {
-                return false;
-            }
-
-
-            bool IRequestHandler.OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url)
-            {
-                return url.StartsWith("mailto");
-            }
-
-            void IRequestHandler.OnRenderViewReady(IWebBrowser browserControl, IBrowser browser)
-            {
-            }
-
-            bool IRequestHandler.OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                IRequest request, IResponse response)
-            {
-                return false;
-            }
-
-            IResponseFilter IRequestHandler.GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser,
-                IFrame frame, IRequest request, IResponse response)
-            {
-                return null;
-            }
-
-            void IRequestHandler.OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
-            {
-                if (!embedBrowser.Dispatcher.CheckAccess())
-                    embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
-                    {
-                        embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
-                    }));
-                else
-                    embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
-            }
-
-            public bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy,
-                string host, int port, X509Certificate2Collection certificates,
-                ISelectClientCertificateCallback callback)
-            {
-                return false;
-            }
-
-            public void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
-                IResponse response, ref string newUrl)
-            {
-            }
-
-
-            protected virtual bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-                string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
-            {
-                return false;
-            }
-        }
-        internal class MenuHandler : IContextMenuHandler
-        {
-            private const int Refresh = 1;
-            private const int Back = 2;
-            private const int Forward = 3;
-            void IContextMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
-            {
-                //To disable the menu then call clear
-                model.Clear();
-                //Add new custom menu items
-                //model.AddItem((CefMenuCommand)Refresh, "Refresh");
-                //model.AddItem((CefMenuCommand)Back, "Back");
-                //model.AddItem((CefMenuCommand)Forward, "Forward");
-
-            }
-            bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
-            {
-                if ((int)commandId == Refresh)
-                {
-                    browser.Reload();
-                }
-                if ((int)commandId == Back)
-                {
-                    browser.GoBack();
-                }
-                if ((int)commandId == Forward)
-                {
-                    browser.GoForward();
-                }
-
-                return false;
-            }
-
-            void IContextMenuHandler.OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
-            {
-
-            }
-
-            bool IContextMenuHandler.RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
-            {
-                return false;
-            }
         }
 
         private void ButtonBack_OnClick(object sender, RoutedEventArgs e)

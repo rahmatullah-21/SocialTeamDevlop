@@ -297,6 +297,11 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyDisableAccount}" />
                                         <Setter Property="Foreground" Value="#b22222" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding AccountBaseModel.Status}"
+                                                 Value="{x:Static enums:AccountStatus.InvalidSecurityCode}">
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyInvalidSecurityCode}" />
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
@@ -388,9 +393,13 @@
                                     <DataTrigger Binding="{Binding SendResetPasswordLinkVisibility}" Value="Visible">
                                         <Setter Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding DominatorAccountModel.IsAutoVerifyByEmail}" Value="true">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
+
+                                    <MultiDataTrigger >
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}"/>
+                                            <Condition Binding="{Binding DominatorAccountModel.IsAutoVerifyByEmail}" Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                    </MultiDataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </StackPanel.Style>

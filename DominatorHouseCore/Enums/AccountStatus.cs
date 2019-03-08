@@ -33,6 +33,7 @@ namespace DominatorHouseCore.Enums
         SetNewPassword,
         [Description("LangKeyActionBlock")]
         ActionBlocked,
-        [Description("LangKeyDisableAccount")] DisableAccount
+        [Description("LangKeyDisableAccount")] DisableAccount,
+        [Description("LangKeyInvalidSecurityCode")] InvalidSecurityCode
     }
 }

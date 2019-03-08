@@ -3,6 +3,7 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using ProtoBuf;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace DominatorHouseCore.Models
 {
@@ -207,6 +208,7 @@ namespace DominatorHouseCore.Models
                 if (_status == value)
                     return;
                 SetProperty(ref _status, value);
+
             }
         }
         private string _profileId = string.Empty;

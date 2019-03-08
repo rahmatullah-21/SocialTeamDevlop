@@ -47,7 +47,7 @@
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
             <TextBlock Name="TxtblockSelectNetWork" Text="{DynamicResource LangKeySocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-            <ComboBox Name="ComboBoxSocialNetworks" Grid.Column="1" Width="230" Height="30" SelectedIndex="0" ></ComboBox>
+            <ComboBox Name="ComboBoxSocialNetworks" Grid.Column="1" Width="230" Height="30" SelectedIndex="0" SelectedItem="{Binding AccountNetwork}"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -107,10 +107,10 @@
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=ComboBoxSocialNetworks,Path=SelectedItem}"  Value="{x:Static enums:SocialNetworks.Youtube}" >
+                        <DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Youtube}" >
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=ComboBoxSocialNetworks,Path=SelectedItem}"  Value="{x:Static enums:SocialNetworks.Gplus}" >
+                        <DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Gplus}" >
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -128,7 +128,7 @@
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=ComboBoxSocialNetworks,Path=SelectedItem}"  Value="{x:Static enums:SocialNetworks.Instagram}" >
+                        <DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Instagram}" >
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>

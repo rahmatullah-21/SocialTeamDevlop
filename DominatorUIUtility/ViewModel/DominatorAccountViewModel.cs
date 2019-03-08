@@ -237,13 +237,16 @@ namespace DominatorUIUtility.ViewModel
         {
             var objDominatorAccountBaseModel = new DominatorAccountBaseModel();
 
-            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork.ToString());
+            var objAddUpdateAccountControl = new AddUpdateAccountControl(objDominatorAccountBaseModel, "LangKeyAddAccount".FromResourceDictionary(), "LangKeySave".FromResourceDictionary(), false, SocinatorInitialize.ActiveSocialNetwork);
 
             var customDialog = new CustomDialog()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Content = objAddUpdateAccountControl
             };
+
+            objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
+                    objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
 
             var objDialog = new Dialog();
             var dialogWindow = objDialog.GetCustomDialog(customDialog, "LangKeyAddAccount".FromResourceDictionary());
@@ -265,9 +268,7 @@ namespace DominatorUIUtility.ViewModel
                         || (string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyUsername) &&
                             !string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyPassword))) return;
 
-                    if (objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString() != objDominatorAccountBaseModel.AccountNetwork.ToString())
-                        objDominatorAccountBaseModel.AccountNetwork =
-                            (SocialNetworks)Enum.Parse(typeof(SocialNetworks), objAddUpdateAccountControl.ComboBoxSocialNetworks.Text.ToString());
+
                     objDominatorAccountBaseModel.Status = AccountStatus.NotChecked;
                     dialogWindow.Close();
 
@@ -1119,11 +1120,10 @@ namespace DominatorUIUtility.ViewModel
 
                 if (selectAccounts.Count == 0)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                        "Please select atleast one account !!");
+                    Dialog.ShowDialog("Alert", "Please select atleast one account !!");
                     return;
                 }
-                var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", "Delete Anyways", "Don't delete");
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
@@ -1459,20 +1459,20 @@ namespace DominatorUIUtility.ViewModel
             {
 
                 _allSelectedAccountsQueued = false;
-                new Thread(() =>
-                    {
-                        while (!_allSelectedAccountsQueued)
-                        {
-                            Thread.Sleep(50);
-                            while (!_checkPendingList.IsEmpty)
-                            {
-                                Action act;
-                                _checkPendingList = _checkPendingList.Dequeue(out act);
-                                act();
-                            }
-                        }
-                    })
-                { IsBackground = true }.Start();
+                //new Thread(() =>
+                //    {
+                //        while (!_allSelectedAccountsQueued)
+                //        {
+                //            Thread.Sleep(50);
+                //            while (!_checkPendingList.IsEmpty)
+                //            {
+                //                Action act;
+                //                _checkPendingList = _checkPendingList.Dequeue(out act);
+                //                act();
+                //            }
+                //        }
+                //    })
+                //{ IsBackground = true }.Start();
             }
             catch (Exception ex)
             {
@@ -1480,24 +1480,44 @@ namespace DominatorUIUtility.ViewModel
             }
 
             Thread.Sleep(50);
-
-            selectedAccount.ForEach(account =>
+            Task.Factory.StartNew(() =>
             {
-                var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                    .GetNetworkCoreFactory().AccountUpdateFactory;
-                try
+                selectedAccount.ForEach(account =>
                 {
-                    if (!_updateAccountList.Contains(account.AccountBaseModel.UserName))
-                        _checkPendingList = _checkPendingList.Enqueue(() =>
-                            MultipleUpdate(account, updateMenuItem, accountFactory));
-                    else
-                        GlobusLogHelper.log.Info(Log.AlreadyUpdatingAccount, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+                    var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                        .GetNetworkCoreFactory().AccountUpdateFactory;
+                    try
+                    {
+                        if (!_updateAccountList.Contains(account.AccountBaseModel.UserName))
+                            MultipleUpdate(account, updateMenuItem, accountFactory);
+                        else
+                            GlobusLogHelper.log.Info(Log.AlreadyUpdatingAccount,
+                                account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+                        Task.Delay(5);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                });
             });
+            //selectedAccount.ForEach(account =>
+            //{
+            //    var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+            //        .GetNetworkCoreFactory().AccountUpdateFactory;
+            //    try
+            //    {
+            //        if (!_updateAccountList.Contains(account.AccountBaseModel.UserName))
+            //            _checkPendingList = _checkPendingList.Enqueue(() =>
+            //                MultipleUpdate(account, updateMenuItem, accountFactory));
+            //        else
+            //            GlobusLogHelper.log.Info(Log.AlreadyUpdatingAccount, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        ex.DebugLog();
+            //    }
+            //});
 
             _allSelectedAccountsQueued = true;
         }
@@ -1676,6 +1696,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var browserWindow = new BrowserWindow(dominatorAccountModel);
+                browserWindow.SetCookie();
                 browserWindow.Show();
             }
             catch (Exception ex)

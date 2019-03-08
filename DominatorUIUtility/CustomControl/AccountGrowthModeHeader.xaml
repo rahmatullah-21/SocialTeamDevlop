@@ -44,7 +44,7 @@
                         <AccessText Margin="6,0">_Save</AccessText>
                     </StackPanel>
                 </Button>
-                <Button  VerticalAlignment="Center"   Background="Transparent" Foreground="White"  >
+                <Button  VerticalAlignment="Center"   Background="Transparent" Foreground="White" Command="{Binding TutorialCommand}" CommandParameter="{Binding VideoTutorialLink}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="White">
