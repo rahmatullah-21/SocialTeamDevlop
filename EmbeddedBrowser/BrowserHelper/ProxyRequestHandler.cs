@@ -106,10 +106,37 @@ namespace EmbeddedBrowser.BrowserHelper
             if (!embedBrowser.Dispatcher.CheckAccess())
                 embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
                 {
+                    if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
+                    {
+                        embedBrowser.Browser.Address = embedBrowser.UrlBar.Text;
+                        return;
+                    }
+                    if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
+                    {
+                        embedBrowser.Browser.Address = embedBrowser.UrlBar.Text = "https://myaccount.google.com/";
+                        return;
+                    }
+                    if (embedBrowser.UrlBar.Text == embedBrowser.Browser.Address)
+                        return;
+
                     embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
                 }));
             else
+            {
+                if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
+                {
+                    embedBrowser.Browser.Address = embedBrowser.UrlBar.Text;
+                    return;
+                }
+                if (embedBrowser.Browser.Address == "https://accounts.google.com/CookieMismatch")
+                {
+                    embedBrowser.Browser.Address = embedBrowser.UrlBar.Text = "https://myaccount.google.com/";
+                    return;
+                }
+                if (embedBrowser.UrlBar.Text == embedBrowser.Browser.Address)
+                    return;
                 embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
+            }
         }
 
         public bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy,

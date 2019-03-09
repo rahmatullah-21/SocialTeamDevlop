@@ -30,41 +30,37 @@ namespace EmbeddedBrowser
     /// </summary>
     public partial class BrowserWindow : INotifyPropertyChanged, IDisposable
     {
-        private readonly IAccountScopeFactory _accountScopeFactory;
-        private readonly IHttpHelper _httpHelper;
-
-        private readonly object _syncLock = new object();
+        private IAccountScopeFactory _accountScopeFactory;
+        private IHttpHelper _httpHelper;
+        
         private readonly object _cefLock = new object();
 
         public ICommand SearchCommand { get; }
         public string TargetUrl { get; set; } = string.Empty;
         public bool CustomUse { get; set; }
+        public bool SkipYoutubeAd { get; set; }
+        public bool FoundAd { get; set; }
+
         public BrowserWindow()
         {
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(GoToUrl);
-            _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
         }
 
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false)
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false)
             : this()
         {
+            DominatorAccountModel = dominatorAccountModel;
+            TargetUrl = targetUrl;
             CustomUse = customUse;
-               DominatorAccountModel = dominatorAccountModel;
-            _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
-                .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-
+            SkipYoutubeAd = skipAd;
+            
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
-
-           // SetCookie(ref customUse);
-
-            if (!string.IsNullOrEmpty(targetUrl))
-                TargetUrl = targetUrl;
-
+            
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = new RequestHandlerCustom(this);
             Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
@@ -72,8 +68,7 @@ namespace EmbeddedBrowser
             InitializeGoogleLoginStatusActions();
 
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
-            Browser.Address = url;
-            UrlBar.Text = url;
+            UrlBar.Text= Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings; 
         }
         
@@ -200,6 +195,7 @@ namespace EmbeddedBrowser
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         public bool InitializedWell;
         private void LoadSettings(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -385,7 +381,8 @@ namespace EmbeddedBrowser
             EnterValueByClass,
             EnterValueById,
             EnterValueByName,
-            GetValueByName
+            GetValueByName,
+            GetLengthByClass
         }
 
         /// <summary>
@@ -454,6 +451,8 @@ namespace EmbeddedBrowser
             {
                 case ActType.GetValueByName:
                     return Browser.EvaluateScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value").Result?.Result?.ToString() ?? "";
+                case ActType.GetLengthByClass:
+                    return Browser.EvaluateScriptAsync($"document.getElementsByClassName('{element}').length").Result?.Result?.ToString() ?? "";
                 default:
                     return "";
             }
@@ -610,6 +609,10 @@ namespace EmbeddedBrowser
             if (!(DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus ||
                   DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube))
                 return;
+
+            _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
+            _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
+                .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
 
             _predicateDict = new Dictionary<Predicate<string>, Func<bool>>
             {
@@ -1138,18 +1141,31 @@ namespace EmbeddedBrowser
             if (SetVideoQuality || !Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")) return;
 
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 1.5); // for Skipping add
-
+            {
+                new Task(() =>
+                {
+                    while (!Browser.IsDisposed)
+                    {
+                        if (!Browser.IsDisposed)
+                           FoundAd = GetElementValue(ActType.GetLengthByClass, "ytp-ad-skip-button-icon", 1.5) == "1";
+                        if (FoundAd) { /*Just for Checking*/ }
+                        if (!Browser.IsDisposed && SkipYoutubeAd && FoundAd)
+                            BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3.0); // for Skipping add
+                    }
+                }).Start();
+            }
+            
             BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 3, 0.1); // To Open Volume Slider
 
             var ke = new KeyEvent();
-            PressAnyKey(21, 100, ke, 40); //Press Down Arrow key 40 times to mute the music
-
-            BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3, 0.5); // for Skipping add
+            PressAnyKey(21, 100, ke, 40,2); //Press Down Arrow key 40 times to mute the music
 
             //ClickByClass("ytp-mute-button ytp-button"); // Direct Mute the music
 
-            BrowserAct(ActType.ClickByClass, "ytp-button ytp-settings-button", 0.5, 1.5); // Click Youtube MediaPlayer Setting Button
+            while (FoundAd)
+            { Thread.Sleep(2000);}
+
+            BrowserAct(ActType.ClickByClass, "ytp-button ytp-settings-button", 1, 1.5); // Click Youtube MediaPlayer Setting Button
 
             PressAnyKey(4, 900, ke, 40, 1); //Press Down Arrow key 4 times
             PressAnyKey(1, 0, ke, 39, 1); //Press right Arrow key 1 time
@@ -1158,16 +1174,7 @@ namespace EmbeddedBrowser
             PressAnyKey(1, 0, ke, 13); //Press Enter key
 
             SetVideoQuality = true;
-
-            new System.Threading.Tasks.Task(() =>
-            {
-                while (!Browser.IsDisposed)
-                {
-                    if (!Browser.IsDisposed)
-                        BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3.5); // for Skipping add
-                }
-            }).Start();
-
+            
         }
 
         private void PinterestBrowserLogin(string html)
@@ -1310,7 +1317,7 @@ namespace EmbeddedBrowser
         
         private void QuoraLogin(string html)
         {
-            lock (_syncLock)
+            lock (_cefLock)
             {
                 if (html != null && html.Contains("name=\"password\"") && html.Contains("name=\"email\""))
                 {
