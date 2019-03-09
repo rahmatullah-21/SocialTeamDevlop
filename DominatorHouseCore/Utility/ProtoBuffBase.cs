@@ -146,7 +146,7 @@ namespace DominatorHouseCore.Utility
                     {
                         if (filePath.ToLower().Contains("account"))
                             Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
-
+                        Serializer.DeepClone<ListWrapper<T>>(new ListWrapper<T>());
                         var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);
 
                         return wrapper.List ?? new List<T>();

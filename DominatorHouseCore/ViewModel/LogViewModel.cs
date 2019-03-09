@@ -8,10 +8,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Threading;
 
 namespace DominatorHouseCore.ViewModel
 {
@@ -113,19 +111,22 @@ namespace DominatorHouseCore.ViewModel
         {
             var logs = e.Item as LoggerModel;
 
-            if (string.IsNullOrEmpty(SelectedNetwork.ToString()) && LogType.Contains(logs.LogType))
+            if (string.IsNullOrEmpty(SelectedNetwork.ToString())
+                && LogType.Equals(logs.LogType, StringComparison.InvariantCultureIgnoreCase))
             {
                 e.Accepted = true;
                 return;
             }
 
-            if (logs.Network.Contains(SelectedNetwork.ToString()) && LogType.Contains(logs.LogType))
+            if (logs.Network.Equals(SelectedNetwork.ToString(), StringComparison.InvariantCultureIgnoreCase)
+                && LogType.Equals(logs.LogType, StringComparison.InvariantCultureIgnoreCase))
             {
                 e.Accepted = true;
             }
             else e.Accepted = false;
             if (!string.IsNullOrEmpty(ActivityTypes.Selected?.ToString()))
-                if (logs.Network.Contains(SelectedNetwork.ToString()) && logs.ActivityType.Contains(ActivityTypes.Selected?.ToString()))
+                if (logs.Network.Equals(SelectedNetwork.ToString(), StringComparison.InvariantCultureIgnoreCase) && logs.ActivityType.Equals(ActivityTypes.Selected?.ToString(),
+                        StringComparison.InvariantCultureIgnoreCase))
                 {
                     e.Accepted = true;
                 }
