@@ -145,8 +145,9 @@ namespace DominatorHouseCore.Settings
             var cancellationtokenSource = new CancellationTokenSource();
 
             var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
-
-            var accounts = _accountsFileManager.GetAll();
+            var registeredNetwork = SocinatorInitialize.GetRegisterNetwork();
+            var accounts = _accountsFileManager.GetAll().Where(x =>
+                registeredNetwork.Contains(x.AccountBaseModel.AccountNetwork));
 
             var accountsToUpdate = accounts.Where(x =>
                 DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
@@ -262,8 +263,8 @@ namespace DominatorHouseCore.Settings
 
         public void UpdateAccount(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource)
         {
-            if (!SocinatorInitialize.IsNetworkAvailable(account.AccountBaseModel.AccountNetwork))
-                return;
+            //if (!SocinatorInitialize.GetRegisterNetwork().Contains(account.AccountBaseModel.AccountNetwork))
+            //    return;
 
             var accountFactory = SocinatorInitialize
                 .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
