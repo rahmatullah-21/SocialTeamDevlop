@@ -146,7 +146,6 @@ namespace DominatorHouseCore.Utility
                     {
                         if (filePath.ToLower().Contains("account"))
                             Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
-                        Serializer.DeepClone<ListWrapper<T>>(new ListWrapper<T>());
                         var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);
 
                         return wrapper.List ?? new List<T>();
@@ -155,7 +154,6 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-              //  ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
                 ex.DebugLog();
                 return new List<T>();
             }

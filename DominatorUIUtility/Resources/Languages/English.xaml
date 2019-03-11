@@ -3465,4 +3465,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyInvalidSecurityCode">Invalid Security Code</system:String>
     <system:String x:Key="LangKeySelectAllAccountsAndBoards">Select all accounts and boards</system:String>
     <system:String x:Key="LangKeyMakeMessageAsSpinText">Make message as spin text</system:String>
+    <system:String x:Key="LangKeyOwnFriends">Own Friends</system:String>
+    <system:String x:Key="LangKeyUserAgeShouldBeBetween">User's Age Should Be Between</system:String>
+    <system:String x:Key="LangKeyYears">Years</system:String>
 </ResourceDictionary>
