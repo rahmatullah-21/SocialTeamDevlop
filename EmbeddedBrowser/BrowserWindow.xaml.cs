@@ -40,6 +40,7 @@ namespace EmbeddedBrowser
         public bool CustomUse { get; set; }
         public bool SkipYoutubeAd { get; set; }
         public bool FoundAd { get; set; }
+        public bool VerifyingAccount { get; set; }
 
         public BrowserWindow()
         {
@@ -610,6 +611,7 @@ namespace EmbeddedBrowser
                   DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube))
                 return;
 
+            VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent;
             _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
             _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
                 .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
@@ -765,7 +767,7 @@ namespace EmbeddedBrowser
 
         private bool VerifyCodeFromPhone()
         {
-            if ((DominatorAccountModel.AccountBaseModel.Status == AccountStatus.PhoneVerification
+            if (((DominatorAccountModel.AccountBaseModel.Status == AccountStatus.PhoneVerification && !VerifyingAccount)
                || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TooManyAttemptsOnPhoneVerification
                || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount) && !DominatorAccountModel.IsVerificationCodeSent)
                 return true;
@@ -827,7 +829,8 @@ namespace EmbeddedBrowser
 
             if (isWrong && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.TooManyAttemptsOnPhoneVerification)
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
-
+            else
+               DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
             DominatorAccountModel.IsVerificationCodeSent = false;
 
             DominatorAccountModel.VarificationCode = "";
@@ -919,7 +922,7 @@ namespace EmbeddedBrowser
                 && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber)
                 && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
             {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+               // DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
                 var text = Browser.GetTextAsync().Result;
                 if (text.Contains("Provide a phone number to continue. We'll send a verification code that you can use to sign in.") 
                     || text.Contains("Provide a phone number to continue. We'll send a verification code you can use to sign in."))
@@ -968,7 +971,7 @@ namespace EmbeddedBrowser
 
             if (isWrong && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.TooManyAttemptsOnPhoneVerification)
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
-
+           
             DominatorAccountModel.IsVerificationCodeSent = false;
             return isWrong;
         }
@@ -1087,8 +1090,8 @@ namespace EmbeddedBrowser
                 CreateChannelOnYoutube();
 
                 DominatorAccountModel.Cookies = cookieCollection;
-                DominatorAccountModel.IsVerificationCodeSent = false;
                 DominatorAccountModel.IsUserLoggedIn = true;
+                DominatorAccountModel.IsVerificationCodeSent = false;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                 new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
