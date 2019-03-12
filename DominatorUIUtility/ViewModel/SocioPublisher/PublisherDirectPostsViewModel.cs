@@ -173,10 +173,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #region Single Post
 
                 // Single Posts save post
-                if (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
+                if (PostDetailsModel.IsSinglePost && (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
                             PostDetailsModel.MediaViewer.MediaList.Count > 0 ||
                             !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
-                            !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl))
+                            !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl)))
                 {
                     isLoggerNeeded = true;
 
@@ -206,13 +206,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
                 }
+
+
                 #endregion
 
                 #region Multiple Post
 
                 // Check whether multiple posts and image posts contains posts or not
-                if (createCampaignModel.LstPostDetailsModels.Count > 0 ||
-                            createCampaignModel.LstMultipleImagePostCollection.Count > 0)
+                if (PostDetailsModel.IsMultiPost && (createCampaignModel.LstPostDetailsModels.Count > 0 ||
+                            createCampaignModel.LstMultipleImagePostCollection.Count > 0))
                 {
 
                     // Iterate the Multiple posts images
@@ -252,9 +254,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             {
                                 Application.Current.Dispatcher.Invoke(() =>
                                                            {
-                                                                   //Clear the current object values
-                                                                   createCampaignModel.LstMultipleImagePostCollection =
-                                                                                              new ObservableCollection<PostDetailsModel>();
+                                                               //Clear the current object values
+                                                               createCampaignModel.LstMultipleImagePostCollection =
+                                                                                          new ObservableCollection<PostDetailsModel>();
                                                                createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
                                                            });
 
@@ -489,7 +491,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
                             mediaUrl.ForEach(media =>
                             {
-                                var path= media.Trim();
+                                var path = media.Trim();
                                 if (File.Exists(path))
                                 {
                                     Application.Current.Dispatcher.BeginInvoke(new Action(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(path))));

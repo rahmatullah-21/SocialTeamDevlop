@@ -184,7 +184,7 @@
                             </StackPanel>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
+                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
                                              Margin="2" TextWrapping="Wrap" Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PostTitleHeight}" Width="300"  AcceptsReturn="True"
                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PublisherInstagramTitle}"/>
                                     <StackPanel VerticalAlignment="Center">
@@ -278,7 +278,7 @@
                                                  AcceptsReturn="True"                                                                               
                                                  Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}"
                                                  mah:TextBoxHelper.Watermark="{TemplateBinding Watermark}"                                          
-                                                 Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                                 Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                     </ScrollViewer>
                                 </Grid>
                             </DockPanel>

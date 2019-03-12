@@ -250,6 +250,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             #region Validations
 
+            // Verify whether any post is saved to pending/draft or not
+            if (PublisherCreateCampaignModel.PostCollection.Count == 0)
+            {
+                Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
+                return;
+            }
             // Verify whether timer setted or not
             if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
             {
@@ -263,7 +269,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
                 return;
             }
-
+           
             // Check whether campaign has end date or not 
             if (!PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)
                 PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate = null;
