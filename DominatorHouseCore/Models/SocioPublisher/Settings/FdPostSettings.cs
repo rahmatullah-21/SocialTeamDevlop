@@ -9,6 +9,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
     [ProtoContract]
     public class FdPostSettings : BindableBase, IFdPostSettings 
     {
+        private bool _isPostAsStoryPost;
         private bool _sellPostSelected;
         private string _productName = string.Empty;
         private int _productPrice;
@@ -127,6 +128,19 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
             }
         }
 
-       
+        [ProtoMember(8)]
+        public bool IsPostAsStoryPost
+        {
+            get
+            {
+                return _isPostAsStoryPost;
+            }
+            set
+            {
+                if (_isPostAsStoryPost == value)
+                    return;
+                SetProperty(ref _isPostAsStoryPost, value);
+            }
+        }
     }
 }

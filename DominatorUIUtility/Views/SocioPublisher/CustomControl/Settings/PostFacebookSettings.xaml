@@ -9,6 +9,7 @@
         <StackPanel Orientation="Vertical" >
             <CheckBox Name="CheckBoxTurnOffLocation" Margin="2"
                       Content="{DynamicResource LangKeyTurnoffCommentForSellPost}" IsChecked="{Binding SellPostTurnOffComment}"/>
+            <CheckBox Name="CheckBoxPostasPartStory" Margin="2" IsChecked="{Binding IsPostAsStoryPost}" Content="{DynamicResource LangKeyPostAsPartOfYourStoryInsteadOfOnWall}" />
             <StackPanel Orientation="Vertical">
                 <CheckBox Name="CheckBoxFdOverrideSource" Margin="2" 
                           Content="{DynamicResource LangKeyReplacePostDescriptionsWithFollowingText}" IsChecked="{Binding IsReplaceDescriptionSelected}"/>
