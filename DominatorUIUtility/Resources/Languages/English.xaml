@@ -3414,15 +3414,19 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfCommentScrapePerDay">Number Of Comment Scrape Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfCommentScrapePerWeek">Number Of Comment Scrape Per Week</system:String>
     <system:String x:Key="LangKeyNumberOfMaxCommentScrapePerDay">Number Of Max Comment Scrape Per Day</system:String>
-=======
+    <system:String x:Key="LangKeyPostLoaded">Post Loaded</system:String>
+    <system:String x:Key="LangRepeatWatchingCount">Repeat Watching Count</system:String>
+    <system:String x:Key="LangKeyBrowserOption">Browser Option</system:String>
+    <system:String x:Key="LangKeyBrowserVisibility">Browser Visibility</system:String>
+    <system:String x:Key="LangKeyHidden">Hidden</system:String>
+    <system:String x:Key="LangKeyVisible">Visible</system:String>
+    <system:String x:Key="LangKeyDisableAccount">Account Disable</system:String>
     <system:String x:Key="LangKeySendMessageToFanpages">Send Message To Fanpages</system:String>
-
     <system:String x:Key="LangKeyLocationDistance">Location Distance</system:String>
     <system:String x:Key="LangKeyOnlySortBy">Sort By</system:String>
     <system:String x:Key="LangKeySubCategory">Sub Category</system:String>
     <system:String x:Key="LangKeyOnlyShowFreeListings">Only Show Free Listings</system:String>
     <system:String x:Key="LangKeyOnlyScrapItemsWithPriceRangeBetween">Scrap Items With Price Range Between</system:String>
-
     <system:String x:Key="LangKeyTwoKilometers">Two Kilometers</system:String>
     <system:String x:Key="LangKeyFiveKilometers">Five Kilometers</system:String>
     <system:String x:Key="LangKeyTenKilometers">Ten Kilometers</system:String>
@@ -3432,17 +3436,33 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEightyKilometers">Eighty Kilometers</system:String>
     <system:String x:Key="LangKeyHundredKilometers">Hundred Kilometers</system:String>
     <system:String x:Key="LangKeyMarketplaceScraper">Marketplace Scraper</system:String>
-
-
     <system:String x:Key="LangKeyAllMarketplace">All Marketplace</system:String>
     <system:String x:Key="LangKeyVehicles">Vehicles</system:String>
     <system:String x:Key="LangKeyHomeAndGarden">Home And Garden</system:String>
     <system:String x:Key="LangKeyHousing">Housing</system:String>
-    
     <system:String x:Key="LangKeyClothingAndAccessories">Clothing And Accessories</system:String>
     <system:String x:Key="LangKeyFamily">Family</system:String>
     <system:String x:Key="LangKeyHobbies">Hobbies</system:String>
     <system:String x:Key="LangKeyClassifieds">Classifieds</system:String>
     <system:String x:Key="LAngKeyDeals">Deals</system:String>
-    
+    <system:String x:Key="LangKeyElectronics">Electronics</system:String>
+    <system:String x:Key="LangKeyPublishPostsThatHaveMaximum">Publish Posts That Have Maximum</system:String>
+    <system:String x:Key="LangKeyRecommended">Recommended</system:String>
+    <system:String x:Key="LangKeyNewest">Newest</system:String>
+    <system:String x:Key="LangKeyPriceLowToHigh">Price Low To High</system:String>
+    <system:String x:Key="LangKeyPriceHighToLow">Price High To Low</system:String>
+    <system:String x:Key="LangKeyMustHaveEmailIdAndPhoneNO">User Must Have Email-Id And PhoneNo</system:String>
+    <system:String x:Key="LangRunEveryday">Run Everyday</system:String>
+    <system:String x:Key="LangKeyAfterMinutes">After Minutes</system:String>
+    <system:String x:Key="LangKeySociopublisherCampaign">Sociopublisher Campaign</system:String>
+    <system:String x:Key="LangKeySociopublisherDestination">Sociopublisher Destination</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedsettingsforGooglePlush">Sociopublisher Advanced settings for Google+</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedGeneralSettings">Sociopublisher Advanced General Settings</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedSettingsforTwitter">Sociopublisher Advanced Settings for Twitter</system:String>
+    <system:String x:Key="LangKeyCopySelected">Copy Selected</system:String>
+    <system:String x:Key="LangKeyRepinUpto">Repin up to</system:String>
+    <system:String x:Key="LangKeyBoardsFromAPin">Boards from a pin</system:String>
+    <system:String x:Key="LangKeyInvalidSecurityCode">Invalid Security Code</system:String>
+    <system:String x:Key="LangKeySelectAllAccountsAndBoards">Select all accounts and boards</system:String>
+    <system:String x:Key="LangKeyMakeMessageAsSpinText">Make message as spin text</system:String>
 </ResourceDictionary>

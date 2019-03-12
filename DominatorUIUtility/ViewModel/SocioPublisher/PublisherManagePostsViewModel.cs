@@ -89,7 +89,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
         }
 
-        private UserControl _selectedTabsUserControls =  PublisherManagePostDrafts.GetPublisherManagePostDrafts();
+        private UserControl _selectedTabsUserControls = PublisherManagePostDrafts.GetPublisherManagePostDrafts();
 
         public UserControl SelectedTabsUserControls
         {
@@ -148,18 +148,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public void TabChangeExecute(object sender)
         {
             var selectedButton = sender as string;
+            var cancellationToken = PostLoadingCancellation();
 
             if (selectedButton == ConstantVariable.DraftPostList)
             {
+                var draftView = PublisherManagePostDrafts.GetPublisherManagePostDrafts();
+                SelectedTabsUserControls = draftView;
                 try
                 {
-                    if (SelectedCampaignDetails.Id == null)
+                    if (SelectedCampaignDetails?.Id == null)
+                    {
+                        draftView.PublisherManagePostDraftsViewModel.IsProgressRingActive = false;
                         return;
+                    }
 
                     SelectedTabs = ConstantVariable.DraftPostList;
-                    var draftView = PublisherManagePostDrafts.GetPublisherManagePostDrafts();
-                    SelectedTabsUserControls = draftView;
-                    var cancellationToken = PostLoadingCancellation();
                     ThreadFactory.Instance.Start(() => draftView.PublisherManagePostDraftsViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken), cancellationToken.Token);
                 }
                 catch (OperationCanceledException ex)
@@ -168,23 +171,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (Exception ex)
                 {
-                    var draftView = PublisherManagePostDrafts.GetPublisherManagePostDrafts();
-                    SelectedTabsUserControls = draftView;
                     draftView.PublisherManagePostDraftsViewModel.IsProgressRingActive = false;
                     ex.DebugLog();
                 }
             }
             else if (selectedButton == ConstantVariable.PendingPostList)
             {
+                var pendingView = PublisherManagePostPending.GetPublisherManagePostPending();
+                SelectedTabsUserControls = pendingView;
                 try
                 {
-                    if (SelectedCampaignDetails.Id == null)
+                    if (SelectedCampaignDetails?.Id == null)
+                    {
+                        pendingView.PublisherManagePostPendingViewModel.IsProgressRingActive = false;
                         return;
+                    }
 
                     SelectedTabs = ConstantVariable.PendingPostList;
-                    var pendingView = PublisherManagePostPending.GetPublisherManagePostPending();
-                    SelectedTabsUserControls = pendingView;
-                    var cancellationToken = PostLoadingCancellation();
                     ThreadFactory.Instance.Start(() => pendingView.PublisherManagePostPendingViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken, PostQueuedStatus.Pending), cancellationToken.Token);
 
                 }
@@ -194,23 +197,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (Exception ex)
                 {
-                    var pendingView = PublisherManagePostPending.GetPublisherManagePostPending();
-                    SelectedTabsUserControls = pendingView;
                     pendingView.PublisherManagePostPendingViewModel.IsProgressRingActive = false;
                     ex.DebugLog();
                 }
             }
             else
             {
+                var publishedView = PublisherManagePostPublished.GetPublisherManagePostPublished();
+                SelectedTabsUserControls = publishedView;
                 try
                 {
-                    if (SelectedCampaignDetails.Id == null)
+                    if (SelectedCampaignDetails?.Id == null)
+                    {
+                        publishedView.PublisherManagePostPublishedViewModel.IsProgressRingActive = false;
                         return;
+                    }
 
                     SelectedTabs = ConstantVariable.PublishedPostList;
-                    var publishedView = PublisherManagePostPublished.GetPublisherManagePostPublished();
-                    SelectedTabsUserControls = publishedView;
-                    var cancellationToken = PostLoadingCancellation();
                     ThreadFactory.Instance.Start(() => publishedView.PublisherManagePostPublishedViewModel.ReadPostList(SelectedCampaignDetails.Id, cancellationToken, PostQueuedStatus.Published), cancellationToken.Token);
                 }
                 catch (OperationCanceledException ex)
@@ -219,8 +222,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (Exception ex)
                 {
-                    var publishedView = PublisherManagePostPublished.GetPublisherManagePostPublished();
-                    SelectedTabsUserControls = publishedView;
                     publishedView.PublisherManagePostPublishedViewModel.IsProgressRingActive = false;
                     ex.DebugLog();
                 }

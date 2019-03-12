@@ -611,5 +611,10 @@ namespace DominatorHouseCore {
             }
         }
 
+        public static string Response_Response_Invalid_Security_Code
+        {
+            get { return ResourceManager.GetString("Invalid Security Code", resourceCulture); }
+        }
+
     }
 }

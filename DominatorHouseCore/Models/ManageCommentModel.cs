@@ -58,12 +58,21 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        private ObservableCollection<QueryContent> _selectedQuery = new ObservableCollection<QueryContent>();
 
-        public ObservableCollection<QueryContent> SelectedQuery { get; set; } = new ObservableCollection<QueryContent>();
+        public ObservableCollection<QueryContent> SelectedQuery
+        {
+            get { return _selectedQuery; }
+            set { SetProperty(ref _selectedQuery, value); }
+        }
+        private ObservableCollection<QueryContent> _lstQueries = new ObservableCollection<QueryContent>();
 
-
-
-        public ObservableCollection<QueryContent> LstQueries { get; set; } = new ObservableCollection<QueryContent>();
+        public ObservableCollection<QueryContent> LstQueries
+        {
+            get { return _lstQueries; }
+            set { SetProperty(ref _lstQueries, value); }
+        }
+        
 
     }
 

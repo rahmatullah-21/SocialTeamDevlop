@@ -295,7 +295,7 @@ namespace DominatorHouseCore.Models
         public string SenderId { get; set; }
 
 
-        private bool _IsRecieved { get; set; }
+        private bool _IsRecieved;
 
         public bool IsRecieved
         {
@@ -308,7 +308,19 @@ namespace DominatorHouseCore.Models
               
             }
         }
+        private string _clientContext;
 
+        public string ClientContext
+        {
+            get { return _clientContext; }
+            set
+            {
+                if (value == _clientContext) return;
+                _clientContext = value;
+                OnPropertyChanged();
+
+            }
+        }
     }
 
 

@@ -98,6 +98,7 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             Application.Current.DispatcherUnhandledException += (o, e) =>
              {
                  e.Exception.DebugLog();
+                 e.Handled = true;
              };
             Application.Current.Dispatcher.UnhandledExceptionFilter += (o, e) =>
             {

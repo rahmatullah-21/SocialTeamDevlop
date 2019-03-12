@@ -64,7 +64,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private CancellationTokenSource TokenSource { get; set; }
 
         ImmutableQueue<Action> pendingActions = ImmutableQueue<Action>.Empty;
-        bool allPostsQueued;
+        //bool allPostsQueued;
 
         /// <summary>
         /// To Specify the postlist model
@@ -527,9 +527,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // Get all posts with specified post queued status
             var postItems = PostlistFileManager.GetAll(campaignId).Where(x => x.PostQueuedStatus == requiredPostList).ToList();
 
-            //// Call to clear already binding posts
-            //ClearPostlists();
-
             if (postItems.Count == 0)
             {
                 IsProgressRingActive = false;
@@ -540,61 +537,26 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             Thread.Sleep(50);
 
-            allPostsQueued = false;
+            //allPostsQueued = false;
 
             #region Call for dynamic process
             // Here whenever action is enqueue to queue, the following process will fetch and invoke the action
             try
             {
 
+                Task.Factory.StartNew(() =>
+                 {
+                     pendingActions = ImmutableQueue<Action>.Empty;
+                     // Add the posts to queue, so that process will run in different work
+                     foreach (var post in postItems)
+                     {
+                         TokenSource.Token.ThrowIfCancellationRequested();
+                         AddPostItems(post);
+                         Thread.Sleep(2);
+                     }
 
-                var addPostList = new Task(() =>
-                {
-                    pendingActions = ImmutableQueue<Action>.Empty;
-                    // Add the posts to queue, so that process will run in different work
-                    foreach (var post in postItems)
-                    {
-                        pendingActions = pendingActions.Enqueue(() => AddPostItems(post));
-                    }
-                    while (!pendingActions.IsEmpty)
-                    {
-                        try
-                        {
-                            // Check whether process cancelled or not
-                            TokenSource.Token.ThrowIfCancellationRequested();
-                            Action perform;
-                            Thread.Sleep(1000);
-                            // Dequeue and invoke the action
-                            pendingActions = pendingActions.Dequeue(out perform);
-                            TokenSource.Token.ThrowIfCancellationRequested();
-                            perform();
-                        }
-                        catch (OperationCanceledException ex)
-                        {
-                            ex.DebugLog();
-                            ClearPostlists();
-                            break;
-                            // throw new OperationCanceledException();
-                        }
-                        catch (AggregateException ae)
-                        {
-                            foreach (var e in ae.InnerExceptions)
-                            {
-                                if (e is TaskCanceledException || e is OperationCanceledException)
-                                    e.DebugLog("Cancellation requested before task completion!");
-                                else
-                                    e.DebugLog(e.StackTrace + e.Message);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    }
-                    allPostsQueued = true;
+                 }, TokenSource.Token);
 
-                }, TokenSource.Token);
-                addPostList.Start();
             }
             catch (OperationCanceledException ex)
             {
@@ -620,15 +582,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     PublisherPostlist.Clear();
-                    // Update the collection view
-                    //   PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
                 });
             }
             else
             {
                 // Clear and Update the collection view
                 PublisherPostlist.Clear();
-                //  PostCollectionView = CollectionViewSource.GetDefaultView(PublisherPostlist);
             }
         }
 

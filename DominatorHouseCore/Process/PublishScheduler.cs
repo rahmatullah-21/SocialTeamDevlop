@@ -1333,30 +1333,34 @@ namespace DominatorHouseCore.Process
         /// </summary>
         public static void ScheduleTodaysPublisher()
         {
-            // get the all campaigns which should active 
-            var campaignDetails =
-                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
-
-            // Iterate campaigns 
-            campaignDetails.ForEach(campaign =>
+            Task.Factory.StartNew(() =>
             {
-                // Validate the start and end time of the campaign
-                if (!ValidateCampaignsTime(campaign))
-                    return;
+                // get the all campaigns which should active 
+                var campaignDetails =
+                    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
 
-                // Is Rotate day has been selected
-                if (campaign.IsRotateDayChecked)
-                    // Call to start publishing
-                    SchedulePublisher(campaign);
-                else
+                // Iterate campaigns 
+                campaignDetails.ForEach(campaign =>
                 {
-                    // Check whether today is selected or not
-                    var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                    if (isCampaignSelected == null)
+                    // Validate the start and end time of the campaign
+                    if (!ValidateCampaignsTime(campaign))
                         return;
-                    // Call to start publishing
-                    SchedulePublisher(campaign);
-                }
+
+                    // Is Rotate day has been selected
+                    if (campaign.IsRotateDayChecked)
+                        // Call to start publishing
+                        SchedulePublisher(campaign);
+                    else
+                    {
+                        // Check whether today is selected or not
+                        var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                        if (isCampaignSelected == null)
+                            return;
+                        // Call to start publishing
+                        SchedulePublisher(campaign);
+                    }
+                    Thread.Sleep(2);
+                });
             });
         }
 

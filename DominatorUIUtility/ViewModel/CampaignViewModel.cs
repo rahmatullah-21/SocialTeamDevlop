@@ -28,6 +28,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -58,17 +59,19 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                if (LstCampaignDetails.Count == campaignFileManager.Count())
+                    return;
                 Task.Factory.StartNew(() =>
                 {
-                    Application.Current.Dispatcher.Invoke(() => LstCampaignDetails.Clear());
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() => LstCampaignDetails.Clear()), DispatcherPriority.Render);
                     campaignFileManager.ForEach(camp =>
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
+                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                         {
                             if (LstCampaignDetails.All(x => x.CampaignId != camp.CampaignId))
                                 LstCampaignDetails.Add(camp);
-                        });
-                        Thread.Sleep(50);
+                        }), DispatcherPriority.Render);
+                        Thread.Sleep(5);
                     });
                 });
             }
@@ -386,12 +389,8 @@ namespace DominatorUIUtility.ViewModel
                 try
                 {
                     CampaignDetails campaign = sender as CampaignDetails;
-                    var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(
-                        Application.Current.MainWindow, "Confirmation",
-                        "If you delete it will delete [ " + campaign.CampaignName +
-                        " ] Campaign permanently from campaign\nAre you sure ?",
-                        MessageDialogStyle.AffirmativeAndNegative,
-                        Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                    var dialogResult = Dialog.ShowCustomDialog("Confirmation",
+                        "If you delete it will delete [ " + campaign.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", "Delete Anyways", "Don't delete");
                     if (dialogResult != MessageDialogResult.Affirmative)
                         return;
                     var selectedAccount = campaign.SelectedAccountList;
@@ -400,7 +399,7 @@ namespace DominatorUIUtility.ViewModel
                     campaignFileManager.Delete(campaign);
                     _dataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
-
+                    Uncheck();
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
                     UpdateAccount(allAccounts, campaign, selectedAccount);
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork,
@@ -410,8 +409,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     ex.DebugLog();
                 }
-                if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
-                    IsAllCampaignChecked = false;
+
             }
             else
             {
@@ -426,15 +424,12 @@ namespace DominatorUIUtility.ViewModel
 
                     if (campaign.Count == 0)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                            "Warning", "To delete Campaign please select atleast one Campaign !");
+                        Dialog.ShowDialog("Warning", "To delete Campaign please select atleast one Campaign !");
                         return;
                     }
 
-                    var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign ?",
-                        MessageDialogStyle.AffirmativeAndNegative,
-                        Dialog.SetMetroDialogButton("Delete Anyway", "Cancel"));
+                    var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign ?",
+                       "Delete Anyway", "Cancel");
                     if (dialogResult != MessageDialogResult.Affirmative)
                         return;
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -451,9 +446,7 @@ namespace DominatorUIUtility.ViewModel
                                 LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
                         });
                         _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
-                        if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 && IsAllCampaignChecked)
-                            IsAllCampaignChecked = false;
-
+                        Uncheck();
                     });
                     GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
 
@@ -463,7 +456,13 @@ namespace DominatorUIUtility.ViewModel
                     ex.DebugLog();
                 }
             }
+        }
 
+        private void Uncheck()
+        {
+            if (LstCampaignDetails.Count(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork) == 0 &&
+                IsAllCampaignChecked)
+                IsAllCampaignChecked = false;
         }
 
         private void CopyCampaignIdExecute(object sender)
@@ -488,8 +487,15 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                ((Button)sender).ContextMenu.DataContext = ((Button)sender).DataContext;
-                ((Button)sender).ContextMenu.IsOpen = true;
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                {
+                    var contextMenu = ((Button)sender).ContextMenu;
+                    if (contextMenu != null)
+                    {
+                        contextMenu.DataContext = ((Button)sender).DataContext;
+                        contextMenu.IsOpen = true;
+                    }
+                }));
             }
             catch (Exception ex)
             {

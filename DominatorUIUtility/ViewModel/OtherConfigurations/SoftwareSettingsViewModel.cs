@@ -6,6 +6,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows;
 using CommonServiceLocator;
 using DominatorHouseCore.FileManagers;
@@ -29,15 +30,14 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             if (_softwareSettings.Save())
             {
-                var result = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", MessageDialogStyle.AffirmativeAndNegative,
-                    Dialog.SetMetroDialogButton("Restart now", "Restart later"));
+                var result = Dialog.ShowCustomDialog("Success",
+                    "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", "Restart now", "Restart later");
                 if (result == MessageDialogResult.Affirmative)
                 {
                     Application.Current.Shutdown();
                     Process.Start(Application.ResourceAssembly.Location);
+                    Process.GetCurrentProcess().Kill();
                     Environment.Exit(0);
-
                 }
             }
         }

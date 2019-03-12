@@ -7,7 +7,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 {
     [Serializable]
     [ProtoContract]
-    public class PublisherMediaViewerModel : BindableBase
+    public class PublisherMediaViewerModel : BindableBase,IDisposable
     {     
         private ObservableCollection<string> _mediaList = new ObservableCollection<string>();
         private int _currentItem;
@@ -151,6 +151,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 _isPostDetailsPresent = value;
                 OnPropertyChanged(nameof(IsPostDetailsPresent));
             }
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

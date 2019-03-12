@@ -27,7 +27,7 @@ namespace DominatorHouseCore.Settings
         void InitializeOnLoadConfigurations();
         void ActivityManagerInitializer();
         void ScheduleAutoUpdation();
-        void ScheduleAdsScraping();
+        Task ScheduleAdsScraping();
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
     }
@@ -57,7 +57,7 @@ namespace DominatorHouseCore.Settings
             {
                 Settings = _softwareSettingsFileManager.GetSoftwareSettings();
             }
-            OtherInitializers();
+            //OtherInitializers();
             if (_fileSystemProvider.Exists(ConstantVariable.GetURLShortnerServicesFile()))
             {
                 var shortnerServices =
@@ -92,7 +92,7 @@ namespace DominatorHouseCore.Settings
 
         private void OtherInitializers()
         {
-            AddDHToStartup(Settings);
+            // AddDHToStartup(Settings);
         }
 
         private void AddDHToStartup(SoftwareSettingsModel settings)
@@ -142,9 +142,6 @@ namespace DominatorHouseCore.Settings
             if (!socinatorSettings.IsStopAutoSynchronizeAccount)
                 return;
 
-            var accountUpdateCollection = new BlockingCollection<DominatorAccountModel>
-                    (socinatorSettings.SimultaneousAccountUpdateCount);
-
             var cancellationtokenSource = new CancellationTokenSource();
 
             var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
@@ -155,18 +152,20 @@ namespace DominatorHouseCore.Settings
                 DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
 
             int count = 0;
-
-            accountsToUpdate.ForEach(account =>
+            Task.Factory.StartNew(() =>
             {
-                UpdateAccount(account, cancellationtokenSource);
-                if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
+                accountsToUpdate.ForEach(account =>
                 {
-                    Thread.Sleep(20000);
-                    count = 0;
-                }
-            });
+                    UpdateAccount(account, cancellationtokenSource);
+                    if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
+                    {
+                        Thread.Sleep(20000);
+                        count = 0;
+                    }
+                    Thread.Sleep(2);
+                });
 
-
+            }, cancellationtokenSource.Token);
 
             //ThreadFactory.Instance.Start(() =>
             //{
@@ -309,7 +308,7 @@ namespace DominatorHouseCore.Settings
 
         #endregion
 
-        public void ScheduleAdsScraping()
+        public async Task ScheduleAdsScraping()
         {
             var adScraperblock = new ActionBlock<ScrapAdsDetails>(
                 async job =>
@@ -318,41 +317,25 @@ namespace DominatorHouseCore.Settings
                 },
                 new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-            ScrapAdsProducer(adScraperblock);
+            await ScrapAdsProduceAsync(adScraperblock);
         }
 
-        private void ScrapAdsProducer(ActionBlock<ScrapAdsDetails> adsActionBuffer)
-        {
-            var result = ScrapAdsProduceAsync(adsActionBuffer).Result;
-        }
 
         private async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer)
         {
-            try
+            var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
+
+            ListHelper.Shuffle(accounts);
+
+            foreach (var account in accounts)
             {
-                var dominatorAccountViewModel =
-                        ServiceLocator.Current.GetInstance<IAdScraperFactory>(SocialNetworks.Facebook.ToString());
-
-                var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
-
-                ListHelper.Shuffle(accounts);
-
-                foreach (var account in accounts)
-                {
-                    await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
-                }
-
-                var jobId = Guid.NewGuid().ToString();
-
-                JobManager.AddJob(() => { ScheduleAdsScraping(); },
-                    s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
-
-                return true;
+                await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine();
-            }
+
+            var jobId = Guid.NewGuid().ToString();
+
+            JobManager.AddJob(async () => { await ScrapAdsProduceAsync(adsActionBuffer); },
+                s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
 
             return true;
         }

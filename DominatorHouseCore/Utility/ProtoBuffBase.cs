@@ -80,7 +80,8 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");
+                //ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");
+                ex.DebugLog();
                 throw;
             }
 
@@ -113,7 +114,8 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"ProtobufError: Unable to append object of type {typeof(T).Name} to {filePath}");
+               // ex.DebugLog($"ProtobufError: Unable to append object of type {typeof(T).Name} to {filePath}");
+                ex.DebugLog();
                 throw;
             }
             finally
@@ -153,7 +155,8 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+              //  ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+                ex.DebugLog();
                 return new List<T>();
             }
             return new List<T>();
@@ -176,8 +179,8 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
-
+               // ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+                ex.DebugLog();
             }
             return new T();
         }

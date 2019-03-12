@@ -11,8 +11,8 @@ namespace DominatorHouseCore.FileManagers
     {
         List<T> GetModuleDetails<T>(string filePath) where T : class;
         bool UpdateModuleDetails<T>(List<T> detailsList) where T : class;
-       // void SaveAll<T>(List<T> lstModel) where T : class;
-       // void SaveAll<T>(List<T> lstModel, string file) where T : class;
+        // void SaveAll<T>(List<T> lstModel) where T : class;
+        // void SaveAll<T>(List<T> lstModel, string file) where T : class;
         bool Save<T>(T model, string file) where T : class;
         T GetModel<T>(string filePath) where T : class, new();
         bool UpdateModuleDetails<T>(List<T> detailsList, string file) where T : class;
@@ -66,7 +66,6 @@ namespace DominatorHouseCore.FileManagers
                 {
                     // serialize the file
                     bool result = _protoBuffBase.SerializeList(detailsList, file);
-                    GlobusLogHelper.log.Debug("Details successfully saved");
                     return result;
                 });
             }
@@ -119,7 +118,6 @@ namespace DominatorHouseCore.FileManagers
                 {
                     // Call for serialize
                     Serializer.Serialize(stream, model);
-                    GlobusLogHelper.log.Debug("Details successfully saved");
                     return true;
                 }
 
@@ -171,7 +169,6 @@ namespace DominatorHouseCore.FileManagers
             {
                 // Call for serialize
                 var result = _protoBuffBase.SerializeList(detailsList, file);
-                GlobusLogHelper.log.Debug("Details successfully saved");
                 return result;
             }
             catch (Exception ex)
@@ -299,16 +296,11 @@ namespace DominatorHouseCore.FileManagers
         {
             try
             {
-                // Fetch the file path from lock with type object
-
                 bool result = _protoBuffBase.SerializeList(detailsList, fileType);
-                GlobusLogHelper.log.Debug("Details successfully saved");
                 return result;
-
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
                 return false;
             }
