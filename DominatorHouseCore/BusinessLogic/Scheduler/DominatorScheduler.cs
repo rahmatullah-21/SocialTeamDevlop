@@ -68,8 +68,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 lock (RunStopActivityLocker)
                 {
-
-
                     var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
 
                     var scheduledJob = _schedulerProxy[id];
@@ -89,8 +87,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     var limitInfo = jobProcess.CheckLimit();
                     if (limitInfo.ReachedLimitType != ReachedLimitType.NoLimit)
                     {
-
-
                         RescheduleifLimitReached(jobProcess, limitInfo, limitInfo.ReachedLimitType);
                         return;
                     }
@@ -111,7 +107,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 Stop(account.AccountId, templateId);
                 try
                 {
-
                     var moduleConfiguration =
                         _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
                     moduleConfiguration.IsEnabled = needRestart;
@@ -149,13 +144,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     ex.DebugLog();
                 }
-
             }
         }
 
         public bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime)
         {
-
             if ((firstRunningTime == null && secondRunningTime != null) || (secondRunningTime == null && firstRunningTime != null))
                 return false;
             else if (firstRunningTime == null)
@@ -255,11 +248,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (ChangeAccountsRunningStatus(true, accountId, startActivity))
                         return true;
                     else
-                    {
-
                         throw new InvalidOperationException($"Error Code : 1001 Cant able start the activity {startActivity} with account {accountId}");
-                    }
-
                 else
                     throw new InvalidOperationException($"Error Code : 1002  Cant able stop the activity {stopActivity} with account {accountId}");
             }
@@ -369,9 +358,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     var id = JobProcess.AsId(dominatorAccountModel.AccountId, config.TemplateId);
                     if (_runningJobsHolder.IsRunning(id))
                         return;
-
                 }
-
                 _runningActivityManager.StartNextRound(dominatorAccountModel);
             }
 

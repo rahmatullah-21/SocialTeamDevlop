@@ -254,7 +254,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn", "Reddit" };
 
-        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "LinkedIn", "Gplus", "Tumblr" };
+        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest",  "Gplus", "Tumblr" };
 
 
         #endregion

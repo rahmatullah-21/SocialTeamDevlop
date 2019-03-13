@@ -500,8 +500,14 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 if (mediaViewer != null)
                 {
-                    mediaViewer.MediaList = (mediaViewer.DataContext as PostDetailsModel)?.MediaViewer.MediaList;
-                    mediaViewer.MediaList = mediaViewer.MediaList ?? (mediaViewer.DataContext as PublisherDirectPostsViewModel)?.PostDetailsModel.MediaViewer.MediaList;
+                    var dataContext = mediaViewer.DataContext;
+                    mediaViewer.MediaList = (dataContext as PostDetailsModel)?.MediaViewer.MediaList;
+                    if (dataContext is PublisherRssFeedViewModel)
+                        mediaViewer.MediaList = mediaViewer.MediaList ?? (mediaViewer.DataContext as PublisherRssFeedViewModel)?.PublisherRssFeedModel.PostDetailsModel.MediaList;
+                    else if (dataContext is PublisherDirectPostsViewModel)
+                        mediaViewer.MediaList = mediaViewer.MediaList ?? (mediaViewer.DataContext as PublisherDirectPostsViewModel)?.PostDetailsModel.MediaViewer.MediaList;
+                    else if (dataContext is PublisherPostlistModel)
+                        mediaViewer.MediaList = (dataContext as PublisherPostlistModel)?.MediaList;
                     if (mediaViewer.MediaList == null)
                         mediaViewer.MediaList = new ObservableCollection<string>();
                     mediaViewer.Initialize();

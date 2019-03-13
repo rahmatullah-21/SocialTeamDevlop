@@ -3472,4 +3472,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMembersWithThingsInCommon">Members With Things In Common</system:String>
     <system:String x:Key="LangKeyLocalMembers">Local Members</system:String>
     <system:String x:Key="LangKeyAllMembers">All Members</system:String>
+    <system:String x:Key="LangKeyGroupMemberCategory">Group Member Category</system:String>
+    <system:String x:Key="LangKeySkipAd">Skip Ad</system:String>
 </ResourceDictionary>
