@@ -3468,4 +3468,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyOwnFriends">Own Friends</system:String>
     <system:String x:Key="LangKeyUserAgeShouldBeBetween">User's Age Should Be Between</system:String>
     <system:String x:Key="LangKeyYears">Years</system:String>
+    <system:String x:Key="LangKeyAdminsAndModerators">Admins And Moderators</system:String>
+    <system:String x:Key="LangKeyMembersWithThingsInCommon">Members With Things In Common</system:String>
+    <system:String x:Key="LangKeyLocalMembers">Local Members</system:String>
+    <system:String x:Key="LangKeyAllMembers">All Members</system:String>
 </ResourceDictionary>
