@@ -186,7 +186,7 @@ namespace EmbeddedBrowser
 
         private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
         {
-            var homePage = DominatorAccountModel.AccountBaseModel.AccountNetwork==SocialNetworks.Youtube ? 
+            var homePage = DominatorAccountModel.AccountBaseModel.AccountNetwork==SocialNetworks.Youtube && DominatorAccountModel.IsUserLoggedIn ? 
                            SocialHomeUrls() : GetNetworksHomeUrl();
             Browser.Load(homePage);
         }
@@ -709,7 +709,8 @@ namespace EmbeddedBrowser
 
             if (predicateKey==null) return false;
             var loginFailed = _predicateDict[predicateKey].Invoke();
-
+            if (loginFailed)
+                VerifyingAccount = false;
             if (!loginFailed || _loginFailed) return loginFailed;
 
             _loginFailed = true;
@@ -955,11 +956,18 @@ namespace EmbeddedBrowser
                 else
                 {
                     isWrong = text.Contains("The phone number was invalid. Please correct it and try again.") || text.Contains("There was a problem with your phone number") || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
-                              text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.");
+                              text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.") ||
+                              text.Contains("This phone number has already been used too many times for verification.");
 
                     if (isWrong && text.Contains("There was a problem with your phone number"))
                     {
                         CustomLog($"There was a problem with your phone number({DominatorAccountModel.AccountBaseModel.PhoneNumber}). Please use another phone number");
+                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
+                    }
+                    else if (isWrong && text.Contains("This phone number has already been used too many times for verification."))
+                    {
+                        CustomLog($"This phone number({DominatorAccountModel.AccountBaseModel.PhoneNumber}) has already been used too many times for verification. Please use another phone number");
+                        DominatorAccountModel.AccountBaseModel.PhoneNumber = "";
                         DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
                     }
                     else if (isWrong)
@@ -971,9 +979,12 @@ namespace EmbeddedBrowser
             }
 
             if (isWrong && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.TooManyAttemptsOnPhoneVerification)
+            {
+                VerifyingAccount = false;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
-           
-            DominatorAccountModel.IsVerificationCodeSent = false;
+            }
+
+            DominatorAccountModel.IsVerificationCodeSent = isWrong;
             return isWrong;
         }
 
@@ -985,6 +996,8 @@ namespace EmbeddedBrowser
 
         private bool NeedsVerification()
         {
+            if(_pageText.Contains("Type the text you hear or see") && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.NeedsVerification)
+                CustomLog("Captcha Found (Reason: Might be same IP is getting hit so fast with google login)");
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
             return true;
         }
@@ -1092,7 +1105,7 @@ namespace EmbeddedBrowser
 
                 DominatorAccountModel.Cookies = cookieCollection;
                 DominatorAccountModel.IsUserLoggedIn = true;
-                DominatorAccountModel.IsVerificationCodeSent = false;
+                VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                 new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
