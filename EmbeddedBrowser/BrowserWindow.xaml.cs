@@ -831,7 +831,8 @@ namespace EmbeddedBrowser
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
             else
                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
-            DominatorAccountModel.IsVerificationCodeSent = false;
+
+            VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
 
             DominatorAccountModel.VarificationCode = "";
             return isWrong;
@@ -1101,7 +1102,7 @@ namespace EmbeddedBrowser
                    .SaveToBinFile();
 
                 //AccountsFileManager.Edit(DominatorAccountModel);
-                GlobusLogHelper.log.Info($"Browser login successfull with {DominatorAccountModel.AccountBaseModel.UserName} !");
+                CustomLog("Browser login successfull.");
             }
             catch (Exception ex)
             {
@@ -1190,6 +1191,10 @@ namespace EmbeddedBrowser
                     && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password)
                     && !Browser.IsDisposed)
                 {
+                    var getPageText = Browser.GetTextAsync().Result;
+                    if (getPageText.Contains("that password isn't right.") || getPageText.Contains("Reset your password"))
+                        return;
+
                     // Click on username textbox
                     BrowserAct(ActType.ClickByName, "id", delayAfter: 0.5);
 
