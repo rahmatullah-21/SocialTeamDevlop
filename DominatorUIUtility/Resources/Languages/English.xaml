@@ -3474,4 +3474,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAllMembers">All Members</system:String>
     <system:String x:Key="LangKeyGroupMemberCategory">Group Member Category</system:String>
     <system:String x:Key="LangKeySkipAd">Skip Ad</system:String>
+    <system:String x:Key="LangKeyExportReport">Export Report</system:String>
 </ResourceDictionary>

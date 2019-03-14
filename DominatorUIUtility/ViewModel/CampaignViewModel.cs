@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -46,6 +47,7 @@ namespace DominatorUIUtility.ViewModel
             DuplicateCommand = new BaseCommand<object>((sender) => true, DuplicateExecute);
             StatusChangeCommand = new BaseCommand<object>((sender) => true, StatusChangeExecute);
             ReportCommand = new BaseCommand<object>((sender) => true, ReportExecute);
+            ExportReportCommand = new BaseCommand<object>((sender) => true, ExportReportExecute);
             CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, FilterCampaign);
             SelectionCommand = new BaseCommand<object>((sender) => true, SelectionExecute);
             CopyCampaignIdCommand = new BaseCommand<object>((sender) => true, CopyCampaignIdExecute);
@@ -98,6 +100,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand DuplicateCommand { get; set; }
         public ICommand StatusChangeCommand { get; set; }
         public ICommand ReportCommand { get; set; }
+        public ICommand ExportReportCommand { get; set; }
         public ICommand CampaignTypeSelectionChange { get; set; }
         public ICommand SelectionCommand { get; set; }
         public ICommand CopyCampaignIdCommand { get; set; }
@@ -286,9 +289,6 @@ namespace DominatorUIUtility.ViewModel
                         Window win = objDialog.GetMetroWindow(reportControl, "Reports");
                         win.Owner = Application.Current.MainWindow;
                         win.WindowStartupLocation = WindowStartupLocation.Manual;
-                        var mainWindow = Application.Current.MainWindow;
-                        var width = mainWindow.Width;
-                        var height = mainWindow.Height;
                         win.Top = 0;
                         win.Left = 0;
                         reportControl.ReportModel.LstReports = new ObservableCollection<object>();
@@ -304,13 +304,65 @@ namespace DominatorUIUtility.ViewModel
                             });
                         });
 
-
                         win.ShowDialog();
                     }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private void ExportReportExecute(object sender)
+        {
+            try
+            {
+                CampaignDetails campaign = sender as CampaignDetails;
+
+                if (campaign != null)
+                {
+                    var templatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
+
+                    var activitySettings = templatesFileManager.GetTemplateById(campaign.TemplateId).ActivitySettings;
+
+                    var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), campaign.SubModule);
+
+                    var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(campaign.SocialNetworks).GetNetworkCoreFactory();
+
+                    ObservableCollection<QueryInfo> lstSavedQuery = networkCoreFactory.ReportFactory.GetSavedQuery(activityType, activitySettings);
+
+                    ReportModel ReportModel = new ReportModel();
+                    lstSavedQuery?.ToList().ForEach(x =>
+                    {
+                        ReportModel.LstCurrentQueries.Add(new KeyValuePair<string, string>(x.QueryValue, x.QueryType.ToString()));
+                    });
+
+                    var reportDetails = networkCoreFactory.ReportFactory.GetReportDetail(ReportModel,
+                        ReportModel.LstCurrentQueries, campaign);
+
+                    if (reportDetails.Count == 0)
+                    {
+                        Dialog.ShowDialog("Report", "Reports for " + campaign.CampaignName + " Campaign not available");
+                        return;
+                    }
+
+                    var exportPath = FileUtilities.GetExportPath();
+
+                    if (string.IsNullOrEmpty(exportPath))
+                        return;
+
+                    var filename = Regex.Replace(
+                                      input: $"{ campaign.CampaignName }-Reports[{DateTimeUtilities.GetEpochTime()}]",
+                                      pattern: "[\\/:*?<>|\"]",
+                                      replacement: "-");
+
+                    filename = $"{exportPath}\\{filename}.csv";
+                    SocinatorInitialize.GetSocialLibrary(campaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
+                    
                 }
 
             }
@@ -319,7 +371,6 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-
         private void StatusChangeExecute(object sender)
         {
             try
@@ -530,7 +581,6 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-
                 if (CampaignModel.SelectedActivity == "All" || string.IsNullOrEmpty(CampaignModel.SelectedActivity))
                     CampaignCollection.Filter = (x) =>
                         ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
@@ -578,8 +628,6 @@ namespace DominatorUIUtility.ViewModel
                     }
                 });
 
-
-
                 try
                 {
                     new Thread(() =>
@@ -590,9 +638,7 @@ namespace DominatorUIUtility.ViewModel
                             updatingAccountsBinFiles = updatingAccountsBinFiles.Dequeue(out act);
 
                             act();
-
                         }
-
                     })
                     { IsBackground = true }.Start();
                 }
@@ -604,7 +650,6 @@ namespace DominatorUIUtility.ViewModel
                 // Run/Stop job process in campaigns
                 try
                 {
-
                     if (isToggleSwitchSelected)
                     {
                         LstCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
@@ -619,7 +664,6 @@ namespace DominatorUIUtility.ViewModel
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     campaignFileManager.UpdateCampaigns(LstCampaignDetails.ToList());
                 }
-
                 catch (Exception ex)
                 {
                     ex.DebugLog();
@@ -629,14 +673,11 @@ namespace DominatorUIUtility.ViewModel
             {
                 ex.DebugLog();
             }
-
         }
         private static void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
         {
-
             try
             {
-
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                 var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
@@ -648,19 +689,14 @@ namespace DominatorUIUtility.ViewModel
                 jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(account);
                 if (isToggleSwitchSelected)
-                {
                     dominatorScheduler.ScheduleNextActivity(account, module);
-                }
                 else
-                {
                     dominatorScheduler.StopActivity(account, selectedCampaign.SubModule, selectedCampaign.TemplateId, false);
-                }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
         }
         private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
         {
@@ -684,17 +720,14 @@ namespace DominatorUIUtility.ViewModel
                             jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
                         }
                     }
-
                 });
 
                 accountsCacheService.UpsertAccounts(allAccounts.ToArray());
-
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
         }
     }
     public class BindingData : Freezable

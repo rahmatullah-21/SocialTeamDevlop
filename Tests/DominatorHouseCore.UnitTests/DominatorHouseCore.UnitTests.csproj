@@ -100,6 +100,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tests\Converters\AccountsFilterConverterTests.cs" />
+    <Compile Include="Tests\Converters\ActivityTypesSourceConverterTests.cs" />
+    <Compile Include="Tests\Converters\AverageConverterTests.cs" />
+    <Compile Include="Tests\Converters\BooleanToStringSelectConverterTests.cs" />
+    <Compile Include="Tests\Converters\BooleanToVisibilityConverterTest.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToColorBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />

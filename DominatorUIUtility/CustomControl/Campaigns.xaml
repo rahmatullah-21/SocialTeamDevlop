@@ -144,7 +144,11 @@
                                                                   Command="{Binding Data.DuplicateCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
-                                                                <Image Source="/DominatorUIUtility;component/Images/duplicatecampaign.png" />
+                                                                <Rectangle Fill="Black" Width="17" Height="16">
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Visual="{StaticResource appbar_page_duplicate}" Stretch="Fill" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
                                                             </MenuItem.Icon>
                                                         </MenuItem>
                                                         <Separator />
@@ -158,7 +162,6 @@
                                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                                     </Rectangle.OpacityMask>
                                                                 </Rectangle>
-
                                                             </MenuItem.Icon>
                                                         </MenuItem>
                                                         <Separator />
@@ -170,12 +173,29 @@
                                                                 <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
                                                             </MenuItem.Icon>
                                                         </MenuItem>
+                                                        <MenuItem Header="{DynamicResource LangKeyExportReport}" VerticalContentAlignment="Center"
+                                                                  Height="30" 
+                                                                  Command="{Binding Data.ExportReportCommand, Source={StaticResource ContextMenuBinding}}"
+                                                                  CommandParameter="{Binding}">
+                                                            <MenuItem.Icon>
+                                                                <Rectangle Fill="Black" Width="17" Height="16">
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Visual="{StaticResource appbar_inbox_out}" Stretch="Fill" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
+                                                            </MenuItem.Icon>
+                                                        </MenuItem>
+                                                        <Separator />
                                                         <MenuItem Header="{DynamicResource LangKeyCopyCampaignId}" VerticalContentAlignment="Center"
                                                                   Height="30" 
                                                                   Command="{Binding Data.CopyCampaignIdCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                             <MenuItem.Icon>
-                                                                <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
+                                                                <Rectangle Fill="Black" Width="17" Height="16">
+                                                                    <Rectangle.OpacityMask>
+                                                                        <VisualBrush Visual="{StaticResource appbar_page_copy}" Stretch="Fill" />
+                                                                    </Rectangle.OpacityMask>
+                                                                </Rectangle>
                                                             </MenuItem.Icon>
                                                         </MenuItem>
                                                     </ContextMenu>

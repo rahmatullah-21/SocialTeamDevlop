@@ -77,8 +77,7 @@ namespace DominatorUIUtility.CustomControl
                 var activityType = (ActivityType)Enum.Parse(typeof(ActivityType), Campaign.SubModule);
 
                 SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
-                Dialog.ShowDialog("Sucess", "Sucessfully Exported to " + filename);
-                GlobusLogHelper.log.Info(Log.CustomMessage, Campaign.SocialNetworks, activityType, Campaign.CampaignName, "Sucessfully Exported to " + filename);
+                
             }
             catch (Exception ex)
             {
