@@ -68,5 +68,7 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public string CommentOwnerId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public string PostUrl { get; set; }
     }
 }

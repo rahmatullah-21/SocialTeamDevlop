@@ -30,41 +30,38 @@ namespace EmbeddedBrowser
     /// </summary>
     public partial class BrowserWindow : INotifyPropertyChanged, IDisposable
     {
-        private readonly IAccountScopeFactory _accountScopeFactory;
-        private readonly IHttpHelper _httpHelper;
-
-        private readonly object _syncLock = new object();
+        private IAccountScopeFactory _accountScopeFactory;
+        private IHttpHelper _httpHelper;
+        
         private readonly object _cefLock = new object();
 
         public ICommand SearchCommand { get; }
         public string TargetUrl { get; set; } = string.Empty;
         public bool CustomUse { get; set; }
+        public bool SkipYoutubeAd { get; set; }
+        public bool FoundAd { get; set; }
+        public bool VerifyingAccount { get; set; }
+
         public BrowserWindow()
         {
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(GoToUrl);
-            _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
         }
 
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false)
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false)
             : this()
         {
+            DominatorAccountModel = dominatorAccountModel;
+            TargetUrl = targetUrl;
             CustomUse = customUse;
-               DominatorAccountModel = dominatorAccountModel;
-            _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
-                .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-
+            SkipYoutubeAd = skipAd;
+            
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{dominatorAccountModel.AccountId}"
+                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
-
-           // SetCookie(ref customUse);
-
-            if (!string.IsNullOrEmpty(targetUrl))
-                TargetUrl = targetUrl;
-
+            
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = new RequestHandlerCustom(this);
             Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
@@ -72,8 +69,7 @@ namespace EmbeddedBrowser
             InitializeGoogleLoginStatusActions();
 
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
-            Browser.Address = url;
-            UrlBar.Text = url;
+            UrlBar.Text= Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings; 
         }
         
@@ -190,7 +186,7 @@ namespace EmbeddedBrowser
 
         private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
         {
-            var homePage = DominatorAccountModel.AccountBaseModel.AccountNetwork==SocialNetworks.Youtube ? 
+            var homePage = DominatorAccountModel.AccountBaseModel.AccountNetwork==SocialNetworks.Youtube && DominatorAccountModel.IsUserLoggedIn ? 
                            SocialHomeUrls() : GetNetworksHomeUrl();
             Browser.Load(homePage);
         }
@@ -200,6 +196,7 @@ namespace EmbeddedBrowser
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         public bool InitializedWell;
         private void LoadSettings(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -385,7 +382,8 @@ namespace EmbeddedBrowser
             EnterValueByClass,
             EnterValueById,
             EnterValueByName,
-            GetValueByName
+            GetValueByName,
+            GetLengthByClass
         }
 
         /// <summary>
@@ -454,6 +452,8 @@ namespace EmbeddedBrowser
             {
                 case ActType.GetValueByName:
                     return Browser.EvaluateScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value").Result?.Result?.ToString() ?? "";
+                case ActType.GetLengthByClass:
+                    return Browser.EvaluateScriptAsync($"document.getElementsByClassName('{element}').length").Result?.Result?.ToString() ?? "";
                 default:
                     return "";
             }
@@ -611,6 +611,11 @@ namespace EmbeddedBrowser
                   DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube))
                 return;
 
+            VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent;
+            _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
+            _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
+                .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
+
             _predicateDict = new Dictionary<Predicate<string>, Func<bool>>
             {
                 {
@@ -704,7 +709,8 @@ namespace EmbeddedBrowser
 
             if (predicateKey==null) return false;
             var loginFailed = _predicateDict[predicateKey].Invoke();
-
+            if (loginFailed)
+                VerifyingAccount = false;
             if (!loginFailed || _loginFailed) return loginFailed;
 
             _loginFailed = true;
@@ -762,7 +768,7 @@ namespace EmbeddedBrowser
 
         private bool VerifyCodeFromPhone()
         {
-            if ((DominatorAccountModel.AccountBaseModel.Status == AccountStatus.PhoneVerification
+            if (((DominatorAccountModel.AccountBaseModel.Status == AccountStatus.PhoneVerification && !VerifyingAccount)
                || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TooManyAttemptsOnPhoneVerification
                || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount) && !DominatorAccountModel.IsVerificationCodeSent)
                 return true;
@@ -824,8 +830,10 @@ namespace EmbeddedBrowser
 
             if (isWrong && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.TooManyAttemptsOnPhoneVerification)
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
+            else
+               DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
 
-            DominatorAccountModel.IsVerificationCodeSent = false;
+            VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
 
             DominatorAccountModel.VarificationCode = "";
             return isWrong;
@@ -916,7 +924,7 @@ namespace EmbeddedBrowser
                 && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber)
                 && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
             {
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+               // DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
                 var text = Browser.GetTextAsync().Result;
                 if (text.Contains("Provide a phone number to continue. We'll send a verification code that you can use to sign in.") 
                     || text.Contains("Provide a phone number to continue. We'll send a verification code you can use to sign in."))
@@ -948,11 +956,18 @@ namespace EmbeddedBrowser
                 else
                 {
                     isWrong = text.Contains("The phone number was invalid. Please correct it and try again.") || text.Contains("There was a problem with your phone number") || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
-                              text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.");
+                              text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.") ||
+                              text.Contains("This phone number has already been used too many times for verification.");
 
                     if (isWrong && text.Contains("There was a problem with your phone number"))
                     {
                         CustomLog($"There was a problem with your phone number({DominatorAccountModel.AccountBaseModel.PhoneNumber}). Please use another phone number");
+                        DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
+                    }
+                    else if (isWrong && text.Contains("This phone number has already been used too many times for verification."))
+                    {
+                        CustomLog($"This phone number({DominatorAccountModel.AccountBaseModel.PhoneNumber}) has already been used too many times for verification. Please use another phone number");
+                        DominatorAccountModel.AccountBaseModel.PhoneNumber = "";
                         DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
                     }
                     else if (isWrong)
@@ -964,9 +979,12 @@ namespace EmbeddedBrowser
             }
 
             if (isWrong && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.TooManyAttemptsOnPhoneVerification)
+            {
+                VerifyingAccount = false;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
+            }
 
-            DominatorAccountModel.IsVerificationCodeSent = false;
+            DominatorAccountModel.IsVerificationCodeSent = isWrong;
             return isWrong;
         }
 
@@ -978,6 +996,8 @@ namespace EmbeddedBrowser
 
         private bool NeedsVerification()
         {
+            if(_pageText.Contains("Type the text you hear or see") && DominatorAccountModel.AccountBaseModel.Status != AccountStatus.NeedsVerification)
+                CustomLog("Captcha Found (Reason: Might be same IP is getting hit so fast with google login)");
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.NeedsVerification;
             return true;
         }
@@ -1084,8 +1104,8 @@ namespace EmbeddedBrowser
                 CreateChannelOnYoutube();
 
                 DominatorAccountModel.Cookies = cookieCollection;
-                DominatorAccountModel.IsVerificationCodeSent = false;
                 DominatorAccountModel.IsUserLoggedIn = true;
+                VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
                 new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
@@ -1095,7 +1115,7 @@ namespace EmbeddedBrowser
                    .SaveToBinFile();
 
                 //AccountsFileManager.Edit(DominatorAccountModel);
-                GlobusLogHelper.log.Info($"Browser login successfull with {DominatorAccountModel.AccountBaseModel.UserName} !");
+                CustomLog("Browser login successfull.");
             }
             catch (Exception ex)
             {
@@ -1138,18 +1158,31 @@ namespace EmbeddedBrowser
             if (SetVideoQuality || !Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")) return;
 
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 1.5); // for Skipping add
-
+            {
+                new Task(() =>
+                {
+                    while (!Browser.IsDisposed)
+                    {
+                        if (!Browser.IsDisposed)
+                           FoundAd = GetElementValue(ActType.GetLengthByClass, "ytp-ad-skip-button-icon", 1.5) == "1";
+                        if (FoundAd) { /*Just for Checking*/ }
+                        if (!Browser.IsDisposed && SkipYoutubeAd && FoundAd)
+                            BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3.0); // for Skipping add
+                    }
+                }).Start();
+            }
+            
             BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 3, 0.1); // To Open Volume Slider
 
             var ke = new KeyEvent();
-            PressAnyKey(21, 100, ke, 40); //Press Down Arrow key 40 times to mute the music
-
-            BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3, 0.5); // for Skipping add
+            PressAnyKey(21, 100, ke, 40,2); //Press Down Arrow key 40 times to mute the music
 
             //ClickByClass("ytp-mute-button ytp-button"); // Direct Mute the music
 
-            BrowserAct(ActType.ClickByClass, "ytp-button ytp-settings-button", 0.5, 1.5); // Click Youtube MediaPlayer Setting Button
+            while (FoundAd)
+            { Thread.Sleep(2000);}
+
+            BrowserAct(ActType.ClickByClass, "ytp-button ytp-settings-button", 1, 1.5); // Click Youtube MediaPlayer Setting Button
 
             PressAnyKey(4, 900, ke, 40, 1); //Press Down Arrow key 4 times
             PressAnyKey(1, 0, ke, 39, 1); //Press right Arrow key 1 time
@@ -1158,16 +1191,7 @@ namespace EmbeddedBrowser
             PressAnyKey(1, 0, ke, 13); //Press Enter key
 
             SetVideoQuality = true;
-
-            new System.Threading.Tasks.Task(() =>
-            {
-                while (!Browser.IsDisposed)
-                {
-                    if (!Browser.IsDisposed)
-                        BrowserAct(ActType.ClickByClass, "ytp-ad-skip-button-icon", 3.5); // for Skipping add
-                }
-            }).Start();
-
+            
         }
 
         private void PinterestBrowserLogin(string html)
@@ -1180,6 +1204,10 @@ namespace EmbeddedBrowser
                     && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password)
                     && !Browser.IsDisposed)
                 {
+                    var getPageText = Browser.GetTextAsync().Result;
+                    if (getPageText.Contains("that password isn't right.") || getPageText.Contains("Reset your password"))
+                        return;
+
                     // Click on username textbox
                     BrowserAct(ActType.ClickByName, "id", delayAfter: 0.5);
 
@@ -1310,7 +1338,7 @@ namespace EmbeddedBrowser
         
         private void QuoraLogin(string html)
         {
-            lock (_syncLock)
+            lock (_cefLock)
             {
                 if (html != null && html.Contains("name=\"password\"") && html.Contains("name=\"email\""))
                 {

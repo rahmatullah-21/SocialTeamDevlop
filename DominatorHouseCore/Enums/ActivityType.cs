@@ -92,7 +92,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Gplus,Instagram,Reddit")]
         CommentScraper = 29,
 
-        [Description("Facebook,Gplus,Youtube,Instagram")]
+        [Description("Facebook,Gplus,Youtube,Instagram,Tumblr")]
         PostScraper = 30,
 
         [Description("Facebook,LinkedIn")]
@@ -321,5 +321,8 @@ namespace DominatorHouseCore.Enums
         SendBoardInvitation = 112,
         [Description("LinkedIn")]
         BlockUser = 113,
+
+        [Description("Facebook")]
+        MessageToFanpages = 114
     }
 }

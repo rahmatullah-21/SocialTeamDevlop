@@ -75,9 +75,9 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             var predicate = new DateEpochFilterPredicate<DummyEntity>(a => a.InteractedDate);
             var activityPredicate = new ActivityTypeFilterPredicate<DummyEntity, ActivityType>(a => a.ActivityType, type => type);
             var sut = new EntityCounterFunction<DummyEntity>(predicate, activityPredicate);
-            var utcNow = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Utc); // UTC +4
+            var utcNow = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Local); // UTC +4
 
-            _dateProvider.UtcNow().Returns(utcNow);
+            _dateProvider.Now().Returns(utcNow);
 
             var list = new List<DummyEntity>
             {
@@ -117,9 +117,9 @@ namespace DominatorHouseCore.UnitTests.Tests.Process
             var predicate = new DateEpochFilterPredicate<DummyEntity>(a => a.InteractedDate);
             var activityPredicate = new ActivityTypeFilterPredicate<DummyEntity, ActivityType>(a => a.ActivityType, type => type);
             var sut = new EntityCounterFunction<DummyEntity>(predicate, activityPredicate);
-            var utcNow = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Utc); // UTC +4
+            var utcNow = new DateTime(2018, 12, 26, 19, 22, 33, DateTimeKind.Local); // UTC +4
 
-            _dateProvider.UtcNow().Returns(utcNow);
+            _dateProvider.Now().Returns(utcNow);
 
             // act
             sut.GetCounter(_accountId, _socialNetworks, null);

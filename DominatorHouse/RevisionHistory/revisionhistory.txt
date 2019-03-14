@@ -1,3 +1,36 @@
+Version[1.0.0.43],[13th-March-19]
+New Features:-
+	Facebook:- 
+		Braodcast messages => Send greetings to friends => Added feature to send greetings with age limit.
+		Broadcast message => Added feature to send messages to own friends.
+		sociopublisher => added feature to add post as facebook stories.
+		Grow friends => Send friend request => User filters => Added feature to send friend request to members things in common.
+	Instagram:-
+		InstaScrape => Post Scraper => Added an option to scrape post URL.
+	Pinterest:-
+		PinPoster => Added option to select all accounts and boards with single checkbox.
+	Youtube:- 
+		Added option to Skip ads.
+Fixed:- 
+	SocioPublisher:-
+	    Fixed issue with posting on Instagram. 
+	Facebook:-
+	    Fixed issue with scrapping profile details of post commentors.
+	    Fixed issue with comment scrapper.
+	    Fixed issue with send requests to fanpage liker.
+	Instagram:-
+	    Grow Followers => Issue fixed following other user when suggested users selected as query type.
+	    InstaChat => Issue fixed with sending message to new followers with username and fullname.
+	    Instascrape => Issue fixed with showing no more data.
+	Pinterest:-  
+	    Fixed issue in Send board Invitation.
+	    Fixed issue in Delete Pins without selecting Board.
+	    Fixed issue in PIn comment.
+	Reddit:- 
+	    Fixed issue with account failed to login.
+	Quora:- 
+		Scrape => Questions. Fixed issue with showing no more data.
+	
 Version[1.0.0.42],[7th-March-19]
 New Feature:-
 	Instagram:-

@@ -247,9 +247,31 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SaveExecute(object sender)
         {
+            PublisherCampaignStatusModel CampaignStatusModel = PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId);
 
             #region Validations
 
+            // Verify whether any post is saved to pending/draft or not
+            if (PublisherCreateCampaignModel.PostCollection.Count == 0)
+            {
+                //if campaign is going to edit then check if any post is available in campaign or not
+
+                if (CampaignStatusModel != null)
+                {
+                    //if no post is present in either pending or draft or published then show the message to add Post to pending/draft.
+                    if (!(CampaignStatusModel.PendingCount != 0 || CampaignStatusModel.DraftCount != 0 || CampaignStatusModel.PublishedCount != 0))
+                    {
+                        Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
+                        return;
+                    }
+                }
+                //if campaign is new then no need to check if any post is available in campaign or not.show the warning message.
+                else
+                {
+                    Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
+                    return;
+                }
+            }
             // Verify whether timer setted or not
             if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
             {
@@ -618,12 +640,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue,
                 };
 
-                var CampaignStatusModel = PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId);
-                if (CampaignStatusModel != null)
+                if (CampaignStatusModel != null)//if campaign is in edit mode update campaign
                 {
                     UpdateCampaign(publisherCampaignStatusModel, CampaignStatusModel);
                 }
-                else
+                else//if new campaign save campaign
                 {
                     // Get the object of Publisher Instance
                     var publishIntialize = PublisherInitialize.GetInstance;
@@ -708,55 +729,55 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             //Task.Factory.StartNew(() =>
             //{
-                // Calculate the expire date for the campaigns
-                DateTime? expireDate = null;
+            // Calculate the expire date for the campaigns
+            DateTime? expireDate = null;
 
-                if (post.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
-                    expireDate = post.PublisherPostSettings.GeneralPostSettings.ExpireDate;
+            if (post.PublisherPostSettings.GeneralPostSettings.IsExpireDate)
+                expireDate = post.PublisherPostSettings.GeneralPostSettings.ExpireDate;
 
-                // Initialize all the post details from current post list
-                var postlistModel = new PublisherPostlistModel
-                {
-                    CampaignId = PublisherCreateCampaignModel.CampaignId,
-                    CreatedTime = DateTime.Now,
-                    PostSource = PostSource.NormalPost,
-                    PostQueuedStatus = post.PostQueuedStatus,
-                    PostRunningStatus = PostRunningStatus.Active,
-                    PostDescription = post.PostDescription,
-                    MediaList = post.MediaViewer.MediaList,
-                    PublisherInstagramTitle = post.PublisherInstagramTitle,
-                    PdSourceUrl = post.PdSourceUrl,
-                    FdSellLocation = post.FdSellLocation,
-                    FdSellPrice = post.FdSellPrice,
-                    FdSellProductTitle = post.FdSellProductTitle,
-                    IsFdSellPost = post.IsFdSellPost,
-                    PostId = post.PostDetailsId,
-                    GeneralPostSettings = post.PublisherPostSettings.GeneralPostSettings,
-                    FdPostSettings = post.PublisherPostSettings.FdPostSettings,
-                    GdPostSettings = post.PublisherPostSettings.GdPostSettings,
-                    TdPostSettings = post.PublisherPostSettings.TdPostSettings,
-                    LdPostSettings = post.PublisherPostSettings.LdPostSettings,
-                    TumberPostSettings = post.PublisherPostSettings.TumberPostSettings,
-                    RedditPostSetting = post.PublisherPostSettings.RedditPostSetting,
-                    PublisherPostSettings = post.PublisherPostSettings,
-                    ExpiredTime = expireDate,
-                    PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
-                };
+            // Initialize all the post details from current post list
+            var postlistModel = new PublisherPostlistModel
+            {
+                CampaignId = PublisherCreateCampaignModel.CampaignId,
+                CreatedTime = DateTime.Now,
+                PostSource = PostSource.NormalPost,
+                PostQueuedStatus = post.PostQueuedStatus,
+                PostRunningStatus = PostRunningStatus.Active,
+                PostDescription = post.PostDescription,
+                MediaList = post.MediaViewer.MediaList,
+                PublisherInstagramTitle = post.PublisherInstagramTitle,
+                PdSourceUrl = post.PdSourceUrl,
+                FdSellLocation = post.FdSellLocation,
+                FdSellPrice = post.FdSellPrice,
+                FdSellProductTitle = post.FdSellProductTitle,
+                IsFdSellPost = post.IsFdSellPost,
+                PostId = post.PostDetailsId,
+                GeneralPostSettings = post.PublisherPostSettings.GeneralPostSettings,
+                FdPostSettings = post.PublisherPostSettings.FdPostSettings,
+                GdPostSettings = post.PublisherPostSettings.GdPostSettings,
+                TdPostSettings = post.PublisherPostSettings.TdPostSettings,
+                LdPostSettings = post.PublisherPostSettings.LdPostSettings,
+                TumberPostSettings = post.PublisherPostSettings.TumberPostSettings,
+                RedditPostSetting = post.PublisherPostSettings.RedditPostSetting,
+                PublisherPostSettings = post.PublisherPostSettings,
+                ExpiredTime = expireDate,
+                PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+            };
 
-                // Assign Created Date Time
-                postlistModel.CreatedTime = post.CreatedDateTime;
+            // Assign Created Date Time
+            postlistModel.CreatedTime = post.CreatedDateTime;
 
-                // Update the post details
-                if (postIdlist.Contains(post.PostDetailsId))
-                {
-                    var savedPost = PostlistFileManager.GetByPostId(PublisherCreateCampaignModel.CampaignId, post.PostDetailsId);
-                    postlistModel.LstPublishedPostDetailsModels = savedPost.LstPublishedPostDetailsModels;
-                    postlistModel.PostQueuedStatus = savedPost.PostQueuedStatus;
-                    PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, postlistModel);
-                }
-                // Add new post details
-                else
-                    lstPost.Add(postlistModel);
+            // Update the post details
+            if (postIdlist.Contains(post.PostDetailsId))
+            {
+                var savedPost = PostlistFileManager.GetByPostId(PublisherCreateCampaignModel.CampaignId, post.PostDetailsId);
+                postlistModel.LstPublishedPostDetailsModels = savedPost.LstPublishedPostDetailsModels;
+                postlistModel.PostQueuedStatus = savedPost.PostQueuedStatus;
+                PostlistFileManager.UpdatePost(PublisherCreateCampaignModel.CampaignId, postlistModel);
+            }
+            // Add new post details
+            else
+                lstPost.Add(postlistModel);
             //});
         }
 

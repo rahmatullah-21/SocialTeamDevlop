@@ -59,11 +59,11 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string CommentOwnerId { get; set; }
-
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string PostUrl { get; set; }
         public ActivityType GetActivityType()
         {
             return ActivityType;
-
         }
     }
 }

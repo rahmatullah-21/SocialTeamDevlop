@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Win32;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorHouseCore.Diagnostics.Exceptions
 {
@@ -94,7 +95,14 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
                     ex.DebugLog();
                 }
             };
-
+            Application.Current.Exit += (o, e) =>
+            {
+                GlobusLogHelper.log.Debug($"Application exit code {e.ApplicationExitCode}");
+            };
+            AppDomain.CurrentDomain.ProcessExit += (o, e) =>
+            {
+                GlobusLogHelper.log.Debug($"Application exit code {o.ToString()}");
+            };
             Application.Current.DispatcherUnhandledException += (o, e) =>
              {
                  e.Exception.DebugLog();

@@ -360,6 +360,8 @@ namespace DominatorUIUtility.ViewModel
                 {
                     try
                     {
+                        #region Getting Account Details from loadedAccountlist
+
                         // var finalAccount = singleAccount.Replace(",", ":").Replace("<NA>", "");
                         var finalAccount = singleAccount.Replace("<NA>", "\t");
                         var splitAccount = Regex.Split(finalAccount.TrimEnd(), "\t");
@@ -457,6 +459,9 @@ namespace DominatorUIUtility.ViewModel
                             }
                         }
 
+                        #endregion
+
+                        #region Creating new Account with Account Details
 
                         var objDominatorAccountBaseModel = new DominatorAccountBaseModel
                         {
@@ -478,7 +483,9 @@ namespace DominatorUIUtility.ViewModel
                             AlternateEmail = alternetEmail,
                             Banned = banned
                         };
-
+                        
+                        #endregion
+                        
                         if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                         {
 
@@ -621,6 +628,7 @@ namespace DominatorUIUtility.ViewModel
             //serialize the given account, if its success then add to account model list
             if (_accountsFileManager.Add(dominatorAccountModel))
             {
+
                 if (!Application.Current.Dispatcher.CheckAccess())
                 {
                     Application.Current.Dispatcher.Invoke(() => LstDominatorAccountModel.Add(dominatorAccountModel));
@@ -762,7 +770,6 @@ namespace DominatorUIUtility.ViewModel
         }
         public bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel)
         {
-
             var oldproxies = _proxyFileManager.GetAllProxy();
 
             bool isProxyUpdated = false;
@@ -775,8 +782,6 @@ namespace DominatorUIUtility.ViewModel
             catch (Exception ex)
             {
                 ex.DebugLog();
-
-
             }
 
             return isProxyUpdated;
@@ -897,8 +902,6 @@ namespace DominatorUIUtility.ViewModel
                 }
 
                 #endregion
-
-
             }
 
             return isDuplicatProxyAvailable;
@@ -1127,7 +1130,8 @@ namespace DominatorUIUtility.ViewModel
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
-                ThreadFactory.Instance.Start(() => { DeleteAccounts(selectAccounts); });
+                // ThreadFactory.Instance.Start(() => { DeleteAccounts(selectAccounts); });
+                DeleteAccounts(selectAccounts);
 
             }
             catch (Exception ex)
@@ -1139,23 +1143,31 @@ namespace DominatorUIUtility.ViewModel
 
         private void DeleteAccounts(IEnumerable<DominatorAccountModel> selectAccounts)
         {
-
-            //remove the selected accounts from account model
-            selectAccounts.ForEach(item =>
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                selectAccounts.ToList().ForEach(item =>
                 {
-                    LstDominatorAccountModel.Remove(item);
+                    LstDominatorAccountModel.Remove(
+                              LstDominatorAccountModel.FirstOrDefault(x => x.AccountId == item.AccountId));
+                    Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            var network = item.AccountBaseModel.AccountNetwork.ToString();
+
+                            _dbOperations.Remove<AccountDetails>(user =>
+                                user.AccountNetwork == network && user.UserName == item.UserName);
+
+                            GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork,
+                                item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
+                            DeleteAccountFromCampaign(item);
+                            item.NotifyCancelled();
+                        }
+                        catch { }
+                    });
                 });
-                var network = item.AccountBaseModel.AccountNetwork.ToString();
 
-                _dbOperations.Remove<AccountDetails>(user => user.AccountNetwork == network && user.UserName == item.UserName);
-
-                GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork, item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
-                DeleteAccountFromCampaign(item);
-                item.NotifyCancelled();
             });
-
 
             // remove from file
             _accountsFileManager.Delete(x => selectAccounts.FirstOrDefault(a => a.AccountId == x.AccountId) != null);
@@ -1194,8 +1206,6 @@ namespace DominatorUIUtility.ViewModel
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
             DeleteAccounts(new[] { selectedAccount });
-
-
         }
 
         #endregion

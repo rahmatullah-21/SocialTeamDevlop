@@ -180,7 +180,7 @@
                                     MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
                                     SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
                                     Watermark="{DynamicResource LangKeyWhatsOnYourMind}"  Foreground="Black"
-                                    Text="{Binding PostDescription, Mode=TwoWay}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
+                                    Text="{Binding PostDescription, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
                                     DisplayMember="Key">
                                 <customControl:SocinatorTextBox.LoadingContent>
                                     <TextBlock Text="Loading Macros..." Margin="5" FontSize="14" />

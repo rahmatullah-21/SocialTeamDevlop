@@ -39,6 +39,7 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyScrapUsersWhoMessagedUs".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapAllLikes".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyNewsFeedPosts".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyOwnFriends".FromResourceDictionary());
             DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
             DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
 
@@ -561,6 +562,26 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+        public ICommand QuryTypeSelectionChangedCommand
+        {
+            get { return (ICommand)GetValue(QuryTypeSelectionChangedCommandProperty); }
+            set { SetValue(QuryTypeSelectionChangedCommandProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty QuryTypeSelectionChangedCommandProperty =
+            DependencyProperty.Register("QuryTypeSelectionChangedCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+
+        public object SelectionChangedCommandParameter
+        {
+            get { return (object)GetValue(SelectionChangedCommandParameterProperty); }
+            set { SetValue(SelectionChangedCommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectionChangedCommandParameterProperty =
+            DependencyProperty.Register("SelectionChangedCommandParameter", typeof(object), typeof(SearchQueryControl));
+
 
         private void SearchQueries_OnLoaded(object sender, RoutedEventArgs e)
         {
