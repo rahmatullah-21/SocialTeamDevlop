@@ -92,28 +92,7 @@ namespace EmbeddedBrowser
                 
                 var cefInitialCookies =await Browser.RequestContext.GetDefaultCookieManager(callBack)
                     .VisitAllCookiesAsync();
-
-                if (cefInitialCookies.Count > accountCookie.Count)
-                {
-                    if (accountCookie.Count == 0 && DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                        Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
-                    return;
-                }
-
-                if(cefInitialCookies.Count >= accountCookie.Count)
-                {
-                    if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                    {
-                        CustomUse = true;
-                        if (string.IsNullOrEmpty(TargetUrl))
-                            TargetUrl = SocialHomeUrls();
-                        var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
-                        Browser.Address = url;
-                        UrlBar.Text = url;
-                    }
-                    return;
-                }
-
+                
                 if(cefInitialCookies.Count!=0)
                 Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
 
@@ -383,6 +362,7 @@ namespace EmbeddedBrowser
             EnterValueById,
             EnterValueByName,
             GetValueByName,
+            GetValueByTagName,
             GetLengthByClass
         }
 

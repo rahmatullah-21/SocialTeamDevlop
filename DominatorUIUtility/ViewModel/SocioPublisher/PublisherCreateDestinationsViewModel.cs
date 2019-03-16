@@ -254,8 +254,51 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn", "Reddit" };
 
-        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest",  "Gplus", "Tumblr" };
+        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "Gplus", "Tumblr" };
+        private string _selectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
 
+        public string SelectPageBoard
+        {
+            get
+            {
+                return _selectPageBoard;
+            }
+            set
+            {
+                _selectPageBoard = value;
+                OnPropertyChanged(nameof(SelectPageBoard));
+            }
+        }
+        private string _selectGroups = "LangKeySelectGroupsAll".FromResourceDictionary();
+
+        public string SelectGroups
+        {
+            get
+            {
+                return _selectGroups;
+            }
+            set
+            {
+                _selectGroups = value;
+                OnPropertyChanged(nameof(SelectGroups));
+            }
+        }
+
+
+        private string _selectWall = "LangKeySelectWallsProfilesAll".FromResourceDictionary();
+
+        public string SelectWall
+        {
+            get
+            {
+                return _selectWall;
+            }
+            set
+            {
+                _selectWall = value;
+                OnPropertyChanged(nameof(SelectWall));
+            }
+        }
 
         #endregion
 
@@ -314,10 +357,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 // Remove already saved group pairs 
                 valuePairs.ForEach(x =>
-                {
-                    PublisherCreateDestinationModel.AccountGroupPair.Remove(x);
-                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.Group);
-                });
+            {
+                PublisherCreateDestinationModel.AccountGroupPair.Remove(x);
+                PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.Group);
+            });
 
                 // get currectly selected groups from UI objects
                 var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
@@ -433,10 +476,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 // Remove all the saved accounts page or boards pair
                 valuePairs.ForEach(x =>
-                {
-                    PublisherCreateDestinationModel.AccountPagesBoardsPair.Remove(x);
-                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.PageOrBoard);
-                });
+            {
+                PublisherCreateDestinationModel.AccountPagesBoardsPair.Remove(x);
+                PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.PageOrBoard);
+            });
 
                 // Get the selected pairs
                 var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
@@ -537,6 +580,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 case "MenuSelectNone":
                     IsAllDestinationSelected = false;
+                    SelectAllDestination(false);
                     break;
 
                 case "MenuSelectAll":
@@ -549,8 +593,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     else
                     {
                         if (IsAllDestinationSelected)
+                        {
                             _isUncheckedFromList = true;
-                        IsAllDestinationSelected = false;
+                            IsAllDestinationSelected = false;
+                        }
                     }
                     break;
             }
@@ -580,11 +626,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             switch (moduleName)
             {
                 case "OwnProfile":
+                    var IsAllselect= SelectWall == "LangKeySelectWallsProfilesAll".FromResourceDictionary();
                     PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
                     {
-                        x.PublishonOwnWall = true;
+                        x.PublishonOwnWall = IsAllselect;
+                        // x.PublishonOwnWall = true;
                         return x;
                     }).ToList();
+                    if (IsAllselect)
+                        SelectWall = "LangKeyDeSelectWallsProfilesAll".FromResourceDictionary();
+                    else
+                        SelectWall = "LangKeySelectWallsProfilesAll".FromResourceDictionary();
                     break;
                 case "Groups":
                     LoadAllAccountsGroup();
@@ -601,6 +653,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void LoadAllAccountsGroup()
         {
+
             var valuePairs = PublisherCreateDestinationModel.AccountGroupPair.ToList();
 
             var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
@@ -615,45 +668,60 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AlreadySelectedList = alreadySelectedGroups
                 }
             };
-
-            var dialog = new Dialog();
-
-            var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Groups");
-
-            accountDetailsSelector.btnSave.Click += (sender, events) =>
+            UpdateAllGroupsDetails(accountDetailsSelector);
+            if (SelectGroups == "LangKeySelectGroupsAll".FromResourceDictionary())
             {
-                valuePairs.ForEach(x =>
+                accountDetailsSelector.AccountDetailsSelectorViewModel.SelectAllCampaign();
+                SelectGroups = "LangKeyDeSelectGroupsAll".FromResourceDictionary();
+            }
+            else
+            {
+                accountDetailsSelector.AccountDetailsSelectorViewModel.SelectNoneCampaign();
+                SelectGroups = "LangKeySelectGroupsAll".FromResourceDictionary();
+            }
+            //var dialog = new Dialog();
+
+            //var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Groups");
+
+            //accountDetailsSelector.btnSave.Click += (sender, events) =>
+            //{
+            valuePairs.ForEach(x =>
                 {
                     PublisherCreateDestinationModel.AccountGroupPair.Remove(x);
                     PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.Group);
                 });
 
-                var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
+            var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
 
-                PublisherCreateDestinationModel.AccountGroupPair.AddRange(keyValuePairs);
+            PublisherCreateDestinationModel.AccountGroupPair.AddRange(keyValuePairs);
 
-                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.Group).ToList();
+            var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.Group).ToList();
 
-                PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
+            PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
 
-                keyValuePairs.ForEach(selectedItems =>
+            keyValuePairs.ForEach(selectedItems =>
+            {
+                alreadySelectedGroups = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == selectedItems.Key).Select(x => x.Value).ToList();
+
+                var createDestinationSelectModel = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == selectedItems.Key);
+
+                if (createDestinationSelectModel != null)
+                    createDestinationSelectModel.GroupSelectorText = $"{alreadySelectedGroups.Count}/{createDestinationSelectModel.TotalGroups}";
+            });
+            if (keyValuePairs.Count == 0)
+                PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
                 {
-                    alreadySelectedGroups = PublisherCreateDestinationModel.AccountGroupPair.Where(x => x.Key == selectedItems.Key).Select(x => x.Value).ToList();
+                    x.GroupSelectorText = $"0/{x.TotalPagesOrBoards}";
+                    return x;
+                }).ToList();
+            //    window.Close();
+            //};
 
-                    var createDestinationSelectModel = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == selectedItems.Key);
+            //accountDetailsSelector.btnCancel.Click += (sender, events) => { window.Close(); };
 
-                    if (createDestinationSelectModel != null)
-                        createDestinationSelectModel.GroupSelectorText = $"{alreadySelectedGroups.Count}/{createDestinationSelectModel.TotalGroups}";
-                });
+            //window.Show();
 
-                window.Close();
-            };
-
-            accountDetailsSelector.btnCancel.Click += (sender, events) => { window.Close(); };
-
-            window.Show();
-
-            accountDetailsSelector.UpdateUiAllData();
+            //accountDetailsSelector.UpdateUiAllData();
 
         }
 
@@ -713,44 +781,60 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AlreadySelectedList = alreadySelectedPages
                 }
             };
-
-            var dialog = new Dialog();
-
-            var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Pages/Boards");
-
-            accountDetailsSelector.btnSave.Click += (sender, events) =>
+            UpdatePagesDetails(accountDetailsSelector);
+            if (SelectPageBoard == "LangKeySelectPagesBoardsAll".FromResourceDictionary())
             {
-                valuePairs.ForEach(x =>
-                {
-                    PublisherCreateDestinationModel.AccountPagesBoardsPair.Remove(x);
-                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.PageOrBoard);
-                });
+                accountDetailsSelector.AccountDetailsSelectorViewModel.SelectAllCampaign();
+                SelectPageBoard = "LangKeyDeSelectPagesBoardsAll".FromResourceDictionary();
+            }
+            else
+            {
+                accountDetailsSelector.AccountDetailsSelectorViewModel.SelectNoneCampaign();
+                SelectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
+            }
 
-                var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
+            //var dialog = new Dialog();
 
-                PublisherCreateDestinationModel.AccountPagesBoardsPair.AddRange(keyValuePairs);
+            //var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Pages/Boards");
 
-                var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.PageOrBoard).ToList();
+            //accountDetailsSelector.btnSave.Click += (sender, events) =>
+            //{
+            valuePairs.ForEach(x =>
+            {
+                PublisherCreateDestinationModel.AccountPagesBoardsPair.Remove(x);
+                PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.Key == y.AccountId && y.DestinationType == ConstantVariable.PageOrBoard);
+            });
 
-                PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
+            var keyValuePairs = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItems().ToList();
 
-                keyValuePairs.ForEach(selectedItems =>
-                {
-                    alreadySelectedPages = PublisherCreateDestinationModel.AccountPagesBoardsPair.Where(x => x.Key == selectedItems.Key).Select(x => x.Value).ToList();
+            PublisherCreateDestinationModel.AccountPagesBoardsPair.AddRange(keyValuePairs);
 
-                    var createDestinationSelectModel = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == selectedItems.Key);
+            var destinationDetails = accountDetailsSelector.AccountDetailsSelectorViewModel.GetSelectedItemsDestinations(ConstantVariable.PageOrBoard).ToList();
 
-                    if (createDestinationSelectModel != null)
-                        createDestinationSelectModel.PagesOrBoardsSelectorText = $"{alreadySelectedPages.Count}/{createDestinationSelectModel.TotalPagesOrBoards}";
-                });
-                window.Close();
-            };
+            PublisherCreateDestinationModel.DestinationDetailsModels.AddRange(destinationDetails);
 
-            accountDetailsSelector.btnCancel.Click += (sender, events) => { window.Close(); };
+            keyValuePairs.ForEach(selectedItems =>
+            {
+                alreadySelectedPages = PublisherCreateDestinationModel.AccountPagesBoardsPair.Where(x => x.Key == selectedItems.Key).Select(x => x.Value).ToList();
 
-            window.Show();
+                var createDestinationSelectModel = PublisherCreateDestinationModel.ListSelectDestination.FirstOrDefault(x => x.AccountId == selectedItems.Key);
 
-            accountDetailsSelector.UpdateUiAllData();
+                createDestinationSelectModel.PagesOrBoardsSelectorText = $"{alreadySelectedPages.Count}/{createDestinationSelectModel.TotalPagesOrBoards}";
+            });
+            if (keyValuePairs.Count == 0)
+                PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
+            {
+                x.PagesOrBoardsSelectorText = $"0/{x.TotalPagesOrBoards}";
+                return x;
+            }).ToList();
+            //    window.Close();
+            //};
+
+            //accountDetailsSelector.btnCancel.Click += (sender, events) => { window.Close(); };
+
+            //window.Show();
+
+            //accountDetailsSelector.UpdateUiAllData();
         }
 
         private void UpdatePagesDetails(AccountDetailsSelector accountDetailsSelector)
@@ -1088,6 +1172,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void ClearExecute(object sender)
         {
             ClearCurrentDestination();
+            SelectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
+            SelectGroups = "LangKeySelectGroupsAll".FromResourceDictionary();
+            SelectWall = "LangKeySelectWallsProfilesAll".FromResourceDictionary();
         }
 
         public void ClearCurrentDestination()
@@ -1337,7 +1424,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         }
 
-        #endregion   
+        #endregion
 
     }
 }

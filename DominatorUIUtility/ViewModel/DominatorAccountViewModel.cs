@@ -483,9 +483,9 @@ namespace DominatorUIUtility.ViewModel
                             AlternateEmail = alternetEmail,
                             Banned = banned
                         };
-                        
+
                         #endregion
-                        
+
                         if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                         {
 
@@ -1676,6 +1676,7 @@ namespace DominatorUIUtility.ViewModel
             if (lstcred.Count != 0)
             {
                 ToasterNotification.ShowInfomation("Credentials imported successfully.\nStart updating...");
+                var isAnyAccountUpdated = false;
                 foreach (var cred in lstcred)
                 {
                     var data = cred.Split('\t');
@@ -1693,11 +1694,17 @@ namespace DominatorUIUtility.ViewModel
                         accountToUpdate.MailCredentials.Port = int.Parse(data[5]);
                         accountToUpdate.IsUseSSL = bool.Parse(data[6]);
                         accountToUpdate.IsAutoVerifyByEmail = true;
+                        isAnyAccountUpdated = true;
                     }
 
                 }
-                _accountsFileManager.UpdateAccounts(LstDominatorAccountModel);
-                ToasterNotification.ShowSuccess("Credentials successfully updated.");
+                if (isAnyAccountUpdated)
+                {
+                    _accountsFileManager.UpdateAccounts(LstDominatorAccountModel);
+                    ToasterNotification.ShowSuccess("Credentials successfully updated.");
+                }
+                else
+                    ToasterNotification.ShowInfomation("No account found to update credentials or format is wrong.");
             }
         }
 
