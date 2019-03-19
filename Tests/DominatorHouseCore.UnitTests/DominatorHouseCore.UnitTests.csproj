@@ -62,6 +62,7 @@
       <HintPath>..\..\packages\NSubstitute.3.1.0\lib\net46\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -75,6 +76,7 @@
       <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -123,6 +125,9 @@
     <Compile Include="Tests\Converters\IntToVisibilityConverterTest.cs" />
     <Compile Include="Tests\Converters\IsPositiveValueConverterTest.cs" />
     <Compile Include="Tests\Converters\ListCountBoolConverterTest.cs" />
+    <Compile Include="Tests\Converters\ListCountVisiblityConverterTest.cs" />
+    <Compile Include="Tests\Converters\ListViewItemIndexConverterTest.cs" />
+    <Compile Include="Tests\Converters\MessegeTypeToHorizontalAlignmentConverterTest.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToColorBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />

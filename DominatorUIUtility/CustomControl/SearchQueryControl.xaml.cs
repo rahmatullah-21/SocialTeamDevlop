@@ -40,7 +40,7 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyScrapAllLikes".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyNewsFeedPosts".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyOwnFriends".FromResourceDictionary());
-            LstNonQueryType.Add("LangKeyTaggedPost".FromResourceDictionary());
+          
             DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
             DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
 

@@ -1119,7 +1119,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 //collect the selected account
-                var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).ToList();
+                var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)).ToList();
 
                 if (selectAccounts.Count == 0)
                 {

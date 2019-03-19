@@ -1,32 +1,32 @@
 ﻿using DominatorHouseCore.Converters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Globalization;
-using System.Collections.Generic;
 using System;
-
+using System.Collections.Generic;
+using System.Globalization;
+using System.Windows;
 namespace DominatorHouseCore.UnitTests.Tests.Converters
 {
     [TestClass]
-    public class ListCountBoolConverterTest
+    public class ListCountVisiblityConverterTest
     {
-        ListCountBoolConverter _sut;
+        ListCountVisiblityConverter _sut;
         object input;
 
         [TestInitialize]
         public void SetUp()
         {
-            _sut = new ListCountBoolConverter();
+            _sut = new ListCountVisiblityConverter();
         }
         [TestMethod]
-        public void should_return_true_if_input_contains_enumerable_data()
+        public void should_return_Visible_if_input_contains_enumerable_data()
         {
             input = new List<string>
             {
                "Kumar","Harsh"
             };
-            var expected = true;
-            var result = _sut.Convert(input, input.GetType(), null, CultureInfo.CurrentUICulture);
+            var expected = Visibility.Visible;
+            var result = _sut.Convert(input, null, null, CultureInfo.CurrentUICulture);
             result.Should().Be(expected);
         }
         [TestMethod]
@@ -34,13 +34,13 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
         public void should_throw_InvalidCastException_if_input_contains_non_enumerable_data()
         {
             input = 5;
-            var result = _sut.Convert(input, input.GetType(), null, CultureInfo.CurrentUICulture);
+            var result = _sut.Convert(input, null, null, CultureInfo.CurrentUICulture);
         }
         [TestMethod]
-        public void should_return_true_if_input_is_null()
+        public void should_return_Collapsed_if_input_is_null()
         {
             input = null;
-            var expected = false;
+            var expected = Visibility.Collapsed;
             var result = _sut.Convert(input, null, null, CultureInfo.CurrentUICulture);
             result.Should().Be(expected);
         }

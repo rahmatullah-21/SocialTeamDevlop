@@ -129,7 +129,6 @@ namespace DominatorUIUtility.CustomControl
             }
             catch
             {
-                ObjAccountViewModel.AccountCollectionView.Filter = null;
             }
         }
 
