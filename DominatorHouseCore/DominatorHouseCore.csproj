@@ -300,6 +300,7 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\LikedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\MarketplaceDetails.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnGroups.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateBlacklist.cs" />

@@ -306,6 +306,10 @@ namespace DominatorUIUtility.ViewModel
 
                         win.ShowDialog();
                     }
+                    catch (AggregateException ex)
+                    {
+                        ex.DebugLog();
+                    }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
@@ -393,6 +397,10 @@ namespace DominatorUIUtility.ViewModel
                 {
                     ActivePauseCampaign(selectedCampaign, isToggleSwitchSelected);
                 });
+            }
+            catch (AggregateException ex)
+            {
+                ex.DebugLog();
             }
             catch (Exception ex)
             {
@@ -670,30 +678,25 @@ namespace DominatorUIUtility.ViewModel
 
                 #endregion
                 // Run/Stop job process in campaigns
-                try
-                {
-                    if (isToggleSwitchSelected)
-                    {
-                        LstCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
-                        GlobusLogHelper.log.Info(Log.ActivatedCampaign, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
-                    }
-                    else
-                    {
-                        LstCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Paused";
-                        GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
-                    }
 
-                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                    campaignFileManager.UpdateCampaigns(LstCampaignDetails.ToList());
-                }
-                catch (AggregateException ex)
+                if (isToggleSwitchSelected)
                 {
-                    ex.DebugLog();
+                    LstCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
+                    GlobusLogHelper.log.Info(Log.ActivatedCampaign, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
                 }
-                catch (Exception ex)
+                else
                 {
-                    ex.DebugLog();
+                    LstCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Paused";
+                    GlobusLogHelper.log.Info(Log.CampaignPaused, SocinatorInitialize.ActiveSocialNetwork, selectedCampaign.CampaignName);
                 }
+
+                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                campaignFileManager.UpdateCampaigns(LstCampaignDetails.ToList());
+
+            }
+            catch (AggregateException ex)
+            {
+                ex.DebugLog();
             }
             catch (Exception ex)
             {

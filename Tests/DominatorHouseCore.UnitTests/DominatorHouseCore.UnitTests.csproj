@@ -122,6 +122,7 @@
     <Compile Include="Tests\Converters\IntToDateTimeConverterTest.cs" />
     <Compile Include="Tests\Converters\IntToVisibilityConverterTest.cs" />
     <Compile Include="Tests\Converters\IsPositiveValueConverterTest.cs" />
+    <Compile Include="Tests\Converters\ListCountBoolConverterTest.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToColorBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />
