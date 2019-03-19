@@ -115,6 +115,13 @@
     <Compile Include="Tests\Converters\BooleanToVisibilityConverterTest.cs" />
     <Compile Include="Tests\Converters\BooleanToWidthConverterTest.cs" />
     <Compile Include="Tests\Converters\EnumDescriptionConverterTest.cs" />
+    <Compile Include="Tests\Converters\EpochToDateTimeConverterTest.cs" />
+    <Compile Include="Tests\Converters\FeatureVisibilityConverterTests.cs" />
+    <Compile Include="Tests\Converters\ImageConverterTest.cs" />
+    <Compile Include="Tests\Converters\IndexToRowNoConverterTest.cs" />
+    <Compile Include="Tests\Converters\IntToDateTimeConverterTest.cs" />
+    <Compile Include="Tests\Converters\IntToVisibilityConverterTest.cs" />
+    <Compile Include="Tests\Converters\IsPositiveValueConverterTest.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToColorBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />

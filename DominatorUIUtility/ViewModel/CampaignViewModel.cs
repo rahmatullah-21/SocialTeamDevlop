@@ -362,7 +362,7 @@ namespace DominatorUIUtility.ViewModel
 
                     filename = $"{exportPath}\\{filename}.csv";
                     SocinatorInitialize.GetSocialLibrary(campaign.SocialNetworks).GetNetworkCoreFactory().ReportFactory.ExportReports(activityType, filename, ReportType.Campaign);
-                    
+
                 }
 
             }
@@ -596,57 +596,79 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-
+        public CancellationTokenSource CancellationSource = new CancellationTokenSource();
         private void ActivePauseCampaign(CampaignDetails selectedCampaign, bool isToggleSwitchSelected)
         {
             try
             {
+                CancelPriviousTask();
                 ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
                 var addedAccountDetails = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().BySocialNetwork(selectedCampaign.SocialNetworks);
                 var lstAccountDetails = _accountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 
-                lstAccountDetails.ForEach(account =>
+                Task.Factory.StartNew(() =>
                 {
-                    try
+                    lstAccountDetails.ForEach(account =>
                     {
-                        if (!addedAccountDetails.Any(x => x.AccountId == account.AccountId))
+                        try
                         {
-                            return;
+                            if (!addedAccountDetails.Any(x => x.AccountId == account.AccountId))
+                                return;
+
+                            UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);
+                            Thread.Sleep(5);
                         }
-
-                        updatingAccountsBinFiles = updatingAccountsBinFiles.Enqueue(() =>
-                         {
-                             UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);
-                         });
-
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
-                });
-
-                try
-                {
-                    new Thread(() =>
-                    {
-                        while (!updatingAccountsBinFiles.IsEmpty)
+                        catch (Exception ex)
                         {
-                            Action act;
-                            updatingAccountsBinFiles = updatingAccountsBinFiles.Dequeue(out act);
-
-                            act();
+                            ex.DebugLog();
                         }
-                    })
-                    { IsBackground = true }.Start();
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+                    });
 
+                }, CancellationSource.Token);
+                #region Old code
+                //lstAccountDetails.ForEach(account =>
+                //{
+                //    try
+                //    {
+                //        if (!addedAccountDetails.Any(x => x.AccountId == account.AccountId))
+                //        {
+                //            return;
+                //        }
+
+                //        updatingAccountsBinFiles = updatingAccountsBinFiles.Enqueue(() =>
+                //         {
+                //             UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);
+                //         });
+
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        ex.DebugLog();
+                //    }
+                //});
+
+                //try
+                //{
+                //    new Thread(() =>
+                //    {
+                //        while (!updatingAccountsBinFiles.IsEmpty)
+                //        {
+                //            Action act;
+                //            updatingAccountsBinFiles = updatingAccountsBinFiles.Dequeue(out act);
+
+                //            act();
+                //        }
+                //    })
+                //    { IsBackground = true }.Start();
+                //}
+                //catch (Exception ex)
+                //{
+                //    ex.DebugLog();
+                //}
+
+                #endregion
                 // Run/Stop job process in campaigns
                 try
                 {
@@ -664,6 +686,10 @@ namespace DominatorUIUtility.ViewModel
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     campaignFileManager.UpdateCampaigns(LstCampaignDetails.ToList());
                 }
+                catch (AggregateException ex)
+                {
+                    ex.DebugLog();
+                }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
@@ -673,6 +699,12 @@ namespace DominatorUIUtility.ViewModel
             {
                 ex.DebugLog();
             }
+        }
+        private void CancelPriviousTask()
+        {
+            CancellationSource.Cancel();
+            CancellationSource.Dispose();
+            CancellationSource = new CancellationTokenSource();
         }
         private static void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
         {

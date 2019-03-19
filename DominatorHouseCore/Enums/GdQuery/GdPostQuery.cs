@@ -33,6 +33,8 @@ namespace DominatorHouseCore.Enums.GdQuery
         [Description("LangKeySocinatorPublisherCampaign")]
         SocinatorPublisherCampaign,
         [Description("LangKeyScrapAllLikes")]
-        ScrapAllLikedPost
+        ScrapAllLikedPost,
+        [Description("LangKeyTaggedPost")]
+        TaggedPost,
     }
 }

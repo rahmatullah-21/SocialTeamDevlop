@@ -1680,7 +1680,8 @@ namespace DominatorUIUtility.ViewModel
                 foreach (var cred in lstcred)
                 {
                     var data = cred.Split('\t');
-
+                    if (data.ToList().Any(x => string.IsNullOrEmpty(x)))
+                        continue;
                     if (data.Length < 7)
                         continue;
 

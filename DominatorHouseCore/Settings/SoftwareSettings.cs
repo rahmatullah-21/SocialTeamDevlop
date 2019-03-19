@@ -150,22 +150,24 @@ namespace DominatorHouseCore.Settings
 
                 var accountsToUpdate = accounts.Where(x =>
                     DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
-
-                int count = 0;
-                Task.Factory.StartNew(() =>
+                if (accountsToUpdate.Count != 0)
                 {
-                    accountsToUpdate.ForEach(account =>
-                    {
-                        UpdateAccount(account, cancellationtokenSource);
-                        if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
+                    Task.Factory.StartNew(() =>
                         {
-                            Thread.Sleep(20000);
-                            count = 0;
-                        }
-                        Thread.Sleep(2);
-                    });
+                            int count = 0;
+                            accountsToUpdate.ForEach(account =>
+                            {
+                                UpdateAccount(account, cancellationtokenSource);
+                                if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
+                                {
+                                    Thread.Sleep(20000);
+                                    count = 0;
+                                }
+                                Thread.Sleep(2);
+                            });
 
-                }, cancellationtokenSource.Token);
+                        }, cancellationtokenSource.Token);
+                }
             }, x => x.ToRunNow().AndEvery(accountSynchronizationHours).Hours());
         }
         #region Old AutoSchedule code
@@ -255,19 +257,15 @@ namespace DominatorHouseCore.Settings
         #endregion
         public void UpdateAccount(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource)
         {
-            //if (!SocinatorInitialize.GetRegisterNetwork().Contains(account.AccountBaseModel.AccountNetwork))
-            //    return;
-
-            var accountFactory = SocinatorInitialize
-                .GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                .GetNetworkCoreFactory().AccountUpdateFactory;
+            var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+                                                    .GetNetworkCoreFactory().AccountUpdateFactory;
 
             var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
 
             if (asyncAccount == null)
                 return;
 
-            var updateAccount = new Task(async () =>
+            Task.Factory.StartNew(async () =>
             {
                 try
                 {
@@ -296,7 +294,6 @@ namespace DominatorHouseCore.Settings
                 }
             }, account.Token);
 
-            updateAccount.Start();
         }
 
         #endregion

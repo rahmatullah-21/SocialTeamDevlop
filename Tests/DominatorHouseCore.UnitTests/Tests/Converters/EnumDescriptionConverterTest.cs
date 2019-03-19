@@ -1,13 +1,8 @@
-﻿
-using Dominator.Tests.Utils;
-using DominatorHouseCore.AppResources;
-using DominatorHouseCore.Converters;
+﻿using DominatorHouseCore.Converters;
 using DominatorHouseCore.Enums;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 using System.Globalization;
-using Unity;
 
 namespace DominatorHouseCore.UnitTests.Tests.Converters
 {

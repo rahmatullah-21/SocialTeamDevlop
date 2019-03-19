@@ -56,26 +56,34 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// <summary>
         /// Contains LikesCount On the Post being interacted
         /// </summary>
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
+        [Column(Order = 9)]
         public string Likes { get; set; }
 
         /// <summary>
         /// Contains CommentsCount On the Post being interacted
         /// </summary>
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
+        [Column(Order = 10)]
         public string Comments { get; set; }
 
         /// <summary>
         /// TimeStamp when interacted with the Post
         /// </summary>
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
+        [Column(Order = 11)]
         public int InteractionTimeStamp { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
+        [Column(Order = 12)]
         public string CommentId { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        [Column(Order = 13)]
         public string InteractedUserName { get; set; }
 
+        [Column(Order = 14)]
+        public string NotesCount { get; set; }
+        [Column(Order = 15)]
+        public string LikeCount { get; set; }
+        [Column(Order = 16)]
+        public string ReblogCount { get; set; }
+        [Column(Order = 17)]
+        public string PostUrl { get; set; }
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
