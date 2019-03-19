@@ -1,9 +1,7 @@
 ﻿using DominatorHouseCore.Converters;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Globalization;
-using System.Windows;
 
 namespace DominatorHouseCore.UnitTests.Tests.Converters
 {
