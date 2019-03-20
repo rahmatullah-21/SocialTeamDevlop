@@ -1,3 +1,40 @@
+Version[1.0.0.44],[20th-March-19]
+New Features:
+	Instagram:-
+		GrowFollowers => Follow Back. Added feature to accept requests for private accounts.
+		InstaScrape => Post Scraper. Added a query type to scrape tagged posts.
+	Reddit:-
+		Accounts => Added feature to update bio.
+	LinkedIn:-
+		Scraper => Company Scraper => Added feature to scrape company logo and established date.
+Fixed:-
+	Social:-
+		SocioPublisher => Issue fixed with posting images as stories for Instagram.
+		SocioPublisher => Issue fixed with deleting posted tweet after certain hours for Twitter.
+	Instagram:-
+		GrowFollowers => Follower. Issue fixed with following private users.
+		GrowFollowers => Unfollower. Issue fixed not unfollowing users.
+		InstaPoster => Reposter. Issue fixed with not tagging users.
+	Facebook:-
+		Fixed issue with Tag friends in a post.
+		Fixed issue with download scrapper to scrap albums.
+		Fixed issue with send greetings to friends.
+		Fixed issue with showing multiple accounts in account activity.
+	LinkedIn:-
+		Messenger => Broadcast Message => Fixed issue with blacklist users.
+		Salesnavigator => User scraper => Fixed issue with scrape for certain search URLs.
+		Salesnavigator => Company scraper => Fixed issue with company scraper.
+	Pinterest:-
+		Grow follower => Fixed issue in Pin filter and After follow action.
+		Repin => Query type custom users. Fixed issue in Skip group black List.
+		Pintry/Pincommenter => Try => Fixed issue with after follow action.
+	Twitter:-
+		Campaign => Issue fixed with pausing and scheduling activities.
+	Reddit:-
+		Voter => Fixed issue with Upvote using filters.
+		Grow follower => Unfollow. Fixed issue with skipping Group white list users.
+		Subscribe Channels => Fixed issue in subscribing using Filter.
+
 Version[1.0.0.43],[13th-March-19]
 New Features:-
 	Facebook:- 

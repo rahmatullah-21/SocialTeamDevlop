@@ -294,6 +294,8 @@ namespace DominatorHouseCore.Utility
               "http://{0}/{1}";
 
         public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
+        public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
+        public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
     }
 
     public static class FileDirPath

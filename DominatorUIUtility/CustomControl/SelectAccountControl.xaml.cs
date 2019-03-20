@@ -127,9 +127,8 @@ namespace DominatorUIUtility.CustomControl
                         break;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                ex.DebugLog();
             }
         }
 

@@ -92,5 +92,23 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string Status { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string NotesCount { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        public string LikeCount { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string ReblogCount { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string PostUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string ProfileUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string Type { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public string CommentText { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        public string ReblogText { get; set; }
     }
 }

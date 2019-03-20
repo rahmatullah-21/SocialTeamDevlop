@@ -295,16 +295,19 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\Friends.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedComments.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedMarketPlaces.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\LikedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\MarketplaceDetails.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnGroups.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedComments.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedMarketPlaces.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
@@ -500,7 +503,6 @@
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
     <Compile Include="FileManagers\PostlistFileManager.cs" />
     <Compile Include="FileManagers\PostListSettingsFileManager.cs" />
-    <Compile Include="FileManagers\PublisherFileManager.cs" />
     <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
     <Compile Include="FileManagers\TemplatesCacheService.cs" />
@@ -778,7 +780,6 @@
     <Compile Include="Interfaces\ISearchQueryControl.cs" />
     <Compile Include="Settings\Queries.cs" />
     <Compile Include="Models\QueryInfo.cs" />
-    <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Models\UserFilterModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
     <Compile Include="Utility\Constants.cs" />

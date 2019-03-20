@@ -40,7 +40,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         [Index("Pk_ActivityType_ContentId", 2, IsUnique = true)]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string ContentId { get; set; }
-        
+
         /// <summary>
         /// Contains PostTitle of the Post being interacted
         /// </summary>
@@ -76,6 +76,27 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public string InteractedUserName { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        public string NotesCount { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        public string LikeCount { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string ReblogCount { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        public string PostUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string ProfileUrl { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string Type { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string CommentText { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string ReblogText { get; set; }
+        [Column(Order = 22)]
+        public string AccountName { get; set; }
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
