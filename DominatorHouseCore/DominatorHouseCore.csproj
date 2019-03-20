@@ -503,7 +503,6 @@
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
     <Compile Include="FileManagers\PostlistFileManager.cs" />
     <Compile Include="FileManagers\PostListSettingsFileManager.cs" />
-    <Compile Include="FileManagers\PublisherFileManager.cs" />
     <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
     <Compile Include="FileManagers\TemplatesCacheService.cs" />

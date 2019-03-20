@@ -168,7 +168,7 @@ namespace DominatorHouseCore.Settings
 
                         }, cancellationtokenSource.Token);
                 }
-            }, x => x.ToRunNow().AndEvery(accountSynchronizationHours).Hours());
+            }, x => x.ToRunNow().AndEvery(accountSynchronizationHours).Hours().At(5));
         }
         #region Old AutoSchedule code
 

@@ -2,49 +2,42 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
-using System.Windows.Controls;
 
 namespace DominatorHouseCore.UnitTests.Tests.Converters
 {
     [TestClass]
-    public class ListViewItemIndexConverterTest
+    public class PublisherSyncStringToBooleanConverterTest
     {
-        ListViewItemIndexConverter _sut;
+        PublisherSyncStringToBooleanConverter _sut;
         object value;
 
         [TestInitialize]
         public void SetUp()
         {
-            _sut = new ListViewItemIndexConverter();
+            _sut = new PublisherSyncStringToBooleanConverter();
         }
         [TestMethod]
-        public void should_return_zero_if_value_is_ListViewItem()
+        public void should_return_true_if_value_is_Click_to_Sync()
         {
-            var listview = new ListView();
-            value = new ListViewItem();
-            listview.Items.Add(value);
-
-            var expacted = "0";
+            value = "Click to Sync";
+            var expacted = true;
             var result = _sut.Convert(value, null, null, CultureInfo.CurrentUICulture);
-
             result.Should().Be(expacted);
         }
         [TestMethod]
-        public void should_return_one_if_value_is_not_ListViewItem()
+        public void should_return_false_if_value_is_other_than_Click_to_Sync()
         {
-            value = "listviewitem";
-            var expacted = "1";
+            value = "Welcome to Socinator";
+            var expacted = false;
             var result = _sut.Convert(value, null, null, CultureInfo.CurrentUICulture);
-
             result.Should().Be(expacted);
         }
         [TestMethod]
-        public void should_return_one_if_value_is_null()
+        public void should_return_false_if_value_is_null()
         {
             value = null;
-            var expacted = "1";
+            var expacted = false;
             var result = _sut.Convert(value, null, null, CultureInfo.CurrentUICulture);
-
             result.Should().Be(expacted);
         }
     }

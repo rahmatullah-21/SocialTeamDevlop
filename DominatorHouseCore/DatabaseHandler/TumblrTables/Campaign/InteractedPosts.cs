@@ -100,5 +100,15 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
         public string ReblogCount { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string PostUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string ProfileUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string Type { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public string CommentText { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        public string ReblogText { get; set; }
     }
 }

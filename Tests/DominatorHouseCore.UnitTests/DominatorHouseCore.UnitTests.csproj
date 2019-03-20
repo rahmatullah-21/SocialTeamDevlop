@@ -108,6 +108,7 @@
     <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Unity.5.8.11\lib\net46\Unity.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\Converters\AccountsFilterConverterTests.cs" />
@@ -128,6 +129,10 @@
     <Compile Include="Tests\Converters\ListCountVisiblityConverterTest.cs" />
     <Compile Include="Tests\Converters\ListViewItemIndexConverterTest.cs" />
     <Compile Include="Tests\Converters\MessegeTypeToHorizontalAlignmentConverterTest.cs" />
+    <Compile Include="Tests\Converters\PercentageToColorConverterTest.cs" />
+    <Compile Include="Tests\Converters\PositiveValueConverterTest.cs" />
+    <Compile Include="Tests\Converters\ProxyManagerSourceConverterTest.cs" />
+    <Compile Include="Tests\Converters\PublisherSyncStringToBooleanConverterTest.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToColorBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />

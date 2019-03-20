@@ -40,7 +40,7 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         [Index("Pk_ActivityType_ContentId", 2, IsUnique = true)]
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
         public string ContentId { get; set; }
-        
+
         /// <summary>
         /// Contains PostTitle of the Post being interacted
         /// </summary>
@@ -56,34 +56,47 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         /// <summary>
         /// Contains LikesCount On the Post being interacted
         /// </summary>
-        [Column(Order = 9)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string Likes { get; set; }
 
         /// <summary>
         /// Contains CommentsCount On the Post being interacted
         /// </summary>
-        [Column(Order = 10)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string Comments { get; set; }
 
         /// <summary>
         /// TimeStamp when interacted with the Post
         /// </summary>
-        [Column(Order = 11)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public int InteractionTimeStamp { get; set; }
 
-        [Column(Order = 12)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string CommentId { get; set; }
-        [Column(Order = 13)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public string InteractedUserName { get; set; }
 
-        [Column(Order = 14)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public string NotesCount { get; set; }
-        [Column(Order = 15)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string LikeCount { get; set; }
-        [Column(Order = 16)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public string ReblogCount { get; set; }
-        [Column(Order = 17)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string PostUrl { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string ProfileUrl { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string Type { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string CommentText { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string ReblogText { get; set; }
+        [Column(Order = 22)]
+        public string AccountName { get; set; }
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
