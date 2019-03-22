@@ -8,6 +8,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 
@@ -165,13 +166,18 @@ namespace DominatorHouseCore.Utility
                 streamWriter.WriteLine(csvHeader);
             try
             {
-                foreach (var item in csvData)
+                Task.Factory.StartNew(async () =>
                 {
-                    using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
+                    ToasterNotification.ShowWarning($"Exporting started.Please don't open file untill exporting completed.");
+                    foreach (var item in csvData)
                     {
-                        streamWriter.WriteLine(item);
+                        using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
+                        {
+                            await streamWriter.WriteLineAsync(item);
+                        }
                     }
-                }
+                    ToasterNotification.ShowSuccess($"Sucessfully Exported to {fileName} ");
+                });
             }
             catch (Exception ex)
             {

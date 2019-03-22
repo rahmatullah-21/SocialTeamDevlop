@@ -92,28 +92,7 @@ namespace EmbeddedBrowser
                 
                 var cefInitialCookies =await Browser.RequestContext.GetDefaultCookieManager(callBack)
                     .VisitAllCookiesAsync();
-
-                if (cefInitialCookies.Count > accountCookie.Count)
-                {
-                    if (accountCookie.Count == 0 && DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                        Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
-                    return;
-                }
-
-                if(cefInitialCookies.Count >= accountCookie.Count)
-                {
-                    if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                    {
-                        CustomUse = true;
-                        if (string.IsNullOrEmpty(TargetUrl))
-                            TargetUrl = SocialHomeUrls();
-                        var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
-                        Browser.Address = url;
-                        UrlBar.Text = url;
-                    }
-                    return;
-                }
-
+                
                 if(cefInitialCookies.Count!=0)
                 Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
 
@@ -383,6 +362,7 @@ namespace EmbeddedBrowser
             EnterValueById,
             EnterValueByName,
             GetValueByName,
+            GetValueByTagName,
             GetLengthByClass
         }
 
@@ -472,6 +452,8 @@ namespace EmbeddedBrowser
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
 
+            if (Browser.IsDisposed) return;
+
             for (var i = 0; i < n; i++)
             {
                 Thread.Sleep(delay);
@@ -479,6 +461,31 @@ namespace EmbeddedBrowser
             }
             if (delayAtLast > 0)
                 Thread.Sleep(TimeSpan.FromSeconds(delayAtLast));
+        }
+
+        /// <summary>
+        /// Get the Mouse to click on a specific location(xLoc,yLoc)
+        /// </summary>
+        /// <param name="xLoc">x-cordinate location</param>
+        /// <param name="yLoc">y-cordinate location</param>
+        /// <param name="mouseButton">Mouse Button Type</param>
+        /// <param name="delayBefore">Delay before click</param>
+        /// <param name="delayAfter">Delay after click</param>
+        private void MouseClick(int xLoc, int yLoc, MouseButtonType mouseButton = MouseButtonType.Left, double delayBefore = 0, double delayAfter = 0)
+        {
+            if (delayBefore > 0)
+                Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return;
+
+            // mouseUp(4th parameter) = false , MouseButton to be pressed
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, false, 1, CefEventFlags.None);
+            Thread.Sleep(100);
+            // mouseUp(4th parameter) = true , MouseButton to be released
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
+            
+            if (delayAfter > 0)
+                Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
         }
 
         /// <summary>
@@ -497,6 +504,8 @@ namespace EmbeddedBrowser
                 Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
 
             var ke = new KeyEvent {FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char};
+
+            if (Browser.IsDisposed) return;
 
             charString.ToList().ForEach(x =>
             {
@@ -1241,13 +1250,16 @@ namespace EmbeddedBrowser
         {
             lock (_cefLock)
             {
+                // Get Current PageSource
+                html = Browser.GetSourceAsync().Result;
+
                 if (html.Contains("Phone number, username, or email"))
                 {
-                    // Press Tab
+                    // click on browser's location(325,329) to get focus on cef browser
+                    MouseClick(325, 329, delayBefore: 0.5, delayAfter: 0.5);
+                    
+                    // Press Tab to get focus on Username textBox
                     PressAnyKey(winKeyCode: 9);
-
-                    // Click over username textbox
-                    BrowserAct(ActType.ClickByName, "username", delayAfter: 1);
 
                     // Enter username
                     EnterChars(" " + DominatorAccountModel.AccountBaseModel.UserName,0.15, delayAtLast: 1);

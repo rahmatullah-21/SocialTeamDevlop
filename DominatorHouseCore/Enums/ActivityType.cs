@@ -35,7 +35,7 @@ namespace DominatorHouseCore.Enums
         //[Description("Facebook,Twitter,Instagram")]
         //Message = 10,
 
-        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit")]
+        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit,Tumblr")]
         UserScraper = 11,
 
         [Description("Twitter")]
@@ -89,7 +89,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         FanpageScraper = 28,
 
-        [Description("Facebook,Gplus,Instagram,Reddit")]
+        [Description("Facebook,Gplus,Instagram,Reddit,Tumblr")]
         CommentScraper = 29,
 
         [Description("Facebook,Gplus,Youtube,Instagram,Tumblr")]

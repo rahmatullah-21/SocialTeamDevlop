@@ -16,7 +16,7 @@ namespace DominatorHouseCore.Converters
                 int index = listView.ItemContainerGenerator.IndexFromContainer(item) + 1;
                 return index.ToString();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "1";
             }

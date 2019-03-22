@@ -74,6 +74,7 @@ namespace DominatorUIUtility.CustomControl
         private void CreateOrUpdateCampaign(object sender)
         {
             var control = sender as FooterControl;
+
             if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
@@ -327,7 +328,15 @@ namespace DominatorUIUtility.CustomControl
         public virtual void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType) { }
 
         protected virtual void SetModuleValues(bool isToggleButtonActive, TemplateModel templateModel) { }
-
+        bool ValidateCampaignName()
+        {
+            if (string.IsNullOrEmpty(CampaignName))
+            {
+                Dialog.ShowDialog("Error", "Campaign name should not be empty.Please type name for Campaign");
+                return true;
+            }
+            return false;
+        }
         protected virtual bool ValidateCampaign()
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
@@ -346,7 +355,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one time range when to run and stop the activity.");
+                Dialog.ShowDialog("Error", "Please add at least one time range when to run and stop the activity.");
                 return false;
             }
             return true;
@@ -400,6 +409,9 @@ namespace DominatorUIUtility.CustomControl
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
+                if (ValidateCampaignName())
+                    return;
+
                 if (!ValidateCampaign())
                     return;
 
@@ -737,6 +749,8 @@ namespace DominatorUIUtility.CustomControl
 
         protected void UpdateCampaign()
         {
+            if (ValidateCampaignName())
+                return;
 
             if (!ValidateCampaign())
                 return;

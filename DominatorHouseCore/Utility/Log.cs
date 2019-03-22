@@ -63,7 +63,7 @@
         /// </summary>
         public static string ActivityFailed { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyFailedTo".FromResourceDictionary() + " {2} " + "LangKeyWithError".FromResourceDictionary() + " {3}\t" + CodeConstants.ActivityFailed;
 
-        public static string ImportFailed { get; set; } = "{0}\t {1}\t Import \t " + "LangKeyFailedBecauseOf".FromResourceDictionary() + " {3} " + "LangKeyIsAreNotCorrect".FromResourceDictionary() + "\t" + CodeConstants.ImportFailed;
+        public static string ImportFailed { get; set; } = "{0}\t {1}\t Import \t " + "LangKeyFailedBecauseOf".FromResourceDictionary() + " {2} " + "LangKeyIsAreNotCorrect".FromResourceDictionary() + "\t" + CodeConstants.ImportFailed;
 
         /// <summary>
         /// 0 = Account's SocialNetwork

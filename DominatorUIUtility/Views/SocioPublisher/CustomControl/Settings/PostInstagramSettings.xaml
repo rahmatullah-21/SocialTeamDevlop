@@ -29,13 +29,15 @@
                                  IsChecked="{Binding IsGeoLocationName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
                     <RadioButton Name="RadioButtonForLocationId" Margin="10,2" Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationId}"   
                                  IsChecked="{Binding IsGeoLocationId,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
-                    <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="15,2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                    <TextBox VerticalAlignment="Center" Text="{Binding GeoLocationList}" AcceptsReturn="True"
+                             IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="15,2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
                 </StackPanel>
             </StackPanel>
             
             <StackPanel Orientation="Vertical">
                 <CheckBox Margin="2" IsChecked="{Binding IsTagUser}" Content="{DynamicResource LangKeyTagUsers}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding TagUserList}" IsEnabled="{Binding IsTagUser}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                <TextBox VerticalAlignment="Center" Text="{Binding TagUserList}" IsEnabled="{Binding IsTagUser}" AcceptsReturn="True"
+                         HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
             
         </StackPanel>

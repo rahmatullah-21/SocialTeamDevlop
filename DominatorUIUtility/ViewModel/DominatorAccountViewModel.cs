@@ -483,9 +483,9 @@ namespace DominatorUIUtility.ViewModel
                             AlternateEmail = alternetEmail,
                             Banned = banned
                         };
-                        
+
                         #endregion
-                        
+
                         if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                         {
 
@@ -1119,7 +1119,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 //collect the selected account
-                var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
+                var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)).ToList();
 
                 if (selectAccounts.Count == 0)
                 {
@@ -1214,15 +1214,12 @@ namespace DominatorUIUtility.ViewModel
 
         private void ExportExecute()
         {
-
-            var selectedAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList();
+            var selectedAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).ToList();
             if (selectedAccounts.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "Please select atleast one account !!");
+                Dialog.ShowDialog("Alert", "Please select atleast one account !!");
                 return;
             }
-
 
             var exportPath = FileUtilities.GetExportPath();
 
@@ -1231,7 +1228,7 @@ namespace DominatorUIUtility.ViewModel
 
             const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned";
 
-            var filename = $"{exportPath}\\Accounts {ConstantVariable.DateasFileName}.csv";
+            var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
 
             if (!File.Exists(filename))
             {
@@ -1676,10 +1673,12 @@ namespace DominatorUIUtility.ViewModel
             if (lstcred.Count != 0)
             {
                 ToasterNotification.ShowInfomation("Credentials imported successfully.\nStart updating...");
+                var isAnyAccountUpdated = false;
                 foreach (var cred in lstcred)
                 {
                     var data = cred.Split('\t');
-
+                    if (data.ToList().Any(x => string.IsNullOrEmpty(x)))
+                        continue;
                     if (data.Length < 7)
                         continue;
 
@@ -1693,11 +1692,17 @@ namespace DominatorUIUtility.ViewModel
                         accountToUpdate.MailCredentials.Port = int.Parse(data[5]);
                         accountToUpdate.IsUseSSL = bool.Parse(data[6]);
                         accountToUpdate.IsAutoVerifyByEmail = true;
+                        isAnyAccountUpdated = true;
                     }
 
                 }
-                _accountsFileManager.UpdateAccounts(LstDominatorAccountModel);
-                ToasterNotification.ShowSuccess("Credentials successfully updated.");
+                if (isAnyAccountUpdated)
+                {
+                    _accountsFileManager.UpdateAccounts(LstDominatorAccountModel);
+                    ToasterNotification.ShowSuccess("Credentials successfully updated.");
+                }
+                else
+                    ToasterNotification.ShowInfomation("No account found to update credentials or format is wrong.");
             }
         }
 

@@ -109,7 +109,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource LangKeySelectWallsProfilesAll}" Name="MenuSelectAllWallsProfiles"  Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="OwnProfile" >
+                            <MenuItem Header="{Binding SelectWall}" Name="MenuSelectAllWallsProfiles"  Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="OwnProfile" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -118,7 +118,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource LangKeySelectPagesBoardsAll}" Name="MenuSelectPagesBoards" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Pages" >
+                            <MenuItem Header="{Binding SelectPageBoard}" Name="MenuSelectPagesBoards" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Pages" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -127,7 +127,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="{DynamicResource LangKeySelectGroupsAll}" Name="MenuSelectGroups" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Groups" >
+                            <MenuItem Header="{Binding SelectGroups}" Name="MenuSelectGroups" Command="{Binding SelectAllAccountDetailsCommand}" CommandParameter="Groups" >
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black" Margin="0,0,0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>

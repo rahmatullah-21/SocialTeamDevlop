@@ -250,6 +250,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PublisherCampaignStatusModel CampaignStatusModel = PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == PublisherCreateCampaignModel.CampaignId);
 
             #region Validations
+            // Verify whether destination selected or not
+            if (_publisherCreateCampaignModel.LstDestinationId.Count == 0)
+            {
+                Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
+                return;
+            }
+            // Verify whether timer setted or not
+            if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
+            {
+                Dialog.ShowDialog("Warning", "Please select proper time to run!");
+                return;
+            }
 
             // Verify whether any post is saved to pending/draft or not
             if (PublisherCreateCampaignModel.PostCollection.Count == 0)
@@ -266,25 +278,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                 }
                 //if campaign is new then no need to check if any post is available in campaign or not.show the warning message.
-                else
+                else if (!(PublisherCreateCampaignModel.LstFolderPath.Count != 0 ||
+                    PublisherCreateCampaignModel.LstFeedUrl.Count != 0 ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeFacebookPost ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapePinterestPost ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeTwitterPost ||
+                    PublisherCreateCampaignModel.SharePostModel.IsShareFdPagePost ||
+                    PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList))
                 {
                     Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
                     return;
                 }
             }
-            // Verify whether timer setted or not
-            if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
-            {
-                Dialog.ShowDialog("Warning", "Please select proper time to run!");
-                return;
-            }
 
-            // Verify whether destination selected or not
-            if (_publisherCreateCampaignModel.LstDestinationId.Count == 0)
-            {
-                Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
-                return;
-            }
 
             // Check whether campaign has end date or not 
             if (!PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)

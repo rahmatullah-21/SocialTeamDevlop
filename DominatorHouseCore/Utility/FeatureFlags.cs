@@ -6,6 +6,14 @@ using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Utility
 {
+    public interface IFeatureFlags
+    {
+        bool Check(string key, Action whenEnabled = null, Action whenDisabled = null);
+        void UpdateFeatures();
+        bool Check(string key);
+        bool IsNetworkAvailable(SocialNetworks network);
+        Visibility Check(SocialNetworks network);
+    }
     public class FeatureFlags : Dictionary<string, bool>
     {
         public static FeatureFlags Instance;
