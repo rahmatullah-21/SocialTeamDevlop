@@ -356,6 +356,7 @@
     <Compile Include="ViewModel\CampaignViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
+    <Compile Include="ViewModel\OtherConfigurations\EmbeddedBrowserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\IOtherConfigurationViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\LinkedInViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\QuoraViewModel.cs" />
@@ -602,6 +603,10 @@
     <Page Include="ConfigControl\QuoraTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConfigControl\EmbeddedBrowserSettingTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ConfigControl\SocinatorMacrosTemplates.xaml">
       <SubType>Designer</SubType>

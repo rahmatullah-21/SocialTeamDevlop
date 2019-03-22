@@ -45,10 +45,21 @@ namespace DominatorHouseCore.Diagnostics
 
         private void Start(Task task)
         {
-            task.ContinueWith(t => InvokeError(t, t.Exception.InnerException),
-                                TaskContinuationOptions.OnlyOnFaulted |
-                                TaskContinuationOptions.ExecuteSynchronously);
-            task.Start();            
+            try
+            {
+                task.ContinueWith(t => InvokeError(t, t.Exception.InnerException),
+                                       TaskContinuationOptions.OnlyOnFaulted |
+                                       TaskContinuationOptions.ExecuteSynchronously);
+                task.Start();
+            }
+            catch (InvalidOperationException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }           
         }
 
         //public Task<T> Start<T>(Func<T> action, TaskCreationOptions options)

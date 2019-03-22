@@ -135,6 +135,9 @@
     <Compile Include="Tests\Converters\PublisherSyncStringToBooleanConverterTest.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToColorBrushConverterTests.cs" />
     <Compile Include="Tests\Converters\SocialNetworkToVisualBrushConverterTests.cs" />
+    <Compile Include="Tests\Converters\StringLengthToBooleanConverterTest.cs" />
+    <Compile Include="Tests\Converters\StringPercentageTextConverterTest.cs" />
+    <Compile Include="Tests\Converters\StringToBooleanConverterTest.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />
     <Compile Include="Tests\FileManagers\AccountsCacheServiceTests.cs" />
     <Compile Include="Tests\FileManagers\FBFileManagerTests.cs" />

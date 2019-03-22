@@ -1,7 +1,8 @@
 ﻿using System.Windows.Controls;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using MahApps.Metro.Controls.Dialogs;
+using CommonServiceLocator;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
@@ -10,11 +11,13 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class Twitter : UserControl
     {
-        private TwitterModel TwitterModel { get; set; }=new TwitterModel();
+        IOtherConfigFileManager _otherConfigFileManager;
+        private TwitterModel TwitterModel { get; set; } = new TwitterModel();
         private Twitter()
         {
             InitializeComponent();
-            TwitterModel = TwitterFileManager.GetTwitterConfig() ?? TwitterModel;
+            _otherConfigFileManager = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
+            TwitterModel = _otherConfigFileManager.GetOtherConfig<TwitterModel>() ?? TwitterModel;
             MainGrid.DataContext = TwitterModel;
         }
         private static Twitter ObjTwitter;
@@ -26,10 +29,8 @@ namespace DominatorUIUtility.ConfigControl
 
         private void BtnSave_OnClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (TwitterFileManager.SaveTwitterConfig(TwitterModel))
-                DialogCoordinator.Instance.ShowModalMessageExternal(System.Windows.Application.Current.MainWindow, "Success",
-                    "Twitter Configuration sucessfully saved !!");
-
+            if (_otherConfigFileManager.SaveOtherConfig(TwitterModel))
+                Dialog.ShowDialog("Success", "Twitter Configuration sucessfully saved !!");
         }
     }
 }

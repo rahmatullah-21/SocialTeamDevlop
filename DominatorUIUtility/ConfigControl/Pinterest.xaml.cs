@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using MahApps.Metro.Controls.Dialogs;
+using CommonServiceLocator;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
@@ -11,11 +13,14 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class Pinterest : UserControl
     {
-        private PinterestModel PinterestModel { get; set; }=new PinterestModel();
+        IOtherConfigFileManager PinterestConfig;
+        private PinterestModel PinterestModel { get; set; } = new PinterestModel();
         private Pinterest()
         {
             InitializeComponent();
-            PinterestModel = PinFileManager.GetPinterestConfig() ?? PinterestModel;
+            PinterestConfig = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
+            PinterestModel = PinterestConfig.GetOtherConfig<PinterestModel>() ?? PinterestModel;
+            //PinterestModel = PinFileManager.GetPinterestConfig() ?? PinterestModel;
             MainGrid.DataContext = PinterestModel;
         }
         private static Pinterest ObjPinterest;
@@ -27,9 +32,12 @@ namespace DominatorUIUtility.ConfigControl
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            if (PinFileManager.SavePinterestConfig(PinterestModel))
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Pinterest Configuration sucessfully saved !!");
+            //if (PinFileManager.SavePinterestConfig(PinterestModel))
+            //    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
+            //        "Pinterest Configuration sucessfully saved !!");
+
+            if (PinterestConfig.SaveOtherConfig(PinterestModel))
+                Dialog.ShowDialog("Success", "Pinterest Configuration sucessfully saved !!");
         }
     }
 }
