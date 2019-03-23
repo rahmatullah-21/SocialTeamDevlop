@@ -140,11 +140,13 @@
     <Compile Include="Tests\Converters\StringToBooleanConverterTest.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />
     <Compile Include="Tests\FileManagers\AccountsCacheServiceTests.cs" />
+    <Compile Include="Tests\FileManagers\ConfigFileManagerTest.cs" />
     <Compile Include="Tests\FileManagers\FBFileManagerTests.cs" />
     <Compile Include="Tests\FileManagers\GenericFileManagerTests.cs" />
     <Compile Include="Tests\FileManagers\GlobalInteractionDetailsTests.cs" />
     <Compile Include="Tests\FileManagers\CampaignInteractionDetailsTests.cs" />
     <Compile Include="Tests\FileManagers\CampaignsFileManagerTests.cs" />
+    <Compile Include="Tests\FileManagers\TemplatesCacheServiceTest.cs" />
     <Compile Include="Tests\Models\JobActivityConfigurationManagerTests.cs" />
     <Compile Include="Tests\Process\EntityCounterFunctionTests.cs" />
     <Compile Include="Tests\Process\EntityCountersManagerTests.cs" />

@@ -131,7 +131,8 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             {
                 try
                 {
-                    HandleGlobalException(job.Exception, job.Name);
+                    job.Exception.DebugLog();
+                   // HandleGlobalException(job.Exception, job.Name);
                 }
                 catch (Exception ex)
                 {

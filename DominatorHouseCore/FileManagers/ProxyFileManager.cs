@@ -37,7 +37,6 @@ namespace DominatorHouseCore.FileManagers
             try
             {
                 _binFileHelper.SaveProxy(proxy);
-                GlobusLogHelper.log.Debug("Proxy successfully saved");
                 return true;
             }
             catch (Exception)
