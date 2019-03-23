@@ -56,21 +56,23 @@ namespace EmbeddedBrowser
             TargetUrl = targetUrl;
             CustomUse = customUse;
             SkipYoutubeAd = skipAd;
-            
+
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
-            
+
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = new RequestHandlerCustom(this);
-            Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
+
+            if (DominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
+                Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
 
             InitializeGoogleLoginStatusActions();
 
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
-            UrlBar.Text= Browser.Address = url;
-            Browser.IsBrowserInitializedChanged += LoadSettings; 
+            UrlBar.Text = Browser.Address = url;
+            Browser.IsBrowserInitializedChanged += LoadSettings;
         }
         
 
@@ -81,6 +83,9 @@ namespace EmbeddedBrowser
         {
             try
             {
+                if(DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
+                    return;
+
                 var accountCookie = DominatorAccountModel.Cookies;
                 var callBack = new TaskCompletionCallback();
 
