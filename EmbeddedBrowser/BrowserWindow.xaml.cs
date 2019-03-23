@@ -83,9 +83,6 @@ namespace EmbeddedBrowser
         {
             try
             {
-                if(DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
-                    return;
-
                 var accountCookie = DominatorAccountModel.Cookies;
                 var callBack = new TaskCompletionCallback();
 
@@ -94,7 +91,10 @@ namespace EmbeddedBrowser
                     Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
                     return;
                 }
-                
+
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
+                    return;
+
                 var cefInitialCookies =await Browser.RequestContext.GetDefaultCookieManager(callBack)
                     .VisitAllCookiesAsync();
                 
