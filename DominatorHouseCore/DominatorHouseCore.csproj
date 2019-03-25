@@ -788,7 +788,6 @@
     <Compile Include="Utility\JsonHelper.cs" />
     <Compile Include="Utility\ListHelper.cs" />
     <Compile Include="Utility\Log.cs" />
-    <Compile Include="Utility\LoggerHelper.cs" />
     <Compile Include="Utility\ModuleConfiguration.cs" />
     <Compile Include="Utility\ObservableCollectionCustom.cs" />
     <Compile Include="Models\TemplateModel.cs" />

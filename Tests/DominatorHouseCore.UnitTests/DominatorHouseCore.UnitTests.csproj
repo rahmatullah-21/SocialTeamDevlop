@@ -146,6 +146,9 @@
     <Compile Include="Tests\FileManagers\GlobalInteractionDetailsTests.cs" />
     <Compile Include="Tests\FileManagers\CampaignInteractionDetailsTests.cs" />
     <Compile Include="Tests\FileManagers\CampaignsFileManagerTests.cs" />
+    <Compile Include="Tests\FileManagers\ManageDestinationFileManagerTest.cs" />
+    <Compile Include="Tests\FileManagers\PostlistFileManagerTest.cs" />
+    <Compile Include="Tests\FileManagers\ProxyFileManagerTest.cs" />
     <Compile Include="Tests\FileManagers\TemplatesCacheServiceTest.cs" />
     <Compile Include="Tests\Models\JobActivityConfigurationManagerTests.cs" />
     <Compile Include="Tests\Process\EntityCounterFunctionTests.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="Tests\Scheduler\DominatorSchedulerTests.cs" />
     <Compile Include="Tests\Settings\SoftwareSettingsTests.cs" />
     <Compile Include="Tests\Utility\DateTimeUtilitiesTests.cs" />
+    <Compile Include="Tests\Utility\EnumUtilityTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DominatorHouseCore\DominatorHouseCore.csproj">

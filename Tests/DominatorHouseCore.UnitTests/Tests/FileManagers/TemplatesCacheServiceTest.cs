@@ -92,37 +92,33 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
 
         }
 
-        //[TestMethod]
-        //public void should_delete_template()
-        //{
-        //    var notDeleted = new TemplateModel { Id = "345" };
-        //    var template = new List<TemplateModel>
-        //    {
-        //        new TemplateModel { Id = "123" },
-        //        new TemplateModel {Id = "321"},
-        //        notDeleted
-        //    };
-        //    var templateTodelete = new TemplateModel[]
-        //    {
-        //        new TemplateModel {Id = "123"},
-        //        new TemplateModel {Id = "321"},
-        //    };
+        [TestMethod]
+        public void should_delete_template()
+        {
+            var notDeleted = new TemplateModel { Id = "345" };
+            var template = new List<TemplateModel>
+            {
+                new TemplateModel { Id = "123" },
+                new TemplateModel {Id = "321"},
+                notDeleted
+            };
+            var templateTodelete = new TemplateModel[]
+            {
+                new TemplateModel {Id = "123"},
+                new TemplateModel {Id = "321"},
+            };
 
-        //    _binFileHelper.GetTemplateDetails().Returns(template);
-        //    _binFileHelper.UpdateAllAccounts(Arg.Do((List<TemplateModel> a) =>
-        //    {
-        //        // assert
-        //        a.Single().Should().Be(notDeleted);
-        //    })).Returns(true);
+            _binFileHelper.GetTemplateDetails().Returns(template);
 
-        //    // act
-        //    _sut.Delete(templateTodelete);
+            _binFileHelper.UpdateAllAccounts(Arg.Do((List<TemplateModel> a) =>
+            {
+                a.FirstOrDefault().Should().Be(notDeleted);
+            })).Returns(true);
+            _sut.UpsertTemplates(notDeleted);
+            _sut.Delete(templateTodelete);
 
+            _sut.GetTemplateModels().Count.Should().Be(1);
 
-        //    // assert
-        //    _sut.GetTemplateModels().Count.Should().Be(1);
-        //    _binFileHelper.Received(1).UpdateAllAccounts(Arg.Any<List<TemplateModel>>());
-
-        //}
+        }
     }
 }

@@ -372,8 +372,11 @@ namespace DominatorHouseCore.Models
             }
             set
             {
+
                 if (_isAutoVerifyByEmail == value)
                     return;
+                if (value)
+                    IsManualVerify = false;
                 SetProperty(ref _isAutoVerifyByEmail, value);
             }
         }
@@ -438,6 +441,21 @@ namespace DominatorHouseCore.Models
 
         public string two_factor_identifier { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
+        private bool _isManualVerify;
+        public bool IsManualVerify
+        {
+            get
+            {
+                return _isManualVerify;
+            }
+            set
+            {
+                if (value)
+                    IsAutoVerifyByEmail = false;
+                SetProperty(ref _isManualVerify, value);
+               
+            }
+        }
         public DominatorAccountModel Clone()
         {
             return (DominatorAccountModel)MemberwiseClone();
