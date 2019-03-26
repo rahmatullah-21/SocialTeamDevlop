@@ -1,5 +1,21 @@
+Version[1.0.0.45],[26th-March-19]
+Fixed:-
+	Social:-
+		Fixed issue with allow to open popup window in socinator facebook browser
+	Linkedin:-
+		Engage => Like => Fixed issue with  Blacklist user.
+		Broadcast Message => Fixed issue with showing already sent message in the logger.
+	Twitter:-
+		Unfollow => Unfollow source => Fixed issue with the unfollow source.
+	Pinterest:-
+		Grow follower => Fixed issue in other user configuration.
+		Account manager => Fixed issue in browser login.
+	Facebook:-
+		Broadcast messages => Broadcast message => Fixed issue with sending messages with maximum limits.
+		Grow friends => Send Friend  Request => Fixed issue with sending friend request using graph search url.
+
 Version[1.0.0.44],[20th-March-19]
-New Features:
+New Features:-
 	Instagram:-
 		GrowFollowers => Follow Back. Added feature to accept requests for private accounts.
 		InstaScrape => Post Scraper. Added a query type to scrape tagged posts.

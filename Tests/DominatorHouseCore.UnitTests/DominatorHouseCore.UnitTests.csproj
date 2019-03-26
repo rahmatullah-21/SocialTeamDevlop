@@ -165,6 +165,12 @@
     <Compile Include="Tests\Settings\SoftwareSettingsTests.cs" />
     <Compile Include="Tests\Utility\DateTimeUtilitiesTests.cs" />
     <Compile Include="Tests\Utility\EnumUtilityTest.cs" />
+    <Compile Include="Tests\Utility\FeatureFlagsTest.cs" />
+    <Compile Include="Tests\Utility\ImageExtracterTest.cs" />
+    <Compile Include="Tests\Utility\ListHelperTest.cs" />
+    <Compile Include="Tests\Utility\ObjectComparerTest.cs" />
+    <Compile Include="Tests\Utility\PerfCounterServiceTest.cs" />
+    <Compile Include="Tests\Utility\ProxyValidationHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DominatorHouseCore\DominatorHouseCore.csproj">
