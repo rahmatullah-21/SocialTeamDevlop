@@ -871,8 +871,7 @@ namespace EmbeddedBrowser
         {
             var loginFailed = RetypeEmail();
             var gotEmailFromPage = Utilities.GetBetween(_pageText, "your account:", "\n").Trim();
-            if (!IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim(),
-                gotEmailFromPage))
+            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim()) && !string.IsNullOrEmpty(gotEmailFromPage))|| !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim(),gotEmailFromPage))
                 DominatorAccountModel.AccountBaseModel.AlternateEmail = gotEmailFromPage;
             return loginFailed;
         }
@@ -882,8 +881,7 @@ namespace EmbeddedBrowser
             var loginFailed = RetypePhoneNumber();
             var gotNumberFromPage = Utilities.GetBetween(_pageText, "security settings:", "\n").Replace(" ", "")
                 .Replace("(", "").Replace(")", "").Replace("-", "").Replace("_", "").Trim();
-            if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),
-                gotNumberFromPage))
+            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()) && !string.IsNullOrEmpty(gotNumberFromPage)) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),gotNumberFromPage))
                 DominatorAccountModel.AccountBaseModel.PhoneNumber = gotNumberFromPage;
             return loginFailed;
         }
@@ -999,10 +997,10 @@ namespace EmbeddedBrowser
         {
             try
             {
-                var reverseAlreadyExistedNumberInAccount = alreadyExistedNumberInAccount.Reverse().ToList();
+                var reverseAlreadyExistedNumberInAccount = alreadyExistedNumberInAccount.ToLower().Reverse().ToList();
 
                 var indexIterate = 0;
-                foreach (var eachNumb in enteredNumber.Reverse())
+                foreach (var eachNumb in enteredNumber.ToLower().Reverse())
                 {
                     var selectedDigit = reverseAlreadyExistedNumberInAccount[indexIterate];
                     if (selectedDigit != '•' && selectedDigit != eachNumb)
@@ -1190,12 +1188,13 @@ namespace EmbeddedBrowser
                 // Click On Login button
                 //BrowserAct(ActType.ClickById, "u_0_2", 1);
                 Browser.ExecuteScriptAsync("document.querySelectorAll('[type=\"submit\"]')[0].click()");
-
+                
                 if (string.IsNullOrEmpty(TargetUrl))
                 {
                     Browser.LoadingStateChanged -= BrowserOnLoaded;
                     return;
                 }
+                Thread.Sleep(3000);
             }
 
             var result = GetLoggedInPageSource();
@@ -1282,7 +1281,7 @@ namespace EmbeddedBrowser
 
         private void TwitterLogin(string html)
         {
-            if (html.Contains("js-username-field email-input js-initial-focus") && html.Contains("js-password-field"))
+            if (html.Contains("js-username-field email-input js-initial-focus") && html.Contains("js-password-field") /*&& html.Contains("<span class=\"message-text\"></span>")*/) // Commented Code : to check pagesource is not containing any login error massage
             {
                 // Enter Username
                 BrowserAct(ActType.EnterValueByClass, "js-username-field email-input js-initial-focus", value: DominatorAccountModel.AccountBaseModel.UserName, delayAfter: 2);
@@ -1291,7 +1290,7 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.EnterValueByClass, "js-password-field", value: DominatorAccountModel.AccountBaseModel.Password.Replace("'", "\\'"), delayAfter: 2);
 
                 // Click on submit
-                BrowserAct(ActType.ClickByClass, "submit EdgeButton EdgeButton--primary EdgeButtom--medium", delayAfter: 4);
+                BrowserAct(ActType.ClickByClass, "submit EdgeButton EdgeButton--primary EdgeButtom--medium", delayAfter: 5);
             }
 
             var result = GetLoggedInPageSource();
