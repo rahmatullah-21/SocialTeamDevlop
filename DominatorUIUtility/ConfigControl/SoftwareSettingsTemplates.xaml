@@ -89,7 +89,11 @@
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
                     <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
                               IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
-                   
+
+
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyRunAllActivityThroughBrowser}"
+                              IsChecked="{Binding IsRunProcessThroughBrowser}"/>
+
 
                 </StackPanel>
             </ScrollViewer>

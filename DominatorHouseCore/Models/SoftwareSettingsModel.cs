@@ -623,5 +623,13 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _isStopAutoSynchronizeAccount, value); }
         }
 
+        private bool _isRunProcessThroughBrowser = true;
+        [ProtoMember(42)]
+        public bool IsRunProcessThroughBrowser
+        {
+            get { return _isRunProcessThroughBrowser; }
+            set { SetProperty(ref _isRunProcessThroughBrowser, value); }
+        }
+
     }
 }

@@ -53,6 +53,7 @@ namespace DominatorHouseCore.Process
         private readonly IQueryScraperFactory _queryScraperFactory;
         private readonly IHttpHelper _httpHelper;
         private readonly IDominatorScheduler _dominatorScheduler;
+        private readonly ISoftwareSettingsFileManager _softwareSettingsFileManagaer;
         public CampaignDetails CampaignDetails { get; }
 
 
@@ -70,6 +71,7 @@ namespace DominatorHouseCore.Process
             _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            _softwareSettingsFileManagaer = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             TemplateId = processScopeModel.TemplateId;
             ActivityType = processScopeModel.ActivityType;
             SocialNetworks = processScopeModel.Network;
@@ -366,7 +368,10 @@ namespace DominatorHouseCore.Process
                 {
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
-                    logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+                    if (!_softwareSettingsFileManagaer.GetSoftwareSettings().IsRunProcessThroughBrowser)
+                        logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+                    else
+                        logInProcess.LoginWithAlternativeMethod(DominatorAccountModel);
                 }
 
                 if (DominatorAccountModel.IsUserLoggedIn)

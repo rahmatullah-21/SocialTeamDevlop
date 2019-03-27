@@ -2821,6 +2821,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLogIn">Log In</system:String>
     <system:String x:Key="LangKeyApiKey">Api Key</system:String>
     <system:String x:Key="LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware">Do not auto login accounts while adding to the software.</system:String>
+    
     <system:String x:Key="LangKeyAssignRandomProxyToUnassignedAccounts">Assign Random proxy to unassigned accounts</system:String>
 
     <system:String x:Key="LangKeySuccess">Success</system:String>
@@ -3482,4 +3483,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyTaggedPost">Someone Tagged Post</system:String>
     <system:String x:Key="LangKeyAcceptFollowRequest">Accept Follow Request (only for Private Account)</system:String>
     <system:String x:Key="LangKeyMessageShouldHaveBeenSentBefore">Message Should Have Been Sent Before</system:String>
+
+    <system:String x:Key="LangKeyRunAllActivityThroughBrowser">Run All Activity Through Browser.</system:String>
 </ResourceDictionary>
