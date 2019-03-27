@@ -3482,4 +3482,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyTaggedPost">Someone Tagged Post</system:String>
     <system:String x:Key="LangKeyAcceptFollowRequest">Accept Follow Request (only for Private Account)</system:String>
     <system:String x:Key="LangKeyMessageShouldHaveBeenSentBefore">Message Should Have Been Sent Before</system:String>
+    <system:String x:Key="LangKeyPostsOfOneEntity">Posts Of One Entity (User/Page/Group)</system:String>
 </ResourceDictionary>
