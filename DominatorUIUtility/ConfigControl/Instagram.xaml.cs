@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using MahApps.Metro.Controls.Dialogs;
+using CommonServiceLocator;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
@@ -11,14 +13,14 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class Instagram : UserControl
     {
-
-      
-
+        IOtherConfigFileManager InstagramConfig;
         private InstagramModel InstagramModel { get; set; } = new InstagramModel();
         private Instagram()
         {
             InitializeComponent();
-            InstagramModel = IGFileManager.GetInstagramConfig() ?? InstagramModel;
+            InstagramConfig = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
+            InstagramModel = InstagramConfig.GetOtherConfig<InstagramModel>() ?? InstagramModel;
+            //  InstagramModel = IGFileManager.GetInstagramConfig() ?? InstagramModel;
             MainGrid.DataContext = InstagramModel;
         }
 
@@ -32,9 +34,11 @@ namespace DominatorUIUtility.ConfigControl
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            if (IGFileManager.SaveInstagramConfig(InstagramModel))
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Instagram Configuration sucessfully saved !!");
+            //if (IGFileManager.SaveInstagramConfig(InstagramModel))
+            //    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
+            //        "Instagram Configuration sucessfully saved !!");
+            if (InstagramConfig.SaveOtherConfig(InstagramModel))
+                Dialog.ShowDialog("Success", "Instagram Configuration sucessfully saved !!");
         }
     }
 }

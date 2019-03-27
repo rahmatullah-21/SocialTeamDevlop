@@ -55,9 +55,8 @@ namespace DominatorUIUtility.ViewModel
             Total = models.Length;
             Verified = 0;
             foreach (var model in models)
-            {
-                await CheckProxyAsync(model);
-            }
+                CheckProxyAsync(model);
+
         }
 
         private async Task CheckProxyAsync(ProxyManagerModel currentProxyManager)

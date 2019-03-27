@@ -153,11 +153,6 @@ namespace DominatorHouseCore.FileManagers
         private bool SaveAccount(DominatorAccountModel account)
         {
             var savedStatus = _accountsCacheService.UpsertAccounts(account);
-
-            if (savedStatus)
-            {
-                GlobusLogHelper.log.Debug($"Accounts successfully saved - [{account.AccountBaseModel.UserName}]");
-            }
             return savedStatus;
         }
 

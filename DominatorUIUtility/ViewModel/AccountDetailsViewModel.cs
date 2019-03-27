@@ -140,18 +140,18 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
-        private bool _isManualVerify;
-        public bool IsManualVerify
-        {
-            get
-            {
-                return _isManualVerify;
-            }
-            set
-            {
-                SetProperty(ref _isManualVerify, value);
-            }
-        }
+        //private bool _isManualVerify;
+        //public bool IsManualVerify
+        //{
+        //    get
+        //    {
+        //        return _isManualVerify;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref _isManualVerify, value);
+        //    }
+        //}
         #endregion
 
         #region Constructors
@@ -638,7 +638,7 @@ namespace DominatorUIUtility.ViewModel
                 var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
                 Task.Factory.StartNew(() =>
                 {
-                    if (IsManualVerify)
+                    if (DominatorAccountModel.IsManualVerify)
                     {
                         if (accountVerificationFactory.SendVerificationCode(DominatorAccountModel,
                             VerificationType.Email,

@@ -20,7 +20,7 @@ namespace DominatorHouseCore.FileManagers
             try
             {
                 BinFileHelper.SavePosts(post);
-                GlobusLogHelper.log.Debug("Post successfully saved");
+                GlobusLogHelper.log.Info("Post successfully saved");
                 return true;
             }
             catch (Exception)

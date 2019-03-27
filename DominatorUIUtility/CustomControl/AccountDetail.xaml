@@ -344,7 +344,7 @@
                         </RadioButton.Style>
                     </RadioButton>
 
-                    <CheckBox Content="{DynamicResource LangKeyManualVerification}" Name="ChkMenual" IsChecked="{Binding IsManualVerify}"
+                    <CheckBox Content="{DynamicResource LangKeyManualVerification}" Name="ChkMenual" IsChecked="{Binding DominatorAccountModel.IsManualVerify}"
                               Width="180" FontWeight="SemiBold" HorizontalAlignment="Left" Margin="5">
                         <CheckBox.Style>
                             <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
@@ -399,6 +399,7 @@
                                             <Condition Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.SetNewPassword}"/>
                                             <Condition Binding="{Binding DominatorAccountModel.IsAutoVerifyByEmail}" Value="True" />
                                         </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Visible"/>
                                     </MultiDataTrigger>
                                 </Style.Triggers>
                             </Style>

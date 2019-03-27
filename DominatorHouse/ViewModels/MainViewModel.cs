@@ -62,6 +62,7 @@ namespace DominatorHouse.ViewModels
         }
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
+            SocinatorKeyHelper.InitilizeKey();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
@@ -129,7 +130,7 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-                var key = SocinatorKeyHelper.GetKey();
+                var key = SocinatorKeyHelper.Key;
 
                 var networks = await UtilityManager.LogIndividualNetworksExceptions(key.FatalErrorMessage);
 
@@ -175,7 +176,7 @@ namespace DominatorHouse.ViewModels
         private async Task FatalErrorDiagnosis()
         {
             string fatalError;
-            var key = SocinatorKeyHelper.GetKey();
+            var key = SocinatorKeyHelper.Key;
             if (key != null)
             {
                 _isStartedfirstTime = true;
