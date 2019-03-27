@@ -2,7 +2,8 @@
 using System.Windows.Controls;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using MahApps.Metro.Controls.Dialogs;
+using CommonServiceLocator;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
@@ -11,12 +12,13 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class EmbeddedBrowserSettings : UserControl
     {
-        private EmbeddedBrowserSettingsModel EmbeddedBrowserSettingsModel { get; set; }=new EmbeddedBrowserSettingsModel();
+        private EmbeddedBrowserSettingsModel EmbeddedBrowserSettingsModel { get; set; } = new EmbeddedBrowserSettingsModel();
+        IOtherConfigFileManager embeddedBrowserSettings;
         private EmbeddedBrowserSettings()
         {
             InitializeComponent();
-     
-            EmbeddedBrowserSettingsModel = EmbeddedBrowserSettingsFileManager.GetEmbeddedBrowserSettings()?? EmbeddedBrowserSettingsModel;
+            embeddedBrowserSettings = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
+            EmbeddedBrowserSettingsModel = embeddedBrowserSettings.GetOtherConfig<EmbeddedBrowserSettingsModel>() ?? EmbeddedBrowserSettingsModel;
             MainGrid.DataContext = EmbeddedBrowserSettingsModel;
         }
         private static EmbeddedBrowserSettings ObjEmbeddedBrowserSettings;
@@ -28,9 +30,8 @@ namespace DominatorUIUtility.ConfigControl
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            if (EmbeddedBrowserSettingsFileManager.SaveEmbeddedBrowserSettings(EmbeddedBrowserSettingsModel))
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Embedded Browser Settings sucessfully saved !!");
+            if (embeddedBrowserSettings.SaveOtherConfig(EmbeddedBrowserSettingsModel))
+                Dialog.ShowDialog("Success", "Embedded Browser Settings sucessfully saved !!");
         }
     }
 }

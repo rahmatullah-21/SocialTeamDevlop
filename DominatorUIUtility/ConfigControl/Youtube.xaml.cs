@@ -2,7 +2,8 @@
 using System.Windows.Controls;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using MahApps.Metro.Controls.Dialogs;
+using CommonServiceLocator;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
@@ -11,11 +12,13 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class Youtube : UserControl
     {
-        private YoutubeModel YoutubeModel { get; set; }=new YoutubeModel();
+        IOtherConfigFileManager _otherConfigFileManager;
+        private YoutubeModel YoutubeModel { get; set; } = new YoutubeModel();
         public Youtube()
         {
             InitializeComponent();
-            YoutubeModel = YoutubeFileManager.GetYoutubeConfig() ?? YoutubeModel;
+            _otherConfigFileManager = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
+            YoutubeModel = _otherConfigFileManager.GetOtherConfig<YoutubeModel>() ?? YoutubeModel;
             MainGrid.DataContext = YoutubeModel;
         }
         private static Youtube ObjYoutube;
@@ -27,9 +30,8 @@ namespace DominatorUIUtility.ConfigControl
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            if (YoutubeFileManager.SaveYoutubeConfig(YoutubeModel))
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Youtube Configuration sucessfully saved !!");
+            if (_otherConfigFileManager.SaveOtherConfig(YoutubeModel))
+                Dialog.ShowDialog("Success", "Youtube Configuration sucessfully saved !!");
         }
     }
 }

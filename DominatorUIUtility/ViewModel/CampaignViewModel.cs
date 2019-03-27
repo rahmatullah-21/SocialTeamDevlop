@@ -51,30 +51,34 @@ namespace DominatorUIUtility.ViewModel
             CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, FilterCampaign);
             SelectionCommand = new BaseCommand<object>((sender) => true, SelectionExecute);
             CopyCampaignIdCommand = new BaseCommand<object>((sender) => true, CopyCampaignIdExecute);
-            LoadedCommand = new BaseCommand<object>((sender) => true, FilterCampaign);
+            LoadedCommand = new BaseCommand<object>((sender) => true, LoadCampaign);
             BindingOperations.EnableCollectionSynchronization(LstCampaignDetails, _lock);
-            LoadCampaign();
+
         }
 
-        public void LoadCampaign()
+        public void LoadCampaign(object sender)
         {
             try
             {
                 var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                 if (LstCampaignDetails.Count == campaignFileManager.Count())
                     return;
+                FilterCampaign(sender);
                 Task.Factory.StartNew(() =>
                 {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => LstCampaignDetails.Clear()), DispatcherPriority.Render);
                     campaignFileManager.ForEach(camp =>
                     {
                         Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                         {
                             if (LstCampaignDetails.All(x => x.CampaignId != camp.CampaignId))
+                            {
                                 LstCampaignDetails.Add(camp);
+                                FilterCampaign(sender);
+                            }
                         }), DispatcherPriority.Render);
                         Thread.Sleep(5);
                     });
+
                 });
             }
             catch (Exception ex)

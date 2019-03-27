@@ -606,7 +606,7 @@
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent" />
                                 <Button Content="{DynamicResource LangKeyVerifyProxy}"
                                         FontWeight="SemiBold" Command="{Binding DataContext.VerifyProxyCommand,
-                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"  CommandParameter="{Binding}"
                                         Foreground="{DynamicResource AccentBaseColorBrush}" Background="Transparent"/>
 
                             </VirtualizingStackPanel>

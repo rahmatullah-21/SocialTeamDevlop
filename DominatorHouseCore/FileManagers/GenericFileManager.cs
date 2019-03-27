@@ -1,5 +1,4 @@
-﻿using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;

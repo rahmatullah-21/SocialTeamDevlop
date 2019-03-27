@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using MahApps.Metro;
@@ -18,7 +17,6 @@ namespace DominatorHouseCore.FileManagers
             {
                 var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
                 binFileHelper.SaveConfig(config);
-                GlobusLogHelper.log.Debug("Configuration successfully saved");
                 return true;
             }
             catch (Exception)

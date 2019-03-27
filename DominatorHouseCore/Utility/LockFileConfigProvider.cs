@@ -107,7 +107,8 @@ namespace DominatorHouseCore.Utility
                 {
                     typeof(ConfigFacebookModel),
                     Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherFacebookSettingsFile)
-                }
+                } 
+
             };
 
         /// <summary>

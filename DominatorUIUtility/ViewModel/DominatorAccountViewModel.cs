@@ -1113,13 +1113,16 @@ namespace DominatorUIUtility.ViewModel
         {
             DeleteAccountByContextMenu(selectedRow);
         }
-
+        List<DominatorAccountModel> GetSelectedAccount()
+        {
+            return LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)).ToList();
+        }
         private void DeleteAccountsExecute()
         {
             try
             {
                 //collect the selected account
-                var selectAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)).ToList();
+                var selectAccounts = GetSelectedAccount();
 
                 if (selectAccounts.Count == 0)
                 {
@@ -1214,7 +1217,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void ExportExecute()
         {
-            var selectedAccounts = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork).ToList();
+            var selectedAccounts = GetSelectedAccount();
             if (selectedAccounts.Count == 0)
             {
                 Dialog.ShowDialog("Alert", "Please select atleast one account !!");
@@ -1421,6 +1424,19 @@ namespace DominatorUIUtility.ViewModel
                             LstDominatorAccountModel.AddSync(account);
                         }
                     }
+
+                    #region Start scheduling 
+
+                    var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                    runningActivityManager.Initialize(LstDominatorAccountModel);
+
+                    #endregion
+
+                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+
+                    softwareSetting.ScheduleAutoUpdation();
+                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                        softwareSetting.ScheduleAdsScraping();
                 }
                 catch (Exception ex)
                 {
