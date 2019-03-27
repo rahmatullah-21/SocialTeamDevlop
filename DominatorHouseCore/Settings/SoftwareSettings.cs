@@ -125,9 +125,7 @@ namespace DominatorHouseCore.Settings
         private void CheckSocinatorIcon()
         {
             if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
-            {
                 Utilities.DownloadSocinatorIcon();
-            }
         }
 
         #region Producer Consumer Solution for Account Update

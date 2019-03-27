@@ -1115,7 +1115,7 @@ namespace DominatorUIUtility.ViewModel
         }
         List<DominatorAccountModel> GetSelectedAccount()
         {
-            return LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)).ToList(); 
+            return LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social || x.AccountBaseModel.AccountNetwork == SocinatorInitialize.ActiveSocialNetwork)).ToList();
         }
         private void DeleteAccountsExecute()
         {
@@ -1424,6 +1424,19 @@ namespace DominatorUIUtility.ViewModel
                             LstDominatorAccountModel.AddSync(account);
                         }
                     }
+
+                    #region Start scheduling 
+
+                    var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                    runningActivityManager.Initialize(LstDominatorAccountModel);
+
+                    #endregion
+
+                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+
+                    softwareSetting.ScheduleAutoUpdation();
+                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                        softwareSetting.ScheduleAdsScraping();
                 }
                 catch (Exception ex)
                 {

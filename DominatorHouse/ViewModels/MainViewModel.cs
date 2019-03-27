@@ -291,6 +291,7 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
+                DirectoryUtilities.CompressAccountDetails();
                 Task.Factory.StartNew(() =>
                 {
                     FeatureFlags.UpdateFeatures();
@@ -298,7 +299,7 @@ namespace DominatorHouse.ViewModels
                     foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                     {
                         var module = socialNetworkModule;
-                        if(FeatureFlags.Instance.ContainsKey(module.Network.ToString()))
+                        if (FeatureFlags.Instance.ContainsKey(module.Network.ToString()))
                         {
                             try
                             {
@@ -380,40 +381,84 @@ namespace DominatorHouse.ViewModels
 
                 FeatureFlags.UpdateFeatures();
 
-                Parallel.Invoke(() =>
-                                 {
-                                     DirectoryUtilities.DeleteOldLogsFile();
-                                     DirectoryUtilities.CompressAccountDetails();
-                                 },
-                                 () =>
-                                  {
-                                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-                                    softwareSetting.InitializeOnLoadConfigurations();
-                                    softwareSetting.ActivityManagerInitializer();
-                                    softwareSetting.ScheduleAutoUpdation();
-                                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
-                                        softwareSetting.ScheduleAdsScraping();
-                                },
-                                
-                                () =>
-                                {
-                                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
-                                    PublishScheduler.ScheduleTodaysPublisher();
-                                    PublishScheduler.UpdateNewGroupList();
-                                },
-                               () =>
-                                {
-                                    var publisherPostFetcher = new PublisherPostFetcher();
-                                    publisherPostFetcher.StartFetchingPostData();
-                                },
-                                () =>
-                                {
-                                    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                                    var deletionPostlist =
-                                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
-                                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
-                                });
+                Task.Factory.StartNew(() =>
+                {
+
+                    #region log deletion and backup Account
+
+                    DirectoryUtilities.DeleteOldLogsFile();
+                   
+
+                    #endregion
+
+                    #region SoftwareSettings
+
+                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                    softwareSetting.InitializeOnLoadConfigurations();
+
+                  //  softwareSetting.ActivityManagerInitializer();
+
+                    //softwareSetting.ScheduleAutoUpdation();
+                    //if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                    //    softwareSetting.ScheduleAdsScraping();
+
+                    #endregion
+
+
+                });
+                Task.Factory.StartNew(() =>
+                {
+                    #region Publisher
+
+                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                    PublishScheduler.ScheduleTodaysPublisher();
+                    PublishScheduler.UpdateNewGroupList();
+                    var publisherPostFetcher = new PublisherPostFetcher();
+                    publisherPostFetcher.StartFetchingPostData();
+
+                    #endregion
+
+                    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                    var deletionPostlist =
+                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
+                });
+
+                //Parallel.Invoke(() =>
+                //                 {
+                //                     DirectoryUtilities.DeleteOldLogsFile();
+                //                     DirectoryUtilities.CompressAccountDetails();
+                //                 },
+                //                 () =>
+                //                  {
+                //                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                //                    softwareSetting.InitializeOnLoadConfigurations();
+                //                    softwareSetting.ActivityManagerInitializer();
+                //                    softwareSetting.ScheduleAutoUpdation();
+                //                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                //                        softwareSetting.ScheduleAdsScraping();
+                //                },
+
+                //                () =>
+                //                {
+                //                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                //                    PublishScheduler.ScheduleTodaysPublisher();
+                //                    PublishScheduler.UpdateNewGroupList();
+                //                },
+                //               () =>
+                //                {
+                //                    var publisherPostFetcher = new PublisherPostFetcher();
+                //                    publisherPostFetcher.StartFetchingPostData();
+                //                },
+                //                () =>
+                //                {
+                //                    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                //                    var deletionPostlist =
+                //                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                //                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                //                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
+                //                });
             }
             catch (Exception ex)
             {
