@@ -8,11 +8,15 @@ Fixed:-
 	Twitter:-
 		Unfollow => Unfollow source => Fixed issue with the unfollow source.
 	Pinterest:-
-		Grow follower => Fixed issue in other user configuration.
-		Account manager => Fixed issue in browser login.
+		Grow Follower => Fixed issue in other user configuration.
+		Account Manager => Fixed issue in browser login.
 	Facebook:-
 		Broadcast messages => Broadcast message => Fixed issue with sending messages with maximum limits.
 		Grow friends => Send Friend  Request => Fixed issue with sending friend request using graph search url.
+	Instagram:-
+		Account Manager => Fixed issue with account verification.
+		Instaposter => Reposter =>Custom photos :- Fixed issue with reposting duplicate image.
+		Instachat => Fixed issue with sending message ahen account blocked.
 
 Version[1.0.0.44],[20th-March-19]
 New Features:-
