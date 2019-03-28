@@ -3484,4 +3484,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMessageShouldHaveBeenSentBefore">Message Should Have Been Sent Before</system:String>
     <system:String x:Key="LangKeyRunAllActivityThroughBrowser">Run All Activity Through Browser.</system:String>
     <system:String x:Key="LangKeySalesNavigatorSearchUrl">Sales Navigator SearchUrl</system:String>
+    <system:String x:Key="LangKeySendPinAsAMessage">Send Pin As A Message</system:String>
 </ResourceDictionary>
