@@ -1162,7 +1162,7 @@ namespace DominatorUIUtility.ViewModel
 
                             GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork,
                                 item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
-                            
+
                             item.NotifyCancelled();
                         }
                         catch { }
@@ -1173,7 +1173,7 @@ namespace DominatorUIUtility.ViewModel
 
             // remove from file
             DeleteAccountFromCampaign(selectAccounts);
-           
+
             DeleteAccountFromProxy(selectAccounts.ToList());
 
             //also delete the associated files
@@ -1427,29 +1427,39 @@ namespace DominatorUIUtility.ViewModel
         {
             lock (_syncLoadAccounts)
             {
-                var accountList = _accountsFileManager.GetAll();
-
-                var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
-
-                var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
-
                 try
                 {
-                    foreach (var account in savedAccounts)
-                    {
-                        if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
-                            .AccountNetwork))
-                        {
-                            if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
-                            {
-                                GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
-                                break;
-                            }
+                    var accountList = _accountsFileManager.GetAll();
 
-                            LstDominatorAccountModel.AddSync(account);
+                    var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
+
+                    if (accountList == null || accountList.Count == 0)
+                    {
+                        var filePath = ConstantVariable.GetIndexAccountFile();
+                        if (File.Exists(filePath))
+                            File.Delete(filePath);
+
+                        UpdateAccountFromDb(availablenetworks);
+                    }
+                    else
+                    {
+                        var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
+
+                        foreach (var account in savedAccounts)
+                        {
+                            if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
+                                .AccountNetwork))
+                            {
+                                if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+                                {
+                                    GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                                    break;
+                                }
+
+                                LstDominatorAccountModel.AddSync(account);
+                            }
                         }
                     }
-
                     #region Start scheduling 
 
                     var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
@@ -1467,6 +1477,48 @@ namespace DominatorUIUtility.ViewModel
                 {
                     /*DEBUG*/
                     Console.WriteLine(ex.StackTrace);
+                }
+            }
+        }
+
+        private void UpdateAccountFromDb(IEnumerable<SocialNetworks> availablenetworks)
+        {
+            var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+
+            var accounts = globalDbOperation.Get<AccountDetails>();
+
+            foreach (var account in accounts)
+            {
+                var network = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), account.AccountNetwork);
+
+                if (availablenetworks.Contains(network))
+                {
+                    DominatorAccountModel dominatorAccountModel = new DominatorAccountModel()
+                    {
+                        AccountBaseModel = new DominatorAccountBaseModel
+                        {
+                            AccountNetwork = network,
+                            AccountId = account.AccountId,
+                            AccountGroup = new ContentSelectGroup { Content = account.AccountGroup },
+                            UserName = account.UserName,
+                            Password = account.Password,
+                            UserFullName = account.UserFullName,
+                            AccountProxy = new Proxy
+                            {
+                                ProxyIp = account.ProxyIP,
+                                ProxyPort = account.ProxyPort,
+                                ProxyUsername = account.ProxyUserName,
+                                ProxyPassword = account.ProxyPassword,
+                            }
+                        },
+                        AccountId = account.AccountId
+                    };
+                    if (!string.IsNullOrEmpty(account.Cookies))
+                        dominatorAccountModel.CookieHelperList = JArray.Parse(account.Cookies).ToObject<HashSet<CookieHelper>>();
+                    if (!string.IsNullOrEmpty(account.Status))
+                        dominatorAccountModel.AccountBaseModel.Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), account.Status);
+                    LstDominatorAccountModel.AddSync(dominatorAccountModel);
+                    _accountsFileManager.Add(dominatorAccountModel);
                 }
             }
         }
