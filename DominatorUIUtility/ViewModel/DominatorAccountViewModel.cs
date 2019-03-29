@@ -1511,12 +1511,18 @@ namespace DominatorUIUtility.ViewModel
                                 ProxyPassword = account.ProxyPassword,
                             }
                         },
-                        AccountId = account.AccountId
+                        AccountId = account.AccountId,
+                        DisplayColumnValue1 = account.DisplayColumnValue1,
+                        DisplayColumnValue2 = account.DisplayColumnValue2,
+                        DisplayColumnValue3 = account.DisplayColumnValue3,
+                        DisplayColumnValue4 = account.DisplayColumnValue4
                     };
                     if (!string.IsNullOrEmpty(account.Cookies))
                         dominatorAccountModel.CookieHelperList = JArray.Parse(account.Cookies).ToObject<HashSet<CookieHelper>>();
                     if (!string.IsNullOrEmpty(account.Status))
                         dominatorAccountModel.AccountBaseModel.Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), account.Status);
+                    if (!string.IsNullOrEmpty(account.ActivityManager))
+                        dominatorAccountModel.ActivityManager = JsonConvert.DeserializeObject<JobActivityManager>(account.ActivityManager);
                     LstDominatorAccountModel.AddSync(dominatorAccountModel);
                     _accountsFileManager.Add(dominatorAccountModel);
                 }

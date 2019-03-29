@@ -45,7 +45,7 @@ namespace DominatorUIUtility.CustomControl
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDominatorScheduler _dominatorScheduler;
         private readonly IDataBaseHandler _dataBaseHandler;
-
+        DbOperations globalDbOperation;
 
         #region Constructor
 
@@ -74,7 +74,7 @@ namespace DominatorUIUtility.CustomControl
         private void CreateOrUpdateCampaign(object sender)
         {
             var control = sender as FooterControl;
-
+            globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
             if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
@@ -638,8 +638,6 @@ namespace DominatorUIUtility.CustomControl
             accountDetails.ForEach(account =>
             {
                 AddTemplateToAccount(templateId, account, runningTime);
-
-                //AccountsFileManager.Edit(account);
             });
             var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
             accountsCacheService.UpsertAccounts(accountDetails.ToArray());
@@ -669,6 +667,8 @@ namespace DominatorUIUtility.CustomControl
 
             moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, 0);
             _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+
+            globalDbOperation.UpdateAccountActivityManager(account);
         }
 
         #endregion
@@ -784,6 +784,7 @@ namespace DominatorUIUtility.CustomControl
                         _dominatorScheduler.StopActivity(account, _activityType.ToString(),
                             moduleSettings?.TemplateId, false);
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
+                        globalDbOperation.UpdateAccountActivityManager(account);
                     }
                     catch (Exception ex)
                     {
@@ -792,7 +793,7 @@ namespace DominatorUIUtility.CustomControl
                 });
 
                 _accountsCacheService.UpsertAccounts(accountToRemoveModuleConfiguration.ToArray());
-
+              
                 #endregion
             }
             catch (Exception ex)
@@ -1040,7 +1041,7 @@ namespace DominatorUIUtility.CustomControl
             var isAccountDetailsUpdated = false;
 
             var selectedAccounts = new List<DominatorAccountModel>(listSelectedAccounts.Count);
-
+            var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
             foreach (var account in allAccountDetails)
             {
                 if (!listSelectedAccounts.Contains(account.AccountBaseModel.UserName))
@@ -1083,7 +1084,7 @@ namespace DominatorUIUtility.CustomControl
                     selectedAccounts.Add(account);
                     _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
 
-                    // AccountsFileManager.Edit(account);
+                    globalDbOperation.UpdateAccountActivityManager(account);
                 }
                 catch (Exception ex)
                 {
@@ -1091,6 +1092,8 @@ namespace DominatorUIUtility.CustomControl
                 }
             }
             _accountsCacheService.UpsertAccounts(allAccountDetails.ToArray());
+
+
             // save all accounts and schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
