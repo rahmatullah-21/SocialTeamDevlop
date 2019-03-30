@@ -3,7 +3,7 @@
 namespace DominatorHouseCore.Utility
 {
     [ProtoContract]
-    public class RangeUtilities:BindableBase
+    public class RangeUtilities : BindableBase
     {
         public RangeUtilities()
         {
@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Utility
         }
         private int _startValue;
 
-         [ProtoMember(1)]
+        [ProtoMember(1)]
         public int StartValue
         {
             get

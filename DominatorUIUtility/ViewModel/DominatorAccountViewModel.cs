@@ -679,7 +679,9 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
 
-            if (!_softwareSettings.Settings.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            if (!softwareSettings.IsDoNotAutoLoginAccountsWhileAddingToSoftware)
             {
                 try
                 {
@@ -1493,38 +1495,42 @@ namespace DominatorUIUtility.ViewModel
 
                 if (availablenetworks.Contains(network))
                 {
-                    DominatorAccountModel dominatorAccountModel = new DominatorAccountModel()
+                    if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
+                                                     x.AccountBaseModel.AccountNetwork == network))
                     {
-                        AccountBaseModel = new DominatorAccountBaseModel
+                        DominatorAccountModel dominatorAccountModel = new DominatorAccountModel()
                         {
-                            AccountNetwork = network,
-                            AccountId = account.AccountId,
-                            AccountGroup = new ContentSelectGroup { Content = account.AccountGroup },
-                            UserName = account.UserName,
-                            Password = account.Password,
-                            UserFullName = account.UserFullName,
-                            AccountProxy = new Proxy
+                            AccountBaseModel = new DominatorAccountBaseModel
                             {
-                                ProxyIp = account.ProxyIP,
-                                ProxyPort = account.ProxyPort,
-                                ProxyUsername = account.ProxyUserName,
-                                ProxyPassword = account.ProxyPassword,
-                            }
-                        },
-                        AccountId = account.AccountId,
-                        DisplayColumnValue1 = account.DisplayColumnValue1,
-                        DisplayColumnValue2 = account.DisplayColumnValue2,
-                        DisplayColumnValue3 = account.DisplayColumnValue3,
-                        DisplayColumnValue4 = account.DisplayColumnValue4
-                    };
-                    if (!string.IsNullOrEmpty(account.Cookies))
-                        dominatorAccountModel.CookieHelperList = JArray.Parse(account.Cookies).ToObject<HashSet<CookieHelper>>();
-                    if (!string.IsNullOrEmpty(account.Status))
-                        dominatorAccountModel.AccountBaseModel.Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), account.Status);
-                    if (!string.IsNullOrEmpty(account.ActivityManager))
-                        dominatorAccountModel.ActivityManager = JsonConvert.DeserializeObject<JobActivityManager>(account.ActivityManager);
-                    LstDominatorAccountModel.AddSync(dominatorAccountModel);
-                    _accountsFileManager.Add(dominatorAccountModel);
+                                AccountNetwork = network,
+                                AccountId = account.AccountId,
+                                AccountGroup = new ContentSelectGroup { Content = account.AccountGroup },
+                                UserName = account.UserName,
+                                Password = account.Password,
+                                UserFullName = account.UserFullName,
+                                AccountProxy = new Proxy
+                                {
+                                    ProxyIp = account.ProxyIP,
+                                    ProxyPort = account.ProxyPort,
+                                    ProxyUsername = account.ProxyUserName,
+                                    ProxyPassword = account.ProxyPassword,
+                                }
+                            },
+                            AccountId = account.AccountId,
+                            DisplayColumnValue1 = account.DisplayColumnValue1,
+                            DisplayColumnValue2 = account.DisplayColumnValue2,
+                            DisplayColumnValue3 = account.DisplayColumnValue3,
+                            DisplayColumnValue4 = account.DisplayColumnValue4
+                        };
+                        if (!string.IsNullOrEmpty(account.Cookies))
+                            dominatorAccountModel.CookieHelperList = JArray.Parse(account.Cookies).ToObject<HashSet<CookieHelper>>();
+                        if (!string.IsNullOrEmpty(account.Status))
+                            dominatorAccountModel.AccountBaseModel.Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), account.Status);
+                        if (!string.IsNullOrEmpty(account.ActivityManager))
+                            dominatorAccountModel.ActivityManager = JsonConvert.DeserializeObject<JobActivityManager>(account.ActivityManager);
+                        LstDominatorAccountModel.AddSync(dominatorAccountModel);
+                        _accountsFileManager.Add(dominatorAccountModel);
+                    }
                 }
             }
         }

@@ -3485,4 +3485,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRunAllActivityThroughBrowser">Run All Activity Through Browser.</system:String>
     <system:String x:Key="LangKeySalesNavigatorSearchUrl">Sales Navigator SearchUrl</system:String>
     <system:String x:Key="LangKeySendPinAsAMessage">Send Pin As A Message</system:String>
+    <system:String x:Key="LangKeyMustNotContainSpecificWordsInBio">Must Not Contain Specific Words in Bio</system:String>
 </ResourceDictionary>
