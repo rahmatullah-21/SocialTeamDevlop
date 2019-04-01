@@ -142,6 +142,18 @@ namespace EmbeddedBrowser
             Browser.Load(UrlBar.Text);
         }
 
+        public async Task<string> GoToCustomUrl(string url, int delayAfter = 0)
+        {
+            Browser.Load(url);
+            await Task.Delay(delayAfter);
+            return Browser.GetSourceAsync().Result;
+        }
+
+        public async Task<string> GetPageSource(string url, int delayAfter = 0)
+        {
+            return Browser.GetSourceAsync().Result;
+        }
+
         private DominatorAccountModel _dominatorAccountModel;
         public DominatorAccountModel DominatorAccountModel
         {
@@ -379,27 +391,37 @@ namespace EmbeddedBrowser
             ClickByClass = 1,
             ClickById = 2,
             ClickByName = 3,
-            EnterValueByClass = 4,
-            EnterValueById = 5,
-            EnterValueByName = 6,
-            GetValueByName = 7,
-            GetValueByTagName = 8,
-            GetLengthByClass = 9,
-            FocusByClass = 10,
-            ScrollWindow = 11,
-            Value = 12,
-            Length = 13,
-            GetValue = 14,
-            GetLength = 15,
+            ClickByQuery = 5,
+            EnterValueByClass = 6,
+            EnterValueById = 7,
+            EnterValueByName = 8,
+            GetValueByName = 9,
+            GetValueByTagName = 10,
+            GetLengthByClass = 11,
 
+
+
+            ScrollWindow = 13,
+            GetValue = 16,
+            GetLength = 17,
+            [Description("click()")]
+            Click = 18,
+            [Description("focus()")]
+            Focus = 19,
+            EnterValue = 20,
+            EnterByQuery = 21,
+            ActByQuery = 22,
+            CustomActType = 23
         }
 
         public enum AttributeType
         {
+            Null = 0,
             Id = 1,
             Name = 2,
             ClassName = 3,
-            TagName = 4
+            TagName = 4,
+            value = 5
         }
 
 
@@ -417,6 +439,7 @@ namespace EmbeddedBrowser
             OuterText = 5,
             [Description("parentElement.id")]
             ParentId = 6,
+
         }
 
 
@@ -466,7 +489,7 @@ namespace EmbeddedBrowser
                 case ActType.EnterValueByName:
                     Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value= '{value}'");
                     break;
-                case ActType.FocusByClass:
+                case ActType.Focus:
                     Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].focus()");
                     break;
                 case ActType.ScrollWindow:
@@ -479,48 +502,45 @@ namespace EmbeddedBrowser
 
 
 
-        public async Task BrowserActAsync(ActType actType, string element, double delayBefore = 0, double delayAfter = 0,
-            string value = "", int clickIndex = 0, int scrollByPixel = 100)
+        public async Task BrowserActAsync(ActType actType, AttributeType attributeType, string attributeValue,
+            string value = "", double delayBefore = 0, double delayAfter = 0, int index = 0, int scrollByPixel = 100)
         {
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
             if (Browser.IsDisposed) return;
 
-            if (!string.IsNullOrEmpty(value) && value.Contains(@"\"))
-                value = value.Replace(@"\", "\\\\");
+            if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
+                attributeValue = attributeValue.Replace(@"\", "\\\\");
+
+            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
 
             switch (actType)
             {
-                case ActType.ClickByClass:
-                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].click()");
+                case ActType.EnterByQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType}=\"{attributeValue}\"]')[{index}].value= '{value}'");
                     break;
 
-                case ActType.ClickById:
-                    Browser.ExecuteScriptAsync($"document.getElementById('{element}').click()");
+                case ActType.EnterValue:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].value= '{value}'");
                     break;
 
-                case ActType.ClickByName:
-                    Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].click()");
+                case ActType.ActByQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType}=\"{attributeValue}\"]')[{index}].click()");
                     break;
 
-                case ActType.EnterValueByClass:
-                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].value= '{value}'");
-                    break;
-
-                case ActType.EnterValueById:
-                    Browser.ExecuteScriptAsync($"document.getElementById('{element}').value= '{value}'");
-                    break;
-
-                case ActType.EnterValueByName:
-                    Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value= '{value}'");
-                    break;
-                case ActType.FocusByClass:
-                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].focus()");
-                    break;
                 case ActType.ScrollWindow:
-                    Browser.ExecuteScriptAsync($"{element}.scrollBy(0, {scrollByPixel});");
+                    Browser.ExecuteScriptAsync($"window.scrollBy(0, {scrollByPixel});");
                     break;
+
+                case ActType.CustomActType:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}");
+                    break;
+
+                default:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}");
+                    break;
+
             }
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
@@ -584,7 +604,7 @@ namespace EmbeddedBrowser
                 case ActType.GetLength:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').length").Result?.Result?.ToString() ?? "";
                 default:
-                    return "";
+                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
             }
         }
 
@@ -1724,6 +1744,19 @@ namespace EmbeddedBrowser
         {
             if (Browser.CanGoBack)
                 Browser.Back();
+        }
+
+
+        public async Task GoBack(int delayBefore = 0)
+        {
+            await Task.Delay(delayBefore);
+            if (Browser.CanGoBack)
+                Browser.Back();
+            else
+            {
+
+            }
+
         }
 
         private void ButtonForward_OnClick(object sender, RoutedEventArgs e)

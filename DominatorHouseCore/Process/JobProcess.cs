@@ -53,7 +53,7 @@ namespace DominatorHouseCore.Process
         private readonly IQueryScraperFactory _queryScraperFactory;
         private readonly IHttpHelper _httpHelper;
         private readonly IDominatorScheduler _dominatorScheduler;
-        private readonly ISoftwareSettingsFileManager _softwareSettingsFileManagaer;
+        protected readonly ISoftwareSettingsFileManager _softwareSettingsFileManagaer;
         public CampaignDetails CampaignDetails { get; }
 
 
@@ -302,7 +302,6 @@ namespace DominatorHouseCore.Process
                               GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
                               _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                           }
-
                       }
                       else
                       {
