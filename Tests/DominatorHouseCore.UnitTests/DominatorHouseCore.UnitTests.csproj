@@ -171,6 +171,9 @@
     <Compile Include="Tests\Utility\ObjectComparerTest.cs" />
     <Compile Include="Tests\Utility\PerfCounterServiceTest.cs" />
     <Compile Include="Tests\Utility\ProxyValidationHelperTest.cs" />
+    <Compile Include="Tests\Utility\RangeUtilitiesTest.cs" />
+    <Compile Include="Tests\Utility\SpinTexHelperTest.cs" />
+    <Compile Include="Tests\Utility\UrlValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DominatorHouseCore\DominatorHouseCore.csproj">

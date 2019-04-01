@@ -343,8 +343,12 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType)
         {
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+
+          //  var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+          
+            if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 ScheduleActivityForNextJob(dominatorAccountModel, activityType);
             }

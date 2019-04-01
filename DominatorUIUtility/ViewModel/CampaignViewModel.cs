@@ -5,6 +5,7 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Converters;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -37,8 +38,10 @@ namespace DominatorUIUtility.ViewModel
     {
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDataBaseHandler _dataBaseHandler;
+        private DbOperations _dbOperations { get; }
         public CampaignViewModel()
         {
+            _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
             SettingCommand = new BaseCommand<object>((sender) => true, SettingExecute);
@@ -713,7 +716,7 @@ namespace DominatorUIUtility.ViewModel
             CancellationSource.Dispose();
             CancellationSource = new CancellationTokenSource();
         }
-        private static void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
+        private void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
         {
             try
             {
@@ -727,6 +730,7 @@ namespace DominatorUIUtility.ViewModel
 
                 jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(account);
+                _dbOperations.UpdateAccountActivityManager(account);
                 if (isToggleSwitchSelected)
                     dominatorScheduler.ScheduleNextActivity(account, module);
                 else
