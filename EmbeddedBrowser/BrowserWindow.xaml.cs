@@ -149,7 +149,7 @@ namespace EmbeddedBrowser
             return Browser.GetSourceAsync().Result;
         }
 
-        public async Task<string> GetPageSource(string url, int delayAfter = 0)
+        public async Task<string> GetPageSource()
         {
             return Browser.GetSourceAsync().Result;
         }
