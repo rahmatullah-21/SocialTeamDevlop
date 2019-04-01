@@ -185,6 +185,10 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                     return false;
 
                 dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
+                dataToUpdate.ProxyIP = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyIp;
+                dataToUpdate.ProxyPort = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPort;
+                dataToUpdate.ProxyUserName = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyUsername;
+                dataToUpdate.ProxyPassword = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPassword;
                 dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
                 dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status.ToString();
                 dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
@@ -193,6 +197,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 dataToUpdate.DisplayColumnValue2 = dominatorAccountModel.DisplayColumnValue2;
                 dataToUpdate.DisplayColumnValue3 = dominatorAccountModel.DisplayColumnValue3;
                 dataToUpdate.DisplayColumnValue4 = dominatorAccountModel.DisplayColumnValue4;
+
                 return Update(dataToUpdate);
             }
         }
