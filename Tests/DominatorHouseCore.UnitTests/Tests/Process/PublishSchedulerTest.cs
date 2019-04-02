@@ -12,7 +12,6 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using QuoraDominatorCore.ViewModel.Publisher;
-using Socinator.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +26,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         string campaignId;
         IGenericFileManager _genericFileManager;
         IAccountsFileManager _accountFileManager;
+        IAccountScopeFactory _accountScopeFactory;
         IPublisherCollectionFactory _publisherCollectionFactory;
         [TestInitialize] 
         public void StartUp()
@@ -149,6 +149,45 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             PublishScheduler.AttachedActionCounts[campaignId].Should().Be(expectedRunningCount);
             PublishScheduler.CampaignsCancellationTokens.Should().BeEmpty();
         }
-     
+        [TestMethod]
+        public void should_enable_delete_post()
+        {
+            _accountFileManager = Substitute.For<IAccountsFileManager>();
+            Container.RegisterInstance(_accountFileManager);
+            _accountScopeFactory = Substitute.For<IAccountScopeFactory>();
+            Container.RegisterInstance(_accountFileManager);
+            var postDeletionModel = new PostDeletionModel()
+            {
+                Networks = SocialNetworks.Quora,
+                CampaignId = campaignId,
+                AccountId = Guid.NewGuid().ToString(),
+                DeletionTime = DateTime.Now
+            };
+            _genericFileManager.AddModule(postDeletionModel,
+              ConstantVariable.GetDeletePublisherPostModel).ReturnsForAnyArgs(true);
+            var generalmodel = new GeneralModel();
+            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+            .ReturnsForAnyArgs(new List<GeneralModel> { generalmodel });
+
+            var publisherCreateCampaignModel = new PublisherCreateCampaignModel();
+            _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
+            .ReturnsForAnyArgs(new List<PublisherCreateCampaignModel> { publisherCreateCampaignModel });
+
+            var publisherPostFetchModel = new PublisherPostFetchModel();
+
+            _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                .GetPublisherPostFetchFile).ReturnsForAnyArgs(new List<PublisherPostFetchModel> { publisherPostFetchModel });
+
+            FeatureFlags.Instance = new FeatureFlags { { SocialNetworks.Quora.ToString(), true } };
+            var qdPublisherJobProcess = new QdPublisherJobProcess(postDeletionModel.CampaignId, postDeletionModel.AccountId, SocialNetworks.Quora,
+                                null, null, null, false, new CancellationTokenSource());
+            PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
+                            .GetPublisherCoreFactory()
+                            .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null,
+                                null, null, false, new CancellationTokenSource()).Should().Be(qdPublisherJobProcess);
+            PublishScheduler.EnableDeletePost(postDeletionModel);
+            _genericFileManager.Received(1).AddModule(postDeletionModel,
+              ConstantVariable.GetDeletePublisherPostModel);
+        }
     }
 }
