@@ -1210,7 +1210,7 @@ namespace EmbeddedBrowser
                 && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
             {
                 var getPageText = Browser.GetTextAsync().Result;
-                if (getPageText.Contains("that password isn't right.") || getPageText.Contains("Reset your password")
+                if (getPageText.Contains("that password isn't right.") || getPageText.ToLower().Contains("reset your password")
                     || getPageText.Contains("doesn't look like an email address or phone number") 
                     || getPageText.Contains("Oops! You logged in too quickly. Please try again with the reCAPTCHA")
                     || getPageText.Contains("We noticed some strange activity on your account. Reset your password or log in with Facebook or Google to get back into your account."))

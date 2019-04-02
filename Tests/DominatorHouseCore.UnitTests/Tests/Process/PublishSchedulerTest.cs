@@ -11,10 +11,12 @@ using DominatorHouseCore.Utility;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using QuoraDominatorCore.ViewModel.Publisher;
 using Socinator.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Unity;
 
 namespace DominatorHouseCore.UnitTests.Tests.FileManagers
@@ -24,6 +26,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
     {
         string campaignId;
         IGenericFileManager _genericFileManager;
+        IAccountsFileManager _accountFileManager;
         IPublisherCollectionFactory _publisherCollectionFactory;
         [TestInitialize] 
         public void StartUp()
@@ -91,6 +94,61 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             _genericFileManager.Received(1).GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
                         .GetPublisherPostFetchFile);
         }
-       
+        [TestMethod]
+        public void should_Schedule_PublishNow_ByCampaign()
+        {
+            var publisherPostFetchModel = new PublisherPostFetchModel();
+            _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                        .GetPublisherPostFetchFile).ReturnsForAnyArgs(new List<PublisherPostFetchModel>() { publisherPostFetchModel });
+
+            var publishedPostDetailsModel = new PublishedPostDetailsModel();
+            _genericFileManager.GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails)
+                .ReturnsForAnyArgs(new List<PublishedPostDetailsModel>() { publishedPostDetailsModel });
+
+            var generalmodel = new GeneralModel();
+            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+            .ReturnsForAnyArgs(new List<GeneralModel> { generalmodel });
+
+            var publisherCampaignStatusModel = new PublisherCampaignStatusModel
+            {
+                CampaignId = campaignId,
+                ScheduledWeekday = new List<ContentSelectGroup>
+                    {
+                        new ContentSelectGroup
+                        {
+                            Content= DateTime.Now.DayOfWeek.ToString(),
+                            IsContentSelected=true
+                        }
+                    }
+            };
+            PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
+            PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == campaignId).Should().Be(publisherCampaignStatusModel);
+            var specificCampaign = new PublisherCampaignStatusModel { CampaignId = campaignId };
+
+            PublishScheduler.ValidateCampaignsTime(specificCampaign).Should().Be(true);
+
+            PublishScheduler.SchedulePublishNowByCampaign(campaignId);
+
+            _genericFileManager.Received(2).GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social));
+            _genericFileManager.Received(1).GetModuleDetails<PublishedPostDetailsModel>(ConstantVariable.GetPublishedSuccessDetails);
+            _genericFileManager.Received(1).GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                        .GetPublisherPostFetchFile);
+
+        }
+
+
+        [TestMethod]
+        public void should_stop_Publishing_Campaign()
+        {
+            var actualRunningCount = 2;
+            var expectedRunningCount = 1;
+            PublishScheduler.AttachedActionCounts.GetOrAdd(campaignId, actualRunningCount);
+            PublishScheduler.PublisherScheduledList.Add(campaignId);
+            PublishScheduler.CampaignsCancellationTokens.Add(campaignId, new System.Threading.CancellationTokenSource());
+            PublishScheduler.StopPublishingPosts(campaignId);
+            PublishScheduler.AttachedActionCounts[campaignId].Should().Be(expectedRunningCount);
+            PublishScheduler.CampaignsCancellationTokens.Should().BeEmpty();
+        }
+     
     }
 }

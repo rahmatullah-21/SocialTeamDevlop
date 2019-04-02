@@ -3486,4 +3486,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySalesNavigatorSearchUrl">Sales Navigator SearchUrl</system:String>
     <system:String x:Key="LangKeySendPinAsAMessage">Send Pin As A Message</system:String>
     <system:String x:Key="LangKeyMustNotContainSpecificWordsInBio">Must Not Contain Specific Words in Bio</system:String>
+    <system:String x:Key="LangKeySecondsBetweenPostLike">Seconds between Post Like</system:String>
+    <system:String x:Key="LangKeySecondsBetweenPostComment">Seconds between Post Comment</system:String>
 </ResourceDictionary>
