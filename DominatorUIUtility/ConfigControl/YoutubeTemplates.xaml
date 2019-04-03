@@ -26,6 +26,27 @@
                     <Label Margin="5" Content="{DynamicResource LangKeyLimitTheNumberOfSimultaneousWatchVideosTo}"/>
                     <controls:NumericUpDown Minimum="2" Maximum="10"  Value="{Binding LimitNumberOfSimultaneousWatchVideos}"/>
                 </StackPanel>
+
+                <!-- Old Config (Implement it later) -->
+                <!--<StackPanel Margin="10" x:Name="MainGrid">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Margin="5" Content="{DynamicResource LangKeyWaitAMinimumOf}"/>
+                        <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding WaitMinimumOf}"/>
+                        <Label Content="{DynamicResource LangKeyHoursBeforeRefreshingTheFriendListForAYoutubeAccountFriendBackupOrInviteToolsMustBeStarted}"/>
+                    </StackPanel>
+                    
+                    <CheckBox Margin="5" Content="{DynamicResource LangKeyDisableSyncForNewAccounts}"
+                                                   IsChecked="{Binding IsDisableSyncForNewAccountsChecked}"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Margin="5" Content="{DynamicResource LangKeyAllowSyncsToExecuteOnAMaximumOf}"/>
+                        <controls:NumericUpDown Minimum="0" Margin="5" Value="{Binding MaxOfFbAccount}"/>
+                        <Label Content="{DynamicResource LangKeyYoutubeAccountsAtTheSameTime}"/>
+                    </StackPanel>
+                    --><!--<Label Margin="5" Content="{DynamicResource LangKeyLimitTheNumberOfSimultaneousWatchVideosTo}"/>
+-            <controls:NumericUpDown Minimum="0" Margin="5" VerticalAlignment="top" Value="{Binding LimitNumberOfSimultaneousWatchVideos}" />--><!--
+                </StackPanel>-->
+
             </StackPanel>
         </GroupBox>
     </ControlTemplate>
