@@ -363,12 +363,25 @@ namespace EmbeddedBrowser
                         Browser.LoadingStateChanged -= BrowserOnLoaded;
                         return;
                     }
+
+                    if (Browser.GetSourceAsync().Result.Contains("profile_icon"))
+                    {
+                        DominatorAccountModel.IsUserLoggedIn = true;
+                        _isLoggedIn = true;
+                        SaveCookie();
+                    }
+
+
+                    var result = GetLoggedInPageSource();
+
+                    if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon"))
+                    {
+                        LoadPostPage(true);
+                        Thread.Sleep(3000);
+                    }
                 }
 
-                Thread.Sleep(2000);
-
-
-                if (Browser.GetSourceAsync().Result.Contains("profile_icon"))
+                else if (Browser.GetSourceAsync().Result.Contains("profile_icon"))
                 {
                     DominatorAccountModel.IsUserLoggedIn = true;
                     _isLoggedIn = true;
@@ -376,13 +389,10 @@ namespace EmbeddedBrowser
                 }
 
 
-                var result = GetLoggedInPageSource();
+                Thread.Sleep(2000);
 
-                if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon"))
-                {
-                    LoadPostPage(true);
-                    Thread.Sleep(3000);
-                }
+
+
             }
         }
 
@@ -400,7 +410,7 @@ namespace EmbeddedBrowser
             GetLengthByClass = 11,
 
 
-
+            ScrollIntoView = 12,
             ScrollWindow = 13,
             GetValue = 16,
             GetLength = 17,
@@ -421,7 +431,10 @@ namespace EmbeddedBrowser
             Name = 2,
             ClassName = 3,
             TagName = 4,
-            value = 5
+            [Description("value")]
+            Value = 5,
+            [Description("data-testid")]
+            DataTestId = 6
         }
 
 
@@ -533,6 +546,10 @@ namespace EmbeddedBrowser
                     Browser.ExecuteScriptAsync($"window.scrollBy(0, {scrollByPixel});");
                     break;
 
+                case ActType.ScrollIntoView:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].scrollIntoViewIfNeeded()");
+                    break;
+
                 case ActType.CustomActType:
                     Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}");
                     break;
@@ -596,6 +613,9 @@ namespace EmbeddedBrowser
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
+            var doc = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{valueType.GetDescriptionAttr()}";
+
+
             if (Browser.IsDisposed) return "";
             switch (actType)
             {
@@ -604,7 +624,7 @@ namespace EmbeddedBrowser
                 case ActType.GetLength:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').length").Result?.Result?.ToString() ?? "";
                 default:
-                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
+                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
             }
         }
 
