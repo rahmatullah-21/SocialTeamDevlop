@@ -2,7 +2,6 @@
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Models.SocioPublisher;
@@ -11,14 +10,12 @@ using DominatorHouseCore.Utility;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using QuoraDominatorCore.ViewModel.Publisher;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Unity;
 
-namespace DominatorHouseCore.UnitTests.Tests.FileManagers
+namespace DominatorHouseCore.UnitTests.Tests.Process
 {
     [TestClass]
     public class PublishSchedulerTest : UnityInitializationTests
@@ -27,8 +24,8 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         IGenericFileManager _genericFileManager;
         IAccountsFileManager _accountFileManager;
         IAccountScopeFactory _accountScopeFactory;
-        IPublisherCollectionFactory _publisherCollectionFactory;
-        [TestInitialize] 
+     
+        [TestInitialize]
         public void StartUp()
         {
             base.SetUp();
@@ -149,6 +146,8 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             PublishScheduler.AttachedActionCounts[campaignId].Should().Be(expectedRunningCount);
             PublishScheduler.CampaignsCancellationTokens.Should().BeEmpty();
         }
+
+
         [TestMethod]
         public void should_enable_delete_post()
         {
@@ -156,9 +155,10 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             Container.RegisterInstance(_accountFileManager);
             _accountScopeFactory = Substitute.For<IAccountScopeFactory>();
             Container.RegisterInstance(_accountFileManager);
+
             var postDeletionModel = new PostDeletionModel()
             {
-                Networks = SocialNetworks.Quora,
+                Networks = SocialNetworks.Social,
                 CampaignId = campaignId,
                 AccountId = Guid.NewGuid().ToString(),
                 DeletionTime = DateTime.Now
@@ -169,25 +169,79 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
             .ReturnsForAnyArgs(new List<GeneralModel> { generalmodel });
 
-            var publisherCreateCampaignModel = new PublisherCreateCampaignModel();
+            var publisherCreateCampaignModel = new PublisherCreateCampaignModel
+            {
+                CampaignId = campaignId,
+                JobConfigurations = new DominatorHouseCore.Models.Publisher.JobConfigurationModel(),
+                OtherConfiguration = new DominatorHouseCore.Models.Publisher.OtherConfigurationModel()
+            };
             _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile())
             .ReturnsForAnyArgs(new List<PublisherCreateCampaignModel> { publisherCreateCampaignModel });
 
-            var publisherPostFetchModel = new PublisherPostFetchModel();
-
-            _genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
-                .GetPublisherPostFetchFile).ReturnsForAnyArgs(new List<PublisherPostFetchModel> { publisherPostFetchModel });
-
-            FeatureFlags.Instance = new FeatureFlags { { SocialNetworks.Quora.ToString(), true } };
-            var qdPublisherJobProcess = new QdPublisherJobProcess(postDeletionModel.CampaignId, postDeletionModel.AccountId, SocialNetworks.Quora,
-                                null, null, null, false, new CancellationTokenSource());
-            PublisherInitialize.GetPublisherLibrary(postDeletionModel.Networks)
-                            .GetPublisherCoreFactory()
-                            .PublisherJobFactory.Create(postDeletionModel.CampaignId, postDeletionModel.AccountId, null,
-                                null, null, false, new CancellationTokenSource()).Should().Be(qdPublisherJobProcess);
             PublishScheduler.EnableDeletePost(postDeletionModel);
             _genericFileManager.Received(1).AddModule(postDeletionModel,
               ConstantVariable.GetDeletePublisherPostModel);
+            _genericFileManager.Received(0).GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+
+        }
+
+        [TestMethod]
+        public void should_Schedule_Todays_Publisher()
+        {
+            var publisherCampaignStatusModel = new PublisherCampaignStatusModel
+            {
+                CampaignId = campaignId,
+                ScheduledWeekday = new List<ContentSelectGroup>
+                    {
+                        new ContentSelectGroup
+                        {
+                            Content= DateTime.Now.DayOfWeek.ToString(),
+                            IsContentSelected=true
+                        }
+                    },
+                Status = PublisherCampaignStatus.Active
+            };
+
+            var lstpublisherCampaignStatusModel = new List<PublisherCampaignStatusModel> { publisherCampaignStatusModel };
+            PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
+            PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).Should().BeEquivalentTo(lstpublisherCampaignStatusModel);
+            var specificCampaign = new PublisherCampaignStatusModel { CampaignId = campaignId };
+
+            PublishScheduler.ValidateCampaignsTime(specificCampaign).Should().Be(true);
+
+            PublishScheduler.ScheduleTodaysPublisher();
+        }
+
+        [TestMethod]
+        public void should_Schedule_Todays_Publisher_By_Campaign()
+        {
+            var publisherCampaignStatusModel = new PublisherCampaignStatusModel
+            {
+                CampaignId = campaignId,
+                ScheduledWeekday = new List<ContentSelectGroup>
+                    {
+                        new ContentSelectGroup
+                        {
+                            Content= DateTime.Now.DayOfWeek.ToString(),
+                            IsContentSelected=true
+                        }
+                    },
+                SpecificRunningTime = new List<TimeSpan>
+                {
+                    new TimeSpan(18,20,30)
+                }
+            };
+            var generalmodel = new GeneralModel();
+            _genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+            .ReturnsForAnyArgs(new List<GeneralModel> { generalmodel });
+            PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
+            PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == campaignId).Should().Be(publisherCampaignStatusModel);
+            var specificCampaign = new PublisherCampaignStatusModel { CampaignId = campaignId };
+
+            PublishScheduler.ValidateCampaignsTime(specificCampaign).Should().Be(true);
+
+            PublishScheduler.ScheduleTodaysPublisherByCampaign(campaignId);
+            _genericFileManager.Received(1).GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social));
         }
     }
 }
