@@ -54,8 +54,6 @@ namespace DominatorUIUtility.ViewModel
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDataBaseHandler _dataBaseHandler;
         private readonly IProxyFileManager _proxyFileManager;
-        private DbOperations _dbOperations { get; }
-
         public IAccountCollectionViewModel LstDominatorAccountModel { get; }
 
         public ObservableCollection<ContentSelectGroup> Groups { get; }
@@ -161,8 +159,6 @@ namespace DominatorUIUtility.ViewModel
             BindingOperations.EnableCollectionSynchronization(VisibleColumns, AccountCollectionViewModel.SyncObject);
 
             InitialAccountDetails();
-
-            _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
 
             #region Command Initialization
 
@@ -1150,6 +1146,8 @@ namespace DominatorUIUtility.ViewModel
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
+                var _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+
                 selectAccounts.ToList().ForEach(item =>
                 {
                     LstDominatorAccountModel.Remove(
@@ -1205,7 +1203,7 @@ namespace DominatorUIUtility.ViewModel
                                     var campToUpdate = Campaigns.GetCampaignsInstance(account.AccountBaseModel.AccountNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId);
                                     campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
                                 });
-                               
+
                             }
                         }
                         //Remove Account from Account bin file
@@ -1215,7 +1213,7 @@ namespace DominatorUIUtility.ViewModel
                     catch (Exception ex)
                     {
 
-                        
+
                     }
                 }
             });

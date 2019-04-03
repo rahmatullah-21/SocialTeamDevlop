@@ -44,7 +44,7 @@ namespace DominatorUIUtility.ViewModel
     public class ProxyManagerViewModel : BaseTabViewModel, IProxyManagerViewModel
     {
         #region Properties
-        
+
         private readonly IMainViewModel _mainViewModel;
         private readonly IProxyServerParserService _proxyServerParserService;
         private readonly IAccountsFileManager _accountsFileManager;
@@ -112,9 +112,9 @@ namespace DominatorUIUtility.ViewModel
             get { return _isRandomSelected; }
             set { SetProperty(ref _isRandomSelected, value); }
         }
-        
+
         #endregion
-        
+
         #region Commands
 
         public ICommand AddProxyCommand { get; }
@@ -167,7 +167,6 @@ namespace DominatorUIUtility.ViewModel
         {
             ThreadFactory.Instance.Start(() =>
             {
-
                 try
                 {
                     _proxyFileManager.GetAllProxy().ForEach(proxy =>
@@ -190,7 +189,6 @@ namespace DominatorUIUtility.ViewModel
                                 });
                             });
                         }
-
                     });
                 }
                 catch (Exception ex)
@@ -213,7 +211,6 @@ namespace DominatorUIUtility.ViewModel
                  });
              });
         }
-
 
         private void AddProxyExecute()
         {
@@ -254,10 +251,9 @@ namespace DominatorUIUtility.ViewModel
             var loadedProxylist = FileUtilities.FileBrowseAndReader();
             if (loadedProxylist == null)
                 return;
-            var allProxy = _proxyFileManager.GetAllProxy();
+           
             int noOfExistingProxies = 0;
             int noOfProxyAdded = 0;
-
 
             ThreadFactory.Instance.Start(() =>
             {
@@ -266,12 +262,23 @@ namespace DominatorUIUtility.ViewModel
                 {
                     try
                     {
-                        if (allProxy.Any(x => x.AccountProxy.ProxyIp == givenProxy.AccountProxy.ProxyIp
-                                              && x.AccountProxy.ProxyPort == givenProxy.AccountProxy.ProxyPort))
-
+                        var existingProxy = LstProxyManagerModel.Where(x => x.AccountProxy.ProxyIp == givenProxy.AccountProxy.ProxyIp
+                                                && x.AccountProxy.ProxyPort == givenProxy.AccountProxy.ProxyPort);
+                        if (existingProxy != null && existingProxy.Count()!=0)
                         {
-                            noOfExistingProxies++;
-                            continue;
+                            if (Proxy.IsLuminatiProxy(givenProxy.AccountProxy.ProxyIp))
+                            {
+                                if (existingProxy.Any(x => x.AccountProxy.ProxyUsername == givenProxy.AccountProxy.ProxyUsername))
+                                {
+                                    noOfExistingProxies++;
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                noOfExistingProxies++;
+                                continue;
+                            }
                         }
 
                         if (string.IsNullOrEmpty(givenProxy.AccountProxy.ProxyGroup))

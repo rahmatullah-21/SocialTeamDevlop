@@ -133,7 +133,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-      
+
 
         public void SetProxyCredentials(string proxyUsername, string proxyPassword)
         {
@@ -183,9 +183,12 @@ namespace DominatorHouseCore.Models
 
         public static bool IsValidProxyIp(string proxyAddress)
         {
-            return ProxyIpValidationRegex.IsMatch(proxyAddress);
+            return ProxyIpValidationRegex.IsMatch(proxyAddress) || IsLuminatiProxy(proxyAddress);
         }
-
+        public static bool IsLuminatiProxy(string proxyAddress)
+        {
+            return proxyAddress.Contains("zproxy.lum-superproxy.io");
+        }
         public static bool IsValidProxyPort(string proxyPort)
         {
             return ProxyPortValidationRegex.IsMatch(proxyPort);

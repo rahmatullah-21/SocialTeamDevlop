@@ -52,24 +52,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             };
 
 
-
-            ////Todo: comment above on production and following initialize
-            //var availableNetworks = new HashSet<SocialNetworks>
-            //{
-            //    SocialNetworks.Social,
-            //    SocialNetworks.Twitter,
-            //    SocialNetworks.Facebook,
-            //    SocialNetworks.Gplus,
-            //    SocialNetworks.Instagram,
-            //    SocialNetworks.LinkedIn,
-            //    SocialNetworks.Quora,
-            //    SocialNetworks.Pinterest,
-            //    SocialNetworks.Tumblr,
-            //    SocialNetworks.Youtube,
-            //    SocialNetworks.Reddit
-            //};
-
-
             var availableNetworks = SocinatorInitialize.AvailableNetworks;
             foreach (var network in availableNetworks)
             {
@@ -126,7 +108,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
                         break;
                     case SocialNetworks.Pinterest:
                     case SocialNetworks.Quora:
-                    case SocialNetworks.Gplus:
+                    //case SocialNetworks.Gplus:
                     case SocialNetworks.Youtube:
                         break;
                 }

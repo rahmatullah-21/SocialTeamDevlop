@@ -524,7 +524,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <!--<RowDefinition Height="*"/>-->
                     </Grid.RowDefinitions>
                     <Border BorderThickness="0,2,0,2" BorderBrush="Black" >
                         <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
@@ -546,7 +546,7 @@
                       </Hyperlink>
                         </TextBlock>
                     </Border>
-                    <Border Grid.Row="2" BorderThickness="0,2,0,2" BorderBrush="Black">
+                    <!--<Border Grid.Row="2" BorderThickness="0,2,0,2" BorderBrush="Black">
                         <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap" >
                       <Hyperlink Foreground="White"
@@ -556,8 +556,8 @@
                                Foreground="White" />
                       </Hyperlink>
                         </TextBlock>
-                    </Border>
-                    <Border Grid.Row="3" BorderThickness="0,2,0,2" BorderBrush="Black">
+                    </Border>-->
+                    <Border Grid.Row="2" BorderThickness="0,2,0,2" BorderBrush="Black">
                         <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap">
                       <Hyperlink Foreground="White"
@@ -568,7 +568,7 @@
                       </Hyperlink>
                     </TextBlock>
                     </Border>
-                    <Border Grid.Row="4" BorderThickness="0,2,0,2" BorderBrush="Black">
+                    <Border Grid.Row="3" BorderThickness="0,2,0,2" BorderBrush="Black">
                         <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    TextWrapping="Wrap">
                             <Hyperlink Foreground="White" Command="{Binding WatchTutorialCommand}"
@@ -579,7 +579,7 @@
                         </TextBlock>
 
                     </Border>
-                    <Grid Grid.Row="5" Background="#3897F0">
+                    <Grid Grid.Row="4" Background="#3897F0">
                         <Border  BorderThickness="0,2,0,2" BorderBrush="Black">
                             <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    TextWrapping="Wrap">
@@ -592,7 +592,7 @@
                         </Border>
                     </Grid>
 
-                    <Grid Grid.Row="6" Background="{DynamicResource AccentColorBrush}">
+                    <Grid Grid.Row="5" Background="{DynamicResource AccentColorBrush}">
                         <Border  BorderThickness="0,2,0,2" BorderBrush="Black">
                             <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    TextWrapping="Wrap">

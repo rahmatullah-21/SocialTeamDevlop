@@ -35,8 +35,8 @@
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>298</ApplicationRevision>
-    <ApplicationVersion>1.0.0.298</ApplicationVersion>
+    <ApplicationRevision>300</ApplicationRevision>
+    <ApplicationVersion>1.0.0.300</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -476,14 +476,6 @@
     <ProjectReference Include="..\..\facedominator-library\FaceDominatorUI\FaceDominatorUI.csproj">
       <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
       <Name>FaceDominatorUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorCore\GplusDominatorCore.csproj">
-      <Project>{eaffb84c-f492-4ee5-aa11-c285aaf4e154}</Project>
-      <Name>GplusDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorUI\GplusDominatorUI.csproj">
-      <Project>{654340fb-7bc9-427a-9439-1091bdb15c84}</Project>
-      <Name>GplusDominatorUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
       <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
