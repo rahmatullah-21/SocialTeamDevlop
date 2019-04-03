@@ -1051,7 +1051,7 @@
     <system:String x:Key="LangKeyLimitTheNumberOfDashboardSummaryItemsTo">Limit The Number Of Dashboard - Summary Items To</system:String>
     <system:String x:Key="LangKeyLimitTheNumberOfPostsInCampaignsTo">Limit The Number Of Posts In Campaigns To</system:String>
     <system:String x:Key="LangKeyLimitTheNumberOfRecordsInAnyListTo">Limit The Number Of Records In Any List To</system:String>
-    <system:String x:Key="LangKeyLimitTheNumberOfSimultaneousWatchVideosTo">Limit The Number Of Simultaneous Watch Videos To</system:String>
+    <system:String x:Key="LangKeyLimitTheNumberOfSimultaneousWatchVideosTo">Limit The Number Of Browsers for Simultaneous Watch Videos To</system:String>
     <system:String x:Key="LangKeyLimits">Limits</system:String>
     <system:String x:Key="LangKeyLink">Link</system:String>
     <system:String x:Key="LangKeyLinkedDominator">Linked Dominator</system:String>

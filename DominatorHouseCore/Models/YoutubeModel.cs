@@ -4,9 +4,9 @@ using ProtoBuf;
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    class YoutubeModel : BindableBase
+    public class YoutubeModel : BindableBase
     {
-        private int _limitNumberOfSimultaneousWatchVideos;
+        private int _limitNumberOfSimultaneousWatchVideos = 5;
         [ProtoMember(1)]
         public int LimitNumberOfSimultaneousWatchVideos
         {
