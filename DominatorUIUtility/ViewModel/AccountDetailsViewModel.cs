@@ -593,9 +593,13 @@ namespace DominatorUIUtility.ViewModel
             DominatorAccountModel.AccountBaseModel.AccountNetwork = OldDominatorAccountModel.AccountBaseModel.AccountNetwork;
             DominatorAccountModel.AccountBaseModel.AccountGroup.Content = OldDominatorAccountModel.AccountBaseModel.AccountGroup.Content;
             DominatorAccountModel.AccountBaseModel.AccountProxy = OldDominatorAccountModel.AccountBaseModel.AccountProxy;
+            DominatorAccountModel.AccountBaseModel.UserFullName = OldDominatorAccountModel.AccountBaseModel.UserFullName;
 
             DominatorAccountModel.MailCredentials = OldDominatorAccountModel.MailCredentials;
             DominatorAccountModel.UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;
+            DominatorAccountModel.IsAutoVerifyByEmail = OldDominatorAccountModel.IsAutoVerifyByEmail;
+            DominatorAccountModel.IsUseSSL = OldDominatorAccountModel.IsUseSSL;
+            DominatorAccountModel.AccountBaseModel.IsChkTwoFactorLogin = OldDominatorAccountModel.AccountBaseModel.IsChkTwoFactorLogin;
 
             if (ObjectComparer.Compare(DominatorAccountModel.CookieHelperList, OldDominatorAccountModel.CookieHelperList))
             {

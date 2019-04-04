@@ -1160,9 +1160,6 @@ namespace DominatorUIUtility.ViewModel
 
                             _dbOperations.RemoveMatch<AccountDetails>(user => user.UserName == item.UserName && user.AccountNetwork == network);
 
-                            GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork,
-                                item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
-
                             item.NotifyCancelled();
                         }
                         catch { }
@@ -1208,6 +1205,10 @@ namespace DominatorUIUtility.ViewModel
                         }
                         //Remove Account from Account bin file
                         _accountsFileManager.Delete(x => x.AccountId == account.AccountId);
+
+                        GlobusLogHelper.log.Info(Log.Deleted, account.AccountBaseModel.AccountNetwork,
+                            account.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
+
                         Thread.Sleep(5);
                     }
                     catch (Exception ex)

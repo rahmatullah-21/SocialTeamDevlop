@@ -3488,4 +3488,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMustNotContainSpecificWordsInBio">Must Not Contain Specific Words in Bio</system:String>
     <system:String x:Key="LangKeySecondsBetweenPostLike">Seconds between Post Like</system:String>
     <system:String x:Key="LangKeySecondsBetweenPostComment">Seconds between Post Comment</system:String>
+    <system:String x:Key="LangKeyEnableScrapeDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram">Enable Scrape Different Users Across All Instagram Accounts Configured In Instagram</system:String>
 </ResourceDictionary>

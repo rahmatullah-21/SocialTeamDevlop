@@ -495,6 +495,7 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
 
                 _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
+                globalDbOperation.UpdateAccountActivityManager(account);
             });
             _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
 
@@ -989,6 +990,7 @@ namespace DominatorUIUtility.CustomControl
                         _dominatorScheduler.StopActivity(account, _activityType.ToString(),
                             moduleSettings.TemplateId, true);
                         _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleSettings);
+                        globalDbOperation.UpdateAccountActivityManager(account);
                     });
 
                     _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
@@ -1137,6 +1139,7 @@ namespace DominatorUIUtility.CustomControl
 
                     selectedAccounts.Add(account);
                     _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
+                    globalDbOperation.UpdateAccountActivityManager(account);
                 }
                 catch (Exception ex)
                 {
@@ -1338,6 +1341,7 @@ namespace DominatorUIUtility.CustomControl
 
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
+                globalDbOperation.UpdateAccountActivityManager(accountModel);
                 if (!moduleConfiguration.IsEnabled)
                 {
                     _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
@@ -1480,7 +1484,8 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration);
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
+                globalDbOperation.UpdateAccountActivityManager(accountModel);
+                Dialog.ShowDialog("Success", "Successfully Saved !!!");
                 #endregion
 
             }
@@ -1558,6 +1563,7 @@ namespace DominatorUIUtility.CustomControl
                 accountModuleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(accountModuleSettings);
                 _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, accountModuleSettings);
                 _accountsCacheService.UpsertAccounts(account);
+                globalDbOperation.UpdateAccountActivityManager(account);
             }
             catch (Exception ex)
             {

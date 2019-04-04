@@ -90,8 +90,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         RescheduleifLimitReached(jobProcess, limitInfo, limitInfo.ReachedLimitType);
                         return;
                     }
-
+                  
                     jobProcess.StartProcessAsync().ContinueWith(a => scope.Dispose());
+                    jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
             }
             catch (Exception ex)
@@ -109,9 +110,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     var moduleConfiguration =
                         _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
-                    moduleConfiguration.IsEnabled = needRestart;
-                    _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
-                    _accountsCacheService.UpsertAccounts(account);
+                    moduleConfiguration = moduleConfiguration??
+                        _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.ActivityType.ToString() == module);
+                    if (moduleConfiguration != null)
+                    {
+                        moduleConfiguration.IsEnabled = needRestart;
+                        _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                        _accountsCacheService.UpsertAccounts(account);
+                    }
                 }
                 catch { }
                 var id = JobProcess.AsId(account.AccountId, templateId);
@@ -410,6 +416,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType)
         {
+            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
                 jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
                 jobProcess.DominatorAccountModel.AccountBaseModel.UserName, jobProcess.ActivityType, limitInfo.LimitValue);

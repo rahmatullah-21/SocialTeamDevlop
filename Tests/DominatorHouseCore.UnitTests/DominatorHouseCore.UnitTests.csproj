@@ -151,6 +151,7 @@
     <Compile Include="Tests\FileManagers\ProxyFileManagerTest.cs" />
     <Compile Include="Tests\FileManagers\TemplatesCacheServiceTest.cs" />
     <Compile Include="Tests\Models\JobActivityConfigurationManagerTests.cs" />
+    <Compile Include="Tests\Models\ProxyTest.cs" />
     <Compile Include="Tests\Process\EntityCounterFunctionTests.cs" />
     <Compile Include="Tests\Process\EntityCountersManagerTests.cs" />
     <Compile Include="Tests\Process\ExecutionLimitsManagerTests.cs" />

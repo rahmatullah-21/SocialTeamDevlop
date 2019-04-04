@@ -115,7 +115,7 @@ namespace DominatorUIUtility.ViewModel
                 SelectedAccount = Accounts.BySocialNetwork(e ?? SocialNetworks.Social).FirstOrDefault();
                 UpdateGrowthProperties();
                 SetGrowthForAccount();
-                UpdateChart();
+                //UpdateChart();
             }
         }
 

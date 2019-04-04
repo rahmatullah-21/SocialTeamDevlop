@@ -21,6 +21,7 @@ namespace DominatorUIUtility.IoC
             //Container.RegisterSingleton<IOtherConfigurationViewModel, EmbeddedBrowserViewModel>("EmbeddedBrowserViewModel");
             Container.RegisterSingleton<IOtherConfigurationViewModel, QuoraViewModel>("QuoraViewModel");
             Container.RegisterSingleton<IOtherConfigurationViewModel, YoutubeViewModel>("YoutubeViewModel");
+            Container.RegisterSingleton<IOtherConfigurationViewModel, InstagramUserViewModel>("InstagramUserViewModel");
 
             Container.RegisterSingleton<IOtherConfigurationViewModel, LinkedInViewModel>("LinkedInViewModel");
             Container.RegisterSingleton<IOtherConfigurationViewModel, ThirdPartyViewModel>("ThirdPartyViewModel");
