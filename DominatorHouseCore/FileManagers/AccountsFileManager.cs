@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ namespace DominatorHouseCore.FileManagers
 {
     public interface IAccountsFileManager
     {
-        // void SaveAll(List<DominatorAccountModel> lstAccountModel);
+     
         void UpdateAccounts(IList<DominatorAccountModel> libraryAccounts);
         bool Edit(DominatorAccountModel account);
         List<DominatorAccountModel> GetAll();
@@ -19,12 +18,8 @@ namespace DominatorHouseCore.FileManagers
             SocialNetworks socialNetwork);
 
         bool Add(DominatorAccountModel account);
-        //  bool Add<AModel>(AModel account) where AModel : class;
-        // void DeleteSelected(List<DominatorAccountModel> accs);
-
+       
         void Delete(Func<DominatorAccountModel, bool> match);
-
-        //   DominatorAccountModel GetAccount(string userName);
 
         DominatorAccountModel GetAccountById(string accountId);
 
@@ -44,19 +39,6 @@ namespace DominatorHouseCore.FileManagers
         {
             _accountsCacheService = accountsCacheService;
         }
-
-
-        // Saves all accounts. Have to work Only in Social library. Otherwise use UpdateAccounts() method to update AccountDetails.bin
-        // NOTE: make sure lstAccountModel contains all accounts
-
-        //internal static void SaveAll(List<DominatorAccountModel> lstAccountModel)
-        //{
-        //    // Warning: make sure lstAccountModel contains all accounts            
-        //    AccountsCacheService.UpsertAccounts(lstAccountModel.ToArray());
-        //    GlobusLogHelper.log.Debug($"{lstAccountModel.Count} Accounts successfully saved");
-        //}
-
-
 
         // Update account entries and save to AccountDetails.bin        
         public void UpdateAccounts(IList<DominatorAccountModel> libraryAccounts)
@@ -90,34 +72,11 @@ namespace DominatorHouseCore.FileManagers
             return _accountsCacheService.UpsertAccounts(account);
         }
 
-        // backward compatibility for TD, PD
-
-        //public static bool Add<AModel>(AModel account) where AModel : class
-        //{
-        //    throw new Exception("this method should be deleted");
-        //    //return BinFileHelper.Append(account);
-        //}
-
-        //public static void DeleteSelected(List<DominatorAccountModel> accs)
-        //{
-        //    AccountsCacheService.Delete(accs.ToArray());
-        //}
-
-
         public void Delete(Func<DominatorAccountModel, bool> match)
         {
             var accs = GetAll();
             _accountsCacheService.Delete(accs.Where(match).ToArray());
         }
-
-
-        //public static DominatorAccountModel GetAccount(string userName)
-        //{
-        //    var accounts = GetAll();
-        //    var result = accounts.FirstOrDefault(x => x.AccountBaseModel.UserName == userName);
-        //    return result;
-        //}
-
 
         public DominatorAccountModel GetAccountById(string accountId)
 

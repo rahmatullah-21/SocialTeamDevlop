@@ -1,4 +1,5 @@
 ﻿using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
@@ -6,7 +7,6 @@ using FluentScheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
@@ -21,9 +21,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         public void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
         {
-
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
+           // var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 Task.Factory.StartNew(() =>
                  {

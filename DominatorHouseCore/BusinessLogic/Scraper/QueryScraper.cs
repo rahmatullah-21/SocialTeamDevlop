@@ -133,17 +133,15 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     UpdateScheduleIfNoMoreData();
                 }
             }
-            catch (OperationCanceledException oce)
+            catch (OperationCanceledException)
             {
-                oce.DebugLog(@"Cancellation Requested !");
+
             }
             catch (AggregateException ae)
             {
                 foreach (var e in ae.InnerExceptions)
                 {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
+                    if (!(e is TaskCanceledException || e is OperationCanceledException))
                         e.DebugLog(e.StackTrace + e.Message);
                 }
             }

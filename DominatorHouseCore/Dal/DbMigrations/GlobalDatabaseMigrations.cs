@@ -9,7 +9,7 @@
     {
         public GlobalDatabaseMigrations()
         {
-            AddMigrations(1, conn =>
+            AddMigrations(2, conn =>
             {
                 conn.CreateTable<DatabaseHandler.DHTables.AccountDetails>();
                 conn.CreateTable<DatabaseHandler.DHTables.BlackWhiteListUser>();

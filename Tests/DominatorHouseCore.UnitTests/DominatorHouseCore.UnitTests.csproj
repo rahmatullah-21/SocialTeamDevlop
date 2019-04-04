@@ -157,6 +157,7 @@
     <Compile Include="Tests\Process\JobConfigurationProviderTests.cs" />
     <Compile Include="Tests\Process\JobCountersManagerTests.cs" />
     <Compile Include="Tests\Process\JobLimitsHolderTests.cs" />
+    <Compile Include="Tests\Process\PublishSchedulerTest.cs" />
     <Compile Include="Tests\Process\RunningJobsHolderTests.cs" />
     <Compile Include="Tests\ProxyServerManagment\ProxyServerParserServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -171,11 +172,22 @@
     <Compile Include="Tests\Utility\ObjectComparerTest.cs" />
     <Compile Include="Tests\Utility\PerfCounterServiceTest.cs" />
     <Compile Include="Tests\Utility\ProxyValidationHelperTest.cs" />
+    <Compile Include="Tests\Utility\RangeUtilitiesTest.cs" />
+    <Compile Include="Tests\Utility\SpinTexHelperTest.cs" />
+    <Compile Include="Tests\Utility\UrlValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
+      <Project>{21B1D90E-F201-4EF0-B4E9-A99315945F1D}</Project>
+      <Name>QuoraDominatorCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DominatorHouse\DominatorHouse.csproj">
+      <Project>{C7B598E7-4B31-4A92-9B53-022A25E50002}</Project>
+      <Name>DominatorHouse</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dominator.Tests.Utils\Dominator.Tests.Utils.csproj">
       <Project>{3debdd7b-b004-4adb-bdf8-58d6d65b8e57}</Project>

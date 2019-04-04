@@ -32,9 +32,9 @@ namespace DominatorHouseCore.Settings
         bool Save();
     }
 
-    public class SoftwareSettings : ISoftwareSettings
+    public class SoftwareSettings : BindableBase, ISoftwareSettings
     {
-        private readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
+        public ISoftwareSettingsFileManager _softwareSettingsFileManager;
         private readonly IFileSystemProvider _fileSystemProvider;
         private readonly IGenericFileManager _genericFileManager;
 
@@ -46,8 +46,13 @@ namespace DominatorHouseCore.Settings
             _genericFileManager = genericFileManager;
             _accountsFileManager = accountsFileManager;
         }
+        private SoftwareSettingsModel _settings;
 
-        public SoftwareSettingsModel Settings { get; set; }
+        public SoftwareSettingsModel Settings
+        {
+            get { return _settings; }
+            set { SetProperty(ref _settings, value); }
+        }
 
         public void InitializeOnLoadConfigurations()
         {
@@ -125,9 +130,7 @@ namespace DominatorHouseCore.Settings
         private void CheckSocinatorIcon()
         {
             if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
-            {
                 Utilities.DownloadSocinatorIcon();
-            }
         }
 
         #region Producer Consumer Solution for Account Update

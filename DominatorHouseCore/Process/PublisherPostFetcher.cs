@@ -203,7 +203,7 @@ namespace DominatorHouseCore.Process
                 var relatedPostFectcher = JobFetcherId.Where(x => x.Contains(campaignId));
 
                 // Remove all post fetcher details
-                relatedPostFectcher.ForEach(JobManager.RemoveJob);
+                relatedPostFectcher.ToList().ForEach(JobManager.RemoveJob);
 
                 // Remove Post fetcher Id from Sorted set
                 JobFetcherId.RemoveWhere(x => x.Contains(campaignId));

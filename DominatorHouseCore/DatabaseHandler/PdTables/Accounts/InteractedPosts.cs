@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
 using DominatorHouseCore.Enums;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
@@ -59,7 +60,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
         //Type of Operation performed(follow/comment...etc)
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public ActivityType OperationType { get; set; }
+        public string OperationType { get; set; }
 
         //User id of the User in which the Pin belongs to
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
@@ -88,7 +89,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string PublishedDate { get; set; }
         public ActivityType GetActivityType()
         {
-            return OperationType;
+            return (ActivityType)Enum.Parse(typeof(ActivityType), OperationType);
         }
     }
 }

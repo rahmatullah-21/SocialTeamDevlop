@@ -43,14 +43,14 @@ namespace DominatorUIUtility.Views.Publisher
 
             #region Gplus
 
-            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Gplus))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = FindResource("LangKeyGoogle+").ToString(),
-                    Content = new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
-                });
-            }
+            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Gplus))
+            //{
+            //    tabItems.Add(new TabItemTemplates
+            //    {
+            //        Title = FindResource("LangKeyGoogle+").ToString(),
+            //        Content = new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
+            //    });
+            //}
 
             #endregion
 

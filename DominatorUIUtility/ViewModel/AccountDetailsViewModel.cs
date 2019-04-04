@@ -200,7 +200,8 @@ namespace DominatorUIUtility.ViewModel
                     DominatorAccountModel.CookieHelperList.Remove(cookie);
             });
 
-            EditAccount();
+            if (!EditAccount())
+                return;
 
             #region Checking status
 
@@ -255,28 +256,44 @@ namespace DominatorUIUtility.ViewModel
             #endregion
         }
 
-        private void EditAccount()
+        private bool EditAccount()
         {
 
-            if (OldDominatorAccountModel == null) return;
+            if (OldDominatorAccountModel == null) return false;
 
             var newAccountBaseModel = DominatorAccountModel.AccountBaseModel;
 
             try
             {
                 if (string.IsNullOrEmpty(newAccountBaseModel.UserName) ||
-                           string.IsNullOrEmpty(newAccountBaseModel.Password)) return;
+                           string.IsNullOrEmpty(newAccountBaseModel.Password))
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                        "Account", "Saving Account failed because either user or password is empty");
+                    return false;
+                }
 
 
                 if ((!string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyIp) &&
                      string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort))
                     || (string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyIp) &&
-                        !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort))) return;
+                        !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort)))
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                      "Account", "Saving Account failed because either ProxyIp or ProxyPort is empty but not both");
+                    return false;
+                }
+
 
                 if ((!string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyUsername) &&
                      string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))
                     || (string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyUsername) &&
-                        !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))) return;
+                        !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword)))
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                      "Account", "Saving Account failed because either ProxyUsername or ProxyPassword is empty but not both");
+                    return false;
+                }
 
 
                 if (OldDominatorAccountModel.AccountBaseModel.UserName != DominatorAccountModel.AccountBaseModel.UserName
@@ -390,6 +407,7 @@ namespace DominatorUIUtility.ViewModel
             #endregion
 
             GlobusLogHelper.log.Info(Log.AccountEdited, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName);
+            return true;
         }
 
         private bool CancelCanExecute(object arg) => true;
@@ -625,7 +643,7 @@ namespace DominatorUIUtility.ViewModel
                 BtnSendVerificationCodeVisibility = Visibility.Visible;
                 ex.DebugLog();
             }
-           
+
         }
         private void SendResetPasswordLinkExecute(object sender)
         {

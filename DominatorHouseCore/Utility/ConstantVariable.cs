@@ -228,7 +228,7 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherPinterestSettingsFile() => GetOtherDir() + @"\Pinterest.bin";
         public static string GetOtherTumblrSettingsFile() => GetOtherDir() + @"\Tumblr.bin";
         public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
-        public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Twitter.bin";
+        public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
        
         #endregion
 

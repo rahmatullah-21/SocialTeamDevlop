@@ -33,11 +33,11 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                     new CounterKeyFactory<InteractedBoards>(SocialNetworks.Pinterest, true));
 
             Container
-                .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
+               .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
                     new EntityCounterFunction<InteractedPosts>(
                         new DateEpochFilterPredicate<InteractedPosts>(
                             a => a.InteractionDate),
-                        new ActivityTypeFilterPredicate<InteractedPosts>(
+                        new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
                             a => a.OperationType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
