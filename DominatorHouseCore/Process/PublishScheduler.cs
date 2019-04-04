@@ -1168,7 +1168,7 @@ namespace DominatorHouseCore.Process
         /// </summary>
         /// <param name="specificCampaign">Campaign Status model</param>
         /// <returns></returns>
-        private static bool ValidateCampaignsTime(PublisherCampaignStatusModel specificCampaign)
+        public static bool ValidateCampaignsTime(PublisherCampaignStatusModel specificCampaign)
         {
             var isStart = true;
 

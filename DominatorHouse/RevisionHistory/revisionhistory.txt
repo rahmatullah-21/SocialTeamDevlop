@@ -1,3 +1,42 @@
+Version[1.0.0.46],[3rd-April-19]
+New Features:-
+	Facebook:-
+		Engage => post like => Added features with like single post of each unique user posts.
+		Added features with save added accounts profile pictures
+
+Fixed:-
+	Facebook:-
+		Scrapper => Post scrapper => Fixed issue with scrapping profile scrapper campaigns.
+		Scraper => Post scraper => Fixed issue with scrap posts using custom url.
+	    Scraper => Download media => Fixed issue with downloading media.
+	Reddit:-
+		Comment Scraper => Post filter => Fixed issue with scrapping comments with specific range.
+		Reddit => Voter => Remove vote from comments => Fixed issue with remove vote from comment.
+		Reddit => Voter => Downvote comments => Fixed issue with downvote the comment.
+		Reddit => voter => upvote comments => Fixed issue with upvote the comment.
+		Reddit => sociopublisher => Fixed issue with posting on groups.
+	Linkedin:-
+		Grow connection => Remove connection => Fixed issue with outside software.
+	Pinterest:-
+		Social => Delete Pin => Fixed issue with delete pin.
+		Pintry/Pincommenter => Try => Fixed issue with after try  action.
+		Account manager => Fixed issue with showing login failed.
+		Account manager => Fixed issue with reset password.
+		User Scraper => Custom users => Fixed issue with filter must not contain specific words.
+	Quora:-
+		Voting => Fixed issue with downvote question by applying question filter.
+	Tumblr:-
+		Reblog => Fixed issue with reblog post.
+		Scraper => Post scraper => Fixed issue with their count.
+		Broadcast message => Fixed issue with blacklist user.
+		Social => Acount activity => Fixed issue with report.
+	Instagram:-
+		Publisher => Fixed issue with publishing PNG format media.
+		Instachat => Fixed issue with tag Full Name.
+		Instaposter => Reposter => Specific Users Post => Fixed issue with repost.
+		Instaliker/Instacommenter => Fixed issue with allow multiple comment on same post.
+		Instaliker/Instacommenter => Fixed issue with taking delay after comment action.
+	
 Version[1.0.0.45],[26th-March-19]
 Fixed:-
 	Social:-

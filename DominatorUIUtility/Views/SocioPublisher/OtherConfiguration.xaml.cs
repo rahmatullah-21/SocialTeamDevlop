@@ -96,20 +96,20 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     #region Google+
 
-                    var oldGooglePlusModel = ObjCampaignsAdvanceSetting.AdvanceSetting.GooglePlusModel;
-                    var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
-                    newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject(oldGooglePlusModel, newGooglePlusModel);
+                    //var oldGooglePlusModel = ObjCampaignsAdvanceSetting.AdvanceSetting.GooglePlusModel;
+                    //var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
+                    //newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject(oldGooglePlusModel, newGooglePlusModel);
 
-                    if (newGooglePlusModel != null)
-                    {
-                        newGooglePlusModel.CampaignId = campaignId;
-                        var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
-                        var lstGooglePlusModels = _genericFileManager.GetModuleDetails<GooglePlusModel>(file);
-                        var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                        ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Gplus, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                    //if (newGooglePlusModel != null)
+                    //{
+                    //    newGooglePlusModel.CampaignId = campaignId;
+                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
+                    //    var lstGooglePlusModels = _genericFileManager.GetModuleDetails<GooglePlusModel>(file);
+                    //    var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Gplus, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
 
-                    }
+                    //}
                     #endregion
 
                     #region Instagram

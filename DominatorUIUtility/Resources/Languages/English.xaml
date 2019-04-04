@@ -1051,7 +1051,7 @@
     <system:String x:Key="LangKeyLimitTheNumberOfDashboardSummaryItemsTo">Limit The Number Of Dashboard - Summary Items To</system:String>
     <system:String x:Key="LangKeyLimitTheNumberOfPostsInCampaignsTo">Limit The Number Of Posts In Campaigns To</system:String>
     <system:String x:Key="LangKeyLimitTheNumberOfRecordsInAnyListTo">Limit The Number Of Records In Any List To</system:String>
-    <system:String x:Key="LangKeyLimitTheNumberOfSimultaneousWatchVideosTo">Limit The Number Of Simultaneous Watch Videos To</system:String>
+    <system:String x:Key="LangKeyLimitTheNumberOfSimultaneousWatchVideosTo">Limit The Number Of Browsers for Simultaneous Watch Videos To</system:String>
     <system:String x:Key="LangKeyLimits">Limits</system:String>
     <system:String x:Key="LangKeyLink">Link</system:String>
     <system:String x:Key="LangKeyLinkedDominator">Linked Dominator</system:String>
@@ -2689,9 +2689,9 @@ They are replaced with user info.</system:String>
     <system:String x:Key="LangKeySourceUrl">Source Url</system:String>
 
     <system:String x:Key="LangKeyImportAccountDescription"  xml:space="preserve">Format :
-Type 1. Group Name:SocialNetwork:User Name:Password:Alternate Email (For YouTube/Gplus)
-Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Alternate Email (For YouTube/Gplus)
-Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password:Alternate Email (For YouTube/Gplus)
+Type 1. Group Name:SocialNetwork:User Name:Password:Alternate Email (For YouTube)
+Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Alternate Email (For YouTube)
+Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password:Alternate Email (For YouTube)
     </system:String>
     <system:String x:Key="LangKeyImportProxyDescription"  xml:space="preserve">Format :
 Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
@@ -3486,4 +3486,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySalesNavigatorSearchUrl">Sales Navigator SearchUrl</system:String>
     <system:String x:Key="LangKeySendPinAsAMessage">Send Pin As A Message</system:String>
     <system:String x:Key="LangKeyMustNotContainSpecificWordsInBio">Must Not Contain Specific Words in Bio</system:String>
+    <system:String x:Key="LangKeySecondsBetweenPostLike">Seconds between Post Like</system:String>
+    <system:String x:Key="LangKeySecondsBetweenPostComment">Seconds between Post Comment</system:String>
 </ResourceDictionary>

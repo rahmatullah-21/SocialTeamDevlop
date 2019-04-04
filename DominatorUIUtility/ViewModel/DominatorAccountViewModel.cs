@@ -54,8 +54,6 @@ namespace DominatorUIUtility.ViewModel
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDataBaseHandler _dataBaseHandler;
         private readonly IProxyFileManager _proxyFileManager;
-        private DbOperations _dbOperations { get; }
-
         public IAccountCollectionViewModel LstDominatorAccountModel { get; }
 
         public ObservableCollection<ContentSelectGroup> Groups { get; }
@@ -161,8 +159,6 @@ namespace DominatorUIUtility.ViewModel
             BindingOperations.EnableCollectionSynchronization(VisibleColumns, AccountCollectionViewModel.SyncObject);
 
             InitialAccountDetails();
-
-            _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
 
             #region Command Initialization
 
@@ -1150,6 +1146,8 @@ namespace DominatorUIUtility.ViewModel
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
+                var _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+
                 selectAccounts.ToList().ForEach(item =>
                 {
                     LstDominatorAccountModel.Remove(
@@ -1160,7 +1158,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             var network = item.AccountBaseModel.AccountNetwork.ToString();
 
-                            _dbOperations.RemoveMatch<AccountDetails>(user => user.AccountId == item.AccountId);
+                            _dbOperations.RemoveMatch<AccountDetails>(user => user.UserName == item.UserName && user.AccountNetwork == network);
 
                             GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork,
                                 item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
@@ -1189,22 +1187,34 @@ namespace DominatorUIUtility.ViewModel
             {
                 foreach (var account in selectAccounts)
                 {
-                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                    var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
+                    try
                     {
-                        dominatorScheduler.StopActivity(account, moduleConfiguration.ActivityType.ToString(), moduleConfiguration.TemplateId, false);
-                        if (moduleConfiguration.IsTemplateMadeByCampaignMode)
+                        var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                        var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+                        var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                        foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId].ToList())
                         {
-                            campaignFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
-                            var campToUpdate = Campaigns.GetCampaignsInstance(account.AccountBaseModel.AccountNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId);
-                            campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
+                            dominatorScheduler.StopActivity(account, moduleConfiguration.ActivityType.ToString(), moduleConfiguration.TemplateId, false);
+                            if (moduleConfiguration.IsTemplateMadeByCampaignMode)
+                            {
+                                campaignFileManager.DeleteSelectedAccount(moduleConfiguration.TemplateId, account.AccountBaseModel.UserName);
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    var campToUpdate = Campaigns.GetCampaignsInstance(account.AccountBaseModel.AccountNetwork).CampaignViewModel.LstCampaignDetails.FirstOrDefault(x => x.TemplateId == moduleConfiguration.TemplateId);
+                                    campToUpdate?.SelectedAccountList.Remove(account.AccountBaseModel.UserName);
+                                });
+
+                            }
                         }
+                        //Remove Account from Account bin file
+                        _accountsFileManager.Delete(x => x.AccountId == account.AccountId);
+                        Thread.Sleep(5);
                     }
-                    //Remove Account from Account bin file
-                    _accountsFileManager.Delete(x => x.AccountId == account.AccountId);
-                    Thread.Sleep(5);
+                    catch (Exception ex)
+                    {
+
+
+                    }
                 }
             });
         }
@@ -1457,8 +1467,9 @@ namespace DominatorUIUtility.ViewModel
                                     GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
                                     break;
                                 }
-
-                                LstDominatorAccountModel.AddSync(account);
+                                if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
+                                                    x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
+                                    LstDominatorAccountModel.AddSync(account);
                             }
                         }
                     }
