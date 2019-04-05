@@ -113,6 +113,7 @@
   <ItemGroup>
     <Compile Include="Tests\Converters\AccountsFilterConverterTests.cs" />
     <Compile Include="Tests\Converters\ActivityTypesSourceConverterTests.cs" />
+    <Compile Include="Tests\Converters\AllignmentConvertorTest.cs" />
     <Compile Include="Tests\Converters\AverageConverterTests.cs" />
     <Compile Include="Tests\Converters\BooleanToStringSelectConverterTests.cs" />
     <Compile Include="Tests\Converters\BooleanToVisibilityConverterTest.cs" />

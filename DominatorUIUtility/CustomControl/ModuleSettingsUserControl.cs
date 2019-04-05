@@ -68,13 +68,14 @@ namespace DominatorUIUtility.CustomControl
             LoadedCommand = new BaseCommand<object>((sender) => true, (sender) => SetSelectedAccounts());
             SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
             StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
+            globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
         }
 
         #endregion
         private void CreateOrUpdateCampaign(object sender)
         {
             var control = sender as FooterControl;
-            globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+           
             if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
@@ -1484,11 +1485,12 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration);
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
-                globalDbOperation.UpdateAccountActivityManager(accountModel);
+               
                 Dialog.ShowDialog("Success", "Successfully Saved !!!");
                 #endregion
 
             }
+            globalDbOperation.UpdateAccountActivityManager(accountModel);
         }
 
         private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class
