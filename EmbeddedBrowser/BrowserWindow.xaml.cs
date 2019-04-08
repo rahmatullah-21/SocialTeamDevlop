@@ -146,12 +146,12 @@ namespace EmbeddedBrowser
         {
             Browser.Load(url);
             await Task.Delay(delayAfter);
-            return Browser.GetSourceAsync().Result;
+            return await Browser.GetSourceAsync();
         }
 
         public async Task<string> GetPageSource()
         {
-            return Browser.GetSourceAsync().Result;
+            return await Browser.GetSourceAsync();
         }
 
         private DominatorAccountModel _dominatorAccountModel;
@@ -336,49 +336,145 @@ namespace EmbeddedBrowser
             }
         }
 
+        public async Task<List<Dictionary<PostContent, string>>> ScrapFacebookPostDetails()
+        {
+            var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                ValueType.OuterHtml));
+
+            List<Dictionary<PostContent, string>> lstAdsList = new List<Dictionary<PostContent, string>>();
+
+            while (postCount-- > 0)
+            {
+                try
+                {
+                    Dictionary<PostContent, string> dictPostDetails = new Dictionary<PostContent, string>();
+
+                    var totalAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      ValueType.InnerHtml, clickIndex: postCount);
+
+
+                    var adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, "y_18vez5s3bt a_18vez5s3b8", ValueType.InnerText, parentIndex: postCount);
+
+                    if (string.IsNullOrEmpty(adsDetails))
+                    {
+                        adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, "y_18vez5s3bt s_18vez5s3b8", ValueType.InnerText, parentIndex: postCount);
+                    }
+
+                    dictPostDetails.Add(PostContent.PostId, await GetChildElementValueAsync(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                        AttributeType.ClassName, "_5pcp _5lel _2jyu _232_", ValueType.Id, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.PostUrl, await GetChildElementValueAsync(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                        AttributeType.ClassName, "async_saving _400z _2-40", ValueType.Href, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.LikerCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                        AttributeType.DataTestId, "UFI2ReactionsCount/sentenceWithSocialContext", ValueType.InnerHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.ShareCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                       AttributeType.DataTestId, "UFI2SharesCount/root", ValueType.InnerHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.CommentCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                       AttributeType.DataTestId, "UFI2CommentsCount/root", ValueType.InnerHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.OwnerDetails, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                       AttributeType.ClassName, "_5pb8 v_18vez5nvuw _8o _8s lfloat _ohe", ValueType.InnerHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.OwnerLogo, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                       AttributeType.ClassName, "_5pb8 v_18vez5nvuw _8o _8s lfloat _ohe", ValueType.OuterHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.PostedTime, await GetElementValueAsync(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                       ValueType.TimeStamp, clickIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.AdDetails, adsDetails);
+
+                    dictPostDetails.Add(PostContent.AdText, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, "_5pbx userContent", ValueType.InnerText, parentIndex: postCount));
+
+
+                    dictPostDetails.Add(PostContent.NewsFeedDescription, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, "_1032", ValueType.InnerText, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.SubDescription, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, "_1m-h innerText", ValueType.InnerText, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.CallToAction, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, "_1fsn _1ig7 rfloat _ohf", ValueType.InnerText, parentIndex: postCount));
+
+                    if (!string.IsNullOrEmpty(dictPostDetails[PostContent.PostId]))
+                        lstAdsList.Add(dictPostDetails);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+
+            return lstAdsList;
+        }
+
+
+        public enum PostContent
+        {
+            PostId = 1,
+            AdId = 2,
+            PostUrl = 3,
+            PostedTime = 4,
+            LikerCount = 5,
+            ShareCount = 6,
+            CommentCount = 7,
+            OwnerDetails = 8,
+            OwnerLogo = 9,
+            AdDetails = 10,
+            AdText = 11,
+            NewsFeedDescription = 12,
+            SubDescription = 13,
+            CallToAction = 14,
+        }
+
         private void FacebookBrowserLogin(string html)
         {
             lock (_cefLock)
             {
                 if (html.Contains("royal_login_button"))
                 {
-                    Thread.Sleep(3000);
-                    Browser.ExecuteScriptAsync("document.getElementById('email').value= '" +
-                                               DominatorAccountModel.AccountBaseModel.UserName + "'");
+                    //Thread.Sleep(3000);
+                    //Browser.ExecuteScriptAsync("document.getElementById('email').value= '" +
+                    //                           DominatorAccountModel.AccountBaseModel.UserName + "'");
 
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
 
-                    Browser.ExecuteScriptAsync("document.getElementById('pass').value= '" +
-                                               DominatorAccountModel.AccountBaseModel.Password + "'");
+                    //Browser.ExecuteScriptAsync("document.getElementById('pass').value= '" +
+                    //                           DominatorAccountModel.AccountBaseModel.Password + "'");
 
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
 
-                    Browser.ExecuteScriptAsync("document.querySelectorAll('[type=\"submit\"]')[0].click()");
+                    //Browser.ExecuteScriptAsync("document.querySelectorAll('[type=\"submit\"]')[0].click()");
 
-                    Thread.Sleep(10000);
-
-
-                    if (string.IsNullOrEmpty(TargetUrl))
-                    {
-                        Browser.LoadingStateChanged -= BrowserOnLoaded;
-                        return;
-                    }
-
-                    if (Browser.GetSourceAsync().Result.Contains("profile_icon"))
-                    {
-                        DominatorAccountModel.IsUserLoggedIn = true;
-                        _isLoggedIn = true;
-                        SaveCookie();
-                    }
+                    //Thread.Sleep(10000);
 
 
-                    var result = GetLoggedInPageSource();
+                    //if (string.IsNullOrEmpty(TargetUrl))
+                    //{
+                    //    Browser.LoadingStateChanged -= BrowserOnLoaded;
+                    //    return;
+                    //}
 
-                    if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon"))
-                    {
-                        LoadPostPage(true);
-                        Thread.Sleep(3000);
-                    }
+                    //if (Browser.GetSourceAsync().Result.Contains("profile_icon"))
+                    //{
+                    //    DominatorAccountModel.IsUserLoggedIn = true;
+                    //    _isLoggedIn = true;
+                    //    SaveCookie();
+                    //}
+
+
+                    //var result = GetLoggedInPageSource();
+
+                    //if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon"))
+                    //{
+                    //    LoadPostPage(true);
+                    //    Thread.Sleep(3000);
+                    //}
                 }
 
                 else if (Browser.GetSourceAsync().Result.Contains("profile_icon"))
@@ -421,7 +517,9 @@ namespace EmbeddedBrowser
             EnterValue = 20,
             EnterByQuery = 21,
             ActByQuery = 22,
-            CustomActType = 23
+            CustomActType = 23,
+            ScrollIntoViewQuery = 24,
+            GetAttribute = 25
         }
 
         public enum AttributeType
@@ -434,7 +532,12 @@ namespace EmbeddedBrowser
             [Description("value")]
             Value = 5,
             [Description("data-testid")]
-            DataTestId = 6
+            DataTestId = 6,
+            [Description("role")]
+            Role = 7,
+            [Description("data-comment-prelude-ref")]
+            CommentPreclude = 7
+
         }
 
 
@@ -442,6 +545,8 @@ namespace EmbeddedBrowser
         {
             [Description("id")]
             Id = 1,
+            [Description("href")]
+            Href = 7,
             [Description("innerHTML")]
             InnerHtml = 2,
             [Description("outerHTML")]
@@ -452,6 +557,8 @@ namespace EmbeddedBrowser
             OuterText = 5,
             [Description("parentElement.id")]
             ParentId = 6,
+            [Description("data-timestamp")]
+            TimeStamp = 8
 
         }
 
@@ -531,7 +638,7 @@ namespace EmbeddedBrowser
             switch (actType)
             {
                 case ActType.EnterByQuery:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType}=\"{attributeValue}\"]')[{index}].value= '{value}'");
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].value= '{value}'");
                     break;
 
                 case ActType.EnterValue:
@@ -539,7 +646,7 @@ namespace EmbeddedBrowser
                     break;
 
                 case ActType.ActByQuery:
-                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType}=\"{attributeValue}\"]')[{index}].click()");
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()");
                     break;
 
                 case ActType.ScrollWindow:
@@ -548,6 +655,10 @@ namespace EmbeddedBrowser
 
                 case ActType.ScrollIntoView:
                     Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].scrollIntoViewIfNeeded()");
+                    break;
+
+                case ActType.ScrollIntoViewQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].scrollIntoView()");
                     break;
 
                 case ActType.CustomActType:
@@ -623,8 +734,35 @@ namespace EmbeddedBrowser
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
                 case ActType.GetLength:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').length").Result?.Result?.ToString() ?? "";
+                case ActType.GetAttribute:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
                 default:
                     return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
+            }
+        }
+
+        public async Task<string> GetChildElementValueAsync(ActType actType, AttributeType parentAttributeType,
+            string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
+            ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+        {
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
+
+            var doc2 = $"documentdocument.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}";
+
+            if (Browser.IsDisposed) return "";
+            switch (actType)
+            {
+                case ActType.GetValue:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
+                case ActType.GetLength:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].length").Result?.Result?.ToString() ?? "";
+                case ActType.GetAttribute:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
+                default:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
             }
         }
 
