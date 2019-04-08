@@ -21,6 +21,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     return;
                 _isAccountSelected = value;
                 OnPropertyChanged(nameof(IsAccountSelected));
+                if (!IsAccountSelected)
+                    PublishonOwnWall = IsAccountSelected;
             }
         }
 

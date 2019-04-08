@@ -80,7 +80,13 @@ namespace DominatorUIUtility.ViewModel
             get { return _knowledgeBaseLink; }
             set { SetProperty(ref _knowledgeBaseLink, value); }
         }
+        private string _videoTutorialLink = "https://www.facebook.com/SociNator.TheSocialDominator/videos/vl.431197484282443/2245263829020170/?type=1";
 
+        public string VideoTutorialLink
+        {
+            get { return _videoTutorialLink; }
+            set { SetProperty(ref _videoTutorialLink, value); }
+        }
 
 
         private bool _isOpenHelpControl;
@@ -1160,9 +1166,6 @@ namespace DominatorUIUtility.ViewModel
 
                             _dbOperations.RemoveMatch<AccountDetails>(user => user.UserName == item.UserName && user.AccountNetwork == network);
 
-                            GlobusLogHelper.log.Info(Log.Deleted, item.AccountBaseModel.AccountNetwork,
-                                item.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
-
                             item.NotifyCancelled();
                         }
                         catch { }
@@ -1208,6 +1211,10 @@ namespace DominatorUIUtility.ViewModel
                         }
                         //Remove Account from Account bin file
                         _accountsFileManager.Delete(x => x.AccountId == account.AccountId);
+
+                        GlobusLogHelper.log.Info(Log.Deleted, account.AccountBaseModel.AccountNetwork,
+                            account.AccountBaseModel.UserName, "LangKeyAccounts".FromResourceDictionary());
+
                         Thread.Sleep(5);
                     }
                     catch (Exception ex)
