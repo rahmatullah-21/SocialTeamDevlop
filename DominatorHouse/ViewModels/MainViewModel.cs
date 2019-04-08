@@ -345,12 +345,6 @@ namespace DominatorHouse.ViewModels
                     _schedulerProxy.AddJob(InitializeJobCores, x => x.ToRunNow());
                 });
 
-                //Init UI delegates            
-                CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirm",
-                        msg) ==
-                    MessageDialogResult.Affirmative;
-
                 ConfigFileManager.ApplyTheme();
 
                 Application.Current.MainWindow.Closed += (o, e) => Process.GetCurrentProcess().Kill();
