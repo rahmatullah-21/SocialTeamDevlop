@@ -158,6 +158,7 @@ namespace DominatorHouseCore.Process
             try
             {
                 var limitInfo = CheckLimit();
+                JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 limitType = limitInfo.ReachedLimitType;
                 if (limitType != ReachedLimitType.NoLimit)
                 {
@@ -297,6 +298,7 @@ namespace DominatorHouseCore.Process
                               RunScrapper();
                           else
                           {
+                              JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                               GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
                               _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                           }
@@ -304,6 +306,7 @@ namespace DominatorHouseCore.Process
                       }
                       else
                       {
+                          JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                           GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
                           _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                       }
@@ -359,14 +362,20 @@ namespace DominatorHouseCore.Process
                     return false;
                 }
 
+                JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
 
                 if (!DominatorAccountModel.IsUserLoggedIn || (_httpHelper.GetRequestParameter().Cookies == null))
                 {
+
+                    JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
                     logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+
+                    JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
                 }
 
                 if (DominatorAccountModel.IsUserLoggedIn)
@@ -400,17 +409,19 @@ namespace DominatorHouseCore.Process
         public void DelayBeforeNextActivity()
         {
             if (IsStopped()) return;
+
             var limitType = CheckLimit();
             if (limitType.ReachedLimitType != ReachedLimitType.NoLimit)
-            {
-                return;
-            }
-
+             return;
+           
             var seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
+            JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
-
+                      
             Thread.Sleep(seconds * 1000);
+            JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
         }
 
         public void DelayBeforeNextJob()

@@ -13,5 +13,6 @@
         <ResourceDictionary Source="../ConfigControl/ImageCaptchaServicesTemplates.xaml"/>
         
         <ResourceDictionary Source="../CustomControl/MediaGeneratorTemplates.xaml"/>
+        <ResourceDictionary Source="../ConfigControl/InstagramTemplates.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

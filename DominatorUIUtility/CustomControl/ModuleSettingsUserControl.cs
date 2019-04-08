@@ -68,13 +68,14 @@ namespace DominatorUIUtility.CustomControl
             LoadedCommand = new BaseCommand<object>((sender) => true, (sender) => SetSelectedAccounts());
             SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
             StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
+            globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
         }
 
         #endregion
         private void CreateOrUpdateCampaign(object sender)
         {
             var control = sender as FooterControl;
-            globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+           
             if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
@@ -495,6 +496,7 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
 
                 _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
+                globalDbOperation.UpdateAccountActivityManager(account);
             });
             _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
 
@@ -989,6 +991,7 @@ namespace DominatorUIUtility.CustomControl
                         _dominatorScheduler.StopActivity(account, _activityType.ToString(),
                             moduleSettings.TemplateId, true);
                         _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleSettings);
+                        globalDbOperation.UpdateAccountActivityManager(account);
                     });
 
                     _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
@@ -1137,6 +1140,7 @@ namespace DominatorUIUtility.CustomControl
 
                     selectedAccounts.Add(account);
                     _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
+                    globalDbOperation.UpdateAccountActivityManager(account);
                 }
                 catch (Exception ex)
                 {
@@ -1338,6 +1342,7 @@ namespace DominatorUIUtility.CustomControl
 
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
+                globalDbOperation.UpdateAccountActivityManager(accountModel);
                 if (!moduleConfiguration.IsEnabled)
                 {
                     _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
@@ -1480,10 +1485,12 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration);
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
+               
+                Dialog.ShowDialog("Success", "Successfully Saved !!!");
                 #endregion
 
             }
+            globalDbOperation.UpdateAccountActivityManager(accountModel);
         }
 
         private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class
@@ -1558,6 +1565,7 @@ namespace DominatorUIUtility.CustomControl
                 accountModuleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(accountModuleSettings);
                 _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, accountModuleSettings);
                 _accountsCacheService.UpsertAccounts(account);
+                globalDbOperation.UpdateAccountActivityManager(account);
             }
             catch (Exception ex)
             {

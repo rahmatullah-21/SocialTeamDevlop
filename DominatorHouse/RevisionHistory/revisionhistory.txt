@@ -1,3 +1,18 @@
+Version[1.0.0.47],[6th-April-19]
+New Features:-
+	Instagram:-
+		Instascrape => User Scraper => Scrape unique users irrespective of account.
+		Instachat => Send message to new followers => Skip users who already received message.
+		Instascrape => User Scraper => required data => Added feature count like and comment count of latest post.
+Fixed:-
+	Instagram:-
+		Sociopublisher => fixed issue with publishing certain kind of videos.
+		Instalike/Instacommenter => Like => Fixed issue with filtering Blacklist caption words.
+		Instalike/Instacommenter => Like Comments => Location Post => Fixed issue with like on comment.
+	Pinterst:-
+		Pin poster => repin => Custom board => Fixed with issue query type custom board.
+		Pin try /Pincommenter => Try => Fixed issue with pause button over activity tool.
+
 Version[1.0.0.46],[3rd-April-19]
 New Features:-
 	Facebook:-
