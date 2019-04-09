@@ -154,7 +154,23 @@ namespace DominatorHouseCore.UnitTests.Tests.Scraper
 
             Assert.ThrowsException<NullReferenceException>(() => _queryScraper.ScrapeWithQueries());
         }
-     
+        [TestMethod]
+        public void should_throw_NullReferenceException_if_jobprocess_is_null()
+        {
+            jobProcess = null;
+            _queryScraper = new QueryScraperHelper(jobProcess, _scraperActionTables.ScrapeWithQueriesActionTable, _scraperActionTables.ScrapeWithoutQueriesActionTable);
+            Assert.ThrowsException<NullReferenceException>(() => _queryScraper.ScrapeWithQueries());
+        }
+
+        [TestMethod]
+        public void should_throw_JsonReaderException_if_activitySettings_not_in_correct_format()
+        {
+            processScopeModel = new ProcessScopeModel(new DominatorAccountModel(), ActivityType.Follow, new TimingRange(new TimeSpan(), new TimeSpan()),
+                       "templateId", SocialNetworks.Quora, new CampaignDetails(), "campid",
+                       new CommonJobConfiguration(null, null, false), "activitySettings");
+
+            Assert.ThrowsException<JsonReaderException>(() => jobProcess = new JobProcessHelper(processScopeModel, dbAccountService, queryScraperFactory, httpHelper, qdLogInProcess));
+        }
     }
     class QueryScraperHelper : QueryScraper
     {

@@ -111,6 +111,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tests\Commands\BaseCommandTest.cs" />
     <Compile Include="Tests\Converters\AccountsFilterConverterTests.cs" />
     <Compile Include="Tests\Converters\ActivityTypesSourceConverterTests.cs" />
     <Compile Include="Tests\Converters\AllignmentConvertorTest.cs" />
