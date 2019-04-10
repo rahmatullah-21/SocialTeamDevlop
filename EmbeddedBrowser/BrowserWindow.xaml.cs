@@ -1183,8 +1183,8 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.EnterValueById, "email", 3, 3, DominatorAccountModel.AccountBaseModel.UserName);
 
                 // Enter Password
-                BrowserAct(ActType.EnterValueById, "pass", value: DominatorAccountModel.AccountBaseModel.UserName);
-
+                BrowserAct(ActType.EnterValueById, "pass", value: DominatorAccountModel.AccountBaseModel.Password);
+                Thread.Sleep(5000);
                 // Click On Login button
                 //BrowserAct(ActType.ClickById, "u_0_2", 1);
                 Browser.ExecuteScriptAsync("document.querySelectorAll('[type=\"submit\"]')[0].click()");
