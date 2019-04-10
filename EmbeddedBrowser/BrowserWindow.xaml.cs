@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Input;
 using EmbeddedBrowser.BrowserHelper;
 using Unity;
+using Newtonsoft.Json;
 
 namespace EmbeddedBrowser
 {
@@ -336,6 +337,17 @@ namespace EmbeddedBrowser
             }
         }
 
+        public async Task ExpandAllSeeMore()
+        {
+            var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "see_more_link_inner",
+                ValueType.OuterHtml));
+
+            while (postCount-- > 0)
+            {
+                await BrowserActAsync(ActType.Click, AttributeType.ClassName, "see_more_link_inner", delayAfter: 0.25, index: postCount);
+            }
+        }
+
         public async Task<List<Dictionary<PostContent, string>>> ScrapFacebookPostDetails()
         {
             var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
@@ -347,59 +359,130 @@ namespace EmbeddedBrowser
             {
                 try
                 {
+
                     Dictionary<PostContent, string> dictPostDetails = new Dictionary<PostContent, string>();
 
                     var totalAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
                       ValueType.InnerHtml, clickIndex: postCount);
 
+                    bool isSharedPost = (await GetChildElementValueAsync(ActType.GetLength, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                        AttributeType.ClassName, $"_5pcp _5lel _2jyu _232_", parentIndex: postCount)) == "1" ? false : true;
+
+                    List<string> mediaList = new List<string>();
+
+                    var mediaListClassName = totalAdDetails.Contains("scaledImageFitHeight img") ? "scaledImageFitHeight img"
+                        : "scaledImageFitWidth img";
+
+                    mediaList = await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, "_kvn img", ValueType.Source, parentIndex: postCount);
+
+                    mediaList = mediaList.Count > 0 ? mediaList : await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                       AttributeType.ClassName, $"{mediaListClassName}", ValueType.Source, parentIndex: postCount);
+
+                    if (totalAdDetails.Contains("_46-i img"))
+                        mediaList.AddRange(await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                       AttributeType.ClassName, "_46-i img", ValueType.Source, parentIndex: postCount));
+
+                    var videoAdTitle = Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4 l_18vez5ofd2')[{postCount}].getElementsByClassName('_2za- _2vd- uiContextualLayerParent _28dz')[0].firstElementChild.firstElementChild.firstElementChild.innerHTML").Result?.Result?.ToString() ?? "";
 
                     var adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                      AttributeType.ClassName, "y_18vez5s3bt a_18vez5s3b8", ValueType.InnerText, parentIndex: postCount);
+                      AttributeType.ClassName, "p_18vez5sfh1", ValueType.InnerText, parentIndex: postCount);
 
-                    if (string.IsNullOrEmpty(adsDetails))
+                    bool isAd = string.IsNullOrEmpty(adsDetails) ? true : false;
+
+                    var videoPostDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                        AttributeType.ClassName, "_ox1 _21y0", ValueType.OuterHtml, parentIndex: postCount);
+
+                    bool isVideoPost = string.IsNullOrEmpty(await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                        AttributeType.ClassName, $"_ox1 _21y0", ValueType.OuterHtml, parentIndex: postCount)) ? false : true;
+
+                    string postUrl = string.Empty;
+
+                    string sharedPostTextClassName = "mtm _5pco";
+
+                    string sharedPostUrl = isSharedPost ? string.Empty :
+                        Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4 l_18vez5ofd2')[{postCount}].getElementsByClassName('p_18vez5sfh1')[1].firstElementChild.firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
+
+                    string callToActionClassName = totalAdDetails.Contains("_42ft _4jy0 _4jy4 _517h _51sy") ?
+                        "_42ft _4jy0 _4jy4 _517h _51sy" : "_42ft _4jy0 _4jy3 _517h _51sy";
+
+                    string subDescriptionClassName = totalAdDetails.Contains("_6m7 _3bt9") ?
+                        "_6m7 _3bt9" : totalAdDetails.Contains("_1m-h") ? "_1m-h" : "_-iw";
+
+                    string titleClassName = totalAdDetails.Contains("mbs _6m6 _2cnj _5s6c") ?
+                        "mbs _6m6 _2cnj _5s6c" : totalAdDetails.Contains("_1032") ? "_1032" : "_5s6c";
+
+                    string likersClassName = totalAdDetails.Contains("UFI2ReactionsCount/sentenceWithSocialContext") ?
+                        "UFI2ReactionsCount/sentenceWithSocialContext" : "_3t53 _4ar- _ipn";
+
+                    string commentorsClassName = totalAdDetails.Contains("UFI2CommentsCount/root") ?
+                        "UFI2CommentsCount/root" : "_ipm _-56";
+
+                    string sharersClassName = totalAdDetails.Contains("UFI2SharesCount/root") ?
+                        "UFI2SharesCount/root" : "_ipm _2x0m";
+
+                    string ownerDetailsClassName = totalAdDetails.Contains("_7mi6 v_18vez5nvuw _8o _8s lfloat _ohe") ?
+                        "_7mi6 v_18vez5nvuw _8o _8s lfloat _ohe" : "_5pb8 v_18vez5nvuw _8o _8s lfloat _ohe";
+
+                    if (!string.IsNullOrEmpty(adsDetails))
                     {
-                        adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                      AttributeType.ClassName, "y_18vez5s3bt s_18vez5s3b8", ValueType.InnerText, parentIndex: postCount);
+                        postUrl = Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4 l_18vez5ofd2')[{postCount}].getElementsByClassName('p_18vez5sfh1')[0].firstElementChild.firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
                     }
 
-                    dictPostDetails.Add(PostContent.PostId, await GetChildElementValueAsync(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                        AttributeType.ClassName, "_5pcp _5lel _2jyu _232_", ValueType.Id, parentIndex: postCount));
+                    var adTitle = !isSharedPost && !string.IsNullOrEmpty(videoAdTitle) ? videoAdTitle :
+                        await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, $"{titleClassName}", ValueType.InnerText, parentIndex: postCount);
 
-                    dictPostDetails.Add(PostContent.PostUrl, await GetChildElementValueAsync(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                        AttributeType.ClassName, "async_saving _400z _2-40", ValueType.Href, parentIndex: postCount));
+                    var sharedAdTitle = isSharedPost && !string.IsNullOrEmpty(videoAdTitle) ? videoAdTitle : string.Empty;
+
+                    dictPostDetails.Add(PostContent.PostId, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                        AttributeType.Name, "ft_ent_identifier", ValueType.OuterHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.PostUrl, postUrl);
 
                     dictPostDetails.Add(PostContent.LikerCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                        AttributeType.DataTestId, "UFI2ReactionsCount/sentenceWithSocialContext", ValueType.InnerHtml, parentIndex: postCount));
+                        AttributeType.DataTestId, $"{likersClassName}", ValueType.InnerHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.ShareCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                       AttributeType.DataTestId, "UFI2SharesCount/root", ValueType.InnerHtml, parentIndex: postCount));
+                       AttributeType.DataTestId, $"{sharersClassName}", ValueType.InnerHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.CommentCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                       AttributeType.DataTestId, "UFI2CommentsCount/root", ValueType.InnerHtml, parentIndex: postCount));
+                       AttributeType.DataTestId, $"{commentorsClassName}", ValueType.InnerHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.OwnerDetails, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                       AttributeType.ClassName, "_5pb8 v_18vez5nvuw _8o _8s lfloat _ohe", ValueType.InnerHtml, parentIndex: postCount));
+                       AttributeType.ClassName, $"{ownerDetailsClassName}", ValueType.InnerHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.OwnerLogo, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                       AttributeType.ClassName, "_5pb8 v_18vez5nvuw _8o _8s lfloat _ohe", ValueType.OuterHtml, parentIndex: postCount));
+                       AttributeType.ClassName, $"{ownerDetailsClassName}", ValueType.OuterHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.PostedTime, await GetElementValueAsync(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
                        ValueType.TimeStamp, clickIndex: postCount));
 
-                    dictPostDetails.Add(PostContent.AdDetails, adsDetails);
+                    dictPostDetails.Add(PostContent.AdDetails, isAd.ToString());
+
+                    dictPostDetails.Add(PostContent.MediaDetails, isVideoPost ? "Video" : mediaList.Count > 0 ? "Image" : "NoMedia");
+
+                    dictPostDetails.Add(PostContent.IsSharePost, isSharedPost ? "Shared" : "Original");
 
                     dictPostDetails.Add(PostContent.AdText, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
                       AttributeType.ClassName, "_5pbx userContent", ValueType.InnerText, parentIndex: postCount));
 
-
-                    dictPostDetails.Add(PostContent.NewsFeedDescription, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                      AttributeType.ClassName, "_1032", ValueType.InnerText, parentIndex: postCount));
-
                     dictPostDetails.Add(PostContent.SubDescription, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                      AttributeType.ClassName, "_1m-h innerText", ValueType.InnerText, parentIndex: postCount));
+                      AttributeType.ClassName, $"{subDescriptionClassName}", ValueType.InnerText, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.Title, adTitle);
+
+                    dictPostDetails.Add(PostContent.SharedPostText, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                      AttributeType.ClassName, $"{sharedPostTextClassName}", ValueType.InnerText, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.CallToAction, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
-                      AttributeType.ClassName, "_1fsn _1ig7 rfloat _ohf", ValueType.InnerText, parentIndex: postCount));
+                      AttributeType.ClassName, $"{callToActionClassName}", ValueType.InnerText, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.SharedAdTitle, sharedAdTitle);
+
+                    dictPostDetails.Add(PostContent.SharedPostUrl, sharedPostUrl);
+
+                    dictPostDetails.Add(PostContent.MediaList, JsonConvert.SerializeObject(mediaList));
 
                     if (!string.IsNullOrEmpty(dictPostDetails[PostContent.PostId]))
                         lstAdsList.Add(dictPostDetails);
@@ -430,6 +513,13 @@ namespace EmbeddedBrowser
             NewsFeedDescription = 12,
             SubDescription = 13,
             CallToAction = 14,
+            Title = 15,
+            SharedPostText = 16,
+            SharedPostUrl = 17,
+            SharedAdTitle = 18,
+            MediaDetails = 19,
+            IsSharePost = 20,
+            MediaList = 21,
         }
 
         private void FacebookBrowserLogin(string html)
@@ -526,6 +616,7 @@ namespace EmbeddedBrowser
         {
             Null = 0,
             Id = 1,
+            [Description("name")]
             Name = 2,
             ClassName = 3,
             TagName = 4,
@@ -536,7 +627,8 @@ namespace EmbeddedBrowser
             [Description("role")]
             Role = 7,
             [Description("data-comment-prelude-ref")]
-            CommentPreclude = 7
+            CommentPreclude = 8,
+
 
         }
 
@@ -558,7 +650,9 @@ namespace EmbeddedBrowser
             [Description("parentElement.id")]
             ParentId = 6,
             [Description("data-timestamp")]
-            TimeStamp = 8
+            TimeStamp = 8,
+            [Description("src")]
+            Source = 9
 
         }
 
@@ -718,6 +812,30 @@ namespace EmbeddedBrowser
             return listNodes;
         }
 
+        public async Task<List<string>> GetListInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
+            string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
+            ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+        {
+            if (Browser.IsDisposed) return
+                    new List<string>();
+
+            List<string> listNodes = new List<string>();
+
+            int itemCount = int.Parse(await GetChildElementValueAsync(ActType.GetLength, parentAttributeType,
+                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
+
+            while (itemCount >= 0)
+            {
+                listNodes.Add(await GetChildElementValueAsync(actType, parentAttributeType,
+                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex: itemCount));
+                itemCount--;
+            }
+
+            return listNodes;
+        }
+
+
+
         public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
             string attributeValue, ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int clickIndex = 0)
         {
@@ -758,7 +876,7 @@ namespace EmbeddedBrowser
                 case ActType.GetValue:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
                 case ActType.GetLength:
-                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].length").Result?.Result?.ToString() ?? "";
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "";
                 case ActType.GetAttribute:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
                 default:
