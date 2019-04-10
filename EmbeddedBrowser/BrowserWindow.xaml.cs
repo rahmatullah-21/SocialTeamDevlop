@@ -348,6 +348,38 @@ namespace EmbeddedBrowser
             }
         }
 
+
+        public async Task ExpandAllAddViewOptions()
+        {
+            var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
+                ValueType.OuterHtml));
+
+            var adCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2 sponsored_ad",
+                ValueType.OuterHtml));
+
+
+            var suggetionCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "uiContextualLayerPositioner",
+                ValueType.OuterHtml));
+
+            var currentCount = -1;
+
+            while (currentCount++ <= postCount)
+            {
+                await Task.Delay(1000);
+
+                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4 l_18vez5ofd2')[{currentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
+                if (!(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2", ValueType.OuterHtml, clickIndex: currentCount)).Contains("sponsored_ad"))
+                    continue;
+                await Task.Delay(1000);
+                await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
+                await Task.Delay(1000);
+                MouseClick(844, 58, delayBefore: 0.1, delayAfter: 0.5);
+            }
+
+            suggetionCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "uiContextualLayerPositioner",
+                ValueType.OuterHtml));
+        }
+
         public async Task<List<Dictionary<PostContent, string>>> ScrapFacebookPostDetails()
         {
             var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "_5jmm _5pat _3lb4 l_18vez5ofd2",
