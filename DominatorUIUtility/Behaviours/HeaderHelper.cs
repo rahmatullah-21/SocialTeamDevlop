@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -32,9 +34,16 @@ namespace DominatorUIUtility.Behaviours
             var currentcontrol = ((FrameworkElement)((FrameworkElement)sender).DataContext).DataContext;
 
             foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
-            {
                 expander.IsExpanded = IsExpanded;
-            }
+
         }
+        public static bool IsAllExpanderCollapseOrNot(object sender)
+        {
+            var allExpander = FindVisualChildren<Expander>(sender as UserControl);
+            if (allExpander.Count() != 0 && allExpander.All(x => !x.IsExpanded)) return true;
+            return false;
+        }
+        public static Action UpdateToggleButtonInCampaignMode;
+        public static Action UpdateToggleButtonInAccountActivityMode;
     }
 }

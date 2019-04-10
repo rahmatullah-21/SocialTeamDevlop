@@ -35,8 +35,8 @@
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>306</ApplicationRevision>
-    <ApplicationVersion>1.0.0.306</ApplicationVersion>
+    <ApplicationRevision>307</ApplicationRevision>
+    <ApplicationVersion>1.0.0.307</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -552,14 +552,6 @@
     <ProjectReference Include="..\EmbeddedBrowser\EmbeddedBrowser.csproj">
       <Project>{21f00635-aaf7-466b-9214-a830ea9c8963}</Project>
       <Name>EmbeddedBrowser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
-      <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
-      <Name>ProtectedCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProtectedServerApp\ProtectedServerApp.csproj">
-      <Project>{0771a96c-af77-497a-a6fa-2dc4c94cbae9}</Project>
-      <Name>ProtectedServerApp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
