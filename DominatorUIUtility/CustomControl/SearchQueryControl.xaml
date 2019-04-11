@@ -14,7 +14,7 @@
 
     <Grid Name="MainGrid">
 
-        <Expander  FontWeight="Bold" BorderThickness="2" Header="{DynamicResource LangKeySearchQuery}" Foreground="White" IsExpanded="{Binding IsExpanded}" Margin="5">
+        <!--<Expander  FontWeight="Bold" BorderThickness="2" Header="{DynamicResource LangKeySearchQuery}" Foreground="White" IsExpanded="{Binding IsExpanded}" Margin="5">-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="51*"/>
@@ -180,6 +180,6 @@
                     </GroupBox>
                 </Grid>
             </Grid>
-        </Expander>
+        <!--</Expander>-->
     </Grid>
 </UserControl>
