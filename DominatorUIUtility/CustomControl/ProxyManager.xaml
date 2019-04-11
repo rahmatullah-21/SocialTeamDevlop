@@ -49,12 +49,13 @@
             <CollectionViewSource.Source>
                 <MultiBinding Converter="{StaticResource ProxyManagerSourceConverter}">
                     <Binding Path="LstProxyManagerModel" IsAsync="True"/>
-                    <Binding Path="LstProxyManagerModel.Count" IsAsync="True"/>
                     <Binding Path="IsChecked" Source="{x:Reference ShowProxiesWithError}" IsAsync="True"/>
                     <Binding Path="IsChecked" Source="{x:Reference ChkShowUnassignedProxies}" IsAsync="True"/>
                     <Binding Path="IsChecked" Source="{x:Reference FilterByGroup}" IsAsync="True"/>
                     <Binding Path="SelectedItem" Source="{x:Reference GroupCmb}" IsAsync="True"/>
                     <Binding Path="Text" Source="{x:Reference FilterTb}" IsAsync="True"/>
+                    <Binding Path="IsAllProxySelected" IsAsync="True" />
+                    <Binding Path="LstProxyManagerModel.Count" IsAsync="True"/>
                 </MultiBinding>
             </CollectionViewSource.Source>
 
@@ -167,7 +168,7 @@
 
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
-              
+
                 <StackPanel Orientation="Horizontal"
                             Visibility="{Binding ElementName=FilterByGroup, Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock VerticalAlignment="Center" Margin="5,5" Text="{DynamicResource LangKeySelectGroup}"/>
@@ -188,7 +189,7 @@
                 <Controls:NumericUpDown Minimum="0" Value="{Binding NumOfAccountPerProxy}" />
                 <Label Content="{DynamicResource LangKeyAccountPerProxy}"/>
             </StackPanel>
-         
+
             <StackPanel  Orientation="Horizontal" Background="{DynamicResource AccentBaseColorBrush}">
                 <Button  Height="30"  x:Name="btnDeleteSelected" Margin="10,5"
                 Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" Command="{Binding DeleteCommand}">
@@ -432,9 +433,7 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="VerticalContentAlignment" Value="Center"/>
-
                         </Trigger>
-
                     </Style.Triggers>
                 </Style>
 

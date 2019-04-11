@@ -74,6 +74,14 @@ namespace DominatorUIUtility.ViewModel
         }
 
         private bool _isUnCheckedFromList;
+
+        public bool IsUnCheckedFromList
+        {
+            get { return _isUnCheckedFromList; }
+            set { SetProperty(ref _isUnCheckedFromList, value); }
+        }
+
+        
         public bool IsAllProxySelected
         {
             get
@@ -87,7 +95,7 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _isAllProxySelected, value);
 
                 SelectAllProxies(_isAllProxySelected);
-                _isUnCheckedFromList = false;
+                IsUnCheckedFromList = false;
 
             }
         }
@@ -201,7 +209,7 @@ namespace DominatorUIUtility.ViewModel
 
         private void SelectAllProxies(bool isAllProxySelected)
         {
-            if (_isUnCheckedFromList)
+            if (IsUnCheckedFromList)
                 return;
             ThreadFactory.Instance.Start(() =>
              {
@@ -251,7 +259,7 @@ namespace DominatorUIUtility.ViewModel
             var loadedProxylist = FileUtilities.FileBrowseAndReader();
             if (loadedProxylist == null)
                 return;
-           
+
             int noOfExistingProxies = 0;
             int noOfProxyAdded = 0;
 
@@ -264,7 +272,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         var existingProxy = LstProxyManagerModel.Where(x => x.AccountProxy.ProxyIp == givenProxy.AccountProxy.ProxyIp
                                                 && x.AccountProxy.ProxyPort == givenProxy.AccountProxy.ProxyPort);
-                        if (existingProxy != null && existingProxy.Count()!=0)
+                        if (existingProxy != null && existingProxy.Count() != 0)
                         {
                             if (Proxy.IsLuminatiProxy(givenProxy.AccountProxy.ProxyIp))
                             {
@@ -341,19 +349,6 @@ namespace DominatorUIUtility.ViewModel
             ExportProxies(proxiesToExport);
         }
 
-        private List<ProxyManagerModel> GetSelectedProxies()
-        {
-            List<ProxyManagerModel> SelectedProxies = LstProxyManagerModel.Where(proxy => proxy.IsProxySelected).ToList();
-            if (SelectedProxies.Count == 0)
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                    "Please select atleast one Proxy.");
-                return SelectedProxies;
-            }
-
-            return SelectedProxies;
-        }
-
         private void ExportProxies(List<ProxyManagerModel> Proxies)
         {
             var exportPath = FileUtilities.GetExportPath();
@@ -427,7 +422,6 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
         private void DeleteExecute(ProxyManagerModel sender)
         {
             try
@@ -436,30 +430,30 @@ namespace DominatorUIUtility.ViewModel
 
                 if (sender == null)
                 {
-
-                    var selectedProxies = GetSelectedProxies();
-
-                    if (selectedProxies.Count != 0)
+                    List<ProxyManagerModel> selectedProxies = LstProxyManagerModel.Where(proxy => proxy.IsProxySelected).ToList();
+                    if (selectedProxies.Count == 0)
                     {
-                        if (ShowWarningMessage() == MessageDialogResult.Affirmative)
-                        {
-                            Application.Current.Dispatcher.InvokeAsync(() =>
-                            {
-                                selectedProxies.ForEach(selectedProxy =>
-                                {
-                                    RemoveProxy(selectedProxy);
-                                    Thread.Sleep(50);
-
-                                });
-                                Dialog.ShowDialog("Success", $"{selectedProxies.Count} proxies successfully Deleted.");
-                                GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{selectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
-                            });
-
-
-
-                            IsAllProxySelected = false;
-                        }
+                        Dialog.ShowDialog("Alert", "Please select atleast one Proxy.");
+                        return;
                     }
+
+                    if (ShowWarningMessage() == MessageDialogResult.Affirmative)
+                    {
+                        Application.Current.Dispatcher.InvokeAsync(() =>
+                        {
+                            selectedProxies.ForEach(selectedProxy =>
+                            {
+                                RemoveProxy(selectedProxy);
+                                Thread.Sleep(50);
+
+                            });
+                            Dialog.ShowDialog("Success", $"{selectedProxies.Count} proxies successfully Deleted.");
+                            GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{selectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
+                        });
+
+                        IsAllProxySelected = false;
+                    }
+
                 }
                 #endregion
 
@@ -470,7 +464,7 @@ namespace DominatorUIUtility.ViewModel
                     if (ShowWarningMessage() == MessageDialogResult.Affirmative)
                     {
                         RemoveProxy(sender);
-                        Application.Current.Dispatcher.Invoke(() => DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
+                        Application.Current.Dispatcher.Invoke(() => Dialog.ShowDialog("Success",
                        $"{sender.AccountProxy.ProxyIp}:{sender.AccountProxy.ProxyPort} Successfully DeletedDateText."));
                     }
                 }
@@ -486,9 +480,7 @@ namespace DominatorUIUtility.ViewModel
 
         private MessageDialogResult ShowWarningMessage()
         {
-            return DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                "Warning", "Proxy(ies) will remove from all account associated with this proxy(ies)\nAre you sure ?"
-                , MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Yes", "No"));
+            return Dialog.ShowCustomDialog("Warning", "Proxy(ies) will remove from all account associated with this proxy(ies)\nAre you sure ?", "Yes", "No");
         }
 
         private void RemoveProxy(ProxyManagerModel selectedProxy)
@@ -543,7 +535,7 @@ namespace DominatorUIUtility.ViewModel
             else
             {
                 if (IsAllProxySelected)
-                    _isUnCheckedFromList = true;
+                    IsUnCheckedFromList = true;
                 IsAllProxySelected = false;
             }
 
