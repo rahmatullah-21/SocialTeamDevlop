@@ -365,8 +365,14 @@ namespace EmbeddedBrowser
             {
                 var adViewerDetails = string.Empty;
                 Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5pcr userContentWrapper')[{currentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
-                await Task.Delay(1000);
-                if (!(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: currentCount)).Contains("sponsored_ad"))
+                await Task.Delay(2000);
+                var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: currentCount);
+                if (string.IsNullOrEmpty(fullAdDetails))
+                {
+                    await Task.Delay(2000);
+                    fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: currentCount);
+                }
+                if (!(fullAdDetails).Contains("sponsored_ad"))
                     continue;
                 await Task.Delay(1000);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
@@ -462,7 +468,7 @@ namespace EmbeddedBrowser
 
                     if (!string.IsNullOrEmpty(adsDetails))
                     {
-                        postUrl = Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('p_18vez5sfh1')[0].firstElementChild.firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
+                        postUrl = Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('fsm fwn fcg')[0].firstElementChild.firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
                     }
 
                     var adTitle = !isSharedPost && !string.IsNullOrEmpty(videoAdTitle) ? videoAdTitle :
