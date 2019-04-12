@@ -361,19 +361,19 @@ namespace EmbeddedBrowser
 
             var dictAdViewerDetails = new Dictionary<int, string>();
 
+            await Task.Delay(5000);
+
             while (currentCount++ <= postCount)
             {
                 var adViewerDetails = string.Empty;
-                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5pcr userContentWrapper')[{currentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
-                await Task.Delay(2000);
+                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_4-u2 mbm _4mrt')[{currentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: currentCount);
-                if (string.IsNullOrEmpty(fullAdDetails))
-                {
-                    await Task.Delay(2000);
-                    fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: currentCount);
-                }
                 if (!(fullAdDetails).Contains("sponsored_ad"))
+                {
+                    await Task.Delay(2500);
                     continue;
+                }
+                    
                 await Task.Delay(1000);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
                 await Task.Delay(1000);
@@ -381,11 +381,15 @@ namespace EmbeddedBrowser
                 await Task.Delay(1000);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
                 adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption",  clickIndex: adCount);
+                if(string.IsNullOrEmpty(adViewerDetails))
+                {
+                    continue;
+                }
                 adViewerDetails = string.IsNullOrEmpty(adViewerDetails) ? string.Empty :
                     Regex.Matches(adViewerDetails, "id=(.*?)&")[0].Groups[1].ToString();
                 dictAdViewerDetails.Add(currentCount, adViewerDetails);
-                await Task.Delay(1000);
                 adCount+=2;
+                await Task.Delay(1000);
             }
 
             return dictAdViewerDetails;
@@ -433,10 +437,12 @@ namespace EmbeddedBrowser
                     bool isAd = string.IsNullOrEmpty(adsDetails) ? true : false;
 
                     var videoPostDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                        AttributeType.ClassName, "_ox1 _21y0", ValueType.OuterHtml, parentIndex: postCount);
+                        AttributeType.ClassName, "_1c_u _45oh", ValueType.OuterHtml, parentIndex: postCount);
 
                     bool isVideoPost = string.IsNullOrEmpty(await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                        AttributeType.ClassName, $"_ox1 _21y0", ValueType.OuterHtml, parentIndex: postCount)) ? false : true;
+                        AttributeType.ClassName, $"_1c_u _45oh", ValueType.OuterHtml, parentIndex: postCount)) ? false : true;
+
+                    string adId = string.Empty;
 
                     string postUrl = string.Empty;
 
@@ -468,9 +474,12 @@ namespace EmbeddedBrowser
 
                     if (!string.IsNullOrEmpty(adsDetails))
                     {
-                        postUrl = Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('fsm fwn fcg')[0].firstElementChild.firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
+                        postUrl = "https://www.facebook.com" + Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('fsm fwn fcg')[0].firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
                     }
-
+                    else
+                    {
+                        adId = adViewerDictionary.ContainsKey(postCount) ? adViewerDictionary[postCount] : string.Empty;
+                    }
                     var adTitle = !isSharedPost && !string.IsNullOrEmpty(videoAdTitle) ? videoAdTitle :
                         await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
                       AttributeType.ClassName, $"{titleClassName}", ValueType.InnerText, parentIndex: postCount);
@@ -525,6 +534,8 @@ namespace EmbeddedBrowser
                     dictPostDetails.Add(PostContent.SharedPostUrl, sharedPostUrl);
 
                     dictPostDetails.Add(PostContent.MediaList, JsonConvert.SerializeObject(mediaList));
+
+                    dictPostDetails.Add(PostContent.AdId, adId);
 
                     if (!string.IsNullOrEmpty(dictPostDetails[PostContent.PostId]))
                         lstAdsList.Add(dictPostDetails);
