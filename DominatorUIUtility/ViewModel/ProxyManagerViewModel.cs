@@ -20,6 +20,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -81,7 +82,7 @@ namespace DominatorUIUtility.ViewModel
             set { SetProperty(ref _isUnCheckedFromList, value); }
         }
 
-        
+
         public bool IsAllProxySelected
         {
             get
@@ -120,6 +121,18 @@ namespace DominatorUIUtility.ViewModel
             get { return _isRandomSelected; }
             set { SetProperty(ref _isRandomSelected, value); }
         }
+        private bool _isShowByGroup;
+
+        public bool IsShowByGroup
+        {
+            get { return _isShowByGroup; }
+            set
+            {
+                SetProperty(ref _isShowByGroup, value);
+                if (!_isShowByGroup)
+                    ApplyGrouping();
+            }
+        }
 
         #endregion
 
@@ -151,7 +164,7 @@ namespace DominatorUIUtility.ViewModel
 
             AddProxyCommand = new DelegateCommand(AddProxyExecute);
             ImportProxyCommand = new DelegateCommand(ImportProxyExecute);
-            ShowByGroupCommand = new DelegateCommand<bool?>(ShowByGroupExecute);
+            ShowByGroupCommand = new DelegateCommand<object>(ShowByGroupExecute);
             ExportProxyCommand = new DelegateCommand(ExportProxyExecute);
             DeleteCommand = new DelegateCommand<ProxyManagerModel>(DeleteExecute);
             SelectProxyCommand = new DelegateCommand(SelectProxyExecute);
@@ -184,10 +197,11 @@ namespace DominatorUIUtility.ViewModel
                             Application.Current.Dispatcher.InvokeAsync(() =>
                             {
                                 LstProxyManagerModel.Add(proxy);
+                                AddGroup(proxy);
+
                                 proxy.Index = LstProxyManagerModel.IndexOf(proxy) + 1;
                             });
 
-                            LstProxyManagerModel.ForEach(pr => ProxyManagerModel.Groups.Add(pr.AccountProxy.ProxyGroup));
                             proxy.AccountsAssignedto.ForEach(x =>
                             {
                                 AccountsAlreadyAssigned.Add(new AccountAssign
@@ -198,6 +212,9 @@ namespace DominatorUIUtility.ViewModel
                             });
                         }
                     });
+
+
+
                 }
                 catch (Exception ex)
                 {
@@ -226,15 +243,14 @@ namespace DominatorUIUtility.ViewModel
             ProxyManagerModel = new ProxyManagerModel();
             try
             {
+                IsShowByGroup = false;
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(objAddProxyControl, Application.Current.FindResource("LangKeyAddProxy").ToString());
                 window.ShowDialog();
-
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
-
             }
         }
 
@@ -260,6 +276,7 @@ namespace DominatorUIUtility.ViewModel
             if (loadedProxylist == null)
                 return;
 
+            IsShowByGroup = false;
             int noOfExistingProxies = 0;
             int noOfProxyAdded = 0;
 
@@ -299,6 +316,8 @@ namespace DominatorUIUtility.ViewModel
                         _proxyFileManager.SaveProxy(givenProxy);
 
                         LstProxyManagerModel.Add(givenProxy);
+                        AddGroup(givenProxy);
+
                         givenProxy.Index = LstProxyManagerModel.IndexOf(givenProxy) + 1;
                         noOfProxyAdded++;
                     }
@@ -335,7 +354,12 @@ namespace DominatorUIUtility.ViewModel
                 #endregion
             });
 
+        }
 
+        public void AddGroup(ProxyManagerModel givenProxy)
+        {
+            if (!Groups.Any(x => x.Equals(givenProxy.AccountProxy.ProxyGroup, StringComparison.InvariantCultureIgnoreCase)))
+                Groups.Add(givenProxy.AccountProxy.ProxyGroup);
         }
 
         private void ExportProxyExecute()
@@ -404,21 +428,38 @@ namespace DominatorUIUtility.ViewModel
 
 
         }
-        private async void ShowByGroupExecute(bool? isChecked)
+
+        DataGrid ProxyDataGrid;
+        private void ShowByGroupExecute(object isChecked)
         {
             try
             {
                 lock (_lock)
                 {
-                    if (isChecked ?? false)
-                        Groups.Add("AccountProxy.ProxyGroup");
-                    else
-                        Groups.Clear();
+                    ProxyDataGrid = isChecked as DataGrid;
+                    ApplyGrouping();
                 }
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+
+        private void ApplyGrouping()
+        {
+            try
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ProxyDataGrid.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("AccountProxy.ProxyGroup");
+                view.GroupDescriptions.Clear();
+                if (IsShowByGroup)
+                    view.GroupDescriptions.Add(groupDescription);
+
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -465,10 +506,10 @@ namespace DominatorUIUtility.ViewModel
                     {
                         RemoveProxy(sender);
                         Application.Current.Dispatcher.Invoke(() => Dialog.ShowDialog("Success",
-                       $"{sender.AccountProxy.ProxyIp}:{sender.AccountProxy.ProxyPort} Successfully DeletedDateText."));
+                       $"{sender.AccountProxy.ProxyIp}:{sender.AccountProxy.ProxyPort} Successfully Deleted."));
                     }
                 }
-
+                IsShowByGroup = false;
                 #endregion
             }
             catch (Exception ex)
@@ -491,7 +532,7 @@ namespace DominatorUIUtility.ViewModel
                 RemoveProxyFromAccount(selectedProxy);
 
                 LstProxyManagerModel.Remove(selectedProxy);
-
+                Groups.Remove(selectedProxy.AccountProxy.ProxyGroup);
             }
             catch (Exception ex)
             {

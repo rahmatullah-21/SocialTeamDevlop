@@ -603,7 +603,7 @@ namespace DominatorUIUtility.ViewModel
             if (!string.IsNullOrEmpty(cookies)/* && dominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube*/)
                 try
                 {
-                    dominatorAccountModel.CookieHelperList = JArray.Parse(cookies).ToObject<HashSet<CookieHelper>>();
+                    dominatorAccountModel.CookieHelperList = JArray.Parse(cookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
                 }
                 catch (Exception ex)
                 {
@@ -673,7 +673,7 @@ namespace DominatorUIUtility.ViewModel
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword,
                     UserAgent = dominatorAccountModel.UserAgentWeb,
                     AddedDate = DateTime.Now,
-                    Cookies= cookies
+                    Cookies = cookies
                 });
 
                 #endregion
@@ -1542,7 +1542,14 @@ namespace DominatorUIUtility.ViewModel
                             DisplayColumnValue4 = account.DisplayColumnValue4
                         };
                         if (!string.IsNullOrEmpty(account.Cookies))
-                            dominatorAccountModel.CookieHelperList = JArray.Parse(account.Cookies).ToObject<HashSet<CookieHelper>>();
+                            try
+                            {
+                                dominatorAccountModel.CookieHelperList = JArray.Parse(account.Cookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
                         if (!string.IsNullOrEmpty(account.Status))
                             dominatorAccountModel.AccountBaseModel.Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), account.Status);
                         if (!string.IsNullOrEmpty(account.ActivityManager))
@@ -1573,7 +1580,7 @@ namespace DominatorUIUtility.ViewModel
         #region Update Account status & details
 
         private ImmutableQueue<Action> _checkPendingList = ImmutableQueue<Action>.Empty;
-       
+
         public List<string> _updateAccountList { get; set; } = new List<string>();
 
         public object AccountUpdateLock { get; set; } = new object();
@@ -1636,7 +1643,7 @@ namespace DominatorUIUtility.ViewModel
             catch (Exception ex)
             {
                 ex.DebugLog("At Account Updation");
-            } 
+            }
             #endregion
         }
 

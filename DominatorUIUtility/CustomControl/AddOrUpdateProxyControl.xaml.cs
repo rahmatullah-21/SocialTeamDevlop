@@ -8,6 +8,7 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -47,25 +48,21 @@ namespace DominatorUIUtility.CustomControl
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-
             try
             {
-                var proxyById = _proxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
-                if (proxyById != null && !string.IsNullOrEmpty(proxyById.AccountProxy.ProxyId))
-                {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Proxy Warning",
-                        $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
-                    return;
-                }
                 foreach (var proxy in ProxyManagerViewModel.LstProxyManagerModel)
                 {
+                    if (ProxyManagerModel.AccountProxy.ProxyName.Equals(proxy.AccountProxy.ProxyName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        Dialog.ShowDialog("Proxy Warning", $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
+                        return;
+                    }
                     if (ProxyManagerModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
                       && ProxyManagerModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Proxy Warning", "Proxy already exist !!!");
+                        Dialog.ShowDialog("Proxy Warning", "Proxy already exist !!!");
                         return;
                     }
-
                 }
 
                 if (ProxyManagerViewModel.IsAllProxySelected)
@@ -74,6 +71,7 @@ namespace DominatorUIUtility.CustomControl
                     ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}{ProxyManagerModel.AccountProxy.ProxyPort}";
                 _proxyFileManager.SaveProxy(ProxyManagerModel);
                 ProxyManagerViewModel.LstProxyManagerModel.Add(ProxyManagerModel);
+                ProxyManagerViewModel.AddGroup(ProxyManagerModel);
                 ProxyManagerModel.Index = ProxyManagerViewModel.LstProxyManagerModel.IndexOf(ProxyManagerModel) + 1;
                 GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
                                                                            ProxyManagerModel.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
@@ -83,7 +81,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
     }
 }
