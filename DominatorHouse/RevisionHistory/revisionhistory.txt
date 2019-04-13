@@ -1,3 +1,20 @@
+Version[1.0.0.48],[13th-April-19]
+Fixed:-
+	Instagram:-
+		Grow Follower => Unfollower => Fixed issuse with unfollow.
+		Block follwer => Fixed issue with add group black list after block.
+		Instaliker/Commenter => Own liked post => Fixed issue with showing no more data.
+		User scraper => report => Fixed issue with export report
+	Twitter:-
+		Accounts activity => Fixed Account synchronization issue for Follow back activity.
+		Fixed issue with Pausing account activity simultaneously with campaign.
+		Poster => Retweet => Fixed issue with skip blacklisted users.
+	Pinterst:-
+		Scraper => user scraper => custom users =>  pin filter => Fixed issue with filtering of caption blacklist.
+		Pintry /pincommenter => Coustom pin => fixed issue with allow multiple comment on same post.
+		Pinposter => repin => custom users => fixed issue with user filter in must not contain specific words.
+		Pinposter => Delete => Fixed issue with selecting delete checkbox.
+
 Version[1.0.0.47],[6th-April-19]
 New Features:-
 	Instagram:-

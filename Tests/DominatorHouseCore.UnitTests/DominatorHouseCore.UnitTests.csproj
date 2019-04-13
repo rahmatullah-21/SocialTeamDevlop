@@ -141,6 +141,7 @@
     <Compile Include="Tests\Converters\StringPercentageTextConverterTest.cs" />
     <Compile Include="Tests\Converters\StringToBooleanConverterTest.cs" />
     <Compile Include="Tests\Converters\VisibleIfEqualConverterTests.cs" />
+    <Compile Include="Tests\DatabaseHandler\DbOperationsTest.cs" />
     <Compile Include="Tests\FileManagers\AccountsCacheServiceTests.cs" />
     <Compile Include="Tests\FileManagers\ConfigFileManagerTest.cs" />
     <Compile Include="Tests\FileManagers\FBFileManagerTests.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Tests\FileManagers\TemplatesCacheServiceTest.cs" />
     <Compile Include="Tests\Models\JobActivityConfigurationManagerTests.cs" />
     <Compile Include="Tests\Models\ProxyTest.cs" />
+    <Compile Include="Tests\Patterns\PrototypeBaseTest.cs" />
     <Compile Include="Tests\Process\EntityCounterFunctionTests.cs" />
     <Compile Include="Tests\Process\EntityCountersManagerTests.cs" />
     <Compile Include="Tests\Process\ExecutionLimitsManagerTests.cs" />
