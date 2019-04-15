@@ -19,7 +19,7 @@ namespace DominatorHouseCore.Converters
                 }
                 return sum / values.Length;
             }
-            catch
+            catch(Exception ex)
             {
               return 0;
             }
