@@ -54,8 +54,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                SelectedNetworks = (SocialNetworks)sender;
-                FilterByNetwork();
+                if (sender != null)
+                {
+                    SelectedNetworks = (SocialNetworks)sender;
+                    FilterByNetwork();
+                }
             }
             catch (Exception ex)
             {
@@ -626,7 +629,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             switch (moduleName)
             {
                 case "OwnProfile":
-                    var IsAllselect= SelectWall == "LangKeySelectWallsProfilesAll".FromResourceDictionary();
+                    var IsAllselect = SelectWall == "LangKeySelectWallsProfilesAll".FromResourceDictionary();
                     PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
                     {
                         x.PublishonOwnWall = IsAllselect;

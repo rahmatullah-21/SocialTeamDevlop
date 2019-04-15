@@ -257,7 +257,7 @@ namespace DominatorHouseCore.Request
                     RequestParameters.Cookies = new CookieCollection();
                 }
 
-                if (response == null) return;
+                if (response == null || _request.CookieContainer == null) return;
 
                 var cookies = _request.CookieContainer.GetCookies(_request.RequestUri);
 
@@ -820,9 +820,9 @@ namespace DominatorHouseCore.Request
         }
     }
 
-   
 
-    public  class HttpHelperAsync : IHttpHelperAsync
+
+    public class HttpHelperAsync : IHttpHelperAsync
     {
         public HttpHelperAsync() : this(new RequestParameters())
         {
@@ -1043,7 +1043,7 @@ namespace DominatorHouseCore.Request
                 ex.DebugLog();
             }
         }
-       
+
         #region Async methods
 
         /// <summary>
@@ -1235,7 +1235,7 @@ namespace DominatorHouseCore.Request
 
         public virtual async Task<IResponseParameter> PostRequestAsync(string url, byte[] postData)
         {
-            _request = (HttpWebRequest) WebRequest.Create(url);
+            _request = (HttpWebRequest)WebRequest.Create(url);
             SetRequestParametersToWebRequest(ref _request, RequestParameters);
             await WritePostDataAsync(_request, postData);
             return await GetFinalResponseAsync();
@@ -1334,7 +1334,7 @@ namespace DominatorHouseCore.Request
 
             request.ContentLength = postData.Length;
 
-            using (var postDataStream =await request.GetRequestStreamAsync())
+            using (var postDataStream = await request.GetRequestStreamAsync())
             {
                 await postDataStream.WriteAsync(postData, 0, postData.Length);
             }
@@ -1486,8 +1486,8 @@ namespace DominatorHouseCore.Request
                     };
                 };
             }
-        }        
-        
+        }
+
         #endregion
     }
 }

@@ -563,16 +563,17 @@ namespace DominatorHouse.ViewModels
 
         private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
         {
+            var AutoActivityViewModel = ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>();
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
                 TabItems.SelectByIndex(index);
-                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().NewAutoActivityObject(network, selectedAccount);
+                AutoActivityViewModel.NewAutoActivityObject(network, selectedAccount);
             }
             else
             {
                 TabItems.SelectByIndex(index);
-                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
-                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().NewAutoActivityObject(network, selectedAccount);
+                AutoActivityViewModel.CallRespectiveView(SocialNetworks.Social);
+                AutoActivityViewModel.NewAutoActivityObject(network, selectedAccount);
             }
         }
 
