@@ -35,8 +35,8 @@
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>47</ApplicationRevision>
-    <ApplicationVersion>1.0.0.47</ApplicationVersion>
+    <ApplicationRevision>48</ApplicationRevision>
+    <ApplicationVersion>1.0.0.48</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -553,14 +553,6 @@
       <Project>{21f00635-aaf7-466b-9214-a830ea9c8963}</Project>
       <Name>EmbeddedBrowser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
-      <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
-      <Name>ProtectedCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProtectedServerApp\ProtectedServerApp.csproj">
-      <Project>{0771a96c-af77-497a-a6fa-2dc4c94cbae9}</Project>
-      <Name>ProtectedServerApp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -591,32 +583,32 @@
   <ItemGroup>
     <PublishFile Include="CefSharp.Core.dll">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="CefSharp.dll">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="CefSharp.Wpf">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

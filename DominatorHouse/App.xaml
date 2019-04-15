@@ -3,25 +3,27 @@
                         d1p1:Ignorable="d" 
                         xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:unity="http://prismlibrary.com/">
-  <unity:PrismApplication.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/English.xaml" />
-        <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
-        <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml" />
-        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
-        <ResourceDictionary Source="/Social/DashBoards/DashboardTemplates.xaml" />
-        <ResourceDictionary Source="/Social/TablifiedContentControlTemplates.xaml" />
-        <ResourceDictionary Source="/DominatorUIUtility;component/Resources/UtilityControls.xaml" />
-      </ResourceDictionary.MergedDictionaries>
-      <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}">
-        <Setter Property="IsExpanded" Value="True" />
-      </Style>
-    </ResourceDictionary>
-  </unity:PrismApplication.Resources>
+    <unity:PrismApplication.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/English.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
+                <ResourceDictionary Source="/Social/DashBoards/DashboardTemplates.xaml" />
+                <ResourceDictionary Source="/Social/TablifiedContentControlTemplates.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/UtilityControls.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}">
+                <Setter Property="IsExpanded" Value="True" />
+                <EventSetter Event="Expanded" Handler="CheckAllforExpand"/>
+                <EventSetter Event="Collapsed" Handler="CheckAllforExpand"/>
+            </Style>
+        </ResourceDictionary>
+    </unity:PrismApplication.Resources>
 </unity:PrismApplication>

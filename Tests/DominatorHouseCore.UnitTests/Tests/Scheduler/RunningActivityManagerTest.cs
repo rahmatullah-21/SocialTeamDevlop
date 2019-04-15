@@ -85,6 +85,40 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             _runningActivityManager.Initialize(lstAccount);
             softwareFileManager.Received(1).GetSoftwareSettings();
         }
-       
+        [TestMethod]
+        public void should_call_ScheduleActivityForNextJob_if_IsEnabled_is_true()
+        {
+         
+            var moduleConfig = new List<ModuleConfiguration>
+                               {
+                                     new ModuleConfiguration
+                                     {
+                                         IsEnabled = true,NextRun= DateTime.Now,ActivityType=ActivityType.Follow
+                                     }
+                                };
+            _jobActivityConfigurationManager[lstAccount[0].AccountId].Where(x => x.IsEnabled).ReturnsForAnyArgs(moduleConfig);
+
+
+            _runningActivityManager.StartNextRound(lstAccount[0]);
+            _dominatorScheduler.Received(1).ScheduleActivityForNextJob(lstAccount[0], moduleConfig[0].ActivityType);
+           
+        }
+        [TestMethod]
+        public void should_call_ScheduleActivityForNextJob_if_IsEnabled_is_false()
+        {
+
+            var moduleConfig = new List<ModuleConfiguration>
+                               {
+                                     new ModuleConfiguration
+                                     {
+                                         IsEnabled = false
+                                     }
+                                };
+            _jobActivityConfigurationManager[lstAccount[0].AccountId].Where(x => x.IsEnabled).ReturnsForAnyArgs(moduleConfig);
+
+            _runningActivityManager.StartNextRound(lstAccount[0]);
+            _dominatorScheduler.Received(0).ScheduleActivityForNextJob(lstAccount[0], moduleConfig[0].ActivityType);
+
+        }
     }
 }

@@ -323,6 +323,8 @@ namespace DominatorHouseCore.Enums
         BlockUser = 113,
 
         [Description("Facebook")]
-        MessageToFanpages = 114
+        MessageToFanpages = 114,
+        [Description("Facebook")]
+        MessageToPlaces = 115
     }
 }

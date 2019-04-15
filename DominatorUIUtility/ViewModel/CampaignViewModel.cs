@@ -730,7 +730,10 @@ namespace DominatorUIUtility.ViewModel
 
                 jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(account);
+
+                //Update ActivityManager of account in Db
                 _dbOperations.UpdateAccountActivityManager(account);
+
                 if (isToggleSwitchSelected)
                     dominatorScheduler.ScheduleNextActivity(account, module);
                 else
@@ -741,7 +744,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-        private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
+        private void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
         {
             try
             {
@@ -761,6 +764,9 @@ namespace DominatorUIUtility.ViewModel
                         foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId).ToList())
                         {
                             jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
+
+                            //Update ActivityManager of account in Db
+                            _dbOperations.UpdateAccountActivityManager(x);
                         }
                     }
                 });

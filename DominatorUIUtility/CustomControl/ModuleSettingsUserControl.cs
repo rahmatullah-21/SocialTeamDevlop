@@ -69,13 +69,41 @@ namespace DominatorUIUtility.CustomControl
             SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
             StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
             globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+            HeaderHelper.UpdateToggleButtonInCampaignMode += UpdateCampaignModeToggleButton;
+            HeaderHelper.UpdateToggleButtonInAccountActivityMode += UpdateAccountActivityModeToggleButton;
+
         }
 
         #endregion
+
+        void UpdateCampaignModeToggleButton()
+        {
+            if (_headerControl != null)
+            {
+                var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(this);
+
+                if (isAllCollapsed)
+                    _headerControl.IsExpanded = false;
+                else _headerControl.IsExpanded = true;
+            }
+
+        }
+        void UpdateAccountActivityModeToggleButton()
+        {
+            if (_accountGrowthModeHeader != null)
+            {
+                var isAllCollapse = HeaderHelper.IsAllExpanderCollapseOrNot(this);
+
+                if (isAllCollapse)
+                    _accountGrowthModeHeader.IsExpanded = false;
+                else _accountGrowthModeHeader.IsExpanded = true;
+            }
+
+        }
         private void CreateOrUpdateCampaign(object sender)
         {
             var control = sender as FooterControl;
-           
+
             if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
@@ -83,6 +111,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         #region Commands
+
         public ICommand CreateCampaignCommand { get; set; }
         public ICommand SelectAccountCommand { get; set; }
         public ICommand CancelEditCommand { get; set; }
@@ -120,8 +149,6 @@ namespace DominatorUIUtility.CustomControl
             AccountGrowthModeHeader accountGrowthModeHeader = null
             )
         {
-            //if (queryControl == null) throw new ArgumentNullException(nameof(queryControl));
-
             if (_initialized) return;
 
             _headerControl = header;
@@ -132,7 +159,6 @@ namespace DominatorUIUtility.CustomControl
             _moduleName = moduleName;
             _accountGrowthModeHeader = accountGrowthModeHeader;
             _initialized = true;
-
         }
 
         #endregion
@@ -203,7 +229,6 @@ namespace DominatorUIUtility.CustomControl
 
         #region IHelpControl
 
-        // 
         public string VideoTutorialLink { get; set; } = "!Pass ConstantHelpDetails.VideoTutorialsLink in Derived Class";
 
         public string KnowledgeBaseLink { get; set; } = "!Pass ConstantHelpDetails.KnowledgeBaseLink";
@@ -342,7 +367,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.");
+                Dialog.ShowDialog("Error", "Please select at least one account.");
                 return false;
             }
             //Check Query
@@ -366,17 +391,16 @@ namespace DominatorUIUtility.CustomControl
 
         protected virtual bool ValidateQuery()
         {
-
             if (Model.SavedQueries.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.");
+                Dialog.ShowDialog("Error", "Please add at least one query.");
                 return false;
             }
-
             return true;
         }
 
         #endregion
+
 
         #region Set Data context
 
@@ -394,12 +418,12 @@ namespace DominatorUIUtility.CustomControl
 
             _footerControl.list_SelectedAccounts = new List<string>();
 
-            // _mainGrid.DataContext = Model as TModel;
             _mainGrid.DataContext = ObjViewModel;
 
             _headerControl.DataContext = _footerControl.DataContext = this;
 
             CampaignName = $"{SocialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+
         }
 
         #endregion
@@ -669,7 +693,8 @@ namespace DominatorUIUtility.CustomControl
 
             moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, 0);
             _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
-
+            
+            //Update ActivityManager of account in Db
             globalDbOperation.UpdateAccountActivityManager(account);
         }
 
@@ -795,7 +820,7 @@ namespace DominatorUIUtility.CustomControl
                 });
 
                 _accountsCacheService.UpsertAccounts(accountToRemoveModuleConfiguration.ToArray());
-              
+
                 #endregion
             }
             catch (Exception ex)
@@ -1485,7 +1510,7 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration);
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
-               
+
                 Dialog.ShowDialog("Success", "Successfully Saved !!!");
                 #endregion
 
