@@ -35,20 +35,6 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private HashSet<string> _groups = new HashSet<string>();
-
-        public HashSet<string> Groups
-        {
-            get
-            {
-                return _groups;
-            }
-            set
-            {
-                SetProperty(ref _groups, value);
-            }
-        }
-
         private bool _isProxySelected;
 
         public bool IsProxySelected

@@ -3490,19 +3490,15 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySecondsBetweenPostComment">Seconds between Post Comment</system:String>
     <system:String x:Key="LangKeyEnableScrapeDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram">Enable Scrape Different Users Across All Instagram Accounts Configured In Instagram</system:String>
     <system:String x:Key="LangKeyNoOfPostForCommentAndLikeCount">No of post for Comment and Like Count</system:String>
-
-
     <system:String x:Key="LangKeyMessageFanpagesTextFormat" xml:space="preserve"> Format: &lt;PageName&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
     Note: The following tokens are replaced with user info.</system:String>
-
     <system:String x:Key="LangKeyPostsOfOneEntity" >Posts of each entity (Page/Group/User)</system:String>
-
-
     <system:String x:Key="LangKeyKeywordPages">Keyword Pages</system:String>
     <system:String x:Key="LangKeyKeywordPlaces">Keyword Places</system:String>
+    <system:String x:Key="LangKeyPlaceScraper">Place Scraper</system:String>
     <system:String x:Key="LangKeySendMessageToPlaces">Send Message To Places</system:String>
-    <system:String x:Key="LangKeyVisitedByFriends">Visited By Friend(S)</system:String>
-    <system:String x:Key="LangKeyOpenNow">Open Now</system:String>
-    <system:String x:Key="LangKeyPriceRange">Price Range</system:String>
     <system:String x:Key="LangKeyPlaceFilter">Place Filter</system:String>
+    <system:String x:Key="LangKeyOpenNow">Open Now</system:String>
+    <system:String x:Key="LangKeyVisitedByFriends">Visited By Friends</system:String>
+    <system:String x:Key="LangKeyPriceRange">Price Range</system:String>
 </ResourceDictionary>

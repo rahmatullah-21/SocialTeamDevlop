@@ -693,7 +693,8 @@ namespace DominatorUIUtility.CustomControl
 
             moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, 0);
             _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
-
+            
+            //Update ActivityManager of account in Db
             globalDbOperation.UpdateAccountActivityManager(account);
         }
 
