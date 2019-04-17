@@ -693,7 +693,7 @@ namespace DominatorUIUtility.CustomControl
 
             moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, 0);
             _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
-            
+
             //Update ActivityManager of account in Db
             globalDbOperation.UpdateAccountActivityManager(account);
         }
@@ -870,10 +870,8 @@ namespace DominatorUIUtility.CustomControl
             // Update Campaign Details
             campaignFileManager.ToList().ForEach(campaign =>
             {
-
                 if (campaign.TemplateId == TemplateId)
                 {
-
                     campaign.CampaignName = CampaignName;
                     campaign.MainModule = _moduleName;
                     campaign.SubModule = _activityType.ToString();
@@ -1047,8 +1045,7 @@ namespace DominatorUIUtility.CustomControl
 
             else
             {
-
-                #region Update newyly added account setting
+                #region Update newly added account setting
 
                 accountDetails.ForEach(account =>
                 {
@@ -1122,7 +1119,7 @@ namespace DominatorUIUtility.CustomControl
             _accountsCacheService.UpsertAccounts(allAccountDetails.ToArray());
 
 
-            // save all accounts and schedule actitvities of selected accounts            
+            // schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
                 _dominatorScheduler.ScheduleNextActivity(account, _activityType);
@@ -1153,9 +1150,8 @@ namespace DominatorUIUtility.CustomControl
                 isAccountDetailsUpdated = true;
                 try
                 {
-
                     var moduleConfiguration = _jobActivityConfigurationManager[account.AccountId, _activityType] ?? new ModuleConfiguration() { ActivityType = _activityType };
-                    _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, _activityType, moduleConfiguration);
+                    moduleConfiguration.TemplateId = TemplateId;
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
                     moduleConfiguration.IsEnabled = true;
                     moduleConfiguration.Status = "Active";
@@ -1175,12 +1171,10 @@ namespace DominatorUIUtility.CustomControl
 
             _accountsCacheService.UpsertAccounts(allAccountDetails.ToArray());
 
-            // save all accounts and schedule actitvities of selected accounts            
+            //schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
                 _dominatorScheduler.ScheduleNextActivity(account, _activityType);
-                //DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, _activityType);
-                //DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: account.AccountBaseModel.AccountNetwork);
             }
 
             return isAccountDetailsUpdated;
@@ -1335,8 +1329,8 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var accountModel = _accountsFileManager.GetAccount(selectedAccount, socialNetworks);
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, _activityType];
+                // var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var moduleConfiguration = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
                 if (moduleConfiguration?.TemplateId == null || moduleConfiguration.LstRunningTimes == null)
                 {
                     Model.IsAccountGrowthActive = !isStart;
@@ -1451,15 +1445,15 @@ namespace DominatorUIUtility.CustomControl
             if (!ValidateRunningTime()) return;
 
             var accountModel = _accountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, SocialNetwork);
-            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, _activityType];
+            //var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
             if (moduleConfiguration?.TemplateId != null)
             {
                 if (moduleConfiguration.IsTemplateMadeByCampaignMode)
                 {
-                    var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                                "This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.",
-                                MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Yes", "No"));
+                    var dialogResult = Dialog.ShowCustomDialog("Warning",
+                                "This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.\nAre you sure you want to override previous settings ?",
+                                "Yes", "No");
                     if (dialogResult == MessageDialogResult.Negative)
                         return;
                 }
@@ -1483,7 +1477,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 #region Template not present case
                 moduleConfiguration = new ModuleConfiguration { ActivityType = _activityType };
-                jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountId, _activityType, moduleConfiguration);
+                _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountId, _activityType, moduleConfiguration);
 
                 moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
 
@@ -1578,8 +1572,8 @@ namespace DominatorUIUtility.CustomControl
 
                 account.ActivityManager.RunningTime = jobConfiguration.RunningTime;
 
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var accountModuleSettings = jobActivityConfigurationManager[account.AccountId, _activityType];
+                //  var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var accountModuleSettings = _jobActivityConfigurationManager[account.AccountId, _activityType];
                 if (accountModuleSettings != null)
                 {
                     if (accountModuleSettings.LstRunningTimes == null)

@@ -18,6 +18,7 @@ using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using DominatorHouseCore.Enums;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -194,17 +195,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Adding to post collections
                     postCollectionDetails.Add(cloneObject);
-
-                    // Clearing current post objects
-                    PostDetailsModel = new PostDetailsModel();
-                    var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
-                    publisherDirectPosts.PostContentControl.SetMedia();
-                    publisherDirectPosts.ImageMediaViewer.Initialize();
-
-                    var createCampaign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
-                    createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
-                        new PostDetailsModel();
-                    tabItemsControl.PostDetailsModel = new PostDetailsModel();
                 }
 
 
@@ -216,9 +206,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (PostDetailsModel.IsMultiPost && (createCampaignModel.LstPostDetailsModels.Count > 0 ||
                             createCampaignModel.LstMultipleImagePostCollection.Count > 0))
                 {
-
-                    // Iterate the Multiple posts images
-
+                    // Iterate the Multiple posts 
                     createCampaignModel.LstPostDetailsModels.ForEach(post =>
                     {
                         post.PostQueuedStatus = status;
@@ -231,63 +219,53 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         // Add to Post Collections 
                         postCollectionDetails.Add(post);
                     });
-
-
-                    // Iterate the Multiple image posts
-                    createCampaignModel.LstMultipleImagePostCollection.ForEach(post =>
-                        {
-                            post.PostQueuedStatus = saveLocation == "SaveToPending"
-                                ? PostQueuedStatus.Pending
-                                : PostQueuedStatus.Draft;
-
-                            if (post.IsMultipleImagePost)
-                            {
-                                post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
-                                post.IsUniquePost = PostDetailsModel.IsUniquePost;
-                            }
-
-                            // Add to Post Collections 
-                            postCollectionDetails.Add(post);
-
-
-                            if (!Application.Current.Dispatcher.CheckAccess())
-                            {
-                                Application.Current.Dispatcher.Invoke(() =>
-                                                           {
-                                                               //Clear the current object values
-                                                               createCampaignModel.LstMultipleImagePostCollection =
-                                                                                          new ObservableCollection<PostDetailsModel>();
-                                                               createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-                                                           });
-
-                            }
-                            else
-                            {
-                                //Clear the current object values
-                                createCampaignModel.LstMultipleImagePostCollection =
-                                    new ObservableCollection<PostDetailsModel>();
-                                createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-                            }
-                        });
                     isLoggerNeeded = true;
-
-
-                    var createCampaign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
-                    createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
-                        new PostDetailsModel();
-
-                    // Clearing current direct posts
-                    PostDetailsModel = new PostDetailsModel();
-                    var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
-                    publisherDirectPosts.ImageMediaViewer.Initialize();
                 }
 
                 #endregion
 
+                #region Multiple Images post
+
+                if (PostDetailsModel.IsMultipleImagePost && createCampaignModel.LstMultipleImagePostCollection.Count > 0)
+                {
+                    // Iterate the Multiple image posts
+                    createCampaignModel.LstMultipleImagePostCollection.ForEach(post =>
+                    {
+                        post.PostQueuedStatus = saveLocation == "SaveToPending"
+                            ? PostQueuedStatus.Pending
+                            : PostQueuedStatus.Draft;
+
+                        if (post.IsMultipleImagePost)
+                        {
+                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
+                            post.IsUniquePost = PostDetailsModel.IsUniquePost;
+                        }
+
+                        // Add to Post Collections 
+                        postCollectionDetails.Add(post);
+                    });
+                    isLoggerNeeded = true;
+                }
+                #endregion
+
                 if (isLoggerNeeded)
                 {
-                    GlobusLogHelper.log.Info("LangKeyPostSaved".FromResourceDictionary() + $" to {status} list");
+                    // Clearing current post objects
+                    PostDetailsModel = new PostDetailsModel();
+                    var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
+                    publisherDirectPosts.PostContentControl.SetMedia();
+                    publisherDirectPosts.ImageMediaViewer.Initialize();
+
+                    var createCampaign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
+                    createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
+                        new PostDetailsModel();
+                    tabItemsControl.PostDetailsModel = new PostDetailsModel();
+
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName,"Publisher Campaign","LangKeyPostSaved".FromResourceDictionary() + $" to {status} list");
                 }
+                else
+                 GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"Failed to save to {status} list. Add atleast one post.");
+
                 _multipostWindow?.Close();
                 _multipostWindow = null;
                 if (!Application.Current.Dispatcher.CheckAccess())

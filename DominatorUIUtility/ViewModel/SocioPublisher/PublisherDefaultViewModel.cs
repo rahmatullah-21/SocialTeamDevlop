@@ -755,8 +755,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Delete the post list bin file for the campaign
                 _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
-
-                GlobusLogHelper.log.Info($"{campaign.CampaignName} deleted Successfully!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaign.CampaignName, "Publisher Campaign", $"{campaign.CampaignName} deleted Successfully!");
 
                 //update campaign list in managepost
                 campaignList.Remove(campaignList.FirstOrDefault(x => x.Id == campaign.CampaignId));
@@ -808,8 +807,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
-
-                GlobusLogHelper.log.Info("Campaign deletion operation completed!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Publisher Campaign", "Campaign deletion operation completed!");
 
             }
             if (ListPublisherCampaignStatusModels.Count == 0 ||

@@ -87,6 +87,8 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public string Comment { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
         public string PublishedDate { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
+        public string PinTitle { get; set; }
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), OperationType);

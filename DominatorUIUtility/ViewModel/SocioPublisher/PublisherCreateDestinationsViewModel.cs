@@ -256,6 +256,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn", "Reddit" };
+        public List<string> WallAvailableInNetworks { get; set; } = new List<string> { "Pinterest", "Tumblr" };
 
         public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "Gplus", "Tumblr" };
         private string _selectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
@@ -927,7 +928,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AccountId = x.AccountBaseModel.AccountId,
                     AccountName = x.AccountBaseModel.UserName,
                     SocialNetworks = x.AccountBaseModel.AccountNetwork,
-                    IsOwnWallAvailable = x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                    IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),// x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
                     IsGroupsAvailable =
                         GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsPagesOrBoardsAvailable =
@@ -1275,7 +1276,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             AccountId = x.AccountBaseModel.AccountId,
                             AccountName = x.AccountBaseModel.UserName,
                             SocialNetworks = x.AccountBaseModel.AccountNetwork,
-                            IsOwnWallAvailable = x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                            IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),// x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
                             IsGroupsAvailable =
                                 GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsPagesOrBoardsAvailable =

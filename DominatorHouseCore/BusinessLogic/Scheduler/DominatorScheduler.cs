@@ -128,6 +128,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     if (!needRestart)
                     {
+                        //if activity of account is stopped then check if any other activity is enable with that account
+                        //if enabled then start next round with enabled activity
                         _runningActivityManager.StartNextRound(account);
                         return;
                     }
@@ -143,7 +145,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         if (needRestart)
                             ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
-
                     }
                 }
                 catch (Exception ex)
@@ -426,6 +427,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
                     jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom())
                 : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             if (moduleConfiguration != null)
             {
                 moduleConfiguration.NextRun = nextStartTime;
@@ -434,9 +436,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(jobProcess.DominatorAccountModel);
             }
-
+            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             // ScheduleNextActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType);
             StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, moduleConfiguration.IsEnabled);
+            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             _jobCountersManager.Reset(jobProcess.Id);
 
         }

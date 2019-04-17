@@ -47,6 +47,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
                     ScrapeWithoutQueriesActionTable[module]?.Invoke();
                     UpdateScheduleIfNoMoreData();
+                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
                 catch (OperationCanceledException)
                 {
@@ -122,8 +123,6 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
                     usedQueries++;
                 }
-
-
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
                 {
@@ -131,6 +130,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     //{
                     //}
                     UpdateScheduleIfNoMoreData();
+                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
             }
             catch (OperationCanceledException)
@@ -171,6 +171,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks,
                 _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
             var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(),
                 _jobProcess.TemplateId, true);
         }
