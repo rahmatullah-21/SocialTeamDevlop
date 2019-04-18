@@ -373,22 +373,22 @@ namespace EmbeddedBrowser
                     await Task.Delay(2500);
                     continue;
                 }
-                    
+
                 await Task.Delay(1000);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
                 await Task.Delay(1000);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
                 await Task.Delay(1000);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
-                adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption",  clickIndex: adCount);
-                if(string.IsNullOrEmpty(adViewerDetails))
+                adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption", clickIndex: adCount);
+                if (string.IsNullOrEmpty(adViewerDetails))
                 {
                     continue;
                 }
                 adViewerDetails = string.IsNullOrEmpty(adViewerDetails) ? string.Empty :
                     Regex.Matches(adViewerDetails, "id=(.*?)&")[0].Groups[1].ToString();
                 dictAdViewerDetails.Add(currentCount, adViewerDetails);
-                adCount+=2;
+                adCount += 2;
                 await Task.Delay(1000);
             }
 
@@ -398,7 +398,7 @@ namespace EmbeddedBrowser
         public async Task<List<Dictionary<PostContent, string>>> ScrapFacebookPostDetails
             (Dictionary<int, string> adViewerDictionary, int postCount)
         {
-            
+
             List<Dictionary<PostContent, string>> lstAdsList = new List<Dictionary<PostContent, string>>();
 
             while (postCount-- > 0)
@@ -579,6 +579,8 @@ namespace EmbeddedBrowser
         {
             lock (_cefLock)
             {
+                Thread.Sleep(2000);
+
                 if (html.Contains("royal_login_button"))
                 {
                     //Thread.Sleep(3000);
@@ -622,11 +624,14 @@ namespace EmbeddedBrowser
 
                 else if (Browser.GetSourceAsync().Result.Contains("profile_icon"))
                 {
-                    DominatorAccountModel.IsUserLoggedIn = true;
-                    _isLoggedIn = true;
-                    SaveCookie();
+                    //DominatorAccountModel.IsUserLoggedIn = true;
+                    //_isLoggedIn = true;
+                    //SaveCookie();
                 }
 
+                DominatorAccountModel.IsUserLoggedIn = true;
+                _isLoggedIn = true;
+                SaveCookie();
 
                 Thread.Sleep(2000);
 
@@ -993,6 +998,27 @@ namespace EmbeddedBrowser
                 await Task.Delay(TimeSpan.FromSeconds(delayAtLast));
         }
 
+
+        public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0)
+        {
+
+            MouseButtonType mouseButton = MouseButtonType.Left;
+
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return;
+
+            // mouseUp(4th parameter) = false , MouseButton to be pressed
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, false, 1, CefEventFlags.None);
+            await Task.Delay(100);
+            // mouseUp(4th parameter) = true , MouseButton to be released
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
+
+            if (delayAfter > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+        }
+
         /// <summary>
         /// Get the Mouse to click on a specific location(xLoc,yLoc)
         /// </summary>
@@ -1017,6 +1043,9 @@ namespace EmbeddedBrowser
             if (delayAfter > 0)
                 Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
         }
+
+
+
 
         /// <summary>
         /// Enter Characters in TextBox  
@@ -1599,7 +1628,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        private bool _isLoggedIn;
+        public bool _isLoggedIn;
         private void SaveCookie()
         {
             if (_isLoggedIn) return;
