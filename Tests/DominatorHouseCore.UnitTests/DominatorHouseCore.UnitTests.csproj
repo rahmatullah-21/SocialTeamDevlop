@@ -182,6 +182,7 @@
     <Compile Include="Tests\Utility\RangeUtilitiesTest.cs" />
     <Compile Include="Tests\Utility\SpinTexHelperTest.cs" />
     <Compile Include="Tests\Utility\UrlValidatorTest.cs" />
+    <Compile Include="Tests\ViewModels\AccountDetailsViewModelTest.cs" />
     <Compile Include="Tests\ViewModels\PerfCounterViewModelTest.cs" />
     <Compile Include="Tests\ViewModels\SelectAccountViewModelTest.cs" />
     <Compile Include="Tests\ViewModels\WhiteListViewModelTest.cs" />
