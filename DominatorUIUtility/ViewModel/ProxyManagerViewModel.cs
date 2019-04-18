@@ -794,7 +794,7 @@ namespace DominatorUIUtility.ViewModel
             });
         }
 
-        private static void UpdateUserInfoCountToAccountManagerUi(DominatorAccountModel account)
+        private void UpdateUserInfoCountToAccountManagerUi(DominatorAccountModel account)
         {
             account.DisplayColumnValue1 = 0;
             account.DisplayColumnValue2 = 0;
