@@ -35,12 +35,18 @@ namespace DominatorUIUtility.ViewModel
             BindingOperations.EnableCollectionSynchronization(LstWhiteListUsers, _lock);
         }
 
-        private static object _lock = new object();
+
+        #region Commands
         public ICommand AddToWhiteListCommand { get; set; }
         public ICommand ClearCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
         public ICommand SelectCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        #endregion
+
+        #region Properties
+
+        private static object _lock = new object();
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
         private DbOperations DbOperations { get; set; }
@@ -48,7 +54,6 @@ namespace DominatorUIUtility.ViewModel
         private DbOperations BlackListDbOperations { get; set; }
 
         private bool IsUnCheckedFromUser { get; set; }
-
 
         private WhitelistUserModel _whitelistUserModel = new WhitelistUserModel();
 
@@ -125,7 +130,8 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _lstWhiteListUsers, value);
             }
         }
-       
+
+        #endregion
         public void InitializeData()
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
@@ -139,11 +145,10 @@ namespace DominatorUIUtility.ViewModel
                 DbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
-                        new WhitelistUserModel
-                        {
-                            WhitelistUser = user.UserName
-                        }));
-
+                                                     new WhitelistUserModel
+                                                     {
+                                                         WhitelistUser = user.UserName
+                                                     }));
                     Thread.Sleep(5);
                 });
             });
@@ -162,8 +167,6 @@ namespace DominatorUIUtility.ViewModel
                 var lstuser = WhitelistUser.Split('\n');
                 WhitelistUser = string.Empty;
                 _whiteListUser = new List<WhiteListUser>();
-
-                List<WhiteListUser> lstWhiteListUser = DbOperations.Get<WhiteListUser>();
                 List<BlackListUser> lstBlackListUser = BlackListDbOperations.Get<BlackListUser>();
 
                 lstuser.ForEach(user =>
@@ -171,9 +174,10 @@ namespace DominatorUIUtility.ViewModel
                     var userName = user.Trim();
                     if (!string.IsNullOrEmpty(userName))
                     {
-                        if (lstWhiteListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
+                        if (LstWhiteListUsers.All(x => string.Compare(x.WhitelistUser, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
                             && lstBlackListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0))
                         {
+                            
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 _whiteListUser.Add(new WhiteListUser()

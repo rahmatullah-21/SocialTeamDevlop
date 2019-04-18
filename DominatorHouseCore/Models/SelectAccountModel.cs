@@ -66,7 +66,7 @@ namespace DominatorHouseCore.Models
 
             }
         }
-        private string _groupText = Application.Current.FindResource("LangKeySelectGroups")?.ToString();
+        private string _groupText = "LangKeySelectGroups".FromResourceDictionary()?.ToString();
         public string GroupText
         {
             get { return _groupText; }

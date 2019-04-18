@@ -96,5 +96,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string Comment { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string PublishedDate { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
+        public string PinTitle { get; set; }
     }
 }

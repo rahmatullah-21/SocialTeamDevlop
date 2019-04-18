@@ -98,7 +98,6 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         LikedPage = 1,
 
         OwnPage = 2,
-
         NotLiked = 3
     }
 }

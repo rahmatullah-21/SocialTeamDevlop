@@ -1,3 +1,28 @@
+Version[1.0.0.49],[17th-April-19]
+New Features:-
+	Facebook:-
+		Added feature with send message to Place.
+		Added feature with scrape Place.
+Fixed:-
+	Publisher:-
+		Tumblr:-
+			 Social publisher => Fixed issue with publish in pages.
+		Linkedin:-
+			Social publisher => Fixed issue with publishing in group.
+	Facebook:-
+		Broadcast message => Auto reply to Message => Fixed issue with sending diffrent spintax message.
+		Engage => Post Like => Fixed issue with like custom photo with multiple account.
+	Youtube:-
+		Account Activity => Unsubscribe => Fixed with with saving custom channel list.
+	Reddit:-
+		Comment => Fixed issue with Unique comment feature in spin text format in Engage module.
+	Twitter:-
+		Grow Follower => Follower => Followers of someone follower's => Fixed issue with showing no more data found.
+	Tumblr:-
+		Grow Followers => Follower => Fixed issue with auto stop follow.
+	Pinterest:-
+		Repin => Delete => Issue fixed with delete pin with Multiple boards.
+
 Version[1.0.0.48],[13th-April-19]
 New Features:-
 	Facebook:-
