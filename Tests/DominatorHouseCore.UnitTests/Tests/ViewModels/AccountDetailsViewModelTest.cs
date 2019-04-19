@@ -12,6 +12,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using System.Windows;
+using System.Threading.Tasks;
 
 namespace DominatorHouseCore.UnitTests.Tests.ViewModels
 {
@@ -89,7 +90,9 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
             SocinatorInitialize.SocialNetworkRegister(_networkCollectionFactory, SocialNetworks.Instagram);
             _accountVarifiaction.SendVerificationCode(_dominatorAccountModel, VerificationType.Phone,
                           _dominatorAccountModel.Token).ReturnsForAnyArgs(true);
-            _accountDetailsViewModel.SendVerificationCodeCommand.Execute(new object());
+          Task.Factory.StartNew(()=>  _accountDetailsViewModel.SendVerificationCodeCommand.Execute(new object())).ContinueWith((x)=> {
+              _accountDetailsViewModel.BtnSendVerificationCodeVisibility.Should().Be(Visibility.Visible);
+          });
         }
     }
 }

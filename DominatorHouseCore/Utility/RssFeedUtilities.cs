@@ -292,7 +292,7 @@ namespace DominatorHouseCore.Utility
                     postlists = (from node in postItems
                                  let innerHtml = node.InnerHtml
                                  let title = RemoveCdata(node.Element("title").InnerHtml)
-                                 let description = RemoveCdata(node.Element("description").InnerHtml)
+                                 let description = RemoveCdata(node.Element("description").InnerText)
                                  let link = RemoveCdata(node.Element("link").NextSibling.InnerText)
                                  let pubDate = RemoveCdata(node.Element("pubdate").InnerHtml)
                                  let url = RemoveCdata(node.Element("url")?.InnerHtml)
