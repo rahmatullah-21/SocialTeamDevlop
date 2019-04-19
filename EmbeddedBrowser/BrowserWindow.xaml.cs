@@ -120,7 +120,8 @@ namespace EmbeddedBrowser
                     //if (!set) { /*Is cookie set ?*/ }
                 }
 
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube
+                    || DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
                 {
                     CustomUse = true;
                     if (string.IsNullOrEmpty(TargetUrl))
