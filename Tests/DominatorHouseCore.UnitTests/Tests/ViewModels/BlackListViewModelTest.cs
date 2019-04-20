@@ -9,6 +9,7 @@ using DominatorHouseCore.Interfaces;
 using SQLite;
 using DominatorHouseCore.Enums.DHEnum;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace DominatorHouseCore.UnitTests.Tests.ViewModels
 {
@@ -52,7 +53,7 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
                 _blacklistViewModel.BlacklistUser.Should().BeEmpty();
                 _globalDb.Received(1).GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
                 _globalDb.Received(1).GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
-            }); ;
+            }); 
         }
         [TestMethod]
         public void Refresh_method_should_clear_blacklist_user_list_and_again_add_all_update_data_from_db()
@@ -70,6 +71,46 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
         {
             _blacklistViewModel.ClearCommand.Execute(new object());
             _blacklistViewModel.BlacklistUser.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public void DeleteCommand_should_delete_user_from_blacklist_user_list_and_db()
+        {
+            Task.Factory.StartNew(() => _blacklistViewModel.InitializeData()).ContinueWith((x) =>
+            {
+                _blacklistViewModel.LstBlackListUsers[0].IsBlackListUserChecked = true;
+                _blacklistViewModel.DeleteCommand.Execute(new object());
+            }).ContinueWith((x) =>
+                {
+                    _blacklistViewModel.LstBlackListUsers.Count.Should().BeGreaterOrEqualTo(1);
+                    _globalDb.Received(1).GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
+                    _globalDb.Received(1).GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
+                }); ;
+        }
+        [TestMethod]
+        public void SelectCommand_should_set_IsAllBlackListUserChecked_true_if_all_users_are_Selected()
+        {
+            Task.Factory.StartNew(() => _blacklistViewModel.InitializeData()).ContinueWith((x) =>
+            {
+                _blacklistViewModel.LstBlackListUsers.Select(user=> { user.IsBlackListUserChecked = true; return user; }).ToList();
+                _blacklistViewModel.SelectCommand.Execute(new object());
+            }).ContinueWith((x) =>
+            {
+                _blacklistViewModel.IsAllBlackListUserChecked.Should().BeTrue();
+            }); 
+        }
+        [TestMethod]
+        public void SelectCommand_should_set_IsAllBlackListUserChecked_false_if_all_users_are_not_Selected()
+        {
+            Task.Factory.StartNew(() => _blacklistViewModel.InitializeData()).ContinueWith((x) =>
+            {
+                _blacklistViewModel.LstBlackListUsers.Select(user => { user.IsBlackListUserChecked = false; return user; }).ToList();
+                _blacklistViewModel.SelectCommand.Execute(new object());
+            }).ContinueWith((x) =>
+            {
+                _blacklistViewModel.IsAllBlackListUserChecked.Should().BeFalse();
+                _blacklistViewModel.LstBlackListUsers.Where(y => y.IsBlackListUserChecked).Count().Should().Be(0);
+            });
         }
     }
 

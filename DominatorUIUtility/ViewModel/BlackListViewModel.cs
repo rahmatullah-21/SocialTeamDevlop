@@ -36,12 +36,17 @@ namespace DominatorUIUtility.ViewModel
         }
 
 
-        private static object _lock = new object();
+
+        #region Commands
         public ICommand AddToBlackListCommand { get; set; }
         public ICommand ClearCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
         public ICommand SelectCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        #endregion
+
+        #region Properties
+        private static object _lock = new object();
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
         private DbOperations DbOperations { get; set; }
@@ -135,6 +140,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        #endregion
         public void InitializeData()
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
@@ -143,7 +149,7 @@ namespace DominatorUIUtility.ViewModel
             WhiteListDbOperations =
                 new DbOperations(DataBaseConnectionGlb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser));
 
-            ThreadFactory.Instance.Start(() =>
+            Task.Factory.StartNew(() =>
             {
                 DbOperations.Get<BlackListUser>()?.ForEach(user =>
                 {

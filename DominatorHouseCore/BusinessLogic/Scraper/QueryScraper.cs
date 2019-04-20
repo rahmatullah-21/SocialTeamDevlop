@@ -41,33 +41,11 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         {
             try
             {
-                try
-                {
-                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    ScrapeWithoutQueriesActionTable[module]?.Invoke();
-                    UpdateScheduleIfNoMoreData();
-                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                }
-                catch (OperationCanceledException)
-                {
-                    throw new OperationCanceledException(@"Cancellation Requested !");
-                }
-                catch (AggregateException ae)
-                {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            throw new OperationCanceledException(@"Cancellation Requested !");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog(
-                        $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
-                }
+                ScrapeWithoutQueriesActionTable[module]?.Invoke();
+                UpdateScheduleIfNoMoreData();
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             }
             catch (KeyNotFoundException ex)
             {
@@ -77,6 +55,22 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             {
                 Console.WriteLine(@"Cancellation Requested !");
             }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        throw new OperationCanceledException(@"Cancellation Requested !");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(
+                    $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
+            }
+
         }
 
         public void ScrapeWithQueries()

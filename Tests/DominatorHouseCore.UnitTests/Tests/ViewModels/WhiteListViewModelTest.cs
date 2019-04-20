@@ -16,6 +16,7 @@ using Socinator;
 using System.Threading.Tasks;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DominatorHouseCore.UnitTests.Tests.ViewModels
 {
@@ -86,6 +87,32 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
             _globalDb.Received(1).GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
             _globalDb.Received(1).GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
             WhiteListViewModel.LstWhiteListUsers.Should().NotBeNull();
+        }
+        [TestMethod]
+        public void DeleteCommand_should_delete_user_from_whitelist_user_list_and_db()
+        {
+            Task.Factory.StartNew(() => WhiteListViewModel.InitializeData()).ContinueWith((x) =>
+            {
+                WhiteListViewModel.LstWhiteListUsers[0].IsWhiteListUserChecked = true;
+                WhiteListViewModel.DeleteCommand.Execute(new object());
+            }).ContinueWith((x) =>
+            {
+                WhiteListViewModel.LstWhiteListUsers.Count.Should().BeGreaterOrEqualTo(1);
+                _globalDb.Received(1).GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser);
+                _globalDb.Received(1).GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser);
+            }); ;
+        }
+        [TestMethod]
+        public void SelectCommand_should_set_IsAllWhiteListUserChecked_true_if_all_users_are_Selected()
+        {
+            Task.Factory.StartNew(() => WhiteListViewModel.InitializeData()).ContinueWith((x) =>
+            {
+                WhiteListViewModel.LstWhiteListUsers.Select(user => { user.IsWhiteListUserChecked = true; return user; }).ToList();
+                WhiteListViewModel.SelectCommand.Execute(new object());
+            }).ContinueWith((x) =>
+            {
+                WhiteListViewModel.IsAllWhiteListUserChecked.Should().BeTrue();
+            });
         }
     }
 
