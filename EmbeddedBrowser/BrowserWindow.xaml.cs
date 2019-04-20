@@ -126,9 +126,7 @@ namespace EmbeddedBrowser
                     CustomUse = true;
                     if (string.IsNullOrEmpty(TargetUrl))
                         TargetUrl = SocialHomeUrls();
-                    var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksHomeUrl();
-                    Browser.Address = url;
-                    UrlBar.Text = url;
+                    await GoToCustomUrl(TargetUrl);
                 }
 
                 // Just to check that how many cookie was inserted
@@ -2084,6 +2082,8 @@ namespace EmbeddedBrowser
                     return "https://plus.google.com/";
                 case SocialNetworks.Youtube:
                     return "https://www.youtube.com/";
+                case SocialNetworks.Facebook:
+                    return "https://www.facebook.com/";
                 default:
                     throw new ArgumentOutOfRangeException();
             }
