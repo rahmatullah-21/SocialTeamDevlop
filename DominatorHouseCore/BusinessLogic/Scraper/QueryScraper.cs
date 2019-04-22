@@ -120,21 +120,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
                 {
-                    if (_jobProcess.DominatorAccountModel.IsNeedToSchedule)
-                        UpdateScheduleIfNoMoreData();
-                    else
-                    {
-                        GlobusLogHelper.log.Info(Log.ProcessCompleted, _jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
-                            _jobProcess.DominatorAccountModel.AccountBaseModel.UserName,  _jobProcess.ActivityType.ToString());
-
-                        var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                        _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                        dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(),
-                            _jobProcess.TemplateId, false);
-                      
-                    }
-
+                    UpdateScheduleIfRequire();
                 }
             }
             catch (OperationCanceledException)
@@ -152,6 +138,24 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+
+        private void UpdateScheduleIfRequire()
+        {
+            if (_jobProcess.DominatorAccountModel.IsNeedToSchedule)
+                UpdateScheduleIfNoMoreData();
+            else
+            {
+                GlobusLogHelper.log.Info(Log.ProcessCompleted, _jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                    _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType.ToString());
+
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(),
+                    _jobProcess.TemplateId, false);
+                _jobProcess.DominatorAccountModel.IsNeedToSchedule = true;
             }
         }
 
