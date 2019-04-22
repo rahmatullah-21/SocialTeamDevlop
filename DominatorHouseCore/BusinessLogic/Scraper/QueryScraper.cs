@@ -120,11 +120,21 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
                 {
-                    //if (_jobProcess.IsNeedToSchedule)
-                    //{
-                    //}
-                    UpdateScheduleIfNoMoreData();
-                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    if (_jobProcess.DominatorAccountModel.IsNeedToSchedule)
+                        UpdateScheduleIfNoMoreData();
+                    else
+                    {
+                        GlobusLogHelper.log.Info(Log.ProcessCompleted, _jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                            _jobProcess.DominatorAccountModel.AccountBaseModel.UserName,  _jobProcess.ActivityType.ToString());
+
+                        var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                        _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(),
+                            _jobProcess.TemplateId, false);
+                      
+                    }
+
                 }
             }
             catch (OperationCanceledException)

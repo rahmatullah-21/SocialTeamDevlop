@@ -33,7 +33,7 @@ namespace DominatorHouseCore.Process
         string TemplateId { get; }
         string AccountId { get; }
         string AccountName { get; }
-        bool IsNeedToSchedule { get; }
+        bool IsNeedToSchedule { get; set; }
         List<QueryInfo> SavedQueries { get; }
         SocialNetworks SocialNetworks { get; }
         void DelayBeforeNextActivity();
@@ -61,9 +61,11 @@ namespace DominatorHouseCore.Process
         //{
         //}
 
-        public bool IsNeedToSchedule { get; set; } = false;
+        public bool IsNeedToSchedule { get; set; } = true;
+        public JobProcessResult JobProcessResult { get; set; }
         protected JobProcess(IProcessScopeModel processScopeModel, IQueryScraperFactory queryScraperFactory, IHttpHelper httpHelper)
         {
+            JobProcessResult = new JobProcessResult();
             _queryScraperFactory = queryScraperFactory;
             _httpHelper = httpHelper;
             // Get the current account details 
@@ -126,23 +128,18 @@ namespace DominatorHouseCore.Process
         /// <returns></returns>
         public virtual JobProcessResult FinalProcess(ScrapeResultNew scrapedResult)
         {
-            JobProcessResult jobProcessResult =
-                new JobProcessResult { IsProcessCompleted = CheckJobProcessLimitsReached() };
-            if (!jobProcessResult.IsProcessCompleted)
+            JobProcessResult.IsProcessCompleted = CheckJobProcessLimitsReached();
+            if (!JobProcessResult.IsProcessCompleted)
             {
-                jobProcessResult = PostScrapeProcess(scrapedResult);
+                JobProcessResult = PostScrapeProcess(scrapedResult);
                 CheckJobProcessLimitsReached();
-                //  DelayBeforeNextActivity();
             }
             else
             {
                 StartOtherConfiguration(scrapedResult);
-
                 GlobusLogHelper.log.Info(Log.ProcessCompleted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
             }
-
-            return jobProcessResult;
-
+            return JobProcessResult;
         }
 
 
@@ -412,13 +409,13 @@ namespace DominatorHouseCore.Process
 
             var limitType = CheckLimit();
             if (limitType.ReachedLimitType != ReachedLimitType.NoLimit)
-             return;
-           
+                return;
+
             var seconds = JobConfiguration.DelayBetweenActivity.GetRandom();
 
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
-                      
+
             Thread.Sleep(seconds * 1000);
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
