@@ -1,6 +1,8 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.EmailService;
 using DominatorHouseCore.Enums;
@@ -246,10 +248,16 @@ namespace DominatorUIUtility.ViewModel
                         .AddOrUpdateIsAutoVerifyByEmail(DominatorAccountModel.IsAutoVerifyByEmail)
                         .SaveToBinFile();
                     }
+                  
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
+                }
+                finally
+                {
+                    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+                    globalDbOperation.UpdateAccountDetails(DominatorAccountModel);
                 }
             });
 

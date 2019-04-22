@@ -184,6 +184,8 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 if (dataToUpdate == null)
                     return false;
 
+                dataToUpdate.UserName = dominatorAccountModel.AccountBaseModel.UserName;
+                dataToUpdate.Password = dominatorAccountModel.AccountBaseModel.Password;
                 dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
                 dataToUpdate.ProxyIP = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyIp;
                 dataToUpdate.ProxyPort = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPort;

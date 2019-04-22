@@ -116,6 +116,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public string WatchPartInvitedToUserName { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public bool IsMoreCommentsNeeded { get; set; }
 
     }
 }

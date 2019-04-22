@@ -1,3 +1,19 @@
+Version[1.0.0.50],[22nd-April-19]
+New Features:-
+	YouTube:-
+		Engage => Comment => Spintax is implemented.
+
+Fixed:-
+	Social:-
+		Fixed issue with job scheduling.
+	Twitter:-
+		Accounts Activity => Follow Back => Fixed Issue for blocked accounts.
+	Instagram:-
+		Social publisher => create campaign => Advanced settings => post using geo Location name.
+	Facebook:-
+		Grow Groups => Group Joiner => Fixed Issue with graph search url.
+		Grow Friends => Send friend Request => Fixed issue with sending messgae again and agian after activity block.
+
 Version[1.0.0.49],[17th-April-19]
 New Features:-
 	Facebook:-

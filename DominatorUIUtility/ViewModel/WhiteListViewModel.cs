@@ -252,7 +252,7 @@ namespace DominatorUIUtility.ViewModel
             var selectedUser = LstWhiteListUsers.Where(x => x.IsWhiteListUserChecked).ToList();
             if (selectedUser.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast on user");
+                Dialog.ShowDialog("Alert", "Please select atleast one user");
                 return;
             }
             Task.Factory.StartNew(() =>
