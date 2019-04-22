@@ -456,6 +456,7 @@ namespace DominatorHouseCore.Models
                
             }
         }
+        public bool IsNeedToSchedule { get; set; } = true;
         public DominatorAccountModel Clone()
         {
             return (DominatorAccountModel)MemberwiseClone();

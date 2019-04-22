@@ -41,33 +41,11 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         {
             try
             {
-                try
-                {
-                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    ScrapeWithoutQueriesActionTable[module]?.Invoke();
-                    UpdateScheduleIfNoMoreData();
-                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                }
-                catch (OperationCanceledException)
-                {
-                    throw new OperationCanceledException(@"Cancellation Requested !");
-                }
-                catch (AggregateException ae)
-                {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            throw new OperationCanceledException(@"Cancellation Requested !");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog(
-                        $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
-                }
+                ScrapeWithoutQueriesActionTable[module]?.Invoke();
+                UpdateScheduleIfNoMoreData();
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             }
             catch (KeyNotFoundException ex)
             {
@@ -77,6 +55,22 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             {
                 Console.WriteLine(@"Cancellation Requested !");
             }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        throw new OperationCanceledException(@"Cancellation Requested !");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(
+                    $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
+            }
+
         }
 
         public void ScrapeWithQueries()
@@ -126,11 +120,21 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
                 {
-                    //if (_jobProcess.IsNeedToSchedule)
-                    //{
-                    //}
-                    UpdateScheduleIfNoMoreData();
-                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    if (_jobProcess.DominatorAccountModel.IsNeedToSchedule)
+                        UpdateScheduleIfNoMoreData();
+                    else
+                    {
+                        GlobusLogHelper.log.Info(Log.ProcessCompleted, _jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                            _jobProcess.DominatorAccountModel.AccountBaseModel.UserName,  _jobProcess.ActivityType.ToString());
+
+                        var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                        _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(),
+                            _jobProcess.TemplateId, false);
+                      
+                    }
+
                 }
             }
             catch (OperationCanceledException)
