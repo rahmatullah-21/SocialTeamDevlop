@@ -102,7 +102,7 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 var selectedGroups = SelectAccountModel.Groups.Count(x => x.IsContentSelected);
-                SelectAccountModel.GroupText = $"{selectedGroups} {Application.Current.FindResource("LangKeyGroupSSelected")?.ToString()}";
+                SelectAccountModel.GroupText = $"{selectedGroups} {"LangKeyGroupSSelected".FromResourceDictionary()?.ToString()}";
             }
             catch (Exception ex)
             {

@@ -39,14 +39,18 @@
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Unity.5.8.11\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FluentAssertions, Version=5.4.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.5.4.2\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="FluentScheduler, Version=5.3.0.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MahApps.Metro.1.6.4\lib\net46\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -78,7 +82,7 @@
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
@@ -182,6 +186,11 @@
     <Compile Include="Tests\Utility\RangeUtilitiesTest.cs" />
     <Compile Include="Tests\Utility\SpinTexHelperTest.cs" />
     <Compile Include="Tests\Utility\UrlValidatorTest.cs" />
+    <Compile Include="Tests\ViewModels\AccountDetailsViewModelTest.cs" />
+    <Compile Include="Tests\ViewModels\PerfCounterViewModelTest.cs" />
+    <Compile Include="Tests\ViewModels\SelectAccountViewModelTest.cs" />
+    <Compile Include="Tests\ViewModels\BlackListViewModelTest.cs" />
+    <Compile Include="Tests\ViewModels\WhiteListViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
@@ -196,17 +205,23 @@
       <Project>{C7B598E7-4B31-4A92-9B53-022A25E50002}</Project>
       <Name>DominatorHouse</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DominatorUIUtility\DominatorUIUtility.csproj">
+      <Project>{E8D95AF0-E99B-4059-9140-5C02B3F52E06}</Project>
+      <Name>DominatorUIUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dominator.Tests.Utils\Dominator.Tests.Utils.csproj">
       <Project>{3debdd7b-b004-4adb-bdf8-58d6d65b8e57}</Project>
       <Name>Dominator.Tests.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

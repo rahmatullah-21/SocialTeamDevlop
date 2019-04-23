@@ -1,6 +1,8 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.EmailService;
 using DominatorHouseCore.Enums;
@@ -246,10 +248,16 @@ namespace DominatorUIUtility.ViewModel
                         .AddOrUpdateIsAutoVerifyByEmail(DominatorAccountModel.IsAutoVerifyByEmail)
                         .SaveToBinFile();
                     }
+                  
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
+                }
+                finally
+                {
+                    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+                    globalDbOperation.UpdateAccountDetails(DominatorAccountModel);
                 }
             });
 
@@ -262,7 +270,7 @@ namespace DominatorUIUtility.ViewModel
             if (OldDominatorAccountModel == null) return false;
 
             var newAccountBaseModel = DominatorAccountModel.AccountBaseModel;
-
+            IProxyManagerViewModel proxyManagerViewModel = null;
             try
             {
                 if (string.IsNullOrEmpty(newAccountBaseModel.UserName) ||
@@ -303,13 +311,14 @@ namespace DominatorUIUtility.ViewModel
                     DominatorAccountModel.CookieHelperList?.Clear();
                     _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
                 }
+                proxyManagerViewModel = ServiceLocator.Current.GetInstance<IProxyManagerViewModel>();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
 
-            var proxyManagerViewModel = ServiceLocator.Current.GetInstance<IProxyManagerViewModel>();
+
             var oldproxies = _proxyFileManager.GetAllProxy();
 
             #region If proxy not empty or null
@@ -319,10 +328,10 @@ namespace DominatorUIUtility.ViewModel
             {
                 var oldAccount = _accountsFileManager.GetAccountById(OldDominatorAccountModel.AccountId).AccountBaseModel;
 
-                if (!proxyManagerViewModel.IsProxyAvailable(newAccountBaseModel, oldproxies, oldAccount, strategy))
+                if (proxyManagerViewModel != null && !proxyManagerViewModel.IsProxyAvailable(newAccountBaseModel, oldproxies, oldAccount, strategy))
                 {
                     if (!proxyManagerViewModel.UpdateProxy(newAccountBaseModel, strategy))
-                        proxyManagerViewModel.AddProxyIfNotExist(newAccountBaseModel, strategy);
+                        proxyManagerViewModel?.AddProxyIfNotExist(newAccountBaseModel, strategy);
                 }
             }
 
@@ -330,7 +339,7 @@ namespace DominatorUIUtility.ViewModel
 
             else
             {
-                proxyManagerViewModel.UpdateProxy(newAccountBaseModel, oldproxies, strategy);
+                proxyManagerViewModel?.UpdateProxy(newAccountBaseModel, oldproxies, strategy);
                 try
                 {
                     new SocinatorAccountBuilder(newAccountBaseModel.AccountId)

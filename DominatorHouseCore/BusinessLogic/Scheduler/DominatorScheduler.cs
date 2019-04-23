@@ -90,7 +90,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         RescheduleifLimitReached(jobProcess, limitInfo, limitInfo.ReachedLimitType);
                         return;
                     }
-                  
+
                     jobProcess.StartProcessAsync().ContinueWith(a => scope.Dispose());
                     jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
@@ -110,7 +110,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     var moduleConfiguration =
                         _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
-                    moduleConfiguration = moduleConfiguration??
+                    moduleConfiguration = moduleConfiguration ??
                         _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.ActivityType.ToString() == module);
                     if (moduleConfiguration != null)
                     {
@@ -128,6 +128,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     if (!needRestart)
                     {
+                        //if activity of account is stopped then check if any other activity is enable with that account
+                        //if enabled then start next round with enabled activity
                         _runningActivityManager.StartNextRound(account);
                         return;
                     }
@@ -143,7 +145,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         if (needRestart)
                             ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
-
                     }
                 }
                 catch (Exception ex)
@@ -351,9 +352,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
-
-          //  var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-          
+            
             if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 ScheduleActivityForNextJob(dominatorAccountModel, activityType);
@@ -426,6 +425,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
                     jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom())
                 : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+
             if (moduleConfiguration != null)
             {
                 moduleConfiguration.NextRun = nextStartTime;
@@ -435,9 +435,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 _accountsCacheService.UpsertAccounts(jobProcess.DominatorAccountModel);
             }
 
-            // ScheduleNextActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType);
             StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, moduleConfiguration.IsEnabled);
             _jobCountersManager.Reset(jobProcess.Id);
+            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
         }
     }
