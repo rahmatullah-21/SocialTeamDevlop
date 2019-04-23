@@ -22,9 +22,14 @@
                 </Grid>
             </GroupBox.Header>
             <StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="10" DataContext="{Binding YoutubeModel}">
+                <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
                     <Label Margin="5" Content="{DynamicResource LangKeyLimitTheNumberOfSimultaneousWatchVideosTo}"/>
                     <controls:NumericUpDown Minimum="2" Maximum="10"  Value="{Binding LimitNumberOfSimultaneousWatchVideos}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
+                    <Label Margin="5" Content="{DynamicResource LangUseUniqueFeatureAs}"/>
+                    <RadioButton Margin="5" Content="{DynamicResource LangCampaignWise}" IsChecked="{Binding IsCampainWiseUnique}"/>
+                    <RadioButton Margin="5" Content="{DynamicResource LangAccountWise}"  IsChecked="{Binding IsAccountWiseUnique}"/>
                 </StackPanel>
 
                 <!-- Old Config (Implement it later) -->
