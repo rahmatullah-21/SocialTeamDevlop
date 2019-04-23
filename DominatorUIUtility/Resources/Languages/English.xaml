@@ -3501,7 +3501,4 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyOpenNow">Open Now</system:String>
     <system:String x:Key="LangKeyVisitedByFriends">Visited By Friends</system:String>
     <system:String x:Key="LangKeyPriceRange">Price Range</system:String>
-    <system:String x:Key="LangUseUniqueFeatureAs">Use Unique Feature</system:String>
-    <system:String x:Key="LangCampaignWise">Campaign wise</system:String>
-    <system:String x:Key="LangAccountWise">Account wise</system:String>
 </ResourceDictionary>
