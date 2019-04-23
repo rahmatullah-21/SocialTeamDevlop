@@ -13,6 +13,9 @@ Fixed:-
 	Facebook:-
 		Grow Groups => Group Joiner => Fixed Issue with graph search url.
 		Grow Friends => Send friend Request => Fixed issue with sending messgae again and agian after activity block.
+	Linkedin:-
+		Sociopublisher => create destination => Fixed issue with not showing all groups of account
+		Grow connection =>connection request => sales search url => Report => Fixed issue with not showing proper data in excel file
 
 Version[1.0.0.49],[17th-April-19]
 New Features:-
