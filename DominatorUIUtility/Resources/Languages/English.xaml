@@ -3506,4 +3506,5 @@ Type 3. IP:Port
     <system:String x:Key="LangUseUniqueFeatureAs">Use Unique Feature</system:String>
     <system:String x:Key="LangCampaignWise">Campaign wise</system:String>
     <system:String x:Key="LangAccountWise">Account wise</system:String>
+    <system:String x:Key="LangReplyForCommentId">Comment as reply to a specific commentId</system:String>
 </ResourceDictionary>
