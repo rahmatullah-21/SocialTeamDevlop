@@ -66,7 +66,17 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                 .RegisterInstance<ICounterKeyFactory<InteractedComments>>(
                     new CounterKeyFactory<InteractedComments>(SocialNetworks.Facebook, true));
 
-           
+
+            Container
+                          .RegisterInstance<IEntityCounterFunction<InteractedEvents>>(
+                              new EntityCounterFunction<InteractedEvents>(
+                                  new DateFilterPredicate<InteractedEvents>(
+                                      a => a.InteractionDateTime),
+                                  new ActivityTypeAsStringFilterPredicate<InteractedEvents>(
+                                      a => a.ActivityType)));
+            Container
+                .RegisterInstance<ICounterKeyFactory<InteractedEvents>>(
+                    new CounterKeyFactory<InteractedEvents>(SocialNetworks.Facebook, true));
         }
     }
 }
