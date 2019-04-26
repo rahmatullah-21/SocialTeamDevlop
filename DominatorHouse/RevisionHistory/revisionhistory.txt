@@ -1,3 +1,21 @@
+Version[1.0.0.51],[25th-April-19]
+New Features:-
+	Private Blacklist / Private Whitelist => Added import and export feature.
+	Group Blacklist / Group Whitelist => Added import and export feature.
+	YouTube:-
+		Social => Other Configurations => YouTube => use unique feature campaign wise and account wise implemented .
+		Engage => Comment => Reply to the comment implemented. 
+
+Fixed:-
+	Instagram:-
+		Grow Followers => Follow Back => Fixed issue with follow back.
+	Facebook:-
+		FB Invite => Group Invite => Fixed issue with Group inviter.
+		SocialPublisher => Share Url => Fixed issue with scrapping duplicate Data.
+	Twitter:-
+		Grow Follower => Follower => User Filters => Fixed issue of User Bio must contain and must not contain.
+		Account manager => Fixed login issue with accounts with new twitter interface.
+
 Version[1.0.0.50],[22nd-April-19]
 New Features:-
 	YouTube:-

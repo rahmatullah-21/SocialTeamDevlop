@@ -158,6 +158,7 @@
     <Compile Include="Tests\FileManagers\ProxyFileManagerTest.cs" />
     <Compile Include="Tests\FileManagers\TemplatesCacheServiceTest.cs" />
     <Compile Include="Tests\Models\JobActivityConfigurationManagerTests.cs" />
+    <Compile Include="Tests\Models\JobActivityManagerTest.cs" />
     <Compile Include="Tests\Models\ProxyTest.cs" />
     <Compile Include="Tests\Patterns\PrototypeBaseTest.cs" />
     <Compile Include="Tests\Process\EntityCounterFunctionTests.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Tests\Settings\SoftwareSettingsTests.cs" />
     <Compile Include="Tests\Utility\DateTimeUtilitiesTests.cs" />
     <Compile Include="Tests\Utility\EnumUtilityTest.cs" />
+    <Compile Include="Tests\Utility\ExceptionExtensionsTest.cs" />
     <Compile Include="Tests\Utility\FeatureFlagsTest.cs" />
     <Compile Include="Tests\Utility\ImageExtracterTest.cs" />
     <Compile Include="Tests\Utility\ListHelperTest.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Tests\Utility\RangeUtilitiesTest.cs" />
     <Compile Include="Tests\Utility\SpinTexHelperTest.cs" />
     <Compile Include="Tests\Utility\UrlValidatorTest.cs" />
+    <Compile Include="Tests\Utility\WebHelperTest.cs" />
     <Compile Include="Tests\ViewModels\AccountDetailsViewModelTest.cs" />
     <Compile Include="Tests\ViewModels\PerfCounterViewModelTest.cs" />
     <Compile Include="Tests\ViewModels\SelectAccountViewModelTest.cs" />
