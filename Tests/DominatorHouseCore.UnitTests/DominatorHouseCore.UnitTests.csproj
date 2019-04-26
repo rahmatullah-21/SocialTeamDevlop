@@ -190,6 +190,7 @@
     <Compile Include="Tests\Utility\UrlValidatorTest.cs" />
     <Compile Include="Tests\Utility\WebHelperTest.cs" />
     <Compile Include="Tests\ViewModels\AccountDetailsViewModelTest.cs" />
+    <Compile Include="Tests\ViewModels\LiveChatViewModelTest.cs" />
     <Compile Include="Tests\ViewModels\PerfCounterViewModelTest.cs" />
     <Compile Include="Tests\ViewModels\SelectAccountViewModelTest.cs" />
     <Compile Include="Tests\ViewModels\BlackListViewModelTest.cs" />

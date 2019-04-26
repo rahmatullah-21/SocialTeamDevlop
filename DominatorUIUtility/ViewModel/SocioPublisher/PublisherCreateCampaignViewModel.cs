@@ -911,6 +911,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                   _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             SelectedItem = null;
             PageTitle = Application.Current.FindResource("LangKeyCreateCampaign")?.ToString();
+
             SetDataContext(false);
         }
 
