@@ -180,6 +180,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 var lstUser = BlacklistUser.Split('\n');
                 BlacklistUser = string.Empty;
+                _blackListUser = new List<BlackListUser>();
                 AddToDB(lstUser.ToList());
             });
         }

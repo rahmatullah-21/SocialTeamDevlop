@@ -171,7 +171,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 var lstuser = WhitelistUser.Split('\n');
                 WhitelistUser = string.Empty;
-
+                _whiteListUser = new List<WhiteListUser>();
                 AddToDB(lstuser?.ToList());
             });
         }

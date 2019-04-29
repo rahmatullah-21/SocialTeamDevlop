@@ -139,19 +139,23 @@ namespace DominatorHouseCore.Diagnostics
                         DraftCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft),
                     };
 
-                    if (!Application.Current.CheckAccess())
-                        Application.Current.Dispatcher.Invoke(() => ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel));
+                    if (!ListPublisherCampaignStatusModels.Any(x => x.CampaignName == publisherCampaignStatusModel.CampaignName
+                                                                 || x.CampaignId == publisherCampaignStatusModel.CampaignId))
+                    {
+                        if (!Application.Current.CheckAccess())
+                            Application.Current.Dispatcher.Invoke(() => ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel));
 
-                    else
-                        // Add to lists
-                        ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
+                        else
+                            // Add to lists
+                            ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
-                    // Update post counts
-                    GetPostStatus(publisherCampaignStatusModel);
+                        // Update post counts
+                        GetPostStatus(publisherCampaignStatusModel);
 
-                    // Update campaign status to complete
-                    if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
-                        UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
+                        // Update campaign status to complete
+                        if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
+                            UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
+                    }
                 });
                 Thread.Sleep(2);
             });
