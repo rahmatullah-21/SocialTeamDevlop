@@ -22,9 +22,24 @@
             <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromPinterest}" 
                           IsChecked="{Binding ScrapePostModel.IsScrapePinterestPost}"/>
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapePinterestPost,Converter={StaticResource BooleanToVisibilityConverter}}"
-                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeBoardsUsersCategorySearchPin}" 
+                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeBoardsUsersSearchPin}" 
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
                         Text="{Binding ScrapePostModel.AddPdPostSource}" />
+            <StackPanel Orientation="Vertical" Visibility="{Binding ScrapePostModel.IsScrapePinterestPost,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <RadioButton Margin="2" Content="{DynamicResource LangKeyUseOriginalPostDetails}" 
+                          IsChecked="{Binding ScrapePostModel.IsOriginalPostDetails}"/>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Margin="2" Content="{DynamicResource LangKeyUseOwnPostDetails}" 
+                          IsChecked="{Binding ScrapePostModel.IsOwnPostDetails}"/>
+                    <!--<mah:Badged Badge="{Binding ScrapePostModel.LstScrapedPostDetails.Count}" Margin="10,15,0,0">-->
+                        <Button VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsOwnPostDetails,Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Content="{DynamicResource LangKeyUploadPostDetails}" Background="{DynamicResource AccentBaseColorBrush}"
+                        Foreground="White"
+                        Margin="5"  Height="30" Width="150" Command="{Binding UploadPostDetailsCommand}"/>
+                    <!--</mah:Badged>-->
+                  
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enums:SocialNetworks.Twitter},Converter={StaticResource FeatureVisibilityConverter}}">
             <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromTwitter}" IsChecked="{Binding ScrapePostModel.IsScrapeTwitterPost}" />

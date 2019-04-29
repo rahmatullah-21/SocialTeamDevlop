@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -156,6 +157,42 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     return;
                 SetProperty(ref _startScrapeOnXminute, value);
             }
+        }
+        private bool _isOriginalPostDetails = true;
+        [ProtoMember(9)]
+        public bool IsOriginalPostDetails
+        {
+            get { return _isOriginalPostDetails; }
+            set
+            {
+                if (value == _isOriginalPostDetails)
+                    return;
+                if (value)
+                    IsOwnPostDetails = false;
+                SetProperty(ref _isOriginalPostDetails, value);
+            }
+        }
+        private bool _isOwnPostDetails;
+        [ProtoMember(10)]
+        public bool IsOwnPostDetails
+        {
+            get { return _isOwnPostDetails; }
+            set
+            {
+                if (value == _isOwnPostDetails)
+                    return;
+                if (value)
+                    IsOriginalPostDetails = false;
+                SetProperty(ref _isOwnPostDetails, value);
+            }
+        }
+
+        private List<string> _lstScrapedPostDetails = new List<string>();
+        [ProtoMember(11)]
+        public List<string> LstScrapedPostDetails
+        {
+            get { return _lstScrapedPostDetails; }
+            set { SetProperty(ref _lstScrapedPostDetails, value); }
         }
     }
 }

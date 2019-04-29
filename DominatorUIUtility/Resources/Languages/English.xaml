@@ -95,7 +95,7 @@
     <system:String x:Key="LangKeyAddPhotoids">Add Photoids</system:String>
     <system:String x:Key="LangKeyAddPostCaptions">Add Post Captions</system:String>
     <system:String x:Key="LangKeyAddPosts">Add Posts</system:String>
-    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersCategorySearchPin">Add Posts Source! Like (Boards, Users, Category, Search Pin)</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersSearchPin">Add Posts Source! Like (Boards, Users, Search Pin)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl">Add Posts Source! Like (Ownwall,Page, Group,Friend Url)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeUsersSearch">Add Posts Source! Like (Users,Search)</system:String>
     <system:String x:Key="LangKeyAddToPrivateBlacklist">Add To Private Blacklist</system:String>
@@ -3524,5 +3524,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAddEventToList">Add Event To List</system:String>
     <system:String x:Key="LangKeyEventType">Event Type</system:String>
     <system:String x:Key="LangKeyFacebookCreater">Fb Creaters</system:String>
-
+    <system:String x:Key="LangKeyUploadPostDetails">Upload Post Details</system:String>
+    <system:String x:Key="LangKeyUseOriginalPostDetails">Use Original Post Details</system:String>
+    <system:String x:Key="LangKeyUseOwnPostDetails">Use Own Post Details</system:String>
+    <system:String x:Key="LangKeyTypeBoardNameToSelectWhichContains">Type Board Name To Select Which Contains</system:String>
 </ResourceDictionary>

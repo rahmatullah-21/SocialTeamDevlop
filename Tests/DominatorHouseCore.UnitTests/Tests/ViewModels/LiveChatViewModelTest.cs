@@ -143,5 +143,55 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
             liveChatViewModel.LiveChatModel.LstChat[1].Sender.Should().Be("kumar2");
             liveChatViewModel.LiveChatModel.LstChat[1].Messeges.Should().Be("whats up");
         }
+
+
+        //Today
+        [TestMethod]
+        public void should_UserSelectionChangedCommand_return_empty_sender_list_if_account_is_not_selected()
+        {
+            var account = new DominatorAccountModel
+            {
+                AccountBaseModel = new DominatorAccountBaseModel
+                {
+                    UserName = "kumar",
+                    AccountNetwork = Enums.SocialNetworks.Facebook
+                },
+                AccountId = "AccountId"
+            };
+            liveChatViewModel.LstAccountModel.Add(account);
+            var lstSender = new List<SenderDetails>
+            {
+                 new SenderDetails
+                {
+                    SenderName = "Nk",
+                    LastMesseges = "Hello",
+                      AccountId="AccountId"
+                }
+            };
+            var filePath = FileDirPath.GetFriendDetailFile(account.AccountBaseModel.AccountNetwork);
+            _genericFileManager.GetModuleDetails<SenderDetails>(filePath).ReturnsForAnyArgs(lstSender);
+
+            liveChatViewModel.UserSelectionChangedCommand.Execute(new object());
+
+            liveChatViewModel.LiveChatModel.LstSender.Count.Should().Be(0);
+
+        }
+        [TestMethod]
+        public void should_FriendSelectionChangedCommand_update_Chat_list_to_empty_if_SenderDetails_is_null()
+        {
+            var account = new DominatorAccountModel
+            {
+                AccountBaseModel = new DominatorAccountBaseModel
+                {
+                    AccountNetwork = Enums.SocialNetworks.Facebook
+                },
+            };
+            liveChatViewModel.LiveChatModel.DominatorAccountModel = account;
+
+            liveChatViewModel.LiveChatModel.SelectedAccount = account.AccountBaseModel.UserName;
+            liveChatViewModel.LiveChatModel.SenderDetails = null;
+            liveChatViewModel.FriendSelectionChangedCommand.Execute(new object());
+            liveChatViewModel.LiveChatModel.LstChat.Count.Should().Be(0);
+        }
     }
 }
