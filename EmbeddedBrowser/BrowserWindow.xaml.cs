@@ -83,22 +83,20 @@ namespace EmbeddedBrowser
         {
             try
             {
-                var accountCookie = DominatorAccountModel.Cookies;
                 var callBack = new TaskCompletionCallback();
 
-                if (accountCookie.Count == 0)
+                if (DominatorAccountModel.Cookies.Count == 0)
                 {
                     Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
                     return;
                 }
 
-                var cefInitialCookies = await Browser.RequestContext.GetDefaultCookieManager(callBack)
-                    .VisitAllCookiesAsync();
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
+                    return;
 
-                if (cefInitialCookies.Count != 0)
-                    Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
+                Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
 
-                foreach (var accCookie in accountCookie)
+                foreach (var accCookie in DominatorAccountModel.Cookies)
                 {
                     var cook = (System.Net.Cookie)accCookie;
 
@@ -120,17 +118,18 @@ namespace EmbeddedBrowser
                     //if (!set) { /*Is cookie set ?*/ }
                 }
 
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube
-                    || DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
                 {
                     CustomUse = true;
                     if (string.IsNullOrEmpty(TargetUrl))
                         TargetUrl = SocialHomeUrls();
-                    await GoToCustomUrl(TargetUrl);
+                    var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : "";
+                    Browser.Address = url;
+                    UrlBar.Text = url;
                 }
 
                 // Just to check that how many cookie was inserted
-                //cefInitialCookies = await Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync();
+                var cefInitialCookies = await Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync();
             }
             catch (Exception ex)
             {
