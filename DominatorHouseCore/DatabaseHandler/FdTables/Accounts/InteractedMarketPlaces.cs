@@ -44,8 +44,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// Contains Detailed Info of the Interacted User in the Form of Jason String
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public string DetailedUserInfo
-        { get; set; }
+        public string DetailedUserInfo { get; set; }
 
         /// <summary>
         /// Contains TimeStamp when interacted with the User
@@ -58,6 +57,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public DateTime InteractionDateTime { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string ScrapedProfileUrl { get; set; }
 

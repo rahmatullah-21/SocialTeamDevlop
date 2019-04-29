@@ -3439,7 +3439,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAllMarketplace">All Marketplace</system:String>
     <system:String x:Key="LangKeyVehicles">Vehicles</system:String>
     <system:String x:Key="LangKeyHomeAndGarden">Home And Garden</system:String>
-    <system:String x:Key="LangKeyHousing">Housing</system:String>
+    <system:String x:Key="LangKeyHousingRent">Housing (For Rent)</system:String>
+    <system:String x:Key="LangKeyHousingSale">Housing (For Sale)</system:String>
     <system:String x:Key="LangKeyClothingAndAccessories">Clothing And Accessories</system:String>
     <system:String x:Key="LangKeyFamily">Family</system:String>
     <system:String x:Key="LangKeyHobbies">Hobbies</system:String>
@@ -3509,5 +3510,16 @@ Type 3. IP:Port
     <system:String x:Key="LangReplyForCommentId">Comment as reply to a specific commentId</system:String>
     <system:String x:Key="LangKeyImportUsers">Import Users</system:String>
     <system:String x:Key="LangKeyExportUsers">Export Users</system:String>
-
+    <system:String x:Key="LangKeyMarketplaceFilter">Marketplace Filter</system:String>
+    <system:String x:Key="LangKeyTotalNoOfBedrooms">Total No Of Bedrooms</system:String>
+    <system:String x:Key="LangKeyTotalNoOfBathrooms">Total No Of Bathrooms</system:String>
+    <system:String x:Key="LangKeyTypeOfProperyForRent">Type Of Propery For Rent</system:String>
+    <system:String x:Key="LangKeyNoOfSquareFeetBetween">No Of Square Feet Between</system:String>
+    <system:String x:Key="LangKeyHouse">House</system:String>
+    <system:String x:Key="LangKeyFlat">Flat</system:String>
+    <system:String x:Key="LangKeyTownHouse">TownHouse</system:String>
+    <system:String x:Key="LangKeyApartment">Apartment</system:String>
+    <system:String x:Key="LangKeyPrivateRoom">Private Room</system:String>
+    <system:String x:Key="LangKeySharedRoom">Shared Room</system:String>
+    <system:String x:Key="LangKeyPagesLikedByFriends">Pages Liked By Friends</system:String>
 </ResourceDictionary>
