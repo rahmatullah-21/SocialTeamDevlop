@@ -3522,4 +3522,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPrivateRoom">Private Room</system:String>
     <system:String x:Key="LangKeySharedRoom">Shared Room</system:String>
     <system:String x:Key="LangKeyPagesLikedByFriends">Pages Liked By Friends</system:String>
+    <system:String x:Key="LangKeyExceptForPagesLikedByFriendsOption">(Except For Pages Liked By Friends Option)</system:String>
+    <system:String x:Key="LangKeyPostGreetingsToTimeline">Post Greetings To Timeline</system:String>
+    <system:String x:Key="LangKeyAfterSendGreetingsOption">After Send Greetings Option</system:String>
+    
 </ResourceDictionary>

@@ -74,5 +74,15 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public string ScrapedProfileUrl { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        public bool IsPublishedToWall { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        public string PostDescription { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        public string PublishedUrl { get; set; }
+
     }
 }

@@ -58,8 +58,18 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public DateTime InteractionDateTime { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string ScrapedProfileUrl { get; set; }
+        
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
+        public bool IsPublishedToWall { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        public string PostDescription { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        public string PublishedUrl { get; set; }
 
     }
 }
