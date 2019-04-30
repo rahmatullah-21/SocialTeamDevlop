@@ -78,13 +78,14 @@
                         </Grid>
 
                     </Grid>
-                    <!--Data grid view-->
+                    <!--Account List View-->
                     <Grid Grid.Row="1">
-                        <ListView x:Name="AccountListView"
-                      AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
+                        <ListView x:Name="AccountListView" VirtualizingPanel.IsContainerVirtualizable="True"
+                                  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+                                  AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                             <ListView.ItemsSource>
                                 <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
-                                    <Binding Path="DominatorAccountViewModel.LstDominatorAccountModel"/>
+                                    <Binding Path="Accounts" IsAsync="True"/>
                                     <Binding Path="SelectedNetworkViewModel.Selected"/>
                                 </MultiBinding>
                             </ListView.ItemsSource>
@@ -93,7 +94,6 @@
                                     <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                     <ContentControl>
                                                         <ContentControl.Style>
@@ -116,7 +116,6 @@
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
                                                   Converter={StaticResource IndexToRowNoConverter}}" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                                                 </StackPanel>
-
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -140,7 +139,7 @@
                                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                         <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" 
-               Content="{Binding DisplayColumnValue2}"/>
+                                                               Content="{Binding DisplayColumnValue2}"/>
                                                         <UserControl DataContext="{Binding DisplayColumnValue7, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
                                                         <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue7, Converter={StaticResource objPositiveValueConvertor}}"/>
                                                     </StackPanel>
@@ -194,7 +193,7 @@
                         <Controls:FlyoutsControl>
                             <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
-                                <local:HelpControl ModuleDescription="Text for account"
+                                <local:HelpControl ModuleDescription="You can check account growth"
                                                  VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
                             </Controls:Flyout>
@@ -238,7 +237,7 @@
                                                SelectedValuePath="AccountId"  SelectedItem="{Binding SelectedAccount}" >
                                     <ComboBox.ItemsSource>
                                         <MultiBinding Converter="{StaticResource AccountsFilterConverter}">
-                                            <Binding Path="DominatorAccountViewModel.LstDominatorAccountModel"/>
+                                            <Binding Path="Accounts"/>
                                             <Binding Path="SelectedNetworkViewModel.Selected"/>
                                         </MultiBinding>
                                     </ComboBox.ItemsSource>
@@ -270,12 +269,15 @@
                     </Grid>
                     <Grid Grid.Row="1">
                         <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Left" >
-                            <StackPanel Orientation="Horizontal"    Margin="0,0,0,0">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                                 <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin = "5">
-                                    <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties}" Focusable="False" Foreground="Black">
+                                    <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties,IsAsync=True}"
+                                                  Focusable="False" Foreground="Black"
+                                                  VirtualizingPanel.IsContainerVirtualizable="True"
+                                                  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal" />
+                                                <VirtualizingStackPanel Orientation="Horizontal" />
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
@@ -287,9 +289,7 @@
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                 </ScrollViewer>
-
                             </StackPanel>
-
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Row="2">

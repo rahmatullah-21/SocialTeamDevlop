@@ -1,6 +1,4 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.EmailService;
-using DominatorHouseCore.Interfaces;
+﻿using DominatorHouseCore.EmailService;
 using DominatorHouseCore.Utility;
 using Newtonsoft.Json.Linq;
 using ProtoBuf;
@@ -21,7 +19,6 @@ namespace DominatorHouseCore.Models
     public sealed class DominatorAccountModel : BindableBase
     {
         private DominatorAccountBaseModel _accountBaseModel;
-        private IHttpHelper _httpHelper;
 
         /// <summary>
         /// AccountBaseModel contains the base information of the account
@@ -106,12 +103,6 @@ namespace DominatorHouseCore.Models
         [ProtoMember(11)]
         public bool UseMobileRequestOnly { get; set; }
 
-        [ProtoIgnore]
-        public IHttpHelper HttpHelper => (_httpHelper =
-            (_httpHelper ??
-             ServiceLocator.Current.GetInstance<IHttpHelper>(AccountBaseModel.AccountNetwork.ToString())));
-        [ProtoIgnore]
-        public IHttpHelper HttpHelpNonServLoc { get; set; }
         [ProtoIgnore]
         public bool IsloggedinWithPhone { get; set; }
 
@@ -381,8 +372,11 @@ namespace DominatorHouseCore.Models
             }
             set
             {
+
                 if (_isAutoVerifyByEmail == value)
                     return;
+                if (value)
+                    IsManualVerify = false;
                 SetProperty(ref _isAutoVerifyByEmail, value);
             }
         }
@@ -401,8 +395,68 @@ namespace DominatorHouseCore.Models
         [ProtoMember(25)]
         public Dictionary<string, string> PaginationId { get; set; }
             = new Dictionary<string, string>();
+
+        private string _newPassword = string.Empty;
+
+        public string NewPassword
+        {
+            get
+            {
+                return _newPassword;
+            }
+            set
+            {
+                SetProperty(ref _newPassword, value);
+            }
+        }
+
+        private string _resetPasswordLink = string.Empty;
+
+        public string ResetPasswordLink
+        {
+            get
+            {
+                return _resetPasswordLink;
+            }
+            set
+            {
+                SetProperty(ref _resetPasswordLink, value);
+            }
+        }
+
+        private bool _isVerificationCodeSent;
+        public bool IsVerificationCodeSent
+        {
+            get
+            {
+                return _isVerificationCodeSent;
+            }
+            set
+            {
+                if (_isVerificationCodeSent == value)
+                    return;
+                SetProperty(ref _isVerificationCodeSent, value);
+            }
+        }
+
         public string two_factor_identifier { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
+        private bool _isManualVerify;
+        public bool IsManualVerify
+        {
+            get
+            {
+                return _isManualVerify;
+            }
+            set
+            {
+                if (value)
+                    IsAutoVerifyByEmail = false;
+                SetProperty(ref _isManualVerify, value);
+               
+            }
+        }
+        public bool IsNeedToSchedule { get; set; } = true;
         public DominatorAccountModel Clone()
         {
             return (DominatorAccountModel)MemberwiseClone();

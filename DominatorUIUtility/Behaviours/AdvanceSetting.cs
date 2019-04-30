@@ -19,7 +19,7 @@ namespace DominatorUIUtility.Behaviours
 
         public GeneralModel GeneralModel { get; set; } 
 
-        public GooglePlusModel GooglePlusModel { get; set; } = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel.Clone();
+      //  public GooglePlusModel GooglePlusModel { get; set; } = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel.Clone();
 
         public InstagramModel InstagramModel { get; set; } = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel.Clone();
 

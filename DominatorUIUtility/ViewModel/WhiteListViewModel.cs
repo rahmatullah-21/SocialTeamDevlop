@@ -10,15 +10,21 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using Prism.Commands;
 
 namespace DominatorUIUtility.ViewModel
 {
+    public interface IPrivateWhiteListViewModel
+    {
+
+    }
     public class WhiteListViewModel : BindableBase
     {
         public WhiteListViewModel()
@@ -28,16 +34,24 @@ namespace DominatorUIUtility.ViewModel
             RefreshCommand = new BaseCommand<object>((sender) => true, Refresh);
             SelectCommand = new BaseCommand<object>((sender) => true, Select);
             DeleteCommand = new BaseCommand<object>((sender) => true, Delete);
+            ImportCommand = new DelegateCommand(ImportUser);
+            ExportCommand = new DelegateCommand(ExportUser);
             BindingOperations.EnableCollectionSynchronization(LstWhiteListUsers, _lock);
         }
 
-
-        private static object _lock = new object();
+        #region Commands
         public ICommand AddToWhiteListCommand { get; set; }
         public ICommand ClearCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
         public ICommand SelectCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        public ICommand ImportCommand { get; set; }
+        public ICommand ExportCommand { get; set; }
+        #endregion
+
+        #region Properties
+
+        private static object _lock = new object();
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
         private DbOperations DbOperations { get; set; }
@@ -45,7 +59,6 @@ namespace DominatorUIUtility.ViewModel
         private DbOperations BlackListDbOperations { get; set; }
 
         private bool IsUnCheckedFromUser { get; set; }
-
 
         private WhitelistUserModel _whitelistUserModel = new WhitelistUserModel();
 
@@ -63,6 +76,15 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _whitelistUserModel, value);
             }
         }
+
+        private PrivateWhitelistUserModel _privateWhitelistUserModel = new PrivateWhitelistUserModel();
+
+        public PrivateWhitelistUserModel PrivateWhitelistUserModel
+        {
+            get { return _privateWhitelistUserModel; }
+            set { SetProperty(ref _privateWhitelistUserModel, value); }
+        }
+
         private bool _isAllWhiteistUserChecked;
 
         public bool IsAllWhiteListUserChecked
@@ -75,9 +97,10 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (value == _isAllWhiteistUserChecked)
                     return;
-                _isAllWhiteistUserChecked = value;
-                SelectAll(_isAllWhiteistUserChecked);
                 SetProperty(ref _isAllWhiteistUserChecked, value);
+                SelectAll(_isAllWhiteistUserChecked);
+                if (IsUnCheckedFromUser)
+                    IsUnCheckedFromUser = false;
             }
         }
         private string _whitelistUser = string.Empty;
@@ -113,6 +136,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        #endregion
         public void InitializeData()
         {
             DataBaseConnectionGlb = SocinatorInitialize.GetGlobalDatabase();
@@ -126,17 +150,16 @@ namespace DominatorUIUtility.ViewModel
                 DbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
-                        new WhitelistUserModel
-                        {
-                            WhitelistUser = user.UserName
-                        }));
-
+                                                     new WhitelistUserModel
+                                                     {
+                                                         WhitelistUser = user.UserName
+                                                     }));
                     Thread.Sleep(5);
                 });
             });
         }
 
-        private void AddToWhiteList(object sender)
+        public virtual void AddToWhiteList(object sender)
         {
             if (string.IsNullOrEmpty(WhitelistUser.Trim()))
             {
@@ -149,51 +172,55 @@ namespace DominatorUIUtility.ViewModel
                 var lstuser = WhitelistUser.Split('\n');
                 WhitelistUser = string.Empty;
                 _whiteListUser = new List<WhiteListUser>();
-
-                List<WhiteListUser> lstWhiteListUser = DbOperations.Get<WhiteListUser>();
-                List<BlackListUser> lstBlackListUser = BlackListDbOperations.Get<BlackListUser>();
-
-                lstuser.ForEach(user =>
-                {
-                    var userName = user.Trim();
-                    if (!string.IsNullOrEmpty(userName))
-                    {
-                        if (lstWhiteListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
-                            && lstBlackListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0))
-                        {
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                _whiteListUser.Add(new WhiteListUser()
-                                {
-                                    UserName = userName
-                                });
-                            }
-                            );
-                        }
-                        else
-                        {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,
-                                userName, UserType.WhiteListedUser,
-                                $"{userName} already added to Whitelist/Blacklist. Click on refresh button to view updated list.");
-                        }
-                    }
-                });
-
-                // Remove duplicates
-                _whiteListUser = _whiteListUser.GroupBy(x => x.UserName).Select(y => y.First()).ToList();
-
-                DbOperations.AddRange(_whiteListUser);
-
-                if (_whiteListUser.Count > 0)
-                    ToasterNotification.ShowSuccess(
-                        $"Successfully added {_whiteListUser.Count} distinct user{(_whiteListUser.Count > 1 ? "s" : "")}. Click on refresh button to view updated list");
+                AddToDB(lstuser?.ToList());
             });
         }
+
+        public virtual void AddToDB(List<string> lstuser)
+        {
+            List<BlackListUser> lstBlackListUser = BlackListDbOperations?.Get<BlackListUser>();
+            lstuser?.ForEach(user =>
+            {
+                var userName = user.Trim();
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    if (LstWhiteListUsers.All(x => string.Compare(x.WhitelistUser, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
+                        && lstBlackListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0))
+                    {
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _whiteListUser.Add(new WhiteListUser()
+                            {
+                                UserName = userName
+                            });
+                        }
+                        );
+                    }
+                    else
+                    {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,
+                            userName, UserType.WhiteListedUser,
+                            $"{userName} already added to Whitelist/Blacklist. Click on refresh button to view updated list.");
+                    }
+                }
+            });
+
+            // Remove duplicates
+            _whiteListUser = _whiteListUser.GroupBy(x => x.UserName).Select(y => y.First()).ToList();
+
+            DbOperations.AddRange(_whiteListUser);
+
+            if (_whiteListUser.Count > 0)
+                ToasterNotification.ShowSuccess(
+                    $"Successfully added {_whiteListUser.Count} distinct user{(_whiteListUser.Count > 1 ? "s" : "")}. Click on refresh button to view updated list");
+        }
+
         private void ClearUser(object sender)
         {
             WhitelistUser = string.Empty;
         }
-        private void Refresh(object sender)
+        public virtual void Refresh(object sender)
         {
             LstWhiteListUsers.Clear();
             ThreadFactory.Instance.Start(() =>
@@ -230,13 +257,12 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-
-        private void Delete(object sender)
+        public virtual void Delete(object sender)
         {
             var selectedUser = LstWhiteListUsers.Where(x => x.IsWhiteListUserChecked).ToList();
             if (selectedUser.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast on user");
+                Dialog.ShowDialog("Alert", "Please select atleast one user");
                 return;
             }
             Task.Factory.StartNew(() =>
@@ -253,5 +279,46 @@ namespace DominatorUIUtility.ViewModel
             });
         }
 
+        private void ExportUser()
+        {
+            var selectedUsers = LstWhiteListUsers?.Where(x => x.IsWhiteListUserChecked);
+            if (selectedUsers?.Count() == 0)
+            {
+                Dialog.ShowDialog("Alert", "Please select atleast one user !!");
+                return;
+            }
+
+            var exportPath = FileUtilities.GetExportPath();
+
+            if (string.IsNullOrEmpty(exportPath))
+                return;
+
+
+            var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_WhiteList {ConstantVariable.DateasFileName}.csv";
+
+            selectedUsers.ForEach(user =>
+            {
+                try
+                {
+                    using (var streamWriter = new StreamWriter(filename, true))
+                    {
+                        streamWriter.WriteLine(user.WhitelistUser);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
+            });
+            Dialog.ShowDialog("Export WhiteList user", $"WhiteListed user Successfully exported to [ {filename} ]");
+        }
+
+        private void ImportUser()
+        {
+            _whiteListUser = new List<WhiteListUser>();
+            var lstUser = FileUtilities.FileBrowseAndReader();
+            if (lstUser?.Count != 0)
+                AddToDB(lstUser);
+        }
     }
 }

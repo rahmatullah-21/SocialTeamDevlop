@@ -9,8 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using ConstantVariable = DominatorHouseCore.Utility.ConstantVariable;
+using RandomUtilties = DominatorHouseCore.Utility.RandomUtilties;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -81,65 +84,11 @@ namespace DominatorHouseCore.Diagnostics
             // Get all saved campaign Model
             var allCampaign = _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
 
-            // Call with dispatcher
-            if (!Application.Current.CheckAccess())
-            {
-                // Invoke the actions
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    // Iterate campaigns
-                    allCampaign.ForEach(campaigns =>
-                    {
-                        // Get the campaign status 
-                        var publisherCampaignStatus = campaigns.CampaignStatus;
-
-                        // Check end has reached
-                        if (campaigns.JobConfigurations.CampaignEndDate != null && DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
-                        {
-                            publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
-                                ? campaigns.CampaignStatus
-                                : PublisherCampaignStatus.Completed;
-                        }
-
-                        //Assign the Campaign Detatils
-                        var publisherCampaignStatusModel = new PublisherCampaignStatusModel
-                        {
-                            CampaignName = campaigns.CampaignName,
-                            CampaignId = campaigns.CampaignId,
-                            StartDate = campaigns.JobConfigurations.CampaignStartDate,
-                            EndDate = campaigns.JobConfigurations.CampaignEndDate,
-                            CreatedDate = campaigns.CreatedDate,
-                            UpdatedTime = campaigns.UpdatedDate,
-                            Status = publisherCampaignStatus,
-                            DestinationCount = campaigns.LstDestinationId.Count,
-                            IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
-                            TimeRange = campaigns.JobConfigurations.TimeRange,
-                            SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                            ScheduledWeekday = campaigns.JobConfigurations.Weekday,
-                            IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
-                            TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
-                            MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
-                            IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
-                            MaximumTime = campaigns.JobConfigurations.MaxPost,
-                            PendingCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending),
-                            DraftCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft),
-                        };
-
-                        // Add to lists
-                        ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
-
-                        // Update post counts
-                        GetPostStatus(publisherCampaignStatusModel);
-
-
-                        // Update campaign status to complete
-                        if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
-                            UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
-
-                    });
-                });
-            }
-            else
+            InitilizePublisher(allCampaign);
+        }
+        private void InitilizePublisher(List<PublisherCreateCampaignModel> allCampaign)
+        {
+            Task.Factory.StartNew(() =>
             {
                 // Iterate campaigns
                 allCampaign.ForEach(campaigns =>
@@ -147,15 +96,25 @@ namespace DominatorHouseCore.Diagnostics
                     // Get the campaign status 
                     var publisherCampaignStatus = campaigns.CampaignStatus;
 
-
                     // Check end has reached
-                    if (campaigns.JobConfigurations.CampaignEndDate != null && DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
+                    if (campaigns.JobConfigurations.CampaignEndDate != null &&
+                            DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
                     {
                         publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
                             ? campaigns.CampaignStatus
                             : PublisherCampaignStatus.Completed;
                     }
+                    List<TimeSpan> specificRunningTime = null;
+                    if (campaigns.JobConfigurations.IsDelayPostChecked)
+                    {
+                        specificRunningTime = new List<TimeSpan>();
+                        specificRunningTime.Add(campaigns.JobConfigurations.TimeRange.StartTime);
+                        for (int i = 0; i < campaigns.JobConfigurations.MaxPost - 1; i++)
+                        {
+                            specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(campaigns.JobConfigurations.DelayBetweenEachPost.EndValue, campaigns.JobConfigurations.DelayBetweenEachPost.StartValue))));
+                        }
 
+                    }
                     //Assign the Campaign Detatils
                     var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                     {
@@ -169,27 +128,37 @@ namespace DominatorHouseCore.Diagnostics
                         DestinationCount = campaigns.LstDestinationId.Count,
                         IsRotateDayChecked = campaigns.JobConfigurations.IsRotateDayChecked,
                         TimeRange = campaigns.JobConfigurations.TimeRange,
-                        SpecificRunningTime = campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
-                        ScheduledWeekday = campaigns.JobConfigurations.Weekday,
-                        IsTakeRandomDestination = campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
+                        SpecificRunningTime = campaigns.JobConfigurations.IsDelayPostChecked ? specificRunningTime : campaigns.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
+                        ScheduledWeekday = campaigns.JobConfigurations.Weekday.Where(x => x.IsContentSelected).ToList(),
+                        IsTakeRandomDestination = !campaigns.JobConfigurations.IsPublishPostOnDestinationsChecked,
                         TotalRandomDestination = campaigns.JobConfigurations.RandomDestinationCount,
                         MinRandomDestinationPerAccount = campaigns.JobConfigurations.PostBetween.EndValue,
                         IsRandomRunningTime = campaigns.JobConfigurations.IsRandomizePublishingTimerChecked,
-                        MaximumTime = campaigns.JobConfigurations.MaxPost
+                        MaximumTime = campaigns.JobConfigurations.MaxPost,
+                        PendingCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending),
+                        DraftCount = campaigns.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Draft),
                     };
 
-                    // Update post counts
-                    GetPostStatus(publisherCampaignStatusModel);
+                    if (!ListPublisherCampaignStatusModels.Any(x => x.CampaignName == publisherCampaignStatusModel.CampaignName
+                                                                 || x.CampaignId == publisherCampaignStatusModel.CampaignId))
+                    {
+                        if (!Application.Current.CheckAccess())
+                            Application.Current.Dispatcher.Invoke(() => ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel));
 
-                    // Add to lists
-                    ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
+                        else
+                            // Add to lists
+                            ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
 
+                        // Update post counts
+                        GetPostStatus(publisherCampaignStatusModel);
 
-                    // Update campaign status to complete
-                    if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
-                        UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
+                        // Update campaign status to complete
+                        if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
+                            UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
+                    }
                 });
-            }
+                Thread.Sleep(2);
+            });
         }
 
 
@@ -311,7 +280,7 @@ namespace DominatorHouseCore.Diagnostics
                 var index = ListPublisherCampaignStatusModels.IndexOf(currentItem);
 
                 // Update post count
-                GetPostStatus(publisherCampaignStatusModel);
+                // GetPostStatus(publisherCampaignStatusModel);
 
                 // Substutite with proper index
                 ListPublisherCampaignStatusModels[index] = publisherCampaignStatusModel;
@@ -328,14 +297,14 @@ namespace DominatorHouseCore.Diagnostics
                         Application.Current.Dispatcher.Invoke(delegate
                         {
                             // Update the post status
-                            GetPostStatus(publisherCampaignStatusModel);
+                            // GetPostStatus(publisherCampaignStatusModel);
                             // Add into collections
                             ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
                         });
                     else
                     {
                         // Update the post status
-                        GetPostStatus(publisherCampaignStatusModel);
+                        // GetPostStatus(publisherCampaignStatusModel);
                         // Add into collections
                         ListPublisherCampaignStatusModels.Add(publisherCampaignStatusModel);
                     }

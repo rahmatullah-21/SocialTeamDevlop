@@ -26,7 +26,14 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyProfileSuspended")]
         ProfileSuspended,
         [Description("LangKeyTwoFactorLoginAttempt")]
-        TwoFactorLoginAttempt
-
+        TwoFactorLoginAttempt,
+        [Description("LangKeyTooManyAttemptsOnSignIn")]
+        TooManyAttemptsOnSignIn,
+        [Description("LangKeySetNewPassword")]
+        SetNewPassword,
+        [Description("LangKeyActionBlock")]
+        ActionBlocked,
+        [Description("LangKeyDisableAccount")] DisableAccount,
+        [Description("LangKeyInvalidSecurityCode")] InvalidSecurityCode
     }
 }

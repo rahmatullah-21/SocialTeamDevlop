@@ -14,11 +14,11 @@ namespace DominatorUIUtility.CustomControl
         public HeaderControl()
         {
             InitializeComponent();
-            mainGrid.DataContext =this;
+            mainGrid.DataContext = this;
             IsExpanded = true;
         }
-       
- 
+
+
 
         public Visibility IsCancelEditVisible
         {
@@ -136,7 +136,6 @@ namespace DominatorUIUtility.CustomControl
         private void ClpsExpnd_OnClick(object sender, RoutedEventArgs e)
         {
             HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
-            
         }
 
 
@@ -164,5 +163,5 @@ namespace DominatorUIUtility.CustomControl
 
 
     }
-    
+
 }

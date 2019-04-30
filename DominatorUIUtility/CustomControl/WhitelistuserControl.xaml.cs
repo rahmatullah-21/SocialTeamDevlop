@@ -14,7 +14,7 @@ namespace DominatorUIUtility.CustomControl
         public WhitelistuserControl()
         {
             InitializeComponent();
-            
+           
             MainGrid.DataContext = WhiteListViewModel;
             WhiteListViewModel.InitializeData();
         }

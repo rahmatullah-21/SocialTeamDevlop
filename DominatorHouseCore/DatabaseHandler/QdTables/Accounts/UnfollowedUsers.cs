@@ -1,9 +1,9 @@
-﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using SQLite;
 
 namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 {
-    public class UnfollowedUsers : BaseUnfollowedUsers
+    public class UnfollowedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountUsername
@@ -30,7 +30,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        public override int InteractionDate
+        public int InteractionDate
         { get; set; }
 
 
@@ -43,6 +43,6 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
         [Unique]
         public string UnfollowedUsername
         { get; set; }
-       
+
     }
 }

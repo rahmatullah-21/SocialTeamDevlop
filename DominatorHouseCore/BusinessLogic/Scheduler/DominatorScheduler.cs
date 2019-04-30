@@ -4,12 +4,15 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
+using DominatorHouseCore.Process.ExecutionCounters;
+using DominatorHouseCore.Process.JobLimits;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Unity;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
@@ -19,14 +22,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             string module);
 
         void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart);
-
-        List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType);
         bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime);
         bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType);
         bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId);
         void ScheduleEachActivity(DominatorAccountModel account);
         void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType);
         void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType);
+        void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType);
     }
 
     public class DominatorScheduler : IDominatorScheduler
@@ -34,11 +36,23 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public object RunStopActivityLocker = new object();
         private readonly IRunningActivityManager _runningActivityManager;
         private readonly ISchedulerProxy _schedulerProxy;
+        private readonly IJobLimitsHolder _jobLimitsHolder;
+        private readonly IAccountsCacheService _accountsCacheService;
+        private readonly IJobCountersManager _jobCountersManager;
+        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
+        private readonly IRunningJobsHolder _runningJobsHolder;
+        private readonly IJobProcessScopeFactory _jobProcessScopeFactory;
 
-        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy)
+        public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder, IJobProcessScopeFactory jobProcessScopeFactory, IAccountsCacheService accountsCacheService, IJobCountersManager jobCountersManager, IJobActivityConfigurationManager jobActivityConfigurationManager, IRunningJobsHolder runningJobsHolder)
         {
             _runningActivityManager = runningActivityManager;
             _schedulerProxy = schedulerProxy;
+            _jobLimitsHolder = jobLimitsHolder;
+            _jobProcessScopeFactory = jobProcessScopeFactory;
+            _accountsCacheService = accountsCacheService;
+            _jobCountersManager = jobCountersManager;
+            _jobActivityConfigurationManager = jobActivityConfigurationManager;
+            _runningJobsHolder = runningJobsHolder;
         }
 
         /// <summary>
@@ -54,8 +68,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 lock (RunStopActivityLocker)
                 {
-                    var activeJobProcessFactory = ServiceLocator.Current.GetInstance<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork.ToString());
-
                     var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
 
                     var scheduledJob = _schedulerProxy[id];
@@ -63,9 +75,24 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (scheduledJob != null && scheduledJob.Disabled)
                         return;
 
-                    var jobProcess = activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId, currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
+                    var scope = _jobProcessScopeFactory.GetScope(account,
+                                   (ActivityType)Enum.Parse(typeof(ActivityType), module), templateId, currentJobTimeRange,
+                                   account.AccountBaseModel.AccountNetwork);
+                    var activeJobProcessFactory =
+                        scope.Resolve<IJobProcessFactory>(account.AccountBaseModel.AccountNetwork
+                            .ToString());
+                    var jobProcess = activeJobProcessFactory.Create(account.AccountBaseModel.UserName, templateId,
+                        currentJobTimeRange, module, account.AccountBaseModel.AccountNetwork);
+                    _jobLimitsHolder.Reset(jobProcess.Id, jobProcess.JobConfiguration);
+                    var limitInfo = jobProcess.CheckLimit();
+                    if (limitInfo.ReachedLimitType != ReachedLimitType.NoLimit)
+                    {
+                        RescheduleifLimitReached(jobProcess, limitInfo, limitInfo.ReachedLimitType);
+                        return;
+                    }
 
-                    jobProcess.StartProcessAsync();
+                    jobProcess.StartProcessAsync().ContinueWith(a => scope.Dispose());
+                    jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
             }
             catch (Exception ex)
@@ -78,16 +105,19 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             lock (RunStopActivityLocker)
             {
-                JobProcess.Stop(account.AccountId, templateId);
+                Stop(account.AccountId, templateId);
                 try
                 {
-                    var jobActivityConfigurationManager =
-                              ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-
                     var moduleConfiguration =
-                        jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
-                    moduleConfiguration.IsEnabled = needRestart;
-                    jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                        _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.TemplateId == templateId);
+                    moduleConfiguration = moduleConfiguration ??
+                        _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.ActivityType.ToString() == module);
+                    if (moduleConfiguration != null)
+                    {
+                        moduleConfiguration.IsEnabled = needRestart;
+                        _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+                        _accountsCacheService.UpsertAccounts(account);
+                    }
                 }
                 catch { }
                 var id = JobProcess.AsId(account.AccountId, templateId);
@@ -98,8 +128,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     if (!needRestart)
                     {
-                        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
-                        runningActivityManager.StartNextRound(account);
+                        //if activity of account is stopped then check if any other activity is enable with that account
+                        //if enabled then start next round with enabled activity
+                        _runningActivityManager.StartNextRound(account);
                         return;
                     }
                     if (scheduledJob == null)
@@ -114,54 +145,17 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     {
                         if (needRestart)
                             ScheduleNextActivity(account, (ActivityType)Enum.Parse(typeof(ActivityType), module));
-
                     }
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
                 }
-
             }
-        }
-
-
-        /// <summary>
-        /// GetRunningTimes take two argument first is an object of AccountModel and second is Module type
-        /// it will return running time list according to Module type
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="moduleType"></param>
-        /// <returns></returns>
-        public List<RunningTimes> GetRunningTimes(DominatorAccountModel item, ActivityType moduleType)
-        {
-            var runningTime = new List<RunningTimes>();
-            try
-            {
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var moduleConfiguration = jobActivityConfigurationManager[item.AccountId, moduleType];
-                if (moduleConfiguration != null)
-                {
-                    var activitySetting = ServiceLocator.Current.GetInstance<ITemplatesCacheService>().GetTemplateModels()
-                        .FirstOrDefault(x => x.Id == moduleConfiguration.TemplateId)?.ActivitySettings;
-
-                    dynamic obj = JsonConvert.DeserializeObject(activitySetting);
-                    runningTime = obj.JobConfiguration.RunningTime;
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Debug(ex);
-            }
-
-            return runningTime;
         }
 
         public bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime)
         {
-
             if ((firstRunningTime == null && secondRunningTime != null) || (secondRunningTime == null && firstRunningTime != null))
                 return false;
             else if (firstRunningTime == null)
@@ -202,19 +196,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-                var accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-                var accountModel = accountsFileManager.GetAccountById(accountId);
-
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
                 var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, activityType];
+                var accountModel = _accountsCacheService[accountId];
+                var moduleConfiguration = _jobActivityConfigurationManager[accountModel.AccountId, activityType];
 
                 var accountstemplateId = moduleConfiguration?.TemplateId;
-                //if (accountstemplateId == null || moduleConfiguration.LstRunningTimes == null)
-                //{
-                //    return false;
-                //}
                 if (isStart)
                 {
                     try
@@ -243,8 +229,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         activityType.ToString(), accountstemplateId, false);
                 }
 
-                jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, activityType, moduleConfiguration);
-                accountsCacheService.UpsertAccounts(accountModel);
+                _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, activityType, moduleConfiguration);
+                _accountsCacheService.UpsertAccounts(accountModel);
 
                 return true;
             }
@@ -269,11 +255,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (ChangeAccountsRunningStatus(true, accountId, startActivity))
                         return true;
                     else
-                    {
-
                         throw new InvalidOperationException($"Error Code : 1001 Cant able start the activity {startActivity} with account {accountId}");
-                    }
-
                 else
                     throw new InvalidOperationException($"Error Code : 1002  Cant able stop the activity {stopActivity} with account {accountId}");
             }
@@ -288,8 +270,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             try
             {
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                foreach (var moduleConfiguration in jobActivityConfigurationManager[account.AccountId])
+                foreach (var moduleConfiguration in _jobActivityConfigurationManager[account.AccountId])
                 {
                     ScheduleNextActivity(account, moduleConfiguration.ActivityType);
                 }
@@ -302,16 +283,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType)
         {
-            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
-            var moduleConfiguration = jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
+            var moduleConfiguration = _jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
             if (moduleConfiguration == null || !moduleConfiguration.IsEnabled)
                 return;
 
             // Check if activity with the same id already running
-            if (runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
+            if (_runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
             {
-                GlobusLogHelper.log.Info($"Job {moduleConfiguration.TemplateId} already started for {dominatorAccount.UserName}");
+                //GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.UserName, activityType,$"User {dominatorAccount.UserName} is already running with {activityType} activity");
                 return;
             }
             try
@@ -345,11 +324,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         break;
                     }
                 }
-
-                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
+                if (timeToRunNext < DateTime.Now)
+                {
+                    timeToRunNext = timeToRunNext.AddSeconds(25);
+                }
                 GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
                                      dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
                                      activityType, timeToRunNext);
+                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
+
 
             }
             catch (InvalidOperationException)
@@ -367,44 +350,95 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType)
         {
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            
+            if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 ScheduleActivityForNextJob(dominatorAccountModel, activityType);
             }
             else
             {
-                var jobActivityConfigurationManager =
-                    ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var moduleConfiguration = jobActivityConfigurationManager[dominatorAccountModel.AccountId]
+                var moduleConfiguration = _jobActivityConfigurationManager[dominatorAccountModel.AccountId]
                     .Where(x => x.IsEnabled);
-                var runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
 
                 foreach (var config in moduleConfiguration)
                 {
                     var id = JobProcess.AsId(dominatorAccountModel.AccountId, config.TemplateId);
-                    if (runningJobsHolder.IsRunning(id))
+                    if (_runningJobsHolder.IsRunning(id))
                         return;
-
                 }
-
                 _runningActivityManager.StartNextRound(dominatorAccountModel);
             }
 
         }
 
-        private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId, string jobId, DateTime timeToRunNext, DateTime stopTime)
+        public bool Stop(string accountName, string templateId)
         {
-            if (timeToRunNext < DateTime.Now)
+            try
             {
-                timeToRunNext = timeToRunNext.AddSeconds(25);
+                var id = new JobKey(accountName, templateId);
+                if (!_runningJobsHolder.Stop(id))
+                {
+                    GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(ex.StackTrace);
+                return false;
+            }
+        }
+
+        private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId,
+            string jobId, DateTime timeToRunNext, DateTime stopTime)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                _schedulerProxy.AddJob(() =>
+                    {
+                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
+                    },
+                    s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+
+
+                _schedulerProxy.AddJob(() =>
+                    {
+                        StopActivity(dominatorAccount, timing.Module, templateId, true);
+                    },
+                    s => s.ToRunOnceAt(stopTime));
+            });
+
+        }
+
+        public void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType)
+        {
+            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
+                jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                jobProcess.DominatorAccountModel.AccountBaseModel.UserName, jobProcess.ActivityType, limitInfo.LimitValue);
+            Stop(jobProcess.DominatorAccountModel.AccountId, jobProcess.TemplateId);
+            var moduleConfiguration = _jobActivityConfigurationManager[jobProcess.DominatorAccountModel.AccountId, jobProcess.ActivityType];
+            var nextStartTime = limitType == ReachedLimitType.Job
+                ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
+                    jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom())
+                : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
+
+            if (moduleConfiguration != null)
+            {
+                moduleConfiguration.NextRun = nextStartTime;
+                moduleConfiguration.IsEnabled = true;
+                _jobActivityConfigurationManager.AddOrUpdate(jobProcess.DominatorAccountModel.AccountBaseModel.AccountId, jobProcess.ActivityType,
+                    moduleConfiguration);
+                _accountsCacheService.UpsertAccounts(jobProcess.DominatorAccountModel);
             }
 
-            _schedulerProxy.AddJob(() => { RunActivity(dominatorAccount, templateId, timing, timing.Module); },
-                s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+            StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, moduleConfiguration.IsEnabled);
+            _jobCountersManager.Reset(jobProcess.Id);
+            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            _schedulerProxy.AddJob(() => { StopActivity(dominatorAccount, timing.Module, templateId, true); },
-                s => s.ToRunOnceAt(stopTime));
         }
     }
 }

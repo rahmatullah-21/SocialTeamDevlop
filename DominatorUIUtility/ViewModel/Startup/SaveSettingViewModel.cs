@@ -10,8 +10,8 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.NetworkActivitySetting;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.Views.Startup;
 using Prism.Commands;
+using DominatorUIUtility.Views.Startup;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -29,6 +29,8 @@ namespace DominatorUIUtility.ViewModel.Startup
         {
             NextCommand = new DelegateCommand<object>(OnNextClick);
             PreviousCommand = new DelegateCommand<object>(OnPreviousClick);
+            LstUserControls.Add(new SelectUserType());
+            LstUserControls.Add(new SelectNetwork());
             LstUserControls.Add(new SelectActivity(this));
             LstUserControls.Add(new SearchQueryControl());
             var jobconfig = new JobConfigControl();
@@ -58,7 +60,6 @@ namespace DominatorUIUtility.ViewModel.Startup
             set
             {
                 SetProperty(ref _sourceUserControl, value);
-
             }
         }
 
@@ -99,7 +100,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             if (button.Content.ToString() == "Finish")
             {
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-               // genericFileManager.Save()
+                genericFileManager.Save(SaveSettingModel,ConstantVariable.GetModuleConfigPath(SelectedNetwork.ToString()));
                 Dialog.CloseDialog(sender);
                 return;
             }

@@ -3,10 +3,12 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 
@@ -164,13 +166,18 @@ namespace DominatorHouseCore.Utility
                 streamWriter.WriteLine(csvHeader);
             try
             {
-                foreach (var item in csvData)
+                Task.Factory.StartNew(async () =>
                 {
-                    using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
+                    ToasterNotification.ShowWarning($"Exporting started.Please don't open file untill exporting completed.");
+                    foreach (var item in csvData)
                     {
-                        streamWriter.WriteLine(item);
+                        using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
+                        {
+                            await streamWriter.WriteLineAsync(item);
+                        }
                     }
-                }
+                    ToasterNotification.ShowSuccess($"Sucessfully Exported to {fileName} ");
+                });
             }
             catch (Exception ex)
             {
@@ -319,6 +326,51 @@ namespace DominatorHouseCore.Utility
             );
             return messeges;
         }
+
+        public static bool AppClosing;
+        public static readonly object LockOpeningBrowser = new object();
+        public static List<Tuple<int, DateTime, DateTime>> RunningWebDrivers =
+            new List<Tuple<int, DateTime, DateTime>>();
+        public static void KillGecko()
+        {
+            try
+            {
+                AppClosing = true;
+
+                lock (LockOpeningBrowser)
+                {
+                    if (RunningWebDrivers.Count == 0) return;
+                    var listOfFirefox = System.Diagnostics.Process.GetProcessesByName("firefox").ToList();
+                    var localListDrivers = new List<Tuple<int, DateTime, DateTime>>(RunningWebDrivers);
+                    foreach (var geckoProcessId in localListDrivers)
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.GetProcessById(geckoProcessId.Item1).Kill();
+                        }
+                        catch (Exception ex)
+                        { ex.DebugLog(); }
+
+                        if (listOfFirefox.Count == 0) return;
+                        var processFirefox = listOfFirefox.Where(x => !x.HasExited &&
+                                                                      x.StartTime >= geckoProcessId.Item2 && x.StartTime < geckoProcessId.Item3);
+                        try
+                        {
+                            foreach (var each in processFirefox)
+                            {
+                                if (!each.HasExited)
+                                    each.Kill();
+                            }
+                        }
+                        catch (Exception ex)
+                        { /*Ignore*/ }
+                    }
+                }
+            }
+            catch (Exception ex)
+            { ex.DebugLog(); }
+        }
+
         public static T DeepCloneObject<T>(this T instance)
         {
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(instance));

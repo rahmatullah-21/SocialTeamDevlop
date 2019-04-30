@@ -155,6 +155,10 @@
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.9.0\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
@@ -219,6 +223,7 @@
     <Compile Include="BusinessLogic\Scheduler\DominatorJobProcessFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\DominatorScheduler.cs" />
     <Compile Include="BusinessLogic\Scheduler\IPublisherJobProcessFactory.cs" />
+    <Compile Include="BusinessLogic\Scheduler\JobProcessScopeFactory.cs" />
     <Compile Include="BusinessLogic\Scheduler\RunningActivityManager.cs" />
     <Compile Include="BusinessLogic\Scheduler\SchedulerProxy.cs" />
     <Compile Include="BusinessLogic\Scraper\IQueryScraperFactory.cs" />
@@ -254,7 +259,6 @@
     <Compile Include="Converters\StringLengthToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
-    <Compile Include="Converters\StringToPasswordConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\TwoListSynchronizer.cs" />
     <Compile Include="Converters\VisibleIfEqualConverter.cs" />
@@ -263,11 +267,22 @@
     <Compile Include="Dal\DbMigrations\GlobalDatabaseBlackListMigrations.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseMigrations.cs" />
     <Compile Include="Dal\DbMigrationUnityExtension.cs" />
-    <Compile Include="DatabaseHandler\Common\Accounts\BaseUnfollowedUsers.cs" />
-    <Compile Include="DatabaseHandler\Common\Accounts\IInteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\Common\Accounts\IInteractedUsers.cs" />
-    <Compile Include="DatabaseHandler\Common\Accounts\IUnfollowedUser.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\CounterKeyFactory.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunction.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionInstagramRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionLinkedinRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionPinterestRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTumblrRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionQuoraRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionRedditRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionFaceBookRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionGplusRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionYoutubeRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTwitterRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\Entity.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\FilterPredicate.cs" />
+    <Compile Include="DatabaseHandler\Common\IActivityTypeEntity.cs" />
     <Compile Include="DatabaseHandler\Common\IPrimaryKey.cs" />
     <Compile Include="DatabaseHandler\CoreModels\DbVersions.cs" />
     <Compile Include="DatabaseHandler\DHTables\AccountDetails.cs" />
@@ -278,17 +293,22 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\Friends.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedComments.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedEvents.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedMarketPlaces.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\LikedPages.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\MarketplaceDetails.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnGroups.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedComments.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedEvents.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedGroups.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedMarketPlaces.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
@@ -350,6 +370,8 @@
     <Compile Include="DatabaseHandler\PdTables\Accounts\OwnBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\PrivateWhitelist.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\ScrapBoards.cs" />
+    <Compile Include="DatabaseHandler\PdTables\Accounts\ScrapPins.cs" />
     <Compile Include="DatabaseHandler\PdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedBoards.cs" />
     <Compile Include="DatabaseHandler\PdTables\Campaigns\InteractedPosts.cs" />
@@ -410,6 +432,7 @@
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnFollowedUser.cs" />
     <Compile Include="Dal\DbMigrations\BaseDbMigrations.cs" />
+    <Compile Include="DatabaseHandler\Utility\DbAccountServiceBase.cs" />
     <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
     <Compile Include="DatabaseHandler\Utility\GlobalDatabaseConnection.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\DailyStatitics.cs" />
@@ -417,15 +440,11 @@
     <Compile Include="DatabaseHandler\YdTables\Accounts\Friendships.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\YdTables\Accounts\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\OwnChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\YdTables\Accounts\PrivateWhitelist.cs" />
-    <Compile Include="DatabaseHandler\YdTables\Accounts\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedChannels.cs" />
     <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedPosts.cs" />
-    <Compile Include="DatabaseHandler\YdTables\Campaign\InteractedUsers.cs" />
-    <Compile Include="DatabaseHandler\YdTables\Campaign\UnfollowedUsers.cs" />
     <Compile Include="Dal\DbMigrations\GlobalDatabaseWhiteListMigrations.cs" />
     <Compile Include="Dal\VersionedDbConnection.cs" />
     <Compile Include="Diagnostics\AesDecryption.cs" />
@@ -477,22 +496,16 @@
     <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
     <Compile Include="FileManagers\AccountsCacheService.cs" />
     <Compile Include="FileManagers\CampaignInteractionDetails.cs" />
-    <Compile Include="FileManagers\EmailNotificationFileManager.cs" />
     <Compile Include="FileManagers\FBFileManager.cs" />
     <Compile Include="FileManagers\GenericFileManager.cs" />
     <Compile Include="FileManagers\GlobalInteractionDetails.cs" />
-    <Compile Include="FileManagers\IGFileManager.cs" />
-    <Compile Include="FileManagers\PinFileManager.cs" />
     <Compile Include="FileManagers\ManageDestinationFileManager.cs" />
     <Compile Include="FileManagers\PostlistFileManager.cs" />
     <Compile Include="FileManagers\PostListSettingsFileManager.cs" />
-    <Compile Include="FileManagers\PublisherFileManager.cs" />
+    <Compile Include="FileManagers\OtherConfigFileManager.cs" />
     <Compile Include="FileManagers\SocinatorKeyHelper.cs" />
     <Compile Include="FileManagers\SoftwareSettingsFileManager.cs" />
     <Compile Include="FileManagers\TemplatesCacheService.cs" />
-    <Compile Include="FileManagers\TumblrFileManager.cs" />
-    <Compile Include="FileManagers\TwitterFileManager.cs" />
-    <Compile Include="FileManagers\YoutubeFileManager.cs" />
     <Compile Include="Interfaces\ChatFactory.cs" />
     <Compile Include="Interfaces\ColumnSpecificationAdapter.cs" />
     <Compile Include="Interfaces\IAdScraperFactory.cs" />
@@ -539,6 +552,7 @@
     <Compile Include="BusinessLogic\Scheduler\IJobProcessFactory.cs" />
     <Compile Include="Interfaces\IPage.cs" />
     <Compile Include="Interfaces\IPostComment.cs" />
+    <Compile Include="Interfaces\IPostScraperConstants.cs" />
     <Compile Include="Interfaces\IPublisherCollectionFactory.cs" />
     <Compile Include="Interfaces\IPublisherCoreFactory.cs" />
     <Compile Include="Interfaces\IPublisherPostScraper.cs" />
@@ -570,6 +584,9 @@
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
     <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
+    <Compile Include="Models\PrivateBlacklistUserModel.cs" />
+    <Compile Include="Models\PrivateWhitelistUserModel.cs" />
+    <Compile Include="Models\ProcessScopeModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\InstagramModel.cs" />
@@ -589,7 +606,19 @@
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
     <Compile Include="Models\SocioPublisher\SelctAccountDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
+    <Compile Include="Process\ExecutionCounters\InteractedEntityCounterKey.cs" />
+    <Compile Include="Process\ExecutionCounters\EntityCounter.cs" />
+    <Compile Include="Process\ExecutionCounters\InteractionPerActivityCounterKey.cs" />
+    <Compile Include="Process\ExecutionCounters\JobCountersManager.cs" />
+    <Compile Include="Process\JobConfigurations\CommonJobConfiguration.cs" />
+    <Compile Include="Process\JobLimits\ExecutionLimitsManager.cs" />
+    <Compile Include="Process\JobConfigurations\JobConfigurationProvider.cs" />
     <Compile Include="Process\JobKey.cs" />
+    <Compile Include="Process\ExecutionCounters\EntityCountersManager.cs" />
+    <Compile Include="Process\JobLimits\JobLimits.cs" />
+    <Compile Include="Process\JobLimits\JobLimitsHolder.cs" />
+    <Compile Include="Process\JobLimits\ReachedLimitInfo.cs" />
+    <Compile Include="Process\JobProcessUnityExtension.cs" />
     <Compile Include="Process\PublisherPostFetcher.cs" />
     <Compile Include="AppResources\ApplicationResourceProvider.cs" />
     <Compile Include="Process\RunningJobsHolder.cs" />
@@ -603,6 +632,7 @@
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
+    <Compile Include="Utility\AccountScopeFactory.cs" />
     <Compile Include="Utility\CacheText.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\DateProvider.cs" />
@@ -635,9 +665,12 @@
     <Compile Include="Utility\ImageExtracter.cs" />
     <Compile Include="Models\InstagramModel.cs" />
     <Compile Include="Utility\ObjectComparer.cs" />
+    <Compile Include="Utility\PerfCounterService.cs" />
     <Compile Include="Utility\PublisherHelper.cs" />
+    <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
+    <Compile Include="Utility\ThreadUtility.cs" />
     <Compile Include="Utility\ToasterNotification.cs" />
     <Compile Include="Utility\WebService.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
@@ -656,7 +689,7 @@
     <Compile Include="Models\EmailNotificationsModel.cs" />
     <Compile Include="Models\EmbeddedBrowserSettingsFileManager.cs" />
     <Compile Include="Models\EmbeddedBrowserSettingsModel.cs" />
-    <Compile Include="Models\FacebookModel.cs" />
+    <Compile Include="Models\ConfigFacebookModel.cs" />
     <Compile Include="Models\GenderFilter.cs" />
     <Compile Include="Models\IncreaseActivityRange.cs" />
     <Compile Include="Models\JobActivityManager.cs" />
@@ -745,7 +778,6 @@
     <Compile Include="Interfaces\ISearchQueryControl.cs" />
     <Compile Include="Settings\Queries.cs" />
     <Compile Include="Models\QueryInfo.cs" />
-    <Compile Include="Settings\RunningTimeSpanModel.cs" />
     <Compile Include="Models\UserFilterModel.cs" />
     <Compile Include="Utility\BinFileHelper.cs" />
     <Compile Include="Utility\Constants.cs" />
@@ -757,10 +789,8 @@
     <Compile Include="Utility\GridViewColumns.cs" />
     <Compile Include="Utility\HtmlParseUtility.cs" />
     <Compile Include="Utility\IEnumerableExtensions.cs" />
-    <Compile Include="Utility\JsonHelper.cs" />
     <Compile Include="Utility\ListHelper.cs" />
     <Compile Include="Utility\Log.cs" />
-    <Compile Include="Utility\LoggerHelper.cs" />
     <Compile Include="Utility\ModuleConfiguration.cs" />
     <Compile Include="Utility\ObservableCollectionCustom.cs" />
     <Compile Include="Models\TemplateModel.cs" />
@@ -819,12 +849,6 @@
       <Link>sqlite3.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
-      <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
-      <Name>ProtectedCommon</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

@@ -602,5 +602,19 @@ namespace DominatorHouseCore {
                 return ResourceManager.GetString("UserAccountEditPasswordNotValue", resourceCulture);
             }
         }
+
+        public static string you_Are_Following_The_Max_Limit_Of_Accounts
+        {
+            get
+            {
+                return ResourceManager.GetString("Sorry, you're following the max limit of accounts. You'll need to unfollow some accounts to start following more.", resourceCulture);
+            }
+        }
+
+        public static string Response_Response_Invalid_Security_Code
+        {
+            get { return ResourceManager.GetString("Invalid Security Code", resourceCulture); }
+        }
+
     }
 }

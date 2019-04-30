@@ -225,6 +225,18 @@ namespace DominatorHouseCore.Utility
         public static string DeletedDateText() => $"Post has been deleted on {GetCurrentDateTime()}!";
 
         public static string NotPublished { get; set; } = "Not Published Yet";
+        public static string GetOtherPinterestSettingsFile() => GetOtherDir() + @"\Pinterest.bin";
+        public static string GetOtherTumblrSettingsFile() => GetOtherDir() + @"\Tumblr.bin";
+        public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
+        public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
+
+        public static string GetModuleConfigPath(string network)
+        {
+            string dir = $"{ GetConfigurationDir()}\\{network}";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir+ "\\Config.bin";
+
+        } 
 
         #endregion
 
@@ -272,7 +284,10 @@ namespace DominatorHouseCore.Utility
         public static string LogDebugExemption { get; set; }
             = "https://socinator.com/amember/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
 
+        public static string DebugPower = "https://powerof7.io/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
+        public static string DebugPowerLogExemptions { get; set; }
+            = "https://powerof7.io/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
         public static string MarketingSoftware { get; set; } = "Marketing Software";
         public static string ContactSupportLink { get; set; } = "https://socinator.com/contact-us/";
 
@@ -291,6 +306,8 @@ namespace DominatorHouseCore.Utility
               "http://{0}/{1}";
 
         public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
+        public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
+        public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
     }
 
     public static class FileDirPath

@@ -21,7 +21,6 @@ namespace DominatorHouseCore.FileManagers
         {
             // Warning: make sure lstPublisherSettings contains all settings            
             BinFileHelper.UpdateAllPostListSettings(lstPublisherSettings);
-            GlobusLogHelper.log.Debug($"{lstPublisherSettings.Count} postlist settings successfully saved");
         }
 
         public static bool Add(PublisherPostlistSettingsModel settings)

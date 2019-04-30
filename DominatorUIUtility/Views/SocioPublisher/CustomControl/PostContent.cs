@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -221,6 +223,27 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsClearPostTitleOptionVisibilityProperty =
             DependencyProperty.Register("IsClearPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Collapsed));
+
+        public Visibility IsMediaVisibility
+        {
+            get { return (Visibility)GetValue(IsMediaVisibilityProperty); }
+            set { SetValue(IsMediaVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsMediaVisibilityProperty =
+            DependencyProperty.Register("IsMediaVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
+
+        public Visibility IsSourceUrlAndFdSellPostVisible
+        {
+            get { return (Visibility)GetValue(IsSourceUrlAndFdSellPostVisibleProperty); }
+            set { SetValue(IsSourceUrlAndFdSellPostVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsSourceUrlAndFdSellPostVisibleProperty =
+            DependencyProperty.Register("IsSourceUrlAndFdSellPostVisible", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
+
         #endregion
 
         #region Apply Template
@@ -317,14 +340,19 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             try
             {
                 var lstPostTitle = FileUtilities.FileBrowseAndReader();
-                lstPostTitle.ForEach(title =>
+                if (lstPostTitle.Count != 0)
                 {
-                    if (!tempList.Any(x => x == title))
-                        tempList.Add(title);
-                });
+                    lstPostTitle.ForEach(title =>
+                    {
+                        if (!tempList.Any(x => x == title))
+                            tempList.Add(title);
+                    });
 
 
-                PublisherInstagramTitle = string.Join("\n", tempList.ToArray());
+                    PublisherInstagramTitle = string.Join("\n", tempList.ToArray());
+                    tempList.Clear();
+                }
+               
             }
             catch (Exception ex)
             {
@@ -440,7 +468,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                             break;
                         case SocialNetworks.Pinterest:
                         case SocialNetworks.Quora:
-                        case SocialNetworks.Gplus:
+                        //case SocialNetworks.Gplus:
                         case SocialNetworks.Youtube:
                             break;
                         // ReSharper disable once RedundantEmptySwitchSection
@@ -476,6 +504,8 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             if (mediaViewer != null)
             {
                 var mediaUtilites = new MediaUtilites();
+                if (mediaViewer.MediaList == null)
+                    mediaViewer.MediaList = new ObservableCollection<string>();
                 files.ForEach(x =>
                 {
                     MediaViewerAssist.SetMediaList(this, mediaViewer.MediaList);
@@ -496,8 +526,16 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 if (mediaViewer != null)
                 {
-                    mediaViewer.MediaList = (mediaViewer.DataContext as PublisherPostlistModel).MediaList;
-
+                    var dataContext = mediaViewer.DataContext;
+                    mediaViewer.MediaList = (dataContext as PostDetailsModel)?.MediaViewer.MediaList;
+                    if (dataContext is PublisherRssFeedViewModel)
+                        mediaViewer.MediaList = mediaViewer.MediaList ?? (mediaViewer.DataContext as PublisherRssFeedViewModel)?.PublisherRssFeedModel.PostDetailsModel.MediaList;
+                    else if (dataContext is PublisherDirectPostsViewModel)
+                        mediaViewer.MediaList = mediaViewer.MediaList ?? (mediaViewer.DataContext as PublisherDirectPostsViewModel)?.PostDetailsModel.MediaViewer.MediaList;
+                    else if (dataContext is PublisherPostlistModel)
+                        mediaViewer.MediaList = (dataContext as PublisherPostlistModel)?.MediaList;
+                    if (mediaViewer.MediaList == null)
+                        mediaViewer.MediaList = new ObservableCollection<string>();
                     mediaViewer.Initialize();
                 }
             }
@@ -505,7 +543,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             {
                 if (mediaViewer != null)
                     mediaViewer.Initialize();
-                ex.DebugLog();
             }
 
         }

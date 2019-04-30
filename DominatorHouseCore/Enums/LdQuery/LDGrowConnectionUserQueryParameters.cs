@@ -14,5 +14,9 @@ namespace DominatorHouseCore.Enums.LdQuery
         SearchUrl,
         [Description("LangKeyJoinedGroupUrl")]
         JoinedGroupUrl,
+        [Description("LangKeySalesNavUserScraperCampaign")]
+        SalesNavUserScraperCampaign,
+        [Description("LangKeySalesNavigatorSearchUrl")]
+        SalesNavigatorSearchUrl
     }
 }

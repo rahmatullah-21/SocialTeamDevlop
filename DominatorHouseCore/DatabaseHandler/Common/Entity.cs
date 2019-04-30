@@ -2,7 +2,7 @@
 
 namespace DominatorHouseCore.DatabaseHandler.Common
 {
-    public abstract class Entity
+    public abstract class Entity : IPrimaryKey
     {
         [PrimaryKey]
         [AutoIncrement]

@@ -43,6 +43,7 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
         List<T> DeserializeList<T>(string filePath) where T : class;
+        T Deserialize<T>(string filePath) where T : class, new();
     }
 
 
@@ -79,7 +80,8 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");
+                //ex.DebugLog($"ProtobufError: Unable to serialize object of type {typeof(T).FullName} to {filePath}");
+                ex.DebugLog();
                 throw;
             }
 
@@ -112,7 +114,8 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"ProtobufError: Unable to append object of type {typeof(T).Name} to {filePath}");
+               // ex.DebugLog($"ProtobufError: Unable to append object of type {typeof(T).Name} to {filePath}");
+                ex.DebugLog();
                 throw;
             }
             finally
@@ -134,7 +137,6 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">Source of the file </param>
         /// <returns>List of Type T</returns>
         public List<T> DeserializeList<T>(string filePath) where T : class
-
         {
             try
             {
@@ -144,7 +146,6 @@ namespace DominatorHouseCore.Utility
                     {
                         if (filePath.ToLower().Contains("account"))
                             Debug.Assert(typeof(T) == typeof(DominatorAccountModel));       // account model have to be only DominatorAccountModel
-
                         var wrapper = Serializer.Deserialize<ListWrapper<T>>(stream);
 
                         return wrapper.List ?? new List<T>();
@@ -153,12 +154,34 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception ex)
             {
-                ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+                ex.DebugLog();
                 return new List<T>();
             }
             return new List<T>();
         }
 
-        #endregion        
+        public T Deserialize<T>(string filePath) where T : class, new()
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    using (var stream = File.OpenRead(filePath))
+                    {     // account model have to be only DominatorAccountModel
+
+                        var wrapper = Serializer.Deserialize<T>(stream);
+
+                        return wrapper ?? new T();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+               // ex.DebugLog($"Unable to deserialize object of type {typeof(T).FullName} from {filePath}");
+                ex.DebugLog();
+            }
+            return new T();
+        }
+        #endregion
     }
 }

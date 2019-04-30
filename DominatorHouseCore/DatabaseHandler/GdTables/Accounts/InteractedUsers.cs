@@ -1,9 +1,8 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 
 namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
 {
-    public class InteractedUsers : Entity, IInteractedUsers
+    public class InteractedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string Query { get; set; }
@@ -21,11 +20,7 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int Date
-        {
-            get { return ((IInteractedUsers)this).InteractionDate; }
-            set { ((IInteractedUsers)this).InteractionDate = value; }
-        }
+        public int Date { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string ActivityType
@@ -83,7 +78,5 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string RequiredData
         { get; set; }
-
-        int IInteractedUsers.InteractionDate { get; set; }
     }
 }

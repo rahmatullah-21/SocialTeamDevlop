@@ -3,8 +3,10 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using Prism.Commands;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,24 +17,36 @@ namespace DominatorUIUtility.ViewModel.OtherTools
         public ICommand BrowseCommand { get; }
         public ICommand CopyCmd { get; }
         public ObservableCollection<string> LstFile { get; }
-        public string SelectedPath { get; set; }
         public MediaGeneratorViewModel() : base("LangKeyMediaGenerator", "MediaGeneratorControlTemplate")
         {
             BrowseCommand = new DelegateCommand(BrowseExecute);
-            CopyCmd = new DelegateCommand<string>(Copy);
+            CopyCmd = new DelegateCommand<object>(Copy);
             LstFile = new ObservableCollection<string>();
         }
 
-        private void Copy(string path)
+        private void Copy(object filePaths)
         {
             try
             {
-                var filePath = SelectedPath;
-                if (!string.IsNullOrEmpty(filePath))
+                StringBuilder filesPath = new StringBuilder();
+                if (filePaths != null)
                 {
-                    Clipboard.SetText(filePath);
-                    ToasterNotification.ShowSuccess("File Path copied");
+                    var data = filePaths as IEnumerable<object>;
+                    if (!data.Any())
+                    {
+                        ToasterNotification.ShowWarning("Please select atleast one path to copy.");
+                        return;
+                    }
+                    data.ForEach(x =>
+                    {
+                        filesPath.Append(x.ToString());
+                        filesPath.AppendLine();
+                    });
+                    filesPath.Remove(filesPath.Length - 1, 1);
+                    Clipboard.SetData(DataFormats.Text, filesPath.ToString());
+                    ToasterNotification.ShowSuccess("Files Path copied");
                 }
+               
             }
             catch (Exception ex)
             {
@@ -44,8 +58,8 @@ namespace DominatorUIUtility.ViewModel.OtherTools
         {
             try
             {
-                string filters = "Image Files |*.jpg;*.jpeg;*.png;*.gif|Videos Files |*.dat; *.wmv;|All file |*.*";
-
+                var filters = "Image Files |*.jpg;*.jpeg;*.png;*.gif|Videos Files |*.dat; *.wmv; *.3g2; *.3gp;*.3gp2; *.3gpp; *.amv; *.asf;  *.avi; *.bin; *.cue; *.divx; *.dv; *.flv; *.gxf; *.iso; *.m1v; *.m2v; *.m2t; *.m2ts; *.m4v; " +
+                       " *.mkv; *.mov; *.mp2; *.mp2v; *.mp4; *.mp4v; *.mpa; *.mpe; *.mpeg; *.mpeg1; *.mpeg2; *.mpeg4; *.mpg; *.mpv2; *.mts; *.nsv; *.nuv; *.ogg; *.ogm; *.ogv; *.ogx; *.ps; *.rec; *.rm; *.rmvb; *.tod; *.ts; *.tts; *.vob; *.vro; *.webm|All file |*.*";
                 var picPath = FileUtilities.GetImageOrVideo(true, filters);
                 if (picPath != null)
                 {

@@ -1,11 +1,9 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
-using DominatorHouseCore.Utility;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 {
-    public class InteractedUsers : Entity, IInteractedUsers
+    public class InteractedUsers : Entity
     {
         /// <summary>
         /// Contains QueryType For Interaction
@@ -58,12 +56,6 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Contains TimeStamp when interacted with the User
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public DateTime InteractionDatetime
-        {
-            get { return ((IInteractedUsers)this).InteractionDate.EpochToDateTimeUtc(); }
-            set { ((IInteractedUsers)this).InteractionDate = value.ConvertToEpochAsIs(); }
-        }
-
-        int IInteractedUsers.InteractionDate { get; set; }
+        public DateTime InteractionDatetime { get; set; }
     }
 }

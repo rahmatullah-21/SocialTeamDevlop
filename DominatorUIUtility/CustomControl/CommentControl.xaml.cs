@@ -22,8 +22,6 @@ namespace DominatorUIUtility.CustomControl
             AddCommentsCommand = new BaseCommand<object>((sender) => true, AddCommentsExecute);
 
         }
-
-
         private static readonly RoutedEvent AddCommentToListEvent =
        EventManager.RegisterRoutedEvent("AddCommentToListChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
            typeof(CommentControl));
@@ -64,65 +62,51 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty LstManageCommentModelProperty =
             DependencyProperty.Register("LstManageCommentModel", typeof(ObservableCollection<ManageCommentModel>), typeof(CommentControl), new PropertyMetadata(new ObservableCollection<ManageCommentModel>()));
 
-        private void btnAddCommentToList_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(Comments.CommentText))
-            {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please type some comment !!");
-                return;
-            }
-              
-            AddCheckedQueryToList();
-            if (btnAddCommentToList.Content.ToString() == "Update Comment")
-            {
-                LstManageCommentModel.Select(x =>
-                {
-                    if (x.CommentId == Comments.CommentId)
-                    {
-                        x.CommentText = Comments.CommentText;
-                        x.FilterText = Comments.FilterText;
-                        x.LstQueries = Comments.LstQueries;
-                    }
-                    return x;
-                });
-                Comments.SelectedQuery.Remove(Comments.SelectedQuery.FirstOrDefault(x=>x.Content.QueryValue=="All"));
-                Comments.LstQueries.Select(x => { x.IsContentSelected = false; return x; }).ToList();
-                Isupdated = true;
-                Dialog.CloseDialog(this);
-            }
-            else
-            {
-                AddCommentToListEventHandler();
-            }
-
-           
-        }
-
         private void chkQuery_Checked(object sender, RoutedEventArgs e)
         {
-               CheckUncheckAll(sender,true);
+            CheckUncheckAll(sender, true);
         }
-       
+
         private void chkQuery_Unchecked(object sender, RoutedEventArgs e)
         {
-                CheckUncheckAll(sender,false);
+            CheckUncheckAll(sender, false);
         }
-
+        private bool _isUncheckfromList;
         private void CheckUncheckAll(object sender, bool IsChecked)
         {
-            if (((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue == "All")
+
+            var currentQuery = ((QueryContent)(sender as CheckBox).DataContext).Content.QueryValue;
+            if (!Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
             {
-                Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+                if (!IsChecked)
+                {
+                    _isUncheckfromList = true;
+                    Comments.LstQueries[0].IsContentSelected = false;
+                }
+            }
+            if (Comments.LstQueries.Skip(1).All(x => x.IsContentSelected))
+            {
+                _isUncheckfromList = false;
+                Comments.LstQueries[0].IsContentSelected = IsChecked;
+            }
+            if (_isUncheckfromList)
+            {
+                _isUncheckfromList = false;
+                return;
             }
 
+            if (currentQuery == "All" || currentQuery == "Default")
+            {
+                _isUncheckfromList = false;
+                Comments.LstQueries.ToList().Select(query => { query.IsContentSelected = IsChecked; return query; }).ToList();
+            }
         }
         private void AddCheckedQueryToList()
         {
             Comments.SelectedQuery.Clear();
             Comments.LstQueries.ToList().ForEach(query =>
             {
-                    if (query.IsContentSelected)
+                if (query.IsContentSelected)
                     Comments.SelectedQuery.Add(query);
             });
         }
@@ -142,11 +126,14 @@ namespace DominatorUIUtility.CustomControl
         {
             if (string.IsNullOrEmpty(Comments.CommentText))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please type some comment !!");
+                Dialog.ShowDialog("Warning", "Please type some comment !!");
                 return;
             }
-
+            if (!Comments.LstQueries.Any(x => x.IsContentSelected))
+            {
+                Dialog.ShowDialog("Warning", "Please select atleast one query.");
+                return;
+            }
             AddCheckedQueryToList();
             if (btnAddCommentToList.Content.ToString() == "Update Comment")
             {
@@ -157,6 +144,7 @@ namespace DominatorUIUtility.CustomControl
                         x.CommentText = Comments.CommentText;
                         x.FilterText = Comments.FilterText;
                         x.LstQueries = Comments.LstQueries;
+                        x.SelectedQuery = Comments.SelectedQuery;
                     }
                     return x;
                 }).ToList();
@@ -169,10 +157,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 AddCommentToListEventHandler();
             }
-
         }
-
-
 
         public object CommandParameter
         {

@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace DominatorHouseCore.UnitTests.Tests.Converters
 {
@@ -11,7 +12,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
     public class SocialNetworkToColorBrushConverterTests
     {
         private SocialNetworkToColorBrushConverter _sut;
-
+        object value;
         [TestInitialize]
         public void SetUp()
         {
@@ -42,6 +43,39 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
                     val.Should().NotBeNull();
                 }
             }
+        }
+
+        [TestMethod]
+        public void should_return_Red_brush_if_value_is_Quora_network()
+        {
+            value = SocialNetworks.Quora;
+            var expected = Brushes.Red;
+            var result = _sut.Convert(value, value.GetType(), null, CultureInfo.CurrentUICulture);
+            result.Should().Be(expected);
+        }
+        [TestMethod]
+        public void should_return_null_if_value_is_Social_network()
+        {
+            value = SocialNetworks.Social;
+            object expected = null;
+            var result = _sut.Convert(value, value.GetType(), null, CultureInfo.CurrentUICulture);
+            result.Should().Be(expected);
+        }
+        [TestMethod]
+        public void should_return_null_if_value_is_null()
+        {
+            value = null;
+            object expected = null;
+            var result = _sut.Convert(value, null, null, CultureInfo.CurrentUICulture);
+            result.Should().Be(expected);
+        }
+        [TestMethod]
+        public void should_return_null_if_value_is_not_a_SocialNetwork()
+        {
+            value = "Harsh";
+            object expected = null;
+            var result = _sut.Convert(value, null, null, CultureInfo.CurrentUICulture);
+            result.Should().Be(expected);
         }
     }
 }

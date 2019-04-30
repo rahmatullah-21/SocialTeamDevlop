@@ -95,7 +95,7 @@
     <system:String x:Key="LangKeyAddPhotoids">Add Photoids</system:String>
     <system:String x:Key="LangKeyAddPostCaptions">Add Post Captions</system:String>
     <system:String x:Key="LangKeyAddPosts">Add Posts</system:String>
-    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersCategorySearchPin">Add Posts Source! Like (Boards, Users, Category, Search Pin)</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersSearchPin">Add Posts Source! Like (Boards, Users, Search Pin)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl">Add Posts Source! Like (Ownwall,Page, Group,Friend Url)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeUsersSearch">Add Posts Source! Like (Users,Search)</system:String>
     <system:String x:Key="LangKeyAddToPrivateBlacklist">Add To Private Blacklist</system:String>
@@ -488,7 +488,8 @@
     <system:String x:Key="LangKeyDelayBetweenActivities">Delay Between Activities</system:String>
     <system:String x:Key="LangKeyDelayBetweenDownloads">Delay Between Downloads</system:String>
     <system:String x:Key="LangKeyDelayBetweenEachOperation">Delay Between Each Operation</system:String>
-    <system:String x:Key="LangKeyDelayBetweenEachPost">Delay Between Each Post</system:String>
+    <system:String x:Key="LangKeyDelayBetweenEachDestinationPost">Delay Between Each Destination Post</system:String>
+    <system:String x:Key="LangKeyDelayBetweenPost">Delay Between Post</system:String>
     <system:String x:Key="LangKeyDelayBetweenFindingPhotos">Delay Between Finding Photos</system:String>
     <system:String x:Key="LangKeyDelayBetweenFollows">Delay Between Follows</system:String>
     <system:String x:Key="LangKeyDelayBetweenJobs">Delay Between Jobs</system:String>
@@ -1050,7 +1051,7 @@
     <system:String x:Key="LangKeyLimitTheNumberOfDashboardSummaryItemsTo">Limit The Number Of Dashboard - Summary Items To</system:String>
     <system:String x:Key="LangKeyLimitTheNumberOfPostsInCampaignsTo">Limit The Number Of Posts In Campaigns To</system:String>
     <system:String x:Key="LangKeyLimitTheNumberOfRecordsInAnyListTo">Limit The Number Of Records In Any List To</system:String>
-    <system:String x:Key="LangKeyLimitTheNumberOfSimultaneousWatchVideosTo">Limit The Number Of Simultaneous Watch Videos To</system:String>
+    <system:String x:Key="LangKeyLimitTheNumberOfSimultaneousWatchVideosTo">Limit The Number Of Browsers for Simultaneous Watch Videos To</system:String>
     <system:String x:Key="LangKeyLimits">Limits</system:String>
     <system:String x:Key="LangKeyLink">Link</system:String>
     <system:String x:Key="LangKeyLinkedDominator">Linked Dominator</system:String>
@@ -2385,7 +2386,7 @@
     <system:String x:Key="LangKeyTries">Tries</system:String>
     <system:String x:Key="LangKeyTriesCount">Tries Count</system:String>
     <system:String x:Key="LangKeyTriesPerOperation">Tries Per Operation</system:String>
-    <system:String x:Key="LangKeyTriggerANotificationWhenThereAre">Trigger A Notification When There Are</system:String>
+    <system:String x:Key="LangKeyTriggerANotificationWhenPendingPostsCountReachesTo">Trigger a notification when pending posts count reaches to</system:String>
     <system:String x:Key="LangKeyTry">Try</system:String>
     <system:String x:Key="LangKeyTryAMaximumOf">Try A Maximum Of</system:String>
     <system:String x:Key="LangKeyTryBetween">Try Between</system:String>
@@ -2688,9 +2689,9 @@ They are replaced with user info.</system:String>
     <system:String x:Key="LangKeySourceUrl">Source Url</system:String>
 
     <system:String x:Key="LangKeyImportAccountDescription"  xml:space="preserve">Format :
-Type 1. Group Name:SocialNetwork:User Name:Password
-Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port
-Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password
+Type 1. Group Name:SocialNetwork:User Name:Password:Alternate Email (For YouTube)
+Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Alternate Email (For YouTube)
+Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password:Alternate Email (For YouTube)
     </system:String>
     <system:String x:Key="LangKeyImportProxyDescription"  xml:space="preserve">Format :
 Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
@@ -2758,6 +2759,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyWillPerformIn">Will Perform In</system:String>
     <system:String x:Key="LangKeyIsScheduledToRunBy">Is Scheduled To Run By</system:String>
     <system:String x:Key="LangKeyNextJobTo">Next Job To</system:String>
+    <system:String x:Key="LangKeyNextPostTo">Next Post To</system:String>
     <system:String x:Key="LangKeyIsExpectedToStartBy">Is Expected To Start By</system:String>
     <system:String x:Key="LangKeyHasReachedPerJobLimitOf">Has Reached Per Job Limit Of</system:String>
     <system:String x:Key="LangKeyHasReachedPerDayLimitOf">Has Reached Per Day Limit Of</system:String>
@@ -2995,7 +2997,7 @@ Type 3. IP:Port
 
     <!--Newly Added on 17-07-2018-->
     <system:String x:Key="LangKeyEditCampaign">Edit Campaign</system:String>
-    <system:String x:Key="LangKeyPostSaved">Post has been successfully saved!</system:String>
+    <system:String x:Key="LangKeyPostSaved">Post has been successfully saved</system:String>
     <system:String x:Key="LangKeySavePostToDraft">Save To Draft Post List</system:String>
     <system:String x:Key="LangKeySavePostToPending">Save To Pending Post List</system:String>
     <system:String x:Key="LangKeyUpdateFeedUrl">Update Feed Url</system:String>
@@ -3212,7 +3214,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfTweetToPerJob">Number Of TweetTo Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfTweetToPerWeek">Number Of TweetTo Per Week</system:String>
     <system:String x:Key="LangKeyMaxTweetToPerDay">Max TweetTo Per Day</system:String>
-    <system:String x:Key="LangKeyStoppedAllActivitiesOfAccount">Stopped All Activities Of Account</system:String>
+    <system:String x:Key="LangKeyStoppedAllActivitiesOf">Stopped All Activities Of</system:String>
     <system:String x:Key="LangKeyWriteANoteEvent">Write a note to include in your invitation (Only in case of personal message)</system:String>
     <system:String x:Key="LangKeyUserTag">Tag users in post</system:String>
     <system:String x:Key="LangKeyLogin">Login</system:String>
@@ -3250,7 +3252,7 @@ Type 3. IP:Port
 
     <system:String x:Key="LangKeyBoards">Boards</system:String>
     <system:String x:Key="LangKeyChannels">Channels</system:String>
-    
+
     <system:String x:Key="LangKeyMuteFollowerAfterFollow">Mute Follower After Follow</system:String>
     <system:String x:Key="LangKeyMuteFollowerPostAfterFollow">Mute Follower Post After Follow</system:String>
     <system:String x:Key="LangKeyMuteFollowerStoryAfterFollow">Mute Follower Story After Follow</system:String>
@@ -3331,4 +3333,199 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">This Socinator feature helps to automate Unlike on Twitter. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
     <system:String x:Key="LangKeyConnectedWithin">Connected Within</system:String>
     <system:String x:Key="LangKeyProfileScraperCampaigns">Profile Scraper Campaigns</system:String>
+    <system:String x:Key="LangKeyPublisherCampaigns">Publisher Campaigns</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerDay">Number Of Accept Board Invitations Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerHour">Number Of Accept Board Invitations Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerJob">Number Of Accept Board Invitations Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfAcceptBoardInvitationsPerWeek">Number Of Accept Board Invitations Per Week</system:String>
+    <system:String x:Key="LangKeyMaxAcceptBoardInvitationsPerDay">Max Accept Board Invitations Per Day</system:String>
+    <system:String x:Key="LangKeyAcceptBoardInvitation">Accept Board Invitation</system:String>
+    <system:String x:Key="LangKeyTooManyAttemptsOnSignIn">Too many attempts on sign in. Try again later.</system:String>
+    <system:String x:Key="LangKeyBirthdayShouldHaveBeenBetween">Birthday should have been between</system:String>
+    <system:String x:Key="LangKeyAfterPostLikeAction">After Post Like Action</system:String>
+    <system:String x:Key="LangKeySendRequestIfUserPost">Send FriendRequest If User's Post</system:String>
+    <system:String x:Key="LangKeyAfterPostCommentAction">After Post Comment Action</system:String>
+    <system:String x:Key="LangKeyAlternateEmail">Alternate Email</system:String>
+    <system:String x:Key="LangkeycommentonpostAfterLike">Comment Post After Like</system:String>
+    <system:String x:Key="LangKeySetNewPassword">Set New Password</system:String>
+    <system:String x:Key="LangKeySkipFriendsAlreadyMemberOfGroup">Skip Friends Already Member Of Group</system:String>
+    <system:String x:Key="LangKeyCheckForApproveYourPostForReddit">Check for approve your post [For Reddit]</system:String>
+    <system:String x:Key="LangKeyStopAutoSynchronizeAccount">Stop Auto Synchronize account</system:String>
+    <system:String x:Key="LangKeySelectBrowser">Select Browser</system:String>
+    <system:String x:Key="LangKeyMozillaBrowser">Mozilla Firefox Browser</system:String>
+    <system:String x:Key="LangKeyCefSharpBrowser">CefSharp Embedded Browser</system:String>
+    <system:String x:Key="LangKeyRequiresFirefox" xml:space="preserve">Requires Mozilla firefox(v64.0.0+) browser.
+        Note: Can't work with private proxy</system:String>
+    <system:String x:Key="LangKeySalesNavUserScraperCampaign">Sales Navigator UserScraper Campaign</system:String>
+    <system:String x:Key="RecentConnections">Recent Connections</system:String>
+    <system:String x:Key="ConnectedWithinDaysValueShouldBeLessThan">Connected Within days value should be less than 8</system:String>
+    <system:String x:Key="LangKeySelectAccount">Select Account</system:String>
+    <system:String x:Key="LangKeyPrivateWhitelistUsers">Private Whitelist Users</system:String>
+    <system:String x:Key="LangKeyPrivateBlacklistUsers">Private Blacklist Users</system:String>
+    <system:String x:Key="LangKeyEnterNewPassword">Enter New Password</system:String>
+    <system:String x:Key="LangKeyResetPassword">Reset Password</system:String>
+    <system:String x:Key="LangKeyAddBoardCollaborators">Add Board Collaborators</system:String>
+    <system:String x:Key="LangKeyBoardUrl">Board Url</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerDay">Number Of Send Board Invitation Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerHour">Number Of Send Board Invitation Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerJob">Number Of Send Board Invitation Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfSendBoardInvitationPerWeek">Number Of Send Board Invitation Per Week</system:String>
+    <system:String x:Key="LangKeySendBoardInvitationPerDay">Max Send Board Invitation Per Day</system:String>
+    <system:String x:Key="LangKeySendBoardInvitation">Send Board Invitation</system:String>
+    <system:String x:Key="LangKeyBoardCollaboratorsList">Board Collaborators List</system:String>
+    <system:String x:Key="LangKeySendResetPasswordLink">Send Reset Password Link</system:String>
+    <system:String x:Key="LangKeyNoOfPostForEngagementRate">No Of Post For Engagement Rate</system:String>
+    <system:String x:Key="LangKeyEnterResetPasswordLink">Enter Reset Password Link</system:String>
+    <system:String x:Key="LangKeyManualVerification">Manual verification</system:String>
+    <system:String x:Key="LangKeySendMessageToGroupMembers">Send message to members of the group</system:String>
+    <system:String x:Key="LangKeyEneterJoinedGroupUrls">Enter Joined Group Urls</system:String>
+
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerDay">Number Of Users To Block Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerHour">Number Of Users To Block Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerJob">Number Of Users To Block Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfUsersToBlockPerWeek">Number Of Users To Block Per Week</system:String>
+    <system:String x:Key="LangKeyMaxUsersToBlockPerDay">Max Users To Block Per Day</system:String>
+    <system:String x:Key="LangKeyBlockUser">Block User</system:String>
+    <system:String x:Key="LangKeyMakeCommentAsSpinText">Make Comment as spin text</system:String>
+    <system:String x:Key="LangKeyLastPostAgeInDays">Posted in Last</system:String>
+    <system:String x:Key="LangKeyBeforePostInDays">Posted before</system:String>
+    <system:String x:Key="LangKeyActionBlock">Temporary Block</system:String>
+    <system:String x:Key="LangKeyEnterEmail">Enter Email</system:String>
+    <system:String x:Key="LangKeyEnterPhone">Enter Phone</system:String>
+    <system:String x:Key="LangKeyAddPhoneNumber" xml:space="preserve">Add existing phone number Or add a new phone number if the account doesn't have. (Including country code)
+        example: +1•••9•9•••9</system:String>
+    <system:String x:Key="LangKeyMakeNoteAsSpinText">Make note as spin text</system:String>
+    <system:String x:Key="LangKeyAccountActivities">Account Activities</system:String>
+    <system:String x:Key="LangKeyAccountUpdation">Account Updation</system:String>
+    <system:String x:Key="LangKeyNumOfPhotos">#Photos</system:String>
+    <system:String x:Key="LangKeyNumberOfChannelScrapePerJob">Number Of Channel Scrape Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfChannelScrapePerHour">Number Of Channel Scrape Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfChannelScrapePerDay">Number Of Channel Scrape Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfChannelScrapePerWeek">Number Of Channel Scrape Per Week</system:String>
+    <system:String x:Key="LangKeyNumberOfMaxChannelScrapePerday">Number Of MaxChannel Scrape Per day</system:String>
+    <system:String x:Key="LangKeyNumberOfSubscribesPerJob">Number Of Subscribes Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfSubscribesPerHour">Number Of Subscribes Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfSubscribesPerDay">Number Of Subscribes Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfSubscribesPerWeek">Number Of Subscribes Per Week</system:String>
+    <system:String x:Key="LangKeyMaxSubscribesPerDay">MaxSubscribes Per Day</system:String>
+    <system:String x:Key="LangKeyMaxRemoveVoteDay">Max RemoveVote Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfCommentScrapePerJob">Number Of Comment Scrape Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfCommentScrapePerHour">Number Of Comment Scrape Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfCommentScrapePerDay">Number Of Comment Scrape Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfCommentScrapePerWeek">Number Of Comment Scrape Per Week</system:String>
+    <system:String x:Key="LangKeyNumberOfMaxCommentScrapePerDay">Number Of Max Comment Scrape Per Day</system:String>
+    <system:String x:Key="LangKeyPostLoaded">Post Loaded</system:String>
+    <system:String x:Key="LangRepeatWatchingCount">Repeat Watching Count</system:String>
+    <system:String x:Key="LangKeyBrowserOption">Browser Option</system:String>
+    <system:String x:Key="LangKeyBrowserVisibility">Browser Visibility</system:String>
+    <system:String x:Key="LangKeyHidden">Hidden</system:String>
+    <system:String x:Key="LangKeyVisible">Visible</system:String>
+    <system:String x:Key="LangKeyDisableAccount">Account Disable</system:String>
+    <system:String x:Key="LangKeySendMessageToFanpages">Send Message To Fanpages</system:String>
+    <system:String x:Key="LangKeyLocationDistance">Location Distance</system:String>
+    <system:String x:Key="LangKeyOnlySortBy">Sort By</system:String>
+    <system:String x:Key="LangKeySubCategory">Sub Category</system:String>
+    <system:String x:Key="LangKeyOnlyShowFreeListings">Only Show Free Listings</system:String>
+    <system:String x:Key="LangKeyOnlyScrapItemsWithPriceRangeBetween">Scrap Items With Price Range Between</system:String>
+    <system:String x:Key="LangKeyTwoKilometers">Two Kilometers</system:String>
+    <system:String x:Key="LangKeyFiveKilometers">Five Kilometers</system:String>
+    <system:String x:Key="LangKeyTenKilometers">Ten Kilometers</system:String>
+    <system:String x:Key="LangKeyTwentyKilometers">Twenty Kilometers</system:String>
+    <system:String x:Key="LangKeyFortyKilometers">Forty Kilometers</system:String>
+    <system:String x:Key="LangKeySixtyKilometers">Sixty Kilometers</system:String>
+    <system:String x:Key="LangKeyEightyKilometers">Eighty Kilometers</system:String>
+    <system:String x:Key="LangKeyHundredKilometers">Hundred Kilometers</system:String>
+    <system:String x:Key="LangKeyMarketplaceScraper">Marketplace Scraper</system:String>
+    <system:String x:Key="LangKeyAllMarketplace">All Marketplace</system:String>
+    <system:String x:Key="LangKeyVehicles">Vehicles</system:String>
+    <system:String x:Key="LangKeyHomeAndGarden">Home And Garden</system:String>
+    <system:String x:Key="LangKeyHousing">Housing</system:String>
+    <system:String x:Key="LangKeyClothingAndAccessories">Clothing And Accessories</system:String>
+    <system:String x:Key="LangKeyFamily">Family</system:String>
+    <system:String x:Key="LangKeyHobbies">Hobbies</system:String>
+    <system:String x:Key="LangKeyClassifieds">Classifieds</system:String>
+    <system:String x:Key="LAngKeyDeals">Deals</system:String>
+    <system:String x:Key="LangKeyElectronics">Electronics</system:String>
+    <system:String x:Key="LangKeyPublishPostsThatHaveMaximum">Publish Posts That Have Maximum</system:String>
+    <system:String x:Key="LangKeyRecommended">Recommended</system:String>
+    <system:String x:Key="LangKeyNewest">Newest</system:String>
+    <system:String x:Key="LangKeyPriceLowToHigh">Price Low To High</system:String>
+    <system:String x:Key="LangKeyPriceHighToLow">Price High To Low</system:String>
+    <system:String x:Key="LangKeyMustHaveEmailIdAndPhoneNO">User Must Have Email-Id And PhoneNo</system:String>
+    <system:String x:Key="LangRunEveryday">Run Everyday</system:String>
+    <system:String x:Key="LangKeyAfterMinutes">After Minutes</system:String>
+    <system:String x:Key="LangKeySociopublisherCampaign">Sociopublisher Campaign</system:String>
+    <system:String x:Key="LangKeySociopublisherDestination">Sociopublisher Destination</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedsettingsforGooglePlush">Sociopublisher Advanced settings for Google+</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedGeneralSettings">Sociopublisher Advanced General Settings</system:String>
+    <system:String x:Key="LangKeySociopublisherAdvancedSettingsforTwitter">Sociopublisher Advanced Settings for Twitter</system:String>
+    <system:String x:Key="LangKeyCopySelected">Copy Selected</system:String>
+    <system:String x:Key="LangKeyRepinUpto">Repin up to</system:String>
+    <system:String x:Key="LangKeyBoardsFromAPin">Boards from a pin</system:String>
+    <system:String x:Key="LangKeyInvalidSecurityCode">Invalid Security Code</system:String>
+    <system:String x:Key="LangKeySelectAllAccountsAndBoards">Select all accounts and boards</system:String>
+    <system:String x:Key="LangKeyMakeMessageAsSpinText">Make message as spin text</system:String>
+    <system:String x:Key="LangKeyOwnFriends">Own Friends</system:String>
+    <system:String x:Key="LangKeyUserAgeShouldBeBetween">User's Age Should Be Between</system:String>
+    <system:String x:Key="LangKeyYears">Years</system:String>
+    <system:String x:Key="LangKeyAdminsAndModerators">Admins And Moderators</system:String>
+    <system:String x:Key="LangKeyMembersWithThingsInCommon">Members With Things In Common</system:String>
+    <system:String x:Key="LangKeyLocalMembers">Local Members</system:String>
+    <system:String x:Key="LangKeyAllMembers">All Members</system:String>
+    <system:String x:Key="LangKeyGroupMemberCategory">Group Member Category</system:String>
+    <system:String x:Key="LangKeySkipAd">Skip Ad</system:String>
+    <system:String x:Key="LangKeyExportReport">Export Report</system:String>
+    <system:String x:Key="LangKeyUpdateAutoVerifyCredential">Update Auto Verify Credential</system:String>
+    <system:String x:Key="LangKeyDeSelectPagesBoardsAll">DeSelect Pages/Boards(All)</system:String>
+    <system:String x:Key="LangKeyDeSelectGroupsAll">DeSelect Groups(All)</system:String>
+    <system:String x:Key="LangKeyDeSelectWallsProfilesAll">DeSelect Walls/Profiles(All)</system:String>
+    <system:String x:Key="LangKeyTaggedPost">Someone Tagged Post</system:String>
+    <system:String x:Key="LangKeyAcceptFollowRequest">Accept Follow Request (only for Private Account)</system:String>
+    <system:String x:Key="LangKeyMessageShouldHaveBeenSentBefore">Message Should Have Been Sent Before</system:String>
+    <system:String x:Key="LangKeyRunAllActivityThroughBrowser">Run All Activity Through Browser.</system:String>
+    <system:String x:Key="LangKeySalesNavigatorSearchUrl">Sales Navigator SearchUrl</system:String>
+    <system:String x:Key="LangKeySendPinAsAMessage">Send Pin As A Message</system:String>
+    <system:String x:Key="LangKeyMustNotContainSpecificWordsInBio">Must Not Contain Specific Words in Bio</system:String>
+    <system:String x:Key="LangKeySecondsBetweenPostLike">Seconds between Post Like</system:String>
+    <system:String x:Key="LangKeySecondsBetweenPostComment">Seconds between Post Comment</system:String>
+    <system:String x:Key="LangKeyEnableScrapeDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram">Enable Scrape Different Users Across All Instagram Accounts Configured In Instagram</system:String>
+    <system:String x:Key="LangKeyNoOfPostForCommentAndLikeCount">No of post for Comment and Like Count</system:String>
+    <system:String x:Key="LangKeyMessageFanpagesTextFormat" xml:space="preserve"> Format: &lt;PageName&gt;, &lt;MYNAME&gt;, &lt;MYFIRSTNAME&gt;       
+    Note: The following tokens are replaced with user info.</system:String>
+    <system:String x:Key="LangKeyPostsOfOneEntity" >Posts of each entity (Page/Group/User)</system:String>
+    <system:String x:Key="LangKeyKeywordPages">Keyword Pages</system:String>
+    <system:String x:Key="LangKeyKeywordPlaces">Keyword Places</system:String>
+    <system:String x:Key="LangKeyPlaceScraper">Place Scraper</system:String>
+    <system:String x:Key="LangKeySendMessageToPlaces">Send Message To Places</system:String>
+    <system:String x:Key="LangKeyPlaceFilter">Place Filter</system:String>
+    <system:String x:Key="LangKeyOpenNow">Open Now</system:String>
+    <system:String x:Key="LangKeyVisitedByFriends">Visited By Friends</system:String>
+    <system:String x:Key="LangKeyPriceRange">Price Range</system:String>
+    <system:String x:Key="LangKeyAllow">Allow</system:String>
+    <system:String x:Key="LangKeyRandomCommentsOnEachPost">Random Comments On Each Post</system:String>
+    <system:String x:Key="LangUseUniqueFeatureAs">Use Unique Feature</system:String>
+    <system:String x:Key="LangCampaignWise">Campaign wise</system:String>
+    <system:String x:Key="LangAccountWise">Account wise</system:String>
+    <system:String x:Key="LangReplyForCommentId">Comment as reply to a specific commentId</system:String>
+    <system:String x:Key="LangKeyImportUsers">Import Users</system:String>
+    <system:String x:Key="LangKeyExportUsers">Export Users</system:String>
+    <system:String x:Key="LangKeyManageEventCreater">Manage Event Create</system:String>
+    <system:String x:Key="LangKeyEventCreater">Event Creater</system:String>
+    <system:String x:Key="LangKeyCreatePrivateEvent">Create Private Event</system:String>
+    <system:String x:Key="LangKeyCreatePublicEvent">Create Public Event</system:String>
+    <system:String x:Key="LangKeyGuestCanInviteFriends">Guests can invite friends</system:String>
+    <system:String x:Key="LangKeyShowGuestList">Show guest list</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfEventsPerJob">Create Number Of Events Per Job</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfEventsPerHour">Create Number Of Events Per Hour</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfEventsPerDay">Create Number Of Events Per Day</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfMaximumEventsPerDay">Create Number Of Maximum Events Per Day</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfEventsPerWeek">Create Number Of Events Per Week</system:String>
+    <system:String x:Key="LangKeyEventList">Events List</system:String>
+    <system:String x:Key="LangKeyAddEventToList">Add Event To List</system:String>
+    <system:String x:Key="LangKeyEventType">Event Type</system:String>
+    <system:String x:Key="LangKeyFacebookCreater">Fb Creaters</system:String>
+    <system:String x:Key="LangKeyUploadPostDetails">Upload Post Details</system:String>
+    <system:String x:Key="LangKeyUseOriginalPostDetails">Use Original Post Details</system:String>
+    <system:String x:Key="LangKeyUseOwnPostDetails">Use Own Post Details</system:String>
+    <system:String x:Key="LangKeyTypeBoardNameToSelectWhichContains">Type Board Name To Select Which Contains</system:String>
 </ResourceDictionary>

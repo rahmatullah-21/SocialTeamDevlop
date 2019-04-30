@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -10,6 +7,11 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -18,10 +20,12 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AddOrUpdateProxyControl : UserControl
     {
+        private readonly IProxyFileManager _proxyFileManager;
         public ProxyManagerModel ProxyManagerModel { get; set; }
         private ProxyManagerViewModel ProxyManagerViewModel { get; set; }
         public AddOrUpdateProxyControl(ProxyManagerViewModel ProxyManagerViewModel)
         {
+            _proxyFileManager = ServiceLocator.Current.GetInstance<IProxyFileManager>();
             InitializeComponent();
             this.ProxyManagerViewModel = ProxyManagerViewModel;
             ProxyManagerModel = new ProxyManagerModel();
@@ -44,33 +48,30 @@ namespace DominatorUIUtility.CustomControl
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-
             try
             {
-                var proxyById = ProxyFileManager.GetProxyById(ProxyManagerModel.AccountProxy.ProxyId);
-                if (proxyById != null && !string.IsNullOrEmpty(proxyById.AccountProxy.ProxyId))
-                {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Proxy Warning",
-                        $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
-                    return;
-                }
                 foreach (var proxy in ProxyManagerViewModel.LstProxyManagerModel)
                 {
+                    if (ProxyManagerModel.AccountProxy.ProxyName.Equals(proxy.AccountProxy.ProxyName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        Dialog.ShowDialog("Proxy Warning", $"Proxy with name {ProxyManagerModel.AccountProxy.ProxyName} already exist.");
+                        return;
+                    }
                     if (ProxyManagerModel.AccountProxy.ProxyIp == proxy.AccountProxy.ProxyIp
                       && ProxyManagerModel.AccountProxy.ProxyPort == proxy.AccountProxy.ProxyPort)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Proxy Warning", "Proxy already exist !!!");
+                        Dialog.ShowDialog("Proxy Warning", "Proxy already exist !!!");
                         return;
                     }
-
                 }
-                
+
                 if (ProxyManagerViewModel.IsAllProxySelected)
                     ProxyManagerModel.IsProxySelected = true;
                 if (string.IsNullOrEmpty(ProxyManagerModel.AccountProxy.ProxyName))
                     ProxyManagerModel.AccountProxy.ProxyName = $"Proxy {ProxyManagerModel.AccountProxy.ProxyIp.Replace(".", "")}{ProxyManagerModel.AccountProxy.ProxyPort}";
-                ProxyFileManager.SaveProxy(ProxyManagerModel);
+                _proxyFileManager.SaveProxy(ProxyManagerModel);
                 ProxyManagerViewModel.LstProxyManagerModel.Add(ProxyManagerModel);
+                ProxyManagerViewModel.AddGroup(ProxyManagerModel);
                 ProxyManagerModel.Index = ProxyManagerViewModel.LstProxyManagerModel.IndexOf(ProxyManagerModel) + 1;
                 GlobusLogHelper.log.Info(Log.Added, SocialNetworks.Social, ProxyManagerModel.AccountProxy.ProxyIp + " : " +
                                                                            ProxyManagerModel.AccountProxy.ProxyPort, "LangKeyProxy".FromResourceDictionary());
@@ -80,7 +81,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
     }
 }

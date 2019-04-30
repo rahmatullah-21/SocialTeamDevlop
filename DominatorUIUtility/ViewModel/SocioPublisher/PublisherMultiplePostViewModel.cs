@@ -33,6 +33,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void StopLoadingPost(object sender)
         {
+            IsProgressVisibile = Visibility.Collapsed;
+            IsProgressActive = false;
             IsStopLoadingPost = true;
         }
 
@@ -72,7 +74,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             set { SetProperty(ref _isProgressVisibile, value); }
         }
 
-        private ObservableCollection<PostDetailsModel> _lstPostDetailsModel;
+        private ObservableCollection<PostDetailsModel> _lstPostDetailsModel = new ObservableCollection<PostDetailsModel>();
 
         public ObservableCollection<PostDetailsModel> LstPostDetailsModel
         {
@@ -119,10 +121,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PostDetailsId = Utilities.GetGuid()
             };
 
-            LstPostDetailsModel.Add(postDetailsModel);
 
-            PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
-                .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                LstPostDetailsModel.Add(postDetailsModel);
+                PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel);
+                PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel
+                    .PublisherCreateCampaignModel.LstPostDetailsModels = LstPostDetailsModel;
+            });
+
         }
 
 
@@ -232,7 +239,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var content = sender as string;
                 if (content == "DeleteAll")
-                    LstPostDetailsModel.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() => LstPostDetailsModel.Clear()));
                 else
                 {
                     try
@@ -245,7 +252,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ex.DebugLog();
                     }
                 }
-
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                        PostListsCollectionView = CollectionViewSource.GetDefaultView(LstPostDetailsModel)));
             }
             catch (Exception ex)
             {

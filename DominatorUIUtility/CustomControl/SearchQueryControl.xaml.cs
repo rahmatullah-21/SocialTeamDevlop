@@ -16,6 +16,8 @@ using DominatorHouseCore.LogHelper;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System.IO;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -38,6 +40,9 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyMyConnectionsPostS".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapUsersWhoMessagedUs".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapAllLikes".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyNewsFeedPosts".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyOwnFriends".FromResourceDictionary());
+
             DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
             DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);
 
@@ -198,17 +203,16 @@ namespace DominatorUIUtility.CustomControl
 
                 if (QueryCollection.Count != 0)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
-                           "Queries are ready to add !!");
-                    GlobusLogHelper.log.Info("Query sucessfully uploaded !!");
+                    Dialog.ShowDialog("Info", "Queries are ready to add !!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "Query sucessfully uploaded !!");
                 }
                 else
-                    GlobusLogHelper.log.Info("You did not upload any query !!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "You did not upload any query !!");
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
-                GlobusLogHelper.log.Info("There is error in uploading query !!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "There is error in uploading query !!");
             }
 
             GetQueryClickEventHandler();
@@ -251,16 +255,11 @@ namespace DominatorUIUtility.CustomControl
             add { AddHandler(AddQueryEvent, value); }
             remove { RemoveHandler(AddQueryEvent, value); }
         }
-
-
-
         void AddQueryEventHandler()
         {
             var routedEventArgs = new RoutedEventArgs(AddQueryEvent);
             RaiseEvent(routedEventArgs);
         }
-
-
 
         private static readonly DependencyProperty AddQueryCommandProperty
             = DependencyProperty.Register("AddQueryCommand", typeof(ICommand), typeof(SearchQueryControl));
@@ -388,33 +387,6 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void DeleteMultiple(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                if (IsAllQuerySelected)
-                {
-                    QueryCollection.Clear();
-                    ListQueryInfo.Clear();
-                    IsAllQuerySelected = false;
-                    return;
-                }
-                foreach (var queryInfo in ListQueryInfo.ToList())
-                {
-                    if (queryInfo.IsQuerySelected)
-                    {
-                        QueryCollection.Remove(queryInfo.QueryValue);
-                        ListQueryInfo.Remove(queryInfo);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-
         private void OnQuerySelect(object sender, RoutedEventArgs e)
         {
             if (ListQueryInfo.All(x => x.IsQuerySelected))
@@ -444,8 +416,7 @@ namespace DominatorUIUtility.CustomControl
                 OnPropertyChanged(nameof(IsEnable));
             }
         }
-
-
+        public ActivityType ActivityType { get; set; }
 
         public ICommand CustomFilterCommand
         {
@@ -466,10 +437,12 @@ namespace DominatorUIUtility.CustomControl
                 {
                     CurrentQuery.QueryValue = "NA";
                     IsEnable = false;
+                    BtnImportQuery.IsEnabled = false;
                 }
                 else
                 {
                     IsEnable = true;
+                    BtnImportQuery.IsEnabled = true;
                     CurrentQuery.QueryValue = string.Empty;
                 }
 
@@ -479,7 +452,6 @@ namespace DominatorUIUtility.CustomControl
                 Console.WriteLine(ex.Message);
             }
         }
-
 
         public ICommand DeleteQueryCommand
         {
@@ -508,8 +480,6 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
-
-
 
         public ICommand DeleteMulipleCommand
         {
@@ -560,7 +530,7 @@ namespace DominatorUIUtility.CustomControl
                 SaveFileDialog saveFiledialog = new SaveFileDialog
                 {
                     Filter = "CSV file (.csv)|*.csv",
-                    FileName = "Query-" + DateTimeUtilities.GetCurrentEpochTime(DateTime.Now)
+                    FileName = SocinatorInitialize.ActiveSocialNetwork + "-" + ActivityType.ToString() + "-Query-" + DateTimeUtilities.GetCurrentEpochTime(DateTime.Now)
                 };
 
                 if (saveFiledialog.ShowDialog() == true)
@@ -572,7 +542,7 @@ namespace DominatorUIUtility.CustomControl
                         {
                             if (x.IsQuerySelected)
                             {
-                                streamWriter.WriteLine(x.QueryType + "," + x.QueryValue);
+                                streamWriter.WriteLine(SocinatorInitialize.ActiveSocialNetwork + "," + ActivityType.ToString() + "," + x.QueryType + "," + x.QueryValue);
                             }
 
                         });
@@ -586,6 +556,25 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+        public ICommand QuryTypeSelectionChangedCommand
+        {
+            get { return (ICommand)GetValue(QuryTypeSelectionChangedCommandProperty); }
+            set { SetValue(QuryTypeSelectionChangedCommandProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty QuryTypeSelectionChangedCommandProperty =
+            DependencyProperty.Register("QuryTypeSelectionChangedCommand", typeof(ICommand), typeof(SearchQueryControl));
+
+
+        public object SelectionChangedCommandParameter
+        {
+            get { return (object)GetValue(SelectionChangedCommandParameterProperty); }
+            set { SetValue(SelectionChangedCommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectionChangedCommandParameterProperty =
+            DependencyProperty.Register("SelectionChangedCommandParameter", typeof(object), typeof(SearchQueryControl));
 
         private void SearchQueries_OnLoaded(object sender, RoutedEventArgs e)
         {

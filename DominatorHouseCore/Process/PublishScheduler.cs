@@ -814,7 +814,7 @@ namespace DominatorHouseCore.Process
 
                 // Validate whether all destinations contains posts or not
                 if (pendingPostList.Count < postsDestinations.Count)
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required count!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required random destination count!");
 
                 #region Assigning the Posts to Destinations
 
@@ -924,7 +924,7 @@ namespace DominatorHouseCore.Process
 
                     // Validate whether all destinations contains posts or not
                     if (pendingPostList.Count < postsDestinations.Count)
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required count!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required  random destination count!");
 
                     #region Assigning the Posts to Destinations
 
@@ -1168,7 +1168,7 @@ namespace DominatorHouseCore.Process
         /// </summary>
         /// <param name="specificCampaign">Campaign Status model</param>
         /// <returns></returns>
-        private static bool ValidateCampaignsTime(PublisherCampaignStatusModel specificCampaign)
+        public static bool ValidateCampaignsTime(PublisherCampaignStatusModel specificCampaign)
         {
             var isStart = true;
 
@@ -1333,30 +1333,34 @@ namespace DominatorHouseCore.Process
         /// </summary>
         public static void ScheduleTodaysPublisher()
         {
-            // get the all campaigns which should active 
-            var campaignDetails =
-                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
-
-            // Iterate campaigns 
-            campaignDetails.ForEach(campaign =>
+            Task.Factory.StartNew(() =>
             {
-                // Validate the start and end time of the campaign
-                if (!ValidateCampaignsTime(campaign))
-                    return;
+                // get the all campaigns which should active 
+                var campaignDetails =
+                    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
 
-                // Is Rotate day has been selected
-                if (campaign.IsRotateDayChecked)
-                    // Call to start publishing
-                    SchedulePublisher(campaign);
-                else
+                // Iterate campaigns 
+                campaignDetails.ForEach(campaign =>
                 {
-                    // Check whether today is selected or not
-                    var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                    if (isCampaignSelected == null)
+                    // Validate the start and end time of the campaign
+                    if (!ValidateCampaignsTime(campaign))
                         return;
-                    // Call to start publishing
-                    SchedulePublisher(campaign);
-                }
+
+                    // Is Rotate day has been selected
+                    if (campaign.IsRotateDayChecked)
+                        // Call to start publishing
+                        SchedulePublisher(campaign);
+                    else
+                    {
+                        // Check whether today is selected or not
+                        var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                        if (isCampaignSelected == null)
+                            return;
+                        // Call to start publishing
+                        SchedulePublisher(campaign);
+                    }
+                    Thread.Sleep(2);
+                });
             });
         }
 
@@ -1419,50 +1423,50 @@ namespace DominatorHouseCore.Process
             // Iterate running times 
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             timeRange.ForEach(runningTime =>
-                {
-                    // Make start time
-                    var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
+                     {
+                         // Make start time
+                         var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
 
-                    // If start time is greater than current time
-                    if (startTime > DateTime.Now)
-                    {
-                        // Generate job name
-                        var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
+                         // If start time is greater than current time
+                         if (startTime > DateTime.Now)
+                         {
+                             // Generate job name
+                             var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
 
-                        // Add into scheduled lsit
-                        PublisherScheduledList.Add(addJobName);
+                             // Add into scheduled lsit
+                             PublisherScheduledList.Add(addJobName);
 
-                        // Add job manager
-                        JobManager.AddJob(() =>
-                        {
-                            // Call the start publishing
-                            StartPublishingPosts(campaign);
-                        }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
+                             // Add job manager
+                             JobManager.AddJob(() =>
+                                  {
+                                      // Call the start publishing
+                                      StartPublishingPosts(campaign);
+                                  }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
-                        // Get the advanced settings details of an campaigns
-                        var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+                             // Get the advanced settings details of an campaigns
+                             var advancedSettings = genericFileManager.GetModuleDetails<GeneralModel>(ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social)).FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
 
-                        // Check whether campaign destination time out options
-                        if (advancedSettings?.DestinationTimeout > 0)
-                        {
-                            // Generate the job name for stopping campaigns
-                            var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
+                             // Check whether campaign destination time out options
+                             if (advancedSettings?.DestinationTimeout > 0)
+                             {
+                                 // Generate the job name for stopping campaigns
+                                 var stopJobName = $"{campaign.CampaignId}-StopRunningDueToTimeOut";
 
-                            // Add into schedule list
-                            PublisherScheduledList.Add(stopJobName);
+                                 // Add into schedule list
+                                 PublisherScheduledList.Add(stopJobName);
 
-                            // Calculate stopping time
-                            var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
+                                 // Calculate stopping time
+                                 var stopTime = DateTime.Now.AddMinutes(advancedSettings.DestinationTimeout);
 
-                            // Add job process for stop publishing after some x minutes
-                            JobManager.AddJob(() =>
-                            {
-                                // Call stop publishing
-                                StopPublishingPosts(campaign.CampaignId);
-                            }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
-                        }
-                    }
-                });
+                                 // Add job process for stop publishing after some x minutes
+                                 JobManager.AddJob(() =>
+                                      {
+                                          // Call stop publishing
+                                          StopPublishingPosts(campaign.CampaignId);
+                                      }, s => s.WithName(stopJobName).ToRunOnceAt(stopTime));
+                             }
+                         }
+                     });
 
             #endregion
         }

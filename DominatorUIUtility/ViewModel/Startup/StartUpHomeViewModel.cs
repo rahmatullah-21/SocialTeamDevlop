@@ -1,51 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
+using System.Collections.ObjectModel;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
-    public interface IStartUpHomeViewModel
+    public interface ISelectUserTypeViewModel
     {
-
+        string SelectedUser { get; set; }
+        ObservableCollection<string> LstUserType { get; set; }
     }
-    public class StartUpHomeViewModel : BindableBase, IStartUpHomeViewModel
+    public class SelectUserTypeViewModel : BindableBase, ISelectUserTypeViewModel
     {
-        public StartUpHomeViewModel()
+        public SelectUserTypeViewModel()
         {
-
             BeginnerCommand = new DelegateCommand<object>(OnBeginnerSelect);
-
+            InitilizeUserType();
         }
-
 
         public ICommand BeginnerCommand { get; set; }
 
-        private SocialNetworks _selectedNetwork;
+        private string _selectedUser;
 
-        public SocialNetworks SelectedNetwork
+        public string SelectedUser
         {
-            get { return _selectedNetwork; }
-            set { SetProperty(ref _selectedNetwork, value); }
+            get { return _selectedUser; }
+            set { SetProperty(ref _selectedUser, value); }
         }
+        private ObservableCollection<string> _lstUserType =new ObservableCollection<string>();
 
+        public ObservableCollection<string> LstUserType
+        {
+            get { return _lstUserType ; }
+            set { SetProperty(ref _lstUserType , value); }
+        }
 
         private void OnBeginnerSelect(object sender)
         {
 
 
         }
-
+        void InitilizeUserType()
+        {
+            var networks = Enum.GetNames(typeof(UsersType));
+            networks.ForEach(network=>
+            {
+                LstUserType.Add(network);
+            });
+        }
     }
 
+   
 }

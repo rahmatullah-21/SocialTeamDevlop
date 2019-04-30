@@ -1,10 +1,6 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.IoC;
-using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,36 +13,8 @@ namespace DominatorUIUtility.CustomControl
     /// </summary>
     public partial class AddUpdateAccountControl : UserControl
     {
-        public DominatorAccountBaseModel DominatorAccountBaseModel { get; set; } = new DominatorAccountBaseModel();
-        /// <summary>
-        /// Constructor with default data context
-        /// </summary>
-        public AddUpdateAccountControl()
-        {
-            InitializeComponent();
-            foreach (var item in ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network))
-            {
-                ComboBoxSocialNetworks.Items.Add(item);
-            }
-            UserControlAddUpdateAccount.DataContext = DominatorAccountBaseModel;
-        }
+        public DominatorAccountBaseModel DominatorAccountBaseModel { get; set; }
 
-        /// <summary>
-        /// Constructor with dominatorAccountBaseModel as data context
-        /// </summary>
-        /// <param name="dominatorAccountBaseModelBinding">Pass the default values which is going to display in view page</param>
-        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding)
-        {
-            InitializeComponent();
-
-            btnSave.Content = "Save";
-            TextBlockPageTitle.Text = "Add Account";
-            CheckBoxShowAdvance.IsChecked = false;
-            GridAdvanceOption.Visibility = Visibility.Collapsed;
-
-            DominatorAccountBaseModel = dominatorAccountBaseModelBinding;
-            UserControlAddUpdateAccount.DataContext = DominatorAccountBaseModel;
-        }
 
         /// <summary>
         /// Constructor with dominatorAccountBaseModel as data context
@@ -55,14 +23,14 @@ namespace DominatorUIUtility.CustomControl
         /// <param name="title">Show the title of the user control, like Add account</param>
         /// <param name="actionButtonContent">Pass the action button content like Save</param>
         /// <param name="showAdvance">Pass true only if proxy ip contains values otherwise false</param>
-        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance, string socialNetwork)
+        public AddUpdateAccountControl(DominatorAccountBaseModel dominatorAccountBaseModelBinding, string title, string actionButtonContent, bool showAdvance,
+            SocialNetworks socialNetwork)
         {
             InitializeComponent();
 
-            if (socialNetwork == SocialNetworks.Social.ToString())
+            if (socialNetwork == SocialNetworks.Social)
             {
-
-                foreach (var item in ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network))
+                foreach (var item in SocinatorInitialize.GetRegisterNetwork())
                 {
                     if (item == SocialNetworks.Social)
                         continue;
@@ -70,11 +38,7 @@ namespace DominatorUIUtility.CustomControl
                 }
             }
             else
-            {
-                ComboBoxSocialNetworks.Items.Add((SocialNetworks)Enum.Parse(typeof(SocialNetworks), socialNetwork));
-
-                //ComboBoxSocialNetworks.Items.Add(dominatorAccountBaseModelBinding.AccountNetwork);
-            }
+                ComboBoxSocialNetworks.Items.Add(socialNetwork);
 
             btnSave.Content = !string.IsNullOrEmpty(actionButtonContent) ? actionButtonContent : "LangKeySave".FromResourceDictionary();
             TextBlockPageTitle.Text = !string.IsNullOrEmpty(title) ? title : "LangKeyAddAccount".FromResourceDictionary();
@@ -85,7 +49,6 @@ namespace DominatorUIUtility.CustomControl
             UserControlAddUpdateAccount.DataContext = DominatorAccountBaseModel;
 
         }
-
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {

@@ -1,10 +1,9 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
 using System;
 
 namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 {
-    public class InteractedUsers : Entity, IInteractedUsers
+    public class InteractedUsers : Entity
     {
         /// <summary>
         /// Contains QueryType For Interaction
@@ -52,19 +51,15 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// Contains TimeStamp when interacted with the User
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]
-        public int InteractionTimeStamp
-        {
-            get { return ((IInteractedUsers)this).InteractionDate; }
-            set { ((IInteractedUsers)this).InteractionDate = value; }
-        }
+        public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public string Username { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public DateTime InteractionDateTime { get; set; }
-
-        int IInteractedUsers.InteractionDate { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
+        public string ScrapedProfileUrl { get; set; }
 
     }
 }

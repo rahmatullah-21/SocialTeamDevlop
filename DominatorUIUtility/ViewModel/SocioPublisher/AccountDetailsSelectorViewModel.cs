@@ -135,31 +135,31 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void TextSearchExecute(object sender)
         {
-           
-                if (string.IsNullOrEmpty(TextSearch) || string.IsNullOrWhiteSpace(TextSearch))
-                    AccountDetailsSelectorView.Filter += null;
-                else
-                    AccountDetailsSelectorView.Filter += FilterByText;
-          
+
+            if (string.IsNullOrEmpty(TextSearch) || string.IsNullOrWhiteSpace(TextSearch))
+                AccountDetailsSelectorView.Filter += null;
+            else
+                AccountDetailsSelectorView.Filter += FilterByText;
+
 
         }
 
         private bool FilterByText(object sender)
         {
-                try
-                {
-                    var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
 
-                    return objAccountDetailsSelectorModel != null &&
-                           (objAccountDetailsSelectorModel.DetailName.
-                                IndexOf(TextSearch, StringComparison.InvariantCultureIgnoreCase) >= 0 ||
-                            objAccountDetailsSelectorModel.DetailUrl.
-                                IndexOf(TextSearch, StringComparison.InvariantCultureIgnoreCase) >= 0);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
+                return objAccountDetailsSelectorModel != null &&
+                       (objAccountDetailsSelectorModel.DetailName.
+                            IndexOf(TextSearch, StringComparison.InvariantCultureIgnoreCase) >= 0 ||
+                        objAccountDetailsSelectorModel.DetailUrl.
+                            IndexOf(TextSearch, StringComparison.InvariantCultureIgnoreCase) >= 0);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             return false;
         }
 
@@ -431,7 +431,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             });
             return selectedItems;
         }
-
+        public IEnumerable<KeyValuePair<string, string>> GetNonSelectedItems()
+        {
+            var selectedItems = new List<KeyValuePair<string, string>>();
+            ListAccountDetailsSelectorModels.ForEach(x =>
+            {
+                if (!x.IsSelected)
+                    selectedItems.Add(new KeyValuePair<string, string>(x.AccountId, x.DetailUrl));
+            });
+            return selectedItems;
+        }
         public IEnumerable<PublisherDestinationDetailsModel> GetSelectedItemsDestinations(string destinationType)
         {
             var selectedDestinations = new List<PublisherDestinationDetailsModel>();
@@ -441,13 +450,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (x.IsSelected)
                     selectedDestinations.Add(new PublisherDestinationDetailsModel
                     {
-                        AccountId = x.AccountId ,
+                        AccountId = x.AccountId,
                         DestinationType = destinationType,
                         DestinationUrl = x.DetailUrl,
                         SocialNetworks = x.Network,
                         PublisherPostlistModel = new PublisherPostlistModel(),
                         DestinationGuid = Utilities.GetGuid(),
-                        AccountName = x.AccountName                                              
+                        AccountName = x.AccountName
                     });
             });
 

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using DominatorHouseCore.DatabaseHandler.Utility;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Unity;
 
@@ -21,6 +22,12 @@ namespace DominatorHouseCore.IntegrationTests
         {
             foreach (var containerRegistration in _sut.Registrations)
             {
+                if (containerRegistration.RegisteredType == typeof(IDbOperations))
+                {
+                    // skip it because it resolves with string parameter
+                    continue;
+                }
+
                 if (string.IsNullOrWhiteSpace(containerRegistration.Name))
                 {
                     var aService = _sut.Resolve(containerRegistration.RegisteredType);

@@ -16,8 +16,6 @@ namespace DominatorHouseCore.Models
         private string _proxyUsername;
         private string _proxyPassword;
 
-
-
         public Proxy()
         {
             HasCredentials = false;
@@ -25,15 +23,15 @@ namespace DominatorHouseCore.Models
             ProxyId = Utilities.GetGuid();
         }
 
+        #region Properties
+
         [ProtoMember(10)]
         public string ProxyId { get; set; }
         [ProtoMember(5)]
-        public bool HasCredentials { get; private set; }
-
+        public bool HasCredentials { get; set; }
 
         [ProtoMember(6)]
         public bool HasProxy { get; private set; }
-
 
         [ProtoMember(1)]
         public string ProxyIp
@@ -50,8 +48,6 @@ namespace DominatorHouseCore.Models
             }
         }
 
-
-
         [ProtoMember(2)]
         public string ProxyPort
         {
@@ -67,7 +63,6 @@ namespace DominatorHouseCore.Models
             }
         }
 
-
         [ProtoMember(4)]
         public string ProxyPassword
         {
@@ -82,8 +77,6 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _proxyPassword, value);
             }
         }
-
-
 
         [ProtoMember(3)]
         public string ProxyUsername
@@ -133,7 +126,9 @@ namespace DominatorHouseCore.Models
             }
         }
 
-      
+        #endregion
+
+        #region Methods
 
         public void SetProxyCredentials(string proxyUsername, string proxyPassword)
         {
@@ -141,7 +136,6 @@ namespace DominatorHouseCore.Models
             ProxyPassword = proxyPassword;
             HasCredentials = true;
         }
-
         public string GetProxy()
         {
             if (!string.IsNullOrWhiteSpace(ProxyIp))
@@ -149,12 +143,9 @@ namespace DominatorHouseCore.Models
 
             return Resources.UserAccountEditPasswordNotValue;
         }
-
-
-        // ReSharper disable once UnusedMember.Global
-        public bool TestProxy()
+        public bool CheckProxy()
         {
-            if (ProxyIp == null && ProxyPort == null)
+            if (ProxyIp == null || ProxyPort == null)
                 throw new ArgumentException("Need to set proxies first");
             try
             {
@@ -173,23 +164,24 @@ namespace DominatorHouseCore.Models
                 return false;
             }
         }
-
-
         public static bool IsValidProxy(string ip, string port)
         {
             return Regex.IsMatch(ip + ":" + port, "^\\d{1,3}(\\.\\d{1,3}){3}:\\d{1,5}$");
         }
-
-
         public static bool IsValidProxyIp(string proxyAddress)
         {
-            return ProxyIpValidationRegex.IsMatch(proxyAddress);
+            return ProxyIpValidationRegex.IsMatch(proxyAddress) || IsLuminatiProxy(proxyAddress);
         }
-
+        public static bool IsLuminatiProxy(string proxyAddress)
+        {
+            return proxyAddress.Contains("zproxy.lum-superproxy.io");
+        }
         public static bool IsValidProxyPort(string proxyPort)
         {
             return ProxyPortValidationRegex.IsMatch(proxyPort);
-        }
+        } 
+
+        #endregion
 
         private class WebClientExtended : WebClient
         {

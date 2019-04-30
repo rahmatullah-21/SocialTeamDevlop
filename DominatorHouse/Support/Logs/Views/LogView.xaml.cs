@@ -2,6 +2,8 @@
 using DominatorHouseCore.ViewModel;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
+using Dragablz;
 
 namespace DominatorHouse.Support.Logs.Views
 {
@@ -46,6 +48,14 @@ namespace DominatorHouse.Support.Logs.Views
         public LogView()
         {
             InitializeComponent();
+        }
+
+        private void TabSelectionChange(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedTab = (sender as TabablzControl)?.SelectedItem as TabItem;
+            var header = selectedTab?.Header;
+            if (header != null && ViewModel != null)
+                ViewModel.LogType = header?.ToString();
         }
     }
 }

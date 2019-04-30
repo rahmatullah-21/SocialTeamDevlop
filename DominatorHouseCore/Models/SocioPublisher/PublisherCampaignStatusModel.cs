@@ -178,7 +178,17 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(EndDate));
             }
         }
-
+        private bool _isDelayPostChecked;
+        [ProtoMember(35)]
+        public bool IsDelayPostChecked
+        {
+            get { return _isDelayPostChecked; }
+            set
+            {
+                _isDelayPostChecked = value;
+                OnPropertyChanged(nameof(IsDelayPostChecked));
+            }
+        }
 
         #region Job Scheduling
 
@@ -248,7 +258,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             CampaignName = $"{name}-clone-{ConstantVariable.GetHourDateTime()}";
             CampaignId = Utilities.GetGuid();
-            CreatedDate = DateTime.Now;            
+            CreatedDate = DateTime.Now;
             IsSelected = false;
             UpdatedTime = DateTime.Now;
         }

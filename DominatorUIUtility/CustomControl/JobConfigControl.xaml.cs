@@ -15,6 +15,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace DominatorUIUtility.CustomControl
@@ -28,6 +29,7 @@ namespace DominatorUIUtility.CustomControl
         public JobConfigControl()
         {
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+
             InitializeComponent();
             MainGrid.DataContext = this;
             InitilizeFavoriteTime();
@@ -53,7 +55,8 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty JobConfigurationProperty =
             DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(JobConfigControl), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
             {
-                BindsTwoWayByDefault = true
+                BindsTwoWayByDefault = true,
+                DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
 
 
@@ -219,13 +222,13 @@ namespace DominatorUIUtility.CustomControl
 
                         }
                     }
-                    else if(favoriteTimeName==null)
+                    else if (favoriteTimeName == null)
                         break;
                     else
                     {
                         var result = Dialog.ShowCustomDialog("Error", "Favorite Time should not empty.\nPlease type some name.", "Ok", "Cancel");
                         if (result == MessageDialogResult.Affirmative)
-                        continue;
+                            continue;
                         break;
                     }
                 }
@@ -276,8 +279,8 @@ namespace DominatorUIUtility.CustomControl
         private void JobConfigControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitilizeFavoriteTime();
-            if (!IsSelectionChangedExecute)
-                Selector_OnSelectionChanged(Speed, null);
+            //if (!IsSelectionChangedExecute)
+            Selector_OnSelectionChanged(Speed, null);
             IsSelectionChangedExecute = false;
         }
 

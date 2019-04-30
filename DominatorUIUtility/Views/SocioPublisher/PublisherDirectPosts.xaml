@@ -49,9 +49,9 @@
 
 
             </StackPanel>
-            
-           
-           
+
+
+
         </StackPanel>
 
         <StackPanel Margin="0,10,0,0">
@@ -113,13 +113,24 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
+
+                    <customControl:PostContent  x:Name="PostTitle"
+                                                PublisherInstagramTitle="{Binding PostDetailsModel.PublisherInstagramTitle, Mode=TwoWay}"
+                                                IsImportOptionsVisibility ="Visible" IsImportPostTitleOptionVisibility="Visible"
+                                                IsClearPostTitleOptionVisibility="Visible" 
+                                                IsSourceUrlAndFdSellPostVisible="Collapsed" 
+                                                IsMediaVisibility="Collapsed" IsPostTitleOptionVisibility="Collapsed"
+                                                PostTitleHeight="80"  
+                                                IsRemoveTitleOnceUsed="{Binding PostDetailsModel.IsRemoveTitleOnceUsed, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                IsRandomlyPickTitleFromList="{Binding PostDetailsModel.IsRandomlyPickTitleFromList, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
                     <CheckBox Name="CheckBoxUniquePost" Margin="2" Content="{DynamicResource LangKeyAddOnlyUniquePost}"
                                   IsChecked="{Binding PostDetailsModel.IsUniquePost}"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Name="TextBlockUploadUrl" VerticalAlignment="Center" Margin="2" Text="{DynamicResource LangKeyUploadFromUrl}" />
                         <TextBox Name="TextBoxGetImages" Width="180" Height="25" Text="{Binding PostDetailsModel.ImagesUrl, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                      Style="{StaticResource SearchMetroTextBox}" control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}" control:TextBoxHelper.ButtonCommandParameter="{Binding ElementName=ImageMediaViewer}"/>
-                       
+
                     </StackPanel>
                 </StackPanel>
 

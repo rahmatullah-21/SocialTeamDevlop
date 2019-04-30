@@ -20,7 +20,8 @@ namespace DominatorHouse.IoC
             Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
 
             Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
-            Container.RegisterSingleton<IStartUpHomeViewModel, StartUpHomeViewModel>();
+            Container.RegisterSingleton<ISelectUserTypeViewModel, SelectUserTypeViewModel>();
+            Container.RegisterSingleton<ISelectNetworkViewModel, SelectNetworkViewModel>();
             //Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
             Container.RegisterSingleton<ISaveSettingViewModel, SaveSettingViewModel>();
 

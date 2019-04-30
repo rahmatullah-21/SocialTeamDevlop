@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace DominatorHouseCore.Converters
             var filterByGroup = values[3] as bool?;
             var group = values[4] as string;
             var filter = values[5] as string;
+            var IsAllProxySelected = values[6] as bool?;
 
             if (collection != null)
             {
@@ -31,7 +33,6 @@ namespace DominatorHouseCore.Converters
 
                 if (shouldUnssignedProxies ?? false)
                 {
-
                     collection = collection.Where(a =>
                         a.AccountsAssignedto.Count == 0);
                 }
@@ -47,6 +48,13 @@ namespace DominatorHouseCore.Converters
                     collection = collection.Where(a => a.AccountProxy.ProxyIp.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0
                                                        || a.AccountProxy.ProxyName.IndexOf(filter, StringComparison.InvariantCultureIgnoreCase) >= 0);
                 }
+            }
+
+            if (collection != null)
+            {
+                collection = new ObservableCollection<ProxyManagerModel>(collection);
+                if (IsAllProxySelected ?? false)
+                    collection.Select(x => { x.IsProxySelected = IsAllProxySelected ?? false; return x; }).ToList();
             }
 
             return collection;

@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"             
-             mc:Ignorable="d">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" Name="QueryControl"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -12,7 +14,7 @@
 
     <Grid Name="MainGrid">
 
-        <Expander  FontWeight="Bold" BorderThickness="2" Header="{DynamicResource LangKeySearchQuery}" Foreground="White" IsExpanded="{Binding IsExpanded}" Margin="5">
+        <!--<Expander  FontWeight="Bold" BorderThickness="2" Header="{DynamicResource LangKeySearchQuery}" Foreground="White" IsExpanded="{Binding IsExpanded}" Margin="5">-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="51*"/>
@@ -25,7 +27,14 @@
                             <Label   VerticalAlignment="Top"  Content="{DynamicResource LangKeyQueryType}" HorizontalAlignment="Right" Height="25"/>
                             <ComboBox  ItemsSource="{Binding ListQueryType}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                       SelectedIndex="{Binding SelectedIndex}" SelectionChanged="ComboBox_SelectionChanged"
-                                       SelectedItem="{Binding CurrentQuery.QueryType,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                       SelectedItem="{Binding CurrentQuery.QueryType,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged" >
+                                        <i:InvokeCommandAction Command="{Binding QuryTypeSelectionChangedCommand,ElementName=QueryControl}" CommandParameter="{Binding SelectionChangedCommandParameter,ElementName=QueryControl}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                            </ComboBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="30,10,0,0">
                             <Label VerticalAlignment="Top" Content="{DynamicResource LangKeyQuery}" Height="25"/>
@@ -37,7 +46,18 @@
                                 </TextBox.InputBindings>
                             </TextBox>
                             <StackPanel Orientation="Horizontal">
-                                <Button Name="BtnImportQuery"  Foreground="White"  Background="{DynamicResource AccentBaseColorBrush}"  Height="25" Width="40" VerticalAlignment="Top" Margin="10,0" ToolTip="Import From csv/txt file" Click="BtnImportQuery_OnClick" >
+                                <Button Name="BtnImportQuery"  Foreground="White"  
+                                        Height="25" Width="40" VerticalAlignment="Top" Margin="10,0" ToolTip="Import From csv/txt file" Click="BtnImportQuery_OnClick">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                            <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="Control.Background" Value="Gray" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
                                             <Rectangle.OpacityMask>
@@ -46,7 +66,6 @@
                                         </Rectangle>
                                     </StackPanel>
                                 </Button>
-
                             </StackPanel>
 
                             <CheckBox  Content="{DynamicResource LangKeyCustomFilters}" Visibility="Collapsed" VerticalAlignment="Top"  Name="chkCustomFilters" Height="25" IsChecked="{Binding CurrentQuery.IsCustomFilterSelected}"/>
@@ -161,6 +180,6 @@
                     </GroupBox>
                 </Grid>
             </Grid>
-        </Expander>
+        <!--</Expander>-->
     </Grid>
 </UserControl>

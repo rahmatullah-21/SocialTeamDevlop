@@ -73,7 +73,7 @@ namespace DominatorUIUtility.CustomControl
                 editMessage.MainGrid.Margin = new Thickness(20);
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(editMessage, "Edit Message");
-                window.Show();
+                window.ShowDialog();
                 window.Closed += (s, evnt) =>
                 {
                      if (editMessage.Isupdated)

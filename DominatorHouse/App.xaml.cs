@@ -2,6 +2,7 @@
 using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
 using DominatorHouseCore;
+using DominatorUIUtility.Behaviours;
 using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -9,8 +10,6 @@ using Prism.Unity;
 using System;
 using System.Threading;
 using System.Windows;
-using System.Windows.Forms;
-using DominatorHouseCore.Utility;
 using Unity;
 using Unity.Interception.ContainerIntegration;
 using MessageBox = System.Windows.MessageBox;
@@ -28,7 +27,11 @@ namespace Socinator
         //    var boostrapper = new Bootstrapper();
         //    boostrapper.Run();
         //}
-
+        public void CheckAllforExpand(object sender, RoutedEventArgs e)
+        {
+            HeaderHelper.UpdateToggleButtonInCampaignMode?.Invoke();
+            HeaderHelper.UpdateToggleButtonInAccountActivityMode?.Invoke();
+        }
         protected override Window CreateShell()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -40,6 +43,8 @@ namespace Socinator
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            var ex = e.ExceptionObject as Exception;
+            ex.DebugLog();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -47,7 +52,7 @@ namespace Socinator
             if (IsAlreadyRunning())
             {
                 MessageBox.Show("Socinator already running.", "Warnning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                Environment.Exit(0);
             }
             var container = containerRegistry.GetContainer();
             container.AddNewExtension<Interception>();

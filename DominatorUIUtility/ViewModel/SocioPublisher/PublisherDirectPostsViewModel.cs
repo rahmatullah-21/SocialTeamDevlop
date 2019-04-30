@@ -18,6 +18,7 @@ using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.SocioPublisher;
 using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using DominatorHouseCore.Enums;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -32,7 +33,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             MultiplePostCommand = new BaseCommand<object>(CanExecuteMultiPost, ExecuteMultiPost);
             ImportFromCsvCommand = new BaseCommand<object>(ImportFromCsvCanExecute, ImportFromCsvExecute);
             SearchCommand = new BaseCommand<object>(SearchCanExecute, SearchExecute);
-            SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, CanSaveSinglePost);
+            SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, SavePost);
             UploadDescriptionCommand = new BaseCommand<object>((sender) => true, UploadDescription);
             LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
             BindingOperations.EnableCollectionSynchronization(LstPostDetailsModels, _lock);
@@ -154,10 +155,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// Save the post list
         /// </summary>
         /// <param name="sender"></param>
-        public void CanSaveSinglePost(object sender)
+        public void SavePost(object sender)
         {
             var saveLocation = sender as string;
-
+            var status = saveLocation == "SaveToPending" ? PostQueuedStatus.Pending : PostQueuedStatus.Draft;
             try
             {
                 // Get the create campaign Post list model
@@ -173,10 +174,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #region Single Post
 
                 // Single Posts save post
-                if (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
+                if (PostDetailsModel.IsSinglePost && (!string.IsNullOrEmpty(PostDetailsModel.PostDescription) ||
                             PostDetailsModel.MediaViewer.MediaList.Count > 0 ||
                             !string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle) ||
-                            !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl))
+                            !string.IsNullOrEmpty(PostDetailsModel.PdSourceUrl)))
                 {
                     isLoggerNeeded = true;
 
@@ -190,13 +191,62 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     cloneObject.PostDetailsId = Utilities.GetGuid();
 
                     // Post Queued status
-                    cloneObject.PostQueuedStatus = saveLocation == "SaveToPending"
-                        ? PostQueuedStatus.Pending
-                        : PostQueuedStatus.Draft;
+                    cloneObject.PostQueuedStatus = status;
 
                     // Adding to post collections
                     postCollectionDetails.Add(cloneObject);
+                }
 
+
+                #endregion
+
+                #region Multiple Post
+
+                // Check whether multiple posts and image posts contains posts or not
+                if (PostDetailsModel.IsMultiPost && createCampaignModel.LstPostDetailsModels.Count > 0)
+                {
+                    // Iterate the Multiple posts 
+                    createCampaignModel.LstPostDetailsModels.ForEach(post =>
+                    {
+                        post.PostQueuedStatus = status;
+                        // Add to Post Collections 
+                        postCollectionDetails.Add(post);
+                    });
+                    isLoggerNeeded = true;
+                }
+
+                #endregion
+
+                #region Multiple Images post
+
+                if (PostDetailsModel.IsMultipleImagePost && createCampaignModel.LstMultipleImagePostCollection.Count > 0)
+                {
+                    List<string> LstTitle = new List<string>();
+                    if (!string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle))
+                    {
+                        LstTitle = PostDetailsModel.PublisherInstagramTitle.Split('\n').ToList();
+                    }
+                    // Iterate the Multiple image posts
+                    createCampaignModel.LstMultipleImagePostCollection.ForEach(post =>
+                    {
+                        post.PostQueuedStatus = saveLocation == "SaveToPending"
+                            ? PostQueuedStatus.Pending
+                            : PostQueuedStatus.Draft;
+
+                        post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
+                        post.IsUniquePost = PostDetailsModel.IsUniquePost;
+                        if (LstTitle != null && LstTitle.Count > 0)
+                            post.PublisherInstagramTitle = LstTitle?.GetRandomItem();
+
+                        // Add to Post Collections 
+                        postCollectionDetails.Add(post);
+                    });
+                    isLoggerNeeded = true;
+                }
+                #endregion
+
+                if (isLoggerNeeded)
+                {
                     // Clearing current post objects
                     PostDetailsModel = new PostDetailsModel();
                     var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
@@ -207,101 +257,60 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
+
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", "LangKeyPostSaved".FromResourceDictionary() + $" to {status} list");
                 }
-                #endregion
+                else
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"Failed to save to {status} list. Add atleast one post.");
 
-                #region Multiple Post
-
-                // Check whether multiple posts and image posts contains posts or not
-                if (createCampaignModel.LstPostDetailsModels.Count > 0 ||
-                            createCampaignModel.LstMultipleImagePostCollection.Count > 0)
+                _multipostWindow?.Close();
+                _multipostWindow = null;
+                if (!Application.Current.Dispatcher.CheckAccess())
                 {
-                    // Iterate the Multiple posts images
-                    createCampaignModel.LstPostDetailsModels.ForEach(post =>
-                    {
-                        post.PostQueuedStatus = saveLocation == "SaveToPending"
-                            ? PostQueuedStatus.Pending
-                            : PostQueuedStatus.Draft;
+                    Application.Current.Dispatcher.Invoke(() =>
+                               {
+                                   //Clear the current object values
+                                   createCampaignModel.LstMultipleImagePostCollection =
+                                                  new ObservableCollection<PostDetailsModel>();
+                                   createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+                               });
 
-                        if (post.IsMultipleImagePost)
-                        {
-                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
-                            post.IsUniquePost = PostDetailsModel.IsUniquePost;
-                        }
-                        // Add to Post Collections 
-                        postCollectionDetails.Add(post);
-                    });
-
-                    // Iterate the Multiple image posts
-                    createCampaignModel.LstMultipleImagePostCollection.ForEach(post =>
-                    {
-                        post.PostQueuedStatus = saveLocation == "SaveToPending"
-                            ? PostQueuedStatus.Pending
-                            : PostQueuedStatus.Draft;
-
-                        if (post.IsMultipleImagePost)
-                        {
-                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
-                            post.IsUniquePost = PostDetailsModel.IsUniquePost;
-                        }
-
-
-                        // Add to Post Collections 
-                        postCollectionDetails.Add(post);
-                    });
-
-                    if (!Application.Current.Dispatcher.CheckAccess())
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            //Clear the current object values
-                            createCampaignModel.LstMultipleImagePostCollection =
-                                new ObservableCollection<PostDetailsModel>();
-                            createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-                        });
-                    }
-                    else
-                    {
-                        //Clear the current object values
-                        createCampaignModel.LstMultipleImagePostCollection =
-                            new ObservableCollection<PostDetailsModel>();
-                        createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
-                    }
-
-                    isLoggerNeeded = true;
-
-
-                    var createCampaign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
-                    createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
-                        new PostDetailsModel();
-
-                    // Clearing current direct posts
-                    PostDetailsModel = new PostDetailsModel();
-                    var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
-                    publisherDirectPosts.ImageMediaViewer.Initialize();
                 }
-
-                #endregion
-
-                #region Save logger infomations
-
-                if (!isLoggerNeeded)
-                    return;
-
-                var loggerMessage = new Func<string>(Application.Current.FindResource(@"LangKeyPostSaved").ToString).Invoke();
-                if (Application.Current != null)
+                else
                 {
-                    if (!string.IsNullOrEmpty(loggerMessage))
-                        GlobusLogHelper.log.Info(loggerMessage);
+                    //Clear the current object values
+                    createCampaignModel.LstMultipleImagePostCollection =
+                        new ObservableCollection<PostDetailsModel>();
+                    createCampaignModel.LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
                 }
-
-                #endregion
-
+                PublisherMultiplePost.GetMultiplePost(createCampaignModel.LstPostDetailsModels).Dispose();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+        }
+
+        public static Window _multipostWindow;
+
+        static Window GetMultiPost(ObservableCollection<PostDetailsModel> lstPostDetailsModels)
+        {
+            if (_multipostWindow == null)
+            {
+                var publisherMultiplePost = PublisherMultiplePost.GetMultiplePost(lstPostDetailsModels);
+                // Get the core dialog object
+                var dialog = new Dialog();
+
+                // Pass the object with Title
+                _multipostWindow = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
+                _multipostWindow.Closing += (s, e) =>
+                {
+                    e.Cancel = true;
+                    _multipostWindow.Visibility = Visibility.Collapsed;
+                };
+                return _multipostWindow;
+            }
+            return _multipostWindow;
         }
 
         public bool CanExecuteMultiPost(object sender) => true;
@@ -312,27 +321,22 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// <param name="sender"></param>
         public void ExecuteMultiPost(object sender)
         {
-            //ThreadFactory.Instance.Start(() =>
-            //{
-            try
+
+            // Get the object of multiple post UI
+            //var publisherMultiplePost = new PublisherMultiplePost();
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                // Get the object of multiple post UI
-                var publisherMultiplePost = new PublisherMultiplePost();
 
-                // Get the core dialog object
-                var dialog = new Dialog();
-
-                // Pass the object with Title
-                var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
-
-                //DisplayAttribute the dialog
-                window.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-            //}); 
+                try
+                {
+                    var window = GetMultiPost(LstPostDetailsModels);
+                    window.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            });
         }
 
         private bool SearchCanExecute(object sender) => true;
@@ -416,132 +420,101 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (listPostDetailsModel.Count == 0)
                 return;
-            var publisherMultiplePost = new PublisherMultiplePost();
-            try
+            var publisherMultiplePost = PublisherMultiplePost.GetMultiplePost(LstPostDetailsModels);
+
+            // Get all post details from campaign View model
+            LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()?.PublisherCreateCampaignViewModel?
+                .PublisherCreateCampaignModel?.LstPostDetailsModels;
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                // Get all post details from campaign View model
-                LstPostDetailsModels = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()?.PublisherCreateCampaignViewModel?
-                    .PublisherCreateCampaignModel?.LstPostDetailsModels;
-
-                // Get the object of multiple post UI
-                //   var publisherMultiplePost = new PublisherMultiplePost(LstPostDetailsModels);
-
-                publisherMultiplePost.Loaded += (s, e) =>
-                {
-                    Task.Factory.StartNew(() =>
-                    {
-                        LstPostDetailsModels.ForEach(x =>
-                        {
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                publisherMultiplePost.PublisherMultiplePostViewModel.LstPostDetailsModel.Add(x);
-                            });
-                            Thread.Sleep(20);
-                        });
-
-                    });
-
-
-                    // e.Handled = true;
-                };
-
-                // Get the core dialog object
-                var dialog = new Dialog();
-
-                // Pass the object with Title
-                var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
-
-                //DisplayAttribute the dialog
-                window.Show();
-
-                //publisherMultiplePost.UpdatePostDetails.Invoke(publisherMultiplePost);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-
-            // Split with separator
-            var separator = ConstantVariable.Separator;
-
-            var mediaUtilites = new MediaUtilites();
-
-            // select the file path
-            // var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
-
-
+                var window = GetMultiPost(LstPostDetailsModels);
+                window?.ShowDialog();
+            }));
             Task.Factory.StartNew(() =>
             {
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressVisibile = Visibility.Visible;
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressActive = true;
                 Thread.Sleep(1000);
+
+                // Split with separator
+                var separator = ConstantVariable.Separator;
+
+                var mediaUtilites = new MediaUtilites();
                 // Iterate selected file name
                 listPostDetailsModel.ForEach(x =>
                 {
                     if (publisherMultiplePost.PublisherMultiplePostViewModel.IsStopLoadingPost)
                         return;
-                    PostDetailsModel postDetailsModel = new PostDetailsModel();
+
                     try
                     {
-                        // Split the file details
-                        var allData = x.Split('\t');
-
-                        postDetailsModel.PostDescription = allData[0];
-
-                        // Media list
-
-                        #region Medialist
-
-                        var mediaDetails = allData.Length > 1 ? allData[1] : string.Empty;
-
-                        var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
-                        mediaUrl.ForEach(media =>
+                        using (PostDetailsModel postDetailsModel = new PostDetailsModel())
                         {
-                            if (File.Exists(media))
+                            // PostDetailsModel postDetailsModel = new PostDetailsModel();
+
+                            // Split the file details
+                            var allData = x.Split('\t');
+
+                            postDetailsModel.PostDescription = allData[0];
+
+                            // Media list
+
+                            #region Medialist
+
+                            var mediaDetails = allData.Length > 1 ? allData[1] : string.Empty;
+
+                            var mediaUrl = Regex.Split(mediaDetails, separator).ToList();
+                            mediaUrl.ForEach(media =>
                             {
-                                Application.Current.Dispatcher.Invoke(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(media)));
-                                Thread.Sleep(10);
+                                var path = media.Trim();
+                                if (File.Exists(path))
+                                {
+                                    Application.Current.Dispatcher.BeginInvoke(new Action(() => postDetailsModel.MediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(path))));
+                                    Thread.Sleep(2);
+                                }
+
+                            });
+
+                            #endregion
+
+                            // Title
+                            postDetailsModel.PublisherInstagramTitle = allData.Length > 2 ? allData[2] : string.Empty;
+
+                            // Source url
+                            postDetailsModel.PdSourceUrl = allData.Length > 3 ? allData[3] : string.Empty;
+
+                            // Facebook Sell post details
+
+                            #region FdSell
+
+                            var FdSellDetails = allData.Length > 4 ? allData[4] : string.Empty;
+
+                            var Fdsell = Regex.Split(FdSellDetails, separator);
+
+                            if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                                string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
+                                string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
+                            {
+                                postDetailsModel.IsFdSellPost = true;
+                                postDetailsModel.FdSellProductTitle = Fdsell[1];
+                                postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
+                                postDetailsModel.FdSellLocation = Fdsell[3];
                             }
 
-                        });
+                            #endregion
+                            // Created date
+                            postDetailsModel.CreatedDateTime = DateTime.Now;
 
-                        #endregion
+                            // Post id
+                            postDetailsModel.PostDetailsId = Utilities.GetGuid();
 
-                        // Title
-                        postDetailsModel.PublisherInstagramTitle = allData.Length > 2 ? allData[2] : string.Empty;
+                            // Add to Collections
+                            //postDetails.Add(postDetailsModel);
 
-                        // Source url
-                        postDetailsModel.PdSourceUrl = allData.Length > 3 ? allData[3] : string.Empty;
+                            Application.Current.Dispatcher.BeginInvoke(new Action(() => LstPostDetailsModels.Add(postDetailsModel)));
+                            Thread.Sleep(1);
 
-                        // Facebook Sell post details
-
-                        #region FdSell
-
-                        var FdSellDetails = allData.Length > 4 ? allData[4] : string.Empty;
-
-                        var Fdsell = Regex.Split(FdSellDetails, separator);
-
-                        if (string.Compare(Fdsell[0], "Yes", StringComparison.CurrentCultureIgnoreCase) == 0 ||
-                            string.Compare(Fdsell[0], "Y", StringComparison.CurrentCultureIgnoreCase) == 0 ||
-                            string.Compare(Fdsell[0], "True", StringComparison.CurrentCultureIgnoreCase) == 0)
-                        {
-                            postDetailsModel.IsFdSellPost = true;
-                            postDetailsModel.FdSellProductTitle = Fdsell[1];
-                            postDetailsModel.FdSellPrice = double.Parse(Fdsell[2]);
-                            postDetailsModel.FdSellLocation = Fdsell[3];
                         }
-
-                        #endregion
-                        // Created date
-                        postDetailsModel.CreatedDateTime = DateTime.Now;
-
-                        // Post id
-                        postDetailsModel.PostDetailsId = Utilities.GetGuid();
-
-                        // Add to Collections
-                        //postDetails.Add(postDetailsModel);
-                        Application.Current.Dispatcher.Invoke(() => LstPostDetailsModels.Add(postDetailsModel));
-                        Thread.Sleep(50);
                     }
                     catch (Exception ex)
                     {
@@ -549,39 +522,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
 
                 });
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => publisherMultiplePost.PublisherMultiplePostViewModel.PostListsCollectionView =
+                    CollectionViewSource.GetDefaultView(LstPostDetailsModels)));
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressVisibile = Visibility.Collapsed;
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsProgressActive = false;
                 publisherMultiplePost.PublisherMultiplePostViewModel.IsStopLoadingPost = false;
             });
 
-            // If all post read, open and show in UI for Updation
-            //if (postDetails?.Count != 0)
-            //{
-            //    try
-            //    {
-            //        // Get the object of multiple post UI
-            //        var publisherMultiplePost = new PublisherMultiplePost(postDetails);
-
-            //        // Get the core dialog object
-            //        var dialog = new Dialog();
-
-            //        // Pass the object with Title
-            //        var window = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
-
-            //        //DisplayAttribute the dialog
-            //        window.ShowDialog();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        ex.DebugLog();
-            //    }
-            //}
-
         }
 
         #endregion
-
     }
-
-
 }

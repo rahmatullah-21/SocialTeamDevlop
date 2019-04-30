@@ -13,16 +13,17 @@
             <ToggleButton VerticalAlignment="Center"  Foreground="White" Name="ClpsExpnd" Click="ClpsExpnd_OnClick">
                 <ToggleButton.Style>
                     <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroFlatToggleButton}">
-                        <Setter Property="IsChecked" Value="{Binding IsExpanded}" />
+                        <Setter Property="IsChecked" Value="{Binding IsExpanded,UpdateSourceTrigger=PropertyChanged}" />
                         <Style.Triggers>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Content" Value="{DynamicResource LangKeyCollapseAll}" />
+                                <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="Content" Value="{DynamicResource LangKeyExpandAll}" />
+                                <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
                             </Trigger>
                         </Style.Triggers>
-
                     </Style>
                 </ToggleButton.Style>
             </ToggleButton>

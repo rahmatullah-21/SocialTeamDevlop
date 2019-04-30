@@ -17,12 +17,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Prism.Commands;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
@@ -41,6 +43,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             PauseSelectedCampaignCommand = new BaseCommand<object>(PauseSelectedCampaignCanExecute, PauseSelectedCampaignExecute);
             PublishNowSelectedCampaignCommand = new BaseCommand<object>(PublishNowSelectedCampaignCanExecute, PublishNowSelectedCampaignExecute);
             CopyCampaignId = new BaseCommand<object>(CopyCampaignIdCanExecute, CopyCampaignIdExecute);
+            TutorialsCommand = new DelegateCommand(() => IsTutorialsOpen = true);
+            WatchTutorialCommand = new DelegateCommand<string>((url) => Process.Start(url));
             InitializeDefaultCampaignStatus();
         }
 
@@ -91,9 +95,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// </summary>
         public ICommand PublishNowSelectedCampaignCommand { get; set; }
 
+        public ICommand TutorialsCommand { get; set; }
+        public ICommand WatchTutorialCommand { get; set; }
+
         #endregion
 
         #region Properties
+        private bool _isTutorialsOpen;
+
+        public bool IsTutorialsOpen
+        {
+            get { return _isTutorialsOpen; }
+            set { SetProperty(ref _isTutorialsOpen, value); }
+        }
+
 
         /// <summary>
         /// To holds the default pages details
@@ -108,6 +123,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 _listPublisherCampaignStatusModels = value;
                 OnPropertyChanged(nameof(ListPublisherCampaignStatusModels));
+                if (IsAllCampaignSelected)
+                    ListPublisherCampaignStatusModels.Select(x =>
+                    {
+                        x.IsSelected = true;
+                        return x;
+                    }).ToList();
+
             }
         }
 
@@ -302,6 +324,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     // Navigate to campaign UI
                     PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl = createCampign;
+
                 }
                 catch (Exception ex)
                 {
@@ -469,13 +492,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
 
 
-                    file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
-                    var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if (googlePlusModel != null)
-                    {
-                        googlePlusModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        _genericFileManager.AddModule(googlePlusModel, file);
-                    }
+                    //file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
+                    //var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    //if (googlePlusModel != null)
+                    //{
+                    //    googlePlusModel.CampaignId = clonedCampaignStatus.CampaignId;
+                    //    _genericFileManager.AddModule(googlePlusModel, file);
+                    //}
 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
@@ -732,8 +755,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Delete the post list bin file for the campaign
                 _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
-
-                GlobusLogHelper.log.Info($"{campaign.CampaignName} deleted Successfully!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaign.CampaignName, "Publisher Campaign", $"{campaign.CampaignName} deleted Successfully!");
 
                 //update campaign list in managepost
                 campaignList.Remove(campaignList.FirstOrDefault(x => x.Id == campaign.CampaignId));
@@ -785,10 +807,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
-
-                GlobusLogHelper.log.Info("Campaign deletion operation completed!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Publisher Campaign", "Campaign deletion operation completed!");
 
             }
+            if (ListPublisherCampaignStatusModels.Count == 0 ||
+                !ListPublisherCampaignStatusModels.Any(x => x.IsSelected))
+                IsAllCampaignSelected = false;
         }
 
         /// <summary>

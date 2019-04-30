@@ -85,12 +85,19 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public DateTime InteractionDateTime { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        public string MessageText { get; set; }
+
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public string UploadedMediaPath { get; set; }
     }
 
     public enum PageMemberShip
     {
         LikedPage = 1,
 
-        OwnPage = 2
+        OwnPage = 2,
+        NotLiked = 3
     }
 }

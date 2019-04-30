@@ -1,10 +1,10 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Enums.DHEnum;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.ViewModel;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.Enums.DHEnum;
-using System.Collections.Generic;
 
 namespace DominatorHouseCore.Interfaces
 {

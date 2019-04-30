@@ -32,7 +32,6 @@ namespace DominatorHouseCore.ProxyServerManagment
 
                 if (values.Length == 2 || values.Length == 4)
                 {
-
                     pmm.AccountProxy.ProxyIp = values[0];
                     pmm.AccountProxy.ProxyPort = values[1];
                 }
@@ -43,7 +42,7 @@ namespace DominatorHouseCore.ProxyServerManagment
                     pmm.AccountProxy.ProxyPassword = values[3];
                 }
 
-                if (values.Length == 6)
+                if (values.Length == 6 || values.Length > 6)
                 {
                     pmm.AccountProxy.ProxyGroup = values[0];
                     pmm.AccountProxy.ProxyName = values[1];
@@ -52,6 +51,8 @@ namespace DominatorHouseCore.ProxyServerManagment
                     pmm.AccountProxy.ProxyUsername = values[4];
                     pmm.AccountProxy.ProxyPassword = values[5];
                 }
+                if (values.Length == 7)
+                    pmm.Status = values[6];
 
                 if (_proxyValidationService.IsValidProxy(pmm.AccountProxy.ProxyIp, pmm.AccountProxy.ProxyPort))
                 {

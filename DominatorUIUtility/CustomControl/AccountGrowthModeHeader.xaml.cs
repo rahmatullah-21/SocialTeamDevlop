@@ -1,9 +1,11 @@
-﻿using DominatorHouseCore.Utility;
+﻿using System.Diagnostics;
+using DominatorHouseCore.Utility;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 using DominatorUIUtility.Behaviours;
+using Prism.Commands;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -17,10 +19,10 @@ namespace DominatorUIUtility.CustomControl
             InitializeComponent();
             mainGrid.DataContext = this;
             SaveCommand = new BaseCommand<object>(CanExecute, Execute);
+            TutorialCommand = new DelegateCommand<string>(TutorialExecute);
             IsExpanded = true;
             AccountItemSource = new ObservableCollectionBase<string>();
         }
-
         public ObservableCollectionBase<string> AccountItemSource
         {
             get { return (ObservableCollectionBase<string>)GetValue(AccountItemSourceProperty); }
@@ -72,7 +74,7 @@ namespace DominatorUIUtility.CustomControl
             var newValue = e.NewValue;
         }
         static readonly RoutedEvent SelectionChangedRoutedEvent = EventManager.RegisterRoutedEvent("SelectionChangedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(AccountGrowthModeHeader));
-        
+
         public event RoutedEventHandler SelectionChangedEvent
         {
             add { AddHandler(SelectionChangedRoutedEvent, value); }
@@ -101,14 +103,8 @@ namespace DominatorUIUtility.CustomControl
         {
             var rountedargs = new RoutedEventArgs(SaveEvent);
             RaiseEvent(rountedargs);
+        }
 
-        }
-        // ReSharper disable once UnusedParameter.Local
-        // ReSharper disable once UnusedParameter.Local
-        private void BtnSave_OnClick(object sender, RoutedEventArgs e)
-        {
-            SaveEventArgsHandler();
-        }
         public bool IsExpanded
         {
             get { return (bool)GetValue(IsExpandedProperty); }
@@ -162,7 +158,30 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty SelectionChangedCommandProperty =
             DependencyProperty.Register("SelectionChangedCommand", typeof(ICommand), typeof(AccountGrowthModeHeader));
 
+        public string VideoTutorialLink
+        {
+            get { return (string)GetValue(VideoTutorialLinkProperty); }
+            set { SetValue(VideoTutorialLinkProperty, value); }
+        }
 
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty VideoTutorialLinkProperty =
+            DependencyProperty.Register("VideoTutorialLink", typeof(string), typeof(AccountGrowthModeHeader), new PropertyMetadata(string.Empty));
+
+        public ICommand TutorialCommand
+        {
+            get { return (ICommand)GetValue(TutorialCommandProperty); }
+            set { SetValue(TutorialCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TutorialCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TutorialCommandProperty =
+            DependencyProperty.Register("TutorialCommand", typeof(ICommand), typeof(AccountGrowthModeHeader));
+
+        private void TutorialExecute(string tutorialLink)
+        {
+            Process.Start(tutorialLink);
+        }
     }
-   
+
 }

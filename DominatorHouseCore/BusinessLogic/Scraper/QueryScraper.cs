@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
@@ -7,11 +8,8 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
-using CommonServiceLocator;
-using DominatorHouseCore.BusinessLogic.Scheduler;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -26,14 +24,14 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
     public abstract class QueryScraper : IScraperActionTables
     {
-        protected QueryScraper(JobProcess jobProcess, Dictionary<string, Action<QueryInfo>> scrapeWithQueriesActionTable, Dictionary<string, Action> scrapeWithoutQueriesActionTable)
+        protected QueryScraper(IJobProcess jobProcess, Dictionary<string, Action<QueryInfo>> scrapeWithQueriesActionTable, Dictionary<string, Action> scrapeWithoutQueriesActionTable)
         {
             _jobProcess = jobProcess;
             ScrapeWithQueriesActionTable = scrapeWithQueriesActionTable;
             ScrapeWithoutQueriesActionTable = scrapeWithoutQueriesActionTable;
         }
 
-        private readonly JobProcess _jobProcess;
+        private readonly IJobProcess _jobProcess;
 
         public Dictionary<string, Action<QueryInfo>> ScrapeWithQueriesActionTable { get; }
 
@@ -43,31 +41,11 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
         {
             try
             {
-                try
-                {
-                    _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    ScrapeWithoutQueriesActionTable[module]?.Invoke();
-                }
-                catch (OperationCanceledException)
-                {
-                    throw new OperationCanceledException(@"Cancellation Requested !");
-                }
-                catch (AggregateException ae)
-                {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            throw new OperationCanceledException(@"Cancellation Requested !");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog(
-                        $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
-                }
+                ScrapeWithoutQueriesActionTable[module]?.Invoke();
+                UpdateScheduleIfNoMoreData();
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             }
             catch (KeyNotFoundException ex)
             {
@@ -77,6 +55,22 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             {
                 Console.WriteLine(@"Cancellation Requested !");
             }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.InnerExceptions)
+                {
+                    if (e is TaskCanceledException || e is OperationCanceledException)
+                        throw new OperationCanceledException(@"Cancellation Requested !");
+                    else
+                        e.DebugLog(e.StackTrace + e.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(
+                    $"{GetType().Name} : [Account: {_jobProcess?.DominatorAccountModel?.AccountBaseModel?.UserName}]   (Module => {_jobProcess?.ActivityType})");
+            }
+
         }
 
         public void ScrapeWithQueries()
@@ -92,10 +86,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 {
                     try
                     {
-                        //  ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.SelectedQueryEnumId}"]?.Invoke(query);
                         _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                         ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
+                        Thread.Sleep(5);
                     }
                     catch (KeyNotFoundException ex)
                     {
@@ -126,35 +120,18 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 if (totalQueries == usedQueries)
                 {
-                    if (_jobProcess.IsNeedToSchedule)
-                    {
-                        var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                        var moduleConfiguration = jobActivityConfigurationManager[_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType];
-                        var nextStartTime = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, _jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom());
-                        if (moduleConfiguration != null)
-                        {
-                            moduleConfiguration.NextRun = nextStartTime;
-                            var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
-                            jobActivityConfigurationManager.AddOrUpdate(_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType, moduleConfiguration);
-                            accountsCacheService.UpsertAccounts(_jobProcess?.DominatorAccountModel);
-                        }
-                    }
-                    GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks, _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
-                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(), _jobProcess.TemplateId, _jobProcess.IsNeedToSchedule);
+                    UpdateScheduleIfRequire();
                 }
             }
-            catch (OperationCanceledException oce)
+            catch (OperationCanceledException)
             {
-                oce.DebugLog(@"Cancellation Requested !");
+
             }
             catch (AggregateException ae)
             {
                 foreach (var e in ae.InnerExceptions)
                 {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
+                    if (!(e is TaskCanceledException || e is OperationCanceledException))
                         e.DebugLog(e.StackTrace + e.Message);
                 }
             }
@@ -164,6 +141,47 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             }
         }
 
+        private void UpdateScheduleIfRequire()
+        {
+            if (_jobProcess.DominatorAccountModel.IsNeedToSchedule)
+                UpdateScheduleIfNoMoreData();
+            else
+            {
+                GlobusLogHelper.log.Info(Log.ProcessCompleted, _jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
+                    _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType.ToString());
 
+                var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(),
+                    _jobProcess.TemplateId, false);
+                _jobProcess.DominatorAccountModel.IsNeedToSchedule = true;
+            }
+        }
+
+        private void UpdateScheduleIfNoMoreData()
+        {
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration =
+                jobActivityConfigurationManager[_jobProcess?.DominatorAccountModel?.AccountId, _jobProcess.ActivityType];
+
+            var nextStartTime = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration,
+                _jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom());
+            if (moduleConfiguration != null)
+            {
+                moduleConfiguration.NextRun = nextStartTime;
+                var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
+                jobActivityConfigurationManager.AddOrUpdate(_jobProcess?.DominatorAccountModel?.AccountId,
+                    _jobProcess.ActivityType, moduleConfiguration);
+                accountsCacheService.UpsertAccounts(_jobProcess?.DominatorAccountModel);
+            }
+
+            GlobusLogHelper.log.Info(Log.NoMoreDataToPerform, _jobProcess.SocialNetworks,
+                _jobProcess.DominatorAccountModel.AccountBaseModel.UserName, _jobProcess.ActivityType);
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            dominatorScheduler.StopActivity(_jobProcess.DominatorAccountModel, _jobProcess.ActivityType.ToString(),
+                _jobProcess.TemplateId, true);
+        }
     }
 }

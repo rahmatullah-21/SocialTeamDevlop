@@ -63,7 +63,7 @@
         /// </summary>
         public static string ActivityFailed { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyFailedTo".FromResourceDictionary() + " {2} " + "LangKeyWithError".FromResourceDictionary() + " {3}\t" + CodeConstants.ActivityFailed;
 
-        public static string ImportFailed { get; set; } = "{0}\t {1}\t Import \t " + "LangKeyFailedBecauseOf".FromResourceDictionary() + " {3} " + "LangKeyIsAreNotCorrect".FromResourceDictionary() + "\t" + CodeConstants.ImportFailed;
+        public static string ImportFailed { get; set; } = "{0}\t {1}\t Import \t " + "LangKeyFailedBecauseOf".FromResourceDictionary() + " {2} " + "LangKeyIsAreNotCorrect".FromResourceDictionary() + "\t" + CodeConstants.ImportFailed;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -160,6 +160,12 @@
 
         public static string AccountNeedsVerification { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyNeedsToVerifiedToPerformNextActivities".FromResourceDictionary() + "\t" + CodeConstants.AccountNeedsVerification;
 
+        /// <summary>
+        /// 0.Account's SocialNetwork
+        /// 1.campaign name/AccountName
+        /// 2.ActivityType
+        /// 3.Message
+        /// </summary>
         public static string CustomMessage { get; set; } = "{0}\t {1}\t {2}\t{3}\t" + CodeConstants.CustomMessage;
 
         /// <summary>
@@ -236,9 +242,13 @@
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// </summary>
-        public static string StopUpdatingAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyStoppedForFurtherFriendshipUpdate".FromResourceDictionary() + "\t" + CodeConstants.StopUpdatingAccount;
+        public static string StopUpdatingAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccountUpdation".FromResourceDictionary() + "\t" + "LangKeyStoppedForFurtherFriendshipUpdate".FromResourceDictionary() + "\t" + CodeConstants.StopUpdatingAccount;
 
-        public static string StopAllActivitiesOfAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyStoppedAllActivitiesOfAccount".FromResourceDictionary() + "\t" + CodeConstants.StopAllActivitiesOfAccount;
+        /// <summary>
+        /// 0 = Account's SocialNetwork
+        /// 1 = Account's Username
+        /// </summary>
+        public static string StopAllActivitiesOfAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccountActivities".FromResourceDictionary() + "\t" + "LangKeyStoppedAllActivitiesOf".FromResourceDictionary()+" {1}" + "\t" + CodeConstants.StopAllActivitiesOfAccount;
 
         /// <summary>
         /// 0 = Account's SocialNetwork

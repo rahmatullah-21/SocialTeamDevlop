@@ -1,9 +1,9 @@
-﻿using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+﻿using DominatorHouseCore.DatabaseHandler.Common;
 using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 {
-    public class UnfollowedUsers : BaseUnfollowedUsers
+    public class UnfollowedUsers : Entity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string FilterArgument
@@ -26,7 +26,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public override int InteractionDate
+        public int InteractionDate
         { get; set; }
 
 

@@ -6,6 +6,7 @@ using NLog;
 using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -15,6 +16,7 @@ namespace DominatorHouseCore.ViewModel
     public interface ILogViewModel
     {
         void Add(string message, LogLevel logLevel);
+        string LogType { get; set; }
     }
 
     public class LogViewModel : BindableBase, ILogViewModel
@@ -28,7 +30,12 @@ namespace DominatorHouseCore.ViewModel
         public ObservableCollection<LoggerModel> Logs
         {
             get { return _logs; }
-            set { SetProperty(ref _logs, value, nameof(Logs)); }
+            set
+            {
+                SetProperty(ref _logs, value, nameof(Logs));
+                if (LogCollection != null)
+                    LogCollection.View.Refresh();
+            }
         }
 
         public LoggerModel Selected
@@ -48,6 +55,7 @@ namespace DominatorHouseCore.ViewModel
             {
                 SetProperty(ref _selectedNetwork, value, nameof(SelectedNetwork));
                 OnPropertyChanged(nameof(NetworkIsSelected));
+                LogCollection.View.Refresh();
                 ActivityTypes.Selected = null;
             }
         }
@@ -68,12 +76,71 @@ namespace DominatorHouseCore.ViewModel
             BindingOperations.EnableCollectionSynchronization(Logs, SyncObject);
             ActivityTypes =
                 new SelectableViewModel<ActivityType?>(Enum.GetValues(typeof(ActivityType)).Cast<ActivityType?>());
+            LogCollection = new CollectionViewSource();
+            ActivityTypes.ItemSelected += OnActivityTypeSlectionChange;
+            LogCollection.Source = Logs;
+            LogCollection.Filter += FilterLog;
+
+        }
+
+        private void OnActivityTypeSlectionChange(object sender, ActivityType? e)
+        {
+            LogCollection.View.Refresh();
+        }
+
+        private string _logType = "Info";
+
+        public string LogType
+        {
+            get { return _logType; }
+            set
+            {
+                SetProperty(ref _logType, value);
+                if (LogCollection != null)
+                    LogCollection.View.Refresh();
+            }
+        }
+        private CollectionViewSource LogCollection;
+        private ICollectionView _sourceCollection;
+        public ICollectionView SourceCollection
+        {
+            get { return LogCollection.View; }
+            set { SetProperty(ref _sourceCollection, value); }
+        }
+        private void FilterLog(object sender, FilterEventArgs e)
+        {
+            var logs = e.Item as LoggerModel;
+
+            if (string.IsNullOrEmpty(SelectedNetwork.ToString())
+                && LogType.Equals(logs.LogType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                e.Accepted = true;
+                return;
+            }
+
+            if (logs.Network.Equals(SelectedNetwork.ToString(), StringComparison.InvariantCultureIgnoreCase)
+                && LogType.Equals(logs.LogType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                e.Accepted = true;
+            }
+            else e.Accepted = false;
+            if (!string.IsNullOrEmpty(ActivityTypes.Selected?.ToString()))
+                if (logs.Network.Equals(SelectedNetwork.ToString(), StringComparison.InvariantCultureIgnoreCase) && logs.ActivityType.Equals(ActivityTypes.Selected?.ToString(),
+                        StringComparison.InvariantCultureIgnoreCase))
+                {
+                    e.Accepted = true;
+                }
+                else
+                {
+                    e.Accepted = false;
+                }
         }
 
         private bool CanCopy()
         {
             return Selected != null;
         }
+
 
         public void Add(string message, LogLevel logLevel)
         {
@@ -102,6 +169,7 @@ namespace DominatorHouseCore.ViewModel
                     };
 
                 Logs.Insert(0, log);
+
                 OnPropertyChanged(nameof(Logs));
 
                 if (Logs.Count > MaxLogSize)

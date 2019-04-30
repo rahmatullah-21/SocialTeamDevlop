@@ -1,6 +1,8 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Command;
+using DominatorHouseCore.DatabaseHandler.DHTables;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.EmailService;
 using DominatorHouseCore.Enums;
@@ -17,12 +19,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Unity;
 
 namespace DominatorUIUtility.ViewModel
 {
     public class AccountDetailsViewModel : BindableBase
     {
         private readonly IAccountsFileManager _accountsFileManager;
+        private readonly IAccountScopeFactory _accountScopeFactory;
+        private readonly IHttpHelper _httpHelper;
+        private readonly IProxyFileManager _proxyFileManager;
+
         #region Properties
         public DominatorAccountModel DominatorAccountModel { get; set; }
         public DominatorAccountModel OldDominatorAccountModel { get; set; }
@@ -122,7 +129,31 @@ namespace DominatorUIUtility.ViewModel
             get { return _isPhoneVerificationCodeSent; }
             set { SetProperty(ref _isPhoneVerificationCodeSent, value); }
         }
+        private Visibility _sendResetPasswordLinkVisibility = Visibility.Collapsed;
 
+
+        public Visibility SendResetPasswordLinkVisibility
+        {
+            get { return _sendResetPasswordLinkVisibility; }
+            set
+            {
+                SetProperty(ref _sendResetPasswordLinkVisibility, value);
+            }
+        }
+
+
+        //private bool _isManualVerify;
+        //public bool IsManualVerify
+        //{
+        //    get
+        //    {
+        //        return _isManualVerify;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref _isManualVerify, value);
+        //    }
+        //}
         #endregion
 
         #region Constructors
@@ -130,6 +161,10 @@ namespace DominatorUIUtility.ViewModel
         public AccountDetailsViewModel(DominatorAccountModel dataContext)
         {
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
+            _proxyFileManager = ServiceLocator.Current.GetInstance<IProxyFileManager>();
+            _httpHelper = _accountScopeFactory[dataContext.AccountId]
+                .Resolve<IHttpHelper>(dataContext.AccountBaseModel.AccountNetwork.ToString());
             DominatorAccountModel = dataContext;
 
             // Take backup of current DominatorAccountModel object
@@ -141,7 +176,8 @@ namespace DominatorUIUtility.ViewModel
             RemoveCookiesCommand = new BaseCommand<object>(RemoveCookiesCanExecute, RemoveCookiesExecute);
             VerifyAccountCommand = new BaseCommand<object>(VerifyAccountCanExecute, VerifyAccountExecute);
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
-
+            SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
+            SendResetPasswordLinkCommand = new BaseCommand<object>(sender => true, SendResetPasswordLinkExecute);
         }
         #endregion
 
@@ -153,7 +189,8 @@ namespace DominatorUIUtility.ViewModel
         public ICommand RemoveCookiesCommand { get; set; }
         public ICommand VerifyAccountCommand { get; set; }
         public ICommand SendVerificationCodeCommand { get; set; }
-
+        public ICommand SetNewPasswordCommand { get; set; }
+        public ICommand SendResetPasswordLinkCommand { get; set; }
         #endregion
 
         private bool SaveCanExecute(object arg) => true;
@@ -165,7 +202,8 @@ namespace DominatorUIUtility.ViewModel
                     DominatorAccountModel.CookieHelperList.Remove(cookie);
             });
 
-            EditAccount();
+            if (!EditAccount())
+                return;
 
             #region Checking status
 
@@ -210,59 +248,78 @@ namespace DominatorUIUtility.ViewModel
                         .AddOrUpdateIsAutoVerifyByEmail(DominatorAccountModel.IsAutoVerifyByEmail)
                         .SaveToBinFile();
                     }
+                  
                 }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
+                }
+                finally
+                {
+                    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+                    globalDbOperation.UpdateAccountDetails(DominatorAccountModel);
                 }
             });
 
             #endregion
         }
 
-        void EditAccount()
+        private bool EditAccount()
         {
 
-            if (OldDominatorAccountModel == null) return;
+            if (OldDominatorAccountModel == null) return false;
 
             var newAccountBaseModel = DominatorAccountModel.AccountBaseModel;
-
+            IProxyManagerViewModel proxyManagerViewModel = null;
             try
             {
                 if (string.IsNullOrEmpty(newAccountBaseModel.UserName) ||
-                           string.IsNullOrEmpty(newAccountBaseModel.Password)) return;
+                           string.IsNullOrEmpty(newAccountBaseModel.Password))
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                        "Account", "Saving Account failed because either user or password is empty");
+                    return false;
+                }
 
 
                 if ((!string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyIp) &&
                      string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort))
                     || (string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyIp) &&
-                        !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort))) return;
+                        !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort)))
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                      "Account", "Saving Account failed because either ProxyIp or ProxyPort is empty but not both");
+                    return false;
+                }
+
 
                 if ((!string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyUsername) &&
                      string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))
                     || (string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyUsername) &&
-                        !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword))) return;
+                        !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword)))
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
+                      "Account", "Saving Account failed because either ProxyUsername or ProxyPassword is empty but not both");
+                    return false;
+                }
 
 
                 if (OldDominatorAccountModel.AccountBaseModel.UserName != DominatorAccountModel.AccountBaseModel.UserName
                     || OldDominatorAccountModel.AccountBaseModel.Password != DominatorAccountModel.AccountBaseModel.Password
                     || OldDominatorAccountModel.UserAgentWeb != DominatorAccountModel.UserAgentWeb)
                 {
-                    //if (ObjectComparer.Compare(OldDominatorAccountModel.CookieHelperList,
-                    //    DominatorAccountModel.CookieHelperList))
-                    //{
-                        DominatorAccountModel.CookieHelperList?.Clear();
-                        DominatorAccountModel.HttpHelper.GetRequestParameter().Cookies = new CookieCollection();
-                    //}
+                    DominatorAccountModel.CookieHelperList?.Clear();
+                    _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
                 }
+                proxyManagerViewModel = ServiceLocator.Current.GetInstance<IProxyManagerViewModel>();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
 
-            var proxyManagerViewModel = ServiceLocator.Current.GetInstance<IProxyManagerViewModel>();
-            var oldproxies = ProxyFileManager.GetAllProxy();
+
+            var oldproxies = _proxyFileManager.GetAllProxy();
 
             #region If proxy not empty or null
 
@@ -271,10 +328,10 @@ namespace DominatorUIUtility.ViewModel
             {
                 var oldAccount = _accountsFileManager.GetAccountById(OldDominatorAccountModel.AccountId).AccountBaseModel;
 
-                if (!proxyManagerViewModel.IsProxyAvailable(newAccountBaseModel, oldproxies, oldAccount, strategy))
+                if (proxyManagerViewModel != null && !proxyManagerViewModel.IsProxyAvailable(newAccountBaseModel, oldproxies, oldAccount, strategy))
                 {
                     if (!proxyManagerViewModel.UpdateProxy(newAccountBaseModel, strategy))
-                        proxyManagerViewModel.AddProxyIfNotExist(newAccountBaseModel, strategy);
+                        proxyManagerViewModel?.AddProxyIfNotExist(newAccountBaseModel, strategy);
                 }
             }
 
@@ -282,7 +339,7 @@ namespace DominatorUIUtility.ViewModel
 
             else
             {
-                proxyManagerViewModel.UpdateProxy(newAccountBaseModel, oldproxies, strategy);
+                proxyManagerViewModel?.UpdateProxy(newAccountBaseModel, oldproxies, strategy);
                 try
                 {
                     new SocinatorAccountBuilder(newAccountBaseModel.AccountId)
@@ -359,6 +416,7 @@ namespace DominatorUIUtility.ViewModel
             #endregion
 
             GlobusLogHelper.log.Info(Log.AccountEdited, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName);
+            return true;
         }
 
         private bool CancelCanExecute(object arg) => true;
@@ -544,13 +602,87 @@ namespace DominatorUIUtility.ViewModel
             DominatorAccountModel.AccountBaseModel.AccountNetwork = OldDominatorAccountModel.AccountBaseModel.AccountNetwork;
             DominatorAccountModel.AccountBaseModel.AccountGroup.Content = OldDominatorAccountModel.AccountBaseModel.AccountGroup.Content;
             DominatorAccountModel.AccountBaseModel.AccountProxy = OldDominatorAccountModel.AccountBaseModel.AccountProxy;
+            DominatorAccountModel.AccountBaseModel.UserFullName = OldDominatorAccountModel.AccountBaseModel.UserFullName;
 
             DominatorAccountModel.MailCredentials = OldDominatorAccountModel.MailCredentials;
             DominatorAccountModel.UserAgentWeb = OldDominatorAccountModel.UserAgentWeb;
+            DominatorAccountModel.IsAutoVerifyByEmail = OldDominatorAccountModel.IsAutoVerifyByEmail;
+            DominatorAccountModel.IsUseSSL = OldDominatorAccountModel.IsUseSSL;
+            DominatorAccountModel.AccountBaseModel.IsChkTwoFactorLogin = OldDominatorAccountModel.AccountBaseModel.IsChkTwoFactorLogin;
 
             if (ObjectComparer.Compare(DominatorAccountModel.CookieHelperList, OldDominatorAccountModel.CookieHelperList))
             {
                 DominatorAccountModel.CookieHelperList = OldDominatorAccountModel.CookieHelperList;
+            }
+        }
+
+        private void SetNewPasswordExecute(object sender)
+        {
+            try
+            {
+                var networkCoreFactory = SocinatorInitialize
+                     .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                     .GetNetworkCoreFactory();
+
+                var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
+                Task.Factory.StartNew(() =>
+                {
+                    if (DominatorAccountModel.IsAutoVerifyByEmail)
+                    {
+                        if (accountVerificationFactory.AutoVerifyByEmail(DominatorAccountModel,
+                            DominatorAccountModel.Token).Result)
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Password changed successfully.");
+                        else
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
+                    }
+                    else
+                    {
+                        if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, VerificationType.Email,
+                            DominatorAccountModel.Token).Result)
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Password changed successfully.");
+                        else
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
+                    }
+                    OldDominatorAccountModel = DominatorAccountModel;
+
+                });
+            }
+            catch (Exception ex)
+            {
+                BtnSendVerificationCodeVisibility = Visibility.Visible;
+                ex.DebugLog();
+            }
+
+        }
+        private void SendResetPasswordLinkExecute(object sender)
+        {
+            try
+            {
+                var networkCoreFactory = SocinatorInitialize
+                    .GetSocialLibrary(DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                    .GetNetworkCoreFactory();
+
+                var accountVerificationFactory = networkCoreFactory.AccountVerificationFactory;
+                Task.Factory.StartNew(() =>
+                {
+                    if (DominatorAccountModel.IsManualVerify)
+                    {
+                        if (accountVerificationFactory.SendVerificationCode(DominatorAccountModel,
+                            VerificationType.Email,
+                            DominatorAccountModel.Token).Result)
+                        {
+                            SendResetPasswordLinkVisibility = Visibility.Visible;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
     }

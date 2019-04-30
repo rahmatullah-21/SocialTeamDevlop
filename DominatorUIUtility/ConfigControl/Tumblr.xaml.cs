@@ -2,7 +2,8 @@
 using System.Windows.Controls;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
-using MahApps.Metro.Controls.Dialogs;
+using CommonServiceLocator;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.ConfigControl
 {
@@ -11,11 +12,13 @@ namespace DominatorUIUtility.ConfigControl
     /// </summary>
     public partial class Tumblr : UserControl
     {
-        private TumblrModel TumblrModel { get; set; }=new TumblrModel();
+        private TumblrModel TumblrModel { get; set; } = new TumblrModel();
+        IOtherConfigFileManager _otherConfigFileManager;
         public Tumblr()
         {
             InitializeComponent();
-            TumblrModel = TumblrFileManager.GetTumblrConfig() ?? TumblrModel;
+            _otherConfigFileManager = ServiceLocator.Current.GetInstance<IOtherConfigFileManager>();
+            TumblrModel = _otherConfigFileManager.GetOtherConfig<TumblrModel>() ?? TumblrModel;
             MainGrid.DataContext = TumblrModel;
         }
         private static Tumblr ObjTumblr;
@@ -27,10 +30,8 @@ namespace DominatorUIUtility.ConfigControl
 
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
-            if (TumblrFileManager.SaveTumblrConfig(TumblrModel))
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Tumblr Configuration sucessfully saved !!");
-
+            if (_otherConfigFileManager.SaveOtherConfig(TumblrModel))
+                Dialog.ShowDialog("Success", "Tumblr Configuration sucessfully saved !!");
         }
     }
 }

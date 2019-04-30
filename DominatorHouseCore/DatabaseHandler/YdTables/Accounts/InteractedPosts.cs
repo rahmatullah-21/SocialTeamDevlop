@@ -1,9 +1,10 @@
 ﻿using DominatorHouseCore.DatabaseHandler.Common;
-using DominatorHouseCore.DatabaseHandler.Common.Accounts;
+using DominatorHouseCore.Enums;
+using System;
 
 namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 {
-    public class InteractedPosts : Entity, IInteractedPosts
+    public class InteractedPosts : Entity, IActivityTypeEntity
     {
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
         public string AccountUsername { get; set; }
@@ -17,14 +18,8 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string ActivityType { get; set; }
 
-        int IInteractedPosts.InteractionDate { get; set; }
-
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        public int InteractionTimeStamp
-        {
-            get { return ((IInteractedPosts)this).InteractionDate; }
-            set { ((IInteractedPosts)this).InteractionDate = value; }
-        }
+        public int InteractionTimeStamp { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public string ChannelName { get; set; }
@@ -33,54 +28,58 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         public string ChannelId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        public string ChannelUserName { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public string ChannelUserId { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string ViewsCount { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string LikeCount { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public string DislikeCount { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public string LikeStatus { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
+        public LikeStatus ReactionOnPost { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
         public string PublishedDate { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public string PostDescription { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string SubscribeCount { get; set; }
-        
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public string CommentCount { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string VideoUrl { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public int VideoLength { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public bool IsSubscribed { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
-        public string VideoDuration { get; set; }
+        public string MyCommentedText { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
-        public string SubscribeStatus { get; set; }
+        public string CommentId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
-        public string CommentsPresent { get; set; }
-
+        public string MyChannelId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
-        public string CommentToVideo { get; set; }
-
+        public string MyChannelPageId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
-        public string ReplyToComment { get; set; }
+        public int ViewingCountPerAccount { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
-        public string CommentId { get; set; }
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
+        public enum LikeStatus
+        {
+            Like, Dislike, Indifferent
+        }
     }
 }

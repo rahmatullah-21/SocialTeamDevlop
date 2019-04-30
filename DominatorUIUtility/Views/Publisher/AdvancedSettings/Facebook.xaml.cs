@@ -67,11 +67,13 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
             var facebookModel = _genericFileManager.GetModuleDetails<FacebookModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook))
+                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Facebook))
                 .FirstOrDefault(x => x.CampaignId == campaignId);
+
             FacebookViewModel.FacebookModel = facebookModel ?? (new FacebookModel());
+
+            if (!FacebookViewModel.FacebookModel.IsPostAsPage && !FacebookViewModel.FacebookModel.IsPostAsSamePage)
+                FacebookViewModel.FacebookModel.IsPostAsOwnAccount = true;
         }
-
-
     }
 }

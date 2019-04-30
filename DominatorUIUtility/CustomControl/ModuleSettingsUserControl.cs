@@ -44,7 +44,8 @@ namespace DominatorUIUtility.CustomControl
         private readonly IAccountsCacheService _accountsCacheService;
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDominatorScheduler _dominatorScheduler;
-
+        private readonly IDataBaseHandler _dataBaseHandler;
+        DbOperations globalDbOperation;
 
         #region Constructor
 
@@ -54,6 +55,7 @@ namespace DominatorUIUtility.CustomControl
             _accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
             CreateCampaignCommand = new BaseCommand<object>((sender) => true, CreateOrUpdateCampaign);
             SelectAccountCommand = new BaseCommand<object>((sender) => true, (sender) => SelectAccount());
             CancelEditCommand = new BaseCommand<object>((sender) => true, (sender) =>
@@ -66,19 +68,49 @@ namespace DominatorUIUtility.CustomControl
             LoadedCommand = new BaseCommand<object>((sender) => true, (sender) => SetSelectedAccounts());
             SelectionChangedCommand = new BaseCommand<object>((sender) => true, (sender) => SetAccountModeDataContext());
             StatusChangedCommand = new BaseCommand<object>((sender) => true, (sender) => AccountModeStatusChange());
-
+            globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+            HeaderHelper.UpdateToggleButtonInCampaignMode += UpdateCampaignModeToggleButton;
+            HeaderHelper.UpdateToggleButtonInAccountActivityMode += UpdateAccountActivityModeToggleButton;
 
         }
 
+        #endregion
+
+        void UpdateCampaignModeToggleButton()
+        {
+            if (_headerControl != null)
+            {
+                var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(this);
+
+                if (isAllCollapsed)
+                    _headerControl.IsExpanded = false;
+                else _headerControl.IsExpanded = true;
+            }
+
+        }
+        void UpdateAccountActivityModeToggleButton()
+        {
+            if (_accountGrowthModeHeader != null)
+            {
+                var isAllCollapse = HeaderHelper.IsAllExpanderCollapseOrNot(this);
+
+                if (isAllCollapse)
+                    _accountGrowthModeHeader.IsExpanded = false;
+                else _accountGrowthModeHeader.IsExpanded = true;
+            }
+
+        }
         private void CreateOrUpdateCampaign(object sender)
         {
-
             var control = sender as FooterControl;
+
             if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
                 UpdateCampaign();
         }
+
+        #region Commands
 
         public ICommand CreateCampaignCommand { get; set; }
         public ICommand SelectAccountCommand { get; set; }
@@ -92,16 +124,15 @@ namespace DominatorUIUtility.CustomControl
 
         #region Properties
 
-        HeaderControl _headerControl;
+        private HeaderControl _headerControl;
         public FooterControl _footerControl;
         public SearchQueryControl _queryControl;
-        Grid _mainGrid;
-        AccountGrowthModeHeader _accountGrowthModeHeader;
-        ActivityType _activityType;
-        string _moduleName;
+        private Grid _mainGrid;
+        public AccountGrowthModeHeader _accountGrowthModeHeader;
+        private ActivityType _activityType;
+        private string _moduleName;
         protected SocialNetworks SocialNetwork = SocinatorInitialize.ActiveSocialNetwork;
-
-        bool _initialized;
+        private bool _initialized;
         private bool _isCancelledUpdate = false;
 
         #endregion
@@ -118,8 +149,6 @@ namespace DominatorUIUtility.CustomControl
             AccountGrowthModeHeader accountGrowthModeHeader = null
             )
         {
-            //if (queryControl == null) throw new ArgumentNullException(nameof(queryControl));
-
             if (_initialized) return;
 
             _headerControl = header;
@@ -130,7 +159,6 @@ namespace DominatorUIUtility.CustomControl
             _moduleName = moduleName;
             _accountGrowthModeHeader = accountGrowthModeHeader;
             _initialized = true;
-
         }
 
         #endregion
@@ -201,7 +229,6 @@ namespace DominatorUIUtility.CustomControl
 
         #region IHelpControl
 
-        // 
         public string VideoTutorialLink { get; set; } = "!Pass ConstantHelpDetails.VideoTutorialsLink in Derived Class";
 
         public string KnowledgeBaseLink { get; set; } = "!Pass ConstantHelpDetails.KnowledgeBaseLink";
@@ -327,12 +354,20 @@ namespace DominatorUIUtility.CustomControl
         public virtual void AddNewCampaign(List<string> lstSelectedAccounts, ActivityType moduleType) { }
 
         protected virtual void SetModuleValues(bool isToggleButtonActive, TemplateModel templateModel) { }
-
+        bool ValidateCampaignName()
+        {
+            if (string.IsNullOrEmpty(CampaignName))
+            {
+                Dialog.ShowDialog("Error", "Campaign name should not be empty.Please type name for Campaign");
+                return true;
+            }
+            return false;
+        }
         protected virtual bool ValidateCampaign()
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please select at least one account.");
+                Dialog.ShowDialog("Error", "Please select at least one account.");
                 return false;
             }
             //Check Query
@@ -346,7 +381,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one time range when to run and stop the activity.");
+                Dialog.ShowDialog("Error", "Please add at least one time range when to run and stop the activity.");
                 return false;
             }
             return true;
@@ -356,17 +391,16 @@ namespace DominatorUIUtility.CustomControl
 
         protected virtual bool ValidateQuery()
         {
-
             if (Model.SavedQueries.Count == 0)
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.");
+                Dialog.ShowDialog("Error", "Please add at least one query.");
                 return false;
             }
-
             return true;
         }
 
         #endregion
+
 
         #region Set Data context
 
@@ -384,12 +418,13 @@ namespace DominatorUIUtility.CustomControl
 
             _footerControl.list_SelectedAccounts = new List<string>();
 
-            // _mainGrid.DataContext = Model as TModel;
             _mainGrid.DataContext = ObjViewModel;
 
             _headerControl.DataContext = _footerControl.DataContext = this;
 
             CampaignName = $"{SocialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
+            if (_queryControl != null)
+                _queryControl.ActivityType = _activityType;
         }
 
         #endregion
@@ -400,6 +435,9 @@ namespace DominatorUIUtility.CustomControl
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
+                if (ValidateCampaignName())
+                    return;
+
                 if (!ValidateCampaign())
                     return;
 
@@ -483,6 +521,7 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
 
                 _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
+                globalDbOperation.UpdateAccountActivityManager(account);
             });
             _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
 
@@ -506,7 +545,7 @@ namespace DominatorUIUtility.CustomControl
             var dbOperations =
                 new DbOperations(campaignDetails.CampaignId, SocialNetwork, ConstantVariable.GetCampaignDb);
 
-            DataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
+            _dataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
             campaignFileManager.Add(campaignDetails);
@@ -626,8 +665,6 @@ namespace DominatorUIUtility.CustomControl
             accountDetails.ForEach(account =>
             {
                 AddTemplateToAccount(templateId, account, runningTime);
-
-                //AccountsFileManager.Edit(account);
             });
             var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
             accountsCacheService.UpsertAccounts(accountDetails.ToArray());
@@ -657,6 +694,9 @@ namespace DominatorUIUtility.CustomControl
 
             moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, 0);
             _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
+
+            //Update ActivityManager of account in Db
+            globalDbOperation.UpdateAccountActivityManager(account);
         }
 
         #endregion
@@ -737,6 +777,8 @@ namespace DominatorUIUtility.CustomControl
 
         protected void UpdateCampaign()
         {
+            if (ValidateCampaignName())
+                return;
 
             if (!ValidateCampaign())
                 return;
@@ -763,23 +805,19 @@ namespace DominatorUIUtility.CustomControl
 
                 accountToRemoveModuleConfiguration.ForEach(account =>
                 {
-
                     try
                     {
-
                         var moduleSettings = _jobActivityConfigurationManager[account.AccountId, _activityType];
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
                         _dominatorScheduler.StopActivity(account, _activityType.ToString(),
-                            moduleSettings?.TemplateId, true);
+                            moduleSettings?.TemplateId, false);
                         _jobActivityConfigurationManager.Delete(account.AccountId, _activityType);
-
+                        globalDbOperation.UpdateAccountActivityManager(account);
                     }
                     catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
-
-
                 });
 
                 _accountsCacheService.UpsertAccounts(accountToRemoveModuleConfiguration.ToArray());
@@ -790,8 +828,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
-
 
             // Update Template Details
             var TemplatesFileManager = ServiceLocator.Current.GetInstance<ITemplatesFileManager>();
@@ -816,9 +852,8 @@ namespace DominatorUIUtility.CustomControl
                         {
                             var moduleSettings = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
                             moduleSettings.LstRunningTimes = secondRunningTime;
-                            _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, true);
+                            _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(), TemplateId, false);
                         }
-
                     }
                     catch (Exception ex)
                     {
@@ -834,12 +869,10 @@ namespace DominatorUIUtility.CustomControl
 
 
             // Update Campaign Details
-            campaignFileManager.ForEach(campaign =>
+            campaignFileManager.ToList().ForEach(campaign =>
             {
-
                 if (campaign.TemplateId == TemplateId)
                 {
-
                     campaign.CampaignName = CampaignName;
                     campaign.MainModule = _moduleName;
                     campaign.SubModule = _activityType.ToString();
@@ -868,22 +901,20 @@ namespace DominatorUIUtility.CustomControl
 
                     #endregion
 
+                    campaignFileManager.Edit(campaign);
                 }
             });
-
 
             // Update Account Detail
             var accountDetails = _accountsFileManager.GetAll(SocialNetwork);
             if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
                 ToasterNotification.ShowSuccess($"Campaign:- {CampaignName } updated successfully");
 
-
             SetDataContext();
             TabSwitcher.GoToCampaign();
-
         }
 
-        string GetWarningLangRsrc()
+        private string GetWarningLangRsrc()
         {
             try
             {
@@ -897,7 +928,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        bool UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
+        private bool UpdateNewlyAddedAccounts(List<string> newlyAddedAccounts)
         {
             bool isProcessSuccessful = false;
             bool needToCancel = false;
@@ -984,6 +1015,7 @@ namespace DominatorUIUtility.CustomControl
                         _dominatorScheduler.StopActivity(account, _activityType.ToString(),
                             moduleSettings.TemplateId, true);
                         _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleSettings);
+                        globalDbOperation.UpdateAccountActivityManager(account);
                     });
 
                     _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
@@ -1014,8 +1046,7 @@ namespace DominatorUIUtility.CustomControl
 
             else
             {
-
-                #region Update newyly added account setting
+                #region Update newly added account setting
 
                 accountDetails.ForEach(account =>
                 {
@@ -1036,7 +1067,7 @@ namespace DominatorUIUtility.CustomControl
             var isAccountDetailsUpdated = false;
 
             var selectedAccounts = new List<DominatorAccountModel>(listSelectedAccounts.Count);
-
+            var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
             foreach (var account in allAccountDetails)
             {
                 if (!listSelectedAccounts.Contains(account.AccountBaseModel.UserName))
@@ -1079,7 +1110,7 @@ namespace DominatorUIUtility.CustomControl
                     selectedAccounts.Add(account);
                     _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
 
-                    // AccountsFileManager.Edit(account);
+                    globalDbOperation.UpdateAccountActivityManager(account);
                 }
                 catch (Exception ex)
                 {
@@ -1087,7 +1118,9 @@ namespace DominatorUIUtility.CustomControl
                 }
             }
             _accountsCacheService.UpsertAccounts(allAccountDetails.ToArray());
-            // save all accounts and schedule actitvities of selected accounts            
+
+
+            // schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
                 _dominatorScheduler.ScheduleNextActivity(account, _activityType);
@@ -1118,9 +1151,8 @@ namespace DominatorUIUtility.CustomControl
                 isAccountDetailsUpdated = true;
                 try
                 {
-
                     var moduleConfiguration = _jobActivityConfigurationManager[account.AccountId, _activityType] ?? new ModuleConfiguration() { ActivityType = _activityType };
-                    _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, _activityType, moduleConfiguration);
+                    moduleConfiguration.TemplateId = TemplateId;
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
                     moduleConfiguration.IsEnabled = true;
                     moduleConfiguration.Status = "Active";
@@ -1130,6 +1162,7 @@ namespace DominatorUIUtility.CustomControl
 
                     selectedAccounts.Add(account);
                     _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
+                    globalDbOperation.UpdateAccountActivityManager(account);
                 }
                 catch (Exception ex)
                 {
@@ -1139,18 +1172,14 @@ namespace DominatorUIUtility.CustomControl
 
             _accountsCacheService.UpsertAccounts(allAccountDetails.ToArray());
 
-            // save all accounts and schedule actitvities of selected accounts            
+            //schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
                 _dominatorScheduler.ScheduleNextActivity(account, _activityType);
-                //DominatorScheduler.ScheduleTodayJobs(account, account.AccountBaseModel.AccountNetwork, _activityType);
-                //DominatorScheduler.ScheduleForEachModule(moduleToIgnore: _activityType, account: account, network: account.AccountBaseModel.AccountNetwork);
             }
 
             return isAccountDetailsUpdated;
         }
-
-
 
         #endregion
 
@@ -1301,8 +1330,8 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var accountModel = _accountsFileManager.GetAccount(selectedAccount, socialNetworks);
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, _activityType];
+                // var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var moduleConfiguration = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
                 if (moduleConfiguration?.TemplateId == null || moduleConfiguration.LstRunningTimes == null)
                 {
                     Model.IsAccountGrowthActive = !isStart;
@@ -1333,11 +1362,18 @@ namespace DominatorUIUtility.CustomControl
 
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
+                globalDbOperation.UpdateAccountActivityManager(accountModel);
                 if (!moduleConfiguration.IsEnabled)
+                {
                     _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                         moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
+                    ToasterNotification.ShowSuccess("Successfully stopped");
+                }
                 else
+                {
+                    ToasterNotification.ShowSuccess("Successfully activated");
                     _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                }
                 return moduleConfiguration.IsEnabled;
             }
             catch (Exception ex)
@@ -1387,49 +1423,6 @@ namespace DominatorUIUtility.CustomControl
 
         #region Save last selected accounts in account configuration mode
 
-        [Obsolete("Dont use this method instead use SetSelectedAccounts with single parameter", true)]
-        public void SetSelectedAccounts(SocialNetworks networks, string selectedAccounts)
-        {
-            var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
-
-            _accountGrowthModeHeader.AccountItemSource = accounts;
-
-            switch (networks)
-            {
-                case SocialNetworks.Facebook:
-                    SelectedDominatorAccounts.FdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Instagram:
-                    SelectedDominatorAccounts.GdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Twitter:
-                    SelectedDominatorAccounts.TdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Pinterest:
-                    SelectedDominatorAccounts.PdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.LinkedIn:
-                    SelectedDominatorAccounts.LdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Reddit:
-                    SelectedDominatorAccounts.RdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Quora:
-                    SelectedDominatorAccounts.QdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Gplus:
-                    SelectedDominatorAccounts.GplusAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Youtube:
-                    SelectedDominatorAccounts.YdAccounts = selectedAccounts;
-                    break;
-                case SocialNetworks.Tumblr:
-                    SelectedDominatorAccounts.TumblrAccounts = selectedAccounts;
-                    break;
-            }
-            _accountGrowthModeHeader.SelectedItem = selectedAccounts ?? (!string.IsNullOrEmpty(accounts[0]) ? accounts[0] : "");
-        }
-
         public void SetSelectedAccounts(SocialNetworks networks)
         {
             var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
@@ -1453,15 +1446,15 @@ namespace DominatorUIUtility.CustomControl
             if (!ValidateRunningTime()) return;
 
             var accountModel = _accountsFileManager.GetAccount(_accountGrowthModeHeader.SelectedItem, SocialNetwork);
-            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId, _activityType];
+            //var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = _jobActivityConfigurationManager[accountModel.AccountId, _activityType];
             if (moduleConfiguration?.TemplateId != null)
             {
                 if (moduleConfiguration.IsTemplateMadeByCampaignMode)
                 {
-                    var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                                "This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.",
-                                MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Yes", "No"));
+                    var dialogResult = Dialog.ShowCustomDialog("Warning",
+                                "This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.\nAre you sure you want to override previous settings ?",
+                                "Yes", "No");
                     if (dialogResult == MessageDialogResult.Negative)
                         return;
                 }
@@ -1469,7 +1462,7 @@ namespace DominatorUIUtility.CustomControl
 
                 // need to check whether its running or not, if its running then need to stop process
                 _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
-                    moduleConfiguration.TemplateId, false);
+                    moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
 
                 // update the template
                 UpdateTemplate(accountModel, moduleConfiguration.TemplateId,
@@ -1477,7 +1470,7 @@ namespace DominatorUIUtility.CustomControl
 
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
-                _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
+                //_dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
                 ToasterNotification.ShowSuccess("Successfully Saved !!!");
                 #endregion
             }
@@ -1485,7 +1478,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 #region Template not present case
                 moduleConfiguration = new ModuleConfiguration { ActivityType = _activityType };
-                jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountId, _activityType, moduleConfiguration);
+                _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountId, _activityType, moduleConfiguration);
 
                 moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
 
@@ -1512,10 +1505,12 @@ namespace DominatorUIUtility.CustomControl
                 moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration);
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success", "Successfully Saved !!!");
+
+                Dialog.ShowDialog("Success", "Successfully Saved !!!");
                 #endregion
 
             }
+            globalDbOperation.UpdateAccountActivityManager(accountModel);
         }
 
         private static void AddNewTemplate<T>(T moduleToSave, string userName, ActivityType moduleType, DominatorAccountModel account) where T : class
@@ -1578,8 +1573,8 @@ namespace DominatorUIUtility.CustomControl
 
                 account.ActivityManager.RunningTime = jobConfiguration.RunningTime;
 
-                var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                var accountModuleSettings = jobActivityConfigurationManager[account.AccountId, _activityType];
+                //  var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                var accountModuleSettings = _jobActivityConfigurationManager[account.AccountId, _activityType];
                 if (accountModuleSettings != null)
                 {
                     if (accountModuleSettings.LstRunningTimes == null)
@@ -1590,6 +1585,7 @@ namespace DominatorUIUtility.CustomControl
                 accountModuleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(accountModuleSettings);
                 _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, accountModuleSettings);
                 _accountsCacheService.UpsertAccounts(account);
+                globalDbOperation.UpdateAccountActivityManager(account);
             }
             catch (Exception ex)
             {
@@ -1641,6 +1637,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                bool IsQueryOfCurrentModule = false;
                 if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue.Trim()) && _queryControl.QueryCollection.Count == 0)
                     return;
 
@@ -1659,12 +1656,24 @@ namespace DominatorUIUtility.CustomControl
                         var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
 
                         if (currentQuery == null) return;
-
-                        currentQuery.QueryValue = query;
-                        currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
-                        //  currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
-
-                        currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+                        var lstquery = query.Split('\t').ToList();
+                        if (lstquery.Count > 1)
+                            if (SocialNetwork.ToString() == lstquery[0] && lstquery[1] == _activityType.ToString())
+                            {
+                                currentQuery.QueryType = lstquery[2];
+                                currentQuery.QueryValue = lstquery[3];
+                                currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                                currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+                                IsQueryOfCurrentModule = true;
+                            }
+                            else
+                                return;
+                        else
+                        {
+                            currentQuery.QueryValue = query;
+                            currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                            currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+                        }
 
                         if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
                         {
@@ -1675,6 +1684,9 @@ namespace DominatorUIUtility.CustomControl
                         Model.SavedQueries.Add(currentQuery);
                         currentQuery.Index = Model.SavedQueries.IndexOf(currentQuery) + 1;
                     });
+                    if (!IsQueryOfCurrentModule)
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetwork.ToString(), CampaignName, _activityType, $"Query can't add because it may not related to {SocialNetwork}  {_activityType} module.");
+
                     if (queryValuIndex.Count > 0)
                     {
                         if (queryValuIndex.Count <= 10)
@@ -1727,14 +1739,13 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
         public void SetSelectedAccounts()
         {
             try
             {
                 var networks = SocinatorInitialize.AccountModeActiveSocialNetwork;
-                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks).Select(x => x.UserName));
+                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks && x.AccountBaseModel.Status == AccountStatus.Success).Select(x => x.UserName));
 
                 _accountGrowthModeHeader.AccountItemSource = accounts;
 
@@ -1746,7 +1757,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
 
         public void SetAccountModeDataContext()

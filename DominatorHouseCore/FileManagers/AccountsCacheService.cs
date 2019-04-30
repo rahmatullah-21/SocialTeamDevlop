@@ -50,11 +50,13 @@ namespace DominatorHouseCore.FileManagers
 
         public bool UpsertAccounts(params DominatorAccountModel[] accounts)
         {
+            bool result = false;
+            IEnumerable<DominatorAccountModel> cachedAccounts = new DominatorAccountModel[0];
             lock (_syncContext)
             {
                 var cacheCopy = _cache.Value.ToDictionary(a => a.Key, a => a.Value);
                 UpsertData(cacheCopy, accounts);
-                var result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
+                result = _binFileHelper.UpdateAllAccounts(cacheCopy.Values.ToList());
                 if (result)
                 {
                     _cache.Value.Clear();
@@ -63,12 +65,16 @@ namespace DominatorHouseCore.FileManagers
                         _cache.Value.Add(model.Key, model.Value);
                     }
 
-                    OnCacheUpdated(_cache.Value.Values);
+                    cachedAccounts = _cache.Value.Values;
                 }
 
 
-                return result;
             }
+
+            if (result)
+                OnCacheUpdated(cachedAccounts);
+
+            return result;
         }
 
         public bool Delete(params DominatorAccountModel[] accounts)

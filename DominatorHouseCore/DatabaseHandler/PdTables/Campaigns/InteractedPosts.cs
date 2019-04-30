@@ -62,7 +62,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public MediaType MediaType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public ActivityType OperationType { get; set; }
+        public string OperationType { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
         public string UserId { get; set; }
@@ -92,5 +92,11 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string BoardLabel { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public string DestinationBoard { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
+        public string Comment { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
+        public string PublishedDate { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
+        public string PinTitle { get; set; }
     }
 }

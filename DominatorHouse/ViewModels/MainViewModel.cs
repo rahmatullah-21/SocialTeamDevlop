@@ -20,7 +20,6 @@ using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
-using EmbeddedBrowser;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -63,6 +62,7 @@ namespace DominatorHouse.ViewModels
         }
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
+            SocinatorKeyHelper.InitilizeKey();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
@@ -98,13 +98,8 @@ namespace DominatorHouse.ViewModels
 
             Strategies = new AccessorStrategies
             {
-                ActionCheckAccount = AccountStatusChecker,
-                AccountBrowserLogin = AccountBrowserLogin,
                 _determine_available = a => AvailableNetworks.Contains(a),
                 _inform_warnings = GlobusLogHelper.log.Warn,
-                action_UpdateFollower = AccountUpdate,
-                EditProfile = EditProfile,
-                RemovePhoneVerification = RemovePhoneVerification
             };
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
@@ -114,11 +109,11 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-
                 e.Cancel = true;
                 bool isClose = Dialog.ShowCustomDialog("Confirmation", "Are you sure to close Socinator?", "Yes", "No") == MessageDialogResult.Affirmative;
                 if (isClose)
                 {
+                    DominatorHouseCore.Utility.Utilities.KillGecko();
                     Application.Current.Shutdown();
                     Process.GetCurrentProcess().Kill();
                 }
@@ -135,7 +130,7 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-                var key = SocinatorKeyHelper.GetKey();
+                var key = SocinatorKeyHelper.Key;
 
                 var networks = await UtilityManager.LogIndividualNetworksExceptions(key.FatalErrorMessage);
 
@@ -181,13 +176,13 @@ namespace DominatorHouse.ViewModels
         private async Task FatalErrorDiagnosis()
         {
             string fatalError;
-            var key = SocinatorKeyHelper.GetKey();
+            var key = SocinatorKeyHelper.Key;
             if (key != null)
             {
                 _isStartedfirstTime = true;
                 if (await DiagnoseFatalError(key.FatalErrorMessage))
                 {
-                    if(!_isStartedfirstTime)
+                    if (!_isStartedfirstTime)
                         return;
                     var settings = new MetroDialogSettings()
                     {
@@ -252,7 +247,7 @@ namespace DominatorHouse.ViewModels
             }
             if (networks.Count <= 1)
             {
-                
+
                 await controller.CloseAsync();
                 if (!_isStartedfirstTime)
                     await FatalErrorDiagnosis();
@@ -296,45 +291,64 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-                FeatureFlags.UpdateFeatures();
-                var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
-                foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
+                DirectoryUtilities.CompressAccountDetails();
+                Task.Factory.StartNew(() =>
                 {
-                    var module = socialNetworkModule;
-                    FeatureFlags.Check(module.Network.ToString(), () =>
+                    FeatureFlags.UpdateFeatures();
+                    var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
+                    foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                     {
-                        try
+                        var module = socialNetworkModule;
+                        if (FeatureFlags.Instance.ContainsKey(module.Network.ToString()))
                         {
-                            SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                            PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
-                            AddNetwork(socialNetworkModule.Network);
+                            try
+                            {
+                                SocinatorInitialize.SocialNetworkRegister(
+                                    module.GetNetworkCollectionFactory(Strategies), module.Network);
+                                PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(),
+                                    module.Network);
+                                AddNetwork(socialNetworkModule.Network);
+                            }
+                            catch (AggregateException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.DebugLog();
+                            }
                         }
-                        catch (AggregateException ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    });
-                }
+                        //FeatureFlags.Check(module.Network.ToString(), () =>
+                        //{
+                        //    try
+                        //    {
+                        //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
+                        //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                        //        AddNetwork(socialNetworkModule.Network);
+                        //    }
+                        //    catch (AggregateException ex)
+                        //    {
+                        //        Console.WriteLine(ex.Message);
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        ex.DebugLog();
+                        //    }
+                        //});
+                        Task.Delay(5);
+                    }
 
-                SetActiveNetwork(SocialNetworks.Social);
+                    SetActiveNetwork(SocialNetworks.Social);
+                });
                 ThreadFactory.Instance.Start(() =>
                 {
-                    _schedulerProxy.AddJob(() => InitializeJobCores(), x => x.ToRunNow());
+                    _schedulerProxy.AddJob(InitializeJobCores, x => x.ToRunNow());
                 });
-
-                //Init UI delegates            
-                CampaignGlobalRoutines.Instance.ConfirmDialog = msg =>
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirm", msg) ==
-                    MessageDialogResult.Affirmative;
-
 
                 ConfigFileManager.ApplyTheme();
 
                 Application.Current.MainWindow.Closed += (o, e) => Process.GetCurrentProcess().Kill();
+
             }
             catch (AggregateException ex)
             {
@@ -345,7 +359,6 @@ namespace DominatorHouse.ViewModels
                 ex.DebugLog();
             }
         }
-
 
         private void InitializeJobCores()
         {
@@ -362,44 +375,84 @@ namespace DominatorHouse.ViewModels
 
                 FeatureFlags.UpdateFeatures();
 
-                var softWareSettings = new Utilities.SoftwareSettings();
-                ThreadFactory.Instance.Start(() => { softWareSettings.InitializeOnLoadConfigurations(Strategies); });
-
-                ThreadFactory.Instance.Start(() => { ServiceLocator.Current.GetInstance<ISoftwareSettings>().InitializeOnLoadConfigurations(); });
-
-                // For Every day backup
-                ThreadFactory.Instance.Start(() =>
+                Task.Factory.StartNew(() =>
                 {
+
+                    #region log deletion and backup Account
+
                     DirectoryUtilities.DeleteOldLogsFile();
-                    //DirectoryUtilities.Compress();
+                   
+
+                    #endregion
+
+                    #region SoftwareSettings
+
+                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                    softwareSetting.InitializeOnLoadConfigurations();
+
+                  //  softwareSetting.ActivityManagerInitializer();
+
+                    //softwareSetting.ScheduleAutoUpdation();
+                    //if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                    //    softwareSetting.ScheduleAdsScraping();
+
+                    #endregion
+
+
                 });
-
-                #region Publisher
-
-                ThreadFactory.Instance.Start(() =>
+                Task.Factory.StartNew(() =>
                 {
+                    #region Publisher
+
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
                     PublishScheduler.ScheduleTodaysPublisher();
                     PublishScheduler.UpdateNewGroupList();
-                });
-
-                ThreadFactory.Instance.Start(() =>
-                {
                     var publisherPostFetcher = new PublisherPostFetcher();
                     publisherPostFetcher.StartFetchingPostData();
-                });
 
-                ThreadFactory.Instance.Start(() =>
-                {
+                    #endregion
+
                     var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
                     var deletionPostlist =
                         genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
-                        .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
                     deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
                 });
 
-                #endregion
+                //Parallel.Invoke(() =>
+                //                 {
+                //                     DirectoryUtilities.DeleteOldLogsFile();
+                //                     DirectoryUtilities.CompressAccountDetails();
+                //                 },
+                //                 () =>
+                //                  {
+                //                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                //                    softwareSetting.InitializeOnLoadConfigurations();
+                //                    softwareSetting.ActivityManagerInitializer();
+                //                    softwareSetting.ScheduleAutoUpdation();
+                //                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                //                        softwareSetting.ScheduleAdsScraping();
+                //                },
 
+                //                () =>
+                //                {
+                //                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                //                    PublishScheduler.ScheduleTodaysPublisher();
+                //                    PublishScheduler.UpdateNewGroupList();
+                //                },
+                //               () =>
+                //                {
+                //                    var publisherPostFetcher = new PublisherPostFetcher();
+                //                    publisherPostFetcher.StartFetchingPostData();
+                //                },
+                //                () =>
+                //                {
+                //                    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                //                    var deletionPostlist =
+                //                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                //                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                //                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
+                //                });
             }
             catch (Exception ex)
             {
@@ -422,92 +475,6 @@ namespace DominatorHouse.ViewModels
             catch (AggregateException ex)
             {
                 ex.DebugLog();
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-
-        private void RemovePhoneVerification(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    var profileFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().ProfileFactory;
-                    profileFactory.RemovePhoneVerification(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        private void EditProfile(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    var profileFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().ProfileFactory;
-                    profileFactory.EditProfile(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-
-        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                var browserWindow = new BrowserWindow(dominatorAccountModel);
-                browserWindow.Show();
-            }
-            catch (Exception ex)
-            {
-                GlobusLogHelper.log.Error(ex.Message);
-            }
-        }
-        public void AccountStatusChecker(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var accountUpdateFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    accountUpdateFactory.CheckStatus(dominatorAccountModel);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
-        }
-
-        public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
-        {
-            try
-            {
-                ThreadFactory.Instance.Start(() =>
-                {
-                    var accountUpdateFactory = SocinatorInitialize
-                        .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
-                        .GetNetworkCoreFactory().AccountUpdateFactory;
-                    accountUpdateFactory.UpdateDetails(dominatorAccountModel);
-                });
             }
             catch (Exception ex)
             {
@@ -594,19 +561,19 @@ namespace DominatorHouse.ViewModels
             }
         }
 
-
         private void ChangeTabWithNetwork(int index, SocialNetworks network, string selectedAccount)
         {
+            var AutoActivityViewModel = ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>();
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
             {
                 TabItems.SelectByIndex(index);
-                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().NewAutoActivityObject(network, selectedAccount);
+                AutoActivityViewModel.NewAutoActivityObject(network, selectedAccount);
             }
             else
             {
                 TabItems.SelectByIndex(index);
-                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().CallRespectiveView(SocialNetworks.Social);
-                ServiceLocator.Current.GetInstance<IDominatorAutoActivityViewModel>().NewAutoActivityObject(network, selectedAccount);
+                AutoActivityViewModel.CallRespectiveView(SocialNetworks.Social);
+                AutoActivityViewModel.NewAutoActivityObject(network, selectedAccount);
             }
         }
 

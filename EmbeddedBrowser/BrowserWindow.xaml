@@ -63,8 +63,12 @@
                     <Label  FontWeight="SemiBold" Content="Url" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="13" Foreground="White" Background="{DynamicResource AccentColorBrush}" Height="34" Width="40"></Label>
 
                     <TextBox  FontSize="13" FontWeight="SemiBold"  Width="900" Height="34" Style="{StaticResource SearchMetroTextBox}"
-                              control:TextBoxHelper.ButtonCommand="{Binding SerachCommand}"
-                              BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" x:Name="UrlBar" VerticalContentAlignment="Center"  Text=""/>
+                              control:TextBoxHelper.ButtonCommand="{Binding SearchCommand}" control:TextBoxHelper.SelectAllOnFocus="True"
+                              BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" Foreground="{DynamicResource AccentColorBrush}" x:Name="UrlBar" VerticalContentAlignment="Center"  Text="">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding SearchCommand}" Key="Enter"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
 
                     <StackPanel Background="{DynamicResource AccentColorBrush}" Margin="1">
                         <Button Background="Transparent" Width="30" Height="30" Margin="2" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="ButtonRefresh" Click="ButtonRefresh_OnClick">

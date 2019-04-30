@@ -140,7 +140,7 @@
                                     </customControl:SocinatorTextBox.LoadingContent>
                                 </customControl:SocinatorTextBox>
                             </StackPanel>-->
-                            <StackPanel Margin="1">
+                            <StackPanel Margin="1" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path= IsMediaVisibility}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource LangKeyMediaS}" FontSize="12" VerticalAlignment="Center" />
                                 </StackPanel>
@@ -184,7 +184,7 @@
                             </StackPanel>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
+                                    <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
                                              Margin="2" TextWrapping="Wrap" Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PostTitleHeight}" Width="300"  AcceptsReturn="True"
                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PublisherInstagramTitle}"/>
                                     <StackPanel VerticalAlignment="Center">
@@ -217,33 +217,35 @@
                                     <RadioButton Content="{DynamicResource LangKeyRemoveTitleOnceUsed}"  GroupName="title" Margin="0,5"
                                                  IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsRemoveTitleOnceUsed, Mode=TwoWay}"/>
                                 </StackPanel>
-                               
 
-                                <StackPanel Orientation="Horizontal" >
-                                    <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
+
+                                <StackPanel Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsSourceUrlAndFdSellPostVisible}">
+                                    <StackPanel Orientation="Horizontal" >
+                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
                                              mah:TextBoxHelper.Watermark="{DynamicResource LangKeySourceUrl}" Margin="2" 
                                              TextWrapping="Wrap" Height="30" Width="300" AcceptsReturn="True"
                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PdSourceUrl}"/>
-                                </StackPanel>
+                                    </StackPanel>
 
-                                <StackPanel Visibility="{TemplateBinding behaviours:NetworkAvailablity.FbElementVisible}">
-                                    <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource LangKeyEnableFacebookSellPost}" 
+                                    <StackPanel Visibility="{TemplateBinding behaviours:NetworkAvailablity.FbElementVisible}">
+                                        <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource LangKeyEnableFacebookSellPost}" 
                                                IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsFdSellPost}"/>
-                                    <StackPanel Visibility="{Binding ElementName =CheckBoxFdSellPost, Path=IsChecked ,Converter= {StaticResource BooleanToVisibilityConverter}}">
-                                        <TextBox VerticalAlignment="Center"  AcceptsReturn="True" HorizontalAlignment="Left"
+                                        <StackPanel Visibility="{Binding ElementName =CheckBoxFdSellPost, Path=IsChecked ,Converter= {StaticResource BooleanToVisibilityConverter}}">
+                                            <TextBox VerticalAlignment="Center"  AcceptsReturn="True" HorizontalAlignment="Left"
                                                  mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWhatAreYouSelling}" Name="TextBoxFdSellProductTitle" 
                                                  VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="40" Width="303"
                                                  Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellProductTitle}"/>
-                                        <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">
-                                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
+                                            <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">
+                                                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
                                                      mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPrice}"
                                                      Name="TextBoxFdSellPrice"  VerticalContentAlignment="Center"  Margin="2" 
                                                      TextWrapping="Wrap" Height="30" Width="100"
                                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellPrice}"/>
-                                            <TextBox VerticalAlignment="Center"  mah:TextBoxHelper.Watermark="{DynamicResource LangKeyLocation}" 
+                                                <TextBox VerticalAlignment="Center"  mah:TextBoxHelper.Watermark="{DynamicResource LangKeyLocation}" 
                                                      HorizontalAlignment="Left" Name="TextBoxFdSellLocation"  VerticalContentAlignment="Center" 
                                                      Margin="2" TextWrapping="Wrap" Height="30" Width="200"
                                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellLocation}"/>
+                                            </StackPanel>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
@@ -278,7 +280,7 @@
                                                  AcceptsReturn="True"                                                                               
                                                  Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}"
                                                  mah:TextBoxHelper.Watermark="{TemplateBinding Watermark}"                                          
-                                                 Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                                 Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                     </ScrollViewer>
                                 </Grid>
                             </DockPanel>
