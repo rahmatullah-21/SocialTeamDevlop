@@ -34,9 +34,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         private void UploadPostDetails()
         {
             var postDetails = FileUtilities.FileBrowseAndReader();
-            if(postDetails.Count>0)
+            if (postDetails.Count > 0)
             {
-                ScrapePostModel.LstScrapedPostDetails.AddRange(postDetails);
+                postDetails.ForEach(x => ScrapePostModel.LstScrapedPostDetails.Add(x.Trim()));
                 ToasterNotification.ShowSuccess("Post details successfully uploaded.");
             }
         }

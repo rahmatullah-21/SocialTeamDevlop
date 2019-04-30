@@ -144,8 +144,6 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
             liveChatViewModel.LiveChatModel.LstChat[1].Messeges.Should().Be("whats up");
         }
 
-
-        //Today
         [TestMethod]
         public void should_UserSelectionChangedCommand_return_empty_sender_list_if_account_is_not_selected()
         {

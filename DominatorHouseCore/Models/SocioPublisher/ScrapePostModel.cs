@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -187,9 +188,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private List<string> _lstScrapedPostDetails = new List<string>();
+        private ObservableCollection<string> _lstScrapedPostDetails = new ObservableCollection<string>();
         [ProtoMember(11)]
-        public List<string> LstScrapedPostDetails
+        public ObservableCollection<string> LstScrapedPostDetails
         {
             get { return _lstScrapedPostDetails; }
             set { SetProperty(ref _lstScrapedPostDetails, value); }
