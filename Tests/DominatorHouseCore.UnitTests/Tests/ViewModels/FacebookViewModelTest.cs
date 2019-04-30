@@ -42,7 +42,7 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
             _facebookViewModel.FacebookModel.ListCustomPageUrl[2].Should().Be("z");
         }
 
-        //Today
+       
         [TestMethod]
         public void SaveFriendCommad_should_add_two_custom_tagged_to_ListCustomTaggedUser_if_CustomTaggedUser_having_CustomTaggedUser_saparated_with_tab_and_enter()
         {
