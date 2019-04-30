@@ -1,13 +1,8 @@
 ﻿using Dominator.Tests.Utils;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using Unity;
-using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
-using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings;
 
@@ -45,6 +40,18 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
             _facebookViewModel.FacebookModel.ListCustomPageUrl[0].Should().Be("x");
             _facebookViewModel.FacebookModel.ListCustomPageUrl[1].Should().Be("y");
             _facebookViewModel.FacebookModel.ListCustomPageUrl[2].Should().Be("z");
+        }
+
+        //Today
+        [TestMethod]
+        public void SaveFriendCommad_should_add_two_custom_tagged_to_ListCustomTaggedUser_if_CustomTaggedUser_having_CustomTaggedUser_saparated_with_tab_and_enter()
+        {
+            _facebookViewModel.FacebookModel.CustomTaggedUser = "user1\r\nuser2";
+            _facebookViewModel.SaveFriendCommad.Execute(new object());
+            _facebookViewModel.FacebookModel.ListCustomTaggedUser.Count.Should().Be(2);
+            _facebookViewModel.FacebookModel.ListCustomTaggedUser[0].Should().Be("user1");
+            _facebookViewModel.FacebookModel.ListCustomTaggedUser[1].Should().Be("user2");
+  
         }
     }
 }
