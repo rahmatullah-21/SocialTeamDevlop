@@ -3525,5 +3525,25 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyExceptForPagesLikedByFriendsOption">(Except For Pages Liked By Friends Option)</system:String>
     <system:String x:Key="LangKeyPostGreetingsToTimeline">Post Greetings To Timeline</system:String>
     <system:String x:Key="LangKeyAfterSendGreetingsOption">After Send Greetings Option</system:String>
-    
+    <system:String x:Key="LangKeyHousing">Housing</system:String>
+    <system:String x:Key="LangKeyManageEventCreater">Manage Event Create</system:String>
+    <system:String x:Key="LangKeyEventCreater">Event Creater</system:String>
+    <system:String x:Key="LangKeyCreatePrivateEvent">Create Private Event</system:String>
+    <system:String x:Key="LangKeyCreatePublicEvent">Create Public Event</system:String>
+    <system:String x:Key="LangKeyGuestCanInviteFriends">Guests can invite friends</system:String>
+    <system:String x:Key="LangKeyShowGuestList">Show guest list</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfEventsPerJob">Create Number Of Events Per Job</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfEventsPerHour">Create Number Of Events Per Hour</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfEventsPerDay">Create Number Of Events Per Day</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfMaximumEventsPerDay">Create Number Of Maximum Events Per Day</system:String>
+    <system:String x:Key="LangKeyCreateNumberOfEventsPerWeek">Create Number Of Events Per Week</system:String>
+    <system:String x:Key="LangKeyEventList">Events List</system:String>
+    <system:String x:Key="LangKeyAddEventToList">Add Event To List</system:String>
+    <system:String x:Key="LangKeyEventType">Event Type</system:String>
+    <system:String x:Key="LangKeyFacebookCreater">Fb Creaters</system:String>
+    <system:String x:Key="LangKeyUploadPostDetails">Upload Post Details</system:String>
+    <system:String x:Key="LangKeyUseOriginalPostDetails">Use Original Post Details</system:String>
+    <system:String x:Key="LangKeyUseOwnPostDetails">Use Own Post Details</system:String>
+    <system:String x:Key="LangKeyTypeBoardNameToSelectWhichContains">Type Board Name To Select Which Contains</system:String>
+    <system:String x:Key="LangKeyCreateuniqueevents">Create Unique Events</system:String>
 </ResourceDictionary>
