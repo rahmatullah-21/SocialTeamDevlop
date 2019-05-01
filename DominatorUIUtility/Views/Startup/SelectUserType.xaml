@@ -7,12 +7,23 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:enum="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
-    <ListBox ItemsSource="{Binding LstUserType}" SelectedItem="{Binding SelectedUser}">
+   
+    <ListBox ItemsSource="{Binding LstUserType}" 
+             SelectedItem="{Binding SelectedUser,Mode=TwoWay}" Height="110"
+             ItemContainerStyle="{StaticResource TransparentSelectedListBoxItem}">
+
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Columns="3" Rows="1" Margin="5"/>
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <mah:Tile Title="{Binding}" Width="100" Height="100"
-                                  HorizontalTitleAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="{Binding}" Foreground="White" FontWeight="Bold"
+                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                           Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="100"/>
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>
+
 </UserControl>

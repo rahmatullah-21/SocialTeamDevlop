@@ -148,10 +148,8 @@ namespace DominatorUIUtility.ViewModel
             window.WindowStartupLocation = WindowStartupLocation.Manual;
             window.Top = 0;
             window.Left = 0;
-            window.HorizontalContentAlignment = HorizontalAlignment.Center;
-            window.VerticalContentAlignment = VerticalAlignment.Center;
-            window.MinHeight = SystemParameters.PrimaryScreenHeight / 2;
-            window.MinWidth = SystemParameters.PrimaryScreenWidth / 2;
+            window.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            window.VerticalContentAlignment = VerticalAlignment.Stretch;
             window.ShowDialog();
 
 

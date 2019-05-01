@@ -5,14 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"  x:Name="StartupUi"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:enum="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
-    
-    <ListBox ItemsSource="{Binding LstNetwork}" SelectedItem="{Binding SelectedNetwork}">
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" >
+
+    <ListBox ItemsSource="{Binding LstNetwork}" SelectedItem="{Binding SelectedNetwork,Mode=TwoWay}"
+             ItemContainerStyle="{StaticResource TransparentSelectedListBoxItem}">
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid  Columns="4" Rows="3" />
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <mah:Tile Title="{Binding}" Width="100" Height="100"
-                                  HorizontalTitleAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="{Binding}" Foreground="White" FontWeight="Bold"
+                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                           Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="100"/>
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>

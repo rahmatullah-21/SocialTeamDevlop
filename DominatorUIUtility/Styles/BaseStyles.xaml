@@ -330,7 +330,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
 
-   
+
     <!--Begin Socinator Textbox Items-->
 
     <Style TargetType="ListBoxItem" x:Key="SuggestionItemStyle">
@@ -379,4 +379,10 @@
     <!--End Socinator Textbox Items-->
 
 
+    <Style x:Key="TransparentSelectedListBoxItem"  TargetType="{x:Type ListBoxItem}">
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+        </Style.Resources>
+
+    </Style>
 </ResourceDictionary>

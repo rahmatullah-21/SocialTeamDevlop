@@ -20,7 +20,7 @@ namespace DominatorUIUtility.ViewModel.Startup
 
         public ICommand BeginnerCommand { get; set; }
 
-        private string _selectedNetwork;
+        private string _selectedNetwork = string.Empty;
 
         public string SelectedNetwork
         {
@@ -40,7 +40,8 @@ namespace DominatorUIUtility.ViewModel.Startup
             var networks = Enum.GetNames(typeof(SocialNetworks));
             networks.ForEach(network =>
             {
-                LstNetwork.Add(network);
+                if (network != SocialNetworks.Social.ToString())
+                    LstNetwork.Add(network);
             });
         }
     }

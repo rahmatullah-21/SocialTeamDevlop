@@ -18,7 +18,7 @@ namespace DominatorUIUtility.ViewModel.Startup
 
     public interface ISaveSettingViewModel
     {
-        void SetNetwork(SocialNetworks selectedNetwork);
+        void SetNetwork(string selectedNetwork);
         UserControl SourceUserControl { get; set; }
         List<UserControl> LstUserControls { get; set; }
         int SelectedIndex { get; set; }
@@ -32,11 +32,12 @@ namespace DominatorUIUtility.ViewModel.Startup
             LstUserControls.Add(new SelectUserType());
             LstUserControls.Add(new SelectNetwork());
             LstUserControls.Add(new SelectActivity(this));
-            LstUserControls.Add(new SearchQueryControl());
-            var jobconfig = new JobConfigControl();
+            LstUserControls.Add(new QueryControl());
+            LstUserControls.Add(new JobConfig(this));
             SaveSettingModel.JobConfiguration.RunningTime = RunningTimes.DayWiseRunningTimes;
-            jobconfig.JobConfiguration = SaveSettingModel.JobConfiguration;
-            LstUserControls.Add(jobconfig);
+            //jobconfig.JobConfiguration = SaveSettingModel.JobConfiguration;
+            SelectedIndex = 0;
+            SourceUserControl = LstUserControls[SelectedIndex];
         }
 
 
@@ -71,10 +72,10 @@ namespace DominatorUIUtility.ViewModel.Startup
             set { SetProperty(ref _lstUserControls, value); }
         }
 
-        private SocialNetworks _selectedNetwork;
+        private string _selectedNetwork;
         private int _selectedIndex;
 
-        public SocialNetworks SelectedNetwork
+        public string SelectedNetwork
         {
             get { return _selectedNetwork; }
             set { SetProperty(ref _selectedNetwork, value); }
@@ -89,25 +90,35 @@ namespace DominatorUIUtility.ViewModel.Startup
             set { SetProperty(ref _saveSettingModel, value); }
         }
 
-        public void SetNetwork(SocialNetworks selectedNetwork)
+        public void SetNetwork(string selectedNetwork)
         {
             SetActivityTypeByNetwork(selectedNetwork);
             SelectedNetwork = selectedNetwork;
         }
         private void OnNextClick(object sender)
         {
+            string userType = string.Empty;
+            string network = string.Empty;
+            if (SelectedIndex == 0)
+                userType = ServiceLocator.Current.GetInstance<ISelectUserTypeViewModel>().SelectedUser;
+            if (SelectedIndex == 1)
+            {
+                network = ServiceLocator.Current.GetInstance<ISelectNetworkViewModel>().SelectedNetwork;
+                SetNetwork(network);
+            }
+           
             var button = sender as Button;
             if (button.Content.ToString() == "Finish")
             {
                 var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
-                genericFileManager.Save(SaveSettingModel,ConstantVariable.GetModuleConfigPath(SelectedNetwork.ToString()));
+                genericFileManager.Save(SaveSettingModel, ConstantVariable.GetModuleConfigPath(SelectedNetwork.ToString()));
                 Dialog.CloseDialog(sender);
                 return;
             }
             SelectedIndex += 1;
             SourceUserControl = LstUserControls[SelectedIndex];
         }
-        public void SetActivityTypeByNetwork(SocialNetworks network)
+        public void SetActivityTypeByNetwork(string network)
         {
             SaveSettingModel.LstNetworkActivityType.Clear();
             foreach (var name in Enum.GetNames(typeof(ActivityType)))

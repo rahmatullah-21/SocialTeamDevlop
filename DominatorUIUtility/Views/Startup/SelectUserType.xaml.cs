@@ -1,9 +1,5 @@
-﻿
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using CommonServiceLocator;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.ViewModel.Startup;
 
 namespace DominatorUIUtility.Views.Startup
@@ -11,10 +7,11 @@ namespace DominatorUIUtility.Views.Startup
 
     public partial class SelectUserType : UserControl
     {
+        ISelectUserTypeViewModel viewModel;
         public SelectUserType()
         {
             InitializeComponent();
-            var viewModel = ServiceLocator.Current.GetInstance<ISelectUserTypeViewModel>();
+             viewModel = ServiceLocator.Current.GetInstance<ISelectUserTypeViewModel>();
             StartupUi.DataContext = viewModel;
         }
 

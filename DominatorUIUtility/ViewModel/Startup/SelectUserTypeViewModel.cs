@@ -22,19 +22,19 @@ namespace DominatorUIUtility.ViewModel.Startup
 
         public ICommand BeginnerCommand { get; set; }
 
-        private string _selectedUser;
+        private string _selectedUser = string.Empty;
 
         public string SelectedUser
         {
             get { return _selectedUser; }
             set { SetProperty(ref _selectedUser, value); }
         }
-        private ObservableCollection<string> _lstUserType =new ObservableCollection<string>();
+        private ObservableCollection<string> _lstUserType = new ObservableCollection<string>();
 
         public ObservableCollection<string> LstUserType
         {
-            get { return _lstUserType ; }
-            set { SetProperty(ref _lstUserType , value); }
+            get { return _lstUserType; }
+            set { SetProperty(ref _lstUserType, value); }
         }
 
         private void OnBeginnerSelect(object sender)
@@ -45,12 +45,12 @@ namespace DominatorUIUtility.ViewModel.Startup
         void InitilizeUserType()
         {
             var networks = Enum.GetNames(typeof(UsersType));
-            networks.ForEach(network=>
+            networks.ForEach(network =>
             {
                 LstUserType.Add(network);
             });
         }
     }
 
-   
+
 }

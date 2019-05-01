@@ -7,10 +7,11 @@ namespace DominatorUIUtility.Views.Startup
 
     public partial class SelectNetwork : UserControl
     {
+        ISelectNetworkViewModel viewModel;
         public SelectNetwork()
         {
             InitializeComponent();
-            var viewModel = ServiceLocator.Current.GetInstance<ISelectNetworkViewModel>();
+             viewModel = ServiceLocator.Current.GetInstance<ISelectNetworkViewModel>();
             StartupUi.DataContext = viewModel;
         }
 

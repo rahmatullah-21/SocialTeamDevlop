@@ -14,8 +14,7 @@ namespace DominatorUIUtility.Views.Startup
         {
             InitializeComponent();
             var viewModel = ServiceLocator.Current.GetInstance<ISaveSettingViewModel>();
-            viewModel.SetNetwork(selectedNetworks);
-            viewModel.SelectedIndex =0;
+            viewModel.SelectedIndex = 0;
             viewModel.SourceUserControl = viewModel.LstUserControls[viewModel.SelectedIndex];
             SaveSettingUi.DataContext = viewModel;
         }
