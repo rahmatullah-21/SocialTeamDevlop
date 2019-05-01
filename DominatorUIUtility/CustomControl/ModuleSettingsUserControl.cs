@@ -423,7 +423,8 @@ namespace DominatorUIUtility.CustomControl
             _headerControl.DataContext = _footerControl.DataContext = this;
 
             CampaignName = $"{SocialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
-
+            if (_queryControl != null)
+                _queryControl.ActivityType = _activityType;
         }
 
         #endregion
@@ -1636,6 +1637,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                bool IsQueryOfCurrentModule = false;
                 if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue.Trim()) && _queryControl.QueryCollection.Count == 0)
                     return;
 
@@ -1654,12 +1656,24 @@ namespace DominatorUIUtility.CustomControl
                         var currentQuery = _queryControl.CurrentQuery.Clone() as QueryInfo;
 
                         if (currentQuery == null) return;
-
-                        currentQuery.QueryValue = query;
-                        currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
-                        //  currentQuery.QueryTypeDisplayName = currentQuery.QueryTypeAsDisplayName(queryParameterType);
-
-                        currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+                        var lstquery = query.Split('\t').ToList();
+                        if (lstquery.Count > 1)
+                            if (SocialNetwork.ToString() == lstquery[0] && lstquery[1] == _activityType.ToString())
+                            {
+                                currentQuery.QueryType = lstquery[2];
+                                currentQuery.QueryValue = lstquery[3];
+                                currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                                currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+                                IsQueryOfCurrentModule = true;
+                            }
+                            else
+                                return;
+                        else
+                        {
+                            currentQuery.QueryValue = query;
+                            currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                            currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+                        }
 
                         if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
                         {
@@ -1670,6 +1684,9 @@ namespace DominatorUIUtility.CustomControl
                         Model.SavedQueries.Add(currentQuery);
                         currentQuery.Index = Model.SavedQueries.IndexOf(currentQuery) + 1;
                     });
+                    if (!IsQueryOfCurrentModule)
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetwork.ToString(), CampaignName, _activityType, $"Query can't add because it may not related to {SocialNetwork}  {_activityType} module.");
+
                     if (queryValuIndex.Count > 0)
                     {
                         if (queryValuIndex.Count <= 10)

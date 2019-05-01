@@ -66,29 +66,16 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                 .RegisterInstance<ICounterKeyFactory<InteractedComments>>(
                     new CounterKeyFactory<InteractedComments>(SocialNetworks.Facebook, true));
 
-
             Container
-                          .RegisterInstance<IEntityCounterFunction<InteractedEvents>>(
-                              new EntityCounterFunction<InteractedEvents>(
-                                  new DateFilterPredicate<InteractedEvents>(
-                                      a => a.InteractionDateTime),
-                                  new ActivityTypeAsStringFilterPredicate<InteractedEvents>(
-                                      a => a.ActivityType)));
+               .RegisterInstance<IEntityCounterFunction<InteractedEvents>>(
+                   new EntityCounterFunction<InteractedEvents>(
+                       new DateFilterPredicate<InteractedEvents>(
+                           a => a.InteractionDateTime),
+                       new ActivityTypeAsStringFilterPredicate<InteractedEvents>(
+                           a => a.ActivityType)));
             Container
                 .RegisterInstance<ICounterKeyFactory<InteractedEvents>>(
                     new CounterKeyFactory<InteractedEvents>(SocialNetworks.Facebook, true));
-
-
-            Container
-                          .RegisterInstance<IEntityCounterFunction<InteractedMarketPlaces>>(
-                              new EntityCounterFunction<InteractedMarketPlaces>(
-                                  new DateFilterPredicate<InteractedMarketPlaces>(
-                                      a => a.InteractionDateTime),
-                                  new ActivityTypeAsStringFilterPredicate<InteractedMarketPlaces>(
-                                      a => a.ActivityType)));
-            Container
-                .RegisterInstance<ICounterKeyFactory<InteractedMarketPlaces>>(
-                    new CounterKeyFactory<InteractedMarketPlaces>(SocialNetworks.Facebook, true));
         }
     }
 }

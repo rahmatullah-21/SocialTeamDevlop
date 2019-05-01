@@ -311,7 +311,10 @@ namespace EmbeddedBrowser
             => Browser.Load(UrlBar.Text);
 
         public void Dispose()
-        => Browser.Dispose();
+        {
+           // Browser.GetBrowser().CloseBrowser(true);
+            Browser.Dispose();
+        }
 
         private void LoadPostPage(bool isLoggedIn)
         {
@@ -506,7 +509,7 @@ namespace EmbeddedBrowser
                 if (html == "<html><head></head><body></body></html>") return;
 
                 _html = html;
-                if (_isLoggedIn || Browser.IsDisposed) return;
+                if (_isLoggedIn || Browser.IsDisposed || CheckSuspended()) return;
 
                 var last30Secs = DateTime.Now;
                 while (string.IsNullOrEmpty((_pageText = Browser.GetTextAsync().Result).Trim()))
@@ -551,7 +554,7 @@ namespace EmbeddedBrowser
                         LoadPostPage(true);
 
                     Thread.Sleep(3000);
-                    SaveCookie();
+                    SaveCookies();
                 }
                 SetVideoQualityAs144P();
 
@@ -698,6 +701,27 @@ namespace EmbeddedBrowser
             DominatorAccountModel.IsUserLoggedIn = false;
             _httpHelper.GetRequestParameter().Cookies = new CookieCollection();
             return true;
+        }
+
+        private bool CheckSuspended()
+        {
+            var urlNow = "";
+            if (!Dispatcher.CheckAccess())
+                Dispatcher.Invoke(new Action(delegate
+                {
+                    urlNow = Browser.Address;
+                }));
+            else
+                urlNow = Browser.Address;
+
+            if (!string.IsNullOrEmpty(urlNow) && urlNow.Equals("https://support.google.com/accounts/answer/40039?p=youtube", StringComparison.InvariantCultureIgnoreCase))
+            {
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.ProfileSuspended;
+                _loginFailed = true;
+                _isLoggedIn = false;
+                return true;
+            }
+            return false;
         }
 
         private bool RetypeEmail()
@@ -1015,93 +1039,7 @@ namespace EmbeddedBrowser
                 return true;
             }
         }
-
-        private bool _isLoggedIn;
-        private void SaveCookie()
-        {
-            if (_isLoggedIn) return;
-
-            try
-            {
-                var lstCookies = Browser.RequestContext.GetDefaultCookieManager(new TaskCompletionCallback())
-                    .VisitAllCookiesAsync().Result;
-
-                var cookieCollection = new CookieCollection();
-
-                foreach (var item in lstCookies)
-                {
-                    try
-                    {
-                        if (item.Expires != null)
-                            cookieCollection.Add(new System.Net.Cookie
-                            {
-                                Expires = (DateTime)item.Expires,
-                                Name = item.Name,
-                                Value = item.Value,
-                                Domain = item.Domain,
-                                Path = item.Path,
-                                Secure = item.Secure
-                            });
-                    }
-                    catch
-                    {/*ignored*/}
-                }
-
-                var requestParameters = (RequestParameters)_httpHelper.GetRequestParameter();
-                requestParameters.Cookies = cookieCollection;
-                _httpHelper.SetRequestParameter(requestParameters);
-
-                var url = SocialHomeUrls();
-
-                IResponseParameter objResponseParameter = (ResponseParameter)_httpHelper.GetRequest(url);
-
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus)
-                {
-                    var googlePlusAcc = Utilities.GetBetween(objResponseParameter.Response, "\"oPEP7c\":\"", "\"");
-                    if (string.IsNullOrEmpty(googlePlusAcc) || cookieCollection.Count < 2)
-                        return;
-
-                    DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
-                }
-
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                {
-                    if (!(objResponseParameter.Response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || objResponseParameter.Response.Contains("{\"iconType\":\"SUBSCRIPTIONS\"}") || objResponseParameter.Response.Contains("\"LOGGED_IN\":true")))
-                        return;
-
-                    DominatorAccountModel.AccountBaseModel.ProfileId =
-                        Utilities.GetBetween(objResponseParameter.Response, "\"delegatedSessionId\":\"", "\"");
-                    if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.ProfileId))
-                        DominatorAccountModel.AccountBaseModel.ProfileId = "Default Channel";
-                    DominatorAccountModel.AccountBaseModel.UserId =
-                        Utilities.GetBetween(objResponseParameter.Response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
-                }
-
-                _isLoggedIn = true;
-                _loginFailed = false;
-
-                CreateChannelOnYoutube();
-
-                DominatorAccountModel.Cookies = cookieCollection;
-                DominatorAccountModel.IsUserLoggedIn = true;
-                VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
-
-                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
-                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
-                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
-                  .AddOrUpdateCookies(DominatorAccountModel.Cookies)
-                   .SaveToBinFile();
-
-                //AccountsFileManager.Edit(DominatorAccountModel);
-                CustomLog("Browser login successfull.");
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog(ex.StackTrace);
-            }
-        }
-
+        
         private void CreateChannelOnYoutube()
         {
             try
@@ -1413,6 +1351,112 @@ namespace EmbeddedBrowser
 
             if (!string.IsNullOrEmpty(result) && result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in"))
                 LoadPostPage(true);
+        }
+
+        private bool _isLoggedIn;
+        private void SaveCookies()
+        {
+            if (_isLoggedIn || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success) return;
+
+            try
+            {
+                var lstCookies = Browser.RequestContext.GetDefaultCookieManager(new TaskCompletionCallback())
+                    .VisitAllCookiesAsync().Result;
+
+                var cookieCollection = new CookieCollection();
+
+                foreach (var item in lstCookies)
+                {
+                    try
+                    {
+                        if (item.Expires != null)
+                            cookieCollection.Add(new System.Net.Cookie
+                            {
+                                Expires = (DateTime)item.Expires,
+                                Name = item.Name,
+                                Value = item.Value,
+                                Domain = item.Domain,
+                                Path = item.Path,
+                                Secure = item.Secure
+                            });
+                    }
+                    catch
+                    {/*ignored*/}
+                }
+
+                if (!HitSocialToCheckLogin(cookieCollection))
+                    return;
+
+                _isLoggedIn = true;
+                _loginFailed = false;
+
+                DominatorAccountModel.Cookies = cookieCollection;
+                DominatorAccountModel.IsUserLoggedIn = true;
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
+
+                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                  .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                   .SaveToBinFile();
+
+                CustomLog("Browser login successful.");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(ex.StackTrace);
+            }
+        }
+
+        private bool HitSocialToCheckLogin(CookieCollection cookies)
+        {
+            var requestParameters = (RequestParameters)_httpHelper.GetRequestParameter();
+            requestParameters.Cookies = cookies;
+            requestParameters.KeepAlive = true;
+            requestParameters.AddHeader("Upgrade-Insecure-Requests","1");
+            requestParameters.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3";
+            requestParameters.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36";
+            _httpHelper.SetRequestParameter(requestParameters);
+
+            var url = DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube || DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus ?
+                SocialHomeUrls() : GetNetworksLoginUrl();
+
+            IResponseParameter responseParam = (ResponseParameter)_httpHelper.GetRequest(url);
+
+            switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+            {
+                case SocialNetworks.Gplus:
+                    {
+                        var googlePlusAcc = Utilities.GetBetween(responseParam.Response, "\"oPEP7c\":\"", "\"");
+                        if (string.IsNullOrEmpty(googlePlusAcc)/* || cookieCollection.Count < 2*/)
+                            return false;
+
+                        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
+                        return true;
+                    }
+                case SocialNetworks.Youtube:
+                    {
+                        if (!(responseParam.Response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || responseParam.Response.Contains("\"LOGGED_IN\":true")))
+                        {
+                            BrowserAct(ActType.ClickByClass, "style-scope ytd-button-renderer style-suggestive size-small",1.5,1);
+                            //document.getElementsByClassName('style-scope ytd-button-renderer style-suggestive size-small')[0].click();
+                            return false;
+                        }
+
+                        DominatorAccountModel.AccountBaseModel.ProfileId =
+                            Utilities.GetBetween(responseParam.Response, "\"delegatedSessionId\":\"", "\"");
+                        if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.ProfileId))
+                            DominatorAccountModel.AccountBaseModel.ProfileId = "Default Channel";
+                        DominatorAccountModel.AccountBaseModel.UserId =
+                            Utilities.GetBetween(responseParam.Response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
+
+                        CreateChannelOnYoutube();
+                        VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
+                        return true;
+                    }
+                default:
+                    return true;
+            }
         }
 
         #endregion

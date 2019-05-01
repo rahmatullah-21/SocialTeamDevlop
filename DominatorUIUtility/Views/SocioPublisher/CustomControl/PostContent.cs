@@ -223,6 +223,27 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsClearPostTitleOptionVisibilityProperty =
             DependencyProperty.Register("IsClearPostTitleOptionVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Collapsed));
+
+        public Visibility IsMediaVisibility
+        {
+            get { return (Visibility)GetValue(IsMediaVisibilityProperty); }
+            set { SetValue(IsMediaVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsMediaVisibilityProperty =
+            DependencyProperty.Register("IsMediaVisibility", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
+
+        public Visibility IsSourceUrlAndFdSellPostVisible
+        {
+            get { return (Visibility)GetValue(IsSourceUrlAndFdSellPostVisibleProperty); }
+            set { SetValue(IsSourceUrlAndFdSellPostVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsImportOptionsVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsSourceUrlAndFdSellPostVisibleProperty =
+            DependencyProperty.Register("IsSourceUrlAndFdSellPostVisible", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
+
         #endregion
 
         #region Apply Template
@@ -319,14 +340,19 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             try
             {
                 var lstPostTitle = FileUtilities.FileBrowseAndReader();
-                lstPostTitle.ForEach(title =>
+                if (lstPostTitle.Count != 0)
                 {
-                    if (!tempList.Any(x => x == title))
-                        tempList.Add(title);
-                });
+                    lstPostTitle.ForEach(title =>
+                    {
+                        if (!tempList.Any(x => x == title))
+                            tempList.Add(title);
+                    });
 
 
-                PublisherInstagramTitle = string.Join("\n", tempList.ToArray());
+                    PublisherInstagramTitle = string.Join("\n", tempList.ToArray());
+                    tempList.Clear();
+                }
+               
             }
             catch (Exception ex)
             {

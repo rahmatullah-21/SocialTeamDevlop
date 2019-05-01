@@ -198,9 +198,7 @@ namespace DominatorHouseCore.ViewModel
                 senders?.ForEach(sender =>
                 {
                     Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Add(sender));
-
                 });
-
             }
             catch (Exception ex)
             {

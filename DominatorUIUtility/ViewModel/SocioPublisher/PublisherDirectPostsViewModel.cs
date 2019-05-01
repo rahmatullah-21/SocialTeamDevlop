@@ -203,19 +203,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 #region Multiple Post
 
                 // Check whether multiple posts and image posts contains posts or not
-                if (PostDetailsModel.IsMultiPost && (createCampaignModel.LstPostDetailsModels.Count > 0 ||
-                            createCampaignModel.LstMultipleImagePostCollection.Count > 0))
+                if (PostDetailsModel.IsMultiPost && createCampaignModel.LstPostDetailsModels.Count > 0)
                 {
                     // Iterate the Multiple posts 
                     createCampaignModel.LstPostDetailsModels.ForEach(post =>
                     {
                         post.PostQueuedStatus = status;
-
-                        if (post.IsMultipleImagePost)
-                        {
-                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
-                            post.IsUniquePost = PostDetailsModel.IsUniquePost;
-                        }
                         // Add to Post Collections 
                         postCollectionDetails.Add(post);
                     });
@@ -228,6 +221,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (PostDetailsModel.IsMultipleImagePost && createCampaignModel.LstMultipleImagePostCollection.Count > 0)
                 {
+                    List<string> LstTitle = new List<string>();
+                    if (!string.IsNullOrEmpty(PostDetailsModel.PublisherInstagramTitle))
+                    {
+                        LstTitle = PostDetailsModel.PublisherInstagramTitle.Split('\n').ToList();
+                    }
                     // Iterate the Multiple image posts
                     createCampaignModel.LstMultipleImagePostCollection.ForEach(post =>
                     {
@@ -235,11 +233,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             ? PostQueuedStatus.Pending
                             : PostQueuedStatus.Draft;
 
-                        if (post.IsMultipleImagePost)
-                        {
-                            post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
-                            post.IsUniquePost = PostDetailsModel.IsUniquePost;
-                        }
+                        post.IsUseFileNameAsDescription = PostDetailsModel.IsUseFileNameAsDescription;
+                        post.IsUniquePost = PostDetailsModel.IsUniquePost;
+                        if (LstTitle != null && LstTitle.Count > 0)
+                            post.PublisherInstagramTitle = LstTitle?.GetRandomItem();
 
                         // Add to Post Collections 
                         postCollectionDetails.Add(post);
@@ -261,10 +258,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
 
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName,"Publisher Campaign","LangKeyPostSaved".FromResourceDictionary() + $" to {status} list");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", "LangKeyPostSaved".FromResourceDictionary() + $" to {status} list");
                 }
                 else
-                 GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"Failed to save to {status} list. Add atleast one post.");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"Failed to save to {status} list. Add atleast one post.");
 
                 _multipostWindow?.Close();
                 _multipostWindow = null;
