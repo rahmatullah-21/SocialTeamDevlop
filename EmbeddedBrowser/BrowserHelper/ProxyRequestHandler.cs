@@ -103,6 +103,7 @@ namespace EmbeddedBrowser.BrowserHelper
         void IRequestHandler.OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame,
             IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
         {
+            if (embedBrowser.Browser.IsDisposed) return;
             if (!embedBrowser.Dispatcher.CheckAccess())
                 embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
                 {
