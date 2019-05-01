@@ -1426,15 +1426,15 @@ namespace EmbeddedBrowser
             switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
                 #region Check GPlus login Code Commented
-                case SocialNetworks.Gplus:
-                    {
-                        var googlePlusAcc = Utilities.GetBetween(responseParam.Response, "\"oPEP7c\":\"", "\"");
-                        if (string.IsNullOrEmpty(googlePlusAcc)/* || cookieCollection.Count < 2*/)
-                            return false;
+                //case SocialNetworks.Gplus:
+                //    {
+                //        var googlePlusAcc = Utilities.GetBetween(responseParam.Response, "\"oPEP7c\":\"", "\"");
+                //        if (string.IsNullOrEmpty(googlePlusAcc)/* || cookieCollection.Count < 2*/)
+                //            return false;
 
-                        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
-                        return true;
-                    } 
+                //        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
+                //        return true;
+                //    } 
                 #endregion
                 case SocialNetworks.Youtube:
                     {
