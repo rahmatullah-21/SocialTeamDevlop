@@ -9,12 +9,10 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.NetworkActivitySetting;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
 using Prism.Commands;
-using DominatorUIUtility.Views.Startup;
 using Prism.Regions;
 
-namespace DominatorUIUtility.ViewModel.Startup
+namespace DominatorHouse.ViewModels.Startup
 {
 
     public interface ISaveSettingViewModel
@@ -32,14 +30,8 @@ namespace DominatorUIUtility.ViewModel.Startup
             _region = region;
             NextCommand = new DelegateCommand<object>(OnNextClick);
             PreviousCommand = new DelegateCommand<object>(OnPreviousClick);
-            LstUserControls.Add(new SelectUserType());
-            LstUserControls.Add(new SelectNetwork());
-            LstUserControls.Add(new SelectActivity(this));
-            LstUserControls.Add(new QueryControl(this));
-            LstUserControls.Add(new JobConfig(this));
             SaveSettingModel.JobConfiguration.RunningTime = RunningTimes.DayWiseRunningTimes;
-            SelectedIndex = 0;
-            SourceUserControl = LstUserControls[SelectedIndex];
+
             SaveSettingModel.ListQueryType.Clear();
             SaveSettingModel.ListQueryType.Add("Query1");
             SaveSettingModel.ListQueryType.Add("Query2");
@@ -106,7 +98,6 @@ namespace DominatorUIUtility.ViewModel.Startup
         }
         private void OnNextClick(object sender)
         {
-            _region= ServiceLocator.Current.GetInstance<IRegionManager>();
             _region.RequestNavigate("StartupRegion", "SelectNetwork");
             string userType = string.Empty;
             string network = string.Empty;

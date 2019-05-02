@@ -38,7 +38,7 @@ using System.Windows.Input;
 using DominatorUIUtility.Views;
 using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
-using DominatorUIUtility.Views.Startup;
+
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -143,17 +143,7 @@ namespace DominatorUIUtility.ViewModel
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler, IProxyFileManager proxyFileManager)
         {
-            Dialog dialog = new Dialog();
-            var window = dialog.GetMetroWindow(new StartUpMain(SocialNetworks.Quora), "Startup");
-            window.WindowStartupLocation = WindowStartupLocation.Manual;
-            window.Top = 0;
-            window.Left = 0;
-            window.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            window.VerticalContentAlignment = VerticalAlignment.Stretch;
-            window.ShowDialog();
-
-
-
+            
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
             _softwareSettings = softwareSettings;

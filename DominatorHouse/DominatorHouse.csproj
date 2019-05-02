@@ -35,8 +35,8 @@
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>327</ApplicationRevision>
-    <ApplicationVersion>1.0.0.327</ApplicationVersion>
+    <ApplicationRevision>329</ApplicationRevision>
+    <ApplicationVersion>1.0.0.329</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -293,6 +293,27 @@
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
     <Compile Include="Social\TablifiedContentControl.cs" />
+    <Compile Include="Startup\JobConfig.xaml.cs">
+      <DependentUpon>JobConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\QueryControl.xaml.cs">
+      <DependentUpon>QueryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\SaveSetting.xaml.cs">
+      <DependentUpon>SaveSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\SelectActivity.xaml.cs">
+      <DependentUpon>SelectActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\SelectNetwork.xaml.cs">
+      <DependentUpon>SelectNetwork.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\SelectUserType.xaml.cs">
+      <DependentUpon>SelectUserType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\StartUpMain.xaml.cs">
+      <DependentUpon>StartUpMain.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Support\Logs\Views\LogList.xaml.cs">
       <DependentUpon>LogList.xaml</DependentUpon>
     </Compile>
@@ -307,6 +328,11 @@
     <Compile Include="Utilities\SoftwareSettings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PerfCounterViewModel.cs" />
+    <Compile Include="ViewModels\Startup\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Startup\SaveSettingViewModel.cs" />
+    <Compile Include="ViewModels\Startup\SelectActivityViewModel.cs" />
+    <Compile Include="ViewModels\Startup\SelectNetworkViewModel.cs" />
+    <Compile Include="ViewModels\Startup\SelectUserTypeViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -341,6 +367,34 @@
     <Page Include="Social\TablifiedContentControlTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Startup\JobConfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Startup\QueryControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Startup\SaveSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Startup\SelectActivity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Startup\SelectNetwork.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Startup\SelectUserType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Startup\StartUpMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Support\Logs\Views\LogList.xaml">
       <SubType>Designer</SubType>

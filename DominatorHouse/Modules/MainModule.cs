@@ -1,5 +1,5 @@
-﻿using DominatorHouse.Support.Perf.Views;
-
+﻿using DominatorHouse.Startup;
+using DominatorHouse.Support.Perf.Views;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using Prism.Ioc;
@@ -13,21 +13,18 @@ namespace DominatorHouse.Modules
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //containerRegistry.RegisterForNavigation<SaveSetting>();
-            //containerRegistry.RegisterForNavigation<SelectActivity>();
-            //containerRegistry.RegisterForNavigation<SelectNetwork>();
-            //containerRegistry.RegisterForNavigation<SelectUserType>();
+            containerRegistry.RegisterForNavigation<SelectUserType>();
+            containerRegistry.RegisterForNavigation<SelectNetwork>();
+            containerRegistry.RegisterForNavigation<SaveSetting>();
+            containerRegistry.RegisterForNavigation<SelectActivity>();
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
             regionManager.RegisterViewWithRegion("PerfCounterRegion", typeof(PerfCounterView));
-            //regionManager.RequestNavigate("StartupRegion", "SelectUserType");
-
-         
+            regionManager.RegisterViewWithRegion("StartupRegion", typeof(SelectUserType));
+            
         }
-
-
     }
 }

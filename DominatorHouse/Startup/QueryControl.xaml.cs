@@ -1,7 +1,8 @@
-﻿using DominatorUIUtility.ViewModel.Startup;
+﻿using DominatorHouse.ViewModels.Startup;
+using DominatorUIUtility.ViewModel.Startup;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.Startup
+namespace DominatorHouse.Startup
 {
     /// <summary>
     /// Interaction logic for QueryControl.xaml

@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="DominatorHouse.Startup.SelectActivity"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorHouse.Startup"
+             mc:Ignorable="d" x:Name="SelectActivityType"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <ItemsControl ItemsSource="{Binding SaveSettingModel.LstNetworkActivityType}" Padding="2"
+                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="4" IsItemsHost="True" HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding ActivityType}" IsChecked="{Binding IsActivity}" Margin="5"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

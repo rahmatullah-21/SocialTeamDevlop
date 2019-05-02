@@ -393,10 +393,6 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\SoftwareSettingsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\SelectAccountDetailsViewModel.cs" />
-    <Compile Include="ViewModel\Startup\SaveSettingViewModel.cs" />
-    <Compile Include="ViewModel\Startup\SelectActivityViewModel.cs" />
-    <Compile Include="ViewModel\Startup\SelectNetworkViewModel.cs" />
-    <Compile Include="ViewModel\Startup\SelectUserTypeViewModel.cs" />
     <Compile Include="ViewModel\VerifyProxiesViewModel.cs" />
     <Compile Include="ViewModel\WhiteListViewModel.cs" />
     <Compile Include="Views\AccountManager.xaml.cs">
@@ -570,27 +566,6 @@
     </Compile>
     <Compile Include="Views\SocioPublisher\PublisherSharePost.xaml.cs">
       <DependentUpon>PublisherSharePost.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Startup\JobConfig.xaml.cs">
-      <DependentUpon>JobConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Startup\QueryControl.xaml.cs">
-      <DependentUpon>QueryControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Startup\SaveSetting.xaml.cs">
-      <DependentUpon>SaveSetting.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Startup\SelectActivity.xaml.cs">
-      <DependentUpon>SelectActivity.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Startup\SelectNetwork.xaml.cs">
-      <DependentUpon>SelectNetwork.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Startup\SelectUserType.xaml.cs">
-      <DependentUpon>SelectUserType.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Startup\StartUpMain.xaml.cs">
-      <DependentUpon>StartUpMain.xaml</DependentUpon>
     </Compile>
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1126,34 +1101,6 @@
     <Page Include="Views\SocioPublisher\CustomControl\PublisherEditPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Startup\JobConfig.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Startup\QueryControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Startup\SaveSetting.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Startup\SelectActivity.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Startup\SelectNetwork.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Startup\SelectUserType.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Startup\StartUpMain.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

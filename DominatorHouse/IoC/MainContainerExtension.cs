@@ -1,5 +1,6 @@
 ﻿using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouse.ViewModels;
+using DominatorHouse.ViewModels.Startup;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.ViewModel.Startup;

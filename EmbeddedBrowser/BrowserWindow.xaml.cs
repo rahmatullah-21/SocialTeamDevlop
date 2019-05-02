@@ -278,9 +278,9 @@ namespace EmbeddedBrowser
                                         case SocialNetworks.Quora:
                                             QuoraLogin(html);
                                             break;
-                                        //case SocialNetworks.Gplus:
-                                        //    GoogleBrowserLogin(html);
-                                        //    break;
+                                        case SocialNetworks.Gplus:
+                                            GoogleBrowserLogin(html);
+                                            break;
                                         case SocialNetworks.Youtube:
                                             GoogleBrowserLogin(html);
                                             break;
@@ -591,7 +591,7 @@ namespace EmbeddedBrowser
         private bool _loginFailed;
         private void InitializeGoogleLoginStatusActions()
         {
-            if (!(/*DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus ||*/
+            if (!(DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus ||
                   DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube))
                 return;
 
@@ -1418,13 +1418,14 @@ namespace EmbeddedBrowser
             requestParameters.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36";
             _httpHelper.SetRequestParameter(requestParameters);
 
-            var url = DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube/* || DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus*/ ?
+            var url = DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube || DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus ?
                 SocialHomeUrls() : GetNetworksLoginUrl();
 
             IResponseParameter responseParam = (ResponseParameter)_httpHelper.GetRequest(url);
-
+            var response = responseParam.Response;
             switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
+                #region Check GPlus login Code Commented
                 //case SocialNetworks.Gplus:
                 //    {
                 //        var googlePlusAcc = Utilities.GetBetween(responseParam.Response, "\"oPEP7c\":\"", "\"");
@@ -1433,29 +1434,30 @@ namespace EmbeddedBrowser
 
                 //        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
                 //        return true;
-                //    }
+                //    } 
+                #endregion
                 case SocialNetworks.Youtube:
                     {
-                        if (!(responseParam.Response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || responseParam.Response.Contains("\"LOGGED_IN\":true")))
+                        if (!(response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || response.Contains("\"LOGGED_IN\":true")))
                         {
+                            // Click on Login Button from Youtube once if failed to login
                             BrowserAct(ActType.ClickByClass, "style-scope ytd-button-renderer style-suggestive size-small",1.5,1);
-                            //document.getElementsByClassName('style-scope ytd-button-renderer style-suggestive size-small')[0].click();
                             return false;
                         }
 
                         DominatorAccountModel.AccountBaseModel.ProfileId =
-                            Utilities.GetBetween(responseParam.Response, "\"delegatedSessionId\":\"", "\"");
+                            Utilities.GetBetween(response, "\"delegatedSessionId\":\"", "\"");
                         if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.ProfileId))
                             DominatorAccountModel.AccountBaseModel.ProfileId = "Default Channel";
                         DominatorAccountModel.AccountBaseModel.UserId =
-                            Utilities.GetBetween(responseParam.Response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
+                            Utilities.GetBetween(response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
 
                         CreateChannelOnYoutube();
                         VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
                         return true;
                     }
                 default:
-                    return true;
+                    return false;
             }
         }
 
@@ -1510,8 +1512,8 @@ namespace EmbeddedBrowser
                     return "https://www.reddit.com/login";
                 case SocialNetworks.Quora:
                     return "https://www.quora.com/";
-                //case SocialNetworks.Gplus:
-                //    return "https://accounts.google.com/signin";
+                case SocialNetworks.Gplus:
+                    return "https://accounts.google.com/signin";
                 case SocialNetworks.Youtube:
                     return "https://accounts.google.com/signin";
                 case SocialNetworks.Tumblr:
@@ -1525,8 +1527,8 @@ namespace EmbeddedBrowser
         {
             switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
-                //case SocialNetworks.Gplus:
-                //    return "https://plus.google.com/";
+                case SocialNetworks.Gplus:
+                    return "https://plus.google.com/";
                 case SocialNetworks.Youtube:
                     return "https://www.youtube.com/";
                 default:

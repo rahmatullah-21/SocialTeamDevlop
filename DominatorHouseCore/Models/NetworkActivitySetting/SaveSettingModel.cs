@@ -7,6 +7,7 @@ namespace DominatorHouseCore.Models.NetworkActivitySetting
     [ProtoContract]
     public class SaveSettingModel : BindableBase
     {
+
         private JobConfiguration _jobConfiguration = new JobConfiguration();
         [ProtoMember(1)]
         public JobConfiguration JobConfiguration
@@ -21,7 +22,33 @@ namespace DominatorHouseCore.Models.NetworkActivitySetting
             get { return _lstNetworkActivityType; }
             set { SetProperty(ref _lstNetworkActivityType, value); }
         }
-
+      
+        private ObservableCollection<QueryInfo> _listQueryInfo = new ObservableCollection<QueryInfo>();
+        [ProtoMember(3)]
+        public virtual ObservableCollection<QueryInfo> ListQueryInfo
+        {
+            get
+            {
+                return _listQueryInfo;
+            }
+            set
+            {
+                SetProperty(ref _listQueryInfo, value);
+            }
+        }
+        private ObservableCollection<string> _listQueryType = new ObservableCollection<string>();
+        [ProtoMember(4)]
+        public ObservableCollection<string> ListQueryType
+        {
+            get
+            {
+                return _listQueryType;
+            }
+            set
+            {
+                SetProperty(ref _listQueryType, value);
+            }
+        }
     }
     [ProtoContract]
     public class SelectActivityModel : BindableBase
