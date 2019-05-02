@@ -95,7 +95,7 @@
     <system:String x:Key="LangKeyAddPhotoids">Add Photoids</system:String>
     <system:String x:Key="LangKeyAddPostCaptions">Add Post Captions</system:String>
     <system:String x:Key="LangKeyAddPosts">Add Posts</system:String>
-    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersCategorySearchPin">Add Posts Source! Like (Boards, Users, Category, Search Pin)</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersSearchPin">Add Posts Source! Like (Boards, Users, Search Pin)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl">Add Posts Source! Like (Ownwall,Page, Group,Friend Url)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeUsersSearch">Add Posts Source! Like (Users,Search)</system:String>
     <system:String x:Key="LangKeyAddToPrivateBlacklist">Add To Private Blacklist</system:String>
@@ -3439,8 +3439,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAllMarketplace">All Marketplace</system:String>
     <system:String x:Key="LangKeyVehicles">Vehicles</system:String>
     <system:String x:Key="LangKeyHomeAndGarden">Home And Garden</system:String>
-    <system:String x:Key="LangKeyHousingRent">Housing (For Rent)</system:String>
-    <system:String x:Key="LangKeyHousingSale">Housing (For Sale)</system:String>
+    <system:String x:Key="LangKeyHousing">Housing</system:String>
     <system:String x:Key="LangKeyClothingAndAccessories">Clothing And Accessories</system:String>
     <system:String x:Key="LangKeyFamily">Family</system:String>
     <system:String x:Key="LangKeyHobbies">Hobbies</system:String>
@@ -3510,22 +3509,6 @@ Type 3. IP:Port
     <system:String x:Key="LangReplyForCommentId">Comment as reply to a specific commentId</system:String>
     <system:String x:Key="LangKeyImportUsers">Import Users</system:String>
     <system:String x:Key="LangKeyExportUsers">Export Users</system:String>
-    <system:String x:Key="LangKeyMarketplaceFilter">Marketplace Filter</system:String>
-    <system:String x:Key="LangKeyTotalNoOfBedrooms">Total No Of Bedrooms</system:String>
-    <system:String x:Key="LangKeyTotalNoOfBathrooms">Total No Of Bathrooms</system:String>
-    <system:String x:Key="LangKeyTypeOfProperyForRent">Type Of Propery For Rent</system:String>
-    <system:String x:Key="LangKeyNoOfSquareFeetBetween">No Of Square Feet Between</system:String>
-    <system:String x:Key="LangKeyHouse">House</system:String>
-    <system:String x:Key="LangKeyFlat">Flat</system:String>
-    <system:String x:Key="LangKeyTownHouse">TownHouse</system:String>
-    <system:String x:Key="LangKeyApartment">Apartment</system:String>
-    <system:String x:Key="LangKeyPrivateRoom">Private Room</system:String>
-    <system:String x:Key="LangKeySharedRoom">Shared Room</system:String>
-    <system:String x:Key="LangKeyPagesLikedByFriends">Pages Liked By Friends</system:String>
-    <system:String x:Key="LangKeyExceptForPagesLikedByFriendsOption">(Except For Pages Liked By Friends Option)</system:String>
-    <system:String x:Key="LangKeyPostGreetingsToTimeline">Post Greetings To Timeline</system:String>
-    <system:String x:Key="LangKeyAfterSendGreetingsOption">After Send Greetings Option</system:String>
-    <system:String x:Key="LangKeyHousing">Housing</system:String>
     <system:String x:Key="LangKeyManageEventCreater">Manage Event Create</system:String>
     <system:String x:Key="LangKeyEventCreater">Event Creater</system:String>
     <system:String x:Key="LangKeyCreatePrivateEvent">Create Private Event</system:String>
@@ -3545,5 +3528,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyUseOriginalPostDetails">Use Original Post Details</system:String>
     <system:String x:Key="LangKeyUseOwnPostDetails">Use Own Post Details</system:String>
     <system:String x:Key="LangKeyTypeBoardNameToSelectWhichContains">Type Board Name To Select Which Contains</system:String>
+    <system:String x:Key="LangKeyPagesLikedByFriends">Pages Liked By Friends</system:String>
+    <system:String x:Key="LangKeyExceptForPagesLikedByFriendsOption">(Except For Pages Liked By Friends Option)</system:String>
+    <system:String x:Key="LangKeyPostGreetingsToTimeline">Post Greetings To Timeline</system:String>
+    <system:String x:Key="LangKeyAfterSendGreetingsOption">After Send Greetings Option</system:String>
     <system:String x:Key="LangKeyCreateuniqueevents">Create Unique Events</system:String>
 </ResourceDictionary>

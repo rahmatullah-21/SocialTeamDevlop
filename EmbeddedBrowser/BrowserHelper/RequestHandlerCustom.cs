@@ -89,8 +89,6 @@ namespace EmbeddedBrowser.BrowserHelper
             if (!embedBrowser.Dispatcher.CheckAccess())
                 embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
                 {
-                    if (embedBrowser.Browser.IsDisposed)
-                        embedBrowser.Dispatcher.InvokeShutdown();
                     if (embedBrowser.Browser.Address == "https://www.youtube.com/oops")
                     {
                         embedBrowser.Browser.Address = embedBrowser.UrlBar.Text;

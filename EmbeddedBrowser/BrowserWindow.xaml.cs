@@ -1422,40 +1422,42 @@ namespace EmbeddedBrowser
                 SocialHomeUrls() : GetNetworksLoginUrl();
 
             IResponseParameter responseParam = (ResponseParameter)_httpHelper.GetRequest(url);
-
+            var response = responseParam.Response;
             switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
-                case SocialNetworks.Gplus:
-                    {
-                        var googlePlusAcc = Utilities.GetBetween(responseParam.Response, "\"oPEP7c\":\"", "\"");
-                        if (string.IsNullOrEmpty(googlePlusAcc)/* || cookieCollection.Count < 2*/)
-                            return false;
+                #region Check GPlus login Code Commented
+                //case SocialNetworks.Gplus:
+                //    {
+                //        var googlePlusAcc = Utilities.GetBetween(responseParam.Response, "\"oPEP7c\":\"", "\"");
+                //        if (string.IsNullOrEmpty(googlePlusAcc)/* || cookieCollection.Count < 2*/)
+                //            return false;
 
-                        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
-                        return true;
-                    }
+                //        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
+                //        return true;
+                //    } 
+                #endregion
                 case SocialNetworks.Youtube:
                     {
-                        if (!(responseParam.Response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || responseParam.Response.Contains("\"LOGGED_IN\":true")))
+                        if (!(response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || response.Contains("\"LOGGED_IN\":true")))
                         {
+                            // Click on Login Button from Youtube once if failed to login
                             BrowserAct(ActType.ClickByClass, "style-scope ytd-button-renderer style-suggestive size-small",1.5,1);
-                            //document.getElementsByClassName('style-scope ytd-button-renderer style-suggestive size-small')[0].click();
                             return false;
                         }
 
                         DominatorAccountModel.AccountBaseModel.ProfileId =
-                            Utilities.GetBetween(responseParam.Response, "\"delegatedSessionId\":\"", "\"");
+                            Utilities.GetBetween(response, "\"delegatedSessionId\":\"", "\"");
                         if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.ProfileId))
                             DominatorAccountModel.AccountBaseModel.ProfileId = "Default Channel";
                         DominatorAccountModel.AccountBaseModel.UserId =
-                            Utilities.GetBetween(responseParam.Response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
+                            Utilities.GetBetween(response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
 
                         CreateChannelOnYoutube();
                         VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
                         return true;
                     }
                 default:
-                    return true;
+                    return false;
             }
         }
 

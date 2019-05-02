@@ -71,5 +71,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
         public string PublishedUrl { get; set; }
 
+      
+
     }
 }
