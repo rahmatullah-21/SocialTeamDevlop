@@ -5,12 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorHouse.Startup"
              mc:Ignorable="d" 
-              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl;assembly=DominatorUIUtility"
-             Width="700" Height="500">
-    <GroupBox Header="{DynamicResource LangKeySearchQuery}" Margin="5" Name="Query">
-        <customControl:SearchQueryControl ListQueryType="{Binding SaveSettingModel.ListQueryType}"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl;assembly=DominatorUIUtility"
+             Width="800" Height="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="{DynamicResource LangKeySearchQuery}" Margin="5" >
+            <customControl:SearchQueryControl ListQueryType="{Binding SaveSettingModel.ListQueryType}" Name="SearchQueryControl"
                                           ListQueryInfo="{Binding SaveSettingModel.ListQueryInfo}" 
-                                          AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding ElementName=FollowUserControl}" />
+                                          AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding ElementName=SearchQueryControl}" />
 
     </GroupBox>
+        <local:NextPreviousButton Grid.Row="1" NextCommand="{Binding NextCommand}" NextButtonContent="{DynamicResource LangKeyFinish}"
+                                  PreviousCommand="{Binding PreviousCommand}" PreviousCommandParameter="JobConfig" />
+    </Grid>
 </UserControl>

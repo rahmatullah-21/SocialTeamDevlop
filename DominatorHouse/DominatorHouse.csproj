@@ -28,15 +28,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://209.250.252.53/soctest/</InstallUrl>
-    <UpdateUrl>http://209.250.252.53/soctest/</UpdateUrl>
+    <InstallUrl>http://209.250.252.53/socinator/</InstallUrl>
+    <UpdateUrl>http://209.250.252.53/socinator/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>329</ApplicationRevision>
-    <ApplicationVersion>1.0.0.329</ApplicationVersion>
+    <ApplicationRevision>52</ApplicationRevision>
+    <ApplicationVersion>1.0.0.52</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -296,11 +296,11 @@
     <Compile Include="Startup\JobConfig.xaml.cs">
       <DependentUpon>JobConfig.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Startup\NextPreviousButton.xaml.cs">
+      <DependentUpon>NextPreviousButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Startup\QueryControl.xaml.cs">
       <DependentUpon>QueryControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Startup\SaveSetting.xaml.cs">
-      <DependentUpon>SaveSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Startup\SelectActivity.xaml.cs">
       <DependentUpon>SelectActivity.xaml</DependentUpon>
@@ -328,11 +328,13 @@
     <Compile Include="Utilities\SoftwareSettings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PerfCounterViewModel.cs" />
-    <Compile Include="ViewModels\Startup\BaseViewModel.cs" />
-    <Compile Include="ViewModels\Startup\SaveSettingViewModel.cs" />
+    <Compile Include="ViewModels\Startup\JobConfigViewModel.cs" />
+    <Compile Include="ViewModels\Startup\NextPreviousViewModel.cs" />
+    <Compile Include="ViewModels\Startup\QueryViewModel.cs" />
     <Compile Include="ViewModels\Startup\SelectActivityViewModel.cs" />
     <Compile Include="ViewModels\Startup\SelectNetworkViewModel.cs" />
     <Compile Include="ViewModels\Startup\SelectUserTypeViewModel.cs" />
+    <Compile Include="ViewModels\Startup\StartupBaseViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -372,11 +374,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Startup\QueryControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Startup\NextPreviousButton.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Startup\SaveSetting.xaml">
+    <Page Include="Startup\QueryControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

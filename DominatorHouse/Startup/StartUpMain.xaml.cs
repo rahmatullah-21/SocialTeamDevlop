@@ -16,9 +16,6 @@ namespace DominatorHouse.Startup
         {
             DialogParticipation.SetRegister(this, this);
             InitializeComponent();
-            var viewModel = ServiceLocator.Current.GetInstance<ISaveSettingViewModel>();
-            viewModel.SelectedIndex = 0;
-            StratupGrid.DataContext = viewModel;
             Closing += (s, e) =>
             {
                 var start = ServiceLocator.Current.GetInstance<MainWindow>();

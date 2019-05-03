@@ -3,49 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"  x:Name="StartupUi"
-        xmlns:prism="http://prismlibrary.com/" 
-              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
+        mc:Ignorable="d"  x:Name="StartupUi" VerticalContentAlignment="Stretch"
+        xmlns:prism="http://prismlibrary.com/" HorizontalContentAlignment="Stretch"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        SizeToContent="WidthAndHeight" >
 
     <Grid Name="StratupGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <!--<ContentControl Content="{Binding SourceUserControl}"/>-->
-        <ContentControl prism:RegionManager.RegionName="StartupRegion"/>
-        <Button Height="40" x:Name="BtnNext" HorizontalAlignment="Right" Foreground="White"
-                Grid.Row="1" Margin="8" 
-                Command="{Binding NextCommand}" CommandParameter="{Binding ElementName=BtnNext}">
-            <Button.Style>
-                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                    <Setter Property="Content" Value="{DynamicResource LangKeyNext}"/>
-                    <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding SelectedIndex}" Value="4">
-                            <Setter Property="Content" Value="{DynamicResource LangKeyFinish}"/>
-                            <Setter Property="Control.Background" Value="Green"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Button Height="40" HorizontalAlignment="Left"  Grid.Row="1" Margin="8" Foreground="White"
-                Content="{DynamicResource LangKeyPrevious}" Command="{Binding PreviousCommand}">
-
-            <Button.Style>
-                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                    <Setter Property="IsEnabled" Value="True"/>
-                    <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding SelectedIndex}" Value="0">
-                            <Setter Property="IsEnabled" Value="False"/>
-                            <Setter Property="Control.Background" Value="Gray"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+        <ContentControl prism:RegionManager.RegionName="StartupRegion" />
     </Grid>
-
 </controls:MetroWindow>

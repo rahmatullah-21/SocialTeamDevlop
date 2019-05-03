@@ -7,7 +7,11 @@
              mc:Ignorable="d" x:Name="SelectActivityType"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ItemsControl ItemsSource="{Binding SaveSettingModel.LstNetworkActivityType}" Padding="2"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <ItemsControl ItemsSource="{Binding SelectActivityModel.LstNetworkActivityType}" Padding="2"
                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -20,5 +24,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <local:NextPreviousButton Grid.Row="1" NextCommand="{Binding NextCommand}"  NextCommandParameter="JobConfig"
+                                  PreviousCommand="{Binding PreviousCommand}" PreviousCommandParameter="SelectNetwork" />
     </Grid>
 </UserControl>

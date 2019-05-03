@@ -21,10 +21,15 @@ namespace DominatorHouse.IoC
             Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
 
             Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
+
+            #region Startup ViewModel
             Container.RegisterSingleton<ISelectUserTypeViewModel, SelectUserTypeViewModel>();
             Container.RegisterSingleton<ISelectNetworkViewModel, SelectNetworkViewModel>();
-            //Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
-            Container.RegisterSingleton<ISaveSettingViewModel, SaveSettingViewModel>();
+            Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
+            Container.RegisterSingleton<IQueryViewModel, QueryViewModel>();
+            Container.RegisterSingleton<IJobConfigViewModel, JobConfigViewModel>();
+            
+            #endregion
 
         }
     }

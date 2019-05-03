@@ -1,5 +1,4 @@
 ﻿using DominatorHouse.ViewModels.Startup;
-using DominatorUIUtility.ViewModel.Startup;
 using System.Windows.Controls;
 
 namespace DominatorHouse.Startup
@@ -9,10 +8,10 @@ namespace DominatorHouse.Startup
     /// </summary>
     public partial class JobConfig : UserControl
     {
-        public JobConfig(ISaveSettingViewModel viewModel)
+        public JobConfig(IJobConfigViewModel viewModel)
         {
             InitializeComponent();
-            JobConfigGrid.DataContext = viewModel;
+            DataContext = viewModel;
         }
     }
 }

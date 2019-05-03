@@ -4,6 +4,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using System.Collections.ObjectModel;
+using Prism.Regions;
 
 namespace DominatorHouse.ViewModels.Startup
 {
@@ -11,15 +12,17 @@ namespace DominatorHouse.ViewModels.Startup
     {
         string SelectedUser { get; set; }
         ObservableCollection<string> LstUserType { get; set; }
+
     }
-    public class SelectUserTypeViewModel : BindableBase, ISelectUserTypeViewModel
+    public class SelectUserTypeViewModel : StartupBaseViewModel, ISelectUserTypeViewModel
     {
-        public SelectUserTypeViewModel()
+        public SelectUserTypeViewModel(IRegionManager region) : base(region)
         {
+            NextCommand = new DelegateCommand<string>(OnNextClick);
+            PreviousCommand = new DelegateCommand<string>(OnPreviousClick);
             BeginnerCommand = new DelegateCommand<object>(OnBeginnerSelect);
             InitilizeUserType();
         }
-
         public ICommand BeginnerCommand { get; set; }
 
         private string _selectedUser = string.Empty;
@@ -39,8 +42,6 @@ namespace DominatorHouse.ViewModels.Startup
 
         private void OnBeginnerSelect(object sender)
         {
-
-
         }
         void InitilizeUserType()
         {

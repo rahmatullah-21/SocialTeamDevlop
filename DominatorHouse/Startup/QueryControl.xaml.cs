@@ -9,10 +9,10 @@ namespace DominatorHouse.Startup
     /// </summary>
     public partial class QueryControl : UserControl
     {
-        public QueryControl(ISaveSettingViewModel viewModel)
+        public QueryControl(IQueryViewModel viewModel)
         {
             InitializeComponent();
-            Query.DataContext = viewModel;
+            DataContext = viewModel;
         }
     }
 }

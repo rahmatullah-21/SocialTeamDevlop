@@ -15,8 +15,9 @@ namespace DominatorHouse.Modules
         {
             containerRegistry.RegisterForNavigation<SelectUserType>();
             containerRegistry.RegisterForNavigation<SelectNetwork>();
-            containerRegistry.RegisterForNavigation<SaveSetting>();
             containerRegistry.RegisterForNavigation<SelectActivity>();
+            containerRegistry.RegisterForNavigation<JobConfig>();
+            containerRegistry.RegisterForNavigation<QueryControl>();
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
@@ -24,7 +25,7 @@ namespace DominatorHouse.Modules
             var regionManager = containerProvider.Resolve<IRegionManager>();
             regionManager.RegisterViewWithRegion("PerfCounterRegion", typeof(PerfCounterView));
             regionManager.RegisterViewWithRegion("StartupRegion", typeof(SelectUserType));
-            
+
         }
     }
 }
