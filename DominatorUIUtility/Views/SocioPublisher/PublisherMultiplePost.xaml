@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
         mc:Ignorable="d" Name="MultiplePost"
-        Height="460" Width="600" Loaded="PublisherMultiplePost_OnLoaded"
+        Height="500" Width="600" Loaded="PublisherMultiplePost_OnLoaded"
         xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>
@@ -173,7 +173,7 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="1"  Margin="6,2,6,2" BorderBrush="Gainsboro" Padding="50">
+                    <Border BorderThickness="1"  Margin="6,2,6,2" BorderBrush="Gainsboro" Padding="30">
                         <StackPanel>
                             <TextBlock  FontWeight="SemiBold"  Foreground="Black"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
                             <customControl:SocinatorTextBox   

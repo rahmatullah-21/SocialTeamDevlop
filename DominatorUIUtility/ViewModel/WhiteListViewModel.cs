@@ -172,7 +172,6 @@ namespace DominatorUIUtility.ViewModel
                 var lstuser = WhitelistUser.Split('\n');
                 WhitelistUser = string.Empty;
                 _whiteListUser = new List<WhiteListUser>();
-
                 AddToDB(lstuser?.ToList());
             });
         }
@@ -316,8 +315,10 @@ namespace DominatorUIUtility.ViewModel
 
         private void ImportUser()
         {
+            _whiteListUser = new List<WhiteListUser>();
             var lstUser = FileUtilities.FileBrowseAndReader();
-            AddToDB(lstUser);
+            if (lstUser?.Count != 0)
+                AddToDB(lstUser);
         }
     }
 }

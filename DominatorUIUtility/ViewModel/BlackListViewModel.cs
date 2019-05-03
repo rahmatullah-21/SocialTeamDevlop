@@ -181,7 +181,6 @@ namespace DominatorUIUtility.ViewModel
                 var lstUser = BlacklistUser.Split('\n');
                 BlacklistUser = string.Empty;
                 _blackListUser = new List<BlackListUser>();
-
                 AddToDB(lstUser.ToList());
             });
         }
@@ -325,8 +324,11 @@ namespace DominatorUIUtility.ViewModel
 
         private void ImportUser()
         {
+            _blackListUser = new List<BlackListUser>();
+
             var lstUser = FileUtilities.FileBrowseAndReader();
-            AddToDB(lstUser);
+            if (lstUser?.Count != 0)
+                AddToDB(lstUser);
         }
     }
 }
