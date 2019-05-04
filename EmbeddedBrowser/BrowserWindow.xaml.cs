@@ -348,35 +348,35 @@ namespace EmbeddedBrowser
         }
 
 
-        public async Task<Dictionary<int, string>> ExpandAllAddViewOptions(int postCount)
+        public async Task<Dictionary<int, string>> ExpandAllAdViewOptions(int postCount, int lastCount)
         {
             var xCoordinate = !string.IsNullOrEmpty(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "fbChatSidebar fixed_always _5pr2 hidden_elem")) ?
                         844 : 740;
 
-            var currentCount = -1;
+            var currentCount = lastCount * 50 - 1;
 
             var adCount = 0;
 
             var dictAdViewerDetails = new Dictionary<int, string>();
 
-            await Task.Delay(5000);
+            await Task.Delay(150000);
 
-            while (currentCount++ <= postCount)
+            while (currentCount++ <= postCount * (lastCount + 1))
             {
                 var adViewerDetails = string.Empty;
-                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_4-u2 mbm _4mrt')[{currentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
+                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{currentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: currentCount);
                 if (!(fullAdDetails).Contains("sponsored_ad"))
                 {
-                    await Task.Delay(2500);
+                    await Task.Delay(3000);
                     continue;
                 }
 
-                await Task.Delay(1000);
+                await Task.Delay(2000);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
-                await Task.Delay(1000);
+                await Task.Delay(2000);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
-                await Task.Delay(1000);
+                await Task.Delay(2000);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
                 adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption", clickIndex: adCount);
                 if (string.IsNullOrEmpty(adViewerDetails))
@@ -387,11 +387,64 @@ namespace EmbeddedBrowser
                     Regex.Matches(adViewerDetails, "id=(.*?)&")[0].Groups[1].ToString();
                 dictAdViewerDetails.Add(currentCount, adViewerDetails);
                 adCount += 2;
-                await Task.Delay(1000);
+                await Task.Delay(2000);
             }
 
             return dictAdViewerDetails;
         }
+
+        public async Task<List<Dictionary<PostContent, string>>> ScrapFacebookAdDetails
+            (Dictionary<int, string> adViewerDictionary, int postCount)
+        {
+
+            List<Dictionary<PostContent, string>> lstAdsList = new List<Dictionary<PostContent, string>>();
+
+            while (postCount-- > 0)
+            {
+                try
+                {
+                    Dictionary<PostContent, string> dictPostDetails = new Dictionary<PostContent, string>();
+
+                    var totalAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      ValueType.InnerHtml, clickIndex: postCount);
+
+                    var adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, "fsm fwn fcg", ValueType.InnerText, parentIndex: postCount);
+
+                    bool isAd = string.IsNullOrEmpty(adsDetails) ? true : false;
+
+                    string adId = string.Empty;
+
+                    string postUrl = string.Empty;
+
+                    if (!string.IsNullOrEmpty(adsDetails))
+                    {
+                        postUrl = "https://www.facebook.com" + Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('fsm fwn fcg')[0].firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
+                    }
+                    else
+                    {
+                        adId = adViewerDictionary.ContainsKey(postCount) ? adViewerDictionary[postCount] : string.Empty;
+                    }
+
+                    dictPostDetails.Add(PostContent.PostId, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                        AttributeType.Name, "ft_ent_identifier", ValueType.OuterHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.AdDetails, isAd.ToString());
+
+                    dictPostDetails.Add(PostContent.AdId, adId);
+
+                    if (!string.IsNullOrEmpty(dictPostDetails[PostContent.PostId]))
+                        lstAdsList.Add(dictPostDetails);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+
+            return lstAdsList;
+        }
+
 
         public async Task<List<Dictionary<PostContent, string>>> ScrapFacebookPostDetails
             (Dictionary<int, string> adViewerDictionary, int postCount)
