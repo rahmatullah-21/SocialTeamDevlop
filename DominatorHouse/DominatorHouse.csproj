@@ -28,7 +28,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://209.250.252.53/soctest/</InstallUrl>
+    <InstallUrl>http://209.250.252.53/socinator/</InstallUrl>
     <UpdateUrl>http://209.250.252.53/soctest/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
