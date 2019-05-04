@@ -315,27 +315,6 @@ namespace DominatorUIUtility.CustomControl
                 QueryCollection.Remove(CurrentQuery.QueryValue);
                 ListQueryInfo.Remove(CurrentQuery);
             }
-            //var currentRow = ((FrameworkElement)sender).DataContext as QueryInfo;
-            //if (ListQueryInfo.Any(x => currentRow != null && x.Id == currentRow.Id))
-            //{
-            //    ListQueryInfo.Remove(currentRow);
-            //}
-            //DeleteQueryEventHandler();
-            //try
-            //{
-            //    var selectedQuery = ((FrameworkElement)sender).DataContext as QueryInfo;
-            //    DeleteQueryEventHandler();
-            //    if (ListQueryInfo.Any(x => selectedQuery != null && x.Id == selectedQuery.Id))
-            //    {
-            //        ListQueryInfo.Remove(selectedQuery);
-
-            //        // SearchQueries.ItemsSource = ListQueryInfo.Count == 0 ? null : ListQueryInfo;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    ex.DebugLog();
-            //}
         }
 
         #endregion
@@ -527,10 +506,11 @@ namespace DominatorUIUtility.CustomControl
                     Dialog.ShowDialog("Error", "Please select atleast one query.");
                     return;
                 }
+                var network = SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social ? SocinatorInitialize.AccountModeActiveSocialNetwork : SocinatorInitialize.ActiveSocialNetwork;
                 SaveFileDialog saveFiledialog = new SaveFileDialog
                 {
                     Filter = "CSV file (.csv)|*.csv",
-                    FileName = SocinatorInitialize.ActiveSocialNetwork + "-" + ActivityType.ToString() + "-Query-" + DateTimeUtilities.GetCurrentEpochTime(DateTime.Now)
+                    FileName = network + "-" + ActivityType.ToString() + "-Query-" + DateTimeUtilities.GetCurrentEpochTime(DateTime.Now)
                 };
 
                 if (saveFiledialog.ShowDialog() == true)
@@ -542,11 +522,10 @@ namespace DominatorUIUtility.CustomControl
                         {
                             if (x.IsQuerySelected)
                             {
-                                streamWriter.WriteLine(SocinatorInitialize.ActiveSocialNetwork + "," + ActivityType.ToString() + "," + x.QueryType + "," + x.QueryValue);
+                                streamWriter.WriteLine(network + "," + ActivityType.ToString() + "," + x.QueryType + "," + x.QueryValue);
                             }
-
                         });
-                        ToasterNotification.ShowSuccess("Query exported successfully.");
+                        ToasterNotification.ShowSuccess("Query successfully exported.");
                     }
 
                 }

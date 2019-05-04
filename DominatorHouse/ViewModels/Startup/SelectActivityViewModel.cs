@@ -6,6 +6,9 @@ using DominatorHouse.ViewModels.Startup;
 using Prism.Regions;
 using Prism.Commands;
 using System.Linq;
+using DominatorHouseCore.Utility;
+using DominatorHouse.ViewModels.Startup.ModuleConfig;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -18,7 +21,7 @@ namespace DominatorUIUtility.ViewModel.Startup
     {
         public SelectActivityViewModel(IRegionManager region) : base(region)
         {
-           
+
             NextCommand = new DelegateCommand<string>(OnNextClick);
             PreviousCommand = new DelegateCommand<string>(OnPreviousClick);
         }
@@ -32,9 +35,19 @@ namespace DominatorUIUtility.ViewModel.Startup
         }
         private new void OnNextClick(string sender)
         {
-            base.OnNextClick(sender);
-             var selectActivity = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            var selectActivity = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
             var allSelectedActivity = selectActivity.SelectActivityModel.LstNetworkActivityType.Where(x => x.IsActivity);
+            if (allSelectedActivity.Count() == 0)
+            {
+                Dialog.ShowDialog("Error", "Please select atleast one activity.");
+                return;
+            }
+
+            var jobConfigViewModel = ServiceLocator.Current.GetInstance<IJobConfigViewModel>();
+            jobConfigViewModel.AddJobConfiguration(allSelectedActivity);
+
+            base.OnNextClick(sender);
+
         }
         public void SetActivityTypeByNetwork(string network)
         {

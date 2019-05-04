@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"  x:Name="StartupUi"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        Width="400" Height="200"
+        MaxWidth="400" MaxHeight="300"
         xmlns:local="clr-namespace:DominatorHouse.Startup">
 
     <Grid>
@@ -14,7 +14,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
             <ListBox ItemsSource="{Binding LstUserType}" 
-             SelectedItem="{Binding SelectedUser,Mode=TwoWay}" Height="110"
+             SelectedItem="{Binding SelectedUser,Mode=TwoWay}" Height="150"
              ItemContainerStyle="{StaticResource TransparentSelectedListBoxItem}">
 
             <ListBox.ItemsPanel>

@@ -1786,6 +1786,8 @@ namespace DominatorUIUtility.CustomControl
 
                 _mainGrid.DataContext = ObjViewModel;
                 _accountGrowthModeHeader.DataContext = this;
+                if (_queryControl != null)
+                    _queryControl.ActivityType = _activityType;
 
             }
             catch (Exception ex)

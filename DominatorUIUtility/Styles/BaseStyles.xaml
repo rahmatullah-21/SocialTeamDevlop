@@ -380,9 +380,24 @@
 
 
     <Style x:Key="TransparentSelectedListBoxItem"  TargetType="{x:Type ListBoxItem}">
-        <Style.Resources>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="ContentBorder" BorderThickness="2" Padding="0" BorderBrush="Transparent">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected"   Value="True">
+                            <Setter Property="BorderBrush" TargetName="ContentBorder"  Value="Green" />
+                            <Setter Property="BorderThickness" TargetName="ContentBorder"  Value="2" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <!--<Style.Resources>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-        </Style.Resources>
+        </Style.Resources>-->
 
     </Style>
 </ResourceDictionary>
