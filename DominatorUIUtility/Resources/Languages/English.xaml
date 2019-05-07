@@ -3528,4 +3528,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyUseOriginalPostDetails">Use Original Post Details</system:String>
     <system:String x:Key="LangKeyUseOwnPostDetails">Use Own Post Details</system:String>
     <system:String x:Key="LangKeyTypeBoardNameToSelectWhichContains">Type Board Name To Select Which Contains</system:String>
+    <system:String x:Key="LangKeyPagesLikedByFriends">Pages Liked By Friends</system:String>
+    <system:String x:Key="LangKeyExceptForPagesLikedByFriendsOption">(Except For Pages Liked By Friends Option)</system:String>
+    <system:String x:Key="LangKeyPostGreetingsToTimeline">Post Greetings To Timeline</system:String>
+    <system:String x:Key="LangKeyAfterSendGreetingsOption">After Send Greetings Option</system:String>
+    <system:String x:Key="LangKeyCreateuniqueevents">Create Unique Events</system:String>
+    <system:String x:Key="LangKeyShouldNotBeAlreadyFollowingThisAccountSkipFollowings">Should Not Be Already Following This Account(Skip Followings)</system:String>
 </ResourceDictionary>

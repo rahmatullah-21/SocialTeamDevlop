@@ -42,7 +42,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// To Specify the scheduled list id of campaigns
         /// </summary>
-        public static SortedSet<string> PublisherScheduledList { get; set; } = new SortedSet<string>();
+        public static List<string> PublisherScheduledList { get; set; } = new List<string>();
 
         /// <summary>
         /// To used in <see cref="PublisherJobProcess"/> for updating success or failed post details 
@@ -1431,7 +1431,7 @@ namespace DominatorHouseCore.Process
                          if (startTime > DateTime.Now)
                          {
                              // Generate job name
-                             var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
+                             var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDateTime()}";
 
                              // Add into scheduled lsit
                              PublisherScheduledList.Add(addJobName);
@@ -1507,7 +1507,6 @@ namespace DominatorHouseCore.Process
         {
             // Get the current campaings schedule lists
             var currentCampaignsItems = PublisherScheduledList.Where(x => x.Contains(campaignId)).ToList();
-
             // Iterate one by one to remove 
             currentCampaignsItems.ForEach(name =>
             {

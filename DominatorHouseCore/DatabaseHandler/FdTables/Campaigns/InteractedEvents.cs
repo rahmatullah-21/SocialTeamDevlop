@@ -134,5 +134,10 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public DateTime InteractionDateTime { get; set; }
+        /// <summary>
+        /// EmailId of the Account from which Interaction has been done
+        /// </summary>
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public string AccountEmail { get; set; }
     }
 }

@@ -496,7 +496,7 @@ namespace DominatorHouseCore.Diagnostics
         {
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Twitter);
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Facebook);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Gplus);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Gplus);
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Instagram);
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.LinkedIn);
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Quora);

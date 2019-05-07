@@ -216,7 +216,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Paused);
                 // Call to set the default settings
                 InitializeDefaultCampaignStatus();
-                GlobusLogHelper.log.Info(Log.PublisherCampaignPaused, x.CampaignName);
+                //GlobusLogHelper.log.Info(Log.PublisherCampaignPaused, x.CampaignName);
             });
 
             if (selectedCampaigns.Count > 0)
@@ -278,10 +278,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         // Iterate and export the campaign id to csv file
                         selectedCampaigns.ForEach(campaignId =>
                         {
-                            var csvData = campaignId;
+                           // var csvData = campaignId;
                             using (var streamWriter = new StreamWriter(filename, true))
                             {
-                                streamWriter.WriteLine(csvData);
+                                streamWriter.WriteLine(campaignId);
                             }
                         });
                     }

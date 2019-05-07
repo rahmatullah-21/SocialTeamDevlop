@@ -1,3 +1,24 @@
+Version[1.0.0.52],[2nd-May-19]
+New Features:-
+	Facebook:-
+		Broadcast message => Send  Greating to Friend => Added feature to Post  Greating to TimeLime.
+		Engage => Added Feature to send multiple comment to post.
+		Engage => Fan page Liker => Added Feature to like page those page like by feiend.
+		Scrape => Fan page Scraper => Added Feature to Scrape page those page like by feiend.
+		Fb Creator => Event creator => Added Feature to create Event.
+Fixed:-
+	Facebook:-
+		Grow friend => Unfriend => Fixed issue with unfriend profile filter by loctation.
+	Twitter:-
+		Messenger => Message to new followers => Fixed issue with Spintax.
+	Instagram:-
+		Reposter => Fixed issue with reposting with location id
+		Reposter => Fixed issue with reposting with custom  post
+		Grow follower => fixed issue with Following same user which followed before.
+	Tumblr:-
+		SocioPublisher => Fixed issue publishing on Page/board.
+
+
 Version[1.0.0.51],[25th-April-19]
 New Features:-
 	Private Blacklist / Private Whitelist => Added import and export feature.
