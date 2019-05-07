@@ -415,11 +415,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType)
         {
-            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
                 jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
                 jobProcess.DominatorAccountModel.AccountBaseModel.UserName, jobProcess.ActivityType, limitInfo.LimitValue);
+
             Stop(jobProcess.DominatorAccountModel.AccountId, jobProcess.TemplateId);
+            //here jobProcess.JobCancellationTokenSource.Token become true because campaign is stopped here
+
             var moduleConfiguration = _jobActivityConfigurationManager[jobProcess.DominatorAccountModel.AccountId, jobProcess.ActivityType];
             var nextStartTime = limitType == ReachedLimitType.Job
                 ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
@@ -437,7 +440,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, moduleConfiguration.IsEnabled);
             _jobCountersManager.Reset(jobProcess.Id);
-            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
         }
     }
