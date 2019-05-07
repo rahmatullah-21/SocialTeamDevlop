@@ -257,8 +257,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn", "Reddit" };
         public List<string> WallAvailableInNetworks { get; set; } = new List<string> { "Pinterest", "Tumblr" };
+        public List<string> IsCustomDestinationInNetworks { get; set; } = new List<string> { "Facebook","Reddit" };
 
-        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "Gplus", "Tumblr" };
+        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Gplus", "Tumblr" };
         private string _selectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
 
         public string SelectPageBoard
@@ -928,7 +929,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AccountId = x.AccountBaseModel.AccountId,
                     AccountName = x.AccountBaseModel.UserName,
                     SocialNetworks = x.AccountBaseModel.AccountNetwork,
-                    IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),// x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                    IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
+                    IsCustomDestinationInNetworks = IsCustomDestinationInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsGroupsAvailable =
                         GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsPagesOrBoardsAvailable =
@@ -1277,6 +1279,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             AccountName = x.AccountBaseModel.UserName,
                             SocialNetworks = x.AccountBaseModel.AccountNetwork,
                             IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),// x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                            IsCustomDestinationInNetworks = IsCustomDestinationInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsGroupsAvailable =
                                 GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsPagesOrBoardsAvailable =
