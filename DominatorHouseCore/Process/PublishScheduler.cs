@@ -1315,7 +1315,8 @@ namespace DominatorHouseCore.Process
                 // Is Rotate day has been selected
                 if (specificCampaign.IsRotateDayChecked)
                     // Call to start publishing
-                    StartPublishingPosts(specificCampaign);
+                    SchedulePublisher(specificCampaign);
+                //StartPublishingPosts(specificCampaign);
                 else
                 {
                     // Check whether today is selected or not
@@ -1323,7 +1324,8 @@ namespace DominatorHouseCore.Process
                     if (isCampaignSelected == null)
                         return;
                     // Call to start publishing
-                    StartPublishingPosts(specificCampaign);
+                    SchedulePublisher(specificCampaign);
+                    //StartPublishingPosts(specificCampaign);
                 }
             }
         }
@@ -1333,35 +1335,36 @@ namespace DominatorHouseCore.Process
         /// </summary>
         public static void ScheduleTodaysPublisher()
         {
-            Task.Factory.StartNew(() =>
-            {
-                // get the all campaigns which should active 
-                var campaignDetails =
-                    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
+            // get the all campaigns which should active 
+            var campaignDetails =
+                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
+            if (campaignDetails.Count > 0)
+                Task.Factory.StartNew(() =>
+                {
 
                 // Iterate campaigns 
                 campaignDetails.ForEach(campaign =>
-                {
+                    {
                     // Validate the start and end time of the campaign
                     if (!ValidateCampaignsTime(campaign))
-                        return;
+                            return;
 
                     // Is Rotate day has been selected
                     if (campaign.IsRotateDayChecked)
                         // Call to start publishing
                         SchedulePublisher(campaign);
-                    else
-                    {
+                        else
+                        {
                         // Check whether today is selected or not
                         var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                        if (isCampaignSelected == null)
-                            return;
+                            if (isCampaignSelected == null)
+                                return;
                         // Call to start publishing
                         SchedulePublisher(campaign);
-                    }
-                    Thread.Sleep(2);
+                        }
+                        Thread.Sleep(2);
+                    });
                 });
-            });
         }
 
 
