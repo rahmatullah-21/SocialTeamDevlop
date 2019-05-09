@@ -1315,8 +1315,8 @@ namespace DominatorHouseCore.Process
                 // Is Rotate day has been selected
                 if (specificCampaign.IsRotateDayChecked)
                     // Call to start publishing
-                    SchedulePublisher(specificCampaign);
-                //StartPublishingPosts(specificCampaign);
+                    // SchedulePublisher(specificCampaign);
+                    StartPublishingPosts(specificCampaign);
                 else
                 {
                     // Check whether today is selected or not
@@ -1324,8 +1324,8 @@ namespace DominatorHouseCore.Process
                     if (isCampaignSelected == null)
                         return;
                     // Call to start publishing
-                    SchedulePublisher(specificCampaign);
-                    //StartPublishingPosts(specificCampaign);
+                    // SchedulePublisher(specificCampaign);
+                    StartPublishingPosts(specificCampaign);
                 }
             }
         }
@@ -1342,28 +1342,28 @@ namespace DominatorHouseCore.Process
                 Task.Factory.StartNew(() =>
                 {
 
-                // Iterate campaigns 
-                campaignDetails.ForEach(campaign =>
-                    {
-                    // Validate the start and end time of the campaign
-                    if (!ValidateCampaignsTime(campaign))
-                            return;
-
-                    // Is Rotate day has been selected
-                    if (campaign.IsRotateDayChecked)
-                        // Call to start publishing
-                        SchedulePublisher(campaign);
-                        else
+                    // Iterate campaigns 
+                    campaignDetails.ForEach(campaign =>
                         {
-                        // Check whether today is selected or not
-                        var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                            if (isCampaignSelected == null)
+                        // Validate the start and end time of the campaign
+                        if (!ValidateCampaignsTime(campaign))
                                 return;
-                        // Call to start publishing
-                        SchedulePublisher(campaign);
-                        }
-                        Thread.Sleep(2);
-                    });
+
+                        // Is Rotate day has been selected
+                        if (campaign.IsRotateDayChecked)
+                            // Call to start publishing
+                            SchedulePublisher(campaign);
+                            else
+                            {
+                            // Check whether today is selected or not
+                            var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                                if (isCampaignSelected == null)
+                                    return;
+                            // Call to start publishing
+                            SchedulePublisher(campaign);
+                            }
+                            Thread.Sleep(2);
+                        });
                 });
         }
 
