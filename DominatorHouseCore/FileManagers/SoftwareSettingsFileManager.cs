@@ -44,7 +44,7 @@ namespace DominatorHouseCore.FileManagers
             }
             catch (Exception ex)
             {
-                GlobusLogHelper.log.Debug(ex.Message);
+                ex.DebugLog();
             }
             return new SoftwareSettingsModel();
         }

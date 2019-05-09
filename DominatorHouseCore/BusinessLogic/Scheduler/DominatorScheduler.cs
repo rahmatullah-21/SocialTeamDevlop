@@ -299,7 +299,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var timeToRunNext = DateTimeUtilities.GetNextStartTime(moduleConfiguration, ReachedLimitType.Job);
                 if (timeToRunNext == DateTime.MinValue)
                 {
-                    GlobusLogHelper.log.Info($"suspicious calculation {timeToRunNext} - {DateTime.Now.AddMinutes(-1)}");
+                    GlobusLogHelper.log.Debug($"suspicious calculation {timeToRunNext} - {DateTime.Now.AddMinutes(-1)}");
                     return;
                 }
                 if (timeToRunNext < moduleConfiguration.NextRun)
@@ -328,11 +328,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     timeToRunNext = timeToRunNext.AddSeconds(25);
                 }
-                GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
-                                     dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
-                                     activityType, timeToRunNext);
-                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
 
+                UpdatedScheduleJob(dominatorAccount, time, templateId, jobId, timeToRunNext, stopTime);
+                GlobusLogHelper.log.Info(Log.NextJobExpectedToStartBy,
+                                                  dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.AccountBaseModel.UserName,
+                                                  activityType, timeToRunNext);
 
             }
             catch (InvalidOperationException)
@@ -352,7 +352,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
-            
+
             if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
             {
                 ScheduleActivityForNextJob(dominatorAccountModel, activityType);
@@ -395,31 +395,49 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId,
             string jobId, DateTime timeToRunNext, DateTime stopTime)
         {
-            Task.Factory.StartNew(() =>
+
+            _schedulerProxy.AddJob(() =>
             {
-                _schedulerProxy.AddJob(() =>
-                    {
-                        RunActivity(dominatorAccount, templateId, timing, timing.Module);
-                    },
-                    s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+                RunActivity(dominatorAccount, templateId, timing, timing.Module);
+            }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
 
 
-                _schedulerProxy.AddJob(() =>
-                    {
-                        StopActivity(dominatorAccount, timing.Module, templateId, true);
-                    },
-                    s => s.ToRunOnceAt(stopTime));
-            });
+            _schedulerProxy.AddJob(() =>
+            {
+                StopActivity(dominatorAccount, timing.Module, templateId, true);
+            }, s => s.ToRunOnceAt(stopTime));
+
+
+            #region Old
+            //Task.Factory.StartNew(() =>
+            //{
+            //    _schedulerProxy.AddJob(() =>
+            //        {
+            //            RunActivity(dominatorAccount, templateId, timing, timing.Module);
+            //        },
+            //        s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+
+
+            //    _schedulerProxy.AddJob(() =>
+            //        {
+            //            StopActivity(dominatorAccount, timing.Module, templateId, true);
+            //        },
+            //        s => s.ToRunOnceAt(stopTime));
+            //}); 
+            #endregion
 
         }
 
         public void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType)
         {
-            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
                 jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
                 jobProcess.DominatorAccountModel.AccountBaseModel.UserName, jobProcess.ActivityType, limitInfo.LimitValue);
+
             Stop(jobProcess.DominatorAccountModel.AccountId, jobProcess.TemplateId);
+            //here jobProcess.JobCancellationTokenSource.Token become true because campaign is stopped here
+
             var moduleConfiguration = _jobActivityConfigurationManager[jobProcess.DominatorAccountModel.AccountId, jobProcess.ActivityType];
             var nextStartTime = limitType == ReachedLimitType.Job
                 ? DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType,
@@ -437,7 +455,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             StopActivity(jobProcess.DominatorAccountModel, jobProcess.ActivityType.ToString(), jobProcess.TemplateId, moduleConfiguration.IsEnabled);
             _jobCountersManager.Reset(jobProcess.Id);
-            jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
         }
     }
