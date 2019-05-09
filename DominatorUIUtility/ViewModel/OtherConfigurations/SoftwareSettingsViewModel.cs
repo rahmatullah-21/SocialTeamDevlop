@@ -6,10 +6,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows;
-using CommonServiceLocator;
-using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
