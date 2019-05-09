@@ -87,7 +87,6 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             {
                 try
                 {
-
                     HandleGlobalException(e.ExceptionObject as Exception, o.ToString());
                 }
                 catch (Exception ex)
@@ -116,6 +115,7 @@ namespace DominatorHouseCore.Diagnostics.Exceptions
             {
                 try
                 {
+                    e.Exception.DebugLog();
                     e.SetObserved();
                     //HandleGlobalException(e.Exception, o.ToString());
                 }

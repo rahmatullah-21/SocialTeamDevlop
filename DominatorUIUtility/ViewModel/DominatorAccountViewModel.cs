@@ -39,7 +39,6 @@ using DominatorUIUtility.Views;
 using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
 
-
 namespace DominatorUIUtility.ViewModel
 {
     public interface IDominatorAccountViewModel
@@ -136,6 +135,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateFriendshipCommand { get; }
         public ICommand EditNetworkProfileCommand { get; }
         public ICommand CopyAccountIdCommand { get; }
+        public ICommand SettingWizardCommand { get; }
 
 
         #endregion
@@ -143,7 +143,7 @@ namespace DominatorUIUtility.ViewModel
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler, IProxyFileManager proxyFileManager)
         {
-            
+
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
             _softwareSettings = softwareSettings;
@@ -209,7 +209,22 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
 
+            #region Custome Setting Command
+
+            SettingWizardCommand = new DelegateCommand<DominatorAccountModel>(CustomSetting);
+
+            #endregion
+
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+        }
+
+        private void CustomSetting(DominatorAccountModel account)
+        {
+            //var dialog = new Dialog();
+            //var strt = new StartUpMain(account.AccountBaseModel.AccountNetwork);
+            //var win = dialog.GetMetroWindow(strt, "Custom Setting");
+            //win.ShowDialog();
+
         }
 
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)

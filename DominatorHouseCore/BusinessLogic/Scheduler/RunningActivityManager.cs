@@ -21,34 +21,36 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         public void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
         {
-           // var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
-            if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
-            {
-                Task.Factory.StartNew(() =>
-                 {
-                     var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                     // everything is allowed
-                     foreach (var account in accountDetails)
-                     {
-                         dominatorScheduler?.ScheduleEachActivity(account);
-                         Task.Delay(2);
-                     }
-                 });
-            }
-            else
-            {
-                Task.Factory.StartNew(() =>
+            var enabledAccount = accountDetails.Where(x => x.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled));
+            if (enabledAccount.Count() > 0)
+                if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
                 {
-                    // be picky - only one per account (choose wisely)
-                    foreach (var account in accountDetails)
+                    Task.Factory.StartNew(() =>
+                     {
+                         var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                         // everything is allowed
+                         foreach (var account in enabledAccount)
+                         {
+                             dominatorScheduler?.ScheduleEachActivity(account);
+                             Task.Delay(2);
+                         }
+                     });
+                }
+                else
+                {
+                    Task.Factory.StartNew(() =>
                     {
-                        StartNextRound(account);
-                        Task.Delay(2);
-                    }
-                });
-            }
+                        // be picky - only one per account (choose wisely)
+                        foreach (var account in enabledAccount)
+                        {
+                            StartNextRound(account);
+                            Task.Delay(2);
+                        }
+                    });
+                }
 
         }
 

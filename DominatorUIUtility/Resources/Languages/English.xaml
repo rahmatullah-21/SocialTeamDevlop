@@ -3534,4 +3534,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAfterSendGreetingsOption">After Send Greetings Option</system:String>
     <system:String x:Key="LangKeyCreateuniqueevents">Create Unique Events</system:String>
     <system:String x:Key="LangKeyShouldNotBeAlreadyFollowingThisAccountSkipFollowings">Should Not Be Already Following This Account(Skip Followings)</system:String>
+    <system:String x:Key="LangKeyScrapeUniqueUsersOnlyForThisCampaign">Scrape Unique User Only For This Campaign</system:String>
 </ResourceDictionary>

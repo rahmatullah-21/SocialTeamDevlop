@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
-using DominatorHouse.Startup;
 using DominatorHouseCore;
 using DominatorUIUtility.Behaviours;
 using Microsoft.Practices.Unity.Configuration;
@@ -37,7 +36,7 @@ namespace Socinator
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             InitializeAutoMapper();
-            var shell = Container.Resolve<StartUpMain>();
+            var shell = Container.Resolve<MainWindow>();
 
             return shell;
         }
