@@ -18,12 +18,19 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         private readonly ISoftwareSettings _softwareSettings;
         public SoftwareSettingsModel SoftwareSettingsModel { get; }
         public DelegateCommand SaveCmd { get; }
+        public DelegateCommand ExportCommand { get; }
 
         public SoftwareSettingsViewModel(ISoftwareSettings softwareSettings) : base("LangKeySoftwareSettings", "SoftwareSettingsControlTemplate")
         {
             _softwareSettings = softwareSettings;
             SaveCmd = new DelegateCommand(Save);
             SoftwareSettingsModel = softwareSettings.Settings;
+            ExportCommand = new DelegateCommand(Export);
+        }
+
+        private void Export()
+        {
+            SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath();
         }
 
         private void Save()
