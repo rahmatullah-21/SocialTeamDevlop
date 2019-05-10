@@ -3535,4 +3535,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCreateuniqueevents">Create Unique Events</system:String>
     <system:String x:Key="LangKeyShouldNotBeAlreadyFollowingThisAccountSkipFollowings">Should Not Be Already Following This Account(Skip Followings)</system:String>
     <system:String x:Key="LangKeyScrapeUniqueUsersOnlyForThisCampaign">Scrape Unique User Only For This Campaign</system:String>
+    <system:String x:Key="LangKeyActiveAllSelectedCampaign">Active all selected Campaign</system:String>
+    <system:String x:Key="LangKeyPauseAllSelectedCampaign">Pause all selected Campaign</system:String>
 </ResourceDictionary>

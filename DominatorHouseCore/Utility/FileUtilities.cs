@@ -174,11 +174,12 @@ namespace DominatorHouseCore.Utility
         /// GetExportPath is used to get the selected path
         /// </summary>
         /// <returns></returns>
-        public static string GetExportPath()
+        public static string GetExportPath(bool clickedFromSetting = false)
         {
+
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
-            if (softwareSettings.IsDefaultExportPathSelected && !string.IsNullOrEmpty(softwareSettings.ExportPath))
+            if (!clickedFromSetting && (softwareSettings.IsDefaultExportPathSelected && !string.IsNullOrEmpty(softwareSettings.ExportPath)))
                 return softwareSettings.ExportPath;
 
             var exportPath = string.Empty;
@@ -194,10 +195,9 @@ namespace DominatorHouseCore.Utility
             {
                 exportPath = openBrowserDialog.FileName;
                 softwareSettings.ExportPath = exportPath;
-                softwareSettingsFileManager.SaveSoftwareSettings(softwareSettings);
             }
 
-            return exportPath;
+            return softwareSettings.ExportPath;
         }
 
         public static string GetExportPath(Window OwnerWindow)

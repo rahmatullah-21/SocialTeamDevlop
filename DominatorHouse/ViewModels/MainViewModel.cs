@@ -291,7 +291,7 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-                DirectoryUtilities.CompressAccountDetails();
+                
                 Task.Factory.StartNew(() =>
                 {
                     FeatureFlags.UpdateFeatures();
@@ -381,7 +381,7 @@ namespace DominatorHouse.ViewModels
                     #region log deletion and backup Account
 
                     DirectoryUtilities.DeleteOldLogsFile();
-                   
+                    DirectoryUtilities.CompressAccountDetails();
 
                     #endregion
 
