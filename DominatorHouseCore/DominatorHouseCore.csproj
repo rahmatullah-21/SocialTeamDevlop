@@ -293,6 +293,7 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\Friends.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedAds.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedComments.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedGroups.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedMarketPlaces.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateWhitelist.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedAds.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedComments.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedGroups.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedMarketPlaces.cs" />
@@ -512,6 +514,7 @@
     <Compile Include="Interfaces\ChatFactory.cs" />
     <Compile Include="Interfaces\ColumnSpecificationAdapter.cs" />
     <Compile Include="Interfaces\IAdScraperFactory.cs" />
+    <Compile Include="Interfaces\IAdsDetails.cs" />
     <Compile Include="Interfaces\ICampaignInteractionDetails.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Interfaces\IComments.cs" />

@@ -118,7 +118,7 @@ namespace EmbeddedBrowser
                     //if (!set) { /*Is cookie set ?*/ }
                 }
 
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
                 {
                     CustomUse = true;
                     if (string.IsNullOrEmpty(TargetUrl))
@@ -145,7 +145,7 @@ namespace EmbeddedBrowser
         public async Task<string> GoToCustomUrl(string url, int delayAfter = 0)
         {
             Browser.Load(url);
-            await Task.Delay(delayAfter);
+            await Task.Delay(TimeSpan.FromSeconds(delayAfter));
             return await Browser.GetSourceAsync();
         }
 
@@ -718,7 +718,8 @@ namespace EmbeddedBrowser
             ActByQuery = 22,
             CustomActType = 23,
             ScrollIntoViewQuery = 24,
-            GetAttribute = 25
+            GetAttribute = 25,
+            CustomQuery = 26
         }
 
         public enum AttributeType
@@ -739,6 +740,8 @@ namespace EmbeddedBrowser
             CommentPreclude = 8,
             [Description("data-feed-option-name")]
             DataFeedOptionName = 9,
+            [Description("data-key")]
+            Datakey = 10
 
         }
 
@@ -869,6 +872,10 @@ namespace EmbeddedBrowser
                     Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}");
                     break;
 
+                case ActType.CustomQuery:
+                    Browser.ExecuteScriptAsync(attributeValue);
+                    break;
+
                 default:
                     Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}");
                     break;
@@ -904,7 +911,8 @@ namespace EmbeddedBrowser
         }
 
 
-        public async Task<List<string>> GetListInnerHtml(ActType actType, AttributeType attributeType, string attributeValue)
+        public async Task<List<string>> GetListHtml(ActType actType, AttributeType attributeType, string attributeValue,
+            ValueType valueType = ValueType.InnerHtml)
         {
             if (Browser.IsDisposed) return
                     new List<string>();
@@ -915,7 +923,7 @@ namespace EmbeddedBrowser
 
             while (itemCount >= 0)
             {
-                listNodes.Add(await GetElementValueAsync(actType, attributeType, attributeValue, clickIndex: itemCount));
+                listNodes.Add(await GetElementValueAsync(actType, attributeType, attributeValue, clickIndex: itemCount, valueType: valueType));
                 itemCount--;
             }
 
@@ -994,6 +1002,8 @@ namespace EmbeddedBrowser
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "";
                 case ActType.GetAttribute:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
+                case ActType.ActByQuery:
+                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
                 default:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
             }

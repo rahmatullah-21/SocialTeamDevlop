@@ -3485,4 +3485,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyMessageShouldHaveBeenSentBefore">Message Should Have Been Sent Before</system:String>
 
     <system:String x:Key="LangKeyRunAllActivityThroughBrowser">Run All Activity Through Browser.</system:String>
+
+
+    <system:String x:Key="LangKeyPageInfoAdsScraper">Page Info Ads Scraper</system:String>
+    <system:String x:Key="LangKeyAdsScraper">Ads Scraper</system:String>
 </ResourceDictionary>

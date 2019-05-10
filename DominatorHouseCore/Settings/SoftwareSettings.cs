@@ -134,41 +134,41 @@ namespace DominatorHouseCore.Settings
 
         public void ScheduleAutoUpdation()
         {
-            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
-            var socinatorSettings = softwareSettingsFileManager.GetSoftwareSettings();
-            if (!socinatorSettings.IsStopAutoSynchronizeAccount)
-                return;
+            //var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            //var socinatorSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            //if (!socinatorSettings.IsStopAutoSynchronizeAccount)
+            //    return;
 
-            var cancellationtokenSource = new CancellationTokenSource();
+            //var cancellationtokenSource = new CancellationTokenSource();
 
-            var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
-            JobManager.AddJob(() =>
-            {
-                var registeredNetwork = SocinatorInitialize.GetRegisterNetwork();
-                var accounts = _accountsFileManager.GetAll().Where(x =>
-                    registeredNetwork.Contains(x.AccountBaseModel.AccountNetwork));
+            //var accountSynchronizationHours = socinatorSettings.AccountSynchronizationHours;
+            //JobManager.AddJob(() =>
+            //{
+            //    var registeredNetwork = SocinatorInitialize.GetRegisterNetwork();
+            //    var accounts = _accountsFileManager.GetAll().Where(x =>
+            //        registeredNetwork.Contains(x.AccountBaseModel.AccountNetwork));
 
-                var accountsToUpdate = accounts.Where(x =>
-                    DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
-                if (accountsToUpdate.Count != 0)
-                {
-                    Task.Factory.StartNew(() =>
-                        {
-                            int count = 0;
-                            accountsToUpdate.ForEach(account =>
-                            {
-                                UpdateAccount(account, cancellationtokenSource);
-                                if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
-                                {
-                                    Thread.Sleep(20000);
-                                    count = 0;
-                                }
-                                Thread.Sleep(2);
-                            });
+            //    var accountsToUpdate = accounts.Where(x =>
+            //        DateTimeUtilities.GetEpochTime() - x.LastUpdateTime > accountSynchronizationHours * 3600).ToList();
+            //    if (accountsToUpdate.Count != 0)
+            //    {
+            //        Task.Factory.StartNew(() =>
+            //            {
+            //                int count = 0;
+            //                accountsToUpdate.ForEach(account =>
+            //                {
+            //                    UpdateAccount(account, cancellationtokenSource);
+            //                    if (++count >= socinatorSettings.SimultaneousAccountUpdateCount)
+            //                    {
+            //                        Thread.Sleep(20000);
+            //                        count = 0;
+            //                    }
+            //                    Thread.Sleep(2);
+            //                });
 
-                        }, cancellationtokenSource.Token);
-                }
-            }, x => x.ToRunNow().AndEvery(accountSynchronizationHours).Hours().At(5));
+            //            }, cancellationtokenSource.Token);
+            //    }
+            //}, x => x.ToRunNow().AndEvery(accountSynchronizationHours).Hours().At(5));
         }
         #region Old AutoSchedule code
 
@@ -257,42 +257,42 @@ namespace DominatorHouseCore.Settings
         #endregion
         public void UpdateAccount(DominatorAccountModel account, CancellationTokenSource cancellationTokenSource)
         {
-            var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
-                                                    .GetNetworkCoreFactory().AccountUpdateFactory;
+            //var accountFactory = SocinatorInitialize.GetSocialLibrary(account.AccountBaseModel.AccountNetwork)
+            //                                        .GetNetworkCoreFactory().AccountUpdateFactory;
 
-            var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
+            //var asyncAccount = accountFactory as IAccountUpdateFactoryAsync;
 
-            if (asyncAccount == null)
-                return;
+            //if (asyncAccount == null)
+            //    return;
 
-            Task.Factory.StartNew(async () =>
-            {
-                try
-                {
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //Task.Factory.StartNew(async () =>
+            //{
+            //    try
+            //    {
+            //        cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
+            //        var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
 
-                    if (!checkResult)
-                        return;
+            //        if (!checkResult)
+            //            return;
 
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            //        cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                    await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
+            //        await asyncAccount.UpdateDetailsAsync(account, cancellationTokenSource.Token);
 
-                    new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
-                        .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
-                        .SaveToBinFile();
-                }
-                catch (OperationCanceledException ex)
-                {
-                    ex.DebugLog("Cancellation Requested!");
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }, account.Token);
+            //        new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+            //            .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
+            //            .SaveToBinFile();
+            //    }
+            //    catch (OperationCanceledException ex)
+            //    {
+            //        ex.DebugLog("Cancellation Requested!");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        ex.DebugLog();
+            //    }
+            //}, account.Token);
 
         }
 
@@ -313,19 +313,19 @@ namespace DominatorHouseCore.Settings
 
         private async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer)
         {
-            var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
+            //var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
 
-            ListHelper.Shuffle(accounts);
+            //ListHelper.Shuffle(accounts);
 
-            foreach (var account in accounts)
-            {
-                await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
-            }
+            //foreach (var account in accounts)
+            //{
+            //    await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+            //}
 
-            var jobId = Guid.NewGuid().ToString();
+            //var jobId = Guid.NewGuid().ToString();
 
-            JobManager.AddJob(async () => { await ScrapAdsProduceAsync(adsActionBuffer); },
-                s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
+            //JobManager.AddJob(async () => { await ScrapAdsProduceAsync(adsActionBuffer); },
+            //    s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
 
             return true;
         }
