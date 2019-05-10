@@ -303,32 +303,32 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-            //    async job =>
-            //    {
-            //        await job.StartAdScarperAsync();
-            //    },
-            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+                async job =>
+                {
+                    await job.StartAdScarperAsync();
+                },
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-            //await ScrapAdsProduceAsync(adScraperblock);
+            await ScrapAdsProduceAsync(adScraperblock);
         }
 
 
         private async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer)
         {
-            //var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
+            var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
 
-            //ListHelper.Shuffle(accounts);
+            ListHelper.Shuffle(accounts);
 
-            //foreach (var account in accounts)
-            //{
-            //    await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
-            //}
+            foreach (var account in accounts)
+            {
+                await adsActionBuffer.SendAsync(new ScrapAdsDetails(account));
+            }
 
-            //var jobId = Guid.NewGuid().ToString();
+            var jobId = Guid.NewGuid().ToString();
 
-            //JobManager.AddJob(async () => { await ScrapAdsProduceAsync(adsActionBuffer); },
-            //    s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1)));
+            JobManager.AddJob(async () => { await ScrapAdsProduceAsync(adsActionBuffer); },
+                s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1)));
 
             return true;
         }

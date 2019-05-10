@@ -658,6 +658,11 @@ namespace EmbeddedBrowser
                 },
                 {
                     pageData => pageData.Contains("Get a verification code")
+                                && !pageData.Contains("Google will send a notification to your phone to verify that it's you"),
+                    NeedEmailVerification
+                },
+                {
+                    pageData => pageData.Contains("Get a verification code")
                                 || pageData.Contains("Do you have your phone?")
                                 || pageData.Contains("Google will send a notification to your phone to verify that it's you"),
                     NeedPhoneVerification
@@ -994,6 +999,12 @@ namespace EmbeddedBrowser
         private bool NeedPhoneVerification()
         {
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
+            return true;
+        }
+
+        private bool NeedEmailVerification()
+        {
+            DominatorAccountModel.AccountBaseModel.Status = AccountStatus.EmailVerification;
             return true;
         }
 

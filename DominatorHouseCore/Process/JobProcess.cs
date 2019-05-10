@@ -155,7 +155,6 @@ namespace DominatorHouseCore.Process
             try
             {
                 var limitInfo = CheckLimit();
-                JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 limitType = limitInfo.ReachedLimitType;
                 if (limitType != ReachedLimitType.NoLimit)
                 {
