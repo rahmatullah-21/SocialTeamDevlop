@@ -12,8 +12,12 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Cobalt.xaml" />
+                <!-- theme resource -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
-                <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml" />
+                <!--<ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml" />-->
                 <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
                 <ResourceDictionary Source="/Social/DashBoards/DashboardTemplates.xaml" />
                 <ResourceDictionary Source="/Social/TablifiedContentControlTemplates.xaml" />

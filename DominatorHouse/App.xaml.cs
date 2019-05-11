@@ -51,7 +51,7 @@ namespace Socinator
         {
             if (IsAlreadyRunning())
             {
-                MessageBox.Show("Socinator already running.", "Warnning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Asteroid already running.", "Warnning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);
             }
             var container = containerRegistry.GetContainer();
@@ -80,11 +80,11 @@ namespace Socinator
         {
             try
             {
-                Mutex.OpenExisting("Socinator");
+                Mutex.OpenExisting("Asteroid");
             }
             catch
             {
-                _mutex = new Mutex(true, "Socinator");
+                _mutex = new Mutex(true, "Asteroid");
                 return false;
             }
             return true;

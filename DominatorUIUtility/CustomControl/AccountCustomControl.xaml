@@ -77,16 +77,17 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
+            <StackPanel Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal">
 
-            <Label  HorizontalAlignment="Left" DockPanel.Dock="Left"
+                <Label  HorizontalAlignment="Left" DockPanel.Dock="Left"
                                VerticalAlignment="Center" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
                                Content="{DynamicResource LangKeyAccountDetails}" />
-
+            </StackPanel>
             <Grid  Background="{DynamicResource AccentColorBrush}" DockPanel.Dock="Right">
-                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" Background="{DynamicResource AccentColorBrush}">
+                <StackPanel Orientation="Horizontal" Margin="0,0,15,0" HorizontalAlignment="Right" >
 
                     <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0"  Name="btnAddSingleAccount" Command="{Binding AddSingleAccountCommand}">
                         <Button.Template>

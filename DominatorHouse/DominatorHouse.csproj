@@ -111,7 +111,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SociNator.ico</ApplicationIcon>
+    <ApplicationIcon>Asteroid.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -375,6 +375,12 @@
     <EmbeddedResource Include="RevisionHistory\revisionhistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Resource Include="Asteroid.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Asteroid.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="CefSharp.Core.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

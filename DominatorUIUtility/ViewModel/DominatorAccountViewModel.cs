@@ -1950,7 +1950,7 @@ namespace DominatorUIUtility.ViewModel
             if (account == null || account.AccountBaseModel.Status != AccountStatus.Success)
                 return;
 
-            TabSwitcher.ChangeTabWithNetwork(3, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
+            TabSwitcher.ChangeTabWithNetwork(2, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
         }
     }
 

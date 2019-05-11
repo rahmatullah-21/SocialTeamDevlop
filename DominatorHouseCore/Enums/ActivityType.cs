@@ -209,7 +209,7 @@ namespace DominatorHouseCore.Enums
         Unsubscribe = 69,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
-        BroadcastMessages = 70,
+        Messenger = 70,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
         SendMessageToFollower = 71,

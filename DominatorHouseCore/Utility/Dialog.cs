@@ -26,7 +26,7 @@ namespace DominatorHouseCore.Utility
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
                 Title = title,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                Icon = new BitmapImage(new Uri("Asteroid.png", UriKind.RelativeOrAbsolute))
             };
 
             try
@@ -59,7 +59,7 @@ namespace DominatorHouseCore.Utility
                 Title = title,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                Icon = new BitmapImage(new Uri("Asteroid.png", UriKind.RelativeOrAbsolute))
 
             };
 
@@ -96,7 +96,7 @@ namespace DominatorHouseCore.Utility
                 Title = title,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                Icon = new BitmapImage(new Uri("Asteroid.png",UriKind.RelativeOrAbsolute))
             };
 
             try

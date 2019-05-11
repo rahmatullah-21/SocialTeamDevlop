@@ -180,10 +180,10 @@
                                                       TextBlock.FontSize="16" Margin="2"/>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
-                                            <Setter  Property="Foreground" Value="{DynamicResource AccentColorBrush3}" />
+                                            <Setter  Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
                                         </Trigger>
                                         <Trigger Property="IsSelected" Value="False">
-                                            <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush3}" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>

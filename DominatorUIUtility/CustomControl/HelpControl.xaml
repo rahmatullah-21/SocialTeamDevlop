@@ -29,7 +29,7 @@
 
             <TextBlock Cursor="Help"  FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" >
                            <Hyperlink  Name="WatchVideolink" Foreground="White" NavigateUri="{Binding VideoTutorial}" RequestNavigate="Hyperlink_RequestNavigate" >                           
-                               <TextBlock Text="{DynamicResource LangKeyWatchVideo}" />
+                               <!--<TextBlock Text="{DynamicResource LangKeyWatchVideo}" />-->
                            </Hyperlink>
                  </TextBlock>
 
@@ -47,7 +47,7 @@
                 <TextBlock Cursor="Help"  FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap"  >
                            <Hyperlink Foreground="White"  Name="TakeHelpFromKnowledgebaseLink" RequestNavigate="Hyperlink_RequestNavigate"
                                       NavigateUri="{Binding KnowledgeBaseLink}" >
-                             <TextBlock Text="{DynamicResource LangKeyTakeHelpFromKnowledgebase}" />  
+                             <!--<TextBlock Text="{DynamicResource LangKeyTakeHelpFromKnowledgebase}" />-->  
                            </Hyperlink>
                 </TextBlock>
             </Grid>
@@ -55,7 +55,7 @@
             <Grid Grid.Row="1" Background="#717171">
                 <TextBlock Cursor="Help"  FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" >
                            <Hyperlink Foreground="White"  Name="HelpLink" NavigateUri="{Binding ContactSupportLink}" RequestNavigate="Hyperlink_RequestNavigate">
-                               <TextBlock Text="{DynamicResource LangKeyContactSupport}" />  
+                               <!--<TextBlock Text="{DynamicResource LangKeyContactSupport}" />-->  
                            </Hyperlink>
                 </TextBlock>
             </Grid>

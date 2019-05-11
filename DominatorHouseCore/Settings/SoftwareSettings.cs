@@ -57,7 +57,7 @@ namespace DominatorHouseCore.Settings
 
         public void InitializeOnLoadConfigurations()
         {
-            CheckSocinatorIcon();
+           // CheckSocinatorIcon();
 
             if (CheckConfigurationFiles())
             {

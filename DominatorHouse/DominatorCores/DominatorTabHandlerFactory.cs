@@ -53,11 +53,11 @@ namespace Socinator.DominatorCores
                     Title="LangKeyAccountGrowth".FromResourceDictionary(),
                     Content = new Lazy<UserControl>(() =>  ServiceLocator.Current.GetInstance<AccountGrowthControl>())
                 },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
-                   Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("Dashboard"))
-                },
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
+                //   Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("Dashboard"))
+                //},
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
@@ -70,7 +70,7 @@ namespace Socinator.DominatorCores
                 //},
                 new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("LangKeySociopublisher") == null? "Socio Publisher" : Application.Current.FindResource("LangKeySociopublisher")?.ToString(),
+                    Title =  "Publisher",
                     Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
                 },
                 new TabItemTemplates
