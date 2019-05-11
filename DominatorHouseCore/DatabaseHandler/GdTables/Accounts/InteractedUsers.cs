@@ -78,5 +78,9 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string RequiredData
         { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string TaggedUser
+        { get; set; }
+
     }
 }
