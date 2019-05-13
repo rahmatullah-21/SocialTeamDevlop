@@ -253,7 +253,8 @@ namespace DominatorHouseCore.Models
         }
         [ProtoMember(11)]
         public bool IsInteractedPostsUpdated { get; set; }
-       
+      
+      
     }
 
 

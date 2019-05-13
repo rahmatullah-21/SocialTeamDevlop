@@ -791,8 +791,7 @@ namespace EmbeddedBrowser
             {
                 var last2Min = DateTime.Now;
 
-                while ((!DominatorAccountModel.IsVerificationCodeSent || codeBefore != DominatorAccountModel.VarificationCode.Trim() &&
-                        DominatorAccountModel.VarificationCode.Trim().Length < 6) && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
+                while ((!DominatorAccountModel.IsVerificationCodeSent || codeBefore == DominatorAccountModel.VarificationCode.Trim() || DominatorAccountModel.VarificationCode.Trim().Length<6) && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
                     Thread.Sleep(2000); // Waiting to get code from UI
 
                 codeBefore = DominatorAccountModel.VarificationCode.Trim();
@@ -812,17 +811,19 @@ namespace EmbeddedBrowser
 
                     var pageText = Browser.GetTextAsync().Result;
 
-                    isWrong = pageText.Contains("That code doesn't match the one we sent.") || pageText.Contains("Wrong code. Try again.") || pageText.Contains("Wrong number of digits. Please try again.");
+                    isWrong = pageText.Contains("That code doesn't match the one we sent.") || pageText.Contains("Code has numbers only. Try again.") || pageText.Contains("Wrong code. Try again.") || pageText.Contains("Wrong number of digits. Please try again.");
                     if (isWrong)
                     {
-                        iterateNTimes++;
-                        if (iterateNTimes < 2)
-                        {
-                            PressAnyKey(6, 300, winKeyCode: 46, delayAtLast: 0.5); //Now removing all digits of entered code
-                            CustomLog("You have entered wrong Verification code. Try again.");
-                            DominatorAccountModel.VarificationCode = "";
-                            continue;
-                        }
+                        ToasterNotification.ShowError($"Wrong Verification Code. \n [ {DominatorAccountModel.AccountBaseModel.UserName} ]");
+                        //iterateNTimes++;
+                        //if (iterateNTimes < 2)
+                        //{
+                        //    PressAnyKey(6, 300, winKeyCode: 46, delayAtLast: 0.5); //Now removing all digits of entered code
+                        //    CustomLog("You have entered wrong Verification code. Try again.");
+                        //    DominatorAccountModel.VarificationCode = "";
+                        //    continue;
+                        //}
+                        CustomLog("You have entered wrong Verification code.");
                     }
                     else
                     {
@@ -917,20 +918,23 @@ namespace EmbeddedBrowser
 
         private bool AddPhoneNumber()
         {
-            if (!DominatorAccountModel.IsVerificationCodeSent &&
-                !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber)
-                 && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
+            if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber)
+                || DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
+            {
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.AddPhoneNumberToYourAccount;
+                DominatorAccountModel.IsVerificationCodeSent = false;
+                return true;
+            }
+
+            if (!DominatorAccountModel.IsVerificationCodeSent)
             {
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
                 return true;
             }
-
+            
             var isWrong = true;
             if (!(DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TooManyAttemptsOnPhoneVerification
-                  || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount)
-                && DominatorAccountModel.IsVerificationCodeSent
-                && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber)
-                && !DominatorAccountModel.AccountBaseModel.PhoneNumber.Contains("•"))
+                  || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount))
             {
                 // DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
                 var text = Browser.GetTextAsync().Result;
@@ -963,9 +967,13 @@ namespace EmbeddedBrowser
                 }
                 else
                 {
-                    isWrong = text.Contains("The phone number was invalid. Please correct it and try again.") || text.Contains("There was a problem with your phone number") || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
+                    isWrong = text.Contains("The phone number was invalid. Please correct it and try again.")
+                              || text.Contains("There was a problem with your phone number") 
+                             || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
                               text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.") ||
-                              text.Contains("This phone number has already been used too many times for verification.");
+                              text.Contains("This phone number has already been used too many times for verification.")
+                        || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.");
+
 
                     if (isWrong && text.Contains("There was a problem with your phone number"))
                     {

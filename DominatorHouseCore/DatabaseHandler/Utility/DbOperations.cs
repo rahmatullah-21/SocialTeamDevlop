@@ -199,7 +199,8 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 dataToUpdate.DisplayColumnValue2 = dominatorAccountModel.DisplayColumnValue2;
                 dataToUpdate.DisplayColumnValue3 = dominatorAccountModel.DisplayColumnValue3;
                 dataToUpdate.DisplayColumnValue4 = dominatorAccountModel.DisplayColumnValue4;
-
+                if (dominatorAccountModel.ActivityManager != null)
+                    UpdateAccountActivityManager(dominatorAccountModel);
                 return Update(dataToUpdate);
             }
         }
