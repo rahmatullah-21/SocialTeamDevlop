@@ -67,7 +67,7 @@ namespace DominatorUIUtility.ViewModel
                 if (LstCampaignDetails.Count == campaignFileManager.Count())
                     return;
                 FilterCampaign(sender);
-
+               
                 Task.Factory.StartNew(() =>
                 {
                     campaignFileManager.ForEach(camp =>
@@ -82,7 +82,7 @@ namespace DominatorUIUtility.ViewModel
                         }), DispatcherPriority.Render);
                         Thread.Sleep(5);
                     });
-                    ChangeAllCampStatus();
+                    
                 });
             }
             catch (Exception ex)
@@ -426,7 +426,7 @@ namespace DominatorUIUtility.ViewModel
                         if (campignHavingAccount.Count() == 0)
                         {
                             AllCampStatus = !AllCampStatus;
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "","Campaign Activation", "Campaigns not having any account.");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", "Campaign Activation", "Campaigns not having any account.");
                             return;
                         }
                         campignHavingAccount.ForEach(camp =>
@@ -660,11 +660,14 @@ namespace DominatorUIUtility.ViewModel
                     CampaignCollection.Filter = (x) =>
                         ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork &&
                         ((CampaignDetails)x).SubModule == CampaignModel.SelectedActivity;
+
+                ChangeAllCampStatus();
             }
             catch (Exception ex)
             {
                 CampaignCollection.Filter =
                     (x) => ((CampaignDetails)x)?.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
+                ChangeAllCampStatus();
                 ex.DebugLog();
             }
         }

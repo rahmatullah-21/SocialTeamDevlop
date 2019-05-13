@@ -259,7 +259,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public List<string> WallAvailableInNetworks { get; set; } = new List<string> { "Pinterest", "Tumblr" };
         public List<string> IsCustomDestinationInNetworks { get; set; } = new List<string> { "Facebook","Reddit" };
 
-        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Gplus", "Tumblr" };
+        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Youtube", "Tumblr" };
         private string _selectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
 
         public string SelectPageBoard
