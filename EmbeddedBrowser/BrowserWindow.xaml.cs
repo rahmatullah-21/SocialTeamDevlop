@@ -278,10 +278,8 @@ namespace EmbeddedBrowser
                                         case SocialNetworks.Quora:
                                             QuoraLogin(html);
                                             break;
-                                        case SocialNetworks.Gplus:
-                                            GoogleBrowserLogin(html);
-                                            break;
                                         case SocialNetworks.Youtube:
+                                        case SocialNetworks.Gplus:
                                             GoogleBrowserLogin(html);
                                             break;
                                         case SocialNetworks.Tumblr:
@@ -325,9 +323,23 @@ namespace EmbeddedBrowser
             }
         }
 
+        private void LoadPostPage()
+        {
+            if(string.IsNullOrEmpty(TargetUrl)) return;
+            Browser.Load(TargetUrl);
+            Browser.LoadingStateChanged -= BrowserOnLoaded;
+        }
+
         private string GetLoggedInPageSource()
         => !string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet"
            ? Browser.GetSourceAsync().Result : string.Empty;
+       
+        /// <summary>
+        /// Get PageSource if account is not logged in successfully
+        /// </summary>
+        /// <returns></returns>
+        private string GetPageSource()
+            => !_isLoggedIn ? Browser.GetSourceAsync().Result : string.Empty;
 
         public enum ActType
         {
@@ -547,17 +559,16 @@ namespace EmbeddedBrowser
                 {
                     if (string.IsNullOrEmpty(TargetUrl))
                         TargetUrl = SocialHomeUrls();
+                    LoadPostPage();
 
-                    var result = GetLoggedInPageSource();
-
-                    if (!string.IsNullOrEmpty(result))
-                        LoadPostPage(true);
-
-                    Thread.Sleep(3000);
-                    SaveCookies();
+                    if (DominatorAccountModel.AccountBaseModel.Status != AccountStatus.Success)
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(3));
+                        if (CheckGoogleLogin())
+                            SaveCookies();
+                    }
                 }
                 SetVideoQualityAs144P();
-
             }
             catch
             { /*ignored*/}
@@ -1058,6 +1069,46 @@ namespace EmbeddedBrowser
                 return true;
             }
         }
+
+        private bool CheckGoogleLogin()
+        {
+            var response = GetPageSource();
+
+            switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+            {
+                case SocialNetworks.Gplus:
+                    {
+                        var googlePlusAcc = Utilities.GetBetween(response, "\"oPEP7c\":\"", "\"");
+                        if (string.IsNullOrEmpty(googlePlusAcc)/* || cookieCollection.Count < 2*/)
+                            return false;
+
+                        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
+                        return true;
+                    }
+                case SocialNetworks.Youtube:
+                    {
+                        if (!(response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || response.Contains("\"LOGGED_IN\":true")))
+                        {
+                            BrowserAct(ActType.ClickByClass, "style-scope ytd-button-renderer style-suggestive size-small", 1.5, 1);
+                            //document.getElementsByClassName('style-scope ytd-button-renderer style-suggestive size-small')[0].click();
+                            return false;
+                        }
+
+                        DominatorAccountModel.AccountBaseModel.ProfileId =
+                            Utilities.GetBetween(response, "\"delegatedSessionId\":\"", "\"");
+                        if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.ProfileId))
+                            DominatorAccountModel.AccountBaseModel.ProfileId = "Default Channel";
+                        DominatorAccountModel.AccountBaseModel.UserId =
+                            Utilities.GetBetween(response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
+
+                        CreateChannelOnYoutube();
+                        VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
+                        return true;
+                    }
+                default:
+                    return false;
+            }
+        }
         
         private void CreateChannelOnYoutube()
         {
@@ -1194,11 +1245,10 @@ namespace EmbeddedBrowser
                 // Click on Login button 
                 BrowserAct(ActType.ClickByClass, !html.Contains("type=\"email\"") ? "red SignupButton active" : "SignupButton", delayAfter: 5);
             }
-
-            var result = GetLoggedInPageSource();
-
-            if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true"))
-                LoadPostPage(true);
+            
+            var result = GetPageSource();
+            if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
+                LoadPostPage();
         }
 
         private void InstagramBrowserLogin(string html)
@@ -1373,9 +1423,13 @@ namespace EmbeddedBrowser
         }
 
         private bool _isLoggedIn;
-        private void SaveCookies()
+        /// <summary>
+        /// Returns true if cookies were saved
+        /// </summary>
+        /// <returns></returns>
+        private bool SaveCookies()
         {
-            if (_isLoggedIn || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success) return;
+            if (_isLoggedIn) return false;
 
             try
             {
@@ -1403,9 +1457,6 @@ namespace EmbeddedBrowser
                     {/*ignored*/}
                 }
 
-                if (!HitSocialToCheckLogin(cookieCollection))
-                    return;
-
                 _isLoggedIn = true;
                 _loginFailed = false;
 
@@ -1420,66 +1471,15 @@ namespace EmbeddedBrowser
                    .SaveToBinFile();
 
                 CustomLog("Browser login successful.");
+                return true;
             }
             catch (Exception ex)
             {
                 ex.DebugLog(ex.StackTrace);
+                return false;
             }
         }
-
-        private bool HitSocialToCheckLogin(CookieCollection cookies)
-        {
-            var requestParameters = (RequestParameters)_httpHelper.GetRequestParameter();
-            requestParameters.Cookies = cookies;
-            requestParameters.KeepAlive = true;
-            requestParameters.AddHeader("Upgrade-Insecure-Requests","1");
-            requestParameters.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3";
-            requestParameters.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36";
-            _httpHelper.SetRequestParameter(requestParameters);
-
-            var url = DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube || DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Gplus ?
-                SocialHomeUrls() : GetNetworksLoginUrl();
-
-            IResponseParameter responseParam = (ResponseParameter)_httpHelper.GetRequest(url);
-            var response = responseParam.Response;
-            switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
-            {
-                #region Check GPlus login Code Commented
-                //case SocialNetworks.Gplus:
-                //    {
-                //        var googlePlusAcc = Utilities.GetBetween(responseParam.Response, "\"oPEP7c\":\"", "\"");
-                //        if (string.IsNullOrEmpty(googlePlusAcc)/* || cookieCollection.Count < 2*/)
-                //            return false;
-
-                //        DominatorAccountModel.AccountBaseModel.ProfileId = googlePlusAcc;
-                //        return true;
-                //    } 
-                #endregion
-                case SocialNetworks.Youtube:
-                    {
-                        if (!(response.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || response.Contains("\"LOGGED_IN\":true")))
-                        {
-                            // Click on Login Button from Youtube once if failed to login
-                            BrowserAct(ActType.ClickByClass, "style-scope ytd-button-renderer style-suggestive size-small",1.5,1);
-                            return false;
-                        }
-
-                        DominatorAccountModel.AccountBaseModel.ProfileId =
-                            Utilities.GetBetween(response, "\"delegatedSessionId\":\"", "\"");
-                        if (string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.ProfileId))
-                            DominatorAccountModel.AccountBaseModel.ProfileId = "Default Channel";
-                        DominatorAccountModel.AccountBaseModel.UserId =
-                            Utilities.GetBetween(response, "\"key\":\"creator_channel_id\",\"value\":\"", "\"");
-
-                        CreateChannelOnYoutube();
-                        VerifyingAccount = DominatorAccountModel.IsVerificationCodeSent = false;
-                        return true;
-                    }
-                default:
-                    return false;
-            }
-        }
-
+        
         #endregion
 
         #region Window UI Interaction
