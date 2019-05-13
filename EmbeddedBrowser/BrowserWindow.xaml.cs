@@ -347,25 +347,26 @@ namespace EmbeddedBrowser
             }
         }
 
+        public int lastCurrentCount = -1;
 
-        public async Task<Dictionary<int, string>> ExpandAllAdViewOptions(int postCount, int lastCount)
+
+        public async Task<Dictionary<int, string>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
         {
             var xCoordinate = !string.IsNullOrEmpty(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "fbChatSidebar fixed_always _5pr2 hidden_elem")) ?
                         844 : 740;
 
-            var currentCount = lastCount * 50 - 1;
 
             var adCount = 0;
 
             var dictAdViewerDetails = new Dictionary<int, string>();
 
-            await Task.Delay(150000);
+            await Task.Delay(5000);
 
-            while (currentCount++ <= postCount * (lastCount + 1))
+            while (lastCurrentCount++ <= postCount * (lastCount + 1))
             {
                 var adViewerDetails = string.Empty;
-                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{currentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
-                var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: currentCount);
+                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
+                var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: lastCurrentCount);
                 if (!(fullAdDetails).Contains("sponsored_ad"))
                 {
                     await Task.Delay(3000);
@@ -385,10 +386,12 @@ namespace EmbeddedBrowser
                 }
                 adViewerDetails = string.IsNullOrEmpty(adViewerDetails) ? string.Empty :
                     Regex.Matches(adViewerDetails, "id=(.*?)&")[0].Groups[1].ToString();
-                dictAdViewerDetails.Add(currentCount, adViewerDetails);
+                dictAdViewerDetails.Add(lastCurrentCount, adViewerDetails);
                 adCount += 2;
                 await Task.Delay(2000);
             }
+
+            lastCurrentAdCount = lastCurrentCount;
 
             return dictAdViewerDetails;
         }
@@ -441,6 +444,8 @@ namespace EmbeddedBrowser
                     ex.DebugLog();
                 }
             }
+
+            lstAdsList = lstAdsList.Where(x => x[PostContent.AdDetails] == true.ToString()).ToList();
 
             return lstAdsList;
         }
@@ -678,11 +683,14 @@ namespace EmbeddedBrowser
                     //DominatorAccountModel.IsUserLoggedIn = true;
                     //_isLoggedIn = true;
                     //SaveCookie();
+
+                    DominatorAccountModel.IsUserLoggedIn = true;
+                    _isLoggedIn = true;
+                    SaveCookie();
                 }
 
-                DominatorAccountModel.IsUserLoggedIn = true;
-                _isLoggedIn = true;
-                SaveCookie();
+
+
 
                 Thread.Sleep(2000);
 
