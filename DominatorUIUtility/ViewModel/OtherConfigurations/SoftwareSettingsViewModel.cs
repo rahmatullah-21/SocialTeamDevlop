@@ -6,6 +6,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
@@ -27,10 +28,27 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
         private void Export()
         {
-            SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath();
+            SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath(true);
         }
 
         private void Save()
+        {
+            if (SoftwareSettingsModel.IsDefaultExportPathSelected)
+            {
+                if (!string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath) && Directory.Exists(SoftwareSettingsModel.ExportPath))
+                    SaveSetting();
+                else
+                    Dialog.ShowDialog("Error", "Please enter valid folder Path.");
+            }
+            else
+            {
+                SoftwareSettingsModel.ExportPath = string.Empty;
+                SaveSetting();
+            }
+
+        }
+
+        private void SaveSetting()
         {
             if (_softwareSettings.Save())
             {

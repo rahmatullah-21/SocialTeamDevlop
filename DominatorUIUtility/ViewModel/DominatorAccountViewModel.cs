@@ -38,6 +38,7 @@ using System.Windows.Input;
 using DominatorUIUtility.Views;
 using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
+using DominatorUIUtility.Views.AccountSetting;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -220,10 +221,10 @@ namespace DominatorUIUtility.ViewModel
 
         private void CustomSetting(DominatorAccountModel account)
         {
-            //var dialog = new Dialog();
-            //var strt = new StartUpMain(account.AccountBaseModel.AccountNetwork);
+            var dialog = new Dialog();
+            var strt = new AccountModuleSetting(account.AccountBaseModel.AccountNetwork);
             //var win = dialog.GetMetroWindow(strt, "Custom Setting");
-            //win.ShowDialog();
+            strt.ShowDialog();
 
         }
 

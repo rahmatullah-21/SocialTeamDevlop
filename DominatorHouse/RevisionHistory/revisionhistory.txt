@@ -1,5 +1,7 @@
 Version[1.0.0.53],[9th-May-19]
 New Features:
+	Social:
+		Added an option to export all reports to default folder.
 	Instagram:
 		Instascrape => User scrapper => Other configurations => Added an option to scrape Unique users only for this campaign.
 	YouTube:

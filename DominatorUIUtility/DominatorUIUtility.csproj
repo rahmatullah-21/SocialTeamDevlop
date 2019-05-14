@@ -349,6 +349,7 @@
     </Compile>
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
+    <Compile Include="Module\UiModule.cs" />
     <Compile Include="ViewModel\AccountCollectionViewModel.cs" />
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\AccountGrowthControlViewModel.cs" />
@@ -393,10 +394,38 @@
     <Compile Include="ViewModel\SocioPublisher\PublisherSharePostViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\SoftwareSettingsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\SelectAccountDetailsViewModel.cs" />
+    <Compile Include="ViewModel\Startup\JobConfigViewModel.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\INetworkJobConfig.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\QuoraJobConfig.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\TumblrJobConfig.cs" />
+    <Compile Include="ViewModel\Startup\NextPreviousViewModel.cs" />
+    <Compile Include="ViewModel\Startup\QueryViewModel.cs" />
+    <Compile Include="ViewModel\Startup\SelectActivityViewModel.cs" />
+    <Compile Include="ViewModel\Startup\SelectNetworkViewModel.cs" />
+    <Compile Include="ViewModel\Startup\SelectUserTypeViewModel.cs" />
+    <Compile Include="ViewModel\Startup\StartupBaseViewModel.cs" />
     <Compile Include="ViewModel\VerifyProxiesViewModel.cs" />
     <Compile Include="ViewModel\WhiteListViewModel.cs" />
     <Compile Include="Views\AccountManager.xaml.cs">
       <DependentUpon>AccountManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\AccountModuleSetting.xaml.cs">
+      <DependentUpon>AccountModuleSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\Activity\Follow.xaml.cs">
+      <DependentUpon>Follow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\JobConfig.xaml.cs">
+      <DependentUpon>JobConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\NextPreviousButton.xaml.cs">
+      <DependentUpon>NextPreviousButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\QueryControl.xaml.cs">
+      <DependentUpon>QueryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\SelectActivity.xaml.cs">
+      <DependentUpon>SelectActivity.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Publisher\AddPosts.xaml.cs">
       <DependentUpon>AddPosts.xaml</DependentUpon>
@@ -885,6 +914,30 @@
     <Page Include="Views\AccountManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AccountSetting\AccountModuleSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\Activity\Follow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\JobConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\NextPreviousButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\QueryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\SelectActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Publisher\AddPosts.xaml">
       <SubType>Designer</SubType>

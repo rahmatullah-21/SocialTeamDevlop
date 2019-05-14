@@ -35,8 +35,8 @@
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>337</ApplicationRevision>
-    <ApplicationVersion>1.0.0.337</ApplicationVersion>
+    <ApplicationRevision>341</ApplicationRevision>
+    <ApplicationVersion>1.0.0.341</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -293,27 +293,6 @@
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
     <Compile Include="Social\TablifiedContentControl.cs" />
-    <Compile Include="Startup\JobConfig.xaml.cs">
-      <DependentUpon>JobConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Startup\NextPreviousButton.xaml.cs">
-      <DependentUpon>NextPreviousButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Startup\QueryControl.xaml.cs">
-      <DependentUpon>QueryControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Startup\SelectActivity.xaml.cs">
-      <DependentUpon>SelectActivity.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Startup\SelectNetwork.xaml.cs">
-      <DependentUpon>SelectNetwork.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Startup\SelectUserType.xaml.cs">
-      <DependentUpon>SelectUserType.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Startup\StartUpMain.xaml.cs">
-      <DependentUpon>StartUpMain.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Support\Logs\Views\LogList.xaml.cs">
       <DependentUpon>LogList.xaml</DependentUpon>
     </Compile>
@@ -328,16 +307,6 @@
     <Compile Include="Utilities\SoftwareSettings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PerfCounterViewModel.cs" />
-    <Compile Include="ViewModels\Startup\JobConfigViewModel.cs" />
-    <Compile Include="ViewModels\Startup\ModuleConfig\INetworkJobConfig.cs" />
-    <Compile Include="ViewModels\Startup\ModuleConfig\QuoraJobConfig.cs" />
-    <Compile Include="ViewModels\Startup\ModuleConfig\TumblrJobConfig.cs" />
-    <Compile Include="ViewModels\Startup\NextPreviousViewModel.cs" />
-    <Compile Include="ViewModels\Startup\QueryViewModel.cs" />
-    <Compile Include="ViewModels\Startup\SelectActivityViewModel.cs" />
-    <Compile Include="ViewModels\Startup\SelectNetworkViewModel.cs" />
-    <Compile Include="ViewModels\Startup\SelectUserTypeViewModel.cs" />
-    <Compile Include="ViewModels\Startup\StartupBaseViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -372,34 +341,6 @@
     <Page Include="Social\TablifiedContentControlTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Startup\JobConfig.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Startup\NextPreviousButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Startup\QueryControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Startup\SelectActivity.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Startup\SelectNetwork.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Startup\SelectUserType.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Startup\StartUpMain.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Support\Logs\Views\LogList.xaml">
       <SubType>Designer</SubType>

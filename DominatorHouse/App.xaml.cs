@@ -3,6 +3,7 @@ using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
 using DominatorHouseCore;
 using DominatorUIUtility.Behaviours;
+using DominatorUIUtility.Module;
 using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -59,7 +60,11 @@ namespace Socinator
             container.AddNewExtension<CoreUnityExtension>();
             container.LoadConfiguration();
         }
-
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            base.ConfigureModuleCatalog(moduleCatalog);
+            moduleCatalog.AddModule<UiModule>();
+        }
         //protected override IModuleCatalog CreateModuleCatalog()
         //{
         //    return new DirectoryModuleCatalog() { ModulePath = @".\Modules" };

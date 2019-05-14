@@ -2,6 +2,7 @@
 using DominatorHouse.ViewModels;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.ViewModel;
+using DominatorUIUtility.ViewModel.Startup;
 using Unity;
 using Unity.Extension;
 
@@ -23,9 +24,9 @@ namespace DominatorHouse.IoC
             #region Startup ViewModel
             //Container.RegisterSingleton<ISelectUserTypeViewModel, SelectUserTypeViewModel>();
             //Container.RegisterSingleton<ISelectNetworkViewModel, SelectNetworkViewModel>();
-            //Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
-            //Container.RegisterSingleton<IQueryViewModel, QueryViewModel>();
-            //Container.RegisterSingleton<IJobConfigViewModel, JobConfigViewModel>();
+            Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
+            Container.RegisterSingleton<IQueryViewModel, QueryViewModel>();
+            Container.RegisterSingleton<IJobConfigViewModel, JobConfigViewModel>();
 
 
             //Container.RegisterSingleton<INetworkJobConfig, QuoraJobConfig>();

@@ -627,7 +627,11 @@ namespace DominatorHouseCore.Models
         public bool IsDefaultExportPathSelected
         {
             get { return _isDefaultExportPathSelected; }
-            set { SetProperty(ref _isDefaultExportPathSelected, value); }
+            set
+            {
+                SetProperty(ref _isDefaultExportPathSelected, value);
+                if (!_isDefaultExportPathSelected) { ExportPath = string.Empty; }
+            }
         }
         private string _exportPath = string.Empty;
         [ProtoMember(43)]
