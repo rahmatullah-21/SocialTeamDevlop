@@ -1,3 +1,40 @@
+Version[1.0.0.53],[9th-May-19]
+New Features:
+	Social:
+		Added an option to export all reports to default folder.
+	Instagram:
+		Instascrape => User scrapper => Other configurations => Added an option to scrape Unique users only for this campaign.
+	YouTube:
+		Select account in YouTube Socinator group by name.
+
+Fixed:
+	Instagram:
+		Insta chat => Auto reply  to New message => Issue  fixed  with Reply  to messages thatcontains  specific  words.
+		Insta scrape => Comment scrape => Issue  fixed  with  Scrapping  Own liked Post.
+	Facebook:
+		Account => Account Manager => Fixed issue with Group update.
+	Twitter:
+		Grow Followers => Follower => Fixed issue with Someone Followers and Followings are not working for client Account.
+		Accounts Activity => Unfollow => Fixed issue with Unfollow activity
+		Engage => Like => Fixed issue with Failing to like.
+		Accounts Activity => Fixed issue with Scrape Tweet.
+		Messenger => Message to new followers=>Fixed issue with spintax.
+	LinkedIn:
+		Sociopublisher => Fixed issue with posting on groups.
+	Pinterest :
+		Account manager => Browse login => Fixed issue in brower login using user name.
+		PD => Growfollower => keywords => Fixed issue with Growfollower.
+		Pin messanger => Send message to new follower => Fixed issue with spintax format  with url.
+		Pin Scrapper => Query type News feed =>Fixed issue with newsfeed scraper.
+		Sociopublisher=> Manage destination => Fixed issue in wall getting selected in destination.
+	YouTube:
+		Engage => Commnet => Unique => Fixed issue of and no more data issue.
+		Engage => Comment => Fixed issue of failing to comment on youtube video.
+		Engage => Fixed issue with Like Comments  not working for keywords.
+		Accounts => Account Manager => Fixed issue with Account Status.
+	Tumblr :
+		SocioPublisher. Fixed issue with posting in his pages/boards.
+
 Version[1.0.0.52],[2nd-May-19]
 New Features:-
 	Facebook:-

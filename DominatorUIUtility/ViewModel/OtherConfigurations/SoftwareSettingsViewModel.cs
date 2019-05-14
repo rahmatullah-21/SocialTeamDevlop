@@ -6,10 +6,8 @@ using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System;
 using System.Diagnostics;
-using System.Threading;
+using System.IO;
 using System.Windows;
-using CommonServiceLocator;
-using DominatorHouseCore.FileManagers;
 
 namespace DominatorUIUtility.ViewModel.OtherConfigurations
 {
@@ -18,15 +16,39 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         private readonly ISoftwareSettings _softwareSettings;
         public SoftwareSettingsModel SoftwareSettingsModel { get; }
         public DelegateCommand SaveCmd { get; }
+        public DelegateCommand ExportCommand { get; }
 
         public SoftwareSettingsViewModel(ISoftwareSettings softwareSettings) : base("LangKeySoftwareSettings", "SoftwareSettingsControlTemplate")
         {
             _softwareSettings = softwareSettings;
             SaveCmd = new DelegateCommand(Save);
             SoftwareSettingsModel = softwareSettings.Settings;
+            ExportCommand = new DelegateCommand(Export);
+        }
+
+        private void Export()
+        {
+            SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath(true);
         }
 
         private void Save()
+        {
+            if (SoftwareSettingsModel.IsDefaultExportPathSelected)
+            {
+                if (!string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath) && Directory.Exists(SoftwareSettingsModel.ExportPath))
+                    SaveSetting();
+                else
+                    Dialog.ShowDialog("Error", "Please enter valid folder Path.");
+            }
+            else
+            {
+                SoftwareSettingsModel.ExportPath = string.Empty;
+                SaveSetting();
+            }
+
+        }
+
+        private void SaveSetting()
         {
             if (_softwareSettings.Save())
             {
