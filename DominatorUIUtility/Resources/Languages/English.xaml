@@ -3540,5 +3540,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLangKeyPostScrapeTaggedUser">Post Tagged User</system:String>
     <system:String x:Key="LankKeyEditComment">Edit Comment</system:String>
     <system:String x:Key="LangKeyShouldNotBePublishedOnDaysBefore">Should not be published on days before</system:String>
-
+    <system:String x:Key="LangKeySendGreetingsToUniqueUsers">Send Greetings To Unique Users</system:String>
 </ResourceDictionary>
