@@ -80,7 +80,7 @@ namespace EmbeddedBrowser
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
+                CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
 
             Browser.MenuHandler = new MenuHandler();
