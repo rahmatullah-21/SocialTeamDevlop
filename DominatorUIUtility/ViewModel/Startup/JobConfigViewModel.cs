@@ -22,8 +22,8 @@ namespace DominatorUIUtility.ViewModel.Startup
     {
         public JobConfigViewModel(IRegionManager region) : base(region)
         {
-            NextCommand = new DelegateCommand<string>(OnNextClick);
-            PreviousCommand = new DelegateCommand<string>(OnPreviousClick);
+            NextCommand = new DelegateCommand(NevigateNext);
+            PreviousCommand = new DelegateCommand(NevigatePrevious);
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),
@@ -34,75 +34,7 @@ namespace DominatorUIUtility.ViewModel.Startup
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
-           
-            #region Demo LstJobConfiguration
-            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
-            //{
-            //    ActivityType = "Follow",
-            //    ActivityJobConfiguration = new JobConfiguration
-            //    {
-            //        RunningTime = RunningTimes.DayWiseRunningTimes
-            //    }
-            //});
-            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
-            //{
-            //    ActivityType = "Follow",
-            //    ActivityJobConfiguration = new JobConfiguration
-            //    {
-            //        RunningTime = RunningTimes.DayWiseRunningTimes
-            //    }
-            //});
-            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
-            //{
-            //    ActivityType = "Follow",
-            //    ActivityJobConfiguration = new JobConfiguration
-            //    {
-            //        RunningTime = RunningTimes.DayWiseRunningTimes
-            //    }
-            //});
-            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
-            //{
-            //    ActivityType = "Unlike",
-            //    ActivityJobConfiguration = new JobConfiguration
-            //    {
-            //        RunningTime = RunningTimes.DayWiseRunningTimes
-            //    }
-            //});
-            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
-            //{
-            //    ActivityType = "Like",
-            //    ActivityJobConfiguration = new JobConfiguration
-            //    {
-            //        RunningTime = RunningTimes.DayWiseRunningTimes
-            //    }
-            //});
-            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
-            //{
-            //    ActivityType = "UnFollow",
-            //    ActivityJobConfiguration = new JobConfiguration
-            //    {
-            //        RunningTime = RunningTimes.DayWiseRunningTimes
-            //    }
-
-            //});
-            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
-            //{
-            //    ActivityType = "Follow",
-            //    ActivityJobConfiguration = new JobConfiguration
-            //    {
-            //        RunningTime = RunningTimes.DayWiseRunningTimes
-            //    }
-            //});
-            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
-            //{
-            //    ActivityType = "Follow",
-            //    ActivityJobConfiguration = new JobConfiguration
-            //    {
-            //        RunningTime = RunningTimes.DayWiseRunningTimes
-            //    }
-            //});
-            #endregion
-
+          
         }
         private bool _isIndivisualSelected;
 
@@ -120,9 +52,9 @@ namespace DominatorUIUtility.ViewModel.Startup
             set { SetProperty(ref _jobConfiguration, value); }
         }
 
-        private ObservableCollection<ActivityTypeWithJobConfiguration> _lstJobConfiguration = new ObservableCollection<ActivityTypeWithJobConfiguration>();
+        private ObservableCollection<ActivityJobConfig> _lstJobConfiguration = new ObservableCollection<ActivityJobConfig>();
 
-        public ObservableCollection<ActivityTypeWithJobConfiguration> LstJobConfiguration
+        public ObservableCollection<ActivityJobConfig> LstJobConfiguration
         {
             get { return _lstJobConfiguration; }
             set { SetProperty(ref _lstJobConfiguration, value); }
@@ -139,7 +71,7 @@ namespace DominatorUIUtility.ViewModel.Startup
                 ((dynamic)jobConfig).RegisterJobConfiguration();
                 allSelectedActivity.ForEach(activity =>
                 {
-                    LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+                    LstJobConfiguration.Add(new ActivityJobConfig
                     {
                         ActivityType = activity.ActivityType,
                         ActivityJobConfiguration = ((dynamic)jobConfig).RegisterJobConfigurations[activity.ActivityType].Model.JobConfiguration
@@ -197,7 +129,7 @@ namespace DominatorUIUtility.ViewModel.Startup
 
         };
     }
-    public class ActivityTypeWithJobConfiguration : BindableBase
+    public class ActivityJobConfig : BindableBase
     {
         private JobConfiguration _activityJobConfiguration = new JobConfiguration();
 

@@ -6,10 +6,6 @@ using Prism.Regions;
 using Prism.Commands;
 using System.Linq;
 using DominatorHouseCore.Utility;
-using CommonServiceLocator;
-using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using DominatorUIUtility.Views.AccountSetting.Activity;
-using DominatorUIUtility.Views.AccountSetting;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -21,14 +17,13 @@ namespace DominatorUIUtility.ViewModel.Startup
     }
     public class SelectActivityViewModel : StartupBaseViewModel, ISelectActivityViewModel
     {
-        IRegionManager regionManager;
+        
         public SelectActivityViewModel(IRegionManager region) : base(region)
         {
-            regionManager = region;
-            NextCommand = new DelegateCommand<string>(OnNextClick);
-            PreviousCommand = new DelegateCommand<string>(OnPreviousClick);
+            NextCommand = new DelegateCommand(OnNextClick);
+            PreviousCommand = new DelegateCommand(NevigatePrevious);
         }
-        
+
         private SelectActivityModel _selectActivityModel = new SelectActivityModel();
 
         public SelectActivityModel SelectActivityModel
@@ -49,7 +44,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             }
         }
 
-        private new void OnNextClick(string sender)
+        private void OnNextClick()
         {
             var allSelectedActivity = SelectActivityModel.LstNetworkActivityType.Where(x => x.IsActivity).ToList();
             if (allSelectedActivity.Count() == 0)
@@ -57,11 +52,8 @@ namespace DominatorUIUtility.ViewModel.Startup
                 Dialog.ShowDialog("Error", "Please select atleast one activity.");
                 return;
             }
-           
-            //base.OnNextClick(allSelectedActivity[0].ActivityType);
-            //regionManager.RegisterViewWithRegion("StartupRegion", typeof(Follow));
-            base.OnNextClick("Follow");
 
+           NevigateNext();
         }
         public void SetActivityTypeByNetwork(string network)
         {

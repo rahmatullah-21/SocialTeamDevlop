@@ -395,6 +395,7 @@
     <Compile Include="ViewModel\OtherConfigurations\SoftwareSettingsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\SelectAccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\Startup\JobConfigViewModel.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\FollowViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\INetworkJobConfig.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\QuoraJobConfig.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\TumblrJobConfig.cs" />

@@ -47,7 +47,16 @@
             <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-
+        <Popup  StaysOpen="true" Placement="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+             IsOpen="{Binding IsPopUpOpen}">
+            <Border BorderBrush="Black" BorderThickness="1" Background="AliceBlue"  CornerRadius="10,0,10,0" VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+                <StackPanel>
+                    <Button Content="X" HorizontalAlignment="Right" Background="Transparent" Click="Button_Click"/>
+                    <ContentControl regions:RegionManager.RegionName="StartupRegion" DataContext="{Binding}"/>
+                </StackPanel>
+            </Border>
+        </Popup>
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
@@ -69,12 +78,13 @@
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                     <Grid>
+
                         <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-        <ContentControl regions:RegionManager.RegionName="AutoActivityRegion" />
+
 
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="{DynamicResource AccentBaseColorBrush}"  ResizeBehavior="BasedOnAlignment"
                       ResizeDirection="Rows" IsEnabled="{Binding IsEnabled,ElementName=statusbar}"/>

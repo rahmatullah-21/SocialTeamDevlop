@@ -3,6 +3,7 @@ using DominatorHouse.ViewModels;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.ViewModel.Startup;
+using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 using Unity;
 using Unity.Extension;
 
@@ -23,7 +24,7 @@ namespace DominatorHouse.IoC
 
             #region Startup ViewModel
             //Container.RegisterSingleton<ISelectUserTypeViewModel, SelectUserTypeViewModel>();
-            //Container.RegisterSingleton<ISelectNetworkViewModel, SelectNetworkViewModel>();
+            Container.RegisterSingleton<IFollowViewModel, FollowViewModel>();
             Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
             Container.RegisterSingleton<IQueryViewModel, QueryViewModel>();
             Container.RegisterSingleton<IJobConfigViewModel, JobConfigViewModel>();

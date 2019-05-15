@@ -18,9 +18,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             //RegisterNetworkJobConfig.Add(SocialNetworks.Instagram.ToString(), new UnfollowerModel());
             //RegisterNetworkJobConfig.Add(SocialNetworks.LinkedIn.ToString(), new ReportAnswerModel());
             //RegisterNetworkJobConfig.Add(SocialNetworks.Pinterest.ToString(), new ReportUserModel());
-            RegisterNetworkJobConfig.Add(ActivityType.Follow.ToString(), new Follow());
+            //RegisterNetworkJobConfig.Add(ActivityType.Follow.ToString(), new Follow());
             //RegisterNetworkJobConfig.Add(SocialNetworks.Reddit.ToString(), new SendMessageToFollowerModel());
-            RegisterNetworkJobConfig.Add(SocialNetworks.Tumblr.ToString(), new TumblrJobConfig());
+            //RegisterNetworkJobConfig.Add(SocialNetworks.Tumblr.ToString(), new TumblrJobConfig());
             //RegisterNetworkJobConfig.Add(SocialNetworks.Twitter.ToString(), new UserScraperModel());
             //RegisterNetworkJobConfig.Add(SocialNetworks.Youtube.ToString(), new AnswersScraperModel());
 

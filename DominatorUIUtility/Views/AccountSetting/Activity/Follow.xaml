@@ -5,10 +5,62 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
              mc:Ignorable="d" 
+              xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
+              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock Text="Follow user Setting"/>
-        <!--<customControl:JobConfigControl JobConfiguration="{Binding JobConfiguration}" Name="ConfigControl"/>-->
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Follow user Setting" FontWeight="SemiBold"/>
+        <StackPanel Grid.Row="1">
+            <VirtualizingStackPanel Orientation="Horizontal">
+                <mah:NumericUpDown Minimum="0" Value="{Binding DelayBetweenActivity.StartValue}"/>
+                <Label Content="{DynamicResource LangKeyTo}"/>
+                <mah:NumericUpDown Minimum="{Binding DelayBetweenActivity.StartValue}"
+                                                                  Value="{Binding DelayBetweenActivity.EndValue}" />
+                <Label Content="{DynamicResource LangKeySeconds}"/>
+            </VirtualizingStackPanel>
+            <VirtualizingStackPanel Orientation="Horizontal">
+                <mah:NumericUpDown Minimum="0" Value="{Binding DelayBetweenJobs.StartValue}"/>
+                <Label Content="{DynamicResource LangKeyTo}"/>
+                <mah:NumericUpDown Minimum="{Binding DelayBetweenJobs.StartValue}"
+                                                                   Value="{Binding DelayBetweenJobs.EndValue}"/>
+                <Label Content="{DynamicResource LangKeyMinutes}"/>
+            </VirtualizingStackPanel>
+            <VirtualizingStackPanel Orientation="Horizontal">
+                <mah:NumericUpDown Minimum="0" Value="{Binding ActivitiesPerJob.StartValue}"/>
+                <Label Content="{DynamicResource LangKeyTo}"/>
+                <mah:NumericUpDown Minimum="{Binding ActivitiesPerJob.StartValue}"
+                                                                   Value="{Binding ActivitiesPerJob.EndValue}"/>
+                <Label Content="{DynamicResource LangKeyUsers}"/>
+            </VirtualizingStackPanel>
+            <VirtualizingStackPanel Orientation="Horizontal">
+                <mah:NumericUpDown Minimum="0" Value="{Binding ActivitiesPerHour.StartValue}"/>
+                <Label Content="{DynamicResource LangKeyTo}"/>
+                <mah:NumericUpDown Minimum="{Binding ActivitiesPerHour.StartValue}"
+                                                                   Value="{Binding ActivitiesPerHour.EndValue}"/>
+                <Label Content="{DynamicResource LangKeyUsers}"/>
+            </VirtualizingStackPanel>
+            <VirtualizingStackPanel Orientation="Horizontal">
+                <mah:NumericUpDown Minimum="0" Value="{Binding ActivitiesPerDay.StartValue}"/>
+                <Label Content="{DynamicResource LangKeyTo}"/>
+                <mah:NumericUpDown Minimum="{Binding ActivitiesPerDay.StartValue}"
+                                                                   Value="{Binding ActivitiesPerDay.EndValue}"/>
+                <Label Content="{DynamicResource LangKeyUsers}"/>
+            </VirtualizingStackPanel>
+            <VirtualizingStackPanel Orientation="Horizontal">
+                <mah:NumericUpDown Minimum="0" Value="{Binding ActivitiesPerWeek.StartValue}"/>
+                <Label Content="{DynamicResource LangKeyTo}"/>
+                <mah:NumericUpDown Minimum="{Binding ActivitiesPerWeek.StartValue}"
+                                                                   Value="{Binding ActivitiesPerWeek.EndValue}"/>
+                <Label Content="{DynamicResource LangKeyUsers}"/>
+            </VirtualizingStackPanel>
+        </StackPanel>
+        <next:NextPreviousButton Grid.Row="2" NextCommand="{Binding NextCommand}"  NextCommandParameter="QueryControl"
+                                  PreviousCommand="{Binding PreviousCommand}" PreviousCommandParameter="SelectActivity" />
     </Grid>
 </UserControl>

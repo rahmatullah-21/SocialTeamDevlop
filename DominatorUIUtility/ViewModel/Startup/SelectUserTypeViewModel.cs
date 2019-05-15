@@ -18,8 +18,8 @@ namespace DominatorUIUtility.ViewModel.Startup
     {
         public SelectUserTypeViewModel(IRegionManager region) : base(region)
         {
-            NextCommand = new DelegateCommand<string>(OnNextClick);
-            PreviousCommand = new DelegateCommand<string>(OnPreviousClick);
+            NextCommand = new DelegateCommand(NevigateNext);
+            PreviousCommand = new DelegateCommand(NevigatePrevious);
             BeginnerCommand = new DelegateCommand<object>(OnBeginnerSelect);
             InitilizeUserType();
         }

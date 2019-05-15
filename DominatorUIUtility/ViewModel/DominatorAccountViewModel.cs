@@ -39,6 +39,7 @@ using DominatorUIUtility.Views;
 using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
 using DominatorUIUtility.Views.AccountSetting;
+using DominatorUIUtility.ViewModel.Startup;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -113,7 +114,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _visibleColumns; }
             set { SetProperty(ref _visibleColumns, value); }
         }
-
+        IMainViewModel _mainViewModel;
         #region Command 
 
         public ICommand AddSingleAccountCommand { get; }
@@ -144,7 +145,7 @@ namespace DominatorUIUtility.ViewModel
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler, IProxyFileManager proxyFileManager)
         {
-
+            _mainViewModel = mainViewModel;
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
             _softwareSettings = softwareSettings;
@@ -221,11 +222,9 @@ namespace DominatorUIUtility.ViewModel
 
         private void CustomSetting(DominatorAccountModel account)
         {
-            var dialog = new Dialog();
-            var strt = new AccountModuleSetting(account.AccountBaseModel.AccountNetwork);
-            //var win = dialog.GetMetroWindow(strt, "Custom Setting");
-            strt.ShowDialog();
-
+            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
+            _mainViewModel.IsPopUpOpen = true;
         }
 
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)

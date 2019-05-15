@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,10 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
     /// </summary>
     public partial class Follow : UserControl
     {
-        public Follow()
+        public Follow(IFollowViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
     }
 }

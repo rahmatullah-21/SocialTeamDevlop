@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <StackPanel Name="ButtonGrid" Orientation="Horizontal" HorizontalAlignment="Right">
-        <Button Height="40" HorizontalAlignment="Left"  Grid.Row="1" Margin="5" Foreground="White"
+        <Button Height="30" HorizontalAlignment="Left"  Grid.Row="1" Margin="5" Foreground="White"
                 Content="{DynamicResource LangKeyPrevious}" Command="{Binding PreviousCommand}"
                 CommandParameter="{Binding PreviousCommandParameter}" Visibility="{Binding PreviousVisiblity}">
             <Button.Style>
@@ -23,7 +22,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Height="40" x:Name="BtnNext" HorizontalAlignment="Left" Foreground="White"
+        <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Left" Foreground="White"
                 Grid.Row="1" Margin="5" Content="{Binding NextButtonContent}"
                 Command="{Binding NextCommand}" CommandParameter="{Binding NextCommandParameter}">
             <Button.Style>

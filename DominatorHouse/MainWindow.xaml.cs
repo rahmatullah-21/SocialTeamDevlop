@@ -26,7 +26,7 @@ namespace Socinator
     public partial class MainWindow : IMainWindow
     {
         private bool IsClickedFromMainWindow { get; set; } = true;
-
+        IMainViewModel mainViewModel;
         public MainWindow()
         {
             try
@@ -37,7 +37,7 @@ namespace Socinator
 
                 SocinatorInitialize.LogInitializer(this);
 
-                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                 mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
                 SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
@@ -94,6 +94,9 @@ namespace Socinator
             }
         }
 
-
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            mainViewModel.IsPopUpOpen = false;
+        }
     }
 }

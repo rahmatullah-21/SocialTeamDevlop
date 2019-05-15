@@ -60,6 +60,14 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
+        private bool _isPopUpOpen;
+
+        public bool IsPopUpOpen
+        {
+            get { return _isPopUpOpen; }
+            set { SetProperty(ref _isPopUpOpen, value); }
+        }
+
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
@@ -291,7 +299,7 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-                
+
                 Task.Factory.StartNew(() =>
                 {
                     FeatureFlags.UpdateFeatures();
@@ -390,7 +398,7 @@ namespace DominatorHouse.ViewModels
                     var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
                     softwareSetting.InitializeOnLoadConfigurations();
 
-                  //  softwareSetting.ActivityManagerInitializer();
+                    //  softwareSetting.ActivityManagerInitializer();
 
                     //softwareSetting.ScheduleAutoUpdation();
                     //if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)

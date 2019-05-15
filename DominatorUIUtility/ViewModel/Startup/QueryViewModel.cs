@@ -23,8 +23,8 @@ namespace DominatorUIUtility.ViewModel.Startup
 
         public QueryViewModel(IRegionManager region) : base(region)
         {
-            NextCommand = new DelegateCommand<string>(OnNextClick);
-            PreviousCommand = new DelegateCommand<string>(OnPreviousClick);
+            NextCommand = new DelegateCommand(OnNextClick);
+            PreviousCommand = new DelegateCommand(NevigatePrevious);
           
 
             SaveSettingModel.ListQueryType.Clear();
@@ -45,7 +45,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             set { SetProperty(ref _saveSettingModel, value); }
         }
 
-        private new void OnNextClick(string sender)
+        private void OnNextClick()
         {
             try
             {
