@@ -1,6 +1,5 @@
-﻿using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
-using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -8,8 +7,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
 
     }
-    public class FollowViewModel : JobConfiguration, IFollowViewModel
+    public class FollowViewModel : StartupBaseViewModel, IFollowViewModel
     {
-       
+        public FollowViewModel(IRegionManager region) : base(region)
+        {
+            NextCommand = new DelegateCommand(NevigateNext);
+            PreviousCommand = new DelegateCommand(NevigatePrevious);
+        }
     }
 }

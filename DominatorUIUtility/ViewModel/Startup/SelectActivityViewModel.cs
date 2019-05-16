@@ -17,7 +17,7 @@ namespace DominatorUIUtility.ViewModel.Startup
     }
     public class SelectActivityViewModel : StartupBaseViewModel, ISelectActivityViewModel
     {
-        
+
         public SelectActivityViewModel(IRegionManager region) : base(region)
         {
             NextCommand = new DelegateCommand(OnNextClick);
@@ -52,19 +52,26 @@ namespace DominatorUIUtility.ViewModel.Startup
                 Dialog.ShowDialog("Error", "Please select atleast one activity.");
                 return;
             }
+            NavigationList = new System.Collections.Generic.List<string>();
+            NavigationList.Add("SelectActivity");
+            allSelectedActivity.ForEach(name => NavigationList.Add(name.ActivityType));
 
-           NevigateNext();
+            NevigateNext();
         }
         public void SetActivityTypeByNetwork(string network)
         {
             SelectActivityModel.LstNetworkActivityType.Clear();
+
             foreach (var name in Enum.GetNames(typeof(ActivityType)))
             {
                 if (EnumDescriptionConverter.GetDescription((ActivityType)Enum.Parse(typeof(ActivityType), name)).Contains(network))
+                {
                     SelectActivityModel.LstNetworkActivityType.Add(new ActivityChecked
                     {
                         ActivityType = name
                     });
+
+                }
             }
         }
 

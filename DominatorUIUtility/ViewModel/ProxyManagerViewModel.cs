@@ -30,7 +30,7 @@ namespace DominatorUIUtility.ViewModel
     {
         ObservableCollection<ProxyManagerModel> LstProxyManagerModel { get; }
         ObservableCollection<AccountAssign> AccountsAlreadyAssigned { get; }
-
+        DataGrid ProxyDataGrid { get; set; }
         bool UpdateProxy(DominatorAccountBaseModel objDominatorAccountBaseModel, AccessorStrategies strategy);
 
         void UpdateProxy(DominatorAccountBaseModel objAccountBaseModel, List<ProxyManagerModel> ProxyDetail,
@@ -228,13 +228,16 @@ namespace DominatorUIUtility.ViewModel
         {
             if (IsUnCheckedFromList)
                 return;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ProxyDataGrid.ItemsSource);
+            var visibleProxy = view.SourceCollection.Cast<ProxyManagerModel>();
             ThreadFactory.Instance.Start(() =>
-             {
-                 LstProxyManagerModel.ForEach(proxy =>
-                 {
-                     proxy.IsProxySelected = isAllProxySelected;
-                 });
-             });
+            {
+                LstProxyManagerModel.ForEach(proxy =>
+                       {
+                           if (visibleProxy.Any(x => x.AccountProxy.ProxyId == proxy.AccountProxy.ProxyId))
+                               proxy.IsProxySelected = isAllProxySelected;
+                       });
+            });
         }
 
         private void AddProxyExecute()
@@ -429,7 +432,7 @@ namespace DominatorUIUtility.ViewModel
 
         }
 
-        DataGrid ProxyDataGrid;
+        public DataGrid ProxyDataGrid { get; set; }
         private void ShowByGroupExecute(object isChecked)
         {
             try

@@ -489,6 +489,7 @@
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
+    <Compile Include="Enums\TumblrQuery\TumblrBroadcastMessageQuery.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
     <Compile Include="Enums\UserType.cs" />
     <Compile Include="Enums\VerificationType.cs" />

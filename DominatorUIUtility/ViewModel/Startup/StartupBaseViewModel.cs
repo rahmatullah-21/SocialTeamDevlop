@@ -10,9 +10,9 @@ namespace DominatorUIUtility.ViewModel.Startup
     public class StartupBaseViewModel : BindableBase
     {
         public IRegionManager regionManager;
-        static SelectActivityModel SelectActivityModel = CommonServiceLocator.ServiceLocator.Current.GetInstance<ISelectActivityViewModel>()?.SelectActivityModel;
-        List<ActivityChecked> LstCheckedActivity;
+
         static int selectedIndex = 0;
+        public static List<string> NavigationList { get; set; }
         public StartupBaseViewModel(IRegionManager region)
         {
             regionManager = region;
@@ -24,16 +24,18 @@ namespace DominatorUIUtility.ViewModel.Startup
 
         protected void NevigateNext()
         {
-
-            LstCheckedActivity = SelectActivityModel.LstNetworkActivityType.Where(x => x.IsActivity).ToList();
-            var next = LstCheckedActivity[selectedIndex].ActivityType;
+            if (selectedIndex >= NavigationList.Count - 1)
+                return;
             selectedIndex++;
+            var next = NavigationList[selectedIndex];
             regionManager.RequestNavigate("StartupRegion", next);
         }
         protected void NevigatePrevious()
         {
-            var previous = LstCheckedActivity[selectedIndex].ActivityType;
+            if (selectedIndex <= 0)
+                return;
             selectedIndex--;
+            var previous = NavigationList[selectedIndex];
             regionManager.RequestNavigate("StartupRegion", previous);
         }
 

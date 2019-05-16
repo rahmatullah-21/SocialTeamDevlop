@@ -80,7 +80,7 @@ namespace EmbeddedBrowser
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
+                CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
 
             Browser.MenuHandler = new MenuHandler();
@@ -363,7 +363,7 @@ namespace EmbeddedBrowser
         /// <param name="delayAfter">delay after the action (In seconds)</param>
         /// <param name="value">value which is going to be entered</param>
         /// <param name="clickIndex">Sometimes multiple buttons have same tag-value</param>
-        private void BrowserAct(ActType actType, string element, double delayBefore = 0, double delayAfter = 0, string value = "", int clickIndex = 0)
+        public void BrowserAct(ActType actType, string element, double delayBefore = 0, double delayAfter = 0, string value = "", int clickIndex = 0)
         {
             if (delayBefore > 0)
                 Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
@@ -410,7 +410,7 @@ namespace EmbeddedBrowser
         /// <param name="element">type of element by which the action gonna be performed</param>
         /// <param name="delayBefore">delay before the action (In seconds)</param>
         /// <param name="clickIndex">Sometimes multiple buttons have same tag-value</param>
-        private string GetElementValue(ActType actType, string element, double delayBefore = 0, int clickIndex = 0)
+        public string GetElementValue(ActType actType, string element, double delayBefore = 0, int clickIndex = 0)
         {
             if (delayBefore > 0)
                 Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
@@ -435,7 +435,7 @@ namespace EmbeddedBrowser
         /// <param name="ke">Browser KeyEvent</param>
         /// <param name="winKeyCode">WindowsKeycode of any key in keyboard</param>
         /// /// <param name="delayAtLast">Set delay at last (In seconds)</param>
-        private void PressAnyKey(int n = 1, int delay = 90, KeyEvent ke = new KeyEvent(), int winKeyCode = 0, double delayAtLast = 0)
+        public void PressAnyKey(int n = 1, int delay = 90, KeyEvent ke = new KeyEvent(), int winKeyCode = 0, double delayAtLast = 0)
         {
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
@@ -459,7 +459,7 @@ namespace EmbeddedBrowser
         /// <param name="mouseButton">Mouse Button Type</param>
         /// <param name="delayBefore">Delay before click</param>
         /// <param name="delayAfter">Delay after click</param>
-        private void MouseClick(int xLoc, int yLoc, MouseButtonType mouseButton = MouseButtonType.Left, double delayBefore = 0, double delayAfter = 0)
+        public void MouseClick(int xLoc, int yLoc, MouseButtonType mouseButton = MouseButtonType.Left, double delayBefore = 0, double delayAfter = 0)
         {
             if (delayBefore > 0)
                 Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
@@ -483,7 +483,7 @@ namespace EmbeddedBrowser
         /// <param name="typingDelay">Delay between typing</param>
         /// <param name="delayBefore">Set delay before the typing</param>
         /// <param name="delayAtLast">Set delay at last</param>
-        private void EnterChars(string charString, double typingDelay = 0.09, double delayBefore = 0,
+        public void EnterChars(string charString, double typingDelay = 0.09, double delayBefore = 0,
             double delayAtLast = 0)
         {
             if (string.IsNullOrEmpty(charString)) return;
@@ -1185,30 +1185,24 @@ namespace EmbeddedBrowser
 
         private void FacebookBrowserLogin(string html)
         {
-            if (html.Contains("royal_login_button"))
+            if (!_isLoggedIn && html.Contains("royal_login_button"))
             {
                 // Enter Username or Email 
                 BrowserAct(ActType.EnterValueById, "email", 3, 3, DominatorAccountModel.AccountBaseModel.UserName);
 
                 // Enter Password
-                BrowserAct(ActType.EnterValueById, "pass", value: DominatorAccountModel.AccountBaseModel.UserName);
+                BrowserAct(ActType.EnterValueById, "pass", value: DominatorAccountModel.AccountBaseModel.Password);
 
                 // Click On Login button
                 //BrowserAct(ActType.ClickById, "u_0_2", 1);
                 Browser.ExecuteScriptAsync("document.querySelectorAll('[type=\"submit\"]')[0].click()");
-                
-                if (string.IsNullOrEmpty(TargetUrl))
-                {
-                    Browser.LoadingStateChanged -= BrowserOnLoaded;
-                    return;
-                }
-                Thread.Sleep(3000);
+
+                Thread.Sleep(TimeSpan.FromSeconds(3.5));
             }
 
-            var result = GetLoggedInPageSource();
-
-            if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon"))
-                LoadPostPage(true);
+            var result = GetPageSource();
+            if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon") && SaveCookies())
+                LoadPostPage();
         }
 
         private void PinterestBrowserLogin(string html)
@@ -1344,82 +1338,85 @@ namespace EmbeddedBrowser
 
         private void QuoraLogin(string html)
         {
+            var getPageText = Browser.GetTextAsync().Result;
+            if (getPageText.Contains("Incorrect password."))
+                return;
             if (html != null && html.Contains("name=\"password\"") && html.Contains("name=\"email\""))
             {
-                Browser.ExecuteScriptAsync("document.getElementsByName('email')[1].value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+                BrowserAct(ActType.EnterValueByName, "email", 1, 1, DominatorAccountModel.AccountBaseModel.UserName, 1);
 
-                Browser.ExecuteScriptAsync("document.getElementsByName('password')[1].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                BrowserAct(ActType.EnterValueByName, "password", 0, 1, DominatorAccountModel.AccountBaseModel.Password, 1);
 
                 Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction submit_button_disabled')[0].class='submit_button ignore_interaction'");
 
-                Browser.ExecuteScriptAsync("document.getElementsByClassName('submit_button ignore_interaction')[0].click()");
+                BrowserAct(ActType.ClickByClass, "submit_button ignore_interaction", 1, 3, clickIndex: 0);
             }
 
-            var result = GetLoggedInPageSource();
-
-            if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true"))
-                LoadPostPage(true);
+            var result = GetPageSource();
+            if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true") && SaveCookies())
+                LoadPostPage();
         }
 
         private void RedditBrowserLogin(string html)
         {
             if (html.Contains("loginUsername"))
             {
-                Browser.ExecuteScriptAsync("document.getElementById('loginUsername').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
-                Browser.ExecuteScriptAsync("document.getElementById('loginPassword').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
-                Browser.ExecuteScriptAsync("document.getElementsByClassName('AnimatedForm__submitButton')[0].click()");
+                BrowserAct(ActType.EnterValueById, "loginUsername", 3, 1, DominatorAccountModel.AccountBaseModel.UserName);
+                BrowserAct(ActType.EnterValueById, "loginPassword", 0, 1, DominatorAccountModel.AccountBaseModel.Password);
+                BrowserAct(ActType.ClickByClass, "AnimatedForm__submitButton", delayAfter: 4);
             }
 
             if (html.Contains("login_login-main"))
             {
-                Browser.ExecuteScriptAsync("document.getElementsByName('user')[0].value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
-                Browser.ExecuteScriptAsync("document.getElementsByName('passwd')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
-                Thread.Sleep(1000);
-                Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
+                BrowserAct(ActType.EnterValueByName, "user", 3, 1, DominatorAccountModel.AccountBaseModel.UserName);
+                BrowserAct(ActType.EnterValueByName, "passwd", 0, 1, DominatorAccountModel.AccountBaseModel.Password);
+                BrowserAct(ActType.ClickByClass, "submit", delayAfter: 4);
             }
 
-            var result = GetLoggedInPageSource();
-
-            if (result != null && result.Contains("Log out") || result.Contains("logged in"))
-                LoadPostPage(true);
+            var result = GetPageSource();
+            if (!string.IsNullOrEmpty(result) && (result.ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || result.Contains("Log out") || result.Contains("logged in")) && SaveCookies())
+                LoadPostPage();
         }
 
         private void TumblrBrowserLogin(string html)
         {
+            var getPageText = Browser.GetTextAsync().Result;
+            if (getPageText.Contains("There was a problem logging in, try again later."))
+                return;
+
             if (html.Contains("signup_view determine active"))
             {
-                Browser.ExecuteScriptAsync("document.getElementById('signup_determine_email').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
-                Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+                BrowserAct(ActType.EnterValueById, "signup_determine_email", 1, 1, DominatorAccountModel.AccountBaseModel.UserName);
+                BrowserAct(ActType.ClickById, "signup_forms_submit", delayAfter: 1);
             }
             if (html.Contains("signup_login_btn active"))
             {
-                Browser.ExecuteScriptAsync("document.getElementById('signup_password').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
-                Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
+                BrowserAct(ActType.EnterValueById, "signup_password", 1, 1, DominatorAccountModel.AccountBaseModel.Password);
+                BrowserAct(ActType.ClickById, "signup_forms_submit", delayAfter: 1);
             }
             if (html.Contains("signup_view magiclink active"))
             {
+                BrowserAct(ActType.ClickByClass, "forgot_password_link", delayAfter: 1);
                 // Browser.ExecuteScriptAsync("document.getElementById('signup_forms_submit').click()");
-                Browser.ExecuteScriptAsync("document.getElementsByClassName('forgot_password_link')[0].click()");
             }
             if (html.Contains("loginUsername"))
             {
-                Browser.ExecuteScriptAsync("document.getElementById('loginUsername').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
-                Browser.ExecuteScriptAsync("document.getElementById('loginPassword').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
-                Browser.ExecuteScriptAsync("document.getElementsByClassName('AnimatedForm__submitButton')[0].click()");
+                BrowserAct(ActType.EnterValueById, "loginUsername", 1, 1, DominatorAccountModel.AccountBaseModel.UserName);
+
+                BrowserAct(ActType.EnterValueById, "loginPassword", 0, 1, DominatorAccountModel.AccountBaseModel.Password);
+                BrowserAct(ActType.ClickByClass, "AnimatedForm__submitButton", delayAfter: 1);
             }
 
             if (html.Contains("login_login-main"))
             {
-                Browser.ExecuteScriptAsync("document.getElementsByName('user')[0].value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
-                Browser.ExecuteScriptAsync("document.getElementsByName('passwd')[0].value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
-                Thread.Sleep(1000);
-                Browser.ExecuteScriptAsync("document.getElementsByClassName('submit').click()");
+                BrowserAct(ActType.EnterValueByName, "user", 1, 1, DominatorAccountModel.AccountBaseModel.UserName);
+                BrowserAct(ActType.EnterValueByName, "passwd", 0, 1, DominatorAccountModel.AccountBaseModel.Password);
+                BrowserAct(ActType.ClickByClass, "submit", delayAfter: 1);
             }
 
-            var result = GetLoggedInPageSource();
-
-            if (!string.IsNullOrEmpty(result) && result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in"))
-                LoadPostPage(true);
+            var result = GetPageSource();
+            if (!string.IsNullOrEmpty(result) && (result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in")) && SaveCookies())
+                LoadPostPage();
         }
 
         private bool _isLoggedIn;
@@ -1442,16 +1439,18 @@ namespace EmbeddedBrowser
                 {
                     try
                     {
+                        var cookie = new System.Net.Cookie
+                        {
+                            Name = item.Name,
+                            Value = item.Value,
+                            Domain = item.Domain,
+                            Path = item.Path,
+                            Secure = item.Secure
+                        };
                         if (item.Expires != null)
-                            cookieCollection.Add(new System.Net.Cookie
-                            {
-                                Expires = (DateTime)item.Expires,
-                                Name = item.Name,
-                                Value = item.Value,
-                                Domain = item.Domain,
-                                Path = item.Path,
-                                Secure = item.Secure
-                            });
+                            cookie.Expires = (DateTime)item.Expires;
+
+                        cookieCollection.Add(cookie);
                     }
                     catch
                     {/*ignored*/}
@@ -1479,7 +1478,7 @@ namespace EmbeddedBrowser
                 return false;
             }
         }
-        
+
         #endregion
 
         #region Window UI Interaction

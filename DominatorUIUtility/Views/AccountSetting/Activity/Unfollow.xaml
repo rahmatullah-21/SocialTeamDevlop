@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
              mc:Ignorable="d" 
-              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl;assembly=DominatorUIUtility"
-            d:DesignHeight="300" d:DesignWidth="300">
+               xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+           >
     <Grid>
         <StackPanel>
             <Label Content="{DynamicResource LangKeyUnfollowSource}" FontWeight="Bold" Margin="5,10,0,0"/>
@@ -27,14 +28,16 @@
             <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="Bold" Margin="5,10,0,0"/>
             <StackPanel Orientation="Horizontal"  Margin="15,0,0,5">
                 <CheckBox Content="{DynamicResource LangKeyUserShouldHaveBeenFollowedBefore}" Margin="5" IsChecked="{Binding UnfollowerModel.IsUserFollowedBeforeChecked}"/>
-                <controls:NumericUpDown Minimum="0" Value="{Binding UnfollowerModel.FollowedBeforeDay}"
+                <mah:NumericUpDown Minimum="0" Value="{Binding UnfollowerModel.FollowedBeforeDay}"
                                                 IsEnabled="{Binding UnfollowerModel.IsUserFollowedBeforeChecked}"/>
                 <Label Content="{DynamicResource LangKeyDays}"/>
                 <Label Content="{DynamicResource LangKeyAnd}"/>
-                <controls:NumericUpDown Value="{Binding UnfollowerModel.FollowedBeforeHour}" Maximum="24" Minimum="{Binding UnfollowerModel.FollowedBeforeDay}"
+                <mah:NumericUpDown Value="{Binding UnfollowerModel.FollowedBeforeHour}" Maximum="24" Minimum="{Binding UnfollowerModel.FollowedBeforeDay}"
                                                 IsEnabled="{Binding UnfollowerModel.IsUserFollowedBeforeChecked}"/>
                 <Label Content="{DynamicResource LangKeyHours}"/>
             </StackPanel>
-       </StackPanel>
+            <next:NextPreviousButton Grid.Row="2" NextCommand="{Binding NextCommand}"  NextCommandParameter="QueryControl"
+                                  PreviousCommand="{Binding PreviousCommand}" PreviousCommandParameter="SelectActivity" />
+        </StackPanel>
     </Grid>
 </UserControl>

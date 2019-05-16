@@ -268,8 +268,8 @@
                 <DataTemplate x:Key="AccountsAssignedToTemplate">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
                         <VirtualizingStackPanel  Orientation="Horizontal">
                             <ContentControl Margin="10,0" VerticalAlignment="Center">
