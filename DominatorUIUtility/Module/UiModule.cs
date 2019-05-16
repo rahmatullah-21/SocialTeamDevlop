@@ -17,6 +17,7 @@ namespace DominatorUIUtility.Module
         {
             containerRegistry.RegisterForNavigation<SelectActivity>();
             containerRegistry.RegisterForNavigation<Follow>();
+            containerRegistry.RegisterForNavigation<Unfollow>();
             containerRegistry.RegisterForNavigation<JobConfig>();
             containerRegistry.RegisterForNavigation<QueryControl>();
 

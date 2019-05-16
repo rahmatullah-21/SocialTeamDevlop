@@ -416,6 +416,9 @@
     <Compile Include="Views\AccountSetting\Activity\Follow.xaml.cs">
       <DependentUpon>Follow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AccountSetting\Activity\Unfollow.xaml.cs">
+      <DependentUpon>Unfollow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AccountSetting\JobConfig.xaml.cs">
       <DependentUpon>JobConfig.xaml</DependentUpon>
     </Compile>
@@ -921,6 +924,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Follow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\Activity\Unfollow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
