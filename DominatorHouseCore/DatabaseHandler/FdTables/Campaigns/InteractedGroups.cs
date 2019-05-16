@@ -71,7 +71,11 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
         public int InteractionTimeStamp { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
         public DateTime InteractionDateTime { get; set; }
+
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        public string UserId { get; set; }
     }
 }
