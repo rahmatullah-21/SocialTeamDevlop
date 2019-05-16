@@ -702,50 +702,8 @@ namespace DominatorUIUtility.ViewModel
                     });
 
                 }, CancellationSource.Token);
-                #region Old code
-                //lstAccountDetails.ForEach(account =>
-                //{
-                //    try
-                //    {
-                //        if (!addedAccountDetails.Any(x => x.AccountId == account.AccountId))
-                //        {
-                //            return;
-                //        }
-
-                //        updatingAccountsBinFiles = updatingAccountsBinFiles.Enqueue(() =>
-                //         {
-                //             UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);
-                //         });
-
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        ex.DebugLog();
-                //    }
-                //});
-
-                //try
-                //{
-                //    new Thread(() =>
-                //    {
-                //        while (!updatingAccountsBinFiles.IsEmpty)
-                //        {
-                //            Action act;
-                //            updatingAccountsBinFiles = updatingAccountsBinFiles.Dequeue(out act);
-
-                //            act();
-                //        }
-                //    })
-                //    { IsBackground = true }.Start();
-                //}
-                //catch (Exception ex)
-                //{
-                //    ex.DebugLog();
-                //}
-
-                #endregion
-                // Run/Stop job process in campaigns
-
+             
+              
                 if (isToggleSwitchSelected)
                 {
                     LstCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
