@@ -51,7 +51,7 @@
                                            OnLabel="{DynamicResource LangKeyPauseAllSelectedCampaign}" 
                                            FontSize="12" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" 
                                            IsChecked="{Binding AllCampStatus,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                           OnSwitchBrush="DarkGreen" OffSwitchBrush="#DC143C"
+                                           OnSwitchBrush="#00ff00" OffSwitchBrush="#DC143C" FocusVisualStyle="{x:Null}"
                                            Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
                         <interactivity:Interaction.Triggers>
                             <interactivity:EventTrigger EventName="Click">
