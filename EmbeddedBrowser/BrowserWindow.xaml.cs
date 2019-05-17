@@ -67,7 +67,7 @@ namespace EmbeddedBrowser
         {
             InitializeComponent();
             WindowBrowsers.DataContext = this;
-            SearchCommand = new DelegateCommand(GoToUrl);
+            SearchCommand = new DelegateCommand(()=>GoToUrl());
         }
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false)
@@ -305,15 +305,9 @@ namespace EmbeddedBrowser
             }
         }
 
-        private void GoToUrl()
-            => Browser.Load(UrlBar.Text);
-
-        public void Dispose()
-        {
-           // Browser.GetBrowser().CloseBrowser(true);
-            Browser.Dispose();
-        }
-
+        public void GoToUrl(string url = null)
+            => Browser.Load(url ?? UrlBar.Text);
+        
         private void LoadPostPage(bool isLoggedIn)
         {
             if (isLoggedIn)
@@ -329,17 +323,18 @@ namespace EmbeddedBrowser
             Browser.Load(TargetUrl);
             Browser.LoadingStateChanged -= BrowserOnLoaded;
         }
-
+        
         private string GetLoggedInPageSource()
         => !string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet"
            ? Browser.GetSourceAsync().Result : string.Empty;
        
         /// <summary>
-        /// Get PageSource if account is not logged in successfully
+        /// Get Current PageSource
         /// </summary>
         /// <returns></returns>
-        private string GetPageSource()
-            => !_isLoggedIn ? Browser.GetSourceAsync().Result : string.Empty;
+        public string GetPageSource() => Browser.GetSourceAsync().Result;
+        
+        public void Dispose() => Browser.Dispose();
 
         public enum ActType
         {
@@ -1200,9 +1195,12 @@ namespace EmbeddedBrowser
                 Thread.Sleep(TimeSpan.FromSeconds(3.5));
             }
 
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon") && SaveCookies())
-                LoadPostPage();
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon") && SaveCookies())
+                    LoadPostPage(); 
+            }
         }
 
         private void PinterestBrowserLogin(string html)
@@ -1239,10 +1237,13 @@ namespace EmbeddedBrowser
                 // Click on Login button 
                 BrowserAct(ActType.ClickByClass, !html.Contains("type=\"email\"") ? "red SignupButton active" : "SignupButton", delayAfter: 5);
             }
-            
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
-                LoadPostPage();
+
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
+                    LoadPostPage(); 
+            }
         }
 
         private void InstagramBrowserLogin(string html)
@@ -1296,11 +1297,13 @@ namespace EmbeddedBrowser
                 // Click on submit
                 BrowserAct(ActType.ClickByClass, "submit EdgeButton EdgeButton--primary EdgeButtom--medium", delayAfter: 5);
             }
-
-            var result = GetLoggedInPageSource();
-
-            if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box"))
-                LoadPostPage(true);
+            
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box") && SaveCookies())
+                    LoadPostPage();
+            }
         }
 
         private void LinkedInBrowserLogin(string html)
@@ -1352,9 +1355,12 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.ClickByClass, "submit_button ignore_interaction", 1, 3, clickIndex: 0);
             }
 
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true") && SaveCookies())
-                LoadPostPage();
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true") && SaveCookies())
+                    LoadPostPage(); 
+            }
         }
 
         private void RedditBrowserLogin(string html)
@@ -1373,9 +1379,12 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.ClickByClass, "submit", delayAfter: 4);
             }
 
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && (result.ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || result.Contains("Log out") || result.Contains("logged in")) && SaveCookies())
-                LoadPostPage();
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && (result.ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || result.Contains("Log out") || result.Contains("logged in")) && SaveCookies())
+                    LoadPostPage(); 
+            }
         }
 
         private void TumblrBrowserLogin(string html)
@@ -1414,9 +1423,12 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.ClickByClass, "submit", delayAfter: 1);
             }
 
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && (result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in")) && SaveCookies())
-                LoadPostPage();
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && (result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in")) && SaveCookies())
+                    LoadPostPage(); 
+            }
         }
 
         private bool _isLoggedIn;
