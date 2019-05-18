@@ -184,7 +184,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void BrowseFolderExecute(object obj)
         {
-            var folderPath = FileUtilities.GetExportPath();
+            var folderPath = FileUtilities.GetExportPath(true);
+            if (string.IsNullOrEmpty(folderPath))
+                return;
             if (!LstFolderPath.Any(x =>
                 string.Compare(x.FolderPath, folderPath, StringComparison.CurrentCultureIgnoreCase) == 0))
                 PublisherMonitorFolderModel.FolderPath = folderPath.Trim();

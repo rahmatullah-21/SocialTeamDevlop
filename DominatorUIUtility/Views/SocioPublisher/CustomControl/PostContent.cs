@@ -509,10 +509,11 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 files.ForEach(x =>
                 {
                     MediaViewerAssist.SetMediaList(this, mediaViewer.MediaList);
-                    mediaViewer.MediaList.Add(mediaUtilites.GetThumbnail(x));
+                    mediaUtilites.GetThumbnail(x);
+                    mediaViewer.MediaList.Add(x);
                     //MediaViewer.MediaList.Add(x);
                 });
-                mediaViewer.Initialize();
+                 mediaViewer.Initialize();
             }
 
             // Raise your event

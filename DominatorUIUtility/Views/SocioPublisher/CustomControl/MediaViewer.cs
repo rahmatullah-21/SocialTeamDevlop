@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 {
@@ -387,7 +388,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 {
                     ImagePointer = 0;
                     CurrentMediaPointer = 1;
-                    CurrentMediaUrl = MediaList[ImagePointer];
+                    var mediaUtilites = new MediaUtilites();
+                    CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
+                   // CurrentMediaUrl = MediaList[ImagePointer];
                     TotalMediaCount = MediaList.Count;
                     IsEnableNextPointer = (TotalMediaCount - ImagePointer) > 1;
                     IsEnablePreviousPointer = ImagePointer > 0;
@@ -419,7 +422,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 ImagePointer--;
                 if (ImagePointer >= 0)
                 {
-                    CurrentMediaUrl = MediaList[ImagePointer];
+                    var mediaUtilites = new MediaUtilites();
+                    CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
+                   // CurrentMediaUrl = MediaList[ImagePointer];
                     CurrentMediaPointer = CurrentMediaPointer - 1;
                     UpdateNavigationPointer();
                 }               
@@ -441,7 +446,9 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 ImagePointer++;
                 if (ImagePointer < MediaList.Count)
                 {
-                    CurrentMediaUrl = MediaList[ImagePointer];
+                    var mediaUtilites = new MediaUtilites();
+                    CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
+                    // CurrentMediaUrl = MediaList[ImagePointer];
                     CurrentMediaPointer = CurrentMediaPointer + 1;
                     UpdateNavigationPointer();
                 }                  

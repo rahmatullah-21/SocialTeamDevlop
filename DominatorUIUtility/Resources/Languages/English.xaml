@@ -3547,5 +3547,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyUniqueMention">Unique Mention</system:String>
     <system:String x:Key="LangKeyPostUniqueCommentAndMentionFromEachAccount">Post unique comment/Mention on a specific post from each account</system:String>
     <system:String x:Key="LangKeyCommentAndMentionOnceFromEachAccount">Use specific comment/Mention only once from a account.</system:String>
-
+    <system:String x:Key="LangKeySendMessageToUniqueUserFromAllAcocunt">Send message to unique user from all account</system:String>
 </ResourceDictionary>
