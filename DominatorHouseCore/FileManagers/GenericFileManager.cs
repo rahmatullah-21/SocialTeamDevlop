@@ -1,5 +1,4 @@
-﻿using DominatorHouseCore.LogHelper;
-using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
@@ -139,21 +138,21 @@ namespace DominatorHouseCore.FileManagers
         /// <returns></returns>
         public T GetModel<T>(string filePath) where T : class, new()
         {
+            T result = new T();
             try
             {
-                using (var stream = _fileSystemProvider.OpenReadonly(filePath))
-                {
-                    // Call for deserialize
-                    return Serializer.Deserialize<T>(stream);
-                }
+                if (_fileSystemProvider.Exists(filePath))
+                    using (var stream = _fileSystemProvider.OpenReadonly(filePath))
+                    {
+                        // Call for deserialize
+                        result = Serializer.Deserialize<T>(stream);
+                    }
             }
             catch (Exception ex)
             {
-
                 ex.DebugLog();
-                return new T();
             }
-
+            return result;
         }
 
         /// <summary>

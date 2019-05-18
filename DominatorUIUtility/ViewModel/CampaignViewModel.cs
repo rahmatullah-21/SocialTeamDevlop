@@ -5,6 +5,7 @@ using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Converters;
 using DominatorHouseCore.DatabaseHandler.CoreModels;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -33,12 +34,14 @@ using System.Windows.Threading;
 
 namespace DominatorUIUtility.ViewModel
 {
-    public class CampaignViewModel : INotifyPropertyChanged
+    public class CampaignViewModel : BindableBase
     {
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDataBaseHandler _dataBaseHandler;
+        private DbOperations _dbOperations { get; }
         public CampaignViewModel()
         {
+            _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
             _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
             _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
             SettingCommand = new BaseCommand<object>((sender) => true, SettingExecute);
@@ -51,30 +54,35 @@ namespace DominatorUIUtility.ViewModel
             CampaignTypeSelectionChange = new BaseCommand<object>((sender) => true, FilterCampaign);
             SelectionCommand = new BaseCommand<object>((sender) => true, SelectionExecute);
             CopyCampaignIdCommand = new BaseCommand<object>((sender) => true, CopyCampaignIdExecute);
-            LoadedCommand = new BaseCommand<object>((sender) => true, FilterCampaign);
+            LoadedCommand = new BaseCommand<object>((sender) => true, LoadCampaign);
             BindingOperations.EnableCollectionSynchronization(LstCampaignDetails, _lock);
-            LoadCampaign();
+
         }
 
-        public void LoadCampaign()
+        public void LoadCampaign(object sender)
         {
             try
             {
                 var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                 if (LstCampaignDetails.Count == campaignFileManager.Count())
                     return;
+                FilterCampaign(sender);
+               
                 Task.Factory.StartNew(() =>
                 {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => LstCampaignDetails.Clear()), DispatcherPriority.Render);
                     campaignFileManager.ForEach(camp =>
                     {
                         Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                         {
                             if (LstCampaignDetails.All(x => x.CampaignId != camp.CampaignId))
+                            {
                                 LstCampaignDetails.Add(camp);
+                                FilterCampaign(sender);
+                            }
                         }), DispatcherPriority.Render);
                         Thread.Sleep(5);
                     });
+                    
                 });
             }
             catch (Exception ex)
@@ -82,6 +90,15 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
+
+        private void ChangeAllCampStatus()
+        {
+            if (LstCampaignDetails.Any(x => x.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork && x.Status == "Active"))
+                AllCampStatus = true;
+            else
+                AllCampStatus = false;
+        }
+
         public void SetActivityTypes()
         {
             CampaignModel.ActivityType.Add("All");
@@ -188,6 +205,14 @@ namespace DominatorUIUtility.ViewModel
             }
         }
         private bool _isUncheckedFromList;
+        private bool _allCampStatus;
+
+        public bool AllCampStatus
+        {
+            get { return _allCampStatus; }
+            set { SetProperty(ref _allCampStatus, value); }
+        }
+
 
         public void SelectAllCampaign(bool isAllSelected)
         {
@@ -213,14 +238,6 @@ namespace DominatorUIUtility.ViewModel
         }
 
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         private void ReportExecute(object sender)
         {
@@ -375,36 +392,83 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
+
         private void StatusChangeExecute(object sender)
         {
-            try
+            //if Active/Pause all campaign Toggle changed
+            if (sender == null)
             {
-                var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
-
-                if (selectedCampaign?.SelectedAccountList.Count == 0)
+                //Get all selected campaign
+                var lstSelectedCampaign = LstCampaignDetails.Where(item => item.IsCampaignChecked);
+                //if no campaign is selected show the Warnning message and revert back the toggle
+                if (lstSelectedCampaign.Count() == 0)
                 {
-                    if (selectedCampaign.Status == "Paused")
-                        return;
-                    GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
-                    selectedCampaign.Status = "Paused";
+                    AllCampStatus = !AllCampStatus;
+                    Dialog.ShowDialog("Warnning", "Please select atleast one campaign.");
                     return;
                 }
 
-                var isChecked = ((ToggleSwitch)sender).IsChecked;
-                var isToggleSwitchSelected = isChecked != null && (bool)isChecked;
-
-                ThreadFactory.Instance.Start(() =>
+                //if Active/Pause all campaign Toggle changed and atleast one campaign is selected
+                Task.Factory.StartNew(() =>
                 {
-                    ActivePauseCampaign(selectedCampaign, isToggleSwitchSelected);
+
+                    if (!AllCampStatus)
+                    {
+                        var campignNotHavingAccount = lstSelectedCampaign.Where(x => x.SelectedAccountList.Count > 0 && x.Status == "Paused");
+                        lstSelectedCampaign.ForEach(camp =>
+                        {
+                            ActivePauseCampaign(camp, AllCampStatus);
+                        });
+                    }
+                    if (AllCampStatus)
+                    {
+                        var campignHavingAccount = lstSelectedCampaign.Where(x => x.SelectedAccountList.Count > 0);
+                        if (campignHavingAccount.Count() == 0)
+                        {
+                            AllCampStatus = !AllCampStatus;
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", "Campaign Activation", "Campaigns not having any account.");
+                            return;
+                        }
+                        campignHavingAccount.ForEach(camp =>
+                        {
+                            ActivePauseCampaign(camp, AllCampStatus);
+                        });
+                    }
+
                 });
             }
-            catch (AggregateException ex)
+            else
             {
-                ex.DebugLog();
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
+                //if individual campaign toggle changed
+                try
+                {
+                    var selectedCampaign = ((FrameworkElement)sender).DataContext as CampaignDetails;
+
+                    if (selectedCampaign?.SelectedAccountList.Count == 0)
+                    {
+                        if (selectedCampaign.Status == "Paused")
+                            return;
+                        GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
+                        selectedCampaign.Status = "Paused";
+                        return;
+                    }
+
+                    var isChecked = ((ToggleSwitch)sender).IsChecked;
+                    var isToggleSwitchSelected = isChecked != null && (bool)isChecked;
+                    ChangeAllCampStatus();
+                    ThreadFactory.Instance.Start(() =>
+                    {
+                        ActivePauseCampaign(selectedCampaign, isToggleSwitchSelected);
+                    });
+                }
+                catch (AggregateException ex)
+                {
+                    ex.DebugLog();
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
             }
         }
 
@@ -596,11 +660,14 @@ namespace DominatorUIUtility.ViewModel
                     CampaignCollection.Filter = (x) =>
                         ((CampaignDetails)x).SocialNetworks == SocinatorInitialize.ActiveSocialNetwork &&
                         ((CampaignDetails)x).SubModule == CampaignModel.SelectedActivity;
+
+                ChangeAllCampStatus();
             }
             catch (Exception ex)
             {
                 CampaignCollection.Filter =
                     (x) => ((CampaignDetails)x)?.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork;
+                ChangeAllCampStatus();
                 ex.DebugLog();
             }
         }
@@ -635,50 +702,8 @@ namespace DominatorUIUtility.ViewModel
                     });
 
                 }, CancellationSource.Token);
-                #region Old code
-                //lstAccountDetails.ForEach(account =>
-                //{
-                //    try
-                //    {
-                //        if (!addedAccountDetails.Any(x => x.AccountId == account.AccountId))
-                //        {
-                //            return;
-                //        }
-
-                //        updatingAccountsBinFiles = updatingAccountsBinFiles.Enqueue(() =>
-                //         {
-                //             UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);
-                //         });
-
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        ex.DebugLog();
-                //    }
-                //});
-
-                //try
-                //{
-                //    new Thread(() =>
-                //    {
-                //        while (!updatingAccountsBinFiles.IsEmpty)
-                //        {
-                //            Action act;
-                //            updatingAccountsBinFiles = updatingAccountsBinFiles.Dequeue(out act);
-
-                //            act();
-                //        }
-                //    })
-                //    { IsBackground = true }.Start();
-                //}
-                //catch (Exception ex)
-                //{
-                //    ex.DebugLog();
-                //}
-
-                #endregion
-                // Run/Stop job process in campaigns
-
+             
+              
                 if (isToggleSwitchSelected)
                 {
                     LstCampaignDetails.FirstOrDefault(x => x.CampaignId == selectedCampaign.CampaignId).Status = "Active";
@@ -709,7 +734,7 @@ namespace DominatorUIUtility.ViewModel
             CancellationSource.Dispose();
             CancellationSource = new CancellationTokenSource();
         }
-        private static void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
+        private void UpdateAccountCampaignsStatus(CampaignDetails selectedCampaign, bool isToggleSwitchSelected, DominatorAccountModel account, ActivityType module)
         {
             try
             {
@@ -723,6 +748,10 @@ namespace DominatorUIUtility.ViewModel
 
                 jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                 accountsCacheService.UpsertAccounts(account);
+
+                //Update ActivityManager of account in Db
+                _dbOperations.UpdateAccountActivityManager(account);
+
                 if (isToggleSwitchSelected)
                     dominatorScheduler.ScheduleNextActivity(account, module);
                 else
@@ -733,7 +762,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-        private static void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
+        private void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
         {
             try
             {
@@ -753,6 +782,9 @@ namespace DominatorUIUtility.ViewModel
                         foreach (var moduleConfiguration in jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId).ToList())
                         {
                             jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
+
+                            //Update ActivityManager of account in Db
+                            _dbOperations.UpdateAccountActivityManager(x);
                         }
                     }
                 });

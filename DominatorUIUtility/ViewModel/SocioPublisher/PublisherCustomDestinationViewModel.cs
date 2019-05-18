@@ -71,22 +71,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (publisherCustomDestinationModel != null)
             {
+                publisherCustomDestinationModel.InputDestination.DestinationValue = publisherCustomDestinationModel.InputDestination.DestinationValue.Trim();
+                publisherCustomDestinationModel.InputDestination.DestinationType = publisherCustomDestinationModel.InputDestination.DestinationType.Trim();
                 if (publisherCustomDestinationModel.InputDestination.DestinationValue.Contains("\r\n"))
                 {
-                    var splittedValue = Regex
-                        .Split(publisherCustomDestinationModel.InputDestination.DestinationValue, "\r\n").ToList();
+                    var splittedValue = Regex.Split(publisherCustomDestinationModel.InputDestination.DestinationValue, "\r\n").ToList();
 
                     splittedValue.ForEach(x =>
                     {
-                        if (string.IsNullOrEmpty(x) || string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
+                        if (string.IsNullOrEmpty(x.Trim()) || string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
                             return;
 
-                        //if (LstCustomDestination.All(y =>
-                        //    y.DestinationType != publisherCustomDestinationModel.InputDestination.DestinationType &&
-                        //    y.DestinationValue != publisherCustomDestinationModel.InputDestination.DestinationValue))
-                            if (!LstCustomDestination.Any(y => y.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType &&
-                                                               y.DestinationValue == x))
-                            {
+                        if (!LstCustomDestination.Any(y => y.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType &&
+                                                           y.DestinationValue == x))
+                        {
                             LstCustomDestination.Add(new PublisherCustomDestinationModel()
                             {
                                 DestinationType = publisherCustomDestinationModel.InputDestination.DestinationType,
@@ -97,12 +95,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationValue) &&
-                        !string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
+                    if (!string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationValue) && !string.IsNullOrEmpty(publisherCustomDestinationModel.InputDestination.DestinationType))
                     {
-                        if (!LstCustomDestination.Any(x => x.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType && x.DestinationValue == publisherCustomDestinationModel.InputDestination.DestinationValue))
+                        if (!LstCustomDestination.Any(x => x.DestinationType == publisherCustomDestinationModel.InputDestination.DestinationType &&
+                                                           x.DestinationValue == publisherCustomDestinationModel.InputDestination.DestinationValue))
                             LstCustomDestination.Add(publisherCustomDestinationModel.InputDestination);
                     }
+                    else
+                        Dialog.ShowDialog("Error", "Please enter Destination and Destination URL.");
+
                 }
 
                 InputDestination = new PublisherCustomDestinationModel();

@@ -243,9 +243,6 @@
     <Compile Include="ConfigControl\Twitter.xaml.cs">
       <DependentUpon>Twitter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConfigControl\Youtube.xaml.cs">
-      <DependentUpon>Youtube.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControl\AccountCustomControl.xaml.cs">
       <DependentUpon>AccountCustomControl.xaml</DependentUpon>
     </Compile>
@@ -356,6 +353,8 @@
     <Compile Include="ViewModel\CampaignViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
+    <Compile Include="ViewModel\OtherConfigurations\EmbeddedBrowserViewModel.cs" />
+    <Compile Include="ViewModel\OtherConfigurations\InstagramUserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\IOtherConfigurationViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\LinkedInViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\QuoraViewModel.cs" />
@@ -365,6 +364,7 @@
     <Compile Include="ViewModel\OtherConfigurations\ThridPartyServices\IThridPartyServicesViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\ThirdPartyViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\ThridPartyServices\UrlShortnerServicesViewModel.cs" />
+    <Compile Include="ViewModel\OtherConfigurations\YoutubeViewModel.cs" />
     <Compile Include="ViewModel\OtherTools\IOtherToolsViewModel.cs" />
     <Compile Include="ViewModel\OtherTools\MediaGeneratorViewModel.cs" />
     <Compile Include="ViewModel\ProxyManagerViewModel.cs" />
@@ -591,6 +591,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ConfigControl\InstagramTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ConfigControl\LinkedInTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -602,6 +606,10 @@
     <Page Include="ConfigControl\QuoraTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConfigControl\EmbeddedBrowserSettingTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ConfigControl\SocinatorMacrosTemplates.xaml">
       <SubType>Designer</SubType>
@@ -623,9 +631,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConfigControl\Youtube.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="ConfigControl\YoutubeTemplates.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\AccountCustomControl.xaml">
       <SubType>Designer</SubType>

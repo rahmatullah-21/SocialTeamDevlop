@@ -13,9 +13,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-
-//using EmbeddedBrowser;
-
 namespace Socinator.DominatorCores
 {
     public class DominatorTabHandlerFactory : ITabHandlerFactory

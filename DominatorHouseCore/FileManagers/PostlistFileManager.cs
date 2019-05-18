@@ -1,5 +1,4 @@
 ﻿using CommonServiceLocator;
-using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using System;
@@ -23,7 +22,6 @@ namespace DominatorHouseCore.FileManagers
         {
             // Warning: make sure lstPublisherDetails contains all publisher            
             BinFileHelper.UpdateAllPostlists(campaignId, lstPublisherDetails);
-            GlobusLogHelper.log.Debug($"{lstPublisherDetails.Count} Destination successfully saved");
         }
 
 
@@ -42,7 +40,7 @@ namespace DominatorHouseCore.FileManagers
                 else
                     all[ix] = acc;
             }
-            BinFileHelper.UpdateAllPostlists(campaignId,all);
+            BinFileHelper.UpdateAllPostlists(campaignId, all);
         }
 
 
@@ -66,11 +64,11 @@ namespace DominatorHouseCore.FileManagers
             return lst.FirstOrDefault(x => x.PostId == postId);
         }
 
-        public static bool Add(string campaignId,  PublisherPostlistModel postlist)
+        public static bool Add(string campaignId, PublisherPostlistModel postlist)
         {
             var lst = GetAll(campaignId) ?? new List<PublisherPostlistModel>();
             lst.Add(postlist);
-            BinFileHelper.UpdateAllPostlists(campaignId,lst);
+            BinFileHelper.UpdateAllPostlists(campaignId, lst);
             return true;
         }
 
@@ -78,22 +76,22 @@ namespace DominatorHouseCore.FileManagers
         {
             var lst = GetAll(campaignId) ?? new List<PublisherPostlistModel>();
             lst.AddRange(postlist);
-            BinFileHelper.UpdateAllPostlists(campaignId,lst);
+            BinFileHelper.UpdateAllPostlists(campaignId, lst);
             return true;
         }
 
         public static void DeleteSelected(string campaignId, List<PublisherPostlistModel> postlistModels)
         {
             var all = GetAll(campaignId).Where(a => postlistModels.FirstOrDefault(p => p.PostId == a.PostId) == null).ToList();
-            SaveAll(campaignId,all);
+            SaveAll(campaignId, all);
         }
 
         public static void Delete(string campaignId, Predicate<PublisherPostlistModel> match)
         {
             var postList = GetAll(campaignId);
             postList.RemoveAll(match);
-            BinFileHelper.UpdateAllPostlists(campaignId,postList);
+            BinFileHelper.UpdateAllPostlists(campaignId, postList);
         }
-  
+
     }
 }

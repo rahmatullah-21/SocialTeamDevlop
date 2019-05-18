@@ -1,5 +1,229 @@
-Version[1.0.0.44],[20th-March-19]
+Version[1.0.0.53],[9th-May-19]
 New Features:
+	Social:
+		Added an option to export all reports to default folder.
+	Instagram:
+		Instascrape => User scrapper => Other configurations => Added an option to scrape Unique users only for this campaign.
+	YouTube:
+		Select account in YouTube Socinator group by name.
+
+Fixed:
+	Instagram:
+		Insta chat => Auto reply  to New message => Issue  fixed  with Reply  to messages thatcontains  specific  words.
+		Insta scrape => Comment scrape => Issue  fixed  with  Scrapping  Own liked Post.
+	Facebook:
+		Account => Account Manager => Fixed issue with Group update.
+	Twitter:
+		Grow Followers => Follower => Fixed issue with Someone Followers and Followings are not working for client Account.
+		Accounts Activity => Unfollow => Fixed issue with Unfollow activity
+		Engage => Like => Fixed issue with Failing to like.
+		Accounts Activity => Fixed issue with Scrape Tweet.
+		Messenger => Message to new followers=>Fixed issue with spintax.
+	LinkedIn:
+		Sociopublisher => Fixed issue with posting on groups.
+	Pinterest :
+		Account manager => Browse login => Fixed issue in brower login using user name.
+		PD => Growfollower => keywords => Fixed issue with Growfollower.
+		Pin messanger => Send message to new follower => Fixed issue with spintax format  with url.
+		Pin Scrapper => Query type News feed =>Fixed issue with newsfeed scraper.
+		Sociopublisher=> Manage destination => Fixed issue in wall getting selected in destination.
+	YouTube:
+		Engage => Commnet => Unique => Fixed issue of and no more data issue.
+		Engage => Comment => Fixed issue of failing to comment on youtube video.
+		Engage => Fixed issue with Like Comments  not working for keywords.
+		Accounts => Account Manager => Fixed issue with Account Status.
+	Tumblr :
+		SocioPublisher. Fixed issue with posting in his pages/boards.
+
+Version[1.0.0.52],[2nd-May-19]
+New Features:-
+	Facebook:-
+		Broadcast message => Send  Greating to Friend => Added feature to Post  Greating to TimeLime.
+		Engage => Added Feature to send multiple comment to post.
+		Engage => Fan page Liker => Added Feature to like page those page like by feiend.
+		Scrape => Fan page Scraper => Added Feature to Scrape page those page like by feiend.
+		Fb Creator => Event creator => Added Feature to create Event.
+Fixed:-
+	Facebook:-
+		Grow friend => Unfriend => Fixed issue with unfriend profile filter by loctation.
+	Twitter:-
+		Messenger => Message to new followers => Fixed issue with Spintax.
+	Instagram:-
+		Reposter => Fixed issue with reposting with location id
+		Reposter => Fixed issue with reposting with custom  post
+		Grow follower => fixed issue with Following same user which followed before.
+	Tumblr:-
+		SocioPublisher => Fixed issue publishing on Page/board.
+
+
+Version[1.0.0.51],[25th-April-19]
+New Features:-
+	Private Blacklist / Private Whitelist => Added import and export feature.
+	Group Blacklist / Group Whitelist => Added import and export feature.
+	YouTube:-
+		Social => Other Configurations => YouTube => use unique feature campaign wise and account wise implemented .
+		Engage => Comment => Reply to the comment implemented. 
+
+Fixed:-
+	Instagram:-
+		Grow Followers => Follow Back => Fixed issue with follow back.
+	Facebook:-
+		FB Invite => Group Invite => Fixed issue with Group inviter.
+		SocialPublisher => Share Url => Fixed issue with scrapping duplicate Data.
+	Twitter:-
+		Grow Follower => Follower => User Filters => Fixed issue of User Bio must contain and must not contain.
+		Account manager => Fixed login issue with accounts with new twitter interface.
+
+Version[1.0.0.50],[22nd-April-19]
+New Features:-
+	YouTube:-
+		Engage => Comment => Spintax is implemented.
+
+Fixed:-
+	Social:-
+		Fixed issue with job scheduling.
+	Twitter:-
+		Accounts Activity => Follow Back => Fixed Issue for blocked accounts.
+	Instagram:-
+		Social publisher => create campaign => Advanced settings => post using geo Location name.
+	Facebook:-
+		Grow Groups => Group Joiner => Fixed Issue with graph search url.
+		Grow Friends => Send friend Request => Fixed issue with sending messgae again and agian after activity block.
+	Linkedin:-
+		Sociopublisher => create destination => Fixed issue with not showing all groups of account
+		Grow connection =>connection request => sales search url => Report => Fixed issue with not showing proper data in excel file
+
+Version[1.0.0.49],[17th-April-19]
+New Features:-
+	Facebook:-
+		Added feature with send message to Place.
+		Added feature with scrape Place.
+Fixed:-
+	Publisher:-
+		Tumblr:-
+			 Social publisher => Fixed issue with publish in pages.
+		Linkedin:-
+			Social publisher => Fixed issue with publishing in group.
+	Facebook:-
+		Broadcast message => Auto reply to Message => Fixed issue with sending diffrent spintax message.
+		Engage => Post Like => Fixed issue with like custom photo with multiple account.
+	Youtube:-
+		Account Activity => Unsubscribe => Fixed with with saving custom channel list.
+	Reddit:-
+		Comment => Fixed issue with Unique comment feature in spin text format in Engage module.
+	Twitter:-
+		Grow Follower => Follower => Followers of someone follower's => Fixed issue with showing no more data found.
+	Tumblr:-
+		Grow Followers => Follower => Fixed issue with auto stop follow.
+	Pinterest:-
+		Repin => Delete => Issue fixed with delete pin with Multiple boards.
+
+Version[1.0.0.48],[13th-April-19]
+New Features:-
+	Facebook:-
+		Added features with send messages to fanpages.
+	Reddit:-
+		Engage => comment => Added features with spintax in comments.
+	Youtube:-
+		Engage => Comment => Added unique comment feature.
+Fixed:-
+	Instagram:-
+		Grow Follower => Unfollower => Fixed issuse with unfollow.
+		Block follwer => Fixed issue with add group black list after block.
+		Instaliker/Commenter => Own liked post => Fixed issue with showing no more data.
+		User scraper => Report => Fixed issue with export report.
+	Facebook:-
+		Updated group count for new updated facebook group UI.
+	Twitter:-
+		Accounts activity => Fixed Account synchronization issue for Follow back activity.
+		Fixed issue with Pausing account activity simultaneously with campaign.
+		Poster => Retweet => Fixed issue with skip blacklisted users.
+	Pinterst:-
+		Scraper => User scraper => Custom users =>  Pin filter => Fixed issue with filtering of caption blacklist.
+		Pintry /PinCommenter => Coustom pin => Fixed issue with allow multiple comment on same post.
+		Pinposter => Repin => custom users => Fixed issue with user filter in must not contain specific words.
+		Pinposter => Delete => Fixed issue with selecting delete checkbox.
+	Reddit:-
+		Engage => comment => Fixed issue with to comment on  post unique comment on a specific post.
+	Quora:-
+		Scraper => Scrape Answer => Fixed issue with scraping topic list answer.
+
+Version[1.0.0.47],[6th-April-19]
+New Features:-
+	Instagram:-
+		Instascrape => User Scraper => Scrape unique users irrespective of account.
+		Instachat => Send message to new followers => Skip users who already received message.
+		Instascrape => User Scraper => required data => Added feature count like and comment count of latest post.
+Fixed:-
+	Instagram:-
+		Sociopublisher => fixed issue with publishing certain kind of videos.
+		Instalike/Instacommenter => Like => Fixed issue with filtering Blacklist caption words.
+		Instalike/Instacommenter => Like Comments => Location Post => Fixed issue with like on comment.
+	Pinterst:-
+		Pin poster => repin => Custom board => Fixed with issue query type custom board.
+		Pin try /Pincommenter => Try => Fixed issue with pause button over activity tool.
+
+Version[1.0.0.46],[3rd-April-19]
+New Features:-
+	Facebook:-
+		Engage => post like => Added features with like single post of each unique user posts.
+		Added features with save added accounts profile pictures
+
+Fixed:-
+	Facebook:-
+		Scrapper => Post scrapper => Fixed issue with scrapping profile scrapper campaigns.
+		Scraper => Post scraper => Fixed issue with scrap posts using custom url.
+	    Scraper => Download media => Fixed issue with downloading media.
+	Reddit:-
+		Comment Scraper => Post filter => Fixed issue with scrapping comments with specific range.
+		Reddit => Voter => Remove vote from comments => Fixed issue with remove vote from comment.
+		Reddit => Voter => Downvote comments => Fixed issue with downvote the comment.
+		Reddit => voter => upvote comments => Fixed issue with upvote the comment.
+		Reddit => sociopublisher => Fixed issue with posting on groups.
+	Linkedin:-
+		Grow connection => Remove connection => Fixed issue with outside software.
+	Pinterest:-
+		Social => Delete Pin => Fixed issue with delete pin.
+		Pintry/Pincommenter => Try => Fixed issue with after try  action.
+		Account manager => Fixed issue with showing login failed.
+		Account manager => Fixed issue with reset password.
+		User Scraper => Custom users => Fixed issue with filter must not contain specific words.
+	Quora:-
+		Voting => Fixed issue with downvote question by applying question filter.
+	Tumblr:-
+		Reblog => Fixed issue with reblog post.
+		Scraper => Post scraper => Fixed issue with their count.
+		Broadcast message => Fixed issue with blacklist user.
+		Social => Acount activity => Fixed issue with report.
+	Instagram:-
+		Publisher => Fixed issue with publishing PNG format media.
+		Instachat => Fixed issue with tag Full Name.
+		Instaposter => Reposter => Specific Users Post => Fixed issue with repost.
+		Instaliker/Instacommenter => Fixed issue with allow multiple comment on same post.
+		Instaliker/Instacommenter => Fixed issue with taking delay after comment action.
+	
+Version[1.0.0.45],[26th-March-19]
+Fixed:-
+	Social:-
+		Fixed issue with allow to open popup window in socinator facebook browser
+	Linkedin:-
+		Engage => Like => Fixed issue with  Blacklist user.
+		Broadcast Message => Fixed issue with showing already sent message in the logger.
+	Twitter:-
+		Unfollow => Unfollow source => Fixed issue with the unfollow source.
+	Pinterest:-
+		Grow Follower => Fixed issue in other user configuration.
+		Account Manager => Fixed issue in browser login.
+	Facebook:-
+		Broadcast messages => Broadcast message => Fixed issue with sending messages with maximum limits.
+		Grow friends => Send Friend  Request => Fixed issue with sending friend request using graph search url.
+	Instagram:-
+		Account Manager => Fixed issue with account verification.
+		Instaposter => Reposter =>Custom photos :- Fixed issue with reposting duplicate image.
+		Instachat => Fixed issue with sending message ahen account blocked.
+
+Version[1.0.0.44],[20th-March-19]
+New Features:-
 	Instagram:-
 		GrowFollowers => Follow Back. Added feature to accept requests for private accounts.
 		InstaScrape => Post Scraper. Added a query type to scrape tagged posts.

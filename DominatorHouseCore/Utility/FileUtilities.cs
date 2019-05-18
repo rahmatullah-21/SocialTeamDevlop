@@ -1,4 +1,6 @@
-﻿using CsvHelper;
+﻿using CommonServiceLocator;
+using CsvHelper;
+using DominatorHouseCore.FileManagers;
 using ExcelDataReader;
 using System;
 using System.Collections.Generic;
@@ -56,7 +58,7 @@ namespace DominatorHouseCore.Utility
                 }
                 catch (Exception ex)
                 {
-                    Dialog.ShowDialog("Warning", ex.Message+" Please close the file and retry.");
+                    Dialog.ShowDialog("Warning", ex.Message + " Please close the file and retry.");
                     Console.WriteLine(ex.StackTrace);
                 }
             }
@@ -172,8 +174,13 @@ namespace DominatorHouseCore.Utility
         /// GetExportPath is used to get the selected path
         /// </summary>
         /// <returns></returns>
-        public static string GetExportPath()
+        public static string GetExportPath(bool clickedFromSetting = false)
         {
+
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            if (!clickedFromSetting && (softwareSettings.IsDefaultExportPathSelected && !string.IsNullOrEmpty(softwareSettings.ExportPath)))
+                return softwareSettings.ExportPath;
 
             var exportPath = string.Empty;
 
@@ -187,9 +194,10 @@ namespace DominatorHouseCore.Utility
             if (result == true)
             {
                 exportPath = openBrowserDialog.FileName;
+                softwareSettings.ExportPath = exportPath;
             }
 
-            return exportPath;
+            return softwareSettings.ExportPath;
         }
 
         public static string GetExportPath(Window OwnerWindow)
@@ -316,8 +324,8 @@ namespace DominatorHouseCore.Utility
                 while ((line = file.ReadLine()) != null)
                 {
                     var data = line.Trim();
-                    if(!string.IsNullOrEmpty(data))
-                    csvSplitList.Add(ImageExtracter.CheckUrlValid(data) ? data : data.Replace(":", "\t"));
+                    if (!string.IsNullOrEmpty(data))
+                        csvSplitList.Add(ImageExtracter.CheckUrlValid(data) ? data : data.Replace(":", "\t"));
 
                 }
                 return csvSplitList;

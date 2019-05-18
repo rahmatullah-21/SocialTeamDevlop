@@ -199,9 +199,51 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // Get all selected campaigns
             var selectedCampaigns = GetSelectedCampaigns();
             // Call to publish now options
-            selectedCampaigns.ForEach(x => PublishScheduler.SchedulePublishNowByCampaign(x.CampaignId));
+            selectedCampaigns.ForEach(x =>
+            {
+                PublishScheduler.SchedulePublishNowByCampaign(x.CampaignId);
+                //PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
+                UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
+                // Set the default settings
+                InitializeDefaultCampaignStatus();
+
+            });
+
         }
 
+        public void UpdateCampaignStatus(string campaignId, PublisherCampaignStatus status)
+        {
+            // Get campaign Details
+            var campaignItem = ListPublisherCampaignStatusModels.FirstOrDefault(x => x.CampaignId == campaignId);
+
+            if (campaignItem == null)
+                return;
+
+            // get the index of current item
+            var currentCampaignIndex = ListPublisherCampaignStatusModels.IndexOf(campaignItem);
+
+            // Update the status
+            ListPublisherCampaignStatusModels[currentCampaignIndex].Status = status;
+
+            // Get campaign model
+            var allCampaign = _genericFileManager
+                .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+
+            // Get the particular campaign
+            var currentCampaign = allCampaign.FirstOrDefault(x => x.CampaignId == campaignId);
+
+            if (currentCampaign == null)
+                return;
+            // Finding index
+            var campaignIndex = allCampaign.IndexOf(currentCampaign);
+
+            // Update status 
+            currentCampaign.CampaignStatus = status;
+            allCampaign[campaignIndex] = currentCampaign;
+
+            //Save into bin file 
+            _genericFileManager.UpdateModuleDetails(allCampaign, ConstantVariable.GetPublisherCampaignFile());
+        }
         private bool PauseSelectedCampaignCanExecute(object sender) => true;
 
         private void PauseSelectedCampaignExecute(object sender)
@@ -213,10 +255,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Stop publishing posts
                 PublishScheduler.StopPublishingPosts(x.CampaignId);
                 // Update the campaign status to paused
-                PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Paused);
+                UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Paused);
                 // Call to set the default settings
                 InitializeDefaultCampaignStatus();
-                GlobusLogHelper.log.Info(Log.PublisherCampaignPaused, x.CampaignName);
+                //GlobusLogHelper.log.Info(Log.PublisherCampaignPaused, x.CampaignName);
             });
 
             if (selectedCampaigns.Count > 0)
@@ -235,7 +277,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Call to schedule todays campaign
                 PublishScheduler.ScheduleTodaysPublisherByCampaign(x.CampaignId);
                 // Make the status to active
-                PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
+                UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
                 // Set the default settings
                 InitializeDefaultCampaignStatus();
             });
@@ -278,10 +320,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         // Iterate and export the campaign id to csv file
                         selectedCampaigns.ForEach(campaignId =>
                         {
-                            var csvData = campaignId;
+                            // var csvData = campaignId;
                             using (var streamWriter = new StreamWriter(filename, true))
                             {
-                                streamWriter.WriteLine(csvData);
+                                streamWriter.WriteLine(campaignId);
                             }
                         });
                     }
@@ -755,8 +797,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Delete the post list bin file for the campaign
                 _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
-
-                GlobusLogHelper.log.Info($"{campaign.CampaignName} deleted Successfully!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaign.CampaignName, "Publisher Campaign", $"{campaign.CampaignName} deleted Successfully!");
 
                 //update campaign list in managepost
                 campaignList.Remove(campaignList.FirstOrDefault(x => x.Id == campaign.CampaignId));
@@ -808,8 +849,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
-
-                GlobusLogHelper.log.Info("Campaign deletion operation completed!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Publisher Campaign", "Campaign deletion operation completed!");
 
             }
             if (ListPublisherCampaignStatusModels.Count == 0 ||

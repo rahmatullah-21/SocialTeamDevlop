@@ -40,6 +40,18 @@ namespace DominatorHouseCore.DatabaseHandler.DHTables
         public string UserAgent { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public DateTime AddedDate { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        public string ActivityManager { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public int? DisplayColumnValue1 { get;  set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public int? DisplayColumnValue2 { get;  set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public int? DisplayColumnValue3 { get;  set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public int? DisplayColumnValue4 { get; set; }
+
 
     }
 }

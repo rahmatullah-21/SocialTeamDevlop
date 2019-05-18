@@ -242,7 +242,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     break;
             }
         }
-
+        bool ValidateCampaign()
+        {
+            return !(PublisherCreateCampaignModel.LstFolderPath.Count != 0 ||
+                    PublisherCreateCampaignModel.LstFeedUrl.Count != 0 ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeFacebookPost ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapePinterestPost ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeTwitterPost ||
+                    PublisherCreateCampaignModel.SharePostModel.IsShareFdPagePost ||
+                    PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList);
+        }
         private bool SaveCanExecute(object sender) => true;
 
         private void SaveExecute(object sender)
@@ -268,7 +277,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 //if campaign is going to edit then check if any post is available in campaign or not
 
-                if (CampaignStatusModel != null)
+                if (CampaignStatusModel != null && ValidateCampaign())
                 {
                     //if no post is present in either pending or draft or published then show the message to add Post to pending/draft.
                     if (!(CampaignStatusModel.PendingCount != 0 || CampaignStatusModel.DraftCount != 0 || CampaignStatusModel.PublishedCount != 0))
@@ -278,13 +287,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                 }
                 //if campaign is new then no need to check if any post is available in campaign or not.show the warning message.
-                else if (!(PublisherCreateCampaignModel.LstFolderPath.Count != 0 ||
-                    PublisherCreateCampaignModel.LstFeedUrl.Count != 0 ||
-                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeFacebookPost ||
-                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapePinterestPost ||
-                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeTwitterPost ||
-                    PublisherCreateCampaignModel.SharePostModel.IsShareFdPagePost ||
-                    PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList))
+                else if (ValidateCampaign())
                 {
                     Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
                     return;
@@ -908,6 +911,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                   _genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile()).Select(x => x.CampaignName));
             SelectedItem = null;
             PageTitle = Application.Current.FindResource("LangKeyCreateCampaign")?.ToString();
+
             SetDataContext(false);
         }
 

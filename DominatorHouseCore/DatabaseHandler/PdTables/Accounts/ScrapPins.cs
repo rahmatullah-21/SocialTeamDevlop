@@ -92,5 +92,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
         public string PublishedDate { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        public string PinTitle { get; set; }
     }
 }

@@ -9,12 +9,14 @@ namespace DominatorHouseCore.FileManagers
 {
     public class SocinatorKeyHelper
     {
-        public static bool SaveKey<T>(T keyDetails) where T : class
+        public static FatalErrorHandler Key;
+        public static bool SaveKey(FatalErrorHandler keyDetails)
         {
             try
             {
                 using (var stream = File.Create(ConstantVariable.GetConfigurationKey()))
                 {
+                    Key = keyDetails;
                     Serializer.Serialize(stream, keyDetails);
                     return true;
                 }
@@ -25,7 +27,19 @@ namespace DominatorHouseCore.FileManagers
                 return false;
             }
         }
-
+        public static void InitilizeKey()
+        {
+            try
+            {
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                Key= genericFileManager.GetModel<FatalErrorHandler>(ConstantVariable.GetConfigurationKey());
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+          
+        }
         public static FatalErrorHandler GetKey()
         {
             try

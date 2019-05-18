@@ -101,7 +101,8 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string WatchPartInvitedToUserName { get; set; }
-
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public bool IsMoreCommentsNeeded { get; set; }
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);

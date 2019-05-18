@@ -1,4 +1,6 @@
-﻿using DominatorHouseCore.Utility;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.AppResources;
+using DominatorHouseCore.Utility;
 using System.Windows;
 
 namespace DominatorHouseCore.ViewModel
@@ -10,7 +12,8 @@ namespace DominatorHouseCore.ViewModel
 
         protected BaseTabViewModel(string titleResourceName, string templateName)
         {
-            Title = Application.Current?.FindResource(titleResourceName)?.ToString();
+            var serviceProvider = ServiceLocator.Current.TryResolve<IApplicationResourceProvider>();
+            Title = serviceProvider.GetStringResource(titleResourceName);
             TemplateName = templateName;
         }
     }

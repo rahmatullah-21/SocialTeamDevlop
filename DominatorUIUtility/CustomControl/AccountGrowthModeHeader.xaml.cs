@@ -23,9 +23,6 @@ namespace DominatorUIUtility.CustomControl
             IsExpanded = true;
             AccountItemSource = new ObservableCollectionBase<string>();
         }
-
-
-
         public ObservableCollectionBase<string> AccountItemSource
         {
             get { return (ObservableCollectionBase<string>)GetValue(AccountItemSourceProperty); }
@@ -106,7 +103,6 @@ namespace DominatorUIUtility.CustomControl
         {
             var rountedargs = new RoutedEventArgs(SaveEvent);
             RaiseEvent(rountedargs);
-
         }
 
         public bool IsExpanded
@@ -162,8 +158,6 @@ namespace DominatorUIUtility.CustomControl
         public static readonly DependencyProperty SelectionChangedCommandProperty =
             DependencyProperty.Register("SelectionChangedCommand", typeof(ICommand), typeof(AccountGrowthModeHeader));
 
-
-
         public string VideoTutorialLink
         {
             get { return (string)GetValue(VideoTutorialLinkProperty); }
@@ -173,8 +167,6 @@ namespace DominatorUIUtility.CustomControl
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VideoTutorialLinkProperty =
             DependencyProperty.Register("VideoTutorialLink", typeof(string), typeof(AccountGrowthModeHeader), new PropertyMetadata(string.Empty));
-
-
 
         public ICommand TutorialCommand
         {

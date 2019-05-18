@@ -15,10 +15,8 @@ namespace DominatorHouseCore.Command
 
         public BaseCommand(Func<object, bool> CanExecuteMethod, Action<object> ExecuteMethod)
         {
-
             this.CanExecuteMethod = CanExecuteMethod;
             this.ExecuteMethod = ExecuteMethod;
-
         }
 
         #endregion
@@ -49,7 +47,6 @@ namespace DominatorHouseCore.Command
 
         public void Execute(object parameter)
         {
-
             ExecuteMethod(parameter);
         }
 

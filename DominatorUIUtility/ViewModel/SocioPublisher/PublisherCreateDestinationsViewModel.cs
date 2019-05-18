@@ -54,8 +54,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                SelectedNetworks = (SocialNetworks)sender;
-                FilterByNetwork();
+                if (sender != null)
+                {
+                    SelectedNetworks = (SocialNetworks)sender;
+                    FilterByNetwork();
+                }
             }
             catch (Exception ex)
             {
@@ -253,8 +256,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
 
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn", "Reddit" };
+        public List<string> WallAvailableInNetworks { get; set; } = new List<string> { "Pinterest", "Tumblr" };
+        public List<string> IsCustomDestinationInNetworks { get; set; } = new List<string> { "Facebook","Reddit" };
 
-        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Youtube", "Pinterest", "Gplus", "Tumblr" };
+        public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Youtube", "Tumblr" };
         private string _selectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
 
         public string SelectPageBoard
@@ -626,7 +631,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             switch (moduleName)
             {
                 case "OwnProfile":
-                    var IsAllselect= SelectWall == "LangKeySelectWallsProfilesAll".FromResourceDictionary();
+                    var IsAllselect = SelectWall == "LangKeySelectWallsProfilesAll".FromResourceDictionary();
                     PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
                     {
                         x.PublishonOwnWall = IsAllselect;
@@ -924,7 +929,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AccountId = x.AccountBaseModel.AccountId,
                     AccountName = x.AccountBaseModel.UserName,
                     SocialNetworks = x.AccountBaseModel.AccountNetwork,
-                    IsOwnWallAvailable = x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                    IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
+                    IsCustomDestinationInNetworks = IsCustomDestinationInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsGroupsAvailable =
                         GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsPagesOrBoardsAvailable =
@@ -1272,7 +1278,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             AccountId = x.AccountBaseModel.AccountId,
                             AccountName = x.AccountBaseModel.UserName,
                             SocialNetworks = x.AccountBaseModel.AccountNetwork,
-                            IsOwnWallAvailable = x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                            IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),// x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
+                            IsCustomDestinationInNetworks = IsCustomDestinationInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsGroupsAvailable =
                                 GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                             IsPagesOrBoardsAvailable =

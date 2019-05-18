@@ -22,7 +22,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Reddit")]
         DeleteComment = 6,
 
-        [Description("Twitter,Instagram,Quora")]
+        [Description("Twitter,Instagram")]
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
@@ -321,8 +321,13 @@ namespace DominatorHouseCore.Enums
         SendBoardInvitation = 112,
         [Description("LinkedIn")]
         BlockUser = 113,
-
         [Description("Facebook")]
-        MessageToFanpages = 114
+        MessageToFanpages = 114,
+        [Description("Facebook")]
+        MessageToPlaces = 115,
+        [Description("Facebook")]
+        PlaceScraper = 116,
+        [Description("Reddit")]
+        EditComment = 117
     }
 }

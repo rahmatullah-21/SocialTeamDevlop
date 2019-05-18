@@ -2,6 +2,7 @@
 using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
 using DominatorHouseCore;
+using DominatorUIUtility.Behaviours;
 using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -26,7 +27,11 @@ namespace Socinator
         //    var boostrapper = new Bootstrapper();
         //    boostrapper.Run();
         //}
-
+        public void CheckAllforExpand(object sender, RoutedEventArgs e)
+        {
+            HeaderHelper.UpdateToggleButtonInCampaignMode?.Invoke();
+            HeaderHelper.UpdateToggleButtonInAccountActivityMode?.Invoke();
+        }
         protected override Window CreateShell()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;

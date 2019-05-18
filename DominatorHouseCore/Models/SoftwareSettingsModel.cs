@@ -622,6 +622,24 @@ namespace DominatorHouseCore.Models
             get { return _isStopAutoSynchronizeAccount; }
             set { SetProperty(ref _isStopAutoSynchronizeAccount, value); }
         }
+        private bool _isDefaultExportPathSelected;
+        [ProtoMember(42)]
+        public bool IsDefaultExportPathSelected
+        {
+            get { return _isDefaultExportPathSelected; }
+            set
+            {
+                SetProperty(ref _isDefaultExportPathSelected, value);
+                if (!_isDefaultExportPathSelected) { ExportPath = string.Empty; }
+            }
+        }
+        private string _exportPath = string.Empty;
+        [ProtoMember(43)]
+        public string ExportPath
+        {
+            get { return _exportPath; }
+            set { SetProperty(ref _exportPath, value); }
+        }
 
         private bool _isRunProcessThroughBrowser = true;
         [ProtoMember(42)]

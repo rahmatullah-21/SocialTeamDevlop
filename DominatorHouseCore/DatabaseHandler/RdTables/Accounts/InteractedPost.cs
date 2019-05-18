@@ -95,7 +95,8 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 38)]
         public string CommentId { get; set; }
-        
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 39)]
+        public string OldComment { get; set; }
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);

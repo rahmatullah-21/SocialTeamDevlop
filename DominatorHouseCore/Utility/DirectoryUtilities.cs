@@ -43,7 +43,7 @@ namespace DominatorHouseCore.Utility
             try
             {
                 var file = $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now.ToString("yy-MM-dd")}.bin";
-                var oldfile = $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now.AddDays(-1).ToString("yy-MM-dd")}.bin";
+                var oldfile = $"{ConstantVariable.GetPlatformTodayBackupDirectory()}\\AccountDetails_{DateTime.Now.AddDays(-2).ToString("yy-MM-dd")}.bin";
                 if (File.Exists(oldfile))
                     File.Delete(oldfile);
                 File.Copy(ConstantVariable.GetIndexAccountFile(), file, true);

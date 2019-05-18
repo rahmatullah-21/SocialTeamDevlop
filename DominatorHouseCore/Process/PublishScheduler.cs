@@ -42,7 +42,7 @@ namespace DominatorHouseCore.Process
         /// <summary>
         /// To Specify the scheduled list id of campaigns
         /// </summary>
-        public static SortedSet<string> PublisherScheduledList { get; set; } = new SortedSet<string>();
+        public static List<string> PublisherScheduledList { get; set; } = new List<string>();
 
         /// <summary>
         /// To used in <see cref="PublisherJobProcess"/> for updating success or failed post details 
@@ -1168,7 +1168,7 @@ namespace DominatorHouseCore.Process
         /// </summary>
         /// <param name="specificCampaign">Campaign Status model</param>
         /// <returns></returns>
-        private static bool ValidateCampaignsTime(PublisherCampaignStatusModel specificCampaign)
+        public static bool ValidateCampaignsTime(PublisherCampaignStatusModel specificCampaign)
         {
             var isStart = true;
 
@@ -1315,6 +1315,7 @@ namespace DominatorHouseCore.Process
                 // Is Rotate day has been selected
                 if (specificCampaign.IsRotateDayChecked)
                     // Call to start publishing
+                    // SchedulePublisher(specificCampaign);
                     StartPublishingPosts(specificCampaign);
                 else
                 {
@@ -1323,6 +1324,7 @@ namespace DominatorHouseCore.Process
                     if (isCampaignSelected == null)
                         return;
                     // Call to start publishing
+                    // SchedulePublisher(specificCampaign);
                     StartPublishingPosts(specificCampaign);
                 }
             }
@@ -1333,35 +1335,36 @@ namespace DominatorHouseCore.Process
         /// </summary>
         public static void ScheduleTodaysPublisher()
         {
-            Task.Factory.StartNew(() =>
-            {
-                // get the all campaigns which should active 
-                var campaignDetails =
-                    PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
-
-                // Iterate campaigns 
-                campaignDetails.ForEach(campaign =>
+            // get the all campaigns which should active 
+            var campaignDetails =
+                PublisherInitialize.GetInstance.GetSavedCampaigns().Where(x => x.Status == PublisherCampaignStatus.Active).ToList();
+            if (campaignDetails.Count > 0)
+                Task.Factory.StartNew(() =>
                 {
-                    // Validate the start and end time of the campaign
-                    if (!ValidateCampaignsTime(campaign))
-                        return;
 
-                    // Is Rotate day has been selected
-                    if (campaign.IsRotateDayChecked)
-                        // Call to start publishing
-                        SchedulePublisher(campaign);
-                    else
-                    {
-                        // Check whether today is selected or not
-                        var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
-                        if (isCampaignSelected == null)
-                            return;
-                        // Call to start publishing
-                        SchedulePublisher(campaign);
-                    }
-                    Thread.Sleep(2);
+                    // Iterate campaigns 
+                    campaignDetails.ForEach(campaign =>
+                        {
+                            // Validate the start and end time of the campaign
+                            if (!ValidateCampaignsTime(campaign))
+                                return;
+
+                            // Is Rotate day has been selected
+                            if (campaign.IsRotateDayChecked)
+                                // Call to start publishing
+                                SchedulePublisher(campaign);
+                            else
+                            {
+                                // Check whether today is selected or not
+                                var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                                if (isCampaignSelected == null)
+                                    return;
+                                // Call to start publishing
+                                SchedulePublisher(campaign);
+                            }
+                            Thread.Sleep(2);
+                        });
                 });
-            });
         }
 
 
@@ -1417,11 +1420,31 @@ namespace DominatorHouseCore.Process
             {
                 if (campaign.UpdatedTime.Date != DateTime.Today)
                     // Otherwise fetch random intervals
-                    timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
-            }
+                    campaign.SpecificRunningTime = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
+                //timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
 
+            }
+         
             // Iterate running times 
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+
+
+            // Get campaign model
+            var allCampaign = genericFileManager
+                .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+
+            // Get the particular campaign
+            var currentCampaign = allCampaign.FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+
+            if (currentCampaign == null)
+                return;
+            // Finding index
+            var campaignIndex = allCampaign.IndexOf(currentCampaign);
+            
+            allCampaign[campaignIndex] = currentCampaign;
+
+            //Save into bin file 
+            genericFileManager.UpdateModuleDetails(allCampaign, ConstantVariable.GetPublisherCampaignFile());
             timeRange.ForEach(runningTime =>
                      {
                          // Make start time
@@ -1431,7 +1454,7 @@ namespace DominatorHouseCore.Process
                          if (startTime > DateTime.Now)
                          {
                              // Generate job name
-                             var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDate()}";
+                             var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDateTime()}";
 
                              // Add into scheduled lsit
                              PublisherScheduledList.Add(addJobName);
@@ -1507,7 +1530,6 @@ namespace DominatorHouseCore.Process
         {
             // Get the current campaings schedule lists
             var currentCampaignsItems = PublisherScheduledList.Where(x => x.Contains(campaignId)).ToList();
-
             // Iterate one by one to remove 
             currentCampaignsItems.ForEach(name =>
             {

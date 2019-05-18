@@ -1,4 +1,5 @@
 ﻿using CommonServiceLocator;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
@@ -6,7 +7,6 @@ using FluentScheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
@@ -22,32 +22,35 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
         {
 
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            if (softwareSettings.Settings?.IsEnableParallelActivitiesChecked ?? false)
-            {
-                Task.Factory.StartNew(() =>
-                 {
-                     var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                     // everything is allowed
-                     foreach (var account in accountDetails)
-                     {
-                         dominatorScheduler?.ScheduleEachActivity(account);
-                         Task.Delay(2);
-                     }
-                 });
-            }
-            else
-            {
-                Task.Factory.StartNew(() =>
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            var enabledAccount = accountDetails.Where(x => x.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled));
+            if (enabledAccount.Count() > 0)
+                if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
                 {
-                    // be picky - only one per account (choose wisely)
-                    foreach (var account in accountDetails)
+                    Task.Factory.StartNew(() =>
+                     {
+                         var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                         // everything is allowed
+                         foreach (var account in enabledAccount)
+                         {
+                             dominatorScheduler?.ScheduleEachActivity(account);
+                             Task.Delay(2);
+                         }
+                     });
+                }
+                else
+                {
+                    Task.Factory.StartNew(() =>
                     {
-                        StartNextRound(account);
-                        Task.Delay(2);
-                    }
-                });
-            }
+                        // be picky - only one per account (choose wisely)
+                        foreach (var account in enabledAccount)
+                        {
+                            StartNextRound(account);
+                            Task.Delay(2);
+                        }
+                    });
+                }
 
         }
 
@@ -59,10 +62,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId].Where(x => x.IsEnabled)
                 .OrderByDescending(PickNextActivity)
                 .FirstOrDefault();
-            //var moduleConfiguration = jobActivityConfigurationManager
-            //    .AllEnabled()
-            //    .OrderByDescending(PickNextActivity)
-            //    .FirstOrDefault();
             if (moduleConfiguration == null) return;
             //Check if any job process is already scheduled before to run after this activity.
             var schedules = JobManager.AllSchedules;

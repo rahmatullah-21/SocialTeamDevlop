@@ -21,6 +21,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     return;
                 _isAccountSelected = value;
                 OnPropertyChanged(nameof(IsAccountSelected));
+                if (!IsAccountSelected)
+                    PublishonOwnWall = IsAccountSelected;
             }
         }
 
@@ -251,7 +253,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private bool _isOwnWallAvailable = true;
+        private bool _isOwnWallAvailable;
         [ProtoMember(15)]
         public bool IsOwnWallAvailable
         {
@@ -339,5 +341,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             }
         }
+
+        private bool _isCustomDestinationInNetworks;
+        [ProtoMember(20)]
+        public bool IsCustomDestinationInNetworks
+        {
+            get { return _isCustomDestinationInNetworks; }
+            set { SetProperty(ref _isCustomDestinationInNetworks, value); }
+        }
+
     }
 }

@@ -28,15 +28,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://209.250.252.53/socinator/</InstallUrl>
-    <UpdateUrl>http://209.250.252.53/socinator/</UpdateUrl>
+    <InstallUrl>http://209.250.252.53/soctest/</InstallUrl>
+    <UpdateUrl>http://209.250.252.53/soctest/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>44</ApplicationRevision>
-    <ApplicationVersion>1.0.0.44</ApplicationVersion>
+    <ApplicationRevision>344</ApplicationRevision>
+    <ApplicationVersion>1.0.0.344</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -477,14 +477,6 @@
       <Project>{1c0beb70-f243-4a53-983e-ce25a1b722f6}</Project>
       <Name>FaceDominatorUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorCore\GplusDominatorCore.csproj">
-      <Project>{eaffb84c-f492-4ee5-aa11-c285aaf4e154}</Project>
-      <Name>GplusDominatorCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\gplusdominator-library\GplusDominatorUI\GplusDominatorUI.csproj">
-      <Project>{654340fb-7bc9-427a-9439-1091bdb15c84}</Project>
-      <Name>GplusDominatorUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\gramdominator-library\GramDominatorCore\GramDominatorCore.csproj">
       <Project>{b04813ea-a4b5-40ae-b705-743687f74770}</Project>
       <Name>GramDominatorCore</Name>
@@ -561,14 +553,6 @@
       <Project>{21f00635-aaf7-466b-9214-a830ea9c8963}</Project>
       <Name>EmbeddedBrowser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
-      <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
-      <Name>ProtectedCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProtectedServerApp\ProtectedServerApp.csproj">
-      <Project>{0771a96c-af77-497a-a6fa-2dc4c94cbae9}</Project>
-      <Name>ProtectedServerApp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -581,9 +565,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="WindowsInstaller">
@@ -628,9 +609,7 @@
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -70,7 +70,7 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
             {
                 var databaseConnection = ServiceLocator.Current.GetInstance<IAccountDatabaseConnection>(networks.ToString());
                 _context = databaseConnection.GetSqlConnection(id);
-                
+
             }
             if (type == ConstantVariable.GetCampaignDb)
             {
@@ -152,9 +152,9 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
         public async Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
         {
             lock (_syncObject)
-               return expression == null
-                ? _context.Table<T>().ToList()
-                : _context.Table<T>().Where(expression).ToList();
+                return expression == null
+                 ? _context.Table<T>().ToList()
+                 : _context.Table<T>().Where(expression).ToList();
         }
 
 
@@ -184,12 +184,37 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 if (dataToUpdate == null)
                     return false;
 
+                dataToUpdate.UserName = dominatorAccountModel.AccountBaseModel.UserName;
+                dataToUpdate.Password = dominatorAccountModel.AccountBaseModel.Password;
                 dataToUpdate.AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString();
+                dataToUpdate.ProxyIP = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyIp;
+                dataToUpdate.ProxyPort = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPort;
+                dataToUpdate.ProxyUserName = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyUsername;
+                dataToUpdate.ProxyPassword = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPassword;
                 dataToUpdate.UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName;
                 dataToUpdate.Status = dominatorAccountModel.AccountBaseModel.Status.ToString();
                 dataToUpdate.Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies);
                 dataToUpdate.ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl;
+                dataToUpdate.DisplayColumnValue1 = dominatorAccountModel.DisplayColumnValue1;
+                dataToUpdate.DisplayColumnValue2 = dominatorAccountModel.DisplayColumnValue2;
+                dataToUpdate.DisplayColumnValue3 = dominatorAccountModel.DisplayColumnValue3;
+                dataToUpdate.DisplayColumnValue4 = dominatorAccountModel.DisplayColumnValue4;
+                if (dominatorAccountModel.ActivityManager != null)
+                    UpdateAccountActivityManager(dominatorAccountModel);
                 return Update(dataToUpdate);
+            }
+        }
+        public void UpdateAccountActivityManager(DominatorAccountModel dominatorAccountModel)
+        {
+            lock (_syncObject)
+            {
+                var dataToUpdate = _context.Table<AccountDetails>().FirstOrDefault(x => x.AccountId == dominatorAccountModel.AccountId);
+
+                if (dataToUpdate == null)
+                    return;
+
+                dataToUpdate.ActivityManager = JsonConvert.SerializeObject(dominatorAccountModel.ActivityManager);
+                Update(dataToUpdate);
             }
         }
         #endregion

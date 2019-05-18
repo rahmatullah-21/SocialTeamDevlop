@@ -225,7 +225,11 @@ namespace DominatorHouseCore.Utility
         public static string DeletedDateText() => $"Post has been deleted on {GetCurrentDateTime()}!";
 
         public static string NotPublished { get; set; } = "Not Published Yet";
-
+        public static string GetOtherPinterestSettingsFile() => GetOtherDir() + @"\Pinterest.bin";
+        public static string GetOtherTumblrSettingsFile() => GetOtherDir() + @"\Tumblr.bin";
+        public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
+        public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
+       
         #endregion
 
 
