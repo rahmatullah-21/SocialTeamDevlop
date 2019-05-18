@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 
 namespace DominatorHouseCore.Utility
@@ -12,10 +13,15 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">pass the media path(local)</param>              
         public string GetThumbnail(string filePath)
         {
-            var extension = System.IO.Path.GetExtension(filePath)?.Replace(".", "");
+            var extension = Path.GetExtension(filePath)?.Replace(".", "");
             if (ConstantVariable.SupportedVideoFormat.Contains(extension))
             {
-                var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertFileName}";
+                var thumbPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\{ConstantVariable.ApplicationName}\\.thumb\\";
+
+                FileInfo file = new FileInfo(filePath);
+                if (!Directory.Exists(thumbPath))
+                    Directory.CreateDirectory(thumbPath);
+                var newFilePath = $"{thumbPath}{file.Name + ConstantVariable.VideoToImageConvertFileName}";
                 try
                 {
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
@@ -25,6 +31,7 @@ namespace DominatorHouseCore.Utility
                 {
                     ex.DebugLog();
                 }
+
                 return newFilePath;
             }
             return filePath;
@@ -637,7 +644,7 @@ namespace DominatorHouseCore.Utility
         }
         public string GetThumbnailPng(string filePath)
         {
-            var extension = System.IO.Path.GetExtension(filePath)?.Replace(".", "");
+            var extension = Path.GetExtension(filePath)?.Replace(".", "");
             if (ConstantVariable.SupportedVideoFormat.Contains(extension))
             {
                 var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertPngFileName}";

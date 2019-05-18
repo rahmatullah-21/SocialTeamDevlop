@@ -6,12 +6,10 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Process.ExecutionCounters;
 using DominatorHouseCore.Process.JobLimits;
-using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Unity;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
@@ -194,13 +192,14 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType)
         {
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            var accountModel = _accountsCacheService[accountId];
+            var moduleConfiguration = _jobActivityConfigurationManager[accountModel?.AccountId, activityType];
+            if (moduleConfiguration == null)
+                return false;
             try
             {
-                var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                var accountModel = _accountsCacheService[accountId];
-                var moduleConfiguration = _jobActivityConfigurationManager[accountModel.AccountId, activityType];
-
-                var accountstemplateId = moduleConfiguration?.TemplateId;
+                var accountstemplateId = moduleConfiguration.TemplateId;
                 if (isStart)
                 {
                     try
@@ -225,12 +224,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 else
                 {
                     moduleConfiguration.IsEnabled = false;
-                    StopActivity(accountModel,
-                        activityType.ToString(), accountstemplateId, false);
+                    StopActivity(accountModel, activityType.ToString(), accountstemplateId, false);
                 }
-
-                _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, activityType, moduleConfiguration);
-                _accountsCacheService.UpsertAccounts(accountModel);
 
                 return true;
             }
@@ -238,6 +233,11 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 ex.DebugLog();
                 return false;
+            }
+            finally
+            {
+                _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, activityType, moduleConfiguration);
+                _accountsCacheService.UpsertAccounts(accountModel);
             }
         }
         /// <summary>
