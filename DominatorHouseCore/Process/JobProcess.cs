@@ -374,7 +374,7 @@ namespace DominatorHouseCore.Process
                     else
                         logInProcess.LoginWithBrowserMethod(DominatorAccountModel);
 
-                    //logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+                    
 
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
