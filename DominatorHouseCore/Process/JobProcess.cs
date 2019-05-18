@@ -372,7 +372,7 @@ namespace DominatorHouseCore.Process
                     if (!_softwareSettingsFileManagaer.GetSoftwareSettings().IsRunProcessThroughBrowser)
                         logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
                     else
-                        logInProcess.LoginWithAlternativeMethod(DominatorAccountModel);
+                        logInProcess.LoginWithBrowserMethod(DominatorAccountModel);
 
                     logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
 
