@@ -22,6 +22,8 @@ using System.Windows;
 using System.Windows.Input;
 using EmbeddedBrowser.BrowserHelper;
 using Unity;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace EmbeddedBrowser
 {
