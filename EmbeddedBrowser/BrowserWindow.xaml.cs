@@ -59,15 +59,15 @@ namespace EmbeddedBrowser
                 _dominatorAccountModel = value;
                 OnPropertyChanged(nameof(DominatorAccountModel));
             }
-        } 
+        }
 
         #endregion
-        
+
         public BrowserWindow()
         {
             InitializeComponent();
             WindowBrowsers.DataContext = this;
-            SearchCommand = new DelegateCommand(()=>GoToUrl());
+            SearchCommand = new DelegateCommand(() => GoToUrl());
         }
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false)
@@ -95,7 +95,7 @@ namespace EmbeddedBrowser
             UrlBar.Text = Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings;
         }
-        
+
         #region CefSharp Utilities
 
         /// <summary>
@@ -113,9 +113,9 @@ namespace EmbeddedBrowser
                     return;
                 }
 
-                if(DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
                     return;
-                
+
                 Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
 
                 foreach (var accCookie in DominatorAccountModel.Cookies)
@@ -199,7 +199,7 @@ namespace EmbeddedBrowser
                         else
                         {
                             var dictProxyIpPort = new Dictionary<string, object> { { "mode", "direct" } };
-                            
+
                             string error;
                             var success = requestContext.SetPreference("proxy", dictProxyIpPort, out error);
                         }
@@ -250,7 +250,7 @@ namespace EmbeddedBrowser
                             lock (_cefLock)
                             {
                                 // Get Current PageSource
-                                var html =  Browser.GetSourceAsync().Result; //taskHtml.Result;
+                                var html = Browser.GetSourceAsync().Result; //taskHtml.Result;
 
                                 DominatorAccountModel.Token.ThrowIfCancellationRequested();
                                 if (!string.IsNullOrEmpty(html) && !Browser.IsDisposed)
@@ -307,7 +307,7 @@ namespace EmbeddedBrowser
 
         public void GoToUrl(string url = null)
             => Browser.Load(url ?? UrlBar.Text);
-        
+
         private void LoadPostPage(bool isLoggedIn)
         {
             if (isLoggedIn)
@@ -319,21 +319,21 @@ namespace EmbeddedBrowser
 
         private void LoadPostPage()
         {
-            if(string.IsNullOrEmpty(TargetUrl)) return;
+            if (string.IsNullOrEmpty(TargetUrl)) return;
             Browser.Load(TargetUrl);
             Browser.LoadingStateChanged -= BrowserOnLoaded;
         }
-        
+
         private string GetLoggedInPageSource()
         => !string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet"
            ? Browser.GetSourceAsync().Result : string.Empty;
-       
+
         /// <summary>
         /// Get Current PageSource
         /// </summary>
         /// <returns></returns>
         public string GetPageSource() => Browser.GetSourceAsync().Result;
-        
+
         public void Dispose() => Browser.Dispose();
 
         public enum ActType
@@ -346,7 +346,23 @@ namespace EmbeddedBrowser
             EnterValueByName,
             GetValueByName,
             GetValueByTagName,
-            GetLengthByClass
+            GetLengthByClass,
+
+            // Added for Browser Automation
+            ScrollIntoView,
+            ScrollWindow,
+            GetValue,
+            GetLength,
+            [Description("click()")]
+            Click,
+            [Description("focus()")]
+            Focus,
+            EnterValue,
+            EnterByQuery,
+            ActByQuery,
+            CustomActType,
+            ScrollIntoViewQuery,
+            GetAttribute
         }
 
         /// <summary>
@@ -501,7 +517,7 @@ namespace EmbeddedBrowser
         }
 
         #endregion
-        
+
         #region Social Login
 
         #region Google Login
@@ -797,7 +813,7 @@ namespace EmbeddedBrowser
             {
                 var last2Min = DateTime.Now;
 
-                while ((!DominatorAccountModel.IsVerificationCodeSent || codeBefore == DominatorAccountModel.VarificationCode.Trim() || DominatorAccountModel.VarificationCode.Trim().Length<6) && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
+                while ((!DominatorAccountModel.IsVerificationCodeSent || codeBefore == DominatorAccountModel.VarificationCode.Trim() || DominatorAccountModel.VarificationCode.Trim().Length < 6) && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
                     Thread.Sleep(2000); // Waiting to get code from UI
 
                 codeBefore = DominatorAccountModel.VarificationCode.Trim();
@@ -907,7 +923,7 @@ namespace EmbeddedBrowser
         {
             var loginFailed = RetypeEmail();
             var gotEmailFromPage = Utilities.GetBetween(_pageText, "your account:", "\n").Trim();
-            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim()) && !string.IsNullOrEmpty(gotEmailFromPage))|| !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim(),gotEmailFromPage))
+            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim()) && !string.IsNullOrEmpty(gotEmailFromPage)) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim(), gotEmailFromPage))
                 DominatorAccountModel.AccountBaseModel.AlternateEmail = gotEmailFromPage;
             return loginFailed;
         }
@@ -917,7 +933,7 @@ namespace EmbeddedBrowser
             var loginFailed = RetypePhoneNumber();
             var gotNumberFromPage = Utilities.GetBetween(_pageText, "security settings:", "\n").Replace(" ", "")
                 .Replace("(", "").Replace(")", "").Replace("-", "").Replace("_", "").Trim();
-            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()) && !string.IsNullOrEmpty(gotNumberFromPage)) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),gotNumberFromPage))
+            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()) && !string.IsNullOrEmpty(gotNumberFromPage)) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(), gotNumberFromPage))
                 DominatorAccountModel.AccountBaseModel.PhoneNumber = gotNumberFromPage;
             return loginFailed;
         }
@@ -937,7 +953,7 @@ namespace EmbeddedBrowser
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
                 return true;
             }
-            
+
             var isWrong = true;
             if (!(DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TooManyAttemptsOnPhoneVerification
                   || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount))
@@ -974,7 +990,7 @@ namespace EmbeddedBrowser
                 else
                 {
                     isWrong = text.Contains("The phone number was invalid. Please correct it and try again.")
-                              || text.Contains("There was a problem with your phone number") 
+                              || text.Contains("There was a problem with your phone number")
                              || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
                               text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.") ||
                               text.Contains("This phone number has already been used too many times for verification.")
@@ -1104,7 +1120,7 @@ namespace EmbeddedBrowser
                     return false;
             }
         }
-        
+
         private void CreateChannelOnYoutube()
         {
             try
@@ -1199,7 +1215,7 @@ namespace EmbeddedBrowser
             {
                 var result = GetPageSource();
                 if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon") && SaveCookies())
-                    LoadPostPage(); 
+                    LoadPostPage();
             }
         }
 
@@ -1211,11 +1227,11 @@ namespace EmbeddedBrowser
             {
                 var getPageText = Browser.GetTextAsync().Result;
                 if (getPageText.Contains("that password isn't right.") || getPageText.ToLower().Contains("reset your password")
-                    || getPageText.Contains("doesn't look like an email address or phone number") 
+                    || getPageText.Contains("doesn't look like an email address or phone number")
                     || getPageText.Contains("Oops! You logged in too quickly. Please try again with the reCAPTCHA")
                     || getPageText.Contains("We noticed some strange activity on your account. Reset your password or log in with Facebook or Google to get back into your account."))
                     return;
-                
+
                 // Click on username textbox
                 BrowserAct(ActType.ClickByName, "id", delayAfter: 0.5);
 
@@ -1242,9 +1258,581 @@ namespace EmbeddedBrowser
             {
                 var result = GetPageSource();
                 if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
-                    LoadPostPage(); 
+                    LoadPostPage();
             }
         }
+
+
+
+        #region Browser Automation Changes
+
+        
+
+        public enum PostContent
+        {
+            PostId = 1,
+            AdId = 2,
+            PostUrl = 3,
+            PostedTime = 4,
+            LikerCount = 5,
+            ShareCount = 6,
+            CommentCount = 7,
+            OwnerDetails = 8,
+            OwnerLogo = 9,
+            AdDetails = 10,
+            AdText = 11,
+            NewsFeedDescription = 12,
+            SubDescription = 13,
+            CallToAction = 14,
+            Title = 15,
+            SharedPostText = 16,
+            SharedPostUrl = 17,
+            SharedAdTitle = 18,
+            MediaDetails = 19,
+            IsSharePost = 20,
+            MediaList = 21,
+        }
+
+        public enum AttributeType
+        {
+            Null = 0,
+            Id = 1,
+            [Description("name")]
+            Name = 2,
+            ClassName = 3,
+            TagName = 4,
+            [Description("value")]
+            Value = 5,
+            [Description("data-testid")]
+            DataTestId = 6,
+            [Description("role")]
+            Role = 7,
+            [Description("data-comment-prelude-ref")]
+            CommentPreclude = 8,
+            [Description("data-feed-option-name")]
+            DataFeedOptionName = 9,
+
+        }
+
+
+        public enum ValueType
+        {
+            [Description("id")]
+            Id = 1,
+            [Description("href")]
+            Href = 7,
+            [Description("innerHTML")]
+            InnerHtml = 2,
+            [Description("outerHTML")]
+            OuterHtml = 3,
+            [Description("innerText")]
+            InnerText = 4,
+            [Description("outerText")]
+            OuterText = 5,
+            [Description("parentElement.id")]
+            ParentId = 6,
+            [Description("data-timestamp")]
+            TimeStamp = 8,
+            [Description("src")]
+            Source = 9
+
+        }
+
+        public async Task<string> GetPageSourceAsync()
+        {
+            return await Browser.GetSourceAsync();
+        }
+
+        public async Task<string> GoToCustomUrl(string url, int delayAfter = 0)
+        {
+            Browser.Load(url);
+            await Task.Delay(delayAfter);
+            return await Browser.GetSourceAsync();
+        }
+
+        public async Task PressAnyKeyUpdated(int winKeyCode = 0, int n = 1, int delay = 90, double delayAtLast = 0)
+        {
+            var ke = new KeyEvent();
+            if (winKeyCode != 0)
+                ke.WindowsKeyCode = winKeyCode;
+
+            if (Browser.IsDisposed) return;
+
+            for (var i = 0; i < n; i++)
+            {
+                await Task.Delay(delay);
+                Browser.GetBrowser().GetHost().SendKeyEvent(ke);
+            }
+            if (delayAtLast > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAtLast));
+        }
+
+        public async Task EnterCharsAsync(string charString, double typingDelay = 0.09, double delayBefore = 0,
+           double delayAtLast = 0)
+        {
+            if (string.IsNullOrEmpty(charString)) return;
+
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            var ke = new KeyEvent { FocusOnEditableField = true, IsSystemKey = false, Type = KeyEventType.Char };
+
+            if (Browser.IsDisposed) return;
+
+            foreach (var caharacter in charString.ToList())
+            {
+                ke.WindowsKeyCode = caharacter;
+                Browser.GetBrowser().GetHost().SendKeyEvent(ke);
+                await Task.Delay(TimeSpan.FromSeconds(typingDelay));
+            }
+            if (delayAtLast > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAtLast));
+        }
+
+        public async Task BrowserActAsync(ActType actType, AttributeType attributeType, string attributeValue,
+           string value = "", double delayBefore = 0, double delayAfter = 0, int index = 0, int scrollByPixel = 100)
+        {
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return;
+
+            if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
+                attributeValue = attributeValue.Replace(@"\", "\\\\");
+
+            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
+
+            switch (actType)
+            {
+                case ActType.EnterByQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].value= '{value}'");
+                    break;
+
+                case ActType.EnterValue:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].value= '{value}'");
+                    break;
+
+                case ActType.ActByQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()");
+                    break;
+
+                case ActType.ScrollWindow:
+                    Browser.ExecuteScriptAsync($"window.scrollBy(0, {scrollByPixel});");
+                    break;
+
+                case ActType.ScrollIntoView:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].scrollIntoViewIfNeeded()");
+                    break;
+
+                case ActType.ScrollIntoViewQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].scrollIntoView()");
+                    break;
+
+                case ActType.CustomActType:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}");
+                    break;
+
+                default:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}");
+                    break;
+
+            }
+            if (delayAfter > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+        }
+
+
+       
+
+        public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0)
+        {
+
+            MouseButtonType mouseButton = MouseButtonType.Left;
+
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return;
+
+            // mouseUp(4th parameter) = false , MouseButton to be pressed
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, false, 1, CefEventFlags.None);
+            await Task.Delay(100);
+            // mouseUp(4th parameter) = true , MouseButton to be released
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
+
+            if (delayAfter > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+        }
+
+        public async Task<List<string>> GetListInnerHtml(ActType actType, AttributeType attributeType, string attributeValue)
+        {
+            if (Browser.IsDisposed) return
+                    new List<string>();
+
+            List<string> listNodes = new List<string>();
+
+            int itemCount = int.Parse(await GetElementValueAsync(ActType.GetLength, attributeType, attributeValue)) - 1;
+
+            while (itemCount >= 0)
+            {
+                listNodes.Add(await GetElementValueAsync(actType, attributeType, attributeValue, clickIndex: itemCount));
+                itemCount--;
+            }
+
+            return listNodes;
+        }
+
+        public async Task<List<string>> GetListInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
+            string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
+            ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+        {
+            if (Browser.IsDisposed) return
+                    new List<string>();
+
+            List<string> listNodes = new List<string>();
+
+            int itemCount = int.Parse(await GetChildElementValueAsync(ActType.GetLength, parentAttributeType,
+                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
+
+            while (itemCount >= 0)
+            {
+                listNodes.Add(await GetChildElementValueAsync(actType, parentAttributeType,
+                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex: itemCount));
+                itemCount--;
+            }
+
+            return listNodes;
+        }
+
+
+
+        public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
+            string attributeValue, ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int clickIndex = 0)
+        {
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            JavascriptResponse jsResponse = null;
+
+            if (Browser.IsDisposed) return "";
+            switch (actType)
+            {
+                case ActType.GetValue:
+                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{valueType.GetDescriptionAttr()}");
+                    break;
+                case ActType.GetLength:
+                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').length");
+                    break;
+                case ActType.GetAttribute:
+                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].getAttribute('{valueType.GetDescriptionAttr()}')");
+                    break;
+                default:
+                    jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}");
+                    break;
+            }
+
+            return jsResponse.Success ? jsResponse.Result.ToString() : "";
+        }
+
+        public async Task<string> GetChildElementValueAsync(ActType actType, AttributeType parentAttributeType,
+            string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
+            ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+        {
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
+
+            var doc2 = $"documentdocument.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}";
+
+            if (Browser.IsDisposed) return "";
+            switch (actType)
+            {
+                case ActType.GetValue:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
+                case ActType.GetLength:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "";
+                case ActType.GetAttribute:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
+                default:
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
+            }
+        }
+
+        #region Methods For Facebook
+
+        public int lastCurrentCount = -1;
+
+        public async Task ExpandAllSeeMore()
+        {
+            var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "see_more_link_inner",
+                ValueType.OuterHtml));
+
+            while (postCount-- > 0)
+            {
+                await BrowserActAsync(ActType.Click, AttributeType.ClassName, "see_more_link_inner", delayAfter: 0.25, index: postCount);
+            }
+        }
+
+        public async Task<Dictionary<int, string>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
+        {
+            var xCoordinate = !string.IsNullOrEmpty(await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "fbChatSidebar fixed_always _5pr2 hidden_elem")) ?
+                        844 : 740;
+
+
+            var adCount = 0;
+
+            var dictAdViewerDetails = new Dictionary<int, string>();
+
+            await Task.Delay(5000);
+
+            while (lastCurrentCount++ <= postCount * (lastCount + 1))
+            {
+                var adViewerDetails = string.Empty;
+                Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
+                var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: lastCurrentCount);
+                if (!(fullAdDetails).Contains("sponsored_ad"))
+                {
+                    await Task.Delay(3000);
+                    continue;
+                }
+
+                await Task.Delay(2000);
+                await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
+                await Task.Delay(2000);
+                MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
+                await Task.Delay(2000);
+                MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
+                adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption", clickIndex: adCount);
+                if (string.IsNullOrEmpty(adViewerDetails))
+                {
+                    continue;
+                }
+                adViewerDetails = string.IsNullOrEmpty(adViewerDetails) ? string.Empty :
+                    Regex.Matches(adViewerDetails, "id=(.*?)&")[0].Groups[1].ToString();
+                dictAdViewerDetails.Add(lastCurrentCount, adViewerDetails);
+                adCount += 2;
+                await Task.Delay(2000);
+            }
+
+            lastCurrentAdCount = lastCurrentCount;
+
+            return dictAdViewerDetails;
+        }
+
+        public async Task<List<Dictionary<PostContent, string>>> ScrapFacebookAdDetails
+            (Dictionary<int, string> adViewerDictionary, int postCount)
+        {
+
+            List<Dictionary<PostContent, string>> lstAdsList = new List<Dictionary<PostContent, string>>();
+
+            while (postCount-- > 0)
+            {
+                try
+                {
+                    Dictionary<PostContent, string> dictPostDetails = new Dictionary<PostContent, string>();
+
+                    var totalAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      ValueType.InnerHtml, clickIndex: postCount);
+
+                    var adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, "fsm fwn fcg", ValueType.InnerText, parentIndex: postCount);
+
+                    bool isAd = string.IsNullOrEmpty(adsDetails) ? true : false;
+
+                    string adId = string.Empty;
+
+                    string postUrl = string.Empty;
+
+                    if (!string.IsNullOrEmpty(adsDetails))
+                    {
+                        postUrl = "https://www.facebook.com" + Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('fsm fwn fcg')[0].firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
+                    }
+                    else
+                    {
+                        adId = adViewerDictionary.ContainsKey(postCount) ? adViewerDictionary[postCount] : string.Empty;
+                    }
+
+                    dictPostDetails.Add(PostContent.PostId, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                        AttributeType.Name, "ft_ent_identifier", ValueType.OuterHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.AdDetails, isAd.ToString());
+
+                    dictPostDetails.Add(PostContent.AdId, adId);
+
+                    if (!string.IsNullOrEmpty(dictPostDetails[PostContent.PostId]))
+                        lstAdsList.Add(dictPostDetails);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+
+            lstAdsList = lstAdsList.Where(x => x[PostContent.AdDetails] == true.ToString()).ToList();
+
+            return lstAdsList;
+        }
+
+
+        public async Task<List<Dictionary<PostContent, string>>> ScrapFacebookPostDetails
+            (Dictionary<int, string> adViewerDictionary, int postCount)
+        {
+
+            List<Dictionary<PostContent, string>> lstAdsList = new List<Dictionary<PostContent, string>>();
+
+            while (postCount-- > 0)
+            {
+                try
+                {
+
+                    Dictionary<PostContent, string> dictPostDetails = new Dictionary<PostContent, string>();
+
+                    var totalAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      ValueType.InnerHtml, clickIndex: postCount);
+
+                    bool isSharedPost = (await GetChildElementValueAsync(ActType.GetLength, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                        AttributeType.ClassName, $"_5pcp _5lel _2jyu _232_", parentIndex: postCount)) == "1" ? false : true;
+
+                    List<string> mediaList = new List<string>();
+
+                    var mediaListClassName = totalAdDetails.Contains("scaledImageFitHeight img") ? "scaledImageFitHeight img"
+                        : "scaledImageFitWidth img";
+
+                    mediaList = await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, "_kvn img", ValueType.Source, parentIndex: postCount);
+
+                    mediaList = mediaList.Count > 0 ? mediaList : await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                       AttributeType.ClassName, $"{mediaListClassName}", ValueType.Source, parentIndex: postCount);
+
+                    if (totalAdDetails.Contains("_46-i img"))
+                        mediaList.AddRange(await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                       AttributeType.ClassName, "_46-i img", ValueType.Source, parentIndex: postCount));
+
+                    var videoAdTitle = Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('_2za- _2vd- uiContextualLayerParent _28dz')[0].firstElementChild.firstElementChild.firstElementChild.innerHTML").Result?.Result?.ToString() ?? "";
+
+                    var adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, "fsm fwn fcg", ValueType.InnerText, parentIndex: postCount);
+
+                    bool isAd = string.IsNullOrEmpty(adsDetails) ? true : false;
+
+                    var videoPostDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                        AttributeType.ClassName, "_1c_u _45oh", ValueType.OuterHtml, parentIndex: postCount);
+
+                    bool isVideoPost = string.IsNullOrEmpty(await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                        AttributeType.ClassName, $"_1c_u _45oh", ValueType.OuterHtml, parentIndex: postCount)) ? false : true;
+
+                    string adId = string.Empty;
+
+                    string postUrl = string.Empty;
+
+                    string sharedPostTextClassName = "mtm _5pco";
+
+                    string sharedPostUrl = isSharedPost ? string.Empty :
+                        Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('p_18vez5sfh1')[1].firstElementChild.firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
+
+                    string callToActionClassName = totalAdDetails.Contains("_42ft _4jy0 _4jy4 _517h _51sy") ?
+                        "_42ft _4jy0 _4jy4 _517h _51sy" : "_42ft _4jy0 _4jy3 _517h _51sy";
+
+                    string subDescriptionClassName = totalAdDetails.Contains("_6m7 _3bt9") ?
+                        "_6m7 _3bt9" : totalAdDetails.Contains("_1m-h") ? "_1m-h" : "_-iw";
+
+                    string titleClassName = totalAdDetails.Contains("mbs _6m6 _2cnj _5s6c") ?
+                        "mbs _6m6 _2cnj _5s6c" : totalAdDetails.Contains("_1032") ? "_1032" : "_5s6c";
+
+                    string likersClassName = totalAdDetails.Contains("UFI2ReactionsCount/sentenceWithSocialContext") ?
+                        "UFI2ReactionsCount/sentenceWithSocialContext" : "_3t53 _4ar- _ipn";
+
+                    string commentorsClassName = totalAdDetails.Contains("UFI2CommentsCount/root") ?
+                        "UFI2CommentsCount/root" : "_ipm _-56";
+
+                    string sharersClassName = totalAdDetails.Contains("UFI2SharesCount/root") ?
+                        "UFI2SharesCount/root" : "_ipm _2x0m";
+
+                    string ownerDetailsClassName = totalAdDetails.Contains("_7mi6 v_18vez5nvuw _8o _8s lfloat _ohe") ?
+                        "_7mi6 v_18vez5nvuw _8o _8s lfloat _ohe" : "_5pb8 v_18vez5nvuw _8o _8s lfloat _ohe";
+
+                    if (!string.IsNullOrEmpty(adsDetails))
+                    {
+                        postUrl = "https://www.facebook.com" + Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('fsm fwn fcg')[0].firstElementChild.getAttribute('href')").Result?.Result?.ToString() ?? "";
+                    }
+                    else
+                    {
+                        adId = adViewerDictionary.ContainsKey(postCount) ? adViewerDictionary[postCount] : string.Empty;
+                    }
+                    var adTitle = !isSharedPost && !string.IsNullOrEmpty(videoAdTitle) ? videoAdTitle :
+                        await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, $"{titleClassName}", ValueType.InnerText, parentIndex: postCount);
+
+                    var sharedAdTitle = isSharedPost && !string.IsNullOrEmpty(videoAdTitle) ? videoAdTitle : string.Empty;
+
+                    dictPostDetails.Add(PostContent.PostId, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                        AttributeType.Name, "ft_ent_identifier", ValueType.OuterHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.PostUrl, postUrl);
+
+                    dictPostDetails.Add(PostContent.LikerCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                        AttributeType.DataTestId, $"{likersClassName}", ValueType.InnerHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.ShareCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                       AttributeType.DataTestId, $"{sharersClassName}", ValueType.InnerHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.CommentCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                       AttributeType.DataTestId, $"{commentorsClassName}", ValueType.InnerHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.OwnerDetails, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                       AttributeType.ClassName, $"{ownerDetailsClassName}", ValueType.InnerHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.OwnerLogo, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                       AttributeType.ClassName, $"{ownerDetailsClassName}", ValueType.OuterHtml, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.PostedTime, await GetElementValueAsync(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                       ValueType.TimeStamp, clickIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.AdDetails, isAd.ToString());
+
+                    dictPostDetails.Add(PostContent.MediaDetails, isVideoPost ? "Video" : mediaList.Count > 0 ? "Image" : "NoMedia");
+
+                    dictPostDetails.Add(PostContent.IsSharePost, isSharedPost ? "Shared" : "Original");
+
+                    dictPostDetails.Add(PostContent.AdText, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, "_5pbx userContent", ValueType.InnerText, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.SubDescription, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, $"{subDescriptionClassName}", ValueType.InnerText, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.Title, adTitle);
+
+                    dictPostDetails.Add(PostContent.SharedPostText, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, $"{sharedPostTextClassName}", ValueType.InnerText, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.CallToAction, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
+                      AttributeType.ClassName, $"{callToActionClassName}", ValueType.InnerText, parentIndex: postCount));
+
+                    dictPostDetails.Add(PostContent.SharedAdTitle, sharedAdTitle);
+
+                    dictPostDetails.Add(PostContent.SharedPostUrl, sharedPostUrl);
+
+                    dictPostDetails.Add(PostContent.MediaList, JsonConvert.SerializeObject(mediaList));
+
+                    dictPostDetails.Add(PostContent.AdId, adId);
+
+                    if (!string.IsNullOrEmpty(dictPostDetails[PostContent.PostId]))
+                        lstAdsList.Add(dictPostDetails);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+            }
+
+            return lstAdsList;
+        } 
+        #endregion
+
+        #endregion
+
+
 
         private void InstagramBrowserLogin(string html)
         {
@@ -1297,7 +1885,7 @@ namespace EmbeddedBrowser
                 // Click on submit
                 BrowserAct(ActType.ClickByClass, "submit EdgeButton EdgeButton--primary EdgeButtom--medium", delayAfter: 5);
             }
-            
+
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
@@ -1359,7 +1947,7 @@ namespace EmbeddedBrowser
             {
                 var result = GetPageSource();
                 if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true") && SaveCookies())
-                    LoadPostPage(); 
+                    LoadPostPage();
             }
         }
 
@@ -1383,7 +1971,7 @@ namespace EmbeddedBrowser
             {
                 var result = GetPageSource();
                 if (!string.IsNullOrEmpty(result) && (result.ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || result.Contains("Log out") || result.Contains("logged in")) && SaveCookies())
-                    LoadPostPage(); 
+                    LoadPostPage();
             }
         }
 
@@ -1427,11 +2015,15 @@ namespace EmbeddedBrowser
             {
                 var result = GetPageSource();
                 if (!string.IsNullOrEmpty(result) && (result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in")) && SaveCookies())
-                    LoadPostPage(); 
+                    LoadPostPage();
             }
         }
 
-        private bool _isLoggedIn;
+        //private bool _isLoggedIn;
+
+
+        public bool _isLoggedIn { get; set; }
+
         /// <summary>
         /// Returns true if cookies were saved
         /// </summary>
@@ -1569,6 +2161,6 @@ namespace EmbeddedBrowser
         private void CustomLog(string message) => GlobusLogHelper.log.Info(Log.CustomMessage,
             DominatorAccountModel.AccountBaseModel.AccountNetwork,
             DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", message);
-        
+
     }
 }
