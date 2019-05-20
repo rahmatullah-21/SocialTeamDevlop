@@ -6,7 +6,7 @@
                xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl" 
                xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              Name="CustomDestination"
-             mc:Ignorable="d" Width="800" Height="600">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
     </UserControl.Resources>
@@ -65,52 +65,10 @@
                     </Style>
                 </GroupBox.Style>
 
-                <!--<ItemsControl ItemsSource="{Binding LstCustomDestination}" >
-                        <ItemsControl.Template>
-                            <ControlTemplate>
-                                <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
-                                    <ItemsPresenter />
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </ItemsControl.Template>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding DestinationType}"  Margin="4" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding DestinationValue}"  Grid.Column="1"  Margin="4" TextWrapping="Wrap"/>
-                                    <StackPanel Orientation="Horizontal" Margin="4" Grid.Column="2" VerticalAlignment="Center">
-                                        <Button Name="BtnDelete" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
-                                        VerticalAlignment="Top" Margin="10,0"   
-                                            Command="{Binding ElementName=CustomDestinationList,Path=DataContext.DeleteCommand}"
-                                            CommandParameter="{Binding ElementName=BtnDelete}">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <Rectangle Width="12" Height="15" Fill="White">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>-->
-
-
                 <DataGrid ItemsSource="{Binding LstCustomDestination}" GridLinesVisibility="All" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
-                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-                              CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" Name="CustomDestinationList">
+                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                          CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" Name="CustomDestinationList">
                     <DataGrid.Columns>
-                        <!--<DataGridTextColumn  Width="20" Binding="{Binding (ItemsControl.AlternationIndex),
-                                                  RelativeSource={RelativeSource AncestorType=DataGridRow},
-                                                  Converter={StaticResource IndexToRowNoConverter}}" ></DataGridTextColumn>-->
-
                         <DataGridTemplateColumn Width="30" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -120,12 +78,10 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        
-                        
                         <DataGridTemplateColumn Header="{DynamicResource LangKeyActions}" Width="80" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Name="BtnDelete" Width="40" Height="25" 
+                                    <Button Name="BtnDelete" Width="40" Height="25" Background="Transparent"
                                                 VerticalAlignment="Top" Margin="10,0"   
                                                 Command="{Binding ElementName=CustomDestinationList,Path=DataContext.DeleteCommand}"
                                                 CommandParameter="{Binding ElementName=BtnDelete}">
@@ -156,8 +112,6 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-
-
             </GroupBox>
         </Grid>
 

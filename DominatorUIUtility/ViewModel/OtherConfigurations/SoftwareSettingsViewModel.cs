@@ -28,35 +28,40 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
         private void Export()
         {
-            SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath();
+            SoftwareSettingsModel.ExportPath = FileUtilities.GetExportPath(true);
         }
 
         private void Save()
         {
-            if (SoftwareSettingsModel.IsDefaultExportPathSelected && !string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath))
-                if (Directory.Exists(SoftwareSettingsModel.ExportPath))
-                {
-                    if (_softwareSettings.Save())
-                    {
-                        var result = Dialog.ShowCustomDialog("Success",
-                            "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", "Restart now", "Restart later");
-                        if (result == MessageDialogResult.Affirmative)
-                        {
-                            Application.Current.Shutdown();
-                            Process.Start(Application.ResourceAssembly.Location);
-                            Process.GetCurrentProcess().Kill();
-                            Environment.Exit(0);
-                        }
-                    }
-                }
+            if (SoftwareSettingsModel.IsDefaultExportPathSelected)
+            {
+                if (!string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath) && Directory.Exists(SoftwareSettingsModel.ExportPath))
+                    SaveSetting();
                 else
-                {
-                    SoftwareSettingsModel.ExportPath = string.Empty;
-                    
                     Dialog.ShowDialog("Error", "Please enter valid folder Path.");
+            }
+            else
+            {
+                SoftwareSettingsModel.ExportPath = string.Empty;
+                SaveSetting();
+            }
+
+        }
+
+        private void SaveSetting()
+        {
+            if (_softwareSettings.Save())
+            {
+                var result = Dialog.ShowCustomDialog("Success",
+                    "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", "Restart now", "Restart later");
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    Application.Current.Shutdown();
+                    Process.Start(Application.ResourceAssembly.Location);
+                    Process.GetCurrentProcess().Kill();
+                    Environment.Exit(0);
                 }
-
-
+            }
         }
     }
 }

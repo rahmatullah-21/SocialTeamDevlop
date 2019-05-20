@@ -19,6 +19,7 @@ using DominatorHouseCore.Utility;
 using FluentScheduler;
 using Microsoft.Win32;
 using Registry = Microsoft.Win32.Registry;
+using DominatorHouseCore.DatabaseHandler.Utility;
 
 namespace DominatorHouseCore.Settings
 {
@@ -286,6 +287,8 @@ namespace DominatorHouseCore.Settings
                     new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
                         .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
                         .SaveToBinFile();
+                    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+                    globalDbOperation.UpdateAccountDetails(account);
                 }
                 catch (OperationCanceledException ex)
                 {

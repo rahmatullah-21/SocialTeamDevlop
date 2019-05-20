@@ -171,7 +171,7 @@ namespace DominatorHouseCore.Utility
                         // Generate the post model
                         var publisherPostlistModel = new PublisherPostlistModel
                         {
-                            MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
+                            MediaList = new ObservableCollection<string> { file },
                             CampaignId = campaignId,
                             CreatedTime = DateTime.Now,
                             ExpiredTime = expireDate,

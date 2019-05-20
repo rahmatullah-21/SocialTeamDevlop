@@ -85,5 +85,10 @@ namespace DominatorHouseCore.DatabaseHandler.GdTables.Campaigns
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string RequiredData
         { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string TaggedUser { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string Gender { get; set; }
     }
 }

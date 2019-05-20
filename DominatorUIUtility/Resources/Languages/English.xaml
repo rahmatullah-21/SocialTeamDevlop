@@ -3535,4 +3535,17 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCreateuniqueevents">Create Unique Events</system:String>
     <system:String x:Key="LangKeyShouldNotBeAlreadyFollowingThisAccountSkipFollowings">Should Not Be Already Following This Account(Skip Followings)</system:String>
     <system:String x:Key="LangKeyScrapeUniqueUsersOnlyForThisCampaign">Scrape Unique User Only For This Campaign</system:String>
+    <system:String x:Key="LangKeyActiveAllSelectedCampaign">Active all selected Campaign</system:String>
+    <system:String x:Key="LangKeyPauseAllSelectedCampaign">Pause all selected Campaign</system:String>
+    <system:String x:Key="LangKeyLangKeyPostScrapeTaggedUser">Post Tagged User</system:String>
+    <system:String x:Key="LangKeyEditComment">Edit Comment</system:String>
+    <system:String x:Key="LangKeyShouldNotBePublishedOnDaysBefore">Should not be published on days before</system:String>
+    <system:String x:Key="LangKeySendGreetingsToUniqueUsers">Send Greetings To Unique Users</system:String>
+    <system:String x:Key="LangKeySkipUsersWhoWereAlreadySentAMessageFromTheSoftware">Skip users who were already sent a message from the software</system:String>
+    <system:String x:Key="LangKeyMakeGroupAdmin">Make Group Admin</system:String>
+    <system:String x:Key="LangKeyUniqueCommentAndMention">Unique Comment and Mention</system:String>
+    <system:String x:Key="LangKeyUniqueMention">Unique Mention</system:String>
+    <system:String x:Key="LangKeyPostUniqueCommentAndMentionFromEachAccount">Post unique comment/Mention on a specific post from each account</system:String>
+    <system:String x:Key="LangKeyCommentAndMentionOnceFromEachAccount">Use specific comment/Mention only once from a account.</system:String>
+    <system:String x:Key="LangKeySendMessageToUniqueUserFromAllAcocunt">Send message to unique user from all account</system:String>
 </ResourceDictionary>
