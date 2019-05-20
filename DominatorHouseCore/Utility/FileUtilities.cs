@@ -194,10 +194,10 @@ namespace DominatorHouseCore.Utility
             if (result == true)
             {
                 exportPath = openBrowserDialog.FileName;
-                softwareSettings.ExportPath = exportPath;
+              //  softwareSettings.ExportPath = exportPath;
             }
 
-            return softwareSettings.ExportPath;
+            return exportPath;
         }
 
         public static string GetExportPath(Window OwnerWindow)

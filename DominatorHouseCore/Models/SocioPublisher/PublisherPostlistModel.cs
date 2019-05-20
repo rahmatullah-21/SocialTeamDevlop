@@ -13,8 +13,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
     public class PublisherPostlistModel : BindableBase
     {
         #region Properties
-     
-        private string _postDescription=string.Empty;
+
+        private string _postDescription = string.Empty;
         /// <summary>
         /// To describe the post data
         /// </summary>
@@ -101,7 +101,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _campaignId=string.Empty;
+        private string _campaignId = string.Empty;
 
         /// <summary>
         /// To specify the post category
@@ -121,7 +121,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(CampaignId));
             }
         }
-      
+
 
         private PostRunningStatus _postRunningStatus = PostRunningStatus.Active;
 
@@ -196,10 +196,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-                if (_mediaList == value)
-                    return;
-                _mediaList = value;
-                OnPropertyChanged(nameof(MediaList));
+                SetProperty(ref _mediaList, value);
             }
         }
 
@@ -245,7 +242,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private string _shareUrl= string.Empty;
+        private string _shareUrl = string.Empty;
         [ProtoMember(21)]
         public string ShareUrl
         {
@@ -279,7 +276,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isFdSellPost, value);
             }
         }
-        private ObservableCollection<PublishedPostDetailsModel> _lstPublishedPostDetailsModels=new ObservableCollection<PublishedPostDetailsModel>();
+        private ObservableCollection<PublishedPostDetailsModel> _lstPublishedPostDetailsModels = new ObservableCollection<PublishedPostDetailsModel>();
         [ProtoMember(23)]
         public ObservableCollection<PublishedPostDetailsModel> LstPublishedPostDetailsModels
         {
@@ -289,7 +286,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-              
+
 
                 if (value == _lstPublishedPostDetailsModels)
                     return;
@@ -298,7 +295,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private string _fetchedPostId=string.Empty;
+        private string _fetchedPostId = string.Empty;
         [ProtoMember(25)]
         public string FetchedPostIdOrUrl
         {
@@ -307,7 +304,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _fetchedPostId;
             }
             set
-            {              
+            {
                 if (_fetchedPostId == value)
                     return;
                 SetProperty(ref _fetchedPostId, value);
@@ -315,7 +312,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private string _publishedTriedAndSuccessStatus="00/00";
+        private string _publishedTriedAndSuccessStatus = "00/00";
         [ProtoMember(26)]
         public string PublishedTriedAndSuccessStatus
         {
@@ -324,7 +321,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _publishedTriedAndSuccessStatus;
             }
             set
-            {               
+            {
                 if (_publishedTriedAndSuccessStatus == value)
                     return;
                 SetProperty(ref _publishedTriedAndSuccessStatus, value);
@@ -341,16 +338,16 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-               
+
                 if (_monitorFilePath == value)
                     return;
                 SetProperty(ref _monitorFilePath, value);
             }
         }
-      
+
 
         #region Postlist
-
+       
 
 
 
@@ -453,7 +450,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-        private bool _isPostListPresent= true;
+        private bool _isPostListPresent = true;
         public bool IsPostListPresent
         {
             get
@@ -472,7 +469,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         #endregion
 
         #region Settings
-   
+
         private GeneralPostSettings _generalPostSettings;
         [ProtoMember(27)]
         public GeneralPostSettings GeneralPostSettings
@@ -503,7 +500,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             set
             {
                 if (_fdPostSettings == value)
-                    return;              
+                    return;
                 SetProperty(ref _fdPostSettings, value);
             }
         }
@@ -521,7 +518,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_gdPostSettings == value)
                     return;
-               
+
                 SetProperty(ref _gdPostSettings, value);
             }
         }
@@ -539,7 +536,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_tdPostSettings == value)
                     return;
-               
+
                 SetProperty(ref _tdPostSettings, value);
             }
         }
@@ -556,7 +553,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_ldPostSettings == value)
                     return;
-               
+
                 SetProperty(ref _ldPostSettings, value);
             }
         }
@@ -590,7 +587,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_tumberPostSettings == value)
                     return;
-               
+
                 SetProperty(ref _tumberPostSettings, value);
             }
         }
@@ -682,7 +679,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 return _publisherPostSettings;
             }
             set
-            {             
+            {
                 if (value == _publisherPostSettings)
                     return;
                 SetProperty(ref _publisherPostSettings, value);

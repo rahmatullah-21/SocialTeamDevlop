@@ -3543,4 +3543,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySendGreetingsToUniqueUsers">Send Greetings To Unique Users</system:String>
     <system:String x:Key="LangKeySkipUsersWhoWereAlreadySentAMessageFromTheSoftware">Skip users who were already sent a message from the software</system:String>
     <system:String x:Key="LangKeyMakeGroupAdmin">Make Group Admin</system:String>
+    <system:String x:Key="LangKeyUniqueCommentAndMention">Unique Comment and Mention</system:String>
+    <system:String x:Key="LangKeyUniqueMention">Unique Mention</system:String>
+    <system:String x:Key="LangKeyPostUniqueCommentAndMentionFromEachAccount">Post unique comment/Mention on a specific post from each account</system:String>
+    <system:String x:Key="LangKeyCommentAndMentionOnceFromEachAccount">Use specific comment/Mention only once from a account.</system:String>
+    <system:String x:Key="LangKeySendMessageToUniqueUserFromAllAcocunt">Send message to unique user from all account</system:String>
 </ResourceDictionary>

@@ -24,8 +24,11 @@ namespace DominatorHouseCore.Utility
                 var newFilePath = $"{thumbPath}{file.Name + ConstantVariable.VideoToImageConvertFileName}";
                 try
                 {
-                    var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                    ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
+                    if (!File.Exists(newFilePath))
+                    {
+                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                        ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
+                    }
                 }
                 catch (Exception ex)
                 {
