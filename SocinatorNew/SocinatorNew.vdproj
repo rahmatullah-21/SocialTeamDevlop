@@ -580,6 +580,12 @@
         "Entry"
         {
         "MsmKey" = "8:_20EA0446F9DB5EB0254E6E31F5498460"
+        "OwnerKey" = "8:_640E2DF5E6F1E801F037BFAF4FBDDBB3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_20EA0446F9DB5EB0254E6E31F5498460"
         "OwnerKey" = "8:_110E89FA36AA046AAD8CB3114650516D"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -916,13 +922,13 @@
         "Entry"
         {
         "MsmKey" = "8:_3EBA41CF20C5EDBC812D7D27272853FC"
-        "OwnerKey" = "8:_A2C19E0F98E2BFC04674E9AC370EC8D1"
+        "OwnerKey" = "8:_9CE382BA58BB71FF370BEAEA10C016CF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_3EBA41CF20C5EDBC812D7D27272853FC"
-        "OwnerKey" = "8:_9CE382BA58BB71FF370BEAEA10C016CF"
+        "OwnerKey" = "8:_A2C19E0F98E2BFC04674E9AC370EC8D1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1013,6 +1019,12 @@
         {
         "MsmKey" = "8:_4D43B89654ACD49A59013294E440FCD9"
         "OwnerKey" = "8:_12929EA8747C4D3CACCAFE0BA8A39FB9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4D43B89654ACD49A59013294E440FCD9"
+        "OwnerKey" = "8:_640E2DF5E6F1E801F037BFAF4FBDDBB3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1780,6 +1792,12 @@
         "Entry"
         {
         "MsmKey" = "8:_908774EA445BA3E5C9601A56D4495EEA"
+        "OwnerKey" = "8:_640E2DF5E6F1E801F037BFAF4FBDDBB3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_908774EA445BA3E5C9601A56D4495EEA"
         "OwnerKey" = "8:_110E89FA36AA046AAD8CB3114650516D"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2507,6 +2525,12 @@
         {
         "MsmKey" = "8:_F3FD1CD15E91552CCED2FAE522BE3109"
         "OwnerKey" = "8:_2758CD8983D9AE43FF6CBF2DCE7D0CE7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F3FD1CD15E91552CCED2FAE522BE3109"
+        "OwnerKey" = "8:_08DDD0716CC5106B517ACE1D3CE10EF0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3751,6 +3775,11 @@
             "AssemblyAsmDisplayName" = "8:CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_0150A383A4640DDD1FCB7C6B5F3AEA74"
+                    {
+                    "Name" = "8:CommonServiceLocator.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:CommonServiceLocator.dll"
             "TargetName" = "8:"
@@ -3777,6 +3806,11 @@
             "AssemblyAsmDisplayName" = "8:Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_06A6D9826B56EA404F81C8F28E22A019"
+                    {
+                    "Name" = "8:Prism.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Prism.dll"
             "TargetName" = "8:"
@@ -3803,6 +3837,11 @@
             "AssemblyAsmDisplayName" = "8:AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_088A929C2E07629E99DE5B34D7FD46E8"
+                    {
+                    "Name" = "8:AutoMapper.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:AutoMapper.dll"
             "TargetName" = "8:"
@@ -3849,6 +3888,11 @@
             "AssemblyAsmDisplayName" = "8:FaceDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_08DDD0716CC5106B517ACE1D3CE10EF0"
+                    {
+                    "Name" = "8:FaceDominatorCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:FaceDominatorCore.dll"
             "TargetName" = "8:"
@@ -3895,6 +3939,11 @@
             "AssemblyAsmDisplayName" = "8:Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_0BA729694C42E177A455FFDD039A4219"
+                    {
+                    "Name" = "8:Castle.Core.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Castle.Core.dll"
             "TargetName" = "8:"
@@ -3921,6 +3970,11 @@
             "AssemblyAsmDisplayName" = "8:Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_0CC50EB4D313DA790CF4881A60A71F6F"
+                    {
+                    "Name" = "8:Prism.Unity.Wpf.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Prism.Unity.Wpf.dll"
             "TargetName" = "8:"
@@ -3947,6 +4001,11 @@
             "AssemblyAsmDisplayName" = "8:LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_0F2F8F43901BBB4230C17E65D0578D74"
+                    {
+                    "Name" = "8:LiveCharts.Wpf.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:LiveCharts.Wpf.dll"
             "TargetName" = "8:"
@@ -3993,6 +4052,11 @@
             "AssemblyAsmDisplayName" = "8:LinkedDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_110E89FA36AA046AAD8CB3114650516D"
+                    {
+                    "Name" = "8:LinkedDominatorCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:LinkedDominatorCore.dll"
             "TargetName" = "8:"
@@ -4019,6 +4083,11 @@
             "AssemblyAsmDisplayName" = "8:RedditDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_117F220B50770BDA10FA067B22D0ECDE"
+                    {
+                    "Name" = "8:RedditDominatorUI.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:RedditDominatorUI.exe"
             "TargetName" = "8:"
@@ -4076,6 +4145,11 @@
             "AssemblyAsmDisplayName" = "8:System.Net.WebHeaderCollection, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_14529949670ABEB8C2EF6F081B1A89BB"
+                    {
+                    "Name" = "8:System.Net.WebHeaderCollection.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Net.WebHeaderCollection.dll"
             "TargetName" = "8:"
@@ -4102,6 +4176,11 @@
             "AssemblyAsmDisplayName" = "8:System.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_14FDB726F7657F9003F509122BEB2FE5"
+                    {
+                    "Name" = "8:System.Linq.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Linq.dll"
             "TargetName" = "8:"
@@ -4128,6 +4207,11 @@
             "AssemblyAsmDisplayName" = "8:NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_155A45680E752BB6E62D1385ABAC3979"
+                    {
+                    "Name" = "8:NLog.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:NLog.dll"
             "TargetName" = "8:"
@@ -4154,6 +4238,11 @@
             "AssemblyAsmDisplayName" = "8:System.Threading.Timer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_1724039CC8CCEA95EEA93305CE5545EF"
+                    {
+                    "Name" = "8:System.Threading.Timer.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Threading.Timer.dll"
             "TargetName" = "8:"
@@ -4211,6 +4300,11 @@
             "AssemblyAsmDisplayName" = "8:TumblrDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_1CA8C0B5DA02227E9C41F162114BE1F2"
+                    {
+                    "Name" = "8:TumblrDominatorCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:TumblrDominatorCore.dll"
             "TargetName" = "8:"
@@ -4288,6 +4382,11 @@
             "AssemblyAsmDisplayName" = "8:EmbeddedBrowser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_20EA0446F9DB5EB0254E6E31F5498460"
+                    {
+                    "Name" = "8:EmbeddedBrowser.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:EmbeddedBrowser.exe"
             "TargetName" = "8:"
@@ -4314,6 +4413,11 @@
             "AssemblyAsmDisplayName" = "8:System.Net.NetworkInformation, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_2341B15018E3FA93DD890DA21AC9FAE3"
+                    {
+                    "Name" = "8:System.Net.NetworkInformation.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Net.NetworkInformation.dll"
             "TargetName" = "8:"
@@ -4340,6 +4444,11 @@
             "AssemblyAsmDisplayName" = "8:QuoraDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_23B08804A39685B9DF5B2AB951922B8E"
+                    {
+                    "Name" = "8:QuoraDominatorCore.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:QuoraDominatorCore.exe"
             "TargetName" = "8:"
@@ -4366,6 +4475,11 @@
             "AssemblyAsmDisplayName" = "8:System.Threading.Tasks.Parallel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_2421410B0580A74CECE244DCB3E7A745"
+                    {
+                    "Name" = "8:System.Threading.Tasks.Parallel.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Threading.Tasks.Parallel.dll"
             "TargetName" = "8:"
@@ -4392,6 +4506,11 @@
             "AssemblyAsmDisplayName" = "8:Unity.Interception.Configuration, Version=5.1.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_2758CD8983D9AE43FF6CBF2DCE7D0CE7"
+                    {
+                    "Name" = "8:Unity.Interception.Configuration.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Unity.Interception.Configuration.dll"
             "TargetName" = "8:"
@@ -4418,6 +4537,11 @@
             "AssemblyAsmDisplayName" = "8:System.Threading, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_280816FA4783CD9A817F4A3D6F33F16F"
+                    {
+                    "Name" = "8:System.Threading.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Threading.dll"
             "TargetName" = "8:"
@@ -4444,6 +4568,11 @@
             "AssemblyAsmDisplayName" = "8:CefSharp.Core, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
+                    "_28CA2C1857A5D06AD66D6E37B2DE5653"
+                    {
+                    "Name" = "8:CefSharp.Core.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:CefSharp.Core.dll"
             "TargetName" = "8:"
@@ -4541,6 +4670,11 @@
             "AssemblyAsmDisplayName" = "8:EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_2CA79AB21986D6A5B10DF6BD5732696D"
+                    {
+                    "Name" = "8:EntityFramework.SqlServer.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:EntityFramework.SqlServer.dll"
             "TargetName" = "8:"
@@ -4567,6 +4701,11 @@
             "AssemblyAsmDisplayName" = "8:System.ServiceModel.NetTcp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_2CDB7EF783BE659BF4893058EFA9CB9D"
+                    {
+                    "Name" = "8:System.ServiceModel.NetTcp.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ServiceModel.NetTcp.dll"
             "TargetName" = "8:"
@@ -4593,6 +4732,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.InteropServices.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_2CE7CAEB548ABDE01432F5A18C00571D"
+                    {
+                    "Name" = "8:System.Runtime.InteropServices.WindowsRuntime.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.InteropServices.WindowsRuntime.dll"
             "TargetName" = "8:"
@@ -4619,6 +4763,11 @@
             "AssemblyAsmDisplayName" = "8:System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_2E2E074AFA20C424FD9DB0D09FF928C3"
+                    {
+                    "Name" = "8:System.Threading.Tasks.Dataflow.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Threading.Tasks.Dataflow.dll"
             "TargetName" = "8:"
@@ -4645,6 +4794,11 @@
             "AssemblyAsmDisplayName" = "8:System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_301901274180A0F550A044D34808501D"
+                    {
+                    "Name" = "8:System.Threading.Tasks.Extensions.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Threading.Tasks.Extensions.dll"
             "TargetName" = "8:"
@@ -4671,6 +4825,11 @@
             "AssemblyAsmDisplayName" = "8:System.Linq.Parallel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_31546D90EC47720D4C8D1C428B0FEAC7"
+                    {
+                    "Name" = "8:System.Linq.Parallel.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Linq.Parallel.dll"
             "TargetName" = "8:"
@@ -4697,6 +4856,11 @@
             "AssemblyAsmDisplayName" = "8:System.ComponentModel.Annotations, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_31F8465F6DEA83A76995824BC1AE0432"
+                    {
+                    "Name" = "8:System.ComponentModel.Annotations.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ComponentModel.Annotations.dll"
             "TargetName" = "8:"
@@ -4754,6 +4918,11 @@
             "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_34AC1462BFCA9413AC71893493D77796"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
@@ -4780,6 +4949,11 @@
             "AssemblyAsmDisplayName" = "8:System.Text.Encoding.Extensions, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_35E0A008880FBE338E2780891129260D"
+                    {
+                    "Name" = "8:System.Text.Encoding.Extensions.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Text.Encoding.Extensions.dll"
             "TargetName" = "8:"
@@ -4806,6 +4980,11 @@
             "AssemblyAsmDisplayName" = "8:System.IO, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_385544BC8A1E8824D740FDD8C116C3B1"
+                    {
+                    "Name" = "8:System.IO.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.IO.dll"
             "TargetName" = "8:"
@@ -4832,6 +5011,11 @@
             "AssemblyAsmDisplayName" = "8:System.Dynamic.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_3B6D69880FAE1F7C4ABE125EACE8D948"
+                    {
+                    "Name" = "8:System.Dynamic.Runtime.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Dynamic.Runtime.dll"
             "TargetName" = "8:"
@@ -4878,6 +5062,11 @@
             "AssemblyAsmDisplayName" = "8:System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_3EBA41CF20C5EDBC812D7D27272853FC"
+                    {
+                    "Name" = "8:System.ValueTuple.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ValueTuple.dll"
             "TargetName" = "8:"
@@ -4944,6 +5133,11 @@
             "AssemblyAsmDisplayName" = "8:RedditDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_4A3BBFC96E8F300F2067EDA68ED1F8D8"
+                    {
+                    "Name" = "8:RedditDominatorCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:RedditDominatorCore.dll"
             "TargetName" = "8:"
@@ -4970,6 +5164,11 @@
             "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 "ScatterAssemblies"
                 {
+                    "_4B9FB7955DF7EA338A5B01615C5873E1"
+                    {
+                    "Name" = "8:System.IO.Compression.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.IO.Compression.dll"
             "TargetName" = "8:"
@@ -4996,6 +5195,11 @@
             "AssemblyAsmDisplayName" = "8:CefSharp, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
+                    "_4D43B89654ACD49A59013294E440FCD9"
+                    {
+                    "Name" = "8:CefSharp.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:CefSharp.dll"
             "TargetName" = "8:"
@@ -5042,6 +5246,11 @@
             "AssemblyAsmDisplayName" = "8:System.Xml.XDocument, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_4FFCE53241CEFAC2D62C3851A0452263"
+                    {
+                    "Name" = "8:System.Xml.XDocument.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Xml.XDocument.dll"
             "TargetName" = "8:"
@@ -5068,6 +5277,11 @@
             "AssemblyAsmDisplayName" = "8:System.ServiceModel.Duplex, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_524EFAACF278D25D96ACD34998C947CA"
+                    {
+                    "Name" = "8:System.ServiceModel.Duplex.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ServiceModel.Duplex.dll"
             "TargetName" = "8:"
@@ -5094,6 +5308,11 @@
             "AssemblyAsmDisplayName" = "8:Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_52D4861642737742135987401FDCF444"
+                    {
+                    "Name" = "8:Prism.Wpf.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Prism.Wpf.dll"
             "TargetName" = "8:"
@@ -5120,6 +5339,11 @@
             "AssemblyAsmDisplayName" = "8:System.ServiceModel.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_537B21216211A928B036B84A3F350BFD"
+                    {
+                    "Name" = "8:System.ServiceModel.Primitives.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ServiceModel.Primitives.dll"
             "TargetName" = "8:"
@@ -5146,6 +5370,11 @@
             "AssemblyAsmDisplayName" = "8:Unity.RegistrationByConvention, Version=2.1.9.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_54EADCC7FA8BFA57E1051BACDDF37051"
+                    {
+                    "Name" = "8:Unity.RegistrationByConvention.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Unity.RegistrationByConvention.dll"
             "TargetName" = "8:"
@@ -5172,6 +5401,11 @@
             "AssemblyAsmDisplayName" = "8:Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_570CC09E814F1A5E97E6DBA797DC24E8"
+                    {
+                    "Name" = "8:Unity.ServiceLocation.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Unity.ServiceLocation.dll"
             "TargetName" = "8:"
@@ -5198,6 +5432,11 @@
             "AssemblyAsmDisplayName" = "8:ObjectsComparer, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_57ADBCDE47EA4845D6FDCAF59EE82982"
+                    {
+                    "Name" = "8:ObjectsComparer.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:ObjectsComparer.dll"
             "TargetName" = "8:"
@@ -5255,6 +5494,11 @@
             "AssemblyAsmDisplayName" = "8:System.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_5F8B05E39AA18E919FA5B00C37BD69E1"
+                    {
+                    "Name" = "8:System.ComponentModel.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ComponentModel.dll"
             "TargetName" = "8:"
@@ -5281,6 +5525,11 @@
             "AssemblyAsmDisplayName" = "8:Unity.Configuration, Version=5.2.5.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_612C58A01345E14BF3296433F779087E"
+                    {
+                    "Name" = "8:Unity.Configuration.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Unity.Configuration.dll"
             "TargetName" = "8:"
@@ -5307,6 +5556,11 @@
             "AssemblyAsmDisplayName" = "8:DominatorUIUtility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_62C3BA7D30CAF24B1374C066582393A4"
+                    {
+                    "Name" = "8:DominatorUIUtility.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:DominatorUIUtility.exe"
             "TargetName" = "8:"
@@ -5333,6 +5587,11 @@
             "AssemblyAsmDisplayName" = "8:TwtDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_640E2DF5E6F1E801F037BFAF4FBDDBB3"
+                    {
+                    "Name" = "8:TwtDominatorCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:TwtDominatorCore.dll"
             "TargetName" = "8:"
@@ -5359,6 +5618,11 @@
             "AssemblyAsmDisplayName" = "8:TumblrDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_64E17FB2AE1E91139BAB46FC5D200F6E"
+                    {
+                    "Name" = "8:TumblrDominatorUI.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:TumblrDominatorUI.exe"
             "TargetName" = "8:"
@@ -5436,6 +5700,11 @@
             "AssemblyAsmDisplayName" = "8:System.ServiceModel.Http, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_6A7AE28FAB60E7C5E3DD6DC9B7949C06"
+                    {
+                    "Name" = "8:System.ServiceModel.Http.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ServiceModel.Http.dll"
             "TargetName" = "8:"
@@ -5462,6 +5731,11 @@
             "AssemblyAsmDisplayName" = "8:System.Diagnostics.Tracing, Version=4.0.20.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_6A845064D470B3C6286BFE6902F081AF"
+                    {
+                    "Name" = "8:System.Diagnostics.Tracing.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Diagnostics.Tracing.dll"
             "TargetName" = "8:"
@@ -5519,6 +5793,11 @@
             "AssemblyAsmDisplayName" = "8:System.Reflection.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_6B7573FEAED4B80FC0DD781D571FC6B2"
+                    {
+                    "Name" = "8:System.Reflection.Extensions.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Reflection.Extensions.dll"
             "TargetName" = "8:"
@@ -5545,6 +5824,11 @@
             "AssemblyAsmDisplayName" = "8:System.Linq.Expressions, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_6B936056CF0368FD48994A16D15A0F51"
+                    {
+                    "Name" = "8:System.Linq.Expressions.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Linq.Expressions.dll"
             "TargetName" = "8:"
@@ -5571,6 +5855,11 @@
             "AssemblyAsmDisplayName" = "8:NReco.VideoConverter, Version=1.1.2.0, Culture=neutral, PublicKeyToken=395ccb334978a0cd, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_6C52E77D35754792A341D9706BEF1BF3"
+                    {
+                    "Name" = "8:NReco.VideoConverter.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:NReco.VideoConverter.dll"
             "TargetName" = "8:"
@@ -5597,6 +5886,11 @@
             "AssemblyAsmDisplayName" = "8:GramDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_6E50F786F5196F6C176373C3909F7271"
+                    {
+                    "Name" = "8:GramDominatorUI.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:GramDominatorUI.exe"
             "TargetName" = "8:"
@@ -5623,6 +5917,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.Numerics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_6EC19535DC7AB08D6CF16E041EB79368"
+                    {
+                    "Name" = "8:System.Runtime.Numerics.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.Numerics.dll"
             "TargetName" = "8:"
@@ -5649,6 +5948,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.Serialization.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_6EEF51A15A74134926DCCF9F4F2559C3"
+                    {
+                    "Name" = "8:System.Runtime.Serialization.Json.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.Serialization.Json.dll"
             "TargetName" = "8:"
@@ -5675,6 +5979,11 @@
             "AssemblyAsmDisplayName" = "8:ToastNotifications.Messages, Version=2.3.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_6EF989C72496BB90B24D35469229917A"
+                    {
+                    "Name" = "8:ToastNotifications.Messages.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:ToastNotifications.Messages.dll"
             "TargetName" = "8:"
@@ -5732,6 +6041,11 @@
             "AssemblyAsmDisplayName" = "8:System.Reflection.Emit.Lightweight, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_71FEE2726CA07C09393FBA5942E0DA0B"
+                    {
+                    "Name" = "8:System.Reflection.Emit.Lightweight.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Reflection.Emit.Lightweight.dll"
             "TargetName" = "8:"
@@ -5789,6 +6103,11 @@
             "AssemblyAsmDisplayName" = "8:System.Linq.Queryable, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_73667EBCCA207361D9F340AADF97D2B1"
+                    {
+                    "Name" = "8:System.Linq.Queryable.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Linq.Queryable.dll"
             "TargetName" = "8:"
@@ -5815,6 +6134,11 @@
             "AssemblyAsmDisplayName" = "8:NSubstitute, Version=3.1.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_75BA43577C01E0545B9C8C4875716C7D"
+                    {
+                    "Name" = "8:NSubstitute.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:NSubstitute.dll"
             "TargetName" = "8:"
@@ -5841,6 +6165,11 @@
             "AssemblyAsmDisplayName" = "8:System.Diagnostics.Contracts, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_77552B4B27F330FB06D40EB658B8BA4D"
+                    {
+                    "Name" = "8:System.Diagnostics.Contracts.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Diagnostics.Contracts.dll"
             "TargetName" = "8:"
@@ -5887,6 +6216,11 @@
             "AssemblyAsmDisplayName" = "8:MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_7C71C4E7172267CC3932D56D537C26EC"
+                    {
+                    "Name" = "8:MahApps.Metro.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:MahApps.Metro.dll"
             "TargetName" = "8:"
@@ -5933,6 +6267,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime, Version=4.0.20.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_7E8200F9671502EDDBFB2B4934A9E078"
+                    {
+                    "Name" = "8:System.Runtime.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.dll"
             "TargetName" = "8:"
@@ -5959,6 +6298,11 @@
             "AssemblyAsmDisplayName" = "8:EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_7ED6B3A20795A6C9178434FFB8392012"
+                    {
+                    "Name" = "8:EntityFramework.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:EntityFramework.dll"
             "TargetName" = "8:"
@@ -5985,6 +6329,11 @@
             "AssemblyAsmDisplayName" = "8:FluentScheduler, Version=5.3.0.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_81001DA5B55A0616D5AFB730CB36CCE7"
+                    {
+                    "Name" = "8:FluentScheduler.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:FluentScheduler.dll"
             "TargetName" = "8:"
@@ -6011,6 +6360,11 @@
             "AssemblyAsmDisplayName" = "8:System.Xml.ReaderWriter, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_85D24BD909A3AF038D678E0119FAD44F"
+                    {
+                    "Name" = "8:System.Xml.ReaderWriter.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Xml.ReaderWriter.dll"
             "TargetName" = "8:"
@@ -6037,6 +6391,11 @@
             "AssemblyAsmDisplayName" = "8:System.Reflection.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_87C26C75B89E9A51DBE60796F5B65F83"
+                    {
+                    "Name" = "8:System.Reflection.Primitives.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Reflection.Primitives.dll"
             "TargetName" = "8:"
@@ -6094,6 +6453,11 @@
             "AssemblyAsmDisplayName" = "8:ToastNotifications, Version=2.3.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_8B61C2E306182A4C4C4C3EE219E1EBA1"
+                    {
+                    "Name" = "8:ToastNotifications.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:ToastNotifications.dll"
             "TargetName" = "8:"
@@ -6120,6 +6484,11 @@
             "AssemblyAsmDisplayName" = "8:LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_8C462074A8EA8DF75952CCBD55291F38"
+                    {
+                    "Name" = "8:LiveCharts.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:LiveCharts.dll"
             "TargetName" = "8:"
@@ -6146,6 +6515,11 @@
             "AssemblyAsmDisplayName" = "8:NReco.VideoInfo, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8f59ee36d2987295, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_8EC2B5F9282651E31A26E54C2100868B"
+                    {
+                    "Name" = "8:NReco.VideoInfo.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:NReco.VideoInfo.dll"
             "TargetName" = "8:"
@@ -6172,6 +6546,11 @@
             "AssemblyAsmDisplayName" = "8:HtmlAgilityPack, Version=1.8.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_8EEC0CAFFD45D703292939A120C1712E"
+                    {
+                    "Name" = "8:HtmlAgilityPack.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:HtmlAgilityPack.dll"
             "TargetName" = "8:"
@@ -6198,6 +6577,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.Serialization.Xml, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_8F2D308C47B7A4DF4287D35C18E0A87E"
+                    {
+                    "Name" = "8:System.Runtime.Serialization.Xml.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.Serialization.Xml.dll"
             "TargetName" = "8:"
@@ -6224,6 +6608,11 @@
             "AssemblyAsmDisplayName" = "8:CefSharp.Wpf, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
+                    "_908774EA445BA3E5C9601A56D4495EEA"
+                    {
+                    "Name" = "8:CefSharp.Wpf.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:CefSharp.Wpf.dll"
             "TargetName" = "8:"
@@ -6250,6 +6639,11 @@
             "AssemblyAsmDisplayName" = "8:protobuf-net, Version=2.3.7.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_92C76CF3849F7E3570E778335A9B6E3C"
+                    {
+                    "Name" = "8:protobuf-net.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:protobuf-net.dll"
             "TargetName" = "8:"
@@ -6276,6 +6670,11 @@
             "AssemblyAsmDisplayName" = "8:System.Reflection, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_93D1030EAFDD28521D5DAE3A3F4A0C6F"
+                    {
+                    "Name" = "8:System.Reflection.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Reflection.dll"
             "TargetName" = "8:"
@@ -6302,6 +6701,11 @@
             "AssemblyAsmDisplayName" = "8:System.Xml.XmlSerializer, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_95ED3598DEA7805C43372EDC4C27F6D6"
+                    {
+                    "Name" = "8:System.Xml.XmlSerializer.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Xml.XmlSerializer.dll"
             "TargetName" = "8:"
@@ -6359,6 +6763,11 @@
             "AssemblyAsmDisplayName" = "8:System.Diagnostics.Debug, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_9C7D5D2D3695D57AC679272FB8FB0677"
+                    {
+                    "Name" = "8:System.Diagnostics.Debug.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Diagnostics.Debug.dll"
             "TargetName" = "8:"
@@ -6385,6 +6794,11 @@
             "AssemblyAsmDisplayName" = "8:FluentAssertions, Version=5.4.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_9CE382BA58BB71FF370BEAEA10C016CF"
+                    {
+                    "Name" = "8:FluentAssertions.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:FluentAssertions.dll"
             "TargetName" = "8:"
@@ -6411,6 +6825,11 @@
             "AssemblyAsmDisplayName" = "8:System.ComponentModel.EventBasedAsync, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_9D41545CDB948994C6887D9B4B616403"
+                    {
+                    "Name" = "8:System.ComponentModel.EventBasedAsync.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ComponentModel.EventBasedAsync.dll"
             "TargetName" = "8:"
@@ -6437,6 +6856,11 @@
             "AssemblyAsmDisplayName" = "8:System.Security.Principal, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_9E3A366B6BC2450C2B6476A04D4093D3"
+                    {
+                    "Name" = "8:System.Security.Principal.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Security.Principal.dll"
             "TargetName" = "8:"
@@ -6463,6 +6887,11 @@
             "AssemblyAsmDisplayName" = "8:FaceDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_9E790798167A5D329C814A1E7113EC5E"
+                    {
+                    "Name" = "8:FaceDominatorUI.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:FaceDominatorUI.exe"
             "TargetName" = "8:"
@@ -6489,6 +6918,11 @@
             "AssemblyAsmDisplayName" = "8:System.IO.Compression.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 "ScatterAssemblies"
                 {
+                    "_A14AC21D695AE298C1F5FB445F3B9464"
+                    {
+                    "Name" = "8:System.IO.Compression.FileSystem.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.IO.Compression.FileSystem.dll"
             "TargetName" = "8:"
@@ -6515,6 +6949,11 @@
             "AssemblyAsmDisplayName" = "8:GramDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_A2C19E0F98E2BFC04674E9AC370EC8D1"
+                    {
+                    "Name" = "8:GramDominatorCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:GramDominatorCore.dll"
             "TargetName" = "8:"
@@ -6541,6 +6980,11 @@
             "AssemblyAsmDisplayName" = "8:TwtDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_A449E8DA9A0EC3398BB5DEF49D6C8C44"
+                    {
+                    "Name" = "8:TwtDominatorUI.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:TwtDominatorUI.exe"
             "TargetName" = "8:"
@@ -6567,6 +7011,11 @@
             "AssemblyAsmDisplayName" = "8:OpenPop, Version=2.0.6.2, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_A4E8DCABD71A0425B3B3D615084202B5"
+                    {
+                    "Name" = "8:OpenPop.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:OpenPop.dll"
             "TargetName" = "8:"
@@ -6593,6 +7042,11 @@
             "AssemblyAsmDisplayName" = "8:System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_A64F230E939F392C39AAFAAA3979CDBD"
+                    {
+                    "Name" = "8:System.Collections.Immutable.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Collections.Immutable.dll"
             "TargetName" = "8:"
@@ -6619,6 +7073,11 @@
             "AssemblyAsmDisplayName" = "8:System.Diagnostics.Tools, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_A7F9696571769230F5E28C54BF565F44"
+                    {
+                    "Name" = "8:System.Diagnostics.Tools.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Diagnostics.Tools.dll"
             "TargetName" = "8:"
@@ -6645,6 +7104,11 @@
             "AssemblyAsmDisplayName" = "8:CefSharp.BrowserSubprocess.Core, Version=63.0.3.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
+                    "_A84C3F48E9E77C5A8B4A5320207A5E21"
+                    {
+                    "Name" = "8:CefSharp.BrowserSubprocess.Core.DLL"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:CefSharp.BrowserSubprocess.Core.DLL"
             "TargetName" = "8:"
@@ -6671,6 +7135,11 @@
             "AssemblyAsmDisplayName" = "8:ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_A94544E62F03640613431ED6A5660BFA"
+                    {
+                    "Name" = "8:ControlzEx.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:ControlzEx.dll"
             "TargetName" = "8:"
@@ -6757,6 +7226,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.Handles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_AC6105293C3CCDA5CC787A1497DB1E6C"
+                    {
+                    "Name" = "8:System.Runtime.Handles.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.Handles.dll"
             "TargetName" = "8:"
@@ -6783,6 +7257,11 @@
             "AssemblyAsmDisplayName" = "8:System.Resources.ResourceManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_AC7B1AF8EA8F685877137A153CB8E234"
+                    {
+                    "Name" = "8:System.Resources.ResourceManager.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Resources.ResourceManager.dll"
             "TargetName" = "8:"
@@ -6860,6 +7339,11 @@
             "AssemblyAsmDisplayName" = "8:DominatorHouseCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_B1CCB64FEC77513FFC3362EFA38DF9D7"
+                    {
+                    "Name" = "8:DominatorHouseCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:DominatorHouseCore.dll"
             "TargetName" = "8:"
@@ -6937,6 +7421,11 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Requests, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_B5BA1F3153CF79CF155160852C6B0723"
+                    {
+                    "Name" = "8:System.Net.Requests.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Net.Requests.dll"
             "TargetName" = "8:"
@@ -6963,6 +7452,11 @@
             "AssemblyAsmDisplayName" = "8:Dragablz, Version=0.0.3.203, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_B6C78A8BDBDD3C916729239793E4E38F"
+                    {
+                    "Name" = "8:Dragablz.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Dragablz.dll"
             "TargetName" = "8:"
@@ -6989,6 +7483,11 @@
             "AssemblyAsmDisplayName" = "8:PinDominator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_BD2D32488DBA2854B7CA191EE7D5A921"
+                    {
+                    "Name" = "8:PinDominator.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:PinDominator.exe"
             "TargetName" = "8:"
@@ -7015,6 +7514,11 @@
             "AssemblyAsmDisplayName" = "8:System.Collections.Concurrent, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_BDD7208EBA48B6E7138F2D68318BEEBA"
+                    {
+                    "Name" = "8:System.Collections.Concurrent.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Collections.Concurrent.dll"
             "TargetName" = "8:"
@@ -7041,6 +7545,11 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_BDDBE1B4304C941A205D24402E7BB986"
+                    {
+                    "Name" = "8:Microsoft.VisualStudio.TestPlatform.TestFramework.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Microsoft.VisualStudio.TestPlatform.TestFramework.dll"
             "TargetName" = "8:"
@@ -7067,6 +7576,11 @@
             "AssemblyAsmDisplayName" = "8:ExcelDataReader, Version=3.4.2.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_BFDEED967E011BD6209CB42AC2458DAA"
+                    {
+                    "Name" = "8:ExcelDataReader.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:ExcelDataReader.dll"
             "TargetName" = "8:"
@@ -7093,6 +7607,11 @@
             "AssemblyAsmDisplayName" = "8:Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_C0A6497CCE218BABC388B0A0C7364845"
+                    {
+                    "Name" = "8:Unity.Container.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Unity.Container.dll"
             "TargetName" = "8:"
@@ -7119,6 +7638,11 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Primitives, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_C0CFA1B4199DC8D88AF861C5FAF72BC2"
+                    {
+                    "Name" = "8:System.Net.Primitives.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Net.Primitives.dll"
             "TargetName" = "8:"
@@ -7196,6 +7720,11 @@
             "AssemblyAsmDisplayName" = "8:System.ServiceModel.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_CB876B0AEE78B13F22295B29B90F6F08"
+                    {
+                    "Name" = "8:System.ServiceModel.Security.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ServiceModel.Security.dll"
             "TargetName" = "8:"
@@ -7222,6 +7751,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.InteropServices, Version=4.0.20.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_CF77F9774FDFEEB0786CE325D2EFF115"
+                    {
+                    "Name" = "8:System.Runtime.InteropServices.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.InteropServices.dll"
             "TargetName" = "8:"
@@ -7248,6 +7782,11 @@
             "AssemblyAsmDisplayName" = "8:YoutubeDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_CF855B3F715E56E04AEB66E4F94D5E66"
+                    {
+                    "Name" = "8:YoutubeDominatorUI.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:YoutubeDominatorUI.exe"
             "TargetName" = "8:"
@@ -7274,6 +7813,11 @@
             "AssemblyAsmDisplayName" = "8:System.Reflection.Emit, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_D1AB3D3CD907999255A7156EDDC748FE"
+                    {
+                    "Name" = "8:System.Reflection.Emit.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Reflection.Emit.dll"
             "TargetName" = "8:"
@@ -7300,6 +7844,11 @@
             "AssemblyAsmDisplayName" = "8:WPFFolderBrowser, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_D255C282933486D1AE93862D4C63E8F1"
+                    {
+                    "Name" = "8:WPFFolderBrowser.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:WPFFolderBrowser.dll"
             "TargetName" = "8:"
@@ -7326,6 +7875,11 @@
             "AssemblyAsmDisplayName" = "8:System.ObjectModel, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_D89AD0FEA37B9C2B3D7B7E99F76FD201"
+                    {
+                    "Name" = "8:System.ObjectModel.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.ObjectModel.dll"
             "TargetName" = "8:"
@@ -7352,6 +7906,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.Extensions, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_D91C9527A2D4611BAAB54A3D662C177E"
+                    {
+                    "Name" = "8:System.Runtime.Extensions.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.Extensions.dll"
             "TargetName" = "8:"
@@ -7378,6 +7937,11 @@
             "AssemblyAsmDisplayName" = "8:System.Threading.Tasks, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_DAA97D9BE940A048427048FAD078C9C1"
+                    {
+                    "Name" = "8:System.Threading.Tasks.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Threading.Tasks.dll"
             "TargetName" = "8:"
@@ -7404,6 +7968,11 @@
             "AssemblyAsmDisplayName" = "8:PinDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_DB713E7F6158976F89E93A8E9DFB0066"
+                    {
+                    "Name" = "8:PinDominatorCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:PinDominatorCore.dll"
             "TargetName" = "8:"
@@ -7450,6 +8019,11 @@
             "AssemblyAsmDisplayName" = "8:SimpleFixture, Version=3.0.5.0, Culture=neutral, PublicKeyToken=3a33a28c2b009bfd, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_E2F721658FC7EDE4A535878ADD5C717A"
+                    {
+                    "Name" = "8:SimpleFixture.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:SimpleFixture.dll"
             "TargetName" = "8:"
@@ -7476,6 +8050,11 @@
             "AssemblyAsmDisplayName" = "8:LinkedDominatorUI, Version=3.5.0.15, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_E4AFA9197D5E98F4275DBFC1801F6CB1"
+                    {
+                    "Name" = "8:LinkedDominatorUI.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:LinkedDominatorUI.exe"
             "TargetName" = "8:"
@@ -7502,6 +8081,11 @@
             "AssemblyAsmDisplayName" = "8:YoutubeDominatorCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_EA7FE52251387205739927D781D423F6"
+                    {
+                    "Name" = "8:YoutubeDominatorCore.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:YoutubeDominatorCore.dll"
             "TargetName" = "8:"
@@ -7548,6 +8132,11 @@
             "AssemblyAsmDisplayName" = "8:System.Text.Encoding, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_EBF4EA499BEAC198D4365AA6FF8E2A32"
+                    {
+                    "Name" = "8:System.Text.Encoding.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Text.Encoding.dll"
             "TargetName" = "8:"
@@ -7574,6 +8163,11 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_EC752D6931419E2D50CF17B839976429"
+                    {
+                    "Name" = "8:System.Net.Http.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -7600,6 +8194,11 @@
             "AssemblyAsmDisplayName" = "8:System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_ED65D7996103D316376DF18B485E35D6"
+                    {
+                    "Name" = "8:System.Windows.Controls.DataVisualization.Toolkit.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Windows.Controls.DataVisualization.Toolkit.dll"
             "TargetName" = "8:"
@@ -7657,6 +8256,11 @@
             "AssemblyAsmDisplayName" = "8:QuoraDominatorUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_EE59CBBAC747B3B2487BB9EC7EB22EB0"
+                    {
+                    "Name" = "8:QuoraDominatorUI.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:QuoraDominatorUI.exe"
             "TargetName" = "8:"
@@ -7683,6 +8287,11 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.Serialization.Primitives, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_EEAADC116CDD1D931FF61D359C2F7C25"
+                    {
+                    "Name" = "8:System.Runtime.Serialization.Primitives.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Runtime.Serialization.Primitives.dll"
             "TargetName" = "8:"
@@ -7709,6 +8318,11 @@
             "AssemblyAsmDisplayName" = "8:System.Collections, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_F16EFA6D0AC1DDD516567D8189AB18C4"
+                    {
+                    "Name" = "8:System.Collections.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Collections.dll"
             "TargetName" = "8:"
@@ -7735,6 +8349,11 @@
             "AssemblyAsmDisplayName" = "8:System.Globalization, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_F1EB34CD92B907B98F4CB839F135752C"
+                    {
+                    "Name" = "8:System.Globalization.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Globalization.dll"
             "TargetName" = "8:"
@@ -7761,6 +8380,11 @@
             "AssemblyAsmDisplayName" = "8:Unity.Interception, Version=5.5.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F3FD1CD15E91552CCED2FAE522BE3109"
+                    {
+                    "Name" = "8:Unity.Interception.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Unity.Interception.dll"
             "TargetName" = "8:"
@@ -7787,6 +8411,11 @@
             "AssemblyAsmDisplayName" = "8:Dominator.Tests.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F457A44ED572551FA0725AF329478FA4"
+                    {
+                    "Name" = "8:Dominator.Tests.Utils.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Dominator.Tests.Utils.dll"
             "TargetName" = "8:"
@@ -7813,6 +8442,11 @@
             "AssemblyAsmDisplayName" = "8:System.Reflection.Emit.ILGeneration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_F4AD7DD55CEF89B8E0AD058702A1D862"
+                    {
+                    "Name" = "8:System.Reflection.Emit.ILGeneration.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Reflection.Emit.ILGeneration.dll"
             "TargetName" = "8:"
@@ -7839,6 +8473,11 @@
             "AssemblyAsmDisplayName" = "8:System.Text.RegularExpressions, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_F56F6FF4222758862A0E1E4E68032777"
+                    {
+                    "Name" = "8:System.Text.RegularExpressions.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Text.RegularExpressions.dll"
             "TargetName" = "8:"
@@ -7865,6 +8504,11 @@
             "AssemblyAsmDisplayName" = "8:CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F572EBA9B0609CDD66B15FAA4B876AE6"
+                    {
+                    "Name" = "8:CsvHelper.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:CsvHelper.dll"
             "TargetName" = "8:"
@@ -7922,6 +8566,11 @@
             "AssemblyAsmDisplayName" = "8:Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F78CFB9C5700E1AF05C7A00F87E6163F"
+                    {
+                    "Name" = "8:Unity.Abstractions.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Unity.Abstractions.dll"
             "TargetName" = "8:"
@@ -7968,6 +8617,11 @@
             "AssemblyAsmDisplayName" = "8:Interop.Shell32, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F9C589475FBC00B7CC4A65F4568F1545"
+                    {
+                    "Name" = "8:Interop.Shell32.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Interop.Shell32.dll"
             "TargetName" = "8:"
@@ -8014,6 +8668,11 @@
             "AssemblyAsmDisplayName" = "8:WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_FE75759C7F602396534F6FC1CA799C53"
+                    {
+                    "Name" = "8:WebDriver.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:WebDriver.dll"
             "TargetName" = "8:"
@@ -8040,6 +8699,11 @@
             "AssemblyAsmDisplayName" = "8:System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_FFDF7B5B711F2AF1838A866290E8633A"
+                    {
+                    "Name" = "8:System.Windows.Interactivity.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Windows.Interactivity.dll"
             "TargetName" = "8:"
@@ -8115,15 +8779,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{E15C8DC7-D50F-4FF8-9EF8-7730A0EBBCE2}"
-        "PackageCode" = "8:{0395758E-9816-46AE-8BFD-4AB938430706}"
+        "ProductCode" = "8:{57D43D93-2CD8-4FEA-9DF9-D8ACF92B2146}"
+        "PackageCode" = "8:{BD25F5CD-776C-4045-9793-D4E94950E1A5}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.53"
+        "ProductVersion" = "8:1.0.54"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
