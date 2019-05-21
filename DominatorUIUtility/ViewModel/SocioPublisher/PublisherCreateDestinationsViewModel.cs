@@ -257,7 +257,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public List<string> GroupsAvailableInNetworks { get; set; } = new List<string> { "Facebook", "LinkedIn", "Reddit" };
         public List<string> WallAvailableInNetworks { get; set; } = new List<string> { "Pinterest", "Tumblr" };
-        public List<string> IsCustomDestinationInNetworks { get; set; } = new List<string> { "Facebook","Reddit" };
+        public List<string> IsCustomDestinationInNetworks { get; set; } = new List<string> { "Facebook", "Reddit" };
 
         public List<string> BoardsOrPagesAvailableInNetworks { get; set; } = new List<string> { "Facebook", "Pinterest", "Youtube", "Tumblr" };
         private string _selectPageBoard = "LangKeySelectPagesBoardsAll".FromResourceDictionary();
@@ -1001,6 +1001,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void SaveDestinationExecute(object sender)
         {
+            var selectedAccountsCount =
+                PublisherCreateDestinationModel.ListSelectDestination.Count(x => x.IsAccountSelected);
+
+            if (selectedAccountsCount == 0)
+            {
+                Dialog.ShowDialog("Warning", "Please select accounts, You have selected only destinations !");
+                return;
+            }
+
             // Check whether destination name is already present or not 
             if (!IsDuplicate())
             {
@@ -1009,15 +1018,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherCreateDestinationModel.PublishOwnWallAccount.Clear();
                 PublisherCreateDestinationModel.AccountsWithNetwork.Clear();
 
-                var selectedAccountsCount =
-                    PublisherCreateDestinationModel.ListSelectDestination.Count(x => x.IsAccountSelected);
-
-                if (selectedAccountsCount == 0)
-                {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "Warning", "Please select accounts, You have selected only destinations !");
-                    return;
-                }
 
                 PublisherCreateDestinationModel.ListSelectDestination.ForEach(x =>
                 {
@@ -1116,41 +1116,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     PublisherCreateDestinationModel.UpdateDestination(PublisherCreateDestinationModel);
 
-                    var publisherManageDestinationModel = PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.GetManageDestination(EditDestinationId);
-
-                    // To update the destination name
-                    publisherManageDestinationModel.DestinationName
-                        = PublisherCreateDestinationModel.DestinationName;
-
-                    // To update the selected account count
-                    publisherManageDestinationModel.AccountCount =
-                        PublisherCreateDestinationModel.SelectedAccountIds.Count;
-
-                    // To update the group count
-                    publisherManageDestinationModel.GroupsCount =
-                        PublisherCreateDestinationModel.AccountGroupPair.Count;
-
-                    // To update the page or boards counts
-                    publisherManageDestinationModel.PagesOrBoardsCount =
-                        PublisherCreateDestinationModel.AccountPagesBoardsPair.Count;
-
-                    // To update the wall count 
-                    publisherManageDestinationModel.WallsOrProfilesCount =
-                        PublisherCreateDestinationModel.PublishOwnWallAccount.Count;
-
-                    publisherManageDestinationModel.CustomDestinationsCount =
-                        PublisherCreateDestinationModel.CustomDestinations.Count;
-
-                    publisherManageDestinationModel.IsAddNewGroups
-                        = PublisherCreateDestinationModel.IsAddedNewGroups;
-
-                    publisherManageDestinationModel.IsRemoveGroupsRequiresValidation =
-                        PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval;
-
-                    if (!IsNeedToNavigate)
-                        // To call a method to update the manage destination user interface
-                        PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
-                        publisherManageDestinationModel);
+                    UpdateManageDestination();
                 }
 
                 InitializeProperties();
@@ -1165,6 +1131,45 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 GlobusLogHelper.log.Info("Validation Failed!");
             }
+        }
+
+        private void UpdateManageDestination()
+        {
+            var publisherManageDestinationModel = PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.GetManageDestination(EditDestinationId);
+
+            // To update the destination name
+            publisherManageDestinationModel.DestinationName
+                = PublisherCreateDestinationModel.DestinationName;
+
+            // To update the selected account count
+            publisherManageDestinationModel.AccountCount =
+                PublisherCreateDestinationModel.SelectedAccountIds.Count;
+
+            // To update the group count
+            publisherManageDestinationModel.GroupsCount =
+                PublisherCreateDestinationModel.AccountGroupPair.Count;
+
+            // To update the page or boards counts
+            publisherManageDestinationModel.PagesOrBoardsCount =
+                PublisherCreateDestinationModel.AccountPagesBoardsPair.Count;
+
+            // To update the wall count 
+            publisherManageDestinationModel.WallsOrProfilesCount =
+                PublisherCreateDestinationModel.PublishOwnWallAccount.Count;
+
+            publisherManageDestinationModel.CustomDestinationsCount =
+                PublisherCreateDestinationModel.CustomDestinations.Count;
+
+            publisherManageDestinationModel.IsAddNewGroups
+                = PublisherCreateDestinationModel.IsAddedNewGroups;
+
+            publisherManageDestinationModel.IsRemoveGroupsRequiresValidation =
+                PublisherCreateDestinationModel.IsRemoveGroupsRequiresApproval;
+
+            if (!IsNeedToNavigate)
+                // To call a method to update the manage destination user interface
+                PublisherManageDestinations.Instance().PublisherManageDestinationViewModel.UpdateDestinations(
+                publisherManageDestinationModel);
         }
 
         #endregion
@@ -1266,8 +1271,35 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             try
             {
+                var isNeedToUpdate = false;
                 var accountList = ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>().LstDominatorAccountModel;
                 var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
+                var availableAccountId = accounts.Select(x => x.AccountId);
+                PublisherCreateDestinationModel.ListSelectDestination.ToList().ForEach(x =>
+                {
+                    if (!availableAccountId.Contains(x.AccountId))
+                    {
+                        isNeedToUpdate = true;
+                        PublisherCreateDestinationModel.ListSelectDestination.Remove(x);
+                        PublisherCreateDestinationModel.AccountGroupPair.RemoveAll(g => g.Key == x.AccountId);
+                        PublisherCreateDestinationModel.AccountPagesBoardsPair.RemoveAll(g => g.Key == x.AccountId);
+                        PublisherCreateDestinationModel.AccountsWithNetwork.RemoveAll(g => g.Value == x.AccountId);
+                        PublisherCreateDestinationModel.CustomDestinations.RemoveAll(g => g.Key == x.AccountId);
+                        PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(g => g.AccountId == x.AccountId);
+                        PublisherCreateDestinationModel.PublishOwnWallAccount.RemoveAll(g => g == x.AccountId);
+                        PublisherCreateDestinationModel.SelectedAccountIds.Remove(x.AccountId);
+                    }
+                });
+
+                #region Update Destination
+                if (isNeedToUpdate)
+                {
+                    PublisherCreateDestinationModel.UpdateDestination(PublisherCreateDestinationModel);
+                    EditDestinationId = PublisherCreateDestinationModel.DestinationId;
+                    UpdateManageDestination();
+                }
+
+                #endregion
 
                 accounts.ForEach(x =>
                 {
