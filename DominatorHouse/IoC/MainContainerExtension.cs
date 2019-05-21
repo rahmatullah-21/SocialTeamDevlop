@@ -25,6 +25,7 @@ namespace DominatorHouse.IoC
             #region Startup ViewModel
             //Container.RegisterSingleton<ISelectUserTypeViewModel, SelectUserTypeViewModel>();
             Container.RegisterSingleton<IFollowViewModel, FollowViewModel>();
+            Container.RegisterSingleton<IUnFollowerViewModel, UnFollowerViewModel>();
             Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
             Container.RegisterSingleton<IQueryViewModel, QueryViewModel>();
             Container.RegisterSingleton<IJobConfigViewModel, JobConfigViewModel>();

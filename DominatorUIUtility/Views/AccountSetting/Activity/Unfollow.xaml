@@ -13,27 +13,27 @@
         <StackPanel>
             <Label Content="{DynamicResource LangKeyUnfollowSource}" FontWeight="Bold" Margin="5,10,0,0"/>
             <StackPanel  Margin="15,0,0,5" >
-                <CheckBox Content="{DynamicResource LangKeyPeopleFollowedBySoftware}" Margin="5,15,0,5" IsChecked="{Binding UnfollowerModel.IsChkPeopleFollowedBySoftwareChecked}"/>
-                <CheckBox Content="{DynamicResource LangKeyPeopleFollowedOutsideSoftware}" Margin="5" IsChecked="{Binding UnfollowerModel.IsChkPeopleFollowedOutsideSoftwareChecked}"/>
-                <CheckBox Content="{DynamicResource LangKeyCustomUsersList}" Margin="5" IsChecked="{Binding UnfollowerModel.IsChkCustomUsersListChecked}"/>
-                <customControl:InputBoxControl x:Name="CustomUsersListInputBox" InputText="{Binding UnfollowerModel.CustomUsersList}"
-                                                       SaveCommand="{Binding SaveInputCommand}" CommandParameter="{Binding UnfollowerModel.CustomUsersList}"  Margin="25,5"
-                                                       Visibility="{Binding UnfollowerModel.IsChkCustomUsersListChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <CheckBox Content="{DynamicResource LangKeyPeopleFollowedBySoftware}" Margin="5,15,0,5" IsChecked="{Binding IsChkPeopleFollowedBySoftwareChecked}"/>
+                <CheckBox Content="{DynamicResource LangKeyPeopleFollowedOutsideSoftware}" Margin="5" IsChecked="{Binding IsChkPeopleFollowedOutsideSoftwareChecked}"/>
+                <CheckBox Content="{DynamicResource LangKeyCustomUsersList}" Margin="5" IsChecked="{Binding IsChkCustomUsersListChecked}"/>
+                <customControl:InputBoxControl x:Name="CustomUsersListInputBox" InputText="{Binding CustomUsersList}"
+                                                       SaveCommand="{Binding SaveInputCommand}" CommandParameter="{Binding CustomUsersList}"  Margin="25,5"
+                                                       Visibility="{Binding IsChkCustomUsersListChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </StackPanel>
             <Label Content="{DynamicResource LangKeySourceType}"  FontWeight="Bold" Margin="5,10,0,0"/>
             <StackPanel   Margin="15,0,0,5" >
-                <CheckBox Content="{DynamicResource LangKeyWhoDoNotFollowBack}" Margin="5" IsChecked="{Binding UnfollowerModel.IsWhoDoNotFollowBackChecked}"/>
-                <CheckBox Content="{DynamicResource LangKeyWhoFollowBack}" Margin="5" IsChecked="{Binding UnfollowerModel.IsWhoFollowBackChecked}"/>
+                <CheckBox Content="{DynamicResource LangKeyWhoDoNotFollowBack}" Margin="5" IsChecked="{Binding IsWhoDoNotFollowBackChecked}"/>
+                <CheckBox Content="{DynamicResource LangKeyWhoFollowBack}" Margin="5" IsChecked="{Binding IsWhoFollowBackChecked}"/>
             </StackPanel>
             <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="Bold" Margin="5,10,0,0"/>
             <StackPanel Orientation="Horizontal"  Margin="15,0,0,5">
-                <CheckBox Content="{DynamicResource LangKeyUserShouldHaveBeenFollowedBefore}" Margin="5" IsChecked="{Binding UnfollowerModel.IsUserFollowedBeforeChecked}"/>
-                <mah:NumericUpDown Minimum="0" Value="{Binding UnfollowerModel.FollowedBeforeDay}"
-                                                IsEnabled="{Binding UnfollowerModel.IsUserFollowedBeforeChecked}"/>
+                <CheckBox Content="{DynamicResource LangKeyUserShouldHaveBeenFollowedBefore}" Margin="5" IsChecked="{Binding IsUserFollowedBeforeChecked}"/>
+                <mah:NumericUpDown Minimum="0" Value="{Binding FollowedBeforeDay}"
+                                                IsEnabled="{Binding IsUserFollowedBeforeChecked}"/>
                 <Label Content="{DynamicResource LangKeyDays}"/>
                 <Label Content="{DynamicResource LangKeyAnd}"/>
-                <mah:NumericUpDown Value="{Binding UnfollowerModel.FollowedBeforeHour}" Maximum="24" Minimum="{Binding UnfollowerModel.FollowedBeforeDay}"
-                                                IsEnabled="{Binding UnfollowerModel.IsUserFollowedBeforeChecked}"/>
+                <mah:NumericUpDown Value="{Binding FollowedBeforeHour}" Maximum="24" Minimum="{Binding FollowedBeforeDay}"
+                                                IsEnabled="{Binding IsUserFollowedBeforeChecked}"/>
                 <Label Content="{DynamicResource LangKeyHours}"/>
             </StackPanel>
             <next:NextPreviousButton Grid.Row="2" NextCommand="{Binding NextCommand}"  NextCommandParameter="QueryControl"

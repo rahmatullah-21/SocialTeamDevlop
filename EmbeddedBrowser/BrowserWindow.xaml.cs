@@ -59,15 +59,15 @@ namespace EmbeddedBrowser
                 _dominatorAccountModel = value;
                 OnPropertyChanged(nameof(DominatorAccountModel));
             }
-        } 
+        }
 
         #endregion
-        
+
         public BrowserWindow()
         {
             InitializeComponent();
             WindowBrowsers.DataContext = this;
-            SearchCommand = new DelegateCommand(GoToUrl);
+            SearchCommand = new DelegateCommand(() => GoToUrl());
         }
 
         public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false)
@@ -95,7 +95,7 @@ namespace EmbeddedBrowser
             UrlBar.Text = Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings;
         }
-        
+
         #region CefSharp Utilities
 
         /// <summary>
@@ -112,9 +112,6 @@ namespace EmbeddedBrowser
                     Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
                     return;
                 }
-
-                if(DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
-                    return;
                 
                 Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
 
@@ -199,7 +196,7 @@ namespace EmbeddedBrowser
                         else
                         {
                             var dictProxyIpPort = new Dictionary<string, object> { { "mode", "direct" } };
-                            
+
                             string error;
                             var success = requestContext.SetPreference("proxy", dictProxyIpPort, out error);
                         }
@@ -250,7 +247,7 @@ namespace EmbeddedBrowser
                             lock (_cefLock)
                             {
                                 // Get Current PageSource
-                                var html =  Browser.GetSourceAsync().Result; //taskHtml.Result;
+                                var html = Browser.GetSourceAsync().Result; //taskHtml.Result;
 
                                 DominatorAccountModel.Token.ThrowIfCancellationRequested();
                                 if (!string.IsNullOrEmpty(html) && !Browser.IsDisposed)
@@ -305,14 +302,8 @@ namespace EmbeddedBrowser
             }
         }
 
-        private void GoToUrl()
-            => Browser.Load(UrlBar.Text);
-
-        public void Dispose()
-        {
-           // Browser.GetBrowser().CloseBrowser(true);
-            Browser.Dispose();
-        }
+        public void GoToUrl(string url = null)
+            => Browser.Load(url ?? UrlBar.Text);
 
         private void LoadPostPage(bool isLoggedIn)
         {
@@ -325,7 +316,7 @@ namespace EmbeddedBrowser
 
         private void LoadPostPage()
         {
-            if(string.IsNullOrEmpty(TargetUrl)) return;
+            if (string.IsNullOrEmpty(TargetUrl)) return;
             Browser.Load(TargetUrl);
             Browser.LoadingStateChanged -= BrowserOnLoaded;
         }
@@ -333,13 +324,14 @@ namespace EmbeddedBrowser
         private string GetLoggedInPageSource()
         => !string.IsNullOrEmpty(TargetUrl) && TargetUrl != "Not Published Yet"
            ? Browser.GetSourceAsync().Result : string.Empty;
-       
+
         /// <summary>
-        /// Get PageSource if account is not logged in successfully
+        /// Get Current PageSource
         /// </summary>
         /// <returns></returns>
-        private string GetPageSource()
-            => !_isLoggedIn ? Browser.GetSourceAsync().Result : string.Empty;
+        public string GetPageSource() => Browser.GetSourceAsync().Result;
+
+        public void Dispose() => Browser.Dispose();
 
         public enum ActType
         {
@@ -506,7 +498,7 @@ namespace EmbeddedBrowser
         }
 
         #endregion
-        
+
         #region Social Login
 
         #region Google Login
@@ -802,7 +794,7 @@ namespace EmbeddedBrowser
             {
                 var last2Min = DateTime.Now;
 
-                while ((!DominatorAccountModel.IsVerificationCodeSent || codeBefore == DominatorAccountModel.VarificationCode.Trim() || DominatorAccountModel.VarificationCode.Trim().Length<6) && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
+                while ((!DominatorAccountModel.IsVerificationCodeSent || codeBefore == DominatorAccountModel.VarificationCode.Trim() || DominatorAccountModel.VarificationCode.Trim().Length < 6) && !Browser.IsDisposed && last2Min.AddMinutes(2) > DateTime.Now)
                     Thread.Sleep(2000); // Waiting to get code from UI
 
                 codeBefore = DominatorAccountModel.VarificationCode.Trim();
@@ -912,7 +904,7 @@ namespace EmbeddedBrowser
         {
             var loginFailed = RetypeEmail();
             var gotEmailFromPage = Utilities.GetBetween(_pageText, "your account:", "\n").Trim();
-            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim()) && !string.IsNullOrEmpty(gotEmailFromPage))|| !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim(),gotEmailFromPage))
+            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim()) && !string.IsNullOrEmpty(gotEmailFromPage)) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.AlternateEmail.Trim(), gotEmailFromPage))
                 DominatorAccountModel.AccountBaseModel.AlternateEmail = gotEmailFromPage;
             return loginFailed;
         }
@@ -922,7 +914,7 @@ namespace EmbeddedBrowser
             var loginFailed = RetypePhoneNumber();
             var gotNumberFromPage = Utilities.GetBetween(_pageText, "security settings:", "\n").Replace(" ", "")
                 .Replace("(", "").Replace(")", "").Replace("-", "").Replace("_", "").Trim();
-            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()) && !string.IsNullOrEmpty(gotNumberFromPage)) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(),gotNumberFromPage))
+            if ((string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim()) && !string.IsNullOrEmpty(gotNumberFromPage)) || !IsExistingEmailOrNumberSame(DominatorAccountModel.AccountBaseModel.PhoneNumber.Trim(), gotNumberFromPage))
                 DominatorAccountModel.AccountBaseModel.PhoneNumber = gotNumberFromPage;
             return loginFailed;
         }
@@ -942,7 +934,7 @@ namespace EmbeddedBrowser
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
                 return true;
             }
-            
+
             var isWrong = true;
             if (!(DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TooManyAttemptsOnPhoneVerification
                   || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.AddPhoneNumberToYourAccount))
@@ -979,7 +971,7 @@ namespace EmbeddedBrowser
                 else
                 {
                     isWrong = text.Contains("The phone number was invalid. Please correct it and try again.")
-                              || text.Contains("There was a problem with your phone number") 
+                              || text.Contains("There was a problem with your phone number")
                              || text.Contains("Sorry, Google didn't recognise the number that you have entered. Please check the country and number.") ||
                               text.Contains("Sorry, Google didn't recognize the number that you have entered. Please check the country and number.") ||
                               text.Contains("This phone number has already been used too many times for verification.")
@@ -1109,7 +1101,7 @@ namespace EmbeddedBrowser
                     return false;
             }
         }
-        
+
         private void CreateChannelOnYoutube()
         {
             try
@@ -1200,9 +1192,12 @@ namespace EmbeddedBrowser
                 Thread.Sleep(TimeSpan.FromSeconds(3.5));
             }
 
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon") && SaveCookies())
-                LoadPostPage();
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon") && SaveCookies())
+                    LoadPostPage();
+            }
         }
 
         private void PinterestBrowserLogin(string html)
@@ -1213,11 +1208,11 @@ namespace EmbeddedBrowser
             {
                 var getPageText = Browser.GetTextAsync().Result;
                 if (getPageText.Contains("that password isn't right.") || getPageText.ToLower().Contains("reset your password")
-                    || getPageText.Contains("doesn't look like an email address or phone number") 
+                    || getPageText.Contains("doesn't look like an email address or phone number")
                     || getPageText.Contains("Oops! You logged in too quickly. Please try again with the reCAPTCHA")
                     || getPageText.Contains("We noticed some strange activity on your account. Reset your password or log in with Facebook or Google to get back into your account."))
                     return;
-                
+
                 // Click on username textbox
                 BrowserAct(ActType.ClickByName, "id", delayAfter: 0.5);
 
@@ -1239,10 +1234,13 @@ namespace EmbeddedBrowser
                 // Click on Login button 
                 BrowserAct(ActType.ClickByClass, !html.Contains("type=\"email\"") ? "red SignupButton active" : "SignupButton", delayAfter: 5);
             }
-            
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
-                LoadPostPage();
+
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
+                    LoadPostPage();
+            }
         }
 
         private void InstagramBrowserLogin(string html)
@@ -1297,10 +1295,12 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.ClickByClass, "submit EdgeButton EdgeButton--primary EdgeButtom--medium", delayAfter: 5);
             }
 
-            var result = GetLoggedInPageSource();
-
-            if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box"))
-                LoadPostPage(true);
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box") && SaveCookies())
+                    LoadPostPage();
+            }
         }
 
         private void LinkedInBrowserLogin(string html)
@@ -1352,9 +1352,12 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.ClickByClass, "submit_button ignore_interaction", 1, 3, clickIndex: 0);
             }
 
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true") && SaveCookies())
-                LoadPostPage();
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true") && SaveCookies())
+                    LoadPostPage();
+            }
         }
 
         private void RedditBrowserLogin(string html)
@@ -1373,9 +1376,12 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.ClickByClass, "submit", delayAfter: 4);
             }
 
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && (result.ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || result.Contains("Log out") || result.Contains("logged in")) && SaveCookies())
-                LoadPostPage();
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && (result.ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || result.Contains("Log out") || result.Contains("logged in")) && SaveCookies())
+                    LoadPostPage();
+            }
         }
 
         private void TumblrBrowserLogin(string html)
@@ -1414,12 +1420,15 @@ namespace EmbeddedBrowser
                 BrowserAct(ActType.ClickByClass, "submit", delayAfter: 1);
             }
 
-            var result = GetPageSource();
-            if (!string.IsNullOrEmpty(result) && (result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in")) && SaveCookies())
-                LoadPostPage();
+            if (!_isLoggedIn)
+            {
+                var result = GetPageSource();
+                if (!string.IsNullOrEmpty(result) && (result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in")) && SaveCookies())
+                    LoadPostPage();
+            }
         }
 
-        private bool _isLoggedIn;
+        public bool _isLoggedIn;
         /// <summary>
         /// Returns true if cookies were saved
         /// </summary>
@@ -1557,6 +1566,6 @@ namespace EmbeddedBrowser
         private void CustomLog(string message) => GlobusLogHelper.log.Info(Log.CustomMessage,
             DominatorAccountModel.AccountBaseModel.AccountNetwork,
             DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", message);
-        
+
     }
 }

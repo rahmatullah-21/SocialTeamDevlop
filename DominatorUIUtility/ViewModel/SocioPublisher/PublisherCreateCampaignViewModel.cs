@@ -1157,7 +1157,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 tabItems.Add(new TabItemTemplates
                 {
-                    Title = Application.Current.FindResource("LangKeyScrapePost")?.ToString(),
+                    Title = "LangKeyScrapePost".FromResourceDictionary(),
                     Content = new Lazy<UserControl>(() => PublisherScrapePost.GetPublisherScrapePost(tabItemsControl))
                 });
             }
@@ -1169,7 +1169,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             tabItems.Add(new TabItemTemplates
             {
-                Title = Application.Current.FindResource("LangKeySharePost")?.ToString(),
+                Title = "LangKeySharePost".FromResourceDictionary(),
                 Content = new Lazy<UserControl>(() => PublisherSharePost.GetPublisherSharePost(tabItemsControl))
             });
 

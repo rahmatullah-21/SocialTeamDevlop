@@ -5,6 +5,7 @@ using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models.SocioPublisher;
+using DominatorHouseCore.Process;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -158,6 +159,7 @@ namespace DominatorHouseCore.Diagnostics
                     }
                 });
                 Thread.Sleep(2);
+                PublishScheduler.ScheduleTodaysPublisher();
             });
         }
 

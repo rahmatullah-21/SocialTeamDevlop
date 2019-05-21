@@ -37,7 +37,7 @@ namespace Socinator
 
                 SocinatorInitialize.LogInitializer(this);
 
-                 mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
                 SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
@@ -98,5 +98,27 @@ namespace Socinator
         {
             mainViewModel.IsPopUpOpen = false;
         }
+
+        private void Popup_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                var currentPoint = e.GetPosition(null);
+                pop.HorizontalOffset = pop.HorizontalOffset + (currentPoint.X - _initialMousePosition.X);
+                pop.VerticalOffset = pop.VerticalOffset + (currentPoint.Y - _initialMousePosition.Y);
+            }
+        }
+
+        Point _initialMousePosition;
+        private void pop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var element = sender as FrameworkElement;
+            _initialMousePosition = e.GetPosition(null);
+            element.CaptureMouse();
+
+            e.Handled = true;
+        }
+
     }
 }

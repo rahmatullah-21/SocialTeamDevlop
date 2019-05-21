@@ -8,7 +8,7 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
     /// </summary>
     public partial class Unfollow : UserControl
     {
-        public Unfollow(IFollowViewModel viewModel)
+        public Unfollow(IUnFollowerViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;

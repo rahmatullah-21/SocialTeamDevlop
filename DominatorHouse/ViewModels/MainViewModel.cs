@@ -413,7 +413,7 @@ namespace DominatorHouse.ViewModels
                     #region Publisher
 
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
-                    PublishScheduler.ScheduleTodaysPublisher();
+                    //PublishScheduler.ScheduleTodaysPublisher();
                     PublishScheduler.UpdateNewGroupList();
                     var publisherPostFetcher = new PublisherPostFetcher();
                     publisherPostFetcher.StartFetchingPostData();
@@ -427,6 +427,7 @@ namespace DominatorHouse.ViewModels
                     deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
                 });
 
+                #region Commented
                 //Parallel.Invoke(() =>
                 //                 {
                 //                     DirectoryUtilities.DeleteOldLogsFile();
@@ -460,7 +461,8 @@ namespace DominatorHouse.ViewModels
                 //                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
                 //                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
                 //                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
-                //                });
+                //                }); 
+                #endregion
             }
             catch (Exception ex)
             {

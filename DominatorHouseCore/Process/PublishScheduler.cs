@@ -1345,22 +1345,22 @@ namespace DominatorHouseCore.Process
                     // Iterate campaigns 
                     campaignDetails.ForEach(campaign =>
                         {
-                        // Validate the start and end time of the campaign
-                        if (!ValidateCampaignsTime(campaign))
+                            // Validate the start and end time of the campaign
+                            if (!ValidateCampaignsTime(campaign))
                                 return;
 
-                        // Is Rotate day has been selected
-                        if (campaign.IsRotateDayChecked)
-                            // Call to start publishing
-                            SchedulePublisher(campaign);
+                            // Is Rotate day has been selected
+                            if (campaign.IsRotateDayChecked)
+                                // Call to start publishing
+                                SchedulePublisher(campaign);
                             else
                             {
-                            // Check whether today is selected or not
-                            var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
+                                // Check whether today is selected or not
+                                var isCampaignSelected = campaign.ScheduledWeekday.FirstOrDefault(x => x.Content == DateTime.Now.DayOfWeek.ToString() && x.IsContentSelected);
                                 if (isCampaignSelected == null)
                                     return;
-                            // Call to start publishing
-                            SchedulePublisher(campaign);
+                                // Call to start publishing
+                                SchedulePublisher(campaign);
                             }
                             Thread.Sleep(2);
                         });
@@ -1420,11 +1420,31 @@ namespace DominatorHouseCore.Process
             {
                 if (campaign.UpdatedTime.Date != DateTime.Today)
                     // Otherwise fetch random intervals
-                    timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
-            }
+                    campaign.SpecificRunningTime = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
+                //timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
 
+            }
+         
             // Iterate running times 
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+
+
+            // Get campaign model
+            var allCampaign = genericFileManager
+                .GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+
+            // Get the particular campaign
+            var currentCampaign = allCampaign.FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+
+            if (currentCampaign == null)
+                return;
+            // Finding index
+            var campaignIndex = allCampaign.IndexOf(currentCampaign);
+            
+            allCampaign[campaignIndex] = currentCampaign;
+
+            //Save into bin file 
+            genericFileManager.UpdateModuleDetails(allCampaign, ConstantVariable.GetPublisherCampaignFile());
             timeRange.ForEach(runningTime =>
                      {
                          // Make start time

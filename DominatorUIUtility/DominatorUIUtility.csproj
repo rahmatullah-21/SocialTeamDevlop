@@ -399,6 +399,7 @@
     <Compile Include="ViewModel\Startup\ModuleConfig\INetworkJobConfig.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\QuoraJobConfig.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\TumblrJobConfig.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\UnFollowerViewModel.cs" />
     <Compile Include="ViewModel\Startup\NextPreviousViewModel.cs" />
     <Compile Include="ViewModel\Startup\QueryViewModel.cs" />
     <Compile Include="ViewModel\Startup\SelectActivityViewModel.cs" />
@@ -418,6 +419,9 @@
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\Unfollow.xaml.cs">
       <DependentUpon>Unfollow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\CustomControl\ActivityJobConfig.xaml.cs">
+      <DependentUpon>ActivityJobConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\JobConfig.xaml.cs">
       <DependentUpon>JobConfig.xaml</DependentUpon>
@@ -928,6 +932,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Unfollow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\CustomControl\ActivityJobConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -47,8 +47,8 @@
             <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <Popup  StaysOpen="true" Placement="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-             IsOpen="{Binding IsPopUpOpen}">
+        <Popup  StaysOpen="true" Placement="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="pop"
+             IsOpen="{Binding IsPopUpOpen}" MouseMove="Popup_MouseMove" MouseLeftButtonDown="pop_MouseLeftButtonDown">
             <Border BorderBrush="Black" BorderThickness="1" Background="AliceBlue"  CornerRadius="10,0,10,0" VerticalAlignment="Center"
                 HorizontalAlignment="Center">
                 <StackPanel>

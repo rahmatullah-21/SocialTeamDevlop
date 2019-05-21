@@ -1,8 +1,6 @@
 ﻿using Prism.Mvvm;
 using System.Windows.Input;
 using Prism.Regions;
-using DominatorHouseCore.Models.NetworkActivitySetting;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace DominatorUIUtility.ViewModel.Startup
