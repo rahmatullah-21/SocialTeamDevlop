@@ -80,7 +80,7 @@ namespace DominatorHouseCore.Utility
                     {
                         new GrowthProperty {PropertyName = "Connections", PropertyValue = 0},
                         new GrowthProperty {PropertyName = "Groups", PropertyValue = 0},
-                        new GrowthProperty {PropertyName = "Posts", PropertyValue = 0},
+                        new GrowthProperty {PropertyName = "Invitation", PropertyValue = 0},
                     }
                 },
                 {

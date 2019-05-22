@@ -115,9 +115,6 @@ namespace EmbeddedBrowser
                     return;
                 }
 
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
-                    return;
-
                 Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
 
                 foreach (var accCookie in DominatorAccountModel.Cookies)
@@ -1261,6 +1258,7 @@ namespace EmbeddedBrowser
                 var result = GetPageSource();
                 if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
                     LoadPostPage();
+
             }
         }
 
@@ -2021,8 +2019,6 @@ namespace EmbeddedBrowser
                     LoadPostPage();
             }
         }
-
-        //private bool _isLoggedIn;
 
 
         public bool _isLoggedIn { get; set; }

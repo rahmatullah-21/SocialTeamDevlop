@@ -188,7 +188,7 @@
                                     FontSize="12"                         
                                     Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Command="{Binding AddFreshAccounts}"  CommandParameter="{Binding ElementName=ButtonAddFreshAccount}"                              
                                     Background="Transparent">
-                                <TextBlock Text="{DynamicResource LangKeyClickToAddFreshAccounts}" >
+                                <TextBlock Text="{DynamicResource LangKeyRefreshAccounts}" >
                                     <TextBlock.TextDecorations>
                                         <TextDecoration Location="Underline" PenOffset="1"/>
                                     </TextBlock.TextDecorations>
