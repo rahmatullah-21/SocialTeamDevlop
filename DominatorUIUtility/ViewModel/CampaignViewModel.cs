@@ -399,7 +399,7 @@ namespace DominatorUIUtility.ViewModel
             if (sender == null)
             {
                 //Get all selected campaign
-                var lstSelectedCampaign = LstCampaignDetails.Where(item => item.IsCampaignChecked);
+                var lstSelectedCampaign = LstCampaignDetails.Where(item => item.IsCampaignChecked && item.SocialNetworks == SocinatorInitialize.ActiveSocialNetwork);
                 //if no campaign is selected show the Warnning message and revert back the toggle
                 if (lstSelectedCampaign.Count() == 0)
                 {
@@ -415,8 +415,8 @@ namespace DominatorUIUtility.ViewModel
 
                         if (!AllCampStatus)
                         {
-                            var campignNotHavingAccount = lstSelectedCampaign.Where(x => x.SelectedAccountList.Count > 0 && x.Status == "Paused");
-                            lstSelectedCampaign.ForEach(camp =>
+                            var campignNotHavingAccount = lstSelectedCampaign.Where(x => x.Status == "Active");
+                            campignNotHavingAccount.ForEach(camp =>
                             {
                                 ActivePauseCampaign(camp, AllCampStatus);
                             });
@@ -687,20 +687,28 @@ namespace DominatorUIUtility.ViewModel
             try
             {
                 CancelPriviousTask();
-                ImmutableQueue<Action> updatingAccountsBinFiles = ImmutableQueue<Action>.Empty;
 
-                var addedAccountDetails = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().BySocialNetwork(selectedCampaign.SocialNetworks);
-                var lstAccountDetails = _accountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
+                var currentNetworkAccounts = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().BySocialNetwork(selectedCampaign.SocialNetworks);
+                var lstSelectedAccountDetails = _accountsFileManager.GetAllAccounts(selectedCampaign.SelectedAccountList, selectedCampaign.SocialNetworks);
                 var module = (ActivityType)Enum.Parse(typeof(ActivityType), selectedCampaign.SubModule);
 
                 Task.Factory.StartNew(() =>
                 {
-                    lstAccountDetails.ForEach(account =>
+                    lstSelectedAccountDetails.ForEach(account =>
                     {
                         try
                         {
-                            if (!addedAccountDetails.Any(x => x.AccountId == account.AccountId))
+                            if (!currentNetworkAccounts.Any(x => x.AccountId == account.AccountId))
+                            {
+                                #region New Added Code for checking campaign Active/Pause issue
+
+                                if (currentNetworkAccounts.Any(x => x.AccountBaseModel.UserName == account.AccountBaseModel.UserName))
+                                    GlobusLogHelper.log.Debug("ACCOUNT ID CHANGED");
+
+                                #endregion
+
                                 return;
+                            }
 
                             UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);
                             Thread.Sleep(5);
@@ -754,16 +762,17 @@ namespace DominatorUIUtility.ViewModel
                 var moduleConfiguration = jobActivityConfigurationManager[account.AccountId, module];
                 try
                 {
-                    #region New Added Code
+                    #region New Added Code for checking campaign Active/Pause issue
 
                     if (string.IsNullOrEmpty(moduleConfiguration.TemplateId))
                     {
                         GlobusLogHelper.log.Debug("TEMPLATE ID IS NULL");
                         if (moduleConfiguration.ActivityType.ToString() == selectedCampaign.SubModule)
                             moduleConfiguration.IsEnabled = isToggleSwitchSelected;
-                    } 
+                    }
 
                     #endregion
+
                     if (moduleConfiguration.TemplateId == selectedCampaign.TemplateId)
                         moduleConfiguration.IsEnabled = isToggleSwitchSelected;
                 }

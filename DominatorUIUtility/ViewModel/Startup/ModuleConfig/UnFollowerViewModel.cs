@@ -1,11 +1,13 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using Prism.Commands;
 using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IUnFollowerViewModel
     {
+        JobConfiguration JobConfiguration { get; set; }
         bool IsChkPeopleFollowedBySoftwareChecked { get; set; }
         bool IsChkPeopleFollowedOutsideSoftwareChecked { get; set; }
         bool IsChkCustomUsersListChecked { get; set; }
@@ -17,15 +19,37 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         int FollowedBeforeHour { get; set; }
 
     }
-    
+
     public class UnFollowerViewModel : StartupBaseViewModel, IUnFollowerViewModel
     {
         public UnFollowerViewModel(IRegionManager region) : base(region)
         {
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
+            JobConfiguration = new JobConfiguration
+            {
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfUnfollowPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfUnfollowPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfUnfollowPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfUnfollowPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxUnfollowsPerDay".FromResourceDictionary(),
+            };
         }
+        private JobConfiguration _jobConfiguration;
 
+        public JobConfiguration JobConfiguration
+        {
+            get
+            {
+                return _jobConfiguration;
+            }
+            set
+            {
+                if (value == _jobConfiguration)
+                    return;
+                SetProperty(ref _jobConfiguration, value);
+            }
+        }
         private string _customUsersList;
         public string CustomUsersList
         {
@@ -126,7 +150,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         }
 
         private bool _isWhoFollowBackChecked;
-    
+
         public bool IsWhoFollowBackChecked
         {
             get

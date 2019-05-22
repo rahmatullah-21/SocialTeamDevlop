@@ -8,10 +8,11 @@
                xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
-           >
+           xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl" >
     <Grid>
         <StackPanel>
-            <Label Content="{DynamicResource LangKeyUnfollowSource}" FontWeight="Bold" Margin="5,10,0,0"/>
+            <TextBlock Text="UnFollow user Setting" FontWeight="Bold" Margin="5,0"/>
+            <Label Content="{DynamicResource LangKeyUnfollowSource}" FontWeight="SemiBold" Margin="5,10,0,0"/>
             <StackPanel  Margin="15,0,0,5" >
                 <CheckBox Content="{DynamicResource LangKeyPeopleFollowedBySoftware}" Margin="5,15,0,5" IsChecked="{Binding IsChkPeopleFollowedBySoftwareChecked}"/>
                 <CheckBox Content="{DynamicResource LangKeyPeopleFollowedOutsideSoftware}" Margin="5" IsChecked="{Binding IsChkPeopleFollowedOutsideSoftwareChecked}"/>
@@ -20,12 +21,12 @@
                                                        SaveCommand="{Binding SaveInputCommand}" CommandParameter="{Binding CustomUsersList}"  Margin="25,5"
                                                        Visibility="{Binding IsChkCustomUsersListChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </StackPanel>
-            <Label Content="{DynamicResource LangKeySourceType}"  FontWeight="Bold" Margin="5,10,0,0"/>
+            <Label Content="{DynamicResource LangKeySourceType}"  FontWeight="SemiBold" Margin="5,10,0,0"/>
             <StackPanel   Margin="15,0,0,5" >
                 <CheckBox Content="{DynamicResource LangKeyWhoDoNotFollowBack}" Margin="5" IsChecked="{Binding IsWhoDoNotFollowBackChecked}"/>
                 <CheckBox Content="{DynamicResource LangKeyWhoFollowBack}" Margin="5" IsChecked="{Binding IsWhoFollowBackChecked}"/>
             </StackPanel>
-            <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="Bold" Margin="5,10,0,0"/>
+            <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="SemiBold" Margin="5,10,0,0"/>
             <StackPanel Orientation="Horizontal"  Margin="15,0,0,5">
                 <CheckBox Content="{DynamicResource LangKeyUserShouldHaveBeenFollowedBefore}" Margin="5" IsChecked="{Binding IsUserFollowedBeforeChecked}"/>
                 <mah:NumericUpDown Minimum="0" Value="{Binding FollowedBeforeDay}"
@@ -36,6 +37,7 @@
                                                 IsEnabled="{Binding IsUserFollowedBeforeChecked}"/>
                 <Label Content="{DynamicResource LangKeyHours}"/>
             </StackPanel>
+            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
             <next:NextPreviousButton Grid.Row="2" NextCommand="{Binding NextCommand}"  NextCommandParameter="QueryControl"
                                   PreviousCommand="{Binding PreviousCommand}" PreviousCommandParameter="SelectActivity" />
         </StackPanel>

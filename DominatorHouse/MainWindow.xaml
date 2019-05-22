@@ -48,13 +48,20 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Popup  StaysOpen="true" Placement="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="pop"
-             IsOpen="{Binding IsPopUpOpen}" MouseMove="Popup_MouseMove" MouseLeftButtonDown="pop_MouseLeftButtonDown">
+             IsOpen="{Binding IsPopUpOpen}" MouseMove="Popup_MouseMove" MouseLeftButtonDown="pop_MouseLeftButtonDown"
+                MouseLeftButtonUp="pop_MouseLeftButtonUp" MouseLeave="pop_MouseLeave" MaxHeight="500" MaxWidth="777">
             <Border BorderBrush="Black" BorderThickness="1" Background="AliceBlue"  CornerRadius="10,0,10,0" VerticalAlignment="Center"
                 HorizontalAlignment="Center">
-                <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
                     <Button Content="X" HorizontalAlignment="Right" Background="Transparent" Click="Button_Click"/>
-                    <ContentControl regions:RegionManager.RegionName="StartupRegion" DataContext="{Binding}"/>
-                </StackPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
+                        <ContentControl regions:RegionManager.RegionName="StartupRegion" DataContext="{Binding}" Margin="5"/>
+                    </ScrollViewer>
+                </Grid>
             </Border>
         </Popup>
         <!--Account Growth Mode Tabs-->
