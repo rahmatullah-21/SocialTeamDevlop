@@ -9,7 +9,7 @@ namespace DominatorUIUtility.ViewModel.Startup
     {
         public IRegionManager regionManager;
 
-        static int selectedIndex = 0;
+        public static int selectedIndex = 0;
         public static List<string> NavigationList { get; set; }
         public StartupBaseViewModel(IRegionManager region)
         {

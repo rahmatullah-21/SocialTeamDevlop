@@ -18,9 +18,12 @@ using DominatorHouseCore.ViewModel.Common;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.ViewModel.Startup;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
+using Prism.Commands;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +32,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DominatorHouse.ViewModels
 {
@@ -67,14 +71,16 @@ namespace DominatorHouse.ViewModels
             get { return _isPopUpOpen; }
             set { SetProperty(ref _isPopUpOpen, value); }
         }
-
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
+        public ICommand ModuleSettingCloseCommand { get; }
+        IRegionManager _regionManager;
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy, IRegionManager regionManager)
         {
             SocinatorKeyHelper.InitilizeKey();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
-
+            _regionManager = regionManager;
+            ModuleSettingCloseCommand = new DelegateCommand(OnModuleSettingClose);
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
@@ -111,6 +117,13 @@ namespace DominatorHouse.ViewModels
             };
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
+        }
+
+        private void OnModuleSettingClose()
+        {
+            IsPopUpOpen = false;
+            StartupBaseViewModel.selectedIndex = 0;
+            _regionManager.RequestNavigate("StartupRegion", StartupBaseViewModel.NavigationList[0]);
         }
 
         private void OnClosing(CancelEventArgs e)
