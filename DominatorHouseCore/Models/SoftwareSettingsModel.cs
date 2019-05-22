@@ -642,7 +642,7 @@ namespace DominatorHouseCore.Models
         }
 
         private bool _isRunProcessThroughBrowser = true;
-        [ProtoMember(42)]
+        [ProtoMember(44)]
         public bool IsRunProcessThroughBrowser
         {
             get { return _isRunProcessThroughBrowser; }

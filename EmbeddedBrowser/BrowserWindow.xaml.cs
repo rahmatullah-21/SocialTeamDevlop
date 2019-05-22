@@ -1313,7 +1313,8 @@ namespace EmbeddedBrowser
             CommentPreclude = 8,
             [Description("data-feed-option-name")]
             DataFeedOptionName = 9,
-
+            [Description("title")]
+            Title = 10
         }
 
 
@@ -1348,7 +1349,7 @@ namespace EmbeddedBrowser
         public async Task<string> GoToCustomUrl(string url, int delayAfter = 0)
         {
             Browser.Load(url);
-            await Task.Delay(delayAfter);
+            await Task.Delay(TimeSpan.FromSeconds(delayAfter));
             return await Browser.GetSourceAsync();
         }
 
