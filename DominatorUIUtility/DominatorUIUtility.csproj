@@ -395,8 +395,10 @@
     <Compile Include="ViewModel\OtherConfigurations\SoftwareSettingsViewModel.cs" />
     <Compile Include="ViewModel\SocioPublisher\SelectAccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\Startup\JobConfigViewModel.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\CommentViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\FollowViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\INetworkJobConfig.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\LikeViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\QuoraJobConfig.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\TumblrJobConfig.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\UnFollowerViewModel.cs" />
@@ -416,6 +418,12 @@
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\Follow.xaml.cs">
       <DependentUpon>Follow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\Activity\Comment.xaml.cs">
+      <DependentUpon>Comment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\Activity\Like.xaml.cs">
+      <DependentUpon>Like.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\Unfollow.xaml.cs">
       <DependentUpon>Unfollow.xaml</DependentUpon>
@@ -928,6 +936,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Follow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\Activity\Comment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AccountSetting\Activity\Like.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

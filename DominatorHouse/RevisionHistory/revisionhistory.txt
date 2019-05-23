@@ -1,3 +1,14 @@
+Version[1.0.0.55],[22nd-May-19]
+	Fixed Issue:-
+		Instagram :
+			UserScraper => Issue fixed with exporting report.
+		Pinterest :
+			Boards => Fixed issue in Board module.
+			Repin => Fixed issue in repin.
+			Pin Messenger => Fixed issue in Messenger.
+		Reddit :
+			Engage => Edit comment => Issue fixed with creating campaign with blank input.
+
 Version[1.0.0.54],[18th-May-19]
 New Features:
 	Social:  

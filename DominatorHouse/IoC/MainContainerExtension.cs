@@ -23,15 +23,15 @@ namespace DominatorHouse.IoC
             Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
 
             #region Startup ViewModel
-            //Container.RegisterSingleton<ISelectUserTypeViewModel, SelectUserTypeViewModel>();
+
             Container.RegisterSingleton<IFollowViewModel, FollowViewModel>();
             Container.RegisterSingleton<IUnFollowerViewModel, UnFollowerViewModel>();
+            Container.RegisterSingleton<ILikeViewModel, LikeViewModel>();
+            Container.RegisterSingleton<ICommentViewModel, CommentViewModel>();
             Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
             Container.RegisterSingleton<IQueryViewModel, QueryViewModel>();
             Container.RegisterSingleton<IJobConfigViewModel, JobConfigViewModel>();
-
-
-            //Container.RegisterSingleton<INetworkJobConfig, QuoraJobConfig>();
+            
 
             #endregion
 

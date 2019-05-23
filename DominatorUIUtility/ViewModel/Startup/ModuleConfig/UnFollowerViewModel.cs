@@ -1,13 +1,13 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Interfaces.StartUp;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public interface IUnFollowerViewModel
+    public interface IUnFollowerViewModel : IStartupJobConfiguration
     {
-        JobConfiguration JobConfiguration { get; set; }
         bool IsChkPeopleFollowedBySoftwareChecked { get; set; }
         bool IsChkPeopleFollowedOutsideSoftwareChecked { get; set; }
         bool IsChkCustomUsersListChecked { get; set; }

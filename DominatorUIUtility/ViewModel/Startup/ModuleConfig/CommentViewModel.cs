@@ -4,38 +4,27 @@ using Prism.Commands;
 using Prism.Regions;
 using DominatorHouseCore.Interfaces.StartUp;
 using System.Collections.ObjectModel;
-using System;
 using System.Collections.Generic;
-using DominatorHouseCore.Enums;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public interface IFollowViewModel : IStartupJobConfiguration, IStartUpSearchQuery
+    public interface ICommentViewModel : IStartupJobConfiguration, IStartUpSearchQuery
     {
     }
-    public class FollowViewModel : StartupBaseViewModel, IFollowViewModel
+    public class CommentViewModel : StartupBaseViewModel, ICommentViewModel
     {
-        public FollowViewModel(IRegionManager region) : base(region)
+        public CommentViewModel(IRegionManager region) : base(region)
         {
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             JobConfiguration = new JobConfiguration
             {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfFollowsPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfFollowsPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfFollowsPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxFollowsPerDay".FromResourceDictionary(),
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfCommentsPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfCommentsPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfCommentsPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfCommentsPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxCommentPerDay".FromResourceDictionary(),
             };
-            ListQueryType.Clear();
-            Enum.GetValues(typeof(QueryType)).Cast<QueryType>().ToList().ForEach(
-           query =>
-           {
-               if (query.IsQuora())
-                   ListQueryType.Add(query.ToString());
-           });
-
         }
 
         private JobConfiguration _jobConfiguration;
@@ -73,7 +62,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             get
             {
-                return _listQueryType;
+               return _listQueryType;
             }
             set
             {

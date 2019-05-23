@@ -1,22 +1,21 @@
-﻿<UserControl x:Class="DominatorUIUtility.Views.AccountSetting.Activity.Follow"
+﻿<UserControl x:Class="DominatorUIUtility.Views.AccountSetting.Activity.Comment"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             mc:Ignorable="d" 
               xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
               xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
-             >
+             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Follow user Setting" FontWeight="SemiBold"/>
+        <TextBlock Text="Comment user Setting" FontWeight="SemiBold"/>
         <StackPanel Grid.Row="1">
             <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
             <Expander Header="{DynamicResource LangKeySearchQuery}">
@@ -24,7 +23,7 @@
                                                         ListQueryInfo="{Binding SavedQueries}"/>
             </Expander>
         </StackPanel>
-        <next:NextPreviousButton Grid.Row="2" NextCommand="{Binding NextCommand}" 
+        <next:NextPreviousButton Grid.Row="2" NextCommand="{Binding NextCommand}"
                                   PreviousCommand="{Binding PreviousCommand}" />
     </Grid>
 </UserControl>
