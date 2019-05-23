@@ -1266,7 +1266,7 @@ namespace EmbeddedBrowser
 
         #region Browser Automation Changes
 
-        
+
 
         public enum PostContent
         {
@@ -1312,7 +1312,9 @@ namespace EmbeddedBrowser
             [Description("data-feed-option-name")]
             DataFeedOptionName = 9,
             [Description("title")]
-            Title = 10
+            Title = 10,
+            [Description("data-tab-key")]
+            DataTabKey = 11
         }
 
 
@@ -1401,7 +1403,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
+            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()";
 
             switch (actType)
             {
@@ -1443,7 +1445,7 @@ namespace EmbeddedBrowser
         }
 
 
-       
+
 
         public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0)
         {
@@ -1465,7 +1467,8 @@ namespace EmbeddedBrowser
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
         }
 
-        public async Task<List<string>> GetListInnerHtml(ActType actType, AttributeType attributeType, string attributeValue)
+        public async Task<List<string>> GetListInnerHtml(ActType actType, AttributeType attributeType, string attributeValue,
+            ValueType valueType = ValueType.InnerHtml)
         {
             if (Browser.IsDisposed) return
                     new List<string>();
@@ -1476,7 +1479,8 @@ namespace EmbeddedBrowser
 
             while (itemCount >= 0)
             {
-                listNodes.Add(await GetElementValueAsync(actType, attributeType, attributeValue, clickIndex: itemCount));
+                listNodes.Add(await GetElementValueAsync(actType, attributeType, attributeValue, valueType
+                    , clickIndex: itemCount));
                 itemCount--;
             }
 
@@ -1544,7 +1548,7 @@ namespace EmbeddedBrowser
 
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
-            var doc2 = $"documentdocument.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}";
+            var doc2 = $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}')";
 
             if (Browser.IsDisposed) return "";
             switch (actType)
@@ -1555,6 +1559,8 @@ namespace EmbeddedBrowser
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "";
                 case ActType.GetAttribute:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
+                case ActType.ActByQuery:
+                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
                 default:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
             }
@@ -1828,7 +1834,7 @@ namespace EmbeddedBrowser
             }
 
             return lstAdsList;
-        } 
+        }
         #endregion
 
         #endregion
