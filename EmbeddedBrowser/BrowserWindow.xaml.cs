@@ -112,10 +112,7 @@ namespace EmbeddedBrowser
                     Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
                     return;
                 }
-
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest)
-                    return;
-
+                
                 Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
 
                 foreach (var accCookie in DominatorAccountModel.Cookies)
