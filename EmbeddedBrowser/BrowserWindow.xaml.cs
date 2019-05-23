@@ -24,6 +24,7 @@ using EmbeddedBrowser.BrowserHelper;
 using Unity;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace EmbeddedBrowser
 {
@@ -37,6 +38,8 @@ namespace EmbeddedBrowser
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private RequestHandlerCustom _requestHandlerCustom { get; set; }
 
         #region Properties
         private IAccountScopeFactory _accountScopeFactory;
@@ -79,14 +82,14 @@ namespace EmbeddedBrowser
             TargetUrl = targetUrl;
             CustomUse = customUse;
             SkipYoutubeAd = skipAd;
-
+            _requestHandlerCustom = new RequestHandlerCustom(this);
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
 
             Browser.MenuHandler = new MenuHandler();
-            Browser.RequestHandler = new RequestHandlerCustom(this);
+            Browser.RequestHandler = _requestHandlerCustom;
 
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
                 Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
@@ -2166,6 +2169,55 @@ namespace EmbeddedBrowser
         private void CustomLog(string message) => GlobusLogHelper.log.Info(Log.CustomMessage,
             DominatorAccountModel.AccountBaseModel.AccountNetwork,
             DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", message);
+
+        //For reddit json data
+        public async Task<string> GoToCustomUrlAndGetPageSource(string url, string startSearchText, string startEndText, int delayAfter = 0)
+        {
+            Browser.Load(url);
+            await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+            var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+            var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data));
+            var response = string.Empty;
+            if (responseStream != null)
+                response = Encoding.UTF8.GetString(responseStream.Data);
+            return response;
+        }
+
+        //For deleting data present in responseList
+        public async Task ClearResources()
+        {
+            _requestHandlerCustom.responseList.Clear();
+            await Task.Delay(10);
+        }
+
+        //For reddit json data
+        public async Task<string> GetPageSourceCustomAsync(string searchText, string startEndText)
+        {
+            var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+            var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data));
+            var response = string.Empty;
+            if (responseStream != null)
+                response = Encoding.UTF8.GetString(responseStream.Data);
+            return response;
+        }
+
+        //For reddit json data
+        private bool GetStringFromByte(byte[] data)
+        {
+            try
+            {
+                string searchText = Encoding.UTF8.GetString(data);
+                if (searchText.Contains("window.___r = ") && searchText.Contains("; window.___prefetches"))
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
+        }
 
     }
 }
