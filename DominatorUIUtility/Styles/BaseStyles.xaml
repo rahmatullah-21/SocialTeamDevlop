@@ -263,7 +263,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter TargetName="Border" Property="Background" Value="#DCDCDC" />
+                            <Setter TargetName="Border" Property="Background" Value="AliceBlue" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -316,7 +316,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter TargetName="Border" Property="Background" Value="#DCDCDC" />
+                            <Setter TargetName="Border" Property="Background" Value="AliceBlue" />
 
                         </Trigger>
                     </ControlTemplate.Triggers>
