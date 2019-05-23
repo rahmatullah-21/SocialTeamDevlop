@@ -1406,7 +1406,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()";
+            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}";
 
             switch (actType)
             {
