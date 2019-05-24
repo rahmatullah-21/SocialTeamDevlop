@@ -1439,8 +1439,37 @@ namespace EmbeddedBrowser
 
             try
             {
-                var lstCookies = Browser.RequestContext.GetDefaultCookieManager(new TaskCompletionCallback())
-                    .VisitAllCookiesAsync().Result;
+                var cookieCollection = BrowserCookies();
+
+                _isLoggedIn = true;
+                _loginFailed = false;
+
+                DominatorAccountModel.Cookies = cookieCollection.Result;
+                DominatorAccountModel.IsUserLoggedIn = true;
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
+
+                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                  .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                   .SaveToBinFile();
+
+                CustomLog("Browser login successful.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(ex.StackTrace);
+                return false;
+            }
+        }
+
+        public async Task<CookieCollection> BrowserCookies()
+        {
+            try
+            {
+                var lstCookies = await Browser.RequestContext.GetDefaultCookieManager(new TaskCompletionCallback())
+                    .VisitAllCookiesAsync();
 
                 var cookieCollection = new CookieCollection();
 
@@ -1464,27 +1493,12 @@ namespace EmbeddedBrowser
                     catch
                     {/*ignored*/}
                 }
-
-                _isLoggedIn = true;
-                _loginFailed = false;
-
-                DominatorAccountModel.Cookies = cookieCollection;
-                DominatorAccountModel.IsUserLoggedIn = true;
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
-
-                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
-                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
-                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
-                  .AddOrUpdateCookies(DominatorAccountModel.Cookies)
-                   .SaveToBinFile();
-
-                CustomLog("Browser login successful.");
-                return true;
+                return cookieCollection;
             }
             catch (Exception ex)
             {
-                ex.DebugLog(ex.StackTrace);
-                return false;
+                ex.DebugLog();
+                return null;
             }
         }
 
