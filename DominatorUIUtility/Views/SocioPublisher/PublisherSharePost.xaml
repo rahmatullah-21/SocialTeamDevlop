@@ -27,7 +27,7 @@
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
                          Text="{Binding SharePostModel.AddFdPageUrl}"  Visibility="{Binding SharePostModel.IsShareFdPagePost,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-            <StackPanel Margin="10,0,0,0">
+            <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox  Margin="2" Content="{DynamicResource LangKeyCheckThePageForNewPostsEvery}" IsChecked="{Binding SharePostModel.IsNewPagePost}"/>
                     <controls:NumericUpDown  Height="25" Margin="2" Minimum="0" Value="{Binding SharePostModel.PostPerMinute}" IsEnabled="{Binding SharePostModel.IsNewPagePost}"/>

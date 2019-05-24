@@ -570,6 +570,7 @@
     <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\IRedditSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
+    <Compile Include="Interfaces\StartUp\INetwork.cs" />
     <Compile Include="Interfaces\StartUp\IStartupJobConfiguration.cs" />
     <Compile Include="Interfaces\StartUp\IStartUpSearchQuery.cs" />
     <Compile Include="Models\AccessorStrategies.cs" />
@@ -633,6 +634,7 @@
     <Compile Include="Settings\SoftwareSettings.cs" />
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
+    <Compile Include="StartupFactory\QuoraFactory.cs" />
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />

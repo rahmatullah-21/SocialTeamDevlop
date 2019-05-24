@@ -56,19 +56,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 SetProperty(ref _savedQueries, value);
             }
         }
-
-        private List<string> _listQueryType = new List<string>();
-        public List<string> ListQueryType
-        {
-            get
-            {
-               return _listQueryType;
-            }
-            set
-            {
-                SetProperty(ref _listQueryType, value);
-            }
-        }
+       
     }
-
 }

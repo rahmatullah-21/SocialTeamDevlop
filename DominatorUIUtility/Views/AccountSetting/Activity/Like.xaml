@@ -8,7 +8,13 @@
               xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
               xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl">
+             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
+               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="Like"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

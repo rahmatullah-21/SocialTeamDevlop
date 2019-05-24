@@ -222,8 +222,11 @@ namespace DominatorUIUtility.ViewModel
 
         private void CustomSetting(DominatorAccountModel account)
         {
+            if (_mainViewModel.IsPopUpOpen)
+                return;
             var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
             viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
+
             _mainViewModel.IsPopUpOpen = true;
         }
 

@@ -4,12 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             mc:Ignorable="d" 
               xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
               xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
-             >
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="Follow"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

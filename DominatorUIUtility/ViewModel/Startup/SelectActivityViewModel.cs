@@ -6,6 +6,7 @@ using Prism.Regions;
 using Prism.Commands;
 using System.Linq;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.Interfaces.StartUp;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -55,7 +56,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             NavigationList = new System.Collections.Generic.List<string>();
             NavigationList.Add("SelectActivity");
             allSelectedActivity.ForEach(name => NavigationList.Add(name.ActivityType));
-
+            NetworkFactory.RegisterNetwork();
             NevigateNext();
         }
         public void SetActivityTypeByNetwork(string network)

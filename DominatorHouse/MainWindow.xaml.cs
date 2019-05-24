@@ -94,11 +94,6 @@ namespace Socinator
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            mainViewModel.IsPopUpOpen = false;
-        }
-
         private void Popup_MouseMove(object sender, MouseEventArgs e)
         {
             if (_isDragble)

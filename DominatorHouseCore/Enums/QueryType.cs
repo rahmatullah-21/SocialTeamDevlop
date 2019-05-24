@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DominatorHouseCore.Utility;
+using System;
 using System.ComponentModel;
 using System.Linq;
 
@@ -17,11 +18,11 @@ namespace DominatorHouseCore.Enums
         [Youtube]
         [Tumblr]
         [Quora]
-        [Description("ModuleName")]
+        [Description("Follow")]
         Keyword,
 
         [Quora]
-        [Description("ModuleName")]
+        [Description("Follow")]
         SomeOneFollower
     }
     class FacebookAttribute : Attribute { }
@@ -36,20 +37,54 @@ namespace DominatorHouseCore.Enums
 
     static class QueryTypeHelper
     {
-        public static bool HasAttribute<T>(this Enum value)
+        public static bool HasNetworkAndActivity<T>(this Enum value, string activityType)
         {
             var member = value.GetType().GetMember(value.ToString()).FirstOrDefault();
-            return member != null && Attribute.IsDefined(member, typeof(T));
+            if (member != null && Attribute.IsDefined(member, typeof(T)))
+                return value.HaveActivity(activityType);
+            return false;
         }
-        public static bool IsFacebook(this Enum value) { return value.HasAttribute<FacebookAttribute>(); }
-        public static bool IsInstagram(this Enum value) { return value.HasAttribute<InstagramAttribute>(); }
-        public static bool IsTwitter(this Enum value) { return value.HasAttribute<TwitterAttribute>(); }
-        public static bool IsPinterest(this Enum value) { return value.HasAttribute<PinterestAttribute>(); }
-        public static bool IsLinkedIn(this Enum value) { return value.HasAttribute<LinkedInAttribute>(); }
-        public static bool IsReddit(this Enum value) { return value.HasAttribute<RedditAttribute>(); }
-        public static bool IsYoutube(this Enum value) { return value.HasAttribute<YoutubeAttribute>(); }
-        public static bool IsTumblr(this Enum value) { return value.HasAttribute<TumblrAttribute>(); }
-        public static bool IsQuora(this Enum value) { return value.HasAttribute<QuoraAttribute>(); }
+        public static bool IsFacebookActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<FacebookAttribute>(activityType);
+        }
+        public static bool IsInstagramActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<InstagramAttribute>(activityType);
+        }
+        public static bool IsTwitterActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<TwitterAttribute>(activityType);
+        }
+        public static bool IsPinterestActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<PinterestAttribute>(activityType);
+        }
+        public static bool IsLinkedInActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<LinkedInAttribute>(activityType);
+        }
+        public static bool IsRedditActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<RedditAttribute>(activityType);
+        }
+        public static bool IsYoutubeActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<YoutubeAttribute>(activityType);
+        }
+        public static bool IsTumblrActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<TumblrAttribute>(activityType);
+        }
+        public static bool IsQuoraActivity(this Enum value, string activityType)
+        {
+            return value.HasNetworkAndActivity<QuoraAttribute>(activityType);
+        }
+
+        public static bool HaveActivity(this Enum value, string activityType)
+        {
+            return value.GetDescriptionAttr().Contains(activityType);
+        }
 
     }
 }

@@ -4,14 +4,11 @@ using Prism.Commands;
 using Prism.Regions;
 using DominatorHouseCore.Interfaces.StartUp;
 using System.Collections.ObjectModel;
-using System;
-using System.Collections.Generic;
-using DominatorHouseCore.Enums;
-using System.Linq;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public interface IFollowViewModel : IStartupJobConfiguration, IStartUpSearchQuery
+    public interface IFollowViewModel : IStartupJobConfiguration,IStartUpSearchQuery
     {
     }
     public class FollowViewModel : StartupBaseViewModel, IFollowViewModel
@@ -29,15 +26,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 IncreaseActivityDisplayName = "LangKeyMaxFollowsPerDay".FromResourceDictionary(),
             };
             ListQueryType.Clear();
-            Enum.GetValues(typeof(QueryType)).Cast<QueryType>().ToList().ForEach(
-           query =>
-           {
-               if (query.IsQuora())
-                   ListQueryType.Add(query.ToString());
-           });
+          
 
         }
-
+        
+        
         private JobConfiguration _jobConfiguration;
 
         public JobConfiguration JobConfiguration
@@ -68,17 +61,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private List<string> _listQueryType = new List<string>();
-        public List<string> ListQueryType
+        public override void OnLoad(string activityType)
         {
-            get
-            {
-                return _listQueryType;
-            }
-            set
-            {
-                SetProperty(ref _listQueryType, value);
-            }
+            ListQueryType.Clear();
+            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            
+            ListQueryType = NetworkFactory.GetNetworkfactory(viewModel.SelectedNetwork).GetActivityFactory(activityType).GetQueryType();
         }
     }
 

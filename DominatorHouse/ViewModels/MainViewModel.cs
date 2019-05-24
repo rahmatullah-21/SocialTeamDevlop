@@ -123,7 +123,7 @@ namespace DominatorHouse.ViewModels
         {
             IsPopUpOpen = false;
             StartupBaseViewModel.selectedIndex = 0;
-            _regionManager.RequestNavigate("StartupRegion", StartupBaseViewModel.NavigationList[0]);
+            _regionManager.RequestNavigate("StartupRegion", "SelectActivity");
         }
 
         private void OnClosing(CancelEventArgs e)
