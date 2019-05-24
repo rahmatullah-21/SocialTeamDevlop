@@ -138,15 +138,8 @@ namespace EmbeddedBrowser
                 }
 
                 if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                {
-                    CustomUse = true;
-                    if (string.IsNullOrEmpty(TargetUrl))
-                        TargetUrl = SocialHomeUrls();
-                    var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksLoginUrl();
-                    Browser.Address = url;
-                    UrlBar.Text = url;
-                }
-
+                    Browser.Address = UrlBar.Text = SocialHomeUrls();
+                
                 // Just to check that how many cookie was inserted
                 var cefInitialCookies = await BrowserCookies(callBack);
             }
@@ -547,7 +540,7 @@ namespace EmbeddedBrowser
                     }
                 }
 
-                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName/* && !CustomUse*/)
+                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName && !CustomUse)
                 {
                     if (string.IsNullOrEmpty(TargetUrl))
                         TargetUrl = SocialHomeUrls();
