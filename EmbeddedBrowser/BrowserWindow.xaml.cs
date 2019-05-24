@@ -547,7 +547,7 @@ namespace EmbeddedBrowser
                     }
                 }
 
-                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName && !CustomUse)
+                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName/* && !CustomUse*/)
                 {
                     if (string.IsNullOrEmpty(TargetUrl))
                         TargetUrl = SocialHomeUrls();
