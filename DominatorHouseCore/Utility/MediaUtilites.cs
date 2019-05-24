@@ -27,9 +27,9 @@ namespace DominatorHouseCore.Utility
                     if (!File.Exists(newFilePath))
                     {
                         var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                        ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
+                        ffMpeg.GetVideoThumbnail(filePath, newFilePath);
                     }
-                }
+              }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
