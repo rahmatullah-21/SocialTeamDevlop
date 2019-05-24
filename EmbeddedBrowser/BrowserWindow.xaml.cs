@@ -148,7 +148,7 @@ namespace EmbeddedBrowser
                 }
 
                 // Just to check that how many cookie was inserted
-                var cefInitialCookies = await Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync();
+                var cefInitialCookies = await BrowserCookies(callBack);
             }
             catch (Exception ex)
             {
@@ -523,9 +523,9 @@ namespace EmbeddedBrowser
                 }
 
                 if (!_htmlHasUserName)
-                    _htmlHasUserName = _html.ToLower().Contains($"\"opep7c\":\"{DominatorAccountModel.UserName.ToLower()}\"")
-                                       || _pageText.Contains("Protect your account") && _pageText.ToLower().Contains(DominatorAccountModel.UserName.ToLower());
-                SetGoogleLangAsEng(_pageText, _htmlHasUserName);
+                    _htmlHasUserName = _html.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || _html.Contains("\"LOGGED_IN\":true")
+                                                                                                          || (_pageText.Contains("Protect your account") && _pageText.ToLower().Contains(DominatorAccountModel.UserName.ToLower()));
+                SetGoogleLangAsEng();
 
                 if (!_isLoggedIn && (_pageText.Contains("Verify your identity") || _pageText.Contains("\n\nEnter verification code\n\n") || _pageText.Contains("English (")) && !IsGoogleAccountLoginFailed())
                 {
@@ -547,7 +547,7 @@ namespace EmbeddedBrowser
                     }
                 }
 
-                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName)
+                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName && !CustomUse)
                 {
                     if (string.IsNullOrEmpty(TargetUrl))
                         TargetUrl = SocialHomeUrls();
@@ -566,15 +566,16 @@ namespace EmbeddedBrowser
             { /*ignored*/}
         }
 
-        private void SetGoogleLangAsEng(string pageText, bool htmlHasUserName)
+        private void SetGoogleLangAsEng()
         {
             try
             {
                 if (_isLoggedIn || Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")
                                 || TargetUrl == "https://www.youtube.com/"
-                                || htmlHasUserName || string.IsNullOrEmpty(pageText) || pageText == "Account\n\n\n"
-                                || pageText.Contains("Protect your account") || pageText.Contains("Loading, please wait ...")
-                                || pageText.Contains("English (") || pageText.Contains("Personal info"))
+                                || TargetUrl == "https://youtube.com/"
+                                || _htmlHasUserName || string.IsNullOrEmpty(_pageText) || _pageText == "Account\n\n\n"
+                                || _pageText.Contains("Protect your account") || _pageText.Contains("Loading, please wait ...")
+                                || _pageText.Contains("English (") || _pageText.Contains("Personal info"))
                     return;
 
                 // Open Google Language ListBox in Browser
@@ -1431,6 +1432,7 @@ namespace EmbeddedBrowser
         public bool _isLoggedIn;
         /// <summary>
         /// Returns true if cookies were saved
+        /// Call this method only at login success condition
         /// </summary>
         /// <returns></returns>
         private bool SaveCookies()
@@ -1439,12 +1441,10 @@ namespace EmbeddedBrowser
 
             try
             {
-                var cookieCollection = BrowserCookies();
-
                 _isLoggedIn = true;
                 _loginFailed = false;
 
-                DominatorAccountModel.Cookies = cookieCollection.Result;
+                DominatorAccountModel.Cookies = BrowserCookiesIntoModel().Result;
                 DominatorAccountModel.IsUserLoggedIn = true;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
@@ -1464,16 +1464,13 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<CookieCollection> BrowserCookies()
+        public async Task<CookieCollection> BrowserCookiesIntoModel()
         {
             try
             {
-                var lstCookies = await Browser.RequestContext.GetDefaultCookieManager(new TaskCompletionCallback())
-                    .VisitAllCookiesAsync();
-
                 var cookieCollection = new CookieCollection();
 
-                foreach (var item in lstCookies)
+                foreach (var item in await BrowserCookies())
                 {
                     try
                     {
@@ -1501,6 +1498,9 @@ namespace EmbeddedBrowser
                 return null;
             }
         }
+
+        public async Task<List<CefSharp.Cookie>> BrowserCookies(TaskCompletionCallback callBack = null) => await Browser.RequestContext.GetDefaultCookieManager(callBack ?? new TaskCompletionCallback())
+                .VisitAllCookiesAsync();
 
         #endregion
 
