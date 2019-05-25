@@ -137,7 +137,7 @@ namespace EmbeddedBrowser
                     //if (!set) { /*Is cookie set ?*/ }
                 }
 
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && !CustomUse)
                     Browser.Address = UrlBar.Text = SocialHomeUrls();
                 
                 // Just to check that how many cookie was inserted
@@ -324,7 +324,33 @@ namespace EmbeddedBrowser
         /// <returns></returns>
         public string GetPageSource() => Browser.GetSourceAsync().Result;
 
-        public void Dispose() => Browser.Dispose();
+        public void GoBack(int nTimes = 1)
+        {
+            while (nTimes > 0)
+            {
+                if (!Browser.CanGoBack)
+                    return;
+                Browser.GetBrowser().GoBack();
+                nTimes--;
+                if (nTimes != 0)
+                    Thread.Sleep(500);
+            }
+        }
+
+        public void GoForward(int nTimes = 1)
+        {
+            while (nTimes > 0)
+            {
+                if (!Browser.CanGoForward)
+                    return;
+                Browser.Forward();
+                nTimes--;
+                if (nTimes != 0)
+                    Thread.Sleep(500);
+            }
+        }
+        
+    public void Dispose() => Browser.Dispose();
 
         public enum ActType
         {
@@ -1145,7 +1171,7 @@ namespace EmbeddedBrowser
                 }).Start();
             }
 
-            BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 3, 0.1); // To Open Volume Slider
+            BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 4, 0.1); // To Open Volume Slider
 
             var ke = new KeyEvent();
             PressAnyKey(21, 100, ke, 40, 2); //Press Down Arrow key 40 times to mute the music
@@ -1511,20 +1537,11 @@ namespace EmbeddedBrowser
 
         private void Window_Closing(object sender, CancelEventArgs e) => Dispose();
 
-        private void ButtonBack_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (Browser.CanGoBack)
-                Browser.Back();
-        }
+        private void ButtonBack_OnClick(object sender, RoutedEventArgs e) => GoBack();
 
-        private void ButtonForward_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (Browser.CanGoForward)
-                Browser.Forward();
-        }
+        private void ButtonForward_OnClick(object sender, RoutedEventArgs e) => GoForward();
 
-        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e)
-            => Browser.Reload();
+        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e) => Browser.Reload();
 
         #endregion
 
