@@ -6,7 +6,7 @@ namespace DominatorHouseCore.Interfaces.StartUp
 {
     public interface IStartUpSearchQuery
     {
-        //List<string> ListQueryType { get; set; }
+        List<string> ListQueryType { get; set; }
         ObservableCollection<QueryInfo> SavedQueries { get; set; }
     }
 }

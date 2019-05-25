@@ -22,7 +22,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         public StartupBaseViewModel(IRegionManager region)
         {
             regionManager = region;
-            LoadedCommand = new DelegateCommand<string>(OnLoad);
+            //LoadedCommand = new DelegateCommand<string>(OnLoad);
         }
         #region Commands
         public ICommand NextCommand { get; set; }
@@ -48,66 +48,66 @@ namespace DominatorUIUtility.ViewModel.Startup
         }
        
 
-        private List<string> _listQueryType = new List<string>();
-        public List<string> ListQueryType
-        {
-            get
-            {
-                return _listQueryType;
-            }
-            set
-            {
-                SetProperty(ref _listQueryType, value);
-            }
-        }
-        public virtual void OnLoad(string activityType)
-        {
-            ListQueryType.Clear();
-            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-            //Enum.GetValues(typeof(QueryType)).Cast<QueryType>().ToList().ForEach(
-            //         query =>
-            //         {
-            //             switch (viewModel.SelectedNetwork)
-            //             {
-            //                 case "Facebook":
-            //                     if (query.IsFacebookActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //                 case "Instagram":
-            //                     if (query.IsInstagramActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //                 case "Twitter":
-            //                     if (query.IsTwitterActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //                 case "Pinterest":
-            //                     if (query.IsPinterestActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //                 case "LinkedIn":
-            //                     if (query.IsLinkedInActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //                 case "Reddit":
-            //                     if (query.IsRedditActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //                 case "Quora":
-            //                     if (query.IsQuoraActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //                 case "Youtube":
-            //                     if (query.IsYoutubeActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //                 case "Tumblr":
-            //                     if (query.IsTumblrActivity(activityType))
-            //                         ListQueryType.Add(query.ToString());
-            //                     break;
-            //             }
+        //private List<string> _listQueryType = new List<string>();
+        //public List<string> ListQueryType
+        //{
+        //    get
+        //    {
+        //        return _listQueryType;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref _listQueryType, value);
+        //    }
+        //}
+        //public virtual void OnLoad(string activityType)
+        //{
+        //    ListQueryType.Clear();
+        //    var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+        //    //Enum.GetValues(typeof(QueryType)).Cast<QueryType>().ToList().ForEach(
+        //    //         query =>
+        //    //         {
+        //    //             switch (viewModel.SelectedNetwork)
+        //    //             {
+        //    //                 case "Facebook":
+        //    //                     if (query.IsFacebookActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //                 case "Instagram":
+        //    //                     if (query.IsInstagramActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //                 case "Twitter":
+        //    //                     if (query.IsTwitterActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //                 case "Pinterest":
+        //    //                     if (query.IsPinterestActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //                 case "LinkedIn":
+        //    //                     if (query.IsLinkedInActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //                 case "Reddit":
+        //    //                     if (query.IsRedditActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //                 case "Quora":
+        //    //                     if (query.IsQuoraActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //                 case "Youtube":
+        //    //                     if (query.IsYoutubeActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //                 case "Tumblr":
+        //    //                     if (query.IsTumblrActivity(activityType))
+        //    //                         ListQueryType.Add(query.ToString());
+        //    //                     break;
+        //    //             }
                         
-            //         });
-        }
+        //    //         });
+        //}
     }
 }

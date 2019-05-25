@@ -5,6 +5,7 @@ using Prism.Regions;
 using DominatorHouseCore.Interfaces.StartUp;
 using System.Collections.ObjectModel;
 using CommonServiceLocator;
+using System.Collections.Generic;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -17,6 +18,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
+            LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),
@@ -29,8 +31,19 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
           
 
         }
-        
-        
+
+        private List<string> _listQueryType = new List<string>();
+        public List<string> ListQueryType
+        {
+            get
+            {
+                return _listQueryType;
+            }
+            set
+            {
+                SetProperty(ref _listQueryType, value);
+            }
+        }
         private JobConfiguration _jobConfiguration;
 
         public JobConfiguration JobConfiguration
@@ -61,12 +74,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        public override void OnLoad(string activityType)
+        public void OnLoad(string activityType)
         {
             ListQueryType.Clear();
             var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-            
-            ListQueryType = NetworkFactory.GetNetworkfactory(viewModel.SelectedNetwork).GetActivityFactory(activityType).GetQueryType();
+          ListQueryType = NetworkFactory.GetNetworkfactory(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
         }
     }
 

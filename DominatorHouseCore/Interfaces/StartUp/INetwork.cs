@@ -1,5 +1,14 @@
 ﻿using DominatorHouseCore.Enums;
-using DominatorHouseCore.StartupFactory;
+using DominatorHouseCore.StartupActivity;
+using DominatorHouseCore.StartupActivity.Facebook;
+using DominatorHouseCore.StartupActivity.Instagram;
+using DominatorHouseCore.StartupActivity.Linkedin;
+using DominatorHouseCore.StartupActivity.Pinterest;
+using DominatorHouseCore.StartupActivity.Quora;
+using DominatorHouseCore.StartupActivity.Reddit;
+using DominatorHouseCore.StartupActivity.Tumblr;
+using DominatorHouseCore.StartupActivity.Twitter;
+using DominatorHouseCore.StartupActivity.Youtube;
 using System.Collections.Generic;
 
 namespace DominatorHouseCore.Interfaces.StartUp
@@ -11,62 +20,35 @@ namespace DominatorHouseCore.Interfaces.StartUp
     #region Commented
     class NetworkFactory
     {
-        private static Dictionary<string, INetworkFactory> Networks { get; } = new Dictionary<string, INetworkFactory>();
-        public static INetworkFactory GetNetworkfactory(string networks)
+        private static Dictionary<string, INetworkActivity> Networks { get; } = new Dictionary<string, INetworkActivity>();
+        public static INetworkActivity GetNetworkfactory(string networks)
         {
             return Networks.ContainsKey(networks) ? Networks[networks] : null;
         }
-        public static void RegisterNetwork(string networks, INetworkFactory networkFactory)
-        {
-            if (Networks.ContainsKey(networks))
-                return;
-
-            Networks.Add(networks, networkFactory);
-        }
+     
         public static void RegisterNetwork()
         {
 
             try
             {
-                Networks.Add(SocialNetworks.Quora.ToString(), new QuoraFactory());
-                Networks.Add(SocialNetworks.Facebook.ToString(), new FacebookFactory());
-                Networks.Add(SocialNetworks.Instagram.ToString(), new InstagramFactory());
-                Networks.Add(SocialNetworks.LinkedIn.ToString(), new LinkedinFactory());
-                Networks.Add(SocialNetworks.Pinterest.ToString(), new PinterestFactory());
-                Networks.Add(SocialNetworks.Reddit.ToString(), new RedditFactory());
-                Networks.Add(SocialNetworks.Tumblr.ToString(), new TumblrFactory());
-                Networks.Add(SocialNetworks.Twitter.ToString(), new TwitterFactory());
-                Networks.Add(SocialNetworks.Youtube.ToString(), new YoutubeFactory());
+                Networks.Add(SocialNetworks.Quora.ToString(), new QuoraActivity());
+                Networks.Add(SocialNetworks.Facebook.ToString(), new FacebookActivity());
+                Networks.Add(SocialNetworks.Instagram.ToString(), new InstagramActivity());
+                Networks.Add(SocialNetworks.LinkedIn.ToString(), new LinkedinActivity());
+                Networks.Add(SocialNetworks.Pinterest.ToString(), new PinterestActivity());
+                Networks.Add(SocialNetworks.Reddit.ToString(), new RedditActivity());
+                Networks.Add(SocialNetworks.Tumblr.ToString(), new TumblrActivity());
+                Networks.Add(SocialNetworks.Twitter.ToString(), new TwitterActivity());
+                Networks.Add(SocialNetworks.Youtube.ToString(), new YoutubeActivity());
             }
-            catch (System.Exception ex)
-            {
-
-              
-            }
+            catch {}
         }
     }
-    //public class ActivityFactory
-    //{
-    //    private static Dictionary<string, List<string>> Networks { get; } = new Dictionary<string, List<string>>();
-
-    //    public static void RegisterActivity(string activity, List<string> queryType)
-    //    {
-    //        if (Networks.ContainsKey(activity))
-    //            return;
-
-    //        Networks.Add(activity, queryType);
-    //    }
-
-    //    public List<string> GetQueryType(string activityType)
-    //    {
-    //        return Networks.ContainsKey(activityType) ? Networks[activityType] : null;
-    //    }
-    //} 
     #endregion
 
-    public interface INetworkFactory
+    public interface INetworkActivity
     {
-        BaseActivityFactory GetActivityFactory(string activity);
+        BaseActivity GetActivity(string activity);
     }
 
 }
