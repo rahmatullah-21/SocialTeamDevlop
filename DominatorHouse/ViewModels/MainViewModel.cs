@@ -294,7 +294,7 @@ namespace DominatorHouse.ViewModels
                 
                 Task.Factory.StartNew(() =>
                 {
-                    FeatureFlags.UpdateFeatures();
+                    //FeatureFlags.UpdateFeatures();
                     var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
                     foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
                     {
@@ -373,7 +373,7 @@ namespace DominatorHouse.ViewModels
                             .AndEvery(1).Days());
                 });
 
-                FeatureFlags.UpdateFeatures();
+               // FeatureFlags.UpdateFeatures();
 
                 Task.Factory.StartNew(() =>
                 {
