@@ -358,7 +358,13 @@ namespace DominatorUIUtility.CustomControl
         {
             if (string.IsNullOrEmpty(CampaignName))
             {
-                Dialog.ShowDialog("Error", "Campaign name should not be empty.Please type name for Campaign");
+                Dialog.ShowDialog("Error", "Campaign name should not be empty. Please provide name for Campaign.");
+                return true;
+            }
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            if (_footerControl.CampaignManager == ConstantVariable.CreateCampaign && campaignFileManager.Any(x => x.CampaignName == CampaignName))
+            {
+                Dialog.ShowDialog("Error", "Campaign with same name already exists. Please change name of Campaign.");
                 return true;
             }
             return false;

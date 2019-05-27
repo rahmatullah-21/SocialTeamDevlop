@@ -719,7 +719,9 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 {
                     ImagePointer = 0;
                     MediaCurrentPointer = 1;
-                    CurrentMediaUrl = MediaList[ImagePointer];
+                    var mediaUtilites = new MediaUtilites();
+                  
+                    CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
                     TotalMediaCount = MediaList.Count;
                     NextImageEnable = (TotalMediaCount - ImagePointer) > -1;
                     PreviousImageEnable = ImagePointer > 0;

@@ -142,18 +142,11 @@ namespace EmbeddedBrowser
                     //if (!set) { /*Is cookie set ?*/ }
                 }
 
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube)
-                {
-                    CustomUse = true;
-                    if (string.IsNullOrEmpty(TargetUrl))
-                        TargetUrl = SocialHomeUrls();
-                    var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksLoginUrl();
-                    Browser.Address = url;
-                    UrlBar.Text = url;
-                }
-
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && !CustomUse)
+                    Browser.Address = UrlBar.Text = SocialHomeUrls();
+                
                 // Just to check that how many cookie was inserted
-                var cefInitialCookies = await Browser.RequestContext.GetDefaultCookieManager(callBack).VisitAllCookiesAsync();
+                var cefInitialCookies = await BrowserCookies(callBack);
             }
             catch (Exception ex)
             {
@@ -336,7 +329,33 @@ namespace EmbeddedBrowser
         /// <returns></returns>
         public string GetPageSource() => Browser.GetSourceAsync().Result;
 
-        public void Dispose() => Browser.Dispose();
+        public void GoBack(int nTimes = 1)
+        {
+            while (nTimes > 0)
+            {
+                if (!Browser.CanGoBack)
+                    return;
+                Browser.GetBrowser().GoBack();
+                nTimes--;
+                if (nTimes != 0)
+                    Thread.Sleep(500);
+            }
+        }
+
+        public void GoForward(int nTimes = 1)
+        {
+            while (nTimes > 0)
+            {
+                if (!Browser.CanGoForward)
+                    return;
+                Browser.Forward();
+                nTimes--;
+                if (nTimes != 0)
+                    Thread.Sleep(500);
+            }
+        }
+        
+    public void Dispose() => Browser.Dispose();
 
         public enum ActType
         {
@@ -546,9 +565,9 @@ namespace EmbeddedBrowser
                 }
 
                 if (!_htmlHasUserName)
-                    _htmlHasUserName = _html.ToLower().Contains($"\"opep7c\":\"{DominatorAccountModel.UserName.ToLower()}\"")
-                                       || _pageText.Contains("Protect your account") && _pageText.ToLower().Contains(DominatorAccountModel.UserName.ToLower());
-                SetGoogleLangAsEng(_pageText, _htmlHasUserName);
+                    _htmlHasUserName = _html.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || _html.Contains("\"LOGGED_IN\":true")
+                                                                                                          || (_pageText.Contains("Protect your account") && _pageText.ToLower().Contains(DominatorAccountModel.UserName.ToLower()));
+                SetGoogleLangAsEng();
 
                 if (!_isLoggedIn && (_pageText.Contains("Verify your identity") || _pageText.Contains("\n\nEnter verification code\n\n") || _pageText.Contains("English (")) && !IsGoogleAccountLoginFailed())
                 {
@@ -570,7 +589,7 @@ namespace EmbeddedBrowser
                     }
                 }
 
-                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName)
+                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName && !CustomUse)
                 {
                     if (string.IsNullOrEmpty(TargetUrl))
                         TargetUrl = SocialHomeUrls();
@@ -589,15 +608,16 @@ namespace EmbeddedBrowser
             { /*ignored*/}
         }
 
-        private void SetGoogleLangAsEng(string pageText, bool htmlHasUserName)
+        private void SetGoogleLangAsEng()
         {
             try
             {
                 if (_isLoggedIn || Uri.UnescapeDataString(TargetUrl.ToLower()).Contains("www.youtube.com/watch?")
                                 || TargetUrl == "https://www.youtube.com/"
-                                || htmlHasUserName || string.IsNullOrEmpty(pageText) || pageText == "Account\n\n\n"
-                                || pageText.Contains("Protect your account") || pageText.Contains("Loading, please wait ...")
-                                || pageText.Contains("English (") || pageText.Contains("Personal info"))
+                                || TargetUrl == "https://youtube.com/"
+                                || _htmlHasUserName || string.IsNullOrEmpty(_pageText) || _pageText == "Account\n\n\n"
+                                || _pageText.Contains("Protect your account") || _pageText.Contains("Loading, please wait ...")
+                                || _pageText.Contains("English (") || _pageText.Contains("Personal info"))
                     return;
 
                 // Open Google Language ListBox in Browser
@@ -1174,7 +1194,7 @@ namespace EmbeddedBrowser
                 }).Start();
             }
 
-            BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 3, 0.1); // To Open Volume Slider
+            BrowserAct(ActType.ClickByClass, "ytp-volume-slider", 4, 0.1); // To Open Volume Slider
 
             var ke = new KeyEvent();
             PressAnyKey(21, 100, ke, 40, 2); //Press Down Arrow key 40 times to mute the music
@@ -2072,6 +2092,7 @@ namespace EmbeddedBrowser
 
         /// <summary>
         /// Returns true if cookies were saved
+        /// Call this method only at login success condition
         /// </summary>
         /// <returns></returns>
         private bool SaveCookies()
@@ -2080,36 +2101,10 @@ namespace EmbeddedBrowser
 
             try
             {
-                var lstCookies = Browser.RequestContext.GetDefaultCookieManager(new TaskCompletionCallback())
-                    .VisitAllCookiesAsync().Result;
-
-                var cookieCollection = new CookieCollection();
-
-                foreach (var item in lstCookies)
-                {
-                    try
-                    {
-                        var cookie = new System.Net.Cookie
-                        {
-                            Name = item.Name,
-                            Value = item.Value,
-                            Domain = item.Domain,
-                            Path = item.Path,
-                            Secure = item.Secure
-                        };
-                        if (item.Expires != null)
-                            cookie.Expires = (DateTime)item.Expires;
-
-                        cookieCollection.Add(cookie);
-                    }
-                    catch
-                    {/*ignored*/}
-                }
-
                 _isLoggedIn = true;
                 _loginFailed = false;
 
-                DominatorAccountModel.Cookies = cookieCollection;
+                DominatorAccountModel.Cookies = BrowserCookiesIntoModel().Result;
                 DominatorAccountModel.IsUserLoggedIn = true;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
@@ -2129,6 +2124,44 @@ namespace EmbeddedBrowser
             }
         }
 
+        public async Task<CookieCollection> BrowserCookiesIntoModel()
+        {
+            try
+            {
+                var cookieCollection = new CookieCollection();
+
+                foreach (var item in await BrowserCookies())
+                {
+                    try
+                    {
+                        var cookie = new System.Net.Cookie
+                        {
+                            Name = item.Name,
+                            Value = item.Value,
+                            Domain = item.Domain,
+                            Path = item.Path,
+                            Secure = item.Secure
+                        };
+                        if (item.Expires != null)
+                            cookie.Expires = (DateTime)item.Expires;
+
+                        cookieCollection.Add(cookie);
+                    }
+                    catch
+                    {/*ignored*/}
+                }
+                return cookieCollection;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return null;
+            }
+        }
+
+        public async Task<List<CefSharp.Cookie>> BrowserCookies(TaskCompletionCallback callBack = null) => await Browser.RequestContext.GetDefaultCookieManager(callBack ?? new TaskCompletionCallback())
+                .VisitAllCookiesAsync();
+
         #endregion
 
         #region Window UI Interaction
@@ -2145,20 +2178,11 @@ namespace EmbeddedBrowser
 
         private void Window_Closing(object sender, CancelEventArgs e) => Dispose();
 
-        private void ButtonBack_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (Browser.CanGoBack)
-                Browser.Back();
-        }
+        private void ButtonBack_OnClick(object sender, RoutedEventArgs e) => GoBack();
 
-        private void ButtonForward_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (Browser.CanGoForward)
-                Browser.Forward();
-        }
+        private void ButtonForward_OnClick(object sender, RoutedEventArgs e) => GoForward();
 
-        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e)
-            => Browser.Reload();
+        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e) => Browser.Reload();
 
         #endregion
 
