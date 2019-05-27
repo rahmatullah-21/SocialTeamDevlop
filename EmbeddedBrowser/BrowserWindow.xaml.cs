@@ -364,7 +364,9 @@ namespace EmbeddedBrowser
             ActByQuery,
             CustomActType,
             ScrollIntoViewQuery,
-            GetAttribute
+            GetAttribute,
+            CustomActByQueryType,
+            GetLengthByQuery
         }
 
         /// <summary>
@@ -1317,7 +1319,15 @@ namespace EmbeddedBrowser
             [Description("title")]
             Title = 10,
             [Description("data-tab-key")]
-            DataTabKey = 11
+            DataTabKey = 11,
+            [Description("data-target")]
+            DataTarget = 12,
+            [Description("data-key")]
+            DataKey = 13,
+            [Description("data-referrer")]
+            DataReferer = 14,
+            [Description("type")]
+            Type = 14,
         }
 
 
@@ -1406,7 +1416,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}";
+            var dfg = $"document.getElementsBy{ attributeType} ('{attributeValue}')[{ index}].scrollIntoViewIfNeeded()";
 
             switch (actType)
             {
@@ -1438,6 +1448,10 @@ namespace EmbeddedBrowser
                     Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}");
                     break;
 
+                case ActType.CustomActByQueryType:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].{value}");
+                    break;
+
                 default:
                     Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}");
                     break;
@@ -1454,6 +1468,28 @@ namespace EmbeddedBrowser
         {
 
             MouseButtonType mouseButton = MouseButtonType.Left;
+
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return;
+
+            // mouseUp(4th parameter) = false , MouseButton to be pressed
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, false, 1, CefEventFlags.None);
+            await Task.Delay(100);
+            // mouseUp(4th parameter) = true , MouseButton to be released
+            //Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
+
+            if (delayAfter > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+        }
+
+
+        public async Task MouseHoverAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
+            int clickLeavEvent = 0)
+        {
+
+            MouseButtonType mouseButton = MouseButtonType.Right;
 
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
@@ -1499,7 +1535,7 @@ namespace EmbeddedBrowser
 
             List<string> listNodes = new List<string>();
 
-            int itemCount = int.Parse(await GetChildElementValueAsync(ActType.GetLength, parentAttributeType,
+            int itemCount = int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
 
             while (itemCount >= 0)
@@ -1551,7 +1587,7 @@ namespace EmbeddedBrowser
 
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
-            var doc2 = $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}')";
+            var doc2 = $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{ parentIndex}].getElementsBy{ childAttributeName} ('{childAttributeValue}').length";
 
             if (Browser.IsDisposed) return "";
             switch (actType)
@@ -1560,6 +1596,8 @@ namespace EmbeddedBrowser
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
                 case ActType.GetLength:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "";
+                case ActType.GetLengthByQuery:
+                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "";
                 case ActType.GetAttribute:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
                 case ActType.ActByQuery:
@@ -2173,41 +2211,100 @@ namespace EmbeddedBrowser
         //For reddit json data
         public async Task<string> GoToCustomUrlAndGetPageSource(string url, string startSearchText, string startEndText, int delayAfter = 0)
         {
-            Browser.Load(url);
-            await Task.Delay(TimeSpan.FromSeconds(delayAfter));
-            var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
-            var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data));
             var response = string.Empty;
-            if (responseStream != null)
-                response = Encoding.UTF8.GetString(responseStream.Data);
+            try
+            {
+                if (!string.IsNullOrEmpty(url))
+                    Browser.Load(url);
+
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                lstResponseStream.RemoveAll(x => x.Data == null);
+                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
+                if (responseStream != null)
+                    response = Encoding.UTF8.GetString(responseStream.Data);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+            }
             return response;
         }
 
         //For deleting data present in responseList
-        public async Task ClearResources()
+        public void ClearResources()
         {
             _requestHandlerCustom.responseList.Clear();
-            await Task.Delay(10);
         }
 
         //For reddit json data
-        public async Task<string> GetPageSourceCustomAsync(string searchText, string startEndText)
+        public async Task<string> GetPageSourceCustomAsync(string startSearchText, string startEndText)
         {
-            var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
-            var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data));
             var response = string.Empty;
-            if (responseStream != null)
-                response = Encoding.UTF8.GetString(responseStream.Data);
+            try
+            {
+                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                lstResponseStream.RemoveAll(x => x.Data == null);
+                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
+
+                if (responseStream != null)
+                    response = Encoding.UTF8.GetString(responseStream.Data);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+            }
             return response;
         }
 
-        //For reddit json data
-        private bool GetStringFromByte(byte[] data)
+        //To check reddit json data
+        private bool GetStringFromByte(byte[] data, string startSearchText, string startEndText)
         {
             try
             {
                 string searchText = Encoding.UTF8.GetString(data);
-                if (searchText.Contains("window.___r = ") && searchText.Contains("; window.___prefetches"))
+                if (searchText.Contains(startSearchText) && searchText.Contains(startEndText))
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
+        }
+
+        //Get json data for pagination
+        public async Task<string> GetPaginationData(string startSearchText)
+        {
+            var response = string.Empty;
+            try
+            {
+                await Task.Delay(10);
+                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                lstResponseStream.RemoveAll(x => x.Data == null);
+                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText));
+                if (responseStream != null)
+                    response = Encoding.UTF8.GetString(responseStream.Data);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return response;
+        }
+
+        //To check reddit json data 
+        private bool GetPaginatoinDataFromByte(byte[] data, string startSearchText)
+        {
+            try
+            {
+                string searchText = Encoding.UTF8.GetString(data);
+                if (searchText.StartsWith(startSearchText))
                     return true;
                 else
                     return false;
