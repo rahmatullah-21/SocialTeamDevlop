@@ -53,7 +53,7 @@ namespace DominatorHouseCore.Process
         private readonly IQueryScraperFactory _queryScraperFactory;
         private readonly IHttpHelper _httpHelper;
         private readonly IDominatorScheduler _dominatorScheduler;
-        protected readonly ISoftwareSettingsFileManager _softwareSettingsFileManagaer;
+        protected readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
         public CampaignDetails CampaignDetails { get; }
 
 
@@ -73,7 +73,7 @@ namespace DominatorHouseCore.Process
             _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-            _softwareSettingsFileManagaer = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            _softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             TemplateId = processScopeModel.TemplateId;
             ActivityType = processScopeModel.ActivityType;
             SocialNetworks = processScopeModel.Network;
@@ -369,7 +369,7 @@ namespace DominatorHouseCore.Process
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
-                    if (!_softwareSettingsFileManagaer.GetSoftwareSettings().IsRunProcessThroughBrowser)
+                    if (!_softwareSettingsFileManager.GetSoftwareSettings().IsRunProcessThroughBrowser)
                         logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
                     else
                         logInProcess.LoginWithBrowserMethod(DominatorAccountModel);

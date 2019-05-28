@@ -1347,7 +1347,7 @@ namespace EmbeddedBrowser
             [Description("data-referrer")]
             DataReferer = 14,
             [Description("type")]
-            Type = 14,
+            Type = 15,
         }
 
 
@@ -1436,7 +1436,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.getElementsBy{ attributeType} ('{attributeValue}')[{ index}].scrollIntoViewIfNeeded()";
+            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()";
 
             switch (actType)
             {
@@ -2302,7 +2302,7 @@ namespace EmbeddedBrowser
         }
 
         //Get json data for pagination
-        public async Task<string> GetPaginationData(string startSearchText)
+        public async Task<string> GetPaginationData(string startSearchText, bool isContains = false)
         {
             var response = string.Empty;
             try
@@ -2310,7 +2310,7 @@ namespace EmbeddedBrowser
                 await Task.Delay(10);
                 var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
-                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText));
+                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains));
                 if (responseStream != null)
                     response = Encoding.UTF8.GetString(responseStream.Data);
                 return response;
@@ -2323,12 +2323,14 @@ namespace EmbeddedBrowser
         }
 
         //To check reddit json data 
-        private bool GetPaginatoinDataFromByte(byte[] data, string startSearchText)
+        private bool GetPaginatoinDataFromByte(byte[] data, string startSearchText, bool isContains = false)
         {
             try
             {
                 string searchText = Encoding.UTF8.GetString(data);
-                if (searchText.StartsWith(startSearchText))
+                if (isContains && searchText.Contains(startSearchText))
+                    return true;
+                else if (searchText.StartsWith(startSearchText))
                     return true;
                 else
                     return false;
