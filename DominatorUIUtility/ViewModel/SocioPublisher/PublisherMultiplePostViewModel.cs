@@ -239,7 +239,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var content = sender as string;
                 if (content == "DeleteAll")
+                {
+                    IsStopLoadingPost = true;
                     Application.Current.Dispatcher.BeginInvoke(new Action(() => LstPostDetailsModel.Clear()));
+                }
                 else
                 {
                     try
