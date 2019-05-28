@@ -1376,7 +1376,21 @@ namespace EmbeddedBrowser
 
         public async Task<string> GetPageSourceAsync()
         {
-            return await Browser.GetSourceAsync();
+            try
+            {
+                await Task.Delay(1000);
+                return await Browser.GetSourceAsync();
+            }
+            catch(ArgumentException e)
+            {
+
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+            return string.Empty;
         }
 
         public async Task<string> GoToCustomUrl(string url, int delayAfter = 0)
@@ -1607,7 +1621,7 @@ namespace EmbeddedBrowser
 
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
-            var doc2 = $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{ parentIndex}].getElementsBy{ childAttributeName} ('{childAttributeValue}').length";
+            var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
             if (Browser.IsDisposed) return "";
             switch (actType)
