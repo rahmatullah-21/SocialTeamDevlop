@@ -431,6 +431,9 @@
     <Compile Include="Views\AccountSetting\CustomControl\ActivityJobConfig.xaml.cs">
       <DependentUpon>ActivityJobConfig.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AccountSetting\CustomControl\ActivitySetting.xaml.cs">
+      <DependentUpon>ActivitySetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AccountSetting\JobConfig.xaml.cs">
       <DependentUpon>JobConfig.xaml</DependentUpon>
     </Compile>
@@ -952,6 +955,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AccountSetting\CustomControl\ActivityJobConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\CustomControl\ActivitySetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

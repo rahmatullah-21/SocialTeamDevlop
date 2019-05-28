@@ -16,20 +16,9 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="45"/>
-        </Grid.RowDefinitions>
-        <TextBlock Text="Comment user Setting" FontWeight="SemiBold"/>
-        <StackPanel Grid.Row="1">
-            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-            <Expander Header="{DynamicResource LangKeySearchQuery}">
-                <customControl:SearchQueryControl Width="700" ListQueryType="{Binding ListQueryType}"
-                                                        ListQueryInfo="{Binding SavedQueries}"/>
-            </Expander>
-        </StackPanel>
-        <next:NextPreviousButton Grid.Row="2" NextCommand="{Binding NextCommand}"
-                                  PreviousCommand="{Binding PreviousCommand}" />
+        <actcustom:ActivitySetting Heading="Comment Setting" JobConfiguration="{Binding JobConfiguration}"
+                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
+                                   NextCommand="{Binding NextCommand}" PreviousCommand="{Binding PreviousCommand}"/>
+
     </Grid>
 </UserControl>

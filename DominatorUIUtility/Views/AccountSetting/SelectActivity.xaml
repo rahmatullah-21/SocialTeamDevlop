@@ -24,8 +24,9 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <local:NextPreviousButton Grid.Row="1" NextCommand="{Binding NextCommand}"  NextCommandParameter="JobConfig"
-                                  PreviousCommand="{Binding PreviousCommand}" PreviousCommandParameter="SelectNetwork" 
-                                  PreviousVisiblity="Collapsed"/>
+        <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Right" Grid.Row="1"
+                    Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
+                    Margin="5" Content="{DynamicResource LangKeyNext}"
+                    Command="{Binding NextCommand}" />
     </Grid>
 </UserControl>

@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.AccountSetting.CustomControl.ActivitySetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
+             mc:Ignorable="d" 
+             xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
+              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl">
+    <Grid Margin="10" Name="Setting">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Heading}" FontWeight="SemiBold"/>
+        <VirtualizingStackPanel Grid.Row="1">
+            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            <Expander Header="{DynamicResource LangKeySearchQuery}">
+                <customControl:SearchQueryControl Width="700" ListQueryType="{Binding ListQueryType}"
+                                                        ListQueryInfo="{Binding SavedQueries}"/>
+            </Expander>
+        </VirtualizingStackPanel>
+      
+        <VirtualizingStackPanel  Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Height="30" HorizontalAlignment="Left" Margin="5" 
+                    Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
+                    Content="{DynamicResource LangKeyPrevious}" Command="{Binding PreviousCommand}" 
+                    Visibility="{Binding PreviousVisiblity}"/>
+
+            <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Left"
+                    Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
+                    Margin="5" Content="{Binding NextButtonContent}"
+                    Command="{Binding NextCommand}" />
+
+        </VirtualizingStackPanel>
+    </Grid>
+</UserControl>
