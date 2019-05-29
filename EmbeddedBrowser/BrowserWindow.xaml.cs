@@ -7,7 +7,6 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using System;
@@ -2202,6 +2201,7 @@ namespace EmbeddedBrowser
 
         private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e) => Refresh();
 
+        public async Task<string> PageText() => await Browser.GetTextAsync();
         #endregion
 
         public string GetNetworksLoginUrl()
