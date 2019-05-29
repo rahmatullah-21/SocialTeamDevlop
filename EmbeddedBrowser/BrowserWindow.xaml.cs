@@ -354,8 +354,10 @@ namespace EmbeddedBrowser
                     Thread.Sleep(500);
             }
         }
-        
-    public void Dispose() => Browser.Dispose();
+
+        public void Refresh() => Browser.Reload();
+
+        public void Dispose() => Browser.Dispose();
 
         public enum ActType
         {
@@ -1348,6 +1350,10 @@ namespace EmbeddedBrowser
             DataReferer = 14,
             [Description("type")]
             Type = 15,
+            [Description("aria-pressed")]
+            AriaPressed = 16,
+            [Description("aria-label")]
+            AriaLabel = 17,
         }
 
 
@@ -1512,7 +1518,7 @@ namespace EmbeddedBrowser
             Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, false, 1, CefEventFlags.None);
             await Task.Delay(100);
             // mouseUp(4th parameter) = true , MouseButton to be released
-            //Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
 
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
@@ -1913,9 +1919,7 @@ namespace EmbeddedBrowser
         #endregion
 
         #endregion
-
-
-
+        
         private void InstagramBrowserLogin(string html)
         {
             if (html.Contains("Phone number, username, or email"))
@@ -2196,7 +2200,7 @@ namespace EmbeddedBrowser
 
         private void ButtonForward_OnClick(object sender, RoutedEventArgs e) => GoForward();
 
-        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e) => Browser.Reload();
+        private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e) => Refresh();
 
         #endregion
 
