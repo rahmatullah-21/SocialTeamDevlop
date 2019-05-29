@@ -10,7 +10,6 @@ namespace DominatorUIUtility.ViewModel.Startup
         public IRegionManager regionManager;
 
         public static int selectedIndex = 0;
-        IRegionNavigationService regionNavigation { get; set; }
         public static List<string> NavigationList { get; set; }
         public StartupBaseViewModel(IRegionManager region)
         {
@@ -33,7 +32,6 @@ namespace DominatorUIUtility.ViewModel.Startup
         }
         protected void NevigatePrevious()
         {
-            regionNavigation.Journal.GoBack();
             if (selectedIndex <= 0)
                 return;
             selectedIndex--;

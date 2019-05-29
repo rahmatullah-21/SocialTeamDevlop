@@ -1,6 +1,5 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.StartupActivity;
-using DominatorHouseCore.StartupActivity.Facebook;
 using DominatorHouseCore.StartupActivity.Instagram;
 using DominatorHouseCore.StartupActivity.Linkedin;
 using DominatorHouseCore.StartupActivity.Pinterest;
@@ -32,7 +31,7 @@ namespace DominatorHouseCore.Interfaces.StartUp
             try
             {
                 Networks.Add(SocialNetworks.Quora.ToString(), new QuoraActivity());
-                Networks.Add(SocialNetworks.Facebook.ToString(), new FacebookActivity());
+                //Networks.Add(SocialNetworks.Facebook.ToString(), new FacebookActivity());
                 Networks.Add(SocialNetworks.Instagram.ToString(), new InstagramActivity());
                 Networks.Add(SocialNetworks.LinkedIn.ToString(), new LinkedinActivity());
                 Networks.Add(SocialNetworks.Pinterest.ToString(), new PinterestActivity());

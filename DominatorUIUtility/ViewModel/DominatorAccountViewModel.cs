@@ -211,7 +211,7 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
 
-            #region Custome Setting Command
+            #region Custom Setting Command
 
             SettingWizardCommand = new DelegateCommand<DominatorAccountModel>(CustomSetting);
 

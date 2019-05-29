@@ -635,11 +635,15 @@
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="StartupActivity\BaseActivity.cs" />
-    <Compile Include="StartupActivity\Facebook\FacebookActivity.cs" />
     <Compile Include="StartupActivity\Instagram\InstagramActivity.cs" />
     <Compile Include="StartupActivity\Instagram\InstagramPostActivity.cs" />
     <Compile Include="StartupActivity\Instagram\InstagramUserActivity.cs" />
     <Compile Include="StartupActivity\Linkedin\LinkedinActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinConnectionActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinEngageActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinGroupActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinMessageActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinScraperActivity.cs" />
     <Compile Include="StartupActivity\Pinterest\PinterestActivity.cs" />
     <Compile Include="StartupActivity\Pinterest\PinterestPinActivity.cs" />
     <Compile Include="StartupActivity\Pinterest\PinterestUserActivity.cs" />

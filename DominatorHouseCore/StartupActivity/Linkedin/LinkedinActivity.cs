@@ -1,9 +1,5 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces.StartUp;
 
 namespace DominatorHouseCore.StartupActivity.Linkedin
 {
@@ -13,10 +9,19 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
         {
             switch (activity)
             {
-                case "Follow":
-                    return null;
+                case "GroupInviter":
+                case "GroupJoiner":
+                    return new LinkedinGroupActivity();
+                case "ConnectionRequest":
+                    return new LinkedinConnectionActivity();
+                case "BroadcastMessages":
+                    return new LinkedinMessageActivity();
+                case "CompanyScraper":
+                case "JobScraper":
+                case "UserScraper":
+                    return new LinkedinScraperActivity();
                 default:
-                    return null;
+                    return new LinkedinEngageActivity();
             }
         }
 
