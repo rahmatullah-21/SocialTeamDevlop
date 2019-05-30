@@ -89,6 +89,39 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PreviousCommandProperty =
             DependencyProperty.Register("PreviousCommand", typeof(ICommand), typeof(ActivitySetting));
+
+        private static readonly DependencyProperty AddQueryCommandProperty
+          = DependencyProperty.Register("AddQueryCommand", typeof(ICommand), typeof(ActivitySetting));
+
+        public ICommand AddQueryCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(AddQueryCommandProperty);
+            }
+            set
+            {
+                SetValue(AddQueryCommandProperty, value);
+            }
+        }
+
+
+
+        public object CommandParameter
+        {
+            get { return GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(ActivitySetting), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+
+        public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var newValue = e.NewValue;
+        }
+
         public string NextButtonContent
         {
             get { return (string)GetValue(NextButtonContentProperty); }

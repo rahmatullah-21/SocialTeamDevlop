@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public interface ILikeViewModel : IStartupJobConfiguration, IStartUpSearchQuery
+    public interface ILikeViewModel 
     {
     }
     public class LikeViewModel : StartupBaseViewModel, ILikeViewModel
@@ -28,50 +28,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 IncreaseActivityDisplayName = "LangKeyMaxLikesPerDay".FromResourceDictionary(),
             };
         }
-
-        private JobConfiguration _jobConfiguration;
-
-        public JobConfiguration JobConfiguration
-        {
-            get
-            {
-                return _jobConfiguration;
-            }
-            set
-            {
-                if (value == _jobConfiguration)
-                    return;
-                SetProperty(ref _jobConfiguration, value);
-            }
-        }
-
-        private ObservableCollection<QueryInfo> _savedQueries = new ObservableCollection<QueryInfo>();
-      
-        public  ObservableCollection<QueryInfo> SavedQueries
-        {
-            get
-            {
-                return _savedQueries;
-            }
-            set
-            {
-                if (_savedQueries != null && _savedQueries == value)
-                    return;
-                SetProperty(ref _savedQueries, value);
-            }
-        }
-        private List<string> _listQueryType = new List<string>();
-        public List<string> ListQueryType
-        {
-            get
-            {
-                return _listQueryType;
-            }
-            set
-            {
-                SetProperty(ref _listQueryType, value);
-            }
-        }
+       
         public void OnLoad(string activityType)
         {
             ListQueryType.Clear();

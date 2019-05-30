@@ -19,8 +19,9 @@
         <VirtualizingStackPanel Grid.Row="1">
             <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
             <Expander Header="{DynamicResource LangKeySearchQuery}">
-                <customControl:SearchQueryControl Width="700" ListQueryType="{Binding ListQueryType}"
-                                                        ListQueryInfo="{Binding SavedQueries}"/>
+                <customControl:SearchQueryControl x:Name="QueryControl" x:FieldModifier="public" Width="700" ListQueryType="{Binding ListQueryType}"
+                                                  ListQueryInfo="{Binding SavedQueries}"
+                                                  AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
             </Expander>
         </VirtualizingStackPanel>
       

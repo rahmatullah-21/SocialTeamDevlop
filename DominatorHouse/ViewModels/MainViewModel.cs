@@ -123,6 +123,7 @@ namespace DominatorHouse.ViewModels
         {
             IsPopUpOpen = false;
             StartupBaseViewModel.selectedIndex = 0;
+            _regionManager.Regions["StartupRegion"].RemoveAll();
             _regionManager.RequestNavigate("StartupRegion", "SelectActivity");
         }
 
@@ -394,7 +395,7 @@ namespace DominatorHouse.ViewModels
                             .AndEvery(1).Days());
                 });
 
-               // FeatureFlags.UpdateFeatures();
+                // FeatureFlags.UpdateFeatures();
 
                 Task.Factory.StartNew(() =>
                 {

@@ -6,7 +6,7 @@ using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public interface IUnFollowerViewModel : IStartupJobConfiguration
+    public interface IUnFollowerViewModel 
     {
         bool IsChkPeopleFollowedBySoftwareChecked { get; set; }
         bool IsChkPeopleFollowedOutsideSoftwareChecked { get; set; }
@@ -35,21 +35,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 IncreaseActivityDisplayName = "LangKeyMaxUnfollowsPerDay".FromResourceDictionary(),
             };
         }
-        private JobConfiguration _jobConfiguration;
-
-        public JobConfiguration JobConfiguration
-        {
-            get
-            {
-                return _jobConfiguration;
-            }
-            set
-            {
-                if (value == _jobConfiguration)
-                    return;
-                SetProperty(ref _jobConfiguration, value);
-            }
-        }
+     
         private string _customUsersList;
         public string CustomUsersList
         {

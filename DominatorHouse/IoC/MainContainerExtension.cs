@@ -24,15 +24,12 @@ namespace DominatorHouse.IoC
 
             #region Startup ViewModel
 
-            Container.RegisterSingleton<IFollowViewModel, FollowViewModel>();
-            Container.RegisterSingleton<IUnFollowerViewModel, UnFollowerViewModel>();
-            Container.RegisterSingleton<ILikeViewModel, LikeViewModel>();
-            Container.RegisterSingleton<ICommentViewModel, CommentViewModel>();
+            Container.RegisterType<IFollowViewModel, FollowViewModel>();
+            Container.RegisterType<IUnFollowerViewModel, UnFollowerViewModel>();
+            Container.RegisterType<ILikeViewModel, LikeViewModel>();
+            Container.RegisterType<ICommentViewModel, CommentViewModel>();
             Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
-            Container.RegisterSingleton<IQueryViewModel, QueryViewModel>();
-            Container.RegisterSingleton<IJobConfigViewModel, JobConfigViewModel>();
-            
-
+           
             #endregion
 
         }
