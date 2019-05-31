@@ -123,6 +123,7 @@ namespace DominatorHouse.ViewModels
         {
             IsPopUpOpen = false;
             StartupBaseViewModel.selectedIndex = 0;
+            StartupBaseViewModel.ViewModelToSave.Clear();
             _regionManager.Regions["StartupRegion"].RemoveAll();
             _regionManager.RequestNavigate("StartupRegion", "SelectActivity");
         }
@@ -284,6 +285,7 @@ namespace DominatorHouse.ViewModels
                 ErrorNetworks = networks
             };
             SocinatorKeyHelper.SaveKey(fatalErrorHandler);
+
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
             await controller.CloseAsync();
             return true;
@@ -315,31 +317,31 @@ namespace DominatorHouse.ViewModels
             {
 
                 Task.Factory.StartNew(() =>
-                {
-                    //FeatureFlags.UpdateFeatures();
-                    var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
-                    foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
-                    {
-                        var module = socialNetworkModule;
-                        if (FeatureFlags.Instance.ContainsKey(module.Network.ToString()))
-                        {
-                            try
-                            {
-                                SocinatorInitialize.SocialNetworkRegister(
-                                    module.GetNetworkCollectionFactory(Strategies), module.Network);
-                                PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(),
-                                    module.Network);
-                                AddNetwork(socialNetworkModule.Network);
-                            }
-                            catch (AggregateException ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
-                        }
+                 {
+                     FeatureFlags.UpdateFeatures();
+                     var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
+                     foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
+                     {
+                         var module = socialNetworkModule;
+                         if (FeatureFlags.Instance.ContainsKey(module.Network.ToString()))
+                         {
+                             try
+                             {
+                                 SocinatorInitialize.SocialNetworkRegister(
+                                     module.GetNetworkCollectionFactory(Strategies), module.Network);
+                                 PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(),
+                                     module.Network);
+                                 AddNetwork(socialNetworkModule.Network);
+                             }
+                             catch (AggregateException ex)
+                             {
+                                 Console.WriteLine(ex.Message);
+                             }
+                             catch (Exception ex)
+                             {
+                                 ex.DebugLog();
+                             }
+                         }
                         //FeatureFlags.Check(module.Network.ToString(), () =>
                         //{
                         //    try
@@ -358,10 +360,10 @@ namespace DominatorHouse.ViewModels
                         //    }
                         //});
                         Task.Delay(5);
-                    }
+                     }
 
-                    SetActiveNetwork(SocialNetworks.Social);
-                });
+                     SetActiveNetwork(SocialNetworks.Social);
+                 });
                 ThreadFactory.Instance.Start(() =>
                 {
                     _schedulerProxy.AddJob(InitializeJobCores, x => x.ToRunNow());
@@ -395,11 +397,10 @@ namespace DominatorHouse.ViewModels
                             .AndEvery(1).Days());
                 });
 
-                // FeatureFlags.UpdateFeatures();
+                FeatureFlags.UpdateFeatures();
 
                 Task.Factory.StartNew(() =>
                 {
-
                     #region log deletion and backup Account
 
                     DirectoryUtilities.DeleteOldLogsFile();
@@ -419,7 +420,6 @@ namespace DominatorHouse.ViewModels
                     //    softwareSetting.ScheduleAdsScraping();
 
                     #endregion
-
 
                 });
                 Task.Factory.StartNew(() =>

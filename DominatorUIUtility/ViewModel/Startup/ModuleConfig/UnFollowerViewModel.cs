@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Interfaces.StartUp;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Interfaces.StartUp;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
@@ -24,6 +25,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public UnFollowerViewModel(IRegionManager region) : base(region)
         {
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unfollow });
+
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             JobConfiguration = new JobConfiguration

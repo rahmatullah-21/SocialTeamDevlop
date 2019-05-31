@@ -7,6 +7,7 @@ using Prism.Commands;
 using System.Linq;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.Interfaces.StartUp;
+using DominatorHouseCore.Models;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -14,6 +15,7 @@ namespace DominatorUIUtility.ViewModel.Startup
     {
         void SetActivityTypeByNetwork(string network);
         SelectActivityModel SelectActivityModel { get; set; }
+        DominatorAccountModel SelectAccount { get; set; }
         string SelectedNetwork { get; set; }
     }
     public class SelectActivityViewModel : StartupBaseViewModel, ISelectActivityViewModel
@@ -43,6 +45,12 @@ namespace DominatorUIUtility.ViewModel.Startup
                 if (SelectedNetwork != SocialNetworks.Social.ToString())
                     SetActivityTypeByNetwork(SelectedNetwork);
             }
+        }
+        DominatorAccountModel _selectAccount = new DominatorAccountModel();
+        public DominatorAccountModel SelectAccount
+        {
+            get { return _selectAccount; }
+            set { SetProperty(ref _selectAccount, value); }
         }
 
         private void OnNextClick()

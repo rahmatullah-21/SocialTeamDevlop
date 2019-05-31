@@ -58,9 +58,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Button Content="X" HorizontalAlignment="Right" Background="Transparent" Command="{Binding ModuleSettingCloseCommand}"/>
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
-                        <ContentControl regions:RegionManager.RegionName="StartupRegion" DataContext="{Binding}" Margin="5"/>
-                    </ScrollViewer>
+                    <ContentControl regions:RegionManager.RegionName="StartupRegion" DataContext="{Binding}" Grid.Row="1"/>
                 </Grid>
             </Border>
         </Popup>

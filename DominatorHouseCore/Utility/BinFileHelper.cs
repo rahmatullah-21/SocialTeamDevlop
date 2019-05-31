@@ -589,7 +589,6 @@ namespace DominatorHouseCore.Utility
             {
                 _lockFileConfigProvider.WithFile<CampaignInteractionViewModel, bool>(file =>
                     _protoBuffBase.SerializeList(campaignInteractedDatas, file + $"\\{network}CampaignInteractedData.bin"));
-                GlobusLogHelper.log.Debug("Campaigns interacted data's succesfully saved");
             }
             catch (Exception ex)
             {

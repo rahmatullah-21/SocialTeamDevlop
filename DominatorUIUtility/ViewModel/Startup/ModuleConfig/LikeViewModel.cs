@@ -1,21 +1,20 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.Interfaces.StartUp;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public interface ILikeViewModel 
+    public interface ILikeViewModel
     {
     }
     public class LikeViewModel : StartupBaseViewModel, ILikeViewModel
     {
         public LikeViewModel(IRegionManager region) : base(region)
         {
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Like });
+
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -27,13 +26,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfLikesPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxLikesPerDay".FromResourceDictionary(),
             };
-        }
-       
-        public void OnLoad(string activityType)
-        {
-            ListQueryType.Clear();
-            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-            ListQueryType = NetworkFactory.GetNetworkfactory(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
         }
     }
 }

@@ -4,32 +4,48 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DominatorHouseCore.Interfaces.StartUp;
 using DominatorHouseCore.Models;
-using DominatorUIUtility.CustomControl;
 using Prism.Commands;
 using DominatorHouseCore.Utility;
 using System.Linq;
 using System;
 using DominatorHouseCore;
 using DominatorUIUtility.Views.AccountSetting.CustomControl;
+using CommonServiceLocator;
+using ProtoBuf;
+using DominatorHouseCore.Enums;
+using System.Runtime.InteropServices;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
+    [ProtoContract]
     public class StartupBaseViewModel : Prism.Mvvm.BindableBase, IStartUpSearchQuery, IStartupJobConfiguration
     {
+        [ProtoIgnore]
+        [field:NonSerialized]
         public IRegionManager regionManager;
 
+        [ProtoIgnore]
+        [field: NonSerialized]
         public static int selectedIndex = 0;
+        [ProtoIgnore]
+     
         public static List<string> NavigationList { get; set; }
+        [ProtoIgnore]
+      
+        public static List<ActivityConfig> ViewModelToSave { get; set; } = new List<ActivityConfig>();
         public StartupBaseViewModel(IRegionManager region)
         {
             regionManager = region;
-            //LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddQueryCommand = new DelegateCommand<ActivitySetting>(AddQuery);
         }
         #region Commands
+        [field: NonSerialized]
         public ICommand NextCommand { get; set; }
+        [field: NonSerialized]
         public ICommand PreviousCommand { get; set; }
+        [field: NonSerialized]
         public ICommand LoadedCommand { get; set; }
+        [field: NonSerialized]
         public ICommand AddQueryCommand { get; set; }
         #endregion
 
@@ -41,6 +57,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             var next = NavigationList[selectedIndex];
             regionManager.RequestNavigate("StartupRegion", next);
         }
+
         protected void NevigatePrevious()
         {
             if (selectedIndex <= 0)
@@ -49,10 +66,19 @@ namespace DominatorUIUtility.ViewModel.Startup
             var previous = NavigationList[selectedIndex];
             regionManager.RequestNavigate("StartupRegion", previous);
         }
-
+        public void OnLoad(string activityType)
+        {
+            ListQueryType.Clear();
+            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            ListQueryType = NetworkFactory.GetNetworkfactory(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
+            if (selectedIndex == NavigationList.Count - 1)
+                NextButtonContent = "LangKeyFinish".FromResourceDictionary();
+            else
+                NextButtonContent = "LangKeyNext".FromResourceDictionary();
+        }
 
         private JobConfiguration _jobConfiguration;
-
+        [ProtoMember(1)]
         public JobConfiguration JobConfiguration
         {
             get
@@ -69,7 +95,7 @@ namespace DominatorUIUtility.ViewModel.Startup
 
 
         private ObservableCollection<QueryInfo> _savedQueries = new ObservableCollection<QueryInfo>();
-
+        [ProtoMember(2)]
         public ObservableCollection<QueryInfo> SavedQueries
         {
             get
@@ -81,6 +107,7 @@ namespace DominatorUIUtility.ViewModel.Startup
                 SetProperty(ref _savedQueries, value);
             }
         }
+
         private List<string> _listQueryType = new List<string>();
         public List<string> ListQueryType
         {
@@ -93,6 +120,15 @@ namespace DominatorUIUtility.ViewModel.Startup
                 SetProperty(ref _listQueryType, value);
             }
         }
+
+        private string _nextButtonContent = "LangKeyNext".FromResourceDictionary();
+        [ProtoIgnore]
+        public string NextButtonContent
+        {
+            get { return _nextButtonContent; }
+            set { SetProperty(ref _nextButtonContent, value); }
+        }
+
         private void AddQuery(ActivitySetting actvity)
         {
             try
@@ -144,4 +180,13 @@ namespace DominatorUIUtility.ViewModel.Startup
         }
 
     }
+    [ProtoContract]
+    public class ActivityConfig
+    {
+        [ProtoMember(1)]
+        public object Model { get; set; }
+        [ProtoMember(2)]
+        public ActivityType ActivityType { get; set; }
+    }
+  
 }

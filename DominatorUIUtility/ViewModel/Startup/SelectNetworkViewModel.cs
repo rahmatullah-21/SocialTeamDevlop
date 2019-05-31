@@ -41,7 +41,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             set { SetProperty(ref _lstNetwork, value); }
         }
         #endregion
-        private new void OnNextClick(string next)
+        private void OnNextClick(string next)
         {
             if (!string.IsNullOrEmpty(SelectedNetwork?.ToString()))
                 regionManager.RequestNavigate("StartupRegion", next);

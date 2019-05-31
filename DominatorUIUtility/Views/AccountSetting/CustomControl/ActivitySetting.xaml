@@ -9,33 +9,39 @@
               xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl">
-    <Grid Margin="10" Name="Setting">
+    <Grid Margin="5,0" Name="Setting">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="45"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Heading}" FontWeight="SemiBold"/>
-        <VirtualizingStackPanel Grid.Row="1">
-            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-            <Expander Header="{DynamicResource LangKeySearchQuery}">
-                <customControl:SearchQueryControl x:Name="QueryControl" x:FieldModifier="public" Width="700" ListQueryType="{Binding ListQueryType}"
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" >
+            <TextBlock Text="{Binding Heading}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
+            <StackPanel Grid.Row="1">
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeySearchQuery}">
+                    <customControl:SearchQueryControl x:Name="QueryControl" x:FieldModifier="public" Width="700" ListQueryType="{Binding ListQueryType}"
                                                   ListQueryInfo="{Binding SavedQueries}"
                                                   AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
-            </Expander>
-        </VirtualizingStackPanel>
-      
-        <VirtualizingStackPanel  Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Height="30" HorizontalAlignment="Left" Margin="5" 
+                </Expander>
+               
+            </StackPanel>
+
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <StackPanel    Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
+                <Button Height="30" HorizontalAlignment="Left" Margin="5" 
                     Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
                     Content="{DynamicResource LangKeyPrevious}" Command="{Binding PreviousCommand}" 
                     Visibility="{Binding PreviousVisiblity}"/>
 
-            <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Left"
+                <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Left"
                     Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
                     Margin="5" Content="{Binding NextButtonContent}"
-                    Command="{Binding NextCommand}" />
-
-        </VirtualizingStackPanel>
+                    Command="{Binding NextCommand}" Click="SaveData"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </UserControl>

@@ -1587,9 +1587,13 @@ namespace DominatorUIUtility.CustomControl
                         accountModuleSettings.LstRunningTimes = new List<RunningTimes>();
 
                     accountModuleSettings.LstRunningTimes = jobConfiguration.RunningTime;
+
+                    accountModuleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(accountModuleSettings);
+                    _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, accountModuleSettings);
                 }
-                accountModuleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(accountModuleSettings);
-                _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, accountModuleSettings);
+                else
+                    GlobusLogHelper.log.Debug($"{account.UserName} with Account Id {account.AccountId} not having {_activityType} Configuration");
+
                 _accountsCacheService.UpsertAccounts(account);
                 globalDbOperation.UpdateAccountActivityManager(account);
             }
