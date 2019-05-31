@@ -122,7 +122,7 @@
         <ListView ScrollViewer.VerticalScrollBarVisibility="Auto" Width="500" BorderThickness="0" BorderBrush="Transparent" 
                       ItemsSource="{Binding PostListsCollectionView,IsAsync=True}" Margin="2" HorizontalAlignment="Center"
                       VirtualizingStackPanel.IsVirtualizing="True" Name="posts" Grid.Row="1"
-                      VirtualizingStackPanel.VirtualizationMode="Recycling" >
+                      VirtualizingStackPanel.VirtualizationMode="Standard">
             <ListView.Resources>
                 <ContextMenu x:Key="ItemContextMenu">
                     <MenuItem  Name="DeletePost"  Command="{Binding Path=DataContext.DeletePostCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}" 
@@ -199,14 +199,11 @@
                                                            FdSellPrice="{Binding FdSellPrice, Mode=TwoWay}"
                                                            FdSellProductTitle="{Binding FdSellProductTitle, Mode=TwoWay}"
                                                            IsFdSellPost="{Binding IsFdSellPost, Mode=TwoWay}"
-                                                           PdSourceUrl="{Binding PdSourceUrl, Mode=TwoWay}"
-                                                           />
+                                                           PdSourceUrl="{Binding PdSourceUrl, Mode=TwoWay}"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-
     </Grid>
 </UserControl>
