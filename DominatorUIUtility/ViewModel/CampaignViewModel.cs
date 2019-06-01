@@ -702,12 +702,16 @@ namespace DominatorUIUtility.ViewModel
                             {
                                 #region New Added Code for checking campaign Active/Pause issue
 
-                                if (currentNetworkAccounts.Any(x => x.AccountBaseModel.UserName == account.AccountBaseModel.UserName))
-                                    GlobusLogHelper.log.Debug("ACCOUNT ID CHANGED");
-
+                                var user = currentNetworkAccounts.FirstOrDefault(x => x.AccountBaseModel.UserName == account.AccountBaseModel.UserName);
+                                if (user != null)
+                                {
+                                    account.AccountBaseModel.AccountId = account.AccountId = user.AccountId ?? user.AccountBaseModel.AccountId;
+                                    _accountsFileManager.Edit(account);
+                                    GlobusLogHelper.log.Debug($"ACCOUNT ID CHANGED for user -> {user.UserName}");
+                                }
                                 #endregion
-
-                                return;
+                                else
+                                    return;
                             }
 
                             UpdateAccountCampaignsStatus(selectedCampaign, isToggleSwitchSelected, account, module);

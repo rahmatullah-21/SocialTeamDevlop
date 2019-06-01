@@ -226,7 +226,7 @@
 
                         <GridViewColumn Width="{Binding GroupColWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource LangKeyInviteForGroups}"/>
+                                <TextBlock Text="{DynamicResource  LangKeySelectGroup}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

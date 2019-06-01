@@ -3549,4 +3549,26 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCommentAndMentionOnceFromEachAccount">Use specific comment/Mention only once from a account.</system:String>
     <system:String x:Key="LangKeySendMessageToUniqueUserFromAllAcocunt">Send message to unique user from all account</system:String>
     <system:String x:Key="LangKeyRefreshAccounts">Refresh Accounts</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookCancelFriendRequests">This Socinator feature helps to automate Cancel friend requests on Facebook. It allows to filter followers and follow them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoMakeGroupAdmins">This Socinator feature helps to automate Make group Admin on Facebook. It allows to search and filter User and make them Group Admin on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoEventCreater">This Socinator feature helps to automate create Event on Facebook. It allows to create Event on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoEventInviter">This Socinator feature helps to automate Invite for Event on Facebook. It allows to Invite User for Event on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoGroupInviter">This Socinator feature helps to automate Invite for Group on Facebook. It allows to Invite User for Group on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoPageInviter">This Socinator feature helps to automate Invite for Page on Facebook. It allows to Invite User for Page on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoWatchPartyInviter">This Socinator feature helps to automate Invite for WatchParty on Facebook. It allows to Invite User for WatchParty on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeOnComment">This Socinator feature helps to automate like the comment Of posts on Facebook. It allows to filter posts and like the comments Of post on them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoReplyToComment">This Socinator feature helps to automate Reply to comment Of posts on Facebook. It allows to filter posts and Reply to comments Of post on them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeOnWebpostComment">This Socinator feature helps to automate like to Webpost comment Of posts on Facebook. It allows to filter posts and like to Webpost comments Of post on them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToRecentFriends">This Socinator feature helps to automate sending direct messages to recent Friends On Facebook. It allows to search and filter users with different query types and send them a direct message to recent Friends On configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToFanpage">This Socinator feature helps to automate sending direct messages to Facebook Fanpage. It allows to search and filter users with different query types and send them a direct message to Fanpage on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToPeopleByLocation">This Socinator feature helps to automate sending direct messages to people from location on Facebook Fanpage. It allows to search and filter users with different query types and send them a direct message to people from location on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendBithdayGreetingsToFriends">This Socinator feature helps to automate sending greetings to friends on Facebook. It allows to search and filter users with different query types and send them greetings on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeUsersFromLocations">This Socinator feature helps to scrape users from Locations on Facebook. It allows to filter users and scrape them based on Locations at configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeAlbums">This Socinator feature helps to scrape Albums on Facebook. It allows to filter and scrape Albums on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeMarketPlaceDetails">This Socinator feature helps to scrape Marketplace Details on Facebook. It allows to filter and scrape Marketplace Details on configured time.</system:String>
+    <system:String x:Key="LangKeyNumberOfUnSubscribesPerJob">Number of UnSubscribe Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfUnSubscribesPerHour">Number of UnSubscribe Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfUnSubscribesPerDay">Number of UnSubscribe Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfUnSubscribesPerWeek">Number of UnSubscribe Per Week</system:String>
+    <system:String x:Key="LangKeyMaxUnSubscribesPerDay">Number of Maximum UnSubscribe Per Day</system:String>
 </ResourceDictionary>

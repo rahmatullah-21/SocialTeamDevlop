@@ -474,8 +474,7 @@ namespace DominatorHouseCore.Diagnostics
                             SocinatorInitialize.MaximumAccountCount = 0;
                         }
                     }
-
-
+                    FeatureFlags.UpdateFeatures();
                     return SocinatorInitialize.AvailableNetworks;
                 }
                 catch (Exception ex)
@@ -484,11 +483,13 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 #endregion
+                
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
+            FeatureFlags.UpdateFeatures();
             return SocinatorInitialize.AvailableNetworks;
         }
 

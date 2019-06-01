@@ -15,11 +15,11 @@ namespace DominatorHouseCore.Converters
             if (value == null)
                 return Visibility.Collapsed;
 
-            var network = (SocialNetworks)value;
-            if (string.IsNullOrEmpty(network.ToString()))
+            var network = value.ToString();
+            if (string.IsNullOrEmpty(network))
                 return Visibility.Collapsed;
 
-            var visibilityStatus = FeatureFlags.Check(network.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+            var visibilityStatus = FeatureFlags.Check(network) ? Visibility.Visible : Visibility.Collapsed;
 
             return visibilityStatus;
         }
