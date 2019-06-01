@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"            
              xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -181,7 +182,7 @@
         <StackPanel Orientation="Horizontal" Margin="30,5" 
                     Visibility="{Binding IsCampaignHasStartDateChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock Text="{DynamicResource LangKeyStartDate}"  VerticalAlignment="Center" Margin="5"/>
-            <control:DateTimePicker VerticalAlignment="Center"
+            <control:DateTimePicker VerticalAlignment="Center" DisplayDateStart="{x:Static sys:DateTime.Today}"
                                     Margin="5" IsClockVisible="False"
                                     SelectedDate="{Binding CampaignStartDate}"/>
         </StackPanel>
@@ -190,7 +191,7 @@
         <StackPanel Orientation="Horizontal" Margin="30,5" 
                     Visibility="{Binding IsCampaignHasEndDateChecked,Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock Text="{DynamicResource LangKeyEndDate}"  VerticalAlignment="Center" Margin="5"/>
-            <control:DateTimePicker VerticalAlignment="Center" 
+            <control:DateTimePicker VerticalAlignment="Center" DisplayDateStart="{x:Static sys:DateTime.Today}"
                                     Margin="5" IsClockVisible="False" 
                                     SelectedDate="{Binding CampaignEndDate}"/>
         </StackPanel>
