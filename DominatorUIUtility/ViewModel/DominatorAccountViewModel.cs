@@ -453,12 +453,12 @@ namespace DominatorUIUtility.ViewModel
                                 proxyaddress = proxyport = proxyusername = proxypassword = string.Empty;
                             }
                             //valid the proxy ip and port
-                            else if (!Proxy.IsValidProxyIp(proxyaddress) || !Proxy.IsValidProxyPort(proxyport))
-                            {
-                                GlobusLogHelper.log.Info(Log.ImportFailed, socialNetwork, username, "Proxy address or Proxy port");
-                                continue;
+                            //else if (!Proxy.IsValidProxyIp(proxyaddress) || !Proxy.IsValidProxyPort(proxyport))
+                            //{
+                            //    GlobusLogHelper.log.Info(Log.ImportFailed, socialNetwork, username, "Proxy address or Proxy port");
+                            //    continue;
 
-                            }
+                            //}
                         }
 
                         #endregion

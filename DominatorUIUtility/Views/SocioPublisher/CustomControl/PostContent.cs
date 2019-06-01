@@ -252,8 +252,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         {
             base.OnApplyTemplate();
 
-
-
             #region Button Import Images
 
             var buttonMedia = Template.FindName(ButtonImportImage, this) as Button;
@@ -270,6 +268,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             }
 
             #endregion
+
             #region Button Import Post title
 
             var importPostTitle = Template.FindName(ImportPostTitle, this) as Button;
@@ -303,6 +302,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             }
 
             #endregion
+
             #region Settings 
 
             var buttonSettingChanges = Template.FindName(ButtonSettings, this) as Button;
@@ -322,10 +322,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
             #endregion
 
-
-
             Loaded += PostContentLoad;
-
         }
 
         private void clearPostTitleClick(object sender, RoutedEventArgs e)
@@ -347,19 +344,15 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                         if (!tempList.Any(x => x == title))
                             tempList.Add(title);
                     });
-
-
                     PublisherInstagramTitle = string.Join("\n", tempList.ToArray());
                     tempList.Clear();
                 }
-               
+
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-
-
         }
 
         private void PostContentLoad(object sender, RoutedEventArgs e)
@@ -513,7 +506,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                     mediaViewer.MediaList.Add(x);
                     //MediaViewer.MediaList.Add(x);
                 });
-                 mediaViewer.Initialize();
+                mediaViewer.Initialize();
             }
 
             // Raise your event
@@ -547,7 +540,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             }
 
         }
-
 
         #endregion
     }

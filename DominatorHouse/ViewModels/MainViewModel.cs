@@ -262,6 +262,7 @@ namespace DominatorHouse.ViewModels
                 ErrorNetworks = networks
             };
             SocinatorKeyHelper.SaveKey(fatalErrorHandler);
+
             FeatureFlags.Check("SocinatorInitializer", SocinatorInitializer);
             await controller.CloseAsync();
             return true;
@@ -291,33 +292,32 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-                
                 Task.Factory.StartNew(() =>
-                {
-                    FeatureFlags.UpdateFeatures();
-                    var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
-                    foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
-                    {
-                        var module = socialNetworkModule;
-                        if (FeatureFlags.Instance.ContainsKey(module.Network.ToString()))
-                        {
-                            try
-                            {
-                                SocinatorInitialize.SocialNetworkRegister(
-                                    module.GetNetworkCollectionFactory(Strategies), module.Network);
-                                PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(),
-                                    module.Network);
-                                AddNetwork(socialNetworkModule.Network);
-                            }
-                            catch (AggregateException ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.DebugLog();
-                            }
-                        }
+                 {
+                     FeatureFlags.UpdateFeatures();
+                     var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
+                     foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
+                     {
+                         var module = socialNetworkModule;
+                         if (FeatureFlags.Instance.ContainsKey(module.Network.ToString()))
+                         {
+                             try
+                             {
+                                 SocinatorInitialize.SocialNetworkRegister(
+                                     module.GetNetworkCollectionFactory(Strategies), module.Network);
+                                 PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(),
+                                     module.Network);
+                                 AddNetwork(socialNetworkModule.Network);
+                             }
+                             catch (AggregateException ex)
+                             {
+                                 Console.WriteLine(ex.Message);
+                             }
+                             catch (Exception ex)
+                             {
+                                 ex.DebugLog();
+                             }
+                         }
                         //FeatureFlags.Check(module.Network.ToString(), () =>
                         //{
                         //    try
@@ -336,10 +336,10 @@ namespace DominatorHouse.ViewModels
                         //    }
                         //});
                         Task.Delay(5);
-                    }
+                     }
 
-                    SetActiveNetwork(SocialNetworks.Social);
-                });
+                     SetActiveNetwork(SocialNetworks.Social);
+                 });
                 ThreadFactory.Instance.Start(() =>
                 {
                     _schedulerProxy.AddJob(InitializeJobCores, x => x.ToRunNow());
@@ -377,7 +377,6 @@ namespace DominatorHouse.ViewModels
 
                 Task.Factory.StartNew(() =>
                 {
-
                     #region log deletion and backup Account
 
                     DirectoryUtilities.DeleteOldLogsFile();
@@ -390,14 +389,13 @@ namespace DominatorHouse.ViewModels
                     var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
                     softwareSetting.InitializeOnLoadConfigurations();
 
-                  //  softwareSetting.ActivityManagerInitializer();
+                    //  softwareSetting.ActivityManagerInitializer();
 
                     //softwareSetting.ScheduleAutoUpdation();
                     //if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
                     //    softwareSetting.ScheduleAdsScraping();
 
                     #endregion
-
 
                 });
                 Task.Factory.StartNew(() =>
