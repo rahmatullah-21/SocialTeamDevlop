@@ -20,13 +20,13 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
     /// </summary>
     public partial class ActivitySetting : UserControl
     {
+       
         public ActivitySetting()
         {
             InitializeComponent();
             Setting.DataContext = this;
+           
         }
-
-
         public string Heading
         {
             get { return (string)GetValue(HeadingProperty); }
@@ -156,14 +156,16 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         {
             if (NextButtonContent == "LangKeyFinish".FromResourceDictionary())
             {
-                var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-                var account = viewModel.SelectAccount;
-                StartupBaseViewModel.ViewModelToSave.ForEach(data =>
-                {
-                    var templateId = TemplateModel.SaveTemplate(data.Model, data.ActivityType.ToString(), account.AccountBaseModel.AccountNetwork,
-                       string.Empty);
-                    SaveTemplateToAccounts(templateId, account, data.Model, data.ActivityType);
-                });
+                var saveSetting= ServiceLocator.Current.GetInstance<ISaveSetting>();
+                saveSetting.Save();
+                //var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+                //var account = viewModel.SelectAccount;
+                //StartupBaseViewModel.ViewModelToSave.ForEach(data =>
+                //{
+                //    var templateId = TemplateModel.SaveTemplate(data.Model, data.ActivityType.ToString(), account.AccountBaseModel.AccountNetwork,
+                //       string.Empty);
+                //    SaveTemplateToAccounts(templateId, account, data.Model, data.ActivityType);
+                //});
 
 
             }
@@ -171,7 +173,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         public void SaveTemplateToAccounts(string templateId, DominatorAccountModel account, dynamic Model, ActivityType _activityType)
         {
             var _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            List<RunningTimes> runningTime = Model.JobConfiguration.RunningTime;
+            List<RunningTimes> runningTime = RunningTimes.DayWiseRunningTimes; //Model.JobConfiguration.RunningTime;
             var accountDetails = _accountsFileManager.GetAccountById(account.AccountBaseModel.AccountId);
 
 

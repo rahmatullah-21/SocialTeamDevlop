@@ -404,6 +404,7 @@
     <Compile Include="ViewModel\Startup\ModuleConfig\UnFollowerViewModel.cs" />
     <Compile Include="ViewModel\Startup\NextPreviousViewModel.cs" />
     <Compile Include="ViewModel\Startup\QueryViewModel.cs" />
+    <Compile Include="ViewModel\Startup\SaveSetting.cs" />
     <Compile Include="ViewModel\Startup\SelectActivityViewModel.cs" />
     <Compile Include="ViewModel\Startup\SelectNetworkViewModel.cs" />
     <Compile Include="ViewModel\Startup\SelectUserTypeViewModel.cs" />

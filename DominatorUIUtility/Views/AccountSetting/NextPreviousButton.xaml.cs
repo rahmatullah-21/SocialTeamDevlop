@@ -1,4 +1,6 @@
-﻿using DominatorHouseCore.Utility;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel.Startup;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,7 +12,6 @@ namespace DominatorUIUtility.Views.AccountSetting
     /// </summary>
     public partial class NextPreviousButton : UserControl
     {
-
         public NextPreviousButton()
         {
             InitializeComponent();
@@ -70,8 +71,6 @@ namespace DominatorUIUtility.Views.AccountSetting
             DependencyProperty.Register("PreviousVisiblity", typeof(Visibility), typeof(NextPreviousButton), new PropertyMetadata(Visibility.Visible));
 
 
-
-
         public string NextButtonContent
         {
             get { return (string)GetValue(NextButtonContentProperty); }
@@ -82,6 +81,13 @@ namespace DominatorUIUtility.Views.AccountSetting
         public static readonly DependencyProperty NextButtonContentProperty =
             DependencyProperty.Register("NextButtonContent", typeof(string), typeof(NextPreviousButton), new PropertyMetadata("LangKeyNext".FromResourceDictionary()));
 
-
+        private void SaveSetting(object sender, RoutedEventArgs e)
+        {
+            if (NextButtonContent == "LangKeyFinish".FromResourceDictionary())
+            {
+                var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
+                saveSetting.Save();
+            }
+        }
     }
 }

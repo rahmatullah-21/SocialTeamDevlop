@@ -29,7 +29,9 @@ namespace DominatorHouse.IoC
             Container.RegisterType<ILikeViewModel, LikeViewModel>();
             Container.RegisterType<ICommentViewModel, CommentViewModel>();
             Container.RegisterSingleton<ISelectActivityViewModel, SelectActivityViewModel>();
-           
+            Container.RegisterSingleton<ISaveSetting, SaveSetting>();
+            
+
             #endregion
 
         }

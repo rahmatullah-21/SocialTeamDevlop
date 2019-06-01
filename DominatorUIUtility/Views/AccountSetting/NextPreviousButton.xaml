@@ -23,7 +23,7 @@
             </Button.Style>
         </Button>
         <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Left" Foreground="White"
-                Grid.Row="1" Margin="5" Content="{Binding NextButtonContent}"
+                Grid.Row="1" Margin="5" Content="{Binding NextButtonContent}" Click="SaveSetting"
                 Command="{Binding NextCommand}" CommandParameter="{Binding NextCommandParameter}">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
