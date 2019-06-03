@@ -1903,7 +1903,7 @@ namespace EmbeddedBrowser
 
 
         public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
-            string attributeValue, ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int clickIndex = 0)
+            string attributeValue, string value = "", ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int clickIndex = 0)
         {
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
@@ -1921,6 +1921,9 @@ namespace EmbeddedBrowser
                     break;
                 case ActType.GetAttribute:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].getAttribute('{valueType.GetDescriptionAttr()}')");
+                    break;
+                case ActType.CustomActByQueryType:
+                    jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
                     break;
                 default:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}");
