@@ -411,6 +411,9 @@
     <Compile Include="ViewModel\Startup\StartupBaseViewModel.cs" />
     <Compile Include="ViewModel\VerifyProxiesViewModel.cs" />
     <Compile Include="ViewModel\WhiteListViewModel.cs" />
+    <Compile Include="Views\AccountActivitySetting.xaml.cs">
+      <DependentUpon>AccountActivitySetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AccountManager.xaml.cs">
       <DependentUpon>AccountManager.xaml</DependentUpon>
     </Compile>
@@ -928,6 +931,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\PrussianBlue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountActivitySetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

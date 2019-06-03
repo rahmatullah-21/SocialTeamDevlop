@@ -303,6 +303,7 @@
       <DependentUpon>PerfCounterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\AccountDetailsUpdation.cs" />
+    <Compile Include="Utilities\Facebook\FacebookActivity.cs" />
     <Compile Include="Utilities\ScrapAdsDetails.cs" />
     <Compile Include="Utilities\SoftwareSettings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

@@ -1,7 +1,4 @@
-﻿using DominatorHouseCore.Enums;
-using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System;
-using System.Linq;
+﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 using System.Windows.Controls;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
