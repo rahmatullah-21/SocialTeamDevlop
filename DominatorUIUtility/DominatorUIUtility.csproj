@@ -396,6 +396,7 @@
     <Compile Include="ViewModel\SocioPublisher\SelectAccountDetailsViewModel.cs" />
     <Compile Include="ViewModel\Startup\JobConfigViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\CommentViewModel.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\CompanyScraperViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\FollowViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\INetworkJobConfig.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\LikeViewModel.cs" />
@@ -419,6 +420,9 @@
     </Compile>
     <Compile Include="Views\AccountSetting\AccountModuleSetting.xaml.cs">
       <DependentUpon>AccountModuleSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\Activity\CompanyScraper.xaml.cs">
+      <DependentUpon>CompanyScraper.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\Follow.xaml.cs">
       <DependentUpon>Follow.xaml</DependentUpon>
@@ -943,6 +947,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\AccountModuleSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\Activity\CompanyScraper.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
