@@ -64,7 +64,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             NavigationList = new System.Collections.Generic.List<string>();
             NavigationList.Add("SelectActivity");
             allSelectedActivity.ForEach(name => NavigationList.Add(name.ActivityType));
-            NetworkFactory.RegisterNetwork();
+            SocialNetworkActivity.RegisterNetwork();
             NevigateNext();
         }
         public void SetActivityTypeByNetwork(string network)

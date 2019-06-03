@@ -13,25 +13,17 @@ using DominatorUIUtility.Views.AccountSetting.CustomControl;
 using CommonServiceLocator;
 using ProtoBuf;
 using DominatorHouseCore.Enums;
-using System.Runtime.InteropServices;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
-    [ProtoContract]
+
     public class StartupBaseViewModel : Prism.Mvvm.BindableBase, IStartUpSearchQuery, IStartupJobConfiguration
     {
-        [ProtoIgnore]
-        [field:NonSerialized]
+        [field: NonSerialized]
         public IRegionManager regionManager;
 
-        [ProtoIgnore]
-        [field: NonSerialized]
         public static int selectedIndex = 0;
-        [ProtoIgnore]
-     
         public static List<string> NavigationList { get; set; }
-        [ProtoIgnore]
-      
         public static List<ActivityConfig> ViewModelToSave { get; set; } = new List<ActivityConfig>();
         public StartupBaseViewModel(IRegionManager region)
         {
@@ -39,25 +31,48 @@ namespace DominatorUIUtility.ViewModel.Startup
             AddQueryCommand = new DelegateCommand<ActivitySetting>(AddQuery);
         }
         #region Commands
-        [field: NonSerialized]
+
         public ICommand NextCommand { get; set; }
-        [field: NonSerialized]
+
         public ICommand PreviousCommand { get; set; }
-        [field: NonSerialized]
+
         public ICommand LoadedCommand { get; set; }
-        [field: NonSerialized]
+
         public ICommand AddQueryCommand { get; set; }
         #endregion
 
         protected void NevigateNext()
         {
+
+            if (selectedIndex > 0 && !ValidateRunningTime())
+                return;
+            //if (selectedIndex > 0 && !ValidateQuery())
+            //    return;
+
             if (selectedIndex >= NavigationList.Count - 1)
                 return;
             selectedIndex++;
             var next = NavigationList[selectedIndex];
             regionManager.RequestNavigate("StartupRegion", next);
         }
-
+        private bool ValidateRunningTime()
+        {
+            if (JobConfiguration.RunningTime.All(time => time.Timings.Count == 0))
+            {
+                Dialog.ShowDialog("Error", "Please add at least one time range when to run and stop the activity.");
+                return false;
+            }
+            return true;
+        }
+        protected virtual bool ValidateQuery()
+        {
+            if (SavedQueries.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please add at least one query.");
+                return false;
+            }
+            return true;
+        }
         protected void NevigatePrevious()
         {
             if (selectedIndex <= 0)
@@ -70,7 +85,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         {
             ListQueryType.Clear();
             var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-            ListQueryType = NetworkFactory.GetNetworkfactory(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
+            ListQueryType = SocialNetworkActivity.GetNetworkActivity(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
             if (selectedIndex == NavigationList.Count - 1)
                 NextButtonContent = "LangKeyFinish".FromResourceDictionary();
             else
@@ -92,7 +107,6 @@ namespace DominatorUIUtility.ViewModel.Startup
                 SetProperty(ref _jobConfiguration, value);
             }
         }
-
 
         private ObservableCollection<QueryInfo> _savedQueries = new ObservableCollection<QueryInfo>();
         [ProtoMember(2)]
@@ -188,5 +202,4 @@ namespace DominatorUIUtility.ViewModel.Startup
         [ProtoMember(2)]
         public ActivityType ActivityType { get; set; }
     }
-  
 }

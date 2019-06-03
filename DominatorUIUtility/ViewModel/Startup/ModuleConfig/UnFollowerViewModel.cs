@@ -37,6 +37,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfUnfollowPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfUnfollowPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxUnfollowsPerDay".FromResourceDictionary(),
+                RunningTime = RunningTimes.DayWiseRunningTimes
             };
         }
      

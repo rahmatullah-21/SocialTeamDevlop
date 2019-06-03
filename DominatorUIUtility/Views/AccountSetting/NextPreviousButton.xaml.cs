@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.ViewModel.Startup;
 using System.Windows;
 using System.Windows.Controls;
@@ -87,6 +88,8 @@ namespace DominatorUIUtility.Views.AccountSetting
             {
                 var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
                 saveSetting.Save();
+                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                mainViewModel.IsPopUpOpen = false;
             }
         }
     }

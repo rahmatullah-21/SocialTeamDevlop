@@ -25,6 +25,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfLikesPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfLikesPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxLikesPerDay".FromResourceDictionary(),
+                RunningTime = RunningTimes.DayWiseRunningTimes
             };
         }
     }

@@ -1,10 +1,5 @@
 ﻿using DominatorHouseCore.Interfaces.StartUp;
 using DominatorHouseCore.StartupActivity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DominatorHouse.Utilities.Facebook
 {
@@ -14,14 +9,29 @@ namespace DominatorHouse.Utilities.Facebook
         {
             switch (activity)
             {
-                case "Follow":
+                case "SendFriendRequest":
+                    return new FacebookUserActivity();
                 case "BroadcastMessages":
-                case "Reposter":
-                case "DownloadScraper":
-                case "UserScraper":
-                    return new InstagramUserActivity();
+                case "ProfileScraper":
+                    return new FacebookProfileActivity();
+                case "MessageToPlaces":
+                case "PlaceScraper":
+                    return new FacebookPlaceActivity();
+                case "GroupJoiner":
+                    return new FacebookGroupJoinerActivity();
+                case "GroupScraper":
+                    return new FacebookGroupScraperActivity();
+                case "CommentScraper":
+                    return new FacebookCommentScraperActivity();
+                case "LikeComment":
+                case "ReplyToComment":
+                    return new FacebookCommentLikerActivity();
+                case "Web":
+                    return new FacebookWebCommentLikerActivity();
+                case "MarketPlaceScraper":
+                    return new FacebookMarketPlaceActivity();
                 default:
-                    return new InstagramPostActivity();
+                    return new FacebookFanepageLikerActivity();
             }
         }
     }

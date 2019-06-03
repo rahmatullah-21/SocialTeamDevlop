@@ -1,5 +1,4 @@
-﻿
-using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
@@ -9,8 +8,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using DominatorHouseCore.Models.NetworkActivitySetting;
 using System.Collections.Generic;
-using CommonServiceLocator;
-using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -63,25 +60,25 @@ namespace DominatorUIUtility.ViewModel.Startup
 
         public void AddJobConfiguration(IEnumerable<ActivityChecked> allSelectedActivity)
         {
-            try
-            {
-                LstJobConfiguration.Clear();
-                var selectedNetwork = ServiceLocator.Current.GetInstance<ISelectNetworkViewModel>().SelectedNetwork;
-                var jobConfig = NetworkReg.RegisterNetworkJobConfig[selectedNetwork];
-                ((dynamic)jobConfig).RegisterJobConfiguration();
-                allSelectedActivity.ForEach(activity =>
-                {
-                    LstJobConfiguration.Add(new ActivityJobConfig
-                    {
-                        ActivityType = activity.ActivityType,
-                        ActivityJobConfiguration = ((dynamic)jobConfig).RegisterJobConfigurations[activity.ActivityType].Model.JobConfiguration
-                    });
-                });
-            }
-            catch (Exception ex)
-            {
+            //try
+            //{
+            //    LstJobConfiguration.Clear();
+            //    var selectedNetwork = ServiceLocator.Current.GetInstance<ISelectNetworkViewModel>().SelectedNetwork;
+            //    var jobConfig = NetworkReg.RegisterNetworkJobConfig[selectedNetwork];
+            //    ((dynamic)jobConfig).RegisterJobConfiguration();
+            //    allSelectedActivity.ForEach(activity =>
+            //    {
+            //        LstJobConfiguration.Add(new ActivityJobConfig
+            //        {
+            //            ActivityType = activity.ActivityType,
+            //            ActivityJobConfiguration = ((dynamic)jobConfig).RegisterJobConfigurations[activity.ActivityType].Model.JobConfiguration
+            //        });
+            //    });
+            //}
+            //catch (Exception ex)
+            //{
 
-            }
+            //}
         }
 
         public Speed Model => new Speed();

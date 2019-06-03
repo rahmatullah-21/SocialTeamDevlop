@@ -25,6 +25,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfCommentsPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfCommentsPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxCommentPerDay".FromResourceDictionary(),
+                RunningTime = RunningTimes.DayWiseRunningTimes
             };
         }
     }

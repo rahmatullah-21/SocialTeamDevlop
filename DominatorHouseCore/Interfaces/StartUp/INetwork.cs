@@ -12,15 +12,11 @@ using System.Collections.Generic;
 
 namespace DominatorHouseCore.Interfaces.StartUp
 {
-    interface ISocialNetwork
-    {
-        List<string> GetQueryType(string activityType);
-    }
-    #region Commented
-    class NetworkFactory
+    
+    class SocialNetworkActivity
     {
         private static Dictionary<string, INetworkActivity> Networks { get; } = new Dictionary<string, INetworkActivity>();
-        public static INetworkActivity GetNetworkfactory(string networks)
+        public static INetworkActivity GetNetworkActivity(string networks)
         {
             return Networks.ContainsKey(networks) ? Networks[networks] : null;
         }
@@ -43,8 +39,7 @@ namespace DominatorHouseCore.Interfaces.StartUp
             catch {}
         }
     }
-    #endregion
-
+   
     public interface INetworkActivity
     {
         BaseActivity GetActivity(string activity);

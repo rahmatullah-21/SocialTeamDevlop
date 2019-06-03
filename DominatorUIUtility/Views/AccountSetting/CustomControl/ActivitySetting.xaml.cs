@@ -5,6 +5,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel;
 using DominatorUIUtility.ViewModel.Startup;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,12 +21,12 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
     /// </summary>
     public partial class ActivitySetting : UserControl
     {
-       
+
         public ActivitySetting()
         {
             InitializeComponent();
             Setting.DataContext = this;
-           
+
         }
         public string Heading
         {
@@ -156,61 +157,11 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         {
             if (NextButtonContent == "LangKeyFinish".FromResourceDictionary())
             {
-                var saveSetting= ServiceLocator.Current.GetInstance<ISaveSetting>();
+                var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
                 saveSetting.Save();
-                //var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-                //var account = viewModel.SelectAccount;
-                //StartupBaseViewModel.ViewModelToSave.ForEach(data =>
-                //{
-                //    var templateId = TemplateModel.SaveTemplate(data.Model, data.ActivityType.ToString(), account.AccountBaseModel.AccountNetwork,
-                //       string.Empty);
-                //    SaveTemplateToAccounts(templateId, account, data.Model, data.ActivityType);
-                //});
-
-
+                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                mainViewModel.IsPopUpOpen = false;
             }
-        }
-        public void SaveTemplateToAccounts(string templateId, DominatorAccountModel account, dynamic Model, ActivityType _activityType)
-        {
-            var _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            List<RunningTimes> runningTime = RunningTimes.DayWiseRunningTimes; //Model.JobConfiguration.RunningTime;
-            var accountDetails = _accountsFileManager.GetAccountById(account.AccountBaseModel.AccountId);
-
-
-            AddTemplateToAccount(templateId, accountDetails, runningTime, _activityType, Model);
-
-            var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
-            accountsCacheService.UpsertAccounts(accountDetails);
-
-        }
-
-        private void AddTemplateToAccount(string templateId, DominatorAccountModel account, List<RunningTimes> runningTime, ActivityType _activityType, dynamic Model)
-        {
-            var _jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-            var moduleConfiguration =
-                _jobActivityConfigurationManager[account.AccountBaseModel.AccountId, _activityType] ??
-                new ModuleConfiguration { ActivityType = _activityType };
-
-            moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
-            moduleConfiguration.IsEnabled = true;
-            moduleConfiguration.Status = "Active";
-            moduleConfiguration.TemplateId = templateId;
-            moduleConfiguration.IsTemplateMadeByCampaignMode = true;
-            moduleConfiguration.DelayBetweenJobs = Model.JobConfiguration.DelayBetweenJobs;
-            runningTime.ForEach(x =>
-            {
-                foreach (var timingRange in x.Timings)
-                {
-                    timingRange.Module = _activityType.ToString();
-                }
-            });
-            moduleConfiguration.LstRunningTimes = new List<RunningTimes>(runningTime);
-
-            moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration, 0);
-            _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
-            var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
-            //Update ActivityManager of account in Db
-            globalDbOperation.UpdateAccountActivityManager(account);
         }
 
     }

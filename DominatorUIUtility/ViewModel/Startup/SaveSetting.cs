@@ -33,7 +33,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         private void SaveTemplateToAccounts(string templateId, DominatorAccountModel account, dynamic Model, ActivityType _activityType)
         {
             var _accountsFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            List<RunningTimes> runningTime = RunningTimes.DayWiseRunningTimes; //Model.JobConfiguration.RunningTime;//should be Startup setting time
+            List<RunningTimes> runningTime = Model.JobConfiguration.RunningTime;
             var accountDetails = _accountsFileManager.GetAccountById(account.AccountBaseModel.AccountId);
             AddTemplateToAccount(templateId, accountDetails, runningTime, _activityType, Model);
 

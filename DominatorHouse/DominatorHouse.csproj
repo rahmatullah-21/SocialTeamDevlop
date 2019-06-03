@@ -304,6 +304,16 @@
     </Compile>
     <Compile Include="Utilities\AccountDetailsUpdation.cs" />
     <Compile Include="Utilities\Facebook\FacebookActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookCommentLikerActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookCommentScraperActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookFanepageLikerActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookGroupJoinerActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookGroupScraperActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookMarketPlaceActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookPlaceActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookUserActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookProfileActivity.cs" />
+    <Compile Include="Utilities\Facebook\FacebookWebCommentLikerActivity.cs" />
     <Compile Include="Utilities\ScrapAdsDetails.cs" />
     <Compile Include="Utilities\SoftwareSettings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
