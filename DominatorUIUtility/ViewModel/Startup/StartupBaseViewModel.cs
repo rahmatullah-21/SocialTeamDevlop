@@ -13,10 +13,10 @@ using DominatorUIUtility.Views.AccountSetting.CustomControl;
 using CommonServiceLocator;
 using ProtoBuf;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.ViewModel;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
-
     public class StartupBaseViewModel : Prism.Mvvm.BindableBase, IStartUpSearchQuery, IStartupJobConfiguration
     {
         [field: NonSerialized]
@@ -27,6 +27,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         public static List<ActivityConfig> ViewModelToSave { get; set; } = new List<ActivityConfig>();
         public StartupBaseViewModel(IRegionManager region)
         {
+            IsNonQuery = false;
             regionManager = region;
             AddQueryCommand = new DelegateCommand<ActivitySetting>(AddQuery);
         }
@@ -46,8 +47,16 @@ namespace DominatorUIUtility.ViewModel.Startup
 
             if (selectedIndex > 0 && !ValidateRunningTime())
                 return;
-            //if (selectedIndex > 0 && !ValidateQuery())
-            //    return;
+            if (!IsNonQuery && selectedIndex > 0 && !ValidateQuery())
+                return;
+
+            if (NextButtonContent == "LangKeyFinish".FromResourceDictionary())
+            {
+                var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
+                saveSetting.Save();
+                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                mainViewModel.IsPopUpOpen = false;
+            }
 
             if (selectedIndex >= NavigationList.Count - 1)
                 return;
@@ -55,7 +64,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             var next = NavigationList[selectedIndex];
             regionManager.RequestNavigate("StartupRegion", next);
         }
-        private bool ValidateRunningTime()
+        public bool ValidateRunningTime()
         {
             if (JobConfiguration.RunningTime.All(time => time.Timings.Count == 0))
             {
@@ -64,7 +73,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             }
             return true;
         }
-        protected virtual bool ValidateQuery()
+        public bool ValidateQuery()
         {
             if (SavedQueries.Count == 0)
             {
@@ -141,6 +150,13 @@ namespace DominatorUIUtility.ViewModel.Startup
         {
             get { return _nextButtonContent; }
             set { SetProperty(ref _nextButtonContent, value); }
+        }
+        private bool _isNonQuery;
+
+        public bool IsNonQuery
+        {
+            get { return _isNonQuery; }
+            set { SetProperty(ref _isNonQuery, value); }
         }
 
         private void AddQuery(ActivitySetting actvity)

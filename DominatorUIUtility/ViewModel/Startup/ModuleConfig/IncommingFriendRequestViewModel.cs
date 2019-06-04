@@ -8,6 +8,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IIncommingFriendRequestViewModel
     {
+        int Count { get; set; }
+        bool IsCancelReceivedRequest { get; set; }
+        bool IsAcceptRequest { get; set; }
     }
     public class IncommingFriendRequestViewModel : StartupBaseViewModel, IIncommingFriendRequestViewModel
     {
@@ -20,13 +23,57 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             JobConfiguration = new JobConfiguration
             {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfCommentsPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfCommentsPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfCommentsPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfCommentsPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxCommentPerDay".FromResourceDictionary(),
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfRequestPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfRequestPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfRequestPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfRequestPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxRequestPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
+        }
+        private int _count;
+        public int Count
+        {
+            get
+            {
+                return _count;
+            }
+            set
+            {
+                if (value == _count)
+                    return;
+                SetProperty(ref _count, value);
+            }
+        }
+        private bool _isAcceptRequest;
+        public bool IsAcceptRequest
+        {
+            get
+            {
+                return _isAcceptRequest;
+            }
+            set
+            {
+                if (value == _isAcceptRequest)
+                    return;
+                SetProperty(ref _isAcceptRequest, value);
+            }
+        }
+
+        private bool _isCancelReceivedRequest;
+
+        public bool IsCancelReceivedRequest
+        {
+            get
+            {
+                return _isCancelReceivedRequest;
+            }
+            set
+            {
+                if (value == _isCancelReceivedRequest)
+                    return;
+                SetProperty(ref _isCancelReceivedRequest, value);
+            }
         }
     }
 }

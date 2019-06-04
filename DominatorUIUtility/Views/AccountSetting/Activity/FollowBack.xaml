@@ -15,10 +15,23 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Follow Back Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Follow Back Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <StackPanel  Margin="15,0,0,5" >
+            <RadioButton GroupName="AcceptAndFollowBack" Content="{DynamicResource LangKeyFollowBack}" Margin="5,15,0,5" IsChecked="{Binding IsFollowBack}"/>
+            <RadioButton GroupName="AcceptAndFollowBack" Content="{DynamicResource LangKeyAcceptFollowRequest}" Margin="5" IsChecked="{Binding IsAcceptFollowRequest}"/>
+            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+        </StackPanel>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
 
     </Grid>
 </UserControl>

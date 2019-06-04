@@ -11,6 +11,33 @@ using System.Threading.Tasks;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
+    public class UnLikeModel : BindableBase
+    {
+        private string _CustomTweets = string.Empty;
+        private bool _IsCustomTweets;
+        private bool _IsLikedTweets;
+
+        public List<string> ListQueryType { get; set; } = new List<string>();
+        public bool IsLikedTweets
+        {
+            get { return _IsLikedTweets; }
+            set { SetProperty(ref _IsLikedTweets, value); }
+        }
+
+        public bool IsCustomTweets
+        {
+            get { return _IsCustomTweets; }
+            set { SetProperty(ref _IsCustomTweets, value); }
+        }
+
+
+        public string CustomTweets
+        {
+            get { return _CustomTweets; }
+            set { SetProperty(ref _CustomTweets, value); }
+        }
+
+    }
     public interface IUnlikeViewModel
     {
     }
@@ -25,11 +52,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfFollowsPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfFollowsPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfFollowsPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxFollowsPerDay".FromResourceDictionary(),
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfLikesPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfLikesPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfLikesPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfLikesPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxLikesPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
             ListQueryType.Clear();

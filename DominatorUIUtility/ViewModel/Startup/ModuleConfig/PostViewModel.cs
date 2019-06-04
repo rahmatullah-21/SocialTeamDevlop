@@ -13,7 +13,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public PostViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Post });
+            //ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Post });
 
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);

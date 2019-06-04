@@ -22,9 +22,10 @@
             <StackPanel Grid.Row="1">
                 <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
                 <Expander Header="{DynamicResource LangKeySearchQuery}">
-                    <customControl:SearchQueryControl x:Name="QueryControl" x:FieldModifier="public" Width="700" ListQueryType="{Binding ListQueryType}"
-                                                  ListQueryInfo="{Binding SavedQueries}"
-                                                  AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
+                    <customControl:SearchQueryControl 
+                                                      x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
+                                                      ListQueryInfo="{Binding SavedQueries}"
+                                                      AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
                 </Expander>
                
             </StackPanel>
@@ -40,7 +41,7 @@
                 <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Left"
                     Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
                     Margin="5" Content="{Binding NextButtonContent}"
-                    Command="{Binding NextCommand}" Click="SaveData"/>
+                    Command="{Binding NextCommand}" />
             </StackPanel>
         </DockPanel>
     </Grid>

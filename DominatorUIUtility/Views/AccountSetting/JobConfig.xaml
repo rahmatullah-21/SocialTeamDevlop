@@ -135,7 +135,7 @@
             </StackPanel>
         </GroupBox>
 
-        <local:NextPreviousButton Grid.Row="1" NextCommand="{Binding NextCommand}"  NextCommandParameter="QueryControl"
-                                  PreviousCommand="{Binding PreviousCommand}" PreviousCommandParameter="SelectActivity" />
+        <!--<local:NextPreviousButton Grid.Row="1" NextCommand="{Binding NextCommand}"  NextCommandParameter="QueryControl"
+                                  PreviousCommand="{Binding PreviousCommand}" PreviousCommandParameter="SelectActivity" />-->
     </Grid>
 </UserControl>

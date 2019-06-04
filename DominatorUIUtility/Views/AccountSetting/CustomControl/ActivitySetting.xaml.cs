@@ -1,12 +1,5 @@
-﻿using CommonServiceLocator;
-using DominatorHouseCore.DatabaseHandler.Utility;
-using DominatorHouseCore.Diagnostics;
-using DominatorHouseCore.Enums;
-using DominatorHouseCore.FileManagers;
-using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.ViewModel.Startup;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -21,7 +14,6 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
     /// </summary>
     public partial class ActivitySetting : UserControl
     {
-
         public ActivitySetting()
         {
             InitializeComponent();
@@ -52,8 +44,6 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
                 DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
 
-
-
         public List<string> ListQueryType
         {
             get { return (List<string>)GetValue(ListQueryTypeProperty); }
@@ -64,8 +54,6 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         public static readonly DependencyProperty ListQueryTypeProperty =
             DependencyProperty.Register("ListQueryType", typeof(List<string>), typeof(ActivitySetting), new PropertyMetadata(new List<string>()));
 
-
-
         public ObservableCollection<QueryInfo> SavedQueries
         {
             get { return (ObservableCollection<QueryInfo>)GetValue(SavedQueriesProperty); }
@@ -75,8 +63,6 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         // Using a DependencyProperty as the backing store for SavedQueries.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SavedQueriesProperty =
             DependencyProperty.Register("SavedQueries", typeof(ObservableCollection<QueryInfo>), typeof(ActivitySetting), new PropertyMetadata(new ObservableCollection<QueryInfo>()));
-
-
 
         public ICommand NextCommand
         {
@@ -112,8 +98,6 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             }
         }
 
-
-
         public object CommandParameter
         {
             get { return GetValue(CommandParameterProperty); }
@@ -128,7 +112,6 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         {
             var newValue = e.NewValue;
         }
-
         public string NextButtonContent
         {
             get { return (string)GetValue(NextButtonContentProperty); }
@@ -152,17 +135,6 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         // Using a DependencyProperty as the backing store for PreviousVisiblity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PreviousVisiblityProperty =
             DependencyProperty.Register("PreviousVisiblity", typeof(Visibility), typeof(ActivitySetting), new PropertyMetadata(Visibility.Visible));
-
-        private void SaveData(object sender, RoutedEventArgs e)
-        {
-            if (NextButtonContent == "LangKeyFinish".FromResourceDictionary())
-            {
-                var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
-                saveSetting.Save();
-                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
-                mainViewModel.IsPopUpOpen = false;
-            }
-        }
 
     }
 }

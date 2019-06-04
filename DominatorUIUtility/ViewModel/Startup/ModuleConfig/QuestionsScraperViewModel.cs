@@ -6,7 +6,7 @@ using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-   
+
     public interface IQuestionsScraperViewModel
     {
     }
@@ -21,11 +21,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfFollowsPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfFollowsPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfFollowsPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxFollowsPerDay".FromResourceDictionary(),
+                ActivitiesPerJobDisplayName = "LangKeyQuestionScrapePerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyQuestionScrapePerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyQuestionScrapePerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyQuestionScrapePerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxQuestionScrapePerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
             ListQueryType.Clear();

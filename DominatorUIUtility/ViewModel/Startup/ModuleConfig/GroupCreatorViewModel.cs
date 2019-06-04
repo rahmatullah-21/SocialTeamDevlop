@@ -14,7 +14,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public GroupCreatorViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.GroupCreator });
+            //ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.GroupCreator });
 
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);

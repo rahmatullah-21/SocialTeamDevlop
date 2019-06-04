@@ -14,7 +14,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public VoteAnswersViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.VoteAnswers });
+            //ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.VoteAnswers });
 
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);

@@ -1,18 +1,8 @@
 ﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DominatorUIUtility.Views.AccountSetting.Activity
 {
@@ -21,10 +11,36 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
     /// </summary>
     public partial class Unfriend : UserControl
     {
+        IUnfriendViewModel _viewModel;
         public Unfriend(IUnfriendViewModel viewModel)
         {
             InitializeComponent();
+            _viewModel = viewModel;
             DataContext = viewModel;
+        }
+        private void TypeChecked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.TypeCount++;
+        }
+
+        private void TypeUnChecked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.TypeCount--;
+        }
+
+        private void Source_UnChecked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Count--;
+        }
+
+        private void Source_Checked(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Count++;
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.LstFilterText = Regex.Split(_viewModel.FilterText, "\r\n").ToList();
         }
     }
 }

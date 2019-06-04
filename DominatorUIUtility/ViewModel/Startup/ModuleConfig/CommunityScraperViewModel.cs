@@ -14,7 +14,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public CommunityScraperViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.CommunityScraper });
+            //ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.CommunityScraper });
 
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);

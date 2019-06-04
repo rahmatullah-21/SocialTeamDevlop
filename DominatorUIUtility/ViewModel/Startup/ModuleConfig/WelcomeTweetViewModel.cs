@@ -28,5 +28,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
         }
+        private string _welcomeMessageText;
+
+        public string WelcomeMessageText
+        {
+            get { return _welcomeMessageText; }
+            set { _welcomeMessageText = value; }
+        }
+
     }
 }

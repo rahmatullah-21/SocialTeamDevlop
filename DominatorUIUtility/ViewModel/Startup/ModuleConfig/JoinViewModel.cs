@@ -14,7 +14,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public JoinViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Join });
+            //ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Join });
 
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);

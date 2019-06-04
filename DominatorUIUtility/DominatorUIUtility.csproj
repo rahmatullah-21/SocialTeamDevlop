@@ -440,7 +440,6 @@
     <Compile Include="ViewModel\Startup\ModuleConfig\GroupUnJoinerViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\HashtagsScraperViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\IncommingFriendRequestViewModel.cs" />
-    <Compile Include="ViewModel\Startup\ModuleConfig\INetworkJobConfig.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\JobScraperViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\JoinViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\LikeCommentViewModel.cs" />
@@ -853,11 +852,11 @@
     <Compile Include="Views\AccountSetting\CustomControl\ActivitySetting.xaml.cs">
       <DependentUpon>ActivitySetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AccountSetting\CustomControl\NextPreviousButton.xaml.cs">
+      <DependentUpon>NextPreviousButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AccountSetting\JobConfig.xaml.cs">
       <DependentUpon>JobConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AccountSetting\NextPreviousButton.xaml.cs">
-      <DependentUpon>NextPreviousButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\SelectActivity.xaml.cs">
       <DependentUpon>SelectActivity.xaml</DependentUpon>
@@ -1802,11 +1801,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AccountSetting\JobConfig.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\AccountSetting\CustomControl\NextPreviousButton.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AccountSetting\NextPreviousButton.xaml">
+    <Page Include="Views\AccountSetting\JobConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

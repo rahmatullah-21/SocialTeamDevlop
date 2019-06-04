@@ -15,10 +15,27 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Unlike Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="UnFollow user Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <StackPanel >
+            <CheckBox IsChecked="{Binding UnLikeModel.UnLike.IsLikedTweets}" Content="{DynamicResource LangKeyLikedTweets}" Margin="5" />
+            <CheckBox IsChecked="{Binding UnLikeModel.UnLike.IsCustomTweets}" Content="{DynamicResource LangKeyCustomTweetLists}" Margin="5" />
+            <customControl:InputBoxControl  Visibility="{Binding UnLikeModel.UnLike.IsCustomTweets,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                           InputText="{Binding UnLikeModel.UnLike.CustomTweets}"  SaveCommand="{Binding SplitInputToListCommand}"
+                                                           CommandParameter="{Binding ElementName=CustomPostLists}" />
+            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+        </StackPanel>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
 
     </Grid>
 </UserControl>

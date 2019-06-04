@@ -15,10 +15,40 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Profile Endorsement Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
 
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Profile Endorsement Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <!--Connection Sources-->
+            <Label Content="{DynamicResource LangKeyConnectionSources}" FontWeight="Bold" Margin="5,10,0,0"></Label>
+            <StackPanel  Margin="15,0,0,5" >
+                <CheckBox Content="{DynamicResource LangKeyBySoftware}" Margin="5" IsChecked="{Binding IsCheckedBySoftware}"/>
+                <CheckBox Content="{DynamicResource LangKeyOutsideSoftware}" Margin="5" IsChecked="{Binding IsCheckedOutSideSoftware}"/>
+                <CheckBox Content="{DynamicResource LangKeyCustomUsersList}" Margin="5" IsChecked="{Binding IsCheckedLangKeyCustomUserList}"/>
+                <customControl:InputBoxControl Margin="25,5" x:Name="CustomUserListInputBox" 
+                                                           InputText="{Binding UrlInput}"
+                                                           SaveCommand="{Binding SaveCustomUserListCommand}"
+                                                           WaterMarkText="{DynamicResource LangKeyEnterProfileUrlS}"
+                                                           Visibility="{Binding IsCheckedLangKeyCustomUserList,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                           />
+                <Label  Content="{DynamicResource LangKeyEndorsementCriteria}" FontWeight="Bold" Margin="5,10,0,0"/>
+                <StackPanel Margin="15,0,0,5" Orientation="Horizontal">
+                    <Label  Content="{DynamicResource LangKeyNumberOfSkillsToBeEndorsed}"/>
+                    <controls:NumericUpDown  Minimum="1" Value="{Binding NumberOfSkillsToBeEndorsed}" IsEnabled="True"/>
+                </StackPanel>
+            </StackPanel>
+            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+
+        </StackPanel>
+        <DockPanel Grid.Row="2" >
+                <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+            </DockPanel>
     </Grid>
 </UserControl>

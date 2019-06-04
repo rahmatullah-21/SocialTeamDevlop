@@ -14,7 +14,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public WebpageLikerCommentorViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WebpageLikerCommentor });
+            //ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WebpageLikerCommentor });
 
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);

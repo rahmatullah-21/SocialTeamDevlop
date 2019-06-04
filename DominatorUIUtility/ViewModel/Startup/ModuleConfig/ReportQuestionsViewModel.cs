@@ -15,7 +15,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public ReportQuestionsViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.ReportQuestions });
+            //ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.ReportQuestions });
 
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);

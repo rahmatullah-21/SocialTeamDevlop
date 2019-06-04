@@ -26,5 +26,10 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
             InitializeComponent();
             DataContext = viewModel;
         }
+
+        private void CmbboxQueryTypeLists_OnDropDownClosed(object sender, EventArgs e)
+        {
+
+        }
     }
 }

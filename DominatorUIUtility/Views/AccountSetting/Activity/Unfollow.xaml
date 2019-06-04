@@ -22,13 +22,12 @@
             <RowDefinition Height="40"/>
 
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" >
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
             <TextBlock Text="UnFollow user Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
-          
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-             <Label Content="{DynamicResource LangKeyUnfollowSource}" FontWeight="SemiBold" Margin="5,10,0,0"/>
+                <Label Content="{DynamicResource LangKeyUnfollowSource}" FontWeight="SemiBold" Margin="5,10,0,0"/>
                 <StackPanel  Margin="15,0,0,5" >
                     <CheckBox Content="{DynamicResource LangKeyPeopleFollowedBySoftware}" Margin="5,15,0,5" IsChecked="{Binding IsChkPeopleFollowedBySoftwareChecked}"/>
                     <CheckBox Content="{DynamicResource LangKeyPeopleFollowedOutsideSoftware}" Margin="5" IsChecked="{Binding IsChkPeopleFollowedOutsideSoftwareChecked}"/>
@@ -54,12 +53,12 @@
                     <Label Content="{DynamicResource LangKeyHours}"/>
                 </StackPanel>
                 <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-               
+
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >
-            <next:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                     NextButtonContent="{Binding NextButtonContent}"/>
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
         </DockPanel>
     </Grid>
 </UserControl>
