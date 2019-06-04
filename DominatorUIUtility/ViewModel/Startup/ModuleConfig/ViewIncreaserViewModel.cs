@@ -21,11 +21,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfFollowsPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfFollowsPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfFollowsPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxFollowsPerDay".FromResourceDictionary(),
+                ActivitiesPerJobDisplayName = "LangKeyViewIncreasePerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyViewIncreasePerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyViewIncreasePerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyViewIncreasePerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaximumViewIncreasePerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
             ListQueryType.Clear();

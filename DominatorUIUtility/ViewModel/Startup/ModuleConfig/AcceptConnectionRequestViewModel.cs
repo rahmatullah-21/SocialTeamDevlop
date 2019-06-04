@@ -21,11 +21,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             JobConfiguration = new JobConfiguration
             {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfCommentsPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfCommentsPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfCommentsPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfCommentsPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxCommentPerDay".FromResourceDictionary(),
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfConnectionRequestsToAcceptPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfConnectionRequestsToAcceptPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfConnectionRequestsToAcceptPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfConnectionRequestsToAcceptPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxConnectionRequestsToAcceptPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
         }

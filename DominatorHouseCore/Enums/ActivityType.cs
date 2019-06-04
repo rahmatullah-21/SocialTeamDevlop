@@ -18,8 +18,8 @@ namespace DominatorHouseCore.Enums
 
         [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube")]
         Comment = 5,
-
-        [Description("Twitter,Instagram,Reddit")]
+        //,Instagram,Reddit
+        [Description("Twitter")]
         DeleteComment = 6,
 
         [Description("Twitter,Instagram")]
@@ -128,11 +128,11 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         UpvoteAnswers = 42,
 
-        [Description("Gplus")]
-        Join = 43,
+        //[Description("Gplus")]
+        //Join = 43,
 
-        [Description("Gplus")]
-        Unjoin = 44,
+        //[Description("Gplus")]
+        //Unjoin = 44,
 
         [Description("Facebook")]
         PostLikerCommentor = 45,
@@ -140,8 +140,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         FanpageLiker = 46,
 
-        [Description("Facebook")]
-        WebpageLikerCommentor = 47,
+        //[Description("Facebook")]
+        //WebpageLikerCommentor = 47,
 
         [Description("Twitter")]
         TweetScraper = 48,
@@ -187,8 +187,8 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter")]
         Mute = 62,
 
-        [Description("Gplus")]
-        CommunityScraper = 63,
+        //[Description("Gplus")]
+       // CommunityScraper = 63,
 
         [Description("LinkedIn")]
         JobScraper = 64,

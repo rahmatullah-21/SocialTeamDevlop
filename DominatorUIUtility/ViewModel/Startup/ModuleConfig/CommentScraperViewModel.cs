@@ -7,7 +7,7 @@ using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-   
+
     public interface ICommentScraperViewModel
     {
     }
@@ -22,11 +22,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfFollowsPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfFollowsPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfFollowsPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxFollowsPerDay".FromResourceDictionary(),
+                ActivitiesPerJobDisplayName = "LangKeyScrapNumberOfCommentsPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyScrapNumberOfCommentsPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyScrapNumberOfCommentsPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyScrapNumberOfCommentsPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyScrapMaxCommentsPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
             ListQueryType.Clear();
