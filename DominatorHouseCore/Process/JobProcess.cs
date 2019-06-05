@@ -349,7 +349,10 @@ namespace DominatorHouseCore.Process
         /// </summary>
         protected abstract bool Login();
 
-        protected abstract bool CloseAutomationBrowser();
+        protected virtual bool CloseAutomationBrowser()
+        {
+            return true;
+        }
 
         /// <summary>
         ///     Does a POST request for certain process after login. Like Follow, Like, Comment etc.
