@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
@@ -9,13 +10,16 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
    
     public interface IDeletePostViewModel
     {
+        bool IsCheckedDeleteAllPosts { get; set; }
+        bool ChkDeletePostWhichIsPostedBySoftware { get; set; }
+        bool ChkDeletePostWhichIsPostedByOutsideSoftware { get; set; }
     }
     public class DeletePostViewModel : StartupBaseViewModel, IDeletePostViewModel
     {
         public DeletePostViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.DeletePost });
-
+            IsNonQuery = true;
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
@@ -29,6 +33,54 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
             ListQueryType.Clear();
+        }
+
+        private bool _IsCheckedDeleteAllPosts = true;
+        public bool IsCheckedDeleteAllPosts
+        {
+            get
+            {
+                return _IsCheckedDeleteAllPosts;
+            }
+
+            set
+            {
+                if (_IsCheckedDeleteAllPosts == value)
+                    return;
+                SetProperty(ref _IsCheckedDeleteAllPosts, value);
+            }
+        }
+
+        private bool _ChkDeletePostWhichIsPostedBySoftware = false;
+        public bool ChkDeletePostWhichIsPostedBySoftware
+        {
+            get
+            {
+                return _ChkDeletePostWhichIsPostedBySoftware;
+            }
+
+            set
+            {
+                if (_ChkDeletePostWhichIsPostedBySoftware == value)
+                    return;
+                SetProperty(ref _ChkDeletePostWhichIsPostedBySoftware, value);
+            }
+        }
+
+        private bool _ChkDeletePostWhichIsPostedByOutsideSoftware = false;
+        public bool ChkDeletePostWhichIsPostedByOutsideSoftware
+        {
+            get
+            {
+                return _ChkDeletePostWhichIsPostedByOutsideSoftware;
+            }
+
+            set
+            {
+                if (_ChkDeletePostWhichIsPostedByOutsideSoftware == value)
+                    return;
+                SetProperty(ref _ChkDeletePostWhichIsPostedByOutsideSoftware, value);
+            }
         }
     }
 }

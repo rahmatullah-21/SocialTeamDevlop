@@ -16,7 +16,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public BlockFollowerViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.BlockFollower });
-
+            IsNonQuery = true;
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);

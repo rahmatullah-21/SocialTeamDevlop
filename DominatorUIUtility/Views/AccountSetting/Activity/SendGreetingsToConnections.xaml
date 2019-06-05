@@ -15,10 +15,74 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Send Greetings To Connections Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Send Greeting to Connection Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
+                <Label Content="{DynamicResource LangKeyGreetingOptions}" FontWeight="Bold" Margin="5,10,0,0"></Label>
 
+                <StackPanel Margin="15,0,0,5">
+                    <CheckBox  x:Name="BirthdayGreeting" Content="{DynamicResource LangKeyBirthdayGreeting}"
+                               VerticalAlignment="Center" Margin="5"
+                               IsChecked="{Binding IsCheckedBirthdayGreeting}"/>
+
+                    <CheckBox  x:Name="NewJobGreeting"   Content="{DynamicResource LangKeyNewJobGreeting}"
+                               VerticalAlignment="Center" Margin="5"
+                               IsChecked="{Binding IsCheckedNewJobGreeting}" />
+
+                    <CheckBox  x:Name="WorkAnniversaryGreeting" Content="{DynamicResource LangKeyWorkAnniversaryGreeting}"
+                               VerticalAlignment="Center" Margin="5"
+                               IsChecked="{Binding IsCheckedWorkAnniversaryGreeting}"/>
+                </StackPanel>
+
+                <!--Other  Message Expander-->
+                <Expander IsExpanded="True"  Header="{DynamicResource LangKeyInputMessageS}" Margin="5,5">
+                    <StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox  Content="{DynamicResource LangKeySpintax}" 
+                                                   Margin="32,5,0,0"
+                                                   Name="chkSpintax" 
+                                                   ToolTip="Format : (Message 1|Message 2|Message 3|Message 4) Note: add any number of messages each separated by |"
+                                                   IsChecked="{Binding IsChkSpintaxChecked}" 
+                                                   Visibility="Visible"
+                                                   ></CheckBox>
+                                <CheckBox  Content="{DynamicResource LangKeyTag}" 
+                                                   Margin="10,5,0,0"
+                                                   Name="chkTag" 
+                                                   ToolTip="Format : &lt;First Name&gt;, &lt;Last Name&gt;, &lt;Full Name&gt;,&lt;From First Name&gt;,&lt;From Last Name&gt;,&lt;From Full Name&gt;"
+                                                   IsChecked="{Binding IsChkTagChecked}" 
+                                                   Visibility="Visible"/>
+
+                            </StackPanel>
+
+                        </StackPanel>
+                        <StackPanel>
+                            <customControl:MessagesControl Messages="{Binding ManageMessagesModel}" 
+                                                                 x:Name="MessagesControl"
+                                                                 AddMessagesCommand="{Binding AddMessagesCommand}"
+                                                                 CommandParameter="{Binding ElementName=MessagesControl}"/>
+                            <customControl:ManageMessages LstManageMessagesModel="{Binding LstDisplayManageMessagesModel}"  />
+                        </StackPanel>
+                       
+                    </StackPanel>
+                </Expander>
+
+
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

@@ -1,33 +1,119 @@
-﻿using DominatorHouseCore.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Input;
+using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
+using DominatorHouseCore.Command;
+using System.Text.RegularExpressions;
+using DominatorHouseCore.LogHelper;
+using DominatorHouseCore;
+using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
 
     public interface IProfileEndorsementViewModel
     {
+        bool IsCheckedBySoftware { get; set; }
+        bool IsCheckedOutSideSoftware { get; set; }
+        bool IsCheckedLangKeyCustomUserList { get; set; }
+
+        string UrlInput { get; set; }
+        List<string> UrlList { get; set; }
+        ICommand SaveCustomUserListCommand { get; set; }
+        int NumberOfSkillsToBeEndorsed { get; set; }
     }
     public class ProfileEndorsementViewModel : StartupBaseViewModel, IProfileEndorsementViewModel
     {
+        private int _NumberOfSkillsToBeEndorsed;
+        private bool _IsCheckedBySoftware;
+
+        private bool _IsCheckedLangKeyCustomUserList;
+        private bool _IsCheckedOutSideSoftware;
+        private string _UrlInput;
+        private List<string> _UrlList;
+
         public ProfileEndorsementViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.ProfileEndorsement });
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
-
+            IsNonQuery = true;
             JobConfiguration = new JobConfiguration
             {
-                ActivitiesPerJobDisplayName ="LangKeyNumberOfProfileEndorsementsPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName ="LangKeyNumberOfProfileEndorsementsPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName ="LangKeyNumberOfProfileEndorsementsPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName ="LangKeyNumberOfProfileEndorsementsPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName ="LangKeyMaxProfileEndorsementsPerDay".FromResourceDictionary(),
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfProfileEndorsementsPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfProfileEndorsementsPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfProfileEndorsementsPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfProfileEndorsementsPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxProfileEndorsementsPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
+        }
+
+        private void SaveCustomUsers(object sender)
+        {
+            try
+            {
+                if (UrlInput.Contains("\r\n"))
+                {
+                    UrlList = Regex.Split(UrlInput, "\r\n").ToList();
+                    GlobusLogHelper.log.Info("" + UrlList.Count + " profile urls saved sucessfully");
+                }
+                else
+                {
+                    UrlList = new List<string>();
+                    UrlList.Add(UrlInput);
+                    GlobusLogHelper.log.Info("One profile url saved sucessfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        public int NumberOfSkillsToBeEndorsed
+        {
+            get { return _NumberOfSkillsToBeEndorsed; }
+            set { SetProperty(ref _NumberOfSkillsToBeEndorsed, value); }
+        }
+
+
+
+        public bool IsCheckedBySoftware
+        {
+            get { return _IsCheckedBySoftware; }
+            set { SetProperty(ref _IsCheckedBySoftware, value); }
+        }
+
+
+        public bool IsCheckedLangKeyCustomUserList
+        {
+            get { return _IsCheckedLangKeyCustomUserList; }
+            set { SetProperty(ref _IsCheckedLangKeyCustomUserList, value); }
+        }
+
+        public bool IsCheckedOutSideSoftware
+        {
+            get { return _IsCheckedOutSideSoftware; }
+            set { SetProperty(ref _IsCheckedOutSideSoftware, value); }
+        }
+
+        public ICommand SaveCustomUserListCommand { get; set; }
+
+        public string UrlInput
+        {
+            get { return _UrlInput; }
+            set { SetProperty(ref _UrlInput, value); }
+        }
+
+        public List<string> UrlList
+        {
+            get { return _UrlList; }
+            set { SetProperty(ref _UrlList, value); }
         }
     }
 }

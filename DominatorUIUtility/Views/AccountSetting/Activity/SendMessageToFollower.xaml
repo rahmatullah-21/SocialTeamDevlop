@@ -8,17 +8,34 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:DHCustomControl="clr-namespace:DominatorUIUtility.CustomControl;assembly=DominatorUIUtility">
+  
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="SendMessageToFollower"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <StackPanel  Margin="5,5">
-            <customControl:InputBoxControl InputText="{Binding Message}"/>
-            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Send Message To Follower Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+            <StackPanel>
+                <RadioButton IsChecked="{Binding IsCheckedSendMessageToNewFollowers,Mode=TwoWay}" Content="Send message(s) to new followers" Name="IsSendMessageToNewFollowers" />
+                <StackPanel Margin="5,5">
+                    <customControl:InputBoxControl InputText="{Binding TextMessage}"/>
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </StackPanel>
+            </StackPanel>
+
+        </ScrollViewer>
+       
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>

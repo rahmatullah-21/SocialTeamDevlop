@@ -1,18 +1,161 @@
-﻿using DominatorHouseCore.Enums;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
 using Prism.Commands;
 using Prism.Regions;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public class AutoReplyToNewMessageModel : BindableBase
-    {
-      
 
+    public interface IAutoReplyToNewMessageViewModel
+    {
+    }
+    public class AutoReplyToNewMessageViewModel : StartupBaseViewModel, IAutoReplyToNewMessageViewModel
+    {
+        public AutoReplyToNewMessageViewModel(IRegionManager region) : base(region)
+        {
+            IsNonQuery = true;
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.AutoReplyToNewMessage });
+            NextCommand = new DelegateCommand(NevigateNext);
+            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            LoadedCommand = new DelegateCommand<string>(OnLoad);
+            AddMessagesCommand = new DelegateCommand<object>(AddMessages);
+            InputSaveCommand = new DelegateCommand<object>(SaveInput);
+            JobConfiguration = new JobConfiguration
+            {
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfMessagesPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfMessagesPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfMessagesPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfMessagesPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxMessagesPerDay".FromResourceDictionary(),
+                RunningTime = RunningTimes.DayWiseRunningTimes
+            };
+        }
+        public ICommand AddMessagesCommand { get; set; }
+        public ICommand InputSaveCommand { get; set; }
+        private List<string> _lstMessage=new List<string>();
+        public List<string> LstMessage
+        {
+            get
+            {
+                return _lstMessage;
+            }
+            set
+            {
+                if (_lstMessage == value)
+                    return;
+                SetProperty(ref _lstMessage, value);
+            }
+        }
+        private void SaveInput(object sender)
+        {
+            try
+            {
+                List<string> lstSpecificWords = Regex.Split(SpecificWord, "\n").Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim()).ToList();
+                LstMessage = lstSpecificWords;
+
+                int count = ManageMessagesModel.LstQueries.Count;
+
+                while (count > 1)
+                {
+                    var Content = ManageMessagesModel.LstQueries[count - 1].Content;
+
+                    if (Content.QueryValue != "All")
+                    {
+                        ManageMessagesModel.LstQueries.RemoveAt(count - 1);
+                    }
+                    count--;
+                }
+
+                lstSpecificWords.ForEach(x =>
+                {
+                    if (ManageMessagesModel.LstQueries.All(y => y.Content.QueryValue != x))
+                    {
+                        ManageMessagesModel.LstQueries.Add(new QueryContent
+                        {
+                            Content = new QueryInfo
+                            {
+                                QueryValue = x
+                            }
+
+                        });
+                    }
+                });
+
+                GlobusLogHelper.log.Info($"{lstSpecificWords.Count} specific word{(lstSpecificWords.Count > 1 ? "s" : "")} saved and added to query sucessfully!");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private void AddMessages(object sender)
+        {
+            var messageData = sender as MessageMediaControl;
+
+            if (messageData?.Messages.MessagesText == null) return;
+
+            messageData.Messages.SelectedQuery = new ObservableCollection<QueryContent>(messageData.Messages.LstQueries.Where(x => x.IsContentSelected));
+
+            if (messageData.Messages.SelectedQuery.Count == 0)
+            {
+                GlobusLogHelper.log.Info("Please add query type with message(s)");
+                return;
+            }
+          
+            messageData.Messages.SelectedQuery.Remove(messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+
+            if (messageData.Messages.MessagesText != null)
+            {
+                List<string> listMessages = messageData.Messages.MessagesText.Split('\n').ToList();
+                listMessages = listMessages.Where(x => !string.IsNullOrEmpty(x.Trim())).Select(y => y.Trim()).ToList();
+
+                listMessages.ForEach(message =>
+                {
+                    try
+                    {
+                        bool isContain = false;
+                        LstDisplayManageMessageModel.ForEach(lstMessage =>
+                        {
+                            if (lstMessage.MessagesText.ToLower().Equals(message.ToLower()))
+                                isContain = lstMessage.SelectedQuery.Any(x => messageData.Messages.SelectedQuery.Contains(x));
+                        });
+                        if (!isContain)
+                            LstDisplayManageMessageModel.Add(new ManageMessagesModel() { MessagesText = message, SelectedQuery = messageData.Messages.SelectedQuery, MessageId = messageData.Messages.MessageId, LstQueries = messageData.Messages.LstQueries });
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                    //AddToList(messageData.Messages, message);
+                });
+            }
+            else
+                LstDisplayManageMessageModel.Add(messageData.Messages);
+
+            messageData.Messages = new ManageMessagesModel
+            {
+                LstQueries = ManageMessagesModel.LstQueries
+            };
+
+            messageData.Messages.LstQueries.Select(query => { query.IsContentSelected = false; return query; }).ToList();
+
+            ManageMessagesModel = messageData.Messages;
+
+            messageData.ComboBoxQueries.ItemsSource = ManageMessagesModel.LstQueries;
+
+        }
         private bool _isReplyToMessagesThatContainSpecificWord﻿Checked;
-    
+
         public bool IsReplyToMessagesThatContainSpecificWord﻿Checked
         {
             get
@@ -28,7 +171,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
         private bool _isReplyToPendingMessages﻿﻿Checked;
-  
+
         public bool IsReplyToPendingMessages﻿﻿Checked
         {
             get
@@ -44,7 +187,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
         private bool _isReplyToAllMessages﻿﻿Checked;
-      
+
         public bool IsReplyToAllMessagesChecked
         {
             get
@@ -76,25 +219,24 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private string _message;
-    
-        public string Message
+        private bool _IsChkMakeCaptionAsSpinText;
+      
+        public bool IsChkMakeCaptionAsSpinText
         {
             get
             {
-                return _message;
+                return _IsChkMakeCaptionAsSpinText;
             }
             set
             {
-                if (_message == value)
+                if (_IsChkMakeCaptionAsSpinText == value)
                     return;
-                SetProperty(ref _message, value);
-
+                SetProperty(ref _IsChkMakeCaptionAsSpinText, value);
             }
         }
 
         private bool _isChkAutoReplayPrivateBlacklist;
- 
+
         public bool IsChkAutoReplyPrivateBlacklist
         {
             get
@@ -128,7 +270,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         }
 
         private List<string> _lstMultiMessageForUserHasNotReplied = new List<string>();
- 
+
         public List<string> LstMultiMessageForUserHasNotReplied
         {
             get
@@ -143,7 +285,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
         private List<string> _lstMultiMessageForUserHasReplied = new List<string>();
-     
+
         public List<string> LstMultiMessageForUserHasReplied
         {
             get
@@ -157,45 +299,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     SetProperty(ref _lstMultiMessageForUserHasReplied, value);
             }
         }
+        public ObservableCollection<ManageMessagesModel> LstDisplayManageMessageModel { get; set; } = new ObservableCollection<ManageMessagesModel>();
 
-       
-    }
-    public interface IAutoReplyToNewMessageViewModel
-    {
-    }
-    public class AutoReplyToNewMessageViewModel : StartupBaseViewModel, IAutoReplyToNewMessageViewModel
-    {
-        public AutoReplyToNewMessageViewModel(IRegionManager region) : base(region)
-        {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.AutoReplyToNewMessage });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
-            LoadedCommand = new DelegateCommand<string>(OnLoad);
+        public ManageMessagesModel ManageMessagesModel { get; set; } = new ManageMessagesModel();
 
-            JobConfiguration = new JobConfiguration
-            {
-                ActivitiesPerJobDisplayName = "LangKeyNumberOfMessagesPerJob".FromResourceDictionary(),
-                ActivitiesPerHourDisplayName = "LangKeyNumberOfMessagesPerHour".FromResourceDictionary(),
-                ActivitiesPerDayDisplayName = "LangKeyNumberOfMessagesPerDay".FromResourceDictionary(),
-                ActivitiesPerWeekDisplayName = "LangKeyNumberOfMessagesPerWeek".FromResourceDictionary(),
-                IncreaseActivityDisplayName = "LangKeyMaxMessagesPerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
-            };
-        }
-        private AutoReplyToNewMessageModel _autoReplyToNewMessageModel = new AutoReplyToNewMessageModel();
 
-        public AutoReplyToNewMessageModel AutoReplyToNewMessageModel
-        {
-            get
-            {
-                return _autoReplyToNewMessageModel;
-            }
-            set
-            {
-                if (_autoReplyToNewMessageModel == null & _autoReplyToNewMessageModel == value)
-                    return;
-                SetProperty(ref _autoReplyToNewMessageModel, value);
-            }
-        }
     }
 }

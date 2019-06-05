@@ -15,10 +15,33 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Hashtags Scraper Setting" JobConfiguration="{Binding JobConfiguration}"
+     
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Hashtags Scraper Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            </DockPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+                <StackPanel>
+                <TextBlock Text="{DynamicResource LangKeyKeywords}" FontWeight="SemiBold" FontSize="16" Margin="10,5"/>
+                <customControl:InputBoxControl Margin="10,5" x:Name="Keywords"   InputText="{Binding Keyword}"/>
+                    <StackPanel Margin="5,5">
+                        <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                    </StackPanel>
+                </StackPanel>
+            
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
+            <!--<actcustom:ActivitySetting Heading="Hashtags Scraper Setting" JobConfiguration="{Binding JobConfiguration}"
                                    ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
                                    NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>-->
 
     </Grid>
 </UserControl>

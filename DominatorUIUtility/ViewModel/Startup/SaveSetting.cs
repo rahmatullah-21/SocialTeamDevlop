@@ -1,4 +1,5 @@
 ﻿using CommonServiceLocator;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -23,11 +24,13 @@ namespace DominatorUIUtility.ViewModel.Startup
         public void Save()
         {
             var account = _selectActivityViewModel.SelectAccount;
+            var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             StartupBaseViewModel.ViewModelToSave.ForEach(data =>
             {
                 var templateId = TemplateModel.SaveTemplate(data.Model, data.ActivityType.ToString(), account.AccountBaseModel.AccountNetwork,
                    string.Empty);
                 SaveTemplateToAccounts(templateId, account, data.Model, data.ActivityType);
+                dominatorScheduler.ScheduleNextActivity(account, data.ActivityType);
             });
         }
         private void SaveTemplateToAccounts(string templateId, DominatorAccountModel account, dynamic Model, ActivityType _activityType)
@@ -39,7 +42,6 @@ namespace DominatorUIUtility.ViewModel.Startup
 
             var accountsCacheService = ServiceLocator.Current.GetInstance<IAccountsCacheService>();
             accountsCacheService.UpsertAccounts(accountDetails);
-
         }
 
         private void AddTemplateToAccount(string templateId, DominatorAccountModel account, List<RunningTimes> runningTime, ActivityType _activityType, dynamic Model)

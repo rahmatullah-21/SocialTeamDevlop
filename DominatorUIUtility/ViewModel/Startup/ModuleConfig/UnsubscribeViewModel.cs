@@ -217,7 +217,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public UnsubscribeViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Comment });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.UnSubscribe });
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);

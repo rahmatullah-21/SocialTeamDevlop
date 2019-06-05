@@ -15,36 +15,49 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
             <TextBlock Text="Auto Reply To New Message Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
-        <StackPanel>
-            <Expander IsExpanded="True" Header="{DynamicResource LangKeyMessageFilter}" Margin="5,5">
-                <StackPanel>
-                    <RadioButton Content="{DynamicResource LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount}"
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel >
+                <Expander IsExpanded="True" Header="{DynamicResource LangKeyMessageFilter}" Margin="5,5">
+                    <StackPanel>
+                        <RadioButton Content="{DynamicResource LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount}"
                                          VerticalAlignment="Center" Margin="5"
-                                         IsChecked="{Binding AutoReplyToNewMessageModel.IsReplyToPendingMessagesChecked}"/>
-                    <RadioButton Content="{DynamicResource LangKeyReplyToAllMessages}"
+                                         IsChecked="{Binding IsReplyToPendingMessagesChecked}"/>
+                        <RadioButton Content="{DynamicResource LangKeyReplyToAllMessages}"
                                          VerticalAlignment="Center" Margin="5"
-                                         IsChecked="{Binding AutoReplyToNewMessageModel.IsReplyToAllMessagesChecked}"/>
-                    <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainsSpecificWord}"
+                                         IsChecked="{Binding IsReplyToAllMessagesChecked}"/>
+                        <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainsSpecificWord}"
                                   VerticalAlignment="Center" Margin="5"
-                                  IsChecked="{Binding AutoReplyToNewMessageModel.IsReplyToMessagesThatContainSpecificWordChecked}"/>
+                                  IsChecked="{Binding IsReplyToMessagesThatContainSpecificWordChecked}"/>
 
-                    <TextBox AcceptsReturn="True" Height="80" HorizontalAlignment="Left" Width="300" Margin="10,5" Text="{Binding AutoReplyToNewMessageModel.SpecificWord}"
-                                 Visibility="{Binding AutoReplyToNewMessageModel.IsReplyToMessagesThatContainSpecificWordChecked,
-                                Converter={StaticResource BooleanToVisibilityConverter}}" VerticalScrollBarVisibility="Auto"
-                                controls:TextBoxHelper.Watermark="{DynamicResource LangKeySeparateTheWordsUsingCommaEGHiHello﻿}"
-                                     TextWrapping="Wrap"  controls:TextBoxHelper.UseFloatingWatermark="True"/>
 
-                </StackPanel>
+                        <customControl:InputBoxControl x:Name="TextBoxSpecificWords"
+                                WaterMarkText ="{DynamicResource LangKeySeparateTheWordsUsingCommaEGHiHello}"
+                                SaveCommand="{Binding InputSaveCommand}"
+                                InputText="{Binding SpecificWord}"
+                                Visibility="{Binding IsReplyToMessagesThatContainSpecificWordChecked,
+                                Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-            </Expander>
-            <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
-                <customControl:InputBoxControl x:Name="InputMessageForReply" InputText="{Binding AutoReplyToNewMessageModel.Message}"/>
-            </Expander>
-            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-        </StackPanel>
+                    </StackPanel>
+                </Expander>
+                <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
+                    <StackPanel>
+                        <CheckBox  Content="{DynamicResource LangKeyMakeMessageAsSpinText}" Name="ChkMakeCaptionAsSpinText" IsChecked="{Binding IsChkMakeCaptionAsSpinText}"/>
+                        <customControl:MessageMediaControl x:Name="MessagesControl" Messages="{Binding ManageMessagesModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                             AddMessagesCommand="{Binding AddMessagesCommand}" CommandParameter="{Binding ElementName=MessagesControl}"/>
+                        <customControl:ManageMediaMessages  LstManageMessagesModel="{Binding LstDisplayManageMessageModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>

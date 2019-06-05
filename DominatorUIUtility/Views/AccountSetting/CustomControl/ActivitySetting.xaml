@@ -20,14 +20,14 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel Grid.Row="1">
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
                 <Expander Header="{DynamicResource LangKeySearchQuery}">
-                    <customControl:SearchQueryControl 
-                                                      x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
+                    <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
                                                       ListQueryInfo="{Binding SavedQueries}"
                                                       AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
                 </Expander>
-               
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
 
         </ScrollViewer>

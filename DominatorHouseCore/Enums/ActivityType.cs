@@ -161,7 +161,7 @@ namespace DominatorHouseCore.Enums
         //[Description("Youtube")]
         //LikeComments = 53,
 
-        [Description("Reddit")]
+        [Description("Reddit,Youtube")]
         UnSubscribe = 54,
 
         [Description("Youtube")]
@@ -205,7 +205,7 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube,Reddit")]
         ChannelScraper = 68,
 
-        [Description("Youtube")]
+       // [Description("Youtube")]
         Unsubscribe = 69,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]

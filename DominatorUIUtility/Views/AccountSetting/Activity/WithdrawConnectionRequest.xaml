@@ -15,10 +15,45 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Withdraw Connection Request Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Withdraw Connection Request Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
+                <!--Requested user sources-->
+                <Label Content="{DynamicResource LangKeyRequestedUserSources}" FontWeight="Bold" Margin="5,10,0,0"></Label>
+                <StackPanel  Margin="15,0,0,5" >
+                    <CheckBox Content="{DynamicResource LangKeyBySoftware}" Margin="5" IsChecked="{Binding IsCheckedBySoftware}"/>
+                    <CheckBox Content="{DynamicResource LangKeyOutsideSoftware}" Margin="5" IsChecked="{Binding IsCheckedOutSideSoftware}"/>
+                    <CheckBox Content="{DynamicResource LangKeyCustomUsersList}" Margin="5" IsChecked="{Binding IsCheckedLangKeyCustomUserList}"/>
+                    <customControl:InputBoxControl Margin="25,5" x:Name="CustomUserListInputBox" 
+                                                           InputText="{Binding UrlInput}"
+                                                           SaveCommand="{Binding SaveCustomUserListCommand}"
+                                                           WaterMarkText="{DynamicResource LangKeyEnterProfileUrlS}"
+                                                           Visibility="{Binding IsCheckedLangKeyCustomUserList,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                           />
+                </StackPanel>
+               
+                <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="Bold" Margin="5,10,0,0"/>
+                <StackPanel Orientation="Horizontal"  Margin="15,0,0,5">
+                    <CheckBox Content="{DynamicResource LangKeyRequestedBefore}" Margin="5" IsChecked="{Binding IsCheckedRequestedBefore}"/>
+                    <controls:NumericUpDown Value="{Binding Days}" Minimum="0"  IsEnabled="{Binding IsCheckedRequestedBefore}"/>
+                    <Label Content="{DynamicResource LangKeyDays}"/>
+                    <Label Content="{DynamicResource LangKeyAnd}"/>
+                    <controls:NumericUpDown Value="{Binding Hours}" Minimum="0" Maximum="24" IsEnabled="{Binding IsCheckedRequestedBefore}"/>
+                    <Label Content="{DynamicResource LangKeyHours}"/>
+                </StackPanel>
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

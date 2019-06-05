@@ -1,8 +1,19 @@
-﻿using DominatorHouseCore.Enums;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
+using DominatorHouseCore.Command;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -79,6 +90,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public SendBoardInvitationViewModel(IRegionManager region) : base(region)
         {
+            IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendBoardInvitation });
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
@@ -94,8 +106,185 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
+            AddBoardCollaboratorCommand = new BaseCommand<object>((sender) => true, AddBoardCollaborator);
+            DeleteBoardCollaboratorCommand = new BaseCommand<object>((sender) => true, DeleteBoardCollaborator);
+            ImportFromCsvCommand = new BaseCommand<object>((sender) => true, ImportFromCsv);
         }
-        public BoardCollaboratorInfo CurrentBoardCollaborator = new BoardCollaboratorInfo();
         public ObservableCollectionBase<BoardCollaboratorInfo> ListBoardCollaboratorInfo = new ObservableCollectionBase<BoardCollaboratorInfo>();
+
+        public ICommand AddBoardCollaboratorCommand { get; set; }
+        public ICommand DeleteBoardCollaboratorCommand { get; set; }
+        public ICommand ImportFromCsvCommand { get; set; }
+
+        private void AddBoardCollaborator(object sender)
+        {
+            try
+            {
+                if (BoardCollaboratorDetails.Count == 0)
+                    BoardCollaboratorDetails = new ObservableCollectionBase<BoardCollaboratorInfo>();
+
+                var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+                CurrentBoardCollaborator.Account = viewModel.SelectAccount.AccountBaseModel.UserName;
+
+                if (ListBoardCollaboratorDetails.Count > 0)
+                {
+                    ListBoardCollaboratorDetails.ForEach(board =>
+                    {
+                        if (!string.IsNullOrEmpty(board.Account) && !string.IsNullOrEmpty(board.BoardUrl) &&
+                          !string.IsNullOrEmpty(board.Email))
+                            BoardCollaboratorDetails.Add(new BoardCollaboratorInfo()
+                            {
+                                BoardUrl = board.BoardUrl,
+                                Email = board.Email,
+                                Account = board.Account
+                            });
+                    });
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(CurrentBoardCollaborator.BoardUrl) && !string.IsNullOrEmpty(CurrentBoardCollaborator.Email))
+                        BoardCollaboratorDetails.Add(new BoardCollaboratorInfo()
+                        {
+                            BoardUrl = CurrentBoardCollaborator.BoardUrl,
+                            Email = CurrentBoardCollaborator.Email,
+                            Account = CurrentBoardCollaborator.Account
+                        });
+                    else
+                        return;
+                }
+
+                ListBoardCollaboratorDetails.Clear();
+                CurrentBoardCollaborator.BoardUrl = string.Empty;
+                CurrentBoardCollaborator.Email = string.Empty;
+                CurrentBoardCollaborator.SelectedIndex = 1;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void DeleteBoardCollaborator(object sender)
+        {
+            try
+            {
+                var boardCollaboratorInfo = sender as BoardCollaboratorInfo;
+                BoardCollaboratorDetails.Remove(boardCollaboratorInfo);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void ImportFromCsv(object sender)
+        {
+            try
+            {
+                ListBoardCollaboratorDetails.Clear();
+                listBoardCollaborators.Clear();
+                listBoardCollaborators.AddRange(FileUtilities.FileBrowseAndReader());
+                var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+                var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
+                    Select(x => x.AccountBaseModel.UserName).ToList();
+
+                if (listBoardCollaborators.Count != 0)
+                {
+                    foreach (string board in listBoardCollaborators)
+                    {
+                        try
+                        {
+                            string[] boardCollaboratorsdetails = board.Split('\t');
+                            BoardCollaboratorInfo boardCollaboratorInfo = new BoardCollaboratorInfo();
+                            boardCollaboratorInfo.BoardUrl = boardCollaboratorsdetails[0];
+                            boardCollaboratorInfo.Email = boardCollaboratorsdetails[1];
+                            boardCollaboratorInfo.Account = boardCollaboratorsdetails[2];
+
+                            if (!accounts.Contains(boardCollaboratorInfo.Account))
+                            {
+                                GlobusLogHelper.log.Info($"Account => {boardCollaboratorInfo.Account} is not present.");
+                                continue;
+                            }
+
+                            ListBoardCollaboratorDetails.Add(boardCollaboratorInfo);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
+                        "Board Collaborators are ready to add !!");
+                    GlobusLogHelper.log.Info("Board Collaborators sucessfully uploaded !!");
+                }
+                else
+                    GlobusLogHelper.log.Info("You did not upload any Board Collaborators !!");
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                GlobusLogHelper.log.Info("There is error in uploading Board Collaborators !!");
+            }
+        }
+
+        private ObservableCollectionBase<BoardCollaboratorInfo> _boardCollaboratorDetails = new ObservableCollectionBase<BoardCollaboratorInfo>();
+        public ObservableCollectionBase<BoardCollaboratorInfo> BoardCollaboratorDetails
+        {
+            get
+            {
+                return _boardCollaboratorDetails;
+            }
+            set
+            {
+                if (_boardCollaboratorDetails != null && _boardCollaboratorDetails == value)
+                    return;
+                SetProperty(ref _boardCollaboratorDetails, value);
+            }
+        }
+
+        private List<BoardCollaboratorInfo> _listBoardCollaboratorDetails = new List<BoardCollaboratorInfo>();
+        public List<BoardCollaboratorInfo> ListBoardCollaboratorDetails
+        {
+            get
+            {
+                return _listBoardCollaboratorDetails;
+            }
+            set
+            {
+                if (_listBoardCollaboratorDetails != null && _listBoardCollaboratorDetails == value)
+                    return;
+                SetProperty(ref _listBoardCollaboratorDetails, value);
+            }
+        }
+
+        private BoardCollaboratorInfo _currentBoardCollaborator = new BoardCollaboratorInfo();
+        public BoardCollaboratorInfo CurrentBoardCollaborator
+        {
+            get
+            {
+                return _currentBoardCollaborator;
+            }
+            set
+            {
+                if (_currentBoardCollaborator != null && _currentBoardCollaborator == value)
+                    return;
+                SetProperty(ref _currentBoardCollaborator, value);
+            }
+        }
+
+        private List<string> _listBoardCollaborators = new List<string>();
+        public List<string> listBoardCollaborators
+        {
+            get
+            {
+                return _listBoardCollaborators;
+            }
+            set
+            {
+                if (_listBoardCollaborators != null && _listBoardCollaborators == value)
+                    return;
+                SetProperty(ref _listBoardCollaborators, value);
+            }
+        }
     }
 }

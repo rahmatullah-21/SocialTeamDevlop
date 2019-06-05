@@ -15,10 +15,32 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Accept Connection Request Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Accept Connection Request Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <!---AcceptConnectionRequestSource-->
+            <StackPanel>
+                <Label Content="{DynamicResource LangKeyAcceptConnectionSource}" FontWeight="Bold" Margin="5,10,0,0"/>
+                <RadioButton  GroupName="ConnectionRequest" Content="{DynamicResource LangKeyAllInvitations}" Margin="15,15,0,5" IsChecked="{Binding IsChkAllInvitations}"/>
 
+                <Label Content="{DynamicResource LangKeyIgnoreConnectionSource}" FontWeight="Bold" Margin="5,10,0,0"/>
+                <RadioButton  GroupName="ConnectionRequest" Content="{DynamicResource LangKeyAllInvitations}" Margin="15,15,0,5" IsChecked="{Binding IsChkIgnoreAllInvitations}"/>
+
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+
+
+</StackPanel>
+
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

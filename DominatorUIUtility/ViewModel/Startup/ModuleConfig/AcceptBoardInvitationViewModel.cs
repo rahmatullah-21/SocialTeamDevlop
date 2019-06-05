@@ -13,6 +13,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public AcceptBoardInvitationViewModel(IRegionManager region) : base(region)
         {
+            IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.AcceptBoardInvitation });
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);

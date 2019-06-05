@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="EditPinUserControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
@@ -24,7 +24,10 @@
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
             <TextBlock Text="EditPin Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
-        <TabControl Name="PinsTab" Grid.Row="1" SelectedIndex="{Binding CurrentPin.SelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
+            <StackPanel>
+                <TabControl Name="PinsTab" Grid.Row="1" SelectedIndex="{Binding CurrentPin.SelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
             <TabItem Header="Pin Setting" FontWeight="Bold">
                 <Grid>
 
@@ -51,11 +54,6 @@
                             <TextBox x:Name="TxtPinToBeEdit" Width="200" Text="{Binding CurrentPin.PinToBeEdit,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top"  Height="25" />
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Margin="30,10,0,0"
-                                            Visibility="{Binding SelectAccountVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <Label   VerticalAlignment="Top" Width="200" Content="Select Account" HorizontalAlignment="Left" Height="25"/>
-                            <ComboBox x:Name="CmbboxAccountLists" IsEditable="True" ItemsSource="{Binding ListAccounts}" SelectedItem="{Binding CurrentPin.Account,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="200"  VerticalAlignment="Top" Height="25" SelectedIndex="0"/>
-                        </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,10,0,0">
 
                             <Button Name="BtnImportQuery"  Style="{StaticResource ButtonStyle}" 
@@ -74,7 +72,7 @@
                             <Button x:Name="BtnAddToList" Style="{StaticResource ButtonStyle}" 
                                             Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="25"
                                             VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="Add pins To The List"                                    
-                                Command="{Binding AddPinCommand}" CommandParameter="{Binding CommandParameter}">
+                                Command="{Binding AddPinCommand}" CommandParameter="{Binding CurrentPin}">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
                                         <Rectangle.OpacityMask>
@@ -93,7 +91,7 @@
                     <GroupBox  FontWeight="Bold" BorderThickness="1" Header="{DynamicResource LangKeyPinsList}" Foreground="white">
 
                         <DataGrid Name="DataGridQueriesList" Width="auto"   Background="White" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="false"
-                                                    IsReadOnly="True"  CanUserDeleteRows="False" SelectionUnit="FullRow"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800" ItemsSource="{Binding ListPinInfo}" >
+                                                    IsReadOnly="True"  CanUserDeleteRows="False" SelectionUnit="FullRow"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800" ItemsSource="{Binding PinDetails}" >
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="*" FontSize="12" Binding ="{Binding Board}">
                                     <DataGridTextColumn.Header>
@@ -153,7 +151,10 @@
                 </Grid>
             </TabItem>
         </TabControl>
-
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}" />
+            </StackPanel>
+        </ScrollViewer>
+        
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>

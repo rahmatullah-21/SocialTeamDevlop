@@ -25,7 +25,10 @@
             <TextBlock Text="Send Board Invitation Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
 
         </DockPanel>
-        <TabControl Name="BoardCollaboratorTab" Grid.Row="1" SelectedIndex="{Binding CurrentBoardCollaborator.SelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
+            <StackPanel>
+                <TabControl Name="BoardCollaboratorTab" SelectedIndex="{Binding CurrentBoardCollaborator.SelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
             <TabItem Header="Board Collaborators Setting" FontWeight="Bold">
                 <Grid>
 
@@ -40,13 +43,6 @@
                             <TextBox x:Name="TxtEmail" Width="200" Text="{Binding CurrentBoardCollaborator.Email,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top"  Height="25" />
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Margin="30,10,0,0"
-                                            Visibility="{Binding SelectAccountVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <Label   VerticalAlignment="Top" Width="200" Content="Select Account" HorizontalAlignment="Left" Height="25"/>
-                            <ComboBox x:Name="CmbboxAccountLists" IsEditable="True" ItemsSource="{Binding ListAccounts}" 
-                                              SelectedItem="{Binding CurrentBoardCollaborator.Account,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                              Width="200"  VerticalAlignment="Top" Height="25" SelectedIndex="0"/>
-                        </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,10,0,0">
 
                             <Button Name="BtnImportQuery"  Style="{StaticResource ButtonStyle}" 
@@ -84,7 +80,7 @@
                     <GroupBox  FontWeight="Bold" BorderThickness="1" Header="{DynamicResource LangKeyBoardCollaboratorsList}" Foreground="white">
 
                         <DataGrid Name="DataGridQueriesList" Width="auto"   Background="White" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="false"
-                                                    IsReadOnly="True"  CanUserDeleteRows="False" SelectionUnit="FullRow"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800" ItemsSource="{Binding ListBoardCollaboratorInfo}" >
+                                                    IsReadOnly="True"  CanUserDeleteRows="False" SelectionUnit="FullRow"  MaxHeight="150" MinHeight="150" MinWidth="400" MaxWidth="800" ItemsSource="{Binding BoardCollaboratorDetails}" >
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="*" FontSize="12" Binding ="{Binding BoardUrl}">
                                     <DataGridTextColumn.Header>
@@ -129,8 +125,10 @@
                 </Grid>
             </TabItem>
         </TabControl>
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}" />
+            </StackPanel>
+        </ScrollViewer>
 
-     
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>
