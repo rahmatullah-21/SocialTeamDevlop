@@ -292,13 +292,24 @@ namespace DominatorHouseCore.Process
                       // Login and run scraper/poster from derived concrete classes
                       if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                       {
-                          if (Login())
-                              RunScrapper();
-                          else
+                          try
                           {
-                              JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
-                              _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                              if (Login())
+                                  RunScrapper();
+                              else
+                              {
+                                  JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                                  GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
+                                  _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                              }
+                          }
+                          catch (OperationCanceledException)
+                          {
+                              throw new OperationCanceledException();
+                          }
+                          finally
+                          {
+                              CloseAutomationBrowser();
                           }
                       }
                       else
@@ -337,6 +348,8 @@ namespace DominatorHouseCore.Process
         ///     Use StartProcessAsync in consumer code to create task and start process.
         /// </summary>
         protected abstract bool Login();
+
+        protected abstract bool CloseAutomationBrowser();
 
         /// <summary>
         ///     Does a POST request for certain process after login. Like Follow, Like, Comment etc.

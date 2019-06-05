@@ -66,5 +66,8 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string MyChannelPageId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string InteractedChannelUsername { get; set; }
     }
 }

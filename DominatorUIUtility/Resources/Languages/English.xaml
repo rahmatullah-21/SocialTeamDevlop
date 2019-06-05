@@ -3571,4 +3571,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfUnSubscribesPerDay">Number of UnSubscribe Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfUnSubscribesPerWeek">Number of UnSubscribe Per Week</system:String>
     <system:String x:Key="LangKeyMaxUnSubscribesPerDay">Number of Maximum UnSubscribe Per Day</system:String>
+    <system:String x:Key="LangKeyCommentsOfAVideo">Comments of a video</system:String>
+    <system:String x:Key="LangKeyLikeCommentsOf">Like comments of</system:String>
+    <system:String x:Key="LangKeyVideosOfAChannel">videos of a channel</system:String>
+    <system:String x:Key="LangKeyProvideCommentIdSpecifically">Provide a specific commentId of a comment of a custom video url.</system:String>
 </ResourceDictionary>

@@ -330,6 +330,8 @@ namespace EmbeddedBrowser
         /// <returns></returns>
         public string GetPageSource() => Browser.GetSourceAsync().Result;
 
+        public async Task<string> PageText() => await Browser.GetTextAsync();
+
         public void GoBack(int nTimes = 1)
         {
             while (nTimes > 0)
@@ -1636,10 +1638,7 @@ namespace EmbeddedBrowser
             DataReferer = 14,
             [Description("type")]
             Type = 15,
-            [Description("aria-pressed")]
-            AriaPressed = 16,
-            [Description("aria-label")]
-            AriaLabel = 17,
+            
         }
 
 
@@ -1662,7 +1661,11 @@ namespace EmbeddedBrowser
             [Description("data-timestamp")]
             TimeStamp = 8,
             [Description("src")]
-            Source = 9
+            Source = 9,
+            [Description("aria-pressed")]
+            AriaPressed = 10,
+            [Description("aria-label")]
+            AriaLabel = 11
         }
 
         public async Task<string> GetPageSourceAsync()
@@ -1903,7 +1906,8 @@ namespace EmbeddedBrowser
 
 
         public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
-            string attributeValue, string value = "", ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int clickIndex = 0)
+            string attributeValue, ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int clickIndex = 0
+            , string value = "")
         {
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
@@ -2417,6 +2421,44 @@ namespace EmbeddedBrowser
         }
 
 
-        
+        //Get json data list for pagination(for pinterest)
+        public async Task<List<string>> GetPaginationDataList(string startSearchText, bool isContains = false)
+        {
+            var response = string.Empty;
+            List<string> lstJsonData = new List<string>();
+            try
+            {
+                await Task.Delay(10);
+                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                lstResponseStream.RemoveAll(x => x.Data == null);
+                var responseStream = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains));
+                if (responseStream != null)
+                {
+                    foreach (var v in responseStream)
+                    {
+                        if (v != null)
+                            lstJsonData.Add(response = Encoding.UTF8.GetString(v.Data));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return lstJsonData;
+        }
+
+        public string CurrentUrl()
+        {
+            string urlNow = "";
+            if (!Dispatcher.CheckAccess())
+                Dispatcher.Invoke(new Action(delegate
+                {
+                    urlNow = Browser.Address;
+                }));
+            else
+                urlNow = Browser.Address;
+            return urlNow;
+        }
     }
 }
