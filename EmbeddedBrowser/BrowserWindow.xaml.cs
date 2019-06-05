@@ -1576,7 +1576,7 @@ namespace EmbeddedBrowser
 
         private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e) => Refresh();
 
-        public async Task<string> PageText() => await Browser.GetTextAsync();
+       
         #endregion
 
         #region Browser Automation Changes
@@ -2460,5 +2460,10 @@ namespace EmbeddedBrowser
                 urlNow = Browser.Address;
             return urlNow;
         }
+
+
+       
+
+        
     }
 }
