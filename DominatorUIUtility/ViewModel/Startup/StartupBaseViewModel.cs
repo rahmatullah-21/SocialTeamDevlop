@@ -14,6 +14,7 @@ using CommonServiceLocator;
 using ProtoBuf;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.ViewModel;
+using DominatorHouseCore.StartupActivity;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -21,7 +22,8 @@ namespace DominatorUIUtility.ViewModel.Startup
     {
         [field: NonSerialized]
         public IRegionManager regionManager;
-
+        [field: NonSerialized]
+        public static Func<string,BaseActivity> GetFaceBookActivity;
         public static int selectedIndex = 0;
         public static List<string> NavigationList { get; set; }
         public static List<ActivityConfig> ViewModelToSave { get; set; } = new List<ActivityConfig>();
@@ -94,7 +96,10 @@ namespace DominatorUIUtility.ViewModel.Startup
         {
             ListQueryType.Clear();
             var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-            ListQueryType = SocialNetworkActivity.GetNetworkActivity(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
+            if (viewModel.SelectedNetwork == "Facebook")
+                ListQueryType = GetFaceBookActivity(activityType).GetQueryType();
+            else
+                ListQueryType = SocialNetworkActivity.GetNetworkActivity(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
             if (selectedIndex == NavigationList.Count - 1)
                 NextButtonContent = "LangKeyFinish".FromResourceDictionary();
             else

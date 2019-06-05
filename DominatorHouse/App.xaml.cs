@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
+using DominatorHouse.Utilities.Facebook;
 using DominatorHouseCore;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Module;
+using DominatorUIUtility.ViewModel.Startup;
 using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -59,6 +61,7 @@ namespace Socinator
             container.AddNewExtension<Interception>();
             container.AddNewExtension<CoreUnityExtension>();
             container.LoadConfiguration();
+            StartupBaseViewModel.GetFaceBookActivity = (activityType) => new FacebookActivity().GetActivity(activityType);
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
