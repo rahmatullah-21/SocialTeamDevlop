@@ -3571,4 +3571,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfUnSubscribesPerDay">Number of UnSubscribe Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfUnSubscribesPerWeek">Number of UnSubscribe Per Week</system:String>
     <system:String x:Key="LangKeyMaxUnSubscribesPerDay">Number of Maximum UnSubscribe Per Day</system:String>
+    <system:String x:Key="LangKeySearchPostSortBy">Search Post Sort by</system:String>
 </ResourceDictionary>
