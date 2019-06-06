@@ -432,6 +432,7 @@ namespace DominatorUIUtility.CustomControl
             CampaignName = $"{SocialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
             if (_queryControl != null)
                 _queryControl.ActivityType = _activityType;
+            UpdateJobConfigurationSetting();
         }
 
         #endregion
@@ -1800,7 +1801,6 @@ namespace DominatorUIUtility.CustomControl
                 SocinatorInitialize.GetSocialLibrary(network)
                      .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = _accountGrowthModeHeader.SelectedItem;
 
-
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var moduleConfiguration = jobActivityConfigurationManager[accountDetails.AccountId, _activityType];
 
@@ -1818,13 +1818,64 @@ namespace DominatorUIUtility.CustomControl
                 if (_queryControl != null)
                     _queryControl.ActivityType = _activityType;
 
+                UpdateJobConfigurationSetting();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
+        void UpdateJobConfigurationSetting()
+        {
+            try
+            {
+                if (Model.JobConfiguration.SelectedItem == "Slow")
+                {
+                    var slowSpeed = Model.SlowSpeed;
+                    Model.JobConfiguration.ActivitiesPerDay = slowSpeed.ActivitiesPerDay;
+                    Model.JobConfiguration.ActivitiesPerHour = slowSpeed.ActivitiesPerHour;
+                    Model.JobConfiguration.ActivitiesPerWeek = slowSpeed.ActivitiesPerWeek;
+                    Model.JobConfiguration.ActivitiesPerJob = slowSpeed.ActivitiesPerJob;
+                    Model.JobConfiguration.DelayBetweenJobs = slowSpeed.DelayBetweenJobs;
+                    Model.JobConfiguration.DelayBetweenActivity = slowSpeed.DelayBetweenActivity;
+                }
+                else if (Model.JobConfiguration.SelectedItem == "Medium")
+                {
+                    var mediumSpeed = Model.MediumSpeed;
+                    Model.JobConfiguration.ActivitiesPerDay = mediumSpeed.ActivitiesPerDay;
+                    Model.JobConfiguration.ActivitiesPerHour = mediumSpeed.ActivitiesPerHour;
+                    Model.JobConfiguration.ActivitiesPerWeek = mediumSpeed.ActivitiesPerWeek;
+                    Model.JobConfiguration.ActivitiesPerJob = mediumSpeed.ActivitiesPerJob;
+                    Model.JobConfiguration.DelayBetweenJobs = mediumSpeed.DelayBetweenJobs;
+                    Model.JobConfiguration.DelayBetweenActivity = mediumSpeed.DelayBetweenActivity;
+                }
+                else if (Model.JobConfiguration.SelectedItem == "Fast")
+                {
+                    var fastSpeed = Model.FastSpeed;
+                    Model.JobConfiguration.ActivitiesPerDay = fastSpeed.ActivitiesPerDay;
+                    Model.JobConfiguration.ActivitiesPerHour = fastSpeed.ActivitiesPerHour;
+                    Model.JobConfiguration.ActivitiesPerWeek = fastSpeed.ActivitiesPerWeek;
+                    Model.JobConfiguration.ActivitiesPerJob = fastSpeed.ActivitiesPerJob;
+                    Model.JobConfiguration.DelayBetweenJobs = fastSpeed.DelayBetweenJobs;
+                    Model.JobConfiguration.DelayBetweenActivity = fastSpeed.DelayBetweenActivity;
+                }
+                else if (Model.JobConfiguration.SelectedItem == "Superfast")
+                {
+                    var superfastSpeed = Model.SuperfastSpeed;
+                    Model.JobConfiguration.ActivitiesPerDay = superfastSpeed.ActivitiesPerDay;
+                    Model.JobConfiguration.ActivitiesPerHour = superfastSpeed.ActivitiesPerHour;
+                    Model.JobConfiguration.ActivitiesPerWeek = superfastSpeed.ActivitiesPerWeek;
+                    Model.JobConfiguration.ActivitiesPerJob = superfastSpeed.ActivitiesPerJob;
+                    Model.JobConfiguration.DelayBetweenJobs = superfastSpeed.DelayBetweenJobs;
+                    Model.JobConfiguration.DelayBetweenActivity = superfastSpeed.DelayBetweenActivity;
+                }
 
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
         public void AccountModeStatusChange()
         {
             try
