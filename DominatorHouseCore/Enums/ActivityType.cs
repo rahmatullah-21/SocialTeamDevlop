@@ -16,10 +16,10 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube")]
+        [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube,Reddit")]
         Comment = 5,
 
-        [Description("Instagram,Reddit")]
+        [Description("Instagram")]
         DeleteComment = 6,
 
         [Description("Instagram")]
