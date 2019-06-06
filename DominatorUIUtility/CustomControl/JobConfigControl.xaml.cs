@@ -125,7 +125,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var newValue = e.NewValue;
         }
-        //bool IsSelectionChangedExecute { get; set; }
+       
         public void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
