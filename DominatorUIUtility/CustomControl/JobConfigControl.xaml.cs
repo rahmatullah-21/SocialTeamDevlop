@@ -125,8 +125,8 @@ namespace DominatorUIUtility.CustomControl
         {
             var newValue = e.NewValue;
         }
-        bool IsSelectionChangedExecute { get; set; }
-        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //bool IsSelectionChangedExecute { get; set; }
+        public void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
@@ -178,7 +178,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-            IsSelectionChangedExecute = true;
         }
 
         private void ChkAdvance_OnChecked(object sender, RoutedEventArgs e)
@@ -279,9 +278,6 @@ namespace DominatorUIUtility.CustomControl
         private void JobConfigControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitilizeFavoriteTime();
-            //if (!IsSelectionChangedExecute)
-            Selector_OnSelectionChanged(Speed, null);
-            IsSelectionChangedExecute = false;
         }
 
         private ObservableCollection<FavoriteTime> _lstFavoriteTime = new ObservableCollection<FavoriteTime>();
