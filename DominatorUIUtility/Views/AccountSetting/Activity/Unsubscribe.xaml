@@ -15,32 +15,62 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <StackPanel>
-            <Label Content="{DynamicResource LangKeyUnSubscribeSource}" FontWeight="Bold" Margin="5,10,0,0"/>
 
-            <StackPanel  Margin="15,0,0,5" >
-                <CheckBox Content="{DynamicResource LangKeyCommunitiesSubscribedBySoftware}" Margin="5,15,0,5" IsChecked="{Binding UnSubscribeModel.UnSubscribeOptionModel.IsChkCommunitySubscribedBySoftwareChecked}"/>
-                <CheckBox Content="{DynamicResource LangKeyCommunitiesSubscribedOutsideSoftware}" Margin="5" IsChecked="{Binding UnSubscribeModel.UnSubscribeOptionModel.IsChkCommunitySubscribedOutsideSoftwareChecked}"/>
-                <CheckBox Content="{DynamicResource LangKeyCustomCommunityList}" Margin="5" IsChecked="{Binding UnSubscribeModel.UnSubscribeOptionModel.IsChkCustomCommunityListChecked}"/>
-                <customControl:InputBoxControl Margin="25,5" SaveCommand="{Binding SaveCommand}" CommandParameter="{Binding ElementName=CustomUsersListInputBox}" x:Name="CustomUsersListInputBox" InputText="{Binding UnSubscribeModel.UnSubscribeOptionModel.CustomCommunityList}"  Visibility="{Binding UnSubscribeModel.UnSubscribeOptionModel.IsChkCustomCommunityListChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            </StackPanel>
-            <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="Bold" Margin="5,10,0,0"/>
-            <StackPanel Orientation="Horizontal"  Margin="15,0,0,5">
-                <CheckBox Content="{DynamicResource LangKeyCommunityShouldHaveBeenSubscribedBefore}" Margin="5" IsChecked="{Binding UnSubscribeModel.UnSubscribeOptionModel.IsCommunitySubscribedBeforeChecked}"/>
-                <controls:NumericUpDown Value="{Binding UnSubscribeModel.UnSubscribeOptionModel.SubscribedBeforeDay}" IsEnabled="{Binding UnSubscribeModel.UnSubscribeOptionModel.IsCommunitySubscribedBeforeChecked}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Unsubscribe Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
+                <StackPanel Visibility="{Binding RedditElementsVisibility}">
+                    <!--//RedditElementsVisibility YoutubeElementsVisibility-->
+                    <Label Content="{DynamicResource LangKeyUnSubscribeSource}" FontWeight="Bold" Margin="5,10,0,0"/>
+                    <StackPanel  Margin="15,0,0,5" >
+                        <CheckBox Content="{DynamicResource LangKeyCommunitiesSubscribedBySoftware}" Margin="5,15,0,5" IsChecked="{Binding IsChkCommunitySubscribedBySoftwareChecked}"/>
+                        <CheckBox Content="{DynamicResource LangKeyCommunitiesSubscribedOutsideSoftware}" Margin="5" IsChecked="{Binding IsChkCommunitySubscribedOutsideSoftwareChecked}"/>
+                        <CheckBox Content="{DynamicResource LangKeyCustomCommunityList}" Margin="5" IsChecked="{Binding IsChkCustomCommunityListChecked}"/>
+                        <customControl:InputBoxControl Margin="25,5" SaveCommand="{Binding SaveCommand}" CommandParameter="{Binding ElementName=CustomUsersListInputBox}" 
+                                                   x:Name="CustomUsersListInputBox" InputText="{Binding CustomCommunityList}"  
+                                                   Visibility="{Binding IsChkCustomCommunityListChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </StackPanel>
+                    <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="Bold" Margin="5,10,0,0"/>
+                    <StackPanel Orientation="Horizontal"  Margin="15,0,0,5">
+                        <CheckBox Content="{DynamicResource LangKeyCommunityShouldHaveBeenSubscribedBefore}" Margin="5" IsChecked="{Binding IsCommunitySubscribedBeforeChecked}"/>
+                        <controls:NumericUpDown Value="{Binding SubscribedBeforeDay}" IsEnabled="{Binding IsCommunitySubscribedBeforeChecked}"
                                                         Minimum="0"/>
-                <Label Content="{DynamicResource LangKeyDays}"/>
-                <Label Content="{DynamicResource LangKeyAnd}"/>
-                <controls:NumericUpDown Value="{Binding UnSubscribeModel.UnSubscribeOptionModel.SubscribedBeforeHour}" Maximum="24" IsEnabled="{Binding UnSubscribeModel.UnSubscribeOptionModel.IsCommunitySubscribedBeforeChecked}"
+                        <Label Content="{DynamicResource LangKeyDays}"/>
+                        <Label Content="{DynamicResource LangKeyAnd}"/>
+                        <controls:NumericUpDown Value="{Binding SubscribedBeforeHour}" Maximum="24" IsEnabled="{Binding IsCommunitySubscribedBeforeChecked}"
                                                         Minimum="0"/>
-                <Label Content="{DynamicResource LangKeyHours}"/>
-                <Label Content="*** Not applicable for custom users list."/>
-            </StackPanel>
-        </StackPanel>
-        <actcustom:ActivitySetting Heading="UnSubscribe Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+                        <Label Content="{DynamicResource LangKeyHours}"/>
+                        <Label Content="*** Not applicable for custom users list."/>
+                    </StackPanel>
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </StackPanel>
 
+                <StackPanel Visibility="{Binding YoutubeElementsVisibility}">
+                    <Label Content="{DynamicResource LangKeyUnSubscribeSource}" FontWeight="Bold" Margin="5,10,0,0"/>
+                    <StackPanel  Margin="15,0,0,5" >
+                        <CheckBox Content="{DynamicResource LangKeyChannelSubscribedBySoftware}" Margin="5,15,0,5" IsChecked="{Binding IsChkChannelSubscribedBySoftwareChecked}"/>
+                        <CheckBox Content="{DynamicResource LangKeyChannelSubscribedOutsideSoftware}" Margin="5" IsChecked="{Binding IsChkChannelSubscribedOutsideSoftwareChecked}"/>
+                        <CheckBox Content="{DynamicResource LangKeyCustomChannelsList}" Margin="5" IsChecked="{Binding IsChkCustomChannelsListChecked}"/>
+                        <customControl:InputBoxControl Margin="25,5" x:Name="CustomChannelsListInputBox"
+                                                       InputText="{Binding CustomChannelsList}"
+                                                       SaveCommand="{Binding UploadChannelsListCommand}"
+                                                       Visibility="{Binding IsChkCustomChannelsListChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                              NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

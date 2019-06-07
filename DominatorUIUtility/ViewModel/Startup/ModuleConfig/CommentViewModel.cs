@@ -3,9 +3,16 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
+using System.Collections.ObjectModel;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
+    public class CommentModel
+    {
+        public ObservableCollection<ManageCommentModel> LstDisplayManageCommentModel { get; set; } = new ObservableCollection<ManageCommentModel>();
+
+        public ManageCommentModel ManageCommentModel { get; set; } = new ManageCommentModel();
+    }
     public interface ICommentViewModel
     {
     }
@@ -28,5 +35,15 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
         }
+
+        private CommentModel _commentModel=new CommentModel();
+
+        public CommentModel CommentModel
+        {
+            get { return _commentModel; }
+            set {SetProperty(ref _commentModel , value); }
+        }
+
+
     }
 }

@@ -14,11 +14,26 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="BroadcastMessages"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Broadcast Messages Setting" JobConfiguration="{Binding JobConfiguration}"
+    <Grid  Margin="10">
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+            <StackPanel>
+                <actcustom:ActivitySetting x:Name="Activity" Heading="Broadcast Messages Setting" JobConfiguration="{Binding JobConfiguration}"
                                    ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
                                    NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+                                   AddQueryCommand="{Binding AddQueryToMessageCommand}" CommandParameter="{Binding ElementName=Activity}"
+                                   NextButtonContent="{Binding NextButtonContent}"/>
+                <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
+                    <StackPanel>
+                        <CheckBox Name="ChckSpintax" Margin="0,5,15,0" Content="{DynamicResource LangKeySpintax}" FontWeight="SemiBold" Foreground="Black" 
+                          IsChecked="{Binding BroadcastMessagesModel.IsSpintaxChecked}" />
+                        <customControl:MessagesControl x:Name="MessagesControl" Messages="{Binding BroadcastMessagesModel.ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                               AddMessagesCommand="{Binding AddMessagesCommand}" CommandParameter="{Binding ElementName=MessagesControl}" HorizontalAlignment="Stretch"/>
+                        <customControl:ManageMessages  LstManageMessagesModel="{Binding BroadcastMessagesModel.LstDisplayManageMessageModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 </UserControl>
