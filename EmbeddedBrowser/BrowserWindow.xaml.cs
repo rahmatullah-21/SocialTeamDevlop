@@ -362,6 +362,12 @@ namespace EmbeddedBrowser
 
         public void Dispose() => Browser.Dispose();
 
+        public void ChooseFileFromDialog(string filePath)
+        {
+            var fileDialogHandler = new TempFileDialogHandler(this, filePath);
+            Browser.DialogHandler = fileDialogHandler;
+        }
+
         public enum ActType
         {
             ClickByClass,
@@ -1239,7 +1245,7 @@ namespace EmbeddedBrowser
 
                 Thread.Sleep(TimeSpan.FromSeconds(3.5));
             }
-            
+
 
 
             if (!_isLoggedIn)
@@ -1293,7 +1299,7 @@ namespace EmbeddedBrowser
 
             }
         }
-        
+
         private void InstagramBrowserLogin(string html)
         {
             if (html.Contains("Phone number, username, or email"))
@@ -1576,7 +1582,7 @@ namespace EmbeddedBrowser
 
         private void ButtonRefresh_OnClick(object sender, RoutedEventArgs e) => Refresh();
 
-       
+
         #endregion
 
         #region Browser Automation Changes
@@ -1638,7 +1644,7 @@ namespace EmbeddedBrowser
             DataReferer = 14,
             [Description("type")]
             Type = 15,
-            
+
         }
 
 
@@ -1771,7 +1777,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()";
+            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
 
             switch (actType)
             {
@@ -1851,11 +1857,13 @@ namespace EmbeddedBrowser
 
             if (Browser.IsDisposed) return;
 
+
+
             // mouseUp(4th parameter) = false , MouseButton to be pressed
-            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, false, 1, CefEventFlags.None);
+            Browser.GetBrowser().GetHost().SendMouseMoveEvent(new MouseEvent( xLoc, yLoc, CefEventFlags.None), false);
             await Task.Delay(100);
             // mouseUp(4th parameter) = true , MouseButton to be released
-            Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.None);
+            //Browser.GetBrowser().GetHost().SendMouseClickEvent(xLoc, yLoc, mouseButton, true, 1, CefEventFlags.RightMouseButton);
 
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
@@ -1914,6 +1922,8 @@ namespace EmbeddedBrowser
 
             JavascriptResponse jsResponse = null;
 
+            var z = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}";
+
             if (Browser.IsDisposed) return "";
             switch (actType)
             {
@@ -1928,6 +1938,9 @@ namespace EmbeddedBrowser
                     break;
                 case ActType.CustomActByQueryType:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
+                    break;
+                case ActType.CustomActType:
+                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}");
                     break;
                 default:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}");
@@ -2462,8 +2475,8 @@ namespace EmbeddedBrowser
         }
 
 
-       
 
-        
+
+
     }
 }
