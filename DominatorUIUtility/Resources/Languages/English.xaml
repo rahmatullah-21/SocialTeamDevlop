@@ -3574,4 +3574,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySearchPostSortBy">Search Post Sort by</system:String>
     <system:String x:Key="LangKeySpliteCommentWithNextLine">Split Comment By Next Line</system:String>
     <system:String x:Key="LangKeySpliteNextValueIntoNextComment">Create Multiple Comment From Single Comment, Splitting By Next Line</system:String>
+    <system:String x:Key="LangKeyCommentsOfAVideo">Comments of a video</system:String>
+    <system:String x:Key="LangKeyLikeCommentsOf">Like comments of</system:String>
+    <system:String x:Key="LangKeyVideosOfAChannel">videos of a channel</system:String>
+    <system:String x:Key="LangKeyProvideCommentIdSpecifically">Provide a specific commentId of a comment of a custom video url.</system:String>
 </ResourceDictionary>

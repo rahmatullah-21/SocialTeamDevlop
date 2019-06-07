@@ -10,7 +10,7 @@ namespace DominatorHouse.Utilities.Facebook
     {
         public override List<string> GetQueryType()
         {
-            return Enum.GetNames(typeof(PlaceQueryParameters)).ToList();
+            return null;// Enum.GetNames(typeof(PlaceQueryParameters)).ToList();
         }
     }
 }

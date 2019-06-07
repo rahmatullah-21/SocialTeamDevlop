@@ -2,12 +2,138 @@
 using DominatorHouseCore.Interfaces.StartUp;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
+using ProtoBuf;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public interface IUnFollowerViewModel 
+    [ProtoContract]
+    public class UnFollower : BindableBase
+    {
+        private string _customUsers;
+        private int _followedBeforeDay;
+        private int _followedBeforeHour;
+        private bool _isChkCustomUsersListChecked;
+
+        private bool _isChkPeopleFollowedBySoftwareCheecked;
+        private bool _isChkPeopleFollowedOutsideSoftwareChecked;
+        private bool _isUserFollowedBeforeChecked;
+        private bool _isWhoDoNotFollowBackChecked;
+        private bool _isWhoFollowBackChecked;
+        private List<string> _listOfCustomUsers = new List<string>();
+
+        [ProtoMember(3)]
+        public bool IsChkPeopleFollowedBySoftwareCheecked
+        {
+            get { return _isChkPeopleFollowedBySoftwareCheecked; }
+            set
+            {
+                SetProperty(ref _isChkPeopleFollowedBySoftwareCheecked, value);
+            }
+        }
+
+
+        [ProtoMember(4)]
+        public bool IsChkPeopleFollowedOutsideSoftwareChecked
+        {
+            get { return _isChkPeopleFollowedOutsideSoftwareChecked; }
+            set
+            {
+                SetProperty(ref _isChkPeopleFollowedOutsideSoftwareChecked, value);
+            }
+        }
+
+
+        [ProtoMember(5)]
+        public bool IsChkCustomUsersListChecked
+        {
+            get { return _isChkCustomUsersListChecked; }
+            set
+            {
+                SetProperty(ref _isChkCustomUsersListChecked, value);
+            }
+        }
+
+
+        [ProtoMember(6)]
+        public bool IsWhoDoNotFollowBackChecked
+        {
+            get { return _isWhoDoNotFollowBackChecked; }
+            set
+            {
+
+                SetProperty(ref _isWhoDoNotFollowBackChecked, value);
+            }
+        }
+
+
+        [ProtoMember(7)]
+        public bool IsWhoFollowBackChecked
+        {
+            get { return _isWhoFollowBackChecked; }
+            set
+            {
+
+                SetProperty(ref _isWhoFollowBackChecked, value);
+            }
+        }
+
+        [ProtoMember(8)]
+        public bool IsUserFollowedBeforeChecked
+        {
+            get { return _isUserFollowedBeforeChecked; }
+            set
+            {
+                SetProperty(ref _isUserFollowedBeforeChecked, value);
+            }
+        }
+
+
+        [ProtoMember(9)]
+        public int FollowedBeforeDay
+        {
+            get { return _followedBeforeDay; }
+            set
+            {
+                SetProperty(ref _followedBeforeDay, value);
+            }
+        }
+
+
+        [ProtoMember(10)]
+        public int FollowedBeforeHour
+        {
+            get { return _followedBeforeHour; }
+            set
+            {
+                SetProperty(ref _followedBeforeHour, value);
+            }
+        }
+
+
+        [ProtoMember(11)]
+        public string CustomUsers
+        {
+            get { return _customUsers; }
+            set { SetProperty(ref _customUsers, value); }
+        }
+
+
+        [ProtoMember(12)]
+        public List<string> ListCustomUsers
+        {
+            get { return _listOfCustomUsers; }
+            set
+            {
+                SetProperty(ref _listOfCustomUsers, value);
+            }
+        }
+    }
+    public interface IUnFollowerViewModel : ITwitterVisibilityModel
     {
         bool IsChkPeopleFollowedBySoftwareChecked { get; set; }
         bool IsChkPeopleFollowedOutsideSoftwareChecked { get; set; }
@@ -15,14 +141,19 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         string CustomUsersList { get; set; }
         bool IsWhoDoNotFollowBackChecked { get; set; }
         bool IsWhoFollowBackChecked { get; set; }
-        int IsUserFollowedBeforeChecked { get; set; }
+        bool IsUserFollowedBeforeChecked { get; set; }
         int FollowedBeforeDay { get; set; }
         int FollowedBeforeHour { get; set; }
+
+        UnFollower UnFollower { get; set; }
 
     }
 
     public class UnFollowerViewModel : StartupBaseViewModel, IUnFollowerViewModel
     {
+        private UnFollower _UnFollower = new UnFollower();
+        public Visibility TwitterElementsVisibility { get; set; } = Visibility.Collapsed;
+
         public UnFollowerViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unfollow });
@@ -30,6 +161,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             NextCommand = new DelegateCommand(NevigateNext);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
+            ElementsVisibility.NetworkElementsVisibilty(this);
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfUnfollowPerJob".FromResourceDictionary(),
@@ -40,7 +172,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
         }
-     
+
+        public UnFollower UnFollower
+        {
+            get { return _UnFollower; }
+            set { SetProperty(ref _UnFollower, value); }
+        }
+
         private string _customUsersList;
         public string CustomUsersList
         {
@@ -51,6 +189,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _customUsersList, value);
+                UnFollower.CustomUsers = value;
             }
         }
         int _followedBeforeDay;
@@ -63,6 +202,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _followedBeforeDay, value);
+                UnFollower.FollowedBeforeDay = value;
             }
         }
 
@@ -76,6 +216,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _followedBeforeHour, value);
+                UnFollower.FollowedBeforeHour = value;
             }
         }
         private bool _isChkCustomUsersListChecked;
@@ -88,6 +229,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isChkCustomUsersListChecked, value);
+                UnFollower.IsChkCustomUsersListChecked = value;
             }
         }
         private bool _isChkPeopleFollowedBySoftwareChecked;
@@ -100,6 +242,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isChkPeopleFollowedBySoftwareChecked, value);
+                UnFollower.IsChkPeopleFollowedBySoftwareCheecked = value;
             }
         }
         private bool _isChkPeopleFollowedOutsideSoftwareChecked;
@@ -112,11 +255,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isChkPeopleFollowedOutsideSoftwareChecked, value);
+                UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked = value;
             }
         }
 
-        private int _isUserFollowedBeforeChecked;
-        public int IsUserFollowedBeforeChecked
+        private bool _isUserFollowedBeforeChecked;
+        public bool IsUserFollowedBeforeChecked
         {
             get
             {
@@ -125,6 +269,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isUserFollowedBeforeChecked, value);
+                UnFollower.IsUserFollowedBeforeChecked = value;
             }
         }
         private bool _isWhoDoNotFollowBackChecked;
@@ -137,6 +282,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isWhoDoNotFollowBackChecked, value);
+                UnFollower.IsWhoFollowBackChecked = value;
             }
         }
 
@@ -151,6 +297,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isWhoFollowBackChecked, value);
+                UnFollower.IsWhoFollowBackChecked = value;
             }
         }
     }

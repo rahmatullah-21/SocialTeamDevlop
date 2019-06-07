@@ -18,14 +18,14 @@
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" >
             <TextBlock Text="{Binding Heading}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
+        <ScrollViewer VerticalScrollBarVisibility="Visible"  HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel Grid.Row="1">
-                <Expander Header="{DynamicResource LangKeySearchQuery}">
+                <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5">
                     <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
                                                       ListQueryInfo="{Binding SavedQueries}"
                                                       AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
                 </Expander>
-                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5">
                     <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>
             </StackPanel>

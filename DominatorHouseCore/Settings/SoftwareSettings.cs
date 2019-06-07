@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -306,14 +305,14 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-            var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-                async job =>
-                {
-                    await job.StartAdScarperAsync();
-                },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
 
-            await ScrapAdsProduceAsync(adScraperblock);
+            //await ScrapAdsProduceAsync(adScraperblock);
         }
 
 

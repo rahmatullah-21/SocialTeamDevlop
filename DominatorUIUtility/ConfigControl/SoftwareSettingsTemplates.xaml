@@ -90,6 +90,9 @@
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
                               IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
+                        <CheckBox Margin="5" Content="{DynamicResource LangKeyRunAllActivityThroughBrowser}"
+                              IsChecked="{Binding IsRunProcessThroughBrowser}"/>
+                        
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <CheckBox Content="Default Export Path" Name="IsDefaultPath" IsChecked="{Binding IsDefaultExportPathSelected}"/>
                             <TextBox Text="{Binding ExportPath,Mode=TwoWay}"  Margin="5"

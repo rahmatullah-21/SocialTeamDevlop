@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using CefSharp;
+using System.IO;
+using System.Collections.Generic;
 
 namespace EmbeddedBrowser.BrowserHelper
 {
     public class RequestHandlerCustom : IRequestHandler
     {
         private readonly BrowserWindow embedBrowser;
+
+        public List<MemoryStreamResponseFilter> responseList = new List<MemoryStreamResponseFilter>();
 
         public RequestHandlerCustom(BrowserWindow embedBrowser)
         {
@@ -29,7 +33,17 @@ namespace EmbeddedBrowser.BrowserHelper
         public IResponseFilter GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser, IFrame frame,
             IRequest request, IResponse response)
         {
-            return null;
+            try
+            {
+                var dataFilter = new MemoryStreamResponseFilter();
+                responseList.Add(dataFilter);
+                return dataFilter;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return new MemoryStreamResponseFilter();
         }
 
         public bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
@@ -84,7 +98,7 @@ namespace EmbeddedBrowser.BrowserHelper
 
         public void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame,
             IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
-        {
+         {
             if (embedBrowser.Browser.IsDisposed) return;
             if (!embedBrowser.Dispatcher.CheckAccess())
                 embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
@@ -138,6 +152,74 @@ namespace EmbeddedBrowser.BrowserHelper
             ISelectClientCertificateCallback callback)
         {
             return false;
+        }
+    }
+
+
+    public class MemoryStreamResponseFilter : IResponseFilter
+    {
+        private MemoryStream memoryStream;
+
+        bool IResponseFilter.InitFilter()
+        {
+            //NOTE: We could initialize this earlier, just one possible use of InitFilter
+            memoryStream = new MemoryStream();
+            return true;
+        }
+
+        FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)
+        {
+            if (dataIn == null)
+            {
+                dataInRead = 0;
+                dataOutWritten = 0;
+
+                return FilterStatus.Done;
+            }
+
+            //Calculate how much data we can read, in some instances dataIn.Length is
+            //greater than dataOut.Length
+            dataInRead = Math.Min(dataIn.Length, dataOut.Length);
+            dataOutWritten = dataInRead;
+
+            var readBytes = new byte[dataInRead];
+            dataIn.Read(readBytes, 0, readBytes.Length);
+            dataOut.Write(readBytes, 0, readBytes.Length);
+
+            //Write buffer to the memory stream
+            memoryStream.Write(readBytes, 0, readBytes.Length);
+
+            //If we read less than the total amount avaliable then we need
+            //return FilterStatus.NeedMoreData so we can then write the rest
+            if (dataInRead < dataIn.Length)
+            {
+                return FilterStatus.NeedMoreData;
+            }
+
+            if (memoryStream.Length > 0)
+                Data = memoryStream.ToArray();
+
+            return FilterStatus.Done;
+        }
+
+        void IDisposable.Dispose()
+        {
+            memoryStream.Dispose();
+            memoryStream = null;
+        }
+
+        private byte[] _data;
+
+        public byte[] Data
+        {
+            get
+            {
+                return _data;
+            }
+            set
+            {
+                _data = value;
+            }
         }
     }
 }

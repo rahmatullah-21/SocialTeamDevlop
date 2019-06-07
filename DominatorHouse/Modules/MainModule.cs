@@ -1,6 +1,4 @@
 ﻿using DominatorHouse.Support.Perf.Views;
-using DominatorUIUtility.Views.AccountSetting;
-using DominatorUIUtility.Views.AccountSetting.Activity;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;

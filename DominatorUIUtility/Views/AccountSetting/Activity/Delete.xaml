@@ -15,10 +15,79 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Delete Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Delete Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
+                <Label Content="{DynamicResource LangKeyDeleteSource}" FontWeight="Bold" Margin="5,10,0,0"/>
 
+                <StackPanel  Margin="15,0,0,5" >
+                    <StackPanel>
+                        <CheckBox Content="{DynamicResource LangKeyDeleteTweets}" Margin="5,15,0,5" IsChecked="{Binding DeleteSetting.IsChkDeleteTweet}"/>
+                        <StackPanel Margin="30,0,0,0" Visibility="{Binding DeleteSetting.IsChkDeleteTweet, Converter={StaticResource BooleanToVisibilityConverter}}">
+                         
+                            <StackPanel Orientation="Horizontal" >
+                                <RadioButton GroupName="DeleteTweets" Content="{DynamicResource LangKeyTweetedDateMustBeWithin}" Margin="5,0,0,0" IsChecked="{Binding DeleteSetting.IsChkTweetedDateMustBeInSpecificRange}"/>
+                                <controls:DateTimePicker Margin="5,5,5,0" IsEnabled="{Binding DeleteSetting.IsChkTweetedDateMustBeInSpecificRange}" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="Start Date"
+                                                                                             SelectedDate="{Binding  DeleteSetting.StartDateForTweet, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"                       />
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{DynamicResource LangKeyTo}" />
+                                <controls:DateTimePicker Margin="5,5,5,0" IsEnabled="{Binding DeleteSetting.IsChkTweetedDateMustBeInSpecificRange}" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="End Date"
+                                                              SelectedDate="{Binding  DeleteSetting.EndDateForTweet, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"   />
+                            </StackPanel>
+                            <RadioButton GroupName="DeleteTweets" Content="{DynamicResource LangKeyDeleteRandomTweets}" Margin="5,0,0,5" IsChecked="{Binding DeleteSetting.IsDeleteRandomTweets}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <CheckBox Content="{DynamicResource LangKeyDeleteComments}" Margin="5" IsChecked="{Binding DeleteSetting.IsChkDeleteComment}"/>
+                        <StackPanel Margin="30,0,0,0" Visibility="{Binding DeleteSetting.IsChkDeleteComment, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                           
+                            <StackPanel Orientation="Horizontal" >
+                                <RadioButton GroupName="DeleteComments" Content="{DynamicResource LangKeyCommentedDateMustBeWithin}" Margin="5,0,0,0" IsChecked="{Binding DeleteSetting.IsChkCommentedDateMustBeInSpecificRange}"/>
+                                <controls:DateTimePicker Margin="5,5,5,0" IsEnabled="{Binding DeleteSetting.IsChkCommentedDateMustBeInSpecificRange}" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="Start Date"
+                                                              SelectedDate="{Binding  DeleteSetting.StartDateForComment, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"   />
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{DynamicResource LangKeyTo}" />
+                                <controls:DateTimePicker Margin="5,5,5,0" IsEnabled="{Binding DeleteSetting.IsChkCommentedDateMustBeInSpecificRange}" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="End Date"
+                                                             DisplayDate="{Binding DeleteSetting.EndDateForComment}"  SelectedDate="{Binding  DeleteSetting.EndDateForComment, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"    />
+                            </StackPanel>
+                            <RadioButton GroupName="DeleteComments" Content="{DynamicResource LangKeyDeleteRandomComments}" Margin="5,0,0,5" IsChecked="{Binding DeleteSetting.IsDeleteRandomComments}"/>
+
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <CheckBox Content="{DynamicResource LangKeyUndoRetweets}" Margin="5" IsChecked="{Binding DeleteSetting.IsChkUndoRetweet}"/>
+                        <StackPanel Margin="30,0,0,0"  Visibility="{Binding DeleteSetting.IsChkUndoRetweet ,Converter={StaticResource BooleanToVisibilityConverter}}">
+                           
+                            <StackPanel Orientation="Horizontal" >
+                                <RadioButton  GroupName="UndoRetweets" Content="{DynamicResource LangKeyRetweetedDateMustBeWithin}" Margin="5,0,0,0" IsChecked="{Binding DeleteSetting.IsChkRetweetedDateMustBeInSpecificRange}"/>
+                                <controls:DateTimePicker Margin="5,5,5,0" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="Start Date"
+                                                                IsEnabled="{Binding DeleteSetting.IsChkRetweetedDateMustBeInSpecificRange}" 
+                                                                     SelectedDate="{Binding  DeleteSetting.StartDateForRetweet, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{DynamicResource LangKeyTo}" />
+                                <controls:DateTimePicker Margin="5,5,5,0" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="End Date"
+                                                             IsEnabled="{Binding DeleteSetting.IsChkRetweetedDateMustBeInSpecificRange}"   
+                                                                     SelectedDate="{Binding  DeleteSetting.EndDateForRetweet, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
+                            </StackPanel>
+                            <RadioButton  GroupName="UndoRetweets" Content="{DynamicResource LangKeyUndoRandomRetweets}" Margin="5,0,0,5" IsChecked="{Binding DeleteSetting.IsUndoRandomRetweets}"/>
+
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

@@ -425,6 +425,7 @@
     <Compile Include="ViewModel\Startup\ModuleConfig\DownvoteViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\EditCommentViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\EditPinViewModel.cs" />
+    <Compile Include="ViewModel\Startup\ModuleConfig\ElementsVisibility.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\EventCreatorViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\EventInviterViewModel.cs" />
     <Compile Include="ViewModel\Startup\ModuleConfig\ExportConnectionViewModel.cs" />

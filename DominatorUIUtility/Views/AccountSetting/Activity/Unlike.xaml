@@ -15,6 +15,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
@@ -24,18 +25,25 @@
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
             <TextBlock Text="UnFollow user Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
-        <StackPanel >
-            <CheckBox IsChecked="{Binding UnLikeModel.UnLike.IsLikedTweets}" Content="{DynamicResource LangKeyLikedTweets}" Margin="5" />
-            <CheckBox IsChecked="{Binding UnLikeModel.UnLike.IsCustomTweets}" Content="{DynamicResource LangKeyCustomTweetLists}" Margin="5" />
-            <customControl:InputBoxControl  Visibility="{Binding UnLikeModel.UnLike.IsCustomTweets,Converter={StaticResource BooleanToVisibilityConverter}}" 
-                                                           InputText="{Binding UnLikeModel.UnLike.CustomTweets}"  SaveCommand="{Binding SplitInputToListCommand}"
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel >
+                <StackPanel Visibility="{Binding TwitterElementsVisibility}" >
+                    <CheckBox IsChecked="{Binding UnLike.IsLikedTweets}" Content="{DynamicResource LangKeyLikedTweets}"  Margin="5"  />
+                    <CheckBox IsChecked="{Binding UnLike.IsCustomTweets}" Content="{DynamicResource LangKeyCustomTweetLists}" Margin="5" />
+                    <customControl:InputBoxControl  Visibility="{Binding UnLike.IsCustomTweets,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                           InputText="{Binding UnLike.CustomTweets}"  SaveCommand="{Binding SplitInputToListCommand}"
                                                            CommandParameter="{Binding ElementName=CustomPostLists}" />
-            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-        </StackPanel>
-        <DockPanel Grid.Row="2" >
-            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                </StackPanel>
+
+                <RadioButton IsChecked="{Binding IsCheckedUnlikeMedia,Mode=TwoWay}" Content="Unlike Media" Visibility="{Binding InstagramElementsVisibility}" />
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
+
+            <DockPanel Grid.Row="2" >
+                <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>
-        </DockPanel>
+            </DockPanel>
 
     </Grid>
 </UserControl>

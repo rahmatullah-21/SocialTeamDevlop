@@ -15,10 +15,34 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Group UnJoiner Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Group Joiner Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+          
+            <StackPanel>
+                <Label Content="{DynamicResource LangKeyGroupSources}" FontWeight="Bold" Margin="5,10,0,0"></Label>
+                <StackPanel Visibility="{Binding LinkedInElementsVisibility}"  Margin="15,0,0,5" >
+                    <CheckBox Content="{DynamicResource LangKeyBySoftware}" Margin="5" IsChecked="{Binding IsCheckedBySoftware}"/>
+                    <CheckBox Content="{DynamicResource LangKeyOutsideSoftware}" Margin="5" IsChecked="{Binding IsCheckedOutSideSoftware}"/>
+                    <CheckBox Content="{DynamicResource LangKeyCustomGroupList}" Margin="5" IsChecked="{Binding IsCheckedCustomGroupList}"/>
+                    <customControl:InputBoxControl Margin="25,5" x:Name="CustomGroupListInputBox" 
+                                                   InputText="{Binding UrlInput}"
+                                                   SaveCommand="{Binding SaveCommand}"
+                                                   WaterMarkText="{DynamicResource LangKeyEnterYourGroupUrlS}"
+                                                   Visibility="{Binding IsCheckedCustomGroupList,Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
+                <actcustom:ActivityJobConfig></actcustom:ActivityJobConfig>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>
