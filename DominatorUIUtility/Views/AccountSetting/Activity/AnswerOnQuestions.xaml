@@ -15,10 +15,37 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Answer On Questions Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
+            <TextBlock Text="Answer On Questions Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
+            <StackPanel>
+              
+                <actcustom:ActivitySetting HeaderNextPreViousVisiblity="Collapsed"
+                                           JobConfiguration="{Binding JobConfiguration}"
+                                           ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}" 
+                                           DeleteQueryCommand="{Binding DeleteQueryCommand}"
+                                           DeleteMulipleCommand="{Binding DeleteMulipleCommand}"
+                                           AddQueryCommand="{Binding AddQueryToMsgCommand}"
+                                           NextButtonContent="{Binding NextButtonContent}"/>
+                  <Expander  Header="{DynamicResource LangKeyManageAnswer}" Margin="5,5,5,0" >
+                    <StackPanel>
+                        <customControl:CommentControl x:Name="CommentControl" Comments="{Binding AnswerQuestionModel.ManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                            AddCommentsCommand="{Binding AddAnswerCommand}" CommandParameter="{Binding ElementName=CommentControl}"/>
+                        <customControl:ManageComment  LstManageCommentModel="{Binding AnswerQuestionModel.LstManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton  NextCommand="{Binding NextCommand}" 
+                                           PreviousCommand="{Binding PreviousCommand}"
+                                           NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

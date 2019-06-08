@@ -15,14 +15,14 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" >
-            <TextBlock Text="{Binding Heading}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White"/>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
+            <TextBlock Text="{Binding Heading}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible"  HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel Grid.Row="1">
                 <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5">
                     <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
-                                                      ListQueryInfo="{Binding SavedQueries}"
+                                                      ListQueryInfo="{Binding SavedQueries}" DeleteQueryCommand="{Binding DeleteQueryCommand}" DeleteMulipleCommand="{Binding DeleteMulipleCommand}"
                                                       AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
                 </Expander>
                 <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5">
@@ -31,7 +31,7 @@
             </StackPanel>
 
         </ScrollViewer>
-        <DockPanel Grid.Row="2" >
+        <DockPanel Grid.Row="2" Visibility="{Binding HeaderNextPreViousVisiblity}" >
             <StackPanel    Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
                 <Button Height="30" HorizontalAlignment="Left" Margin="5" 
                     Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"

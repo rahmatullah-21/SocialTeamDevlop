@@ -68,7 +68,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
-            AddQueryToMessageCommand = new DelegateCommand<object>( AddQueryToMessageControl);
+            AddQueryToMessageCommand = new DelegateCommand<object>(AddQueryToMessageControl);
+
+            DeleteQueryCommand = new DelegateCommand<object>( DeleteQuery);
+            DeleteMultipleCommand = new DelegateCommand(DeleteMultiple);
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfMessagesPerJob".FromResourceDictionary(),
@@ -79,8 +82,14 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
         }
+
+        #region Command
         public ICommand AddMessagesCommand { get; set; }
         public ICommand AddQueryToMessageCommand { get; set; }
+        public ICommand DeleteQueryCommand { get; set; }
+        public ICommand DeleteMultipleCommand { get; set; } 
+        #endregion
+
         private BroadcastMessagesModel _broadcastMessagesModel = new BroadcastMessagesModel();
         public BroadcastMessagesModel BroadcastMessagesModel
         {
@@ -197,6 +206,72 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         return x;
                     }).ToList();
                 AddQueryCommand.Execute(sender);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void DeleteQuery(object sender)
+        {
+            try
+            {
+                var currentQuery = sender as QueryInfo;
+
+                var queryToDelete = BroadcastMessagesModel.ManageMessagesModel.LstQueries.FirstOrDefault(x =>
+                        currentQuery != null && (x.Content.QueryValue == currentQuery.QueryValue
+                                                 && x.Content.QueryType == currentQuery.QueryType));
+
+                if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
+                    SavedQueries.Remove(currentQuery);
+
+                BroadcastMessagesModel.ManageMessagesModel.LstQueries.Remove(queryToDelete);
+                foreach (var message in BroadcastMessagesModel.LstDisplayManageMessageModel.ToList())
+                {
+                    var queryDelete = message.SelectedQuery.FirstOrDefault(x => currentQuery != null && (x.Content.QueryType == currentQuery.QueryType && x.Content.QueryValue == currentQuery.QueryValue));
+                    message.SelectedQuery.Remove(queryDelete);
+
+                    if (message.SelectedQuery.Count == 0)
+                        BroadcastMessagesModel.LstDisplayManageMessageModel.Remove(message);
+                }
+                if (!BroadcastMessagesModel.ManageMessagesModel.LstQueries.Skip(1).Any())
+                    BroadcastMessagesModel.ManageMessagesModel.LstQueries[0].IsContentSelected = false;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private void DeleteMultiple()
+        {
+            var selectedQuery = SavedQueries.Where(x => x.IsQuerySelected).ToList();
+            try
+            {
+                foreach (var currentQuery in selectedQuery)
+                {
+                    try
+                    {
+                        var queryToDelete = BroadcastMessagesModel.ManageMessagesModel.LstQueries.FirstOrDefault(x =>
+                                x.Content.QueryValue == currentQuery.QueryValue
+                                && x.Content.QueryType == currentQuery.QueryType);
+
+                        if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
+                            SavedQueries.Remove(currentQuery);
+
+                        BroadcastMessagesModel.ManageMessagesModel.LstQueries.Remove(queryToDelete);
+                        foreach (var message in BroadcastMessagesModel.LstDisplayManageMessageModel.ToList())
+                        {
+                            message.SelectedQuery.Remove(queryToDelete);
+                            if (message.SelectedQuery.Count == 0)
+                                BroadcastMessagesModel.LstDisplayManageMessageModel.Remove(message);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
             }
             catch (Exception ex)
             {

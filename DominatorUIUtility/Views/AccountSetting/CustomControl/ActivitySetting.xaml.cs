@@ -1,7 +1,11 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore;
+using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using Prism.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,7 +22,8 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         {
             InitializeComponent();
             Setting.DataContext = this;
-
+            DeleteQueryCommand = new DelegateCommand<object>(DeleteQueryExecute);
+            DeleteMulipleCommand = new DelegateCommand<object>(DeleteMulipleExecute);
         }
         public string Heading
         {
@@ -29,6 +34,18 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         // Using a DependencyProperty as the backing store for Heading.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HeadingProperty =
             DependencyProperty.Register("Heading", typeof(string), typeof(ActivitySetting), new PropertyMetadata(string.Empty));
+
+
+        public Visibility HeaderNextPreViousVisiblity
+        {
+            get { return (Visibility)GetValue(HeaderNextPreViousVisiblityProperty); }
+            set { SetValue(HeaderNextPreViousVisiblityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for HeaderNextPreViousVisiblity.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HeaderNextPreViousVisiblityProperty =
+            DependencyProperty.Register("HeaderNextPreViousVisiblity", typeof(Visibility), typeof(ActivitySetting), new PropertyMetadata(Visibility.Visible));
+
 
         public JobConfiguration JobConfiguration
         {
@@ -135,6 +152,73 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         // Using a DependencyProperty as the backing store for PreviousVisiblity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PreviousVisiblityProperty =
             DependencyProperty.Register("PreviousVisiblity", typeof(Visibility), typeof(ActivitySetting), new PropertyMetadata(Visibility.Visible));
+        public ICommand DeleteQueryCommand
+        {
+            get { return (ICommand)GetValue(DeleteQueryCommandProperty); }
+            set { SetValue(DeleteQueryCommandProperty, value); }
+        }
 
+        // Using a DependencyProperty as the backing store for DeleteQueryCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DeleteQueryCommandProperty =
+            DependencyProperty.Register("DeleteQueryCommand", typeof(ICommand), typeof(ActivitySetting));
+   
+
+        public ICommand DeleteMulipleCommand
+        {
+            get { return (ICommand)GetValue(DeleteMulipleCommandProperty); }
+            set { SetValue(DeleteMulipleCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DeleteMulipleCommandProperty =
+            DependencyProperty.Register("DeleteMulipleCommand", typeof(ICommand), typeof(ActivitySetting));
+
+        private static readonly RoutedEvent DeleteQueryEvent = EventManager.RegisterRoutedEvent("DeleteQuery",
+                  RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ActivitySetting));
+
+        public event RoutedEventHandler DeleteQuery
+        {
+            add { AddHandler(DeleteQueryEvent, value); }
+            remove { RemoveHandler(DeleteQueryEvent, value); }
+        }
+
+        void DeleteQueryEventHandler()
+        {
+            var routedEventArgs = new RoutedEventArgs(DeleteQueryEvent);
+            RaiseEvent(routedEventArgs);
+        }
+        private void DeleteQueryExecute(object sender)
+        {
+            try
+            {
+                var QueryToDelete = sender as QueryInfo;
+                DeleteQueryEventHandler();
+                if (SavedQueries.Any(x => QueryToDelete != null && x.Id == QueryToDelete.Id))
+                {
+                   SavedQueries.Remove(QueryToDelete);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private void DeleteMulipleExecute(object obj)
+        {
+            try
+            {
+                foreach (var queryInfo in SavedQueries.ToList())
+                {
+                    if (queryInfo.IsQuerySelected)
+                    {
+                        SavedQueries.Remove(queryInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
     }
 }

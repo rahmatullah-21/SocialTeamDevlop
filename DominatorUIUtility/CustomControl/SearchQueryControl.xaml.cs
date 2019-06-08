@@ -13,7 +13,6 @@ using System.Runtime.CompilerServices;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.LogHelper;
-using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System.IO;
 using DominatorHouseCore.Enums;
