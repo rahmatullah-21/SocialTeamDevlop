@@ -1,6 +1,5 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore;
-using DominatorHouseCore.Annotations;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Converters;
@@ -17,12 +16,10 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -530,6 +527,9 @@ namespace DominatorUIUtility.ViewModel
 
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
                     campaignFileManager.Delete(campaign);
+
+                    DeleteDuplicateCampaign(campaign, campaignFileManager);
+
                     _dataBaseHandler.DeleteDatabase(new List<string> { campaign.CampaignId }, DatabaseType.CampaignType);
                     LstCampaignDetails.Remove(LstCampaignDetails.FirstOrDefault(x => x.CampaignId == campaign.CampaignId));
                     Uncheck();
@@ -548,14 +548,8 @@ namespace DominatorUIUtility.ViewModel
             {
                 try
                 {
-                    List<CampaignDetails> campaign = new List<CampaignDetails>();
-                    LstCampaignDetails.ToList().ForEach(item =>
-                    {
-                        if (item.IsCampaignChecked)
-                            campaign.Add(item);
-                    });
-
-                    if (campaign.Count == 0)
+                    List<CampaignDetails> campaign = LstCampaignDetails.Where(x => x.IsCampaignChecked).ToList();
+                    if (campaign?.Count == 0)
                     {
                         Dialog.ShowDialog("Warning", "To delete Campaign please select atleast one Campaign !");
                         return;
@@ -567,21 +561,25 @@ namespace DominatorUIUtility.ViewModel
                         return;
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
                     var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-                    Application.Current.Dispatcher.InvokeAsync(() =>
+                    Task.Factory.StartNew(() =>
                     {
-                        campaign.ForEach(camp =>
-                        {
-                            var selectedAccount = camp.SelectedAccountList;
-                            campaignFileManager.Delete(camp);
+                        Application.Current.Dispatcher.InvokeAsync(() =>
+                          {
+                              campaign.ForEach(camp =>
+                              {
+                                  var selectedAccount = camp.SelectedAccountList;
+                                  campaignFileManager.Delete(camp);
 
-                            UpdateAccount(allAccounts, camp, selectedAccount);
-                            LstCampaignDetails.Remove(
-                                LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
-                        });
-                        _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
-                        Uncheck();
+                                  DeleteDuplicateCampaign(camp, campaignFileManager);
+                                  UpdateAccount(allAccounts, camp, selectedAccount);
+                                  LstCampaignDetails.Remove(
+                                      LstCampaignDetails.FirstOrDefault(x => x.CampaignId == camp.CampaignId));
+                              });
+                              _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
+                              Uncheck();
+                          });
+                        GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
                     });
-                    GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
 
                 }
                 catch (Exception ex)
@@ -589,6 +587,13 @@ namespace DominatorUIUtility.ViewModel
                     ex.DebugLog();
                 }
             }
+        }
+
+        private static void DeleteDuplicateCampaign(CampaignDetails campaign, ICampaignsFileManager campaignFileManager)
+        {
+            var duplicateCampaign = campaignFileManager.FirstOrDefault(x => x.CampaignId == campaign.CampaignId);
+            if (duplicateCampaign?.CampaignId == campaign.CampaignId)
+                campaignFileManager.Delete(campaign);
         }
 
         private void Uncheck()

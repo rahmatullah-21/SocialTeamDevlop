@@ -434,7 +434,7 @@ namespace DominatorHouseCore.Process
                 post.LstPublishedPostDetailsModels[postIndex].PublishedDate = DateTime.Now;
                 post.LstPublishedPostDetailsModels[postIndex].ErrorDetails = ConstantVariable.NoError;
                 post.LstPublishedPostDetailsModels[postIndex].Title = posts.PublisherInstagramTitle;
-
+                post.LstPublishedPostDetailsModels[postIndex].Description = posts.PostDescription;
                 // Update the post details to bin file
                 PostlistFileManager.UpdatePost(CampaignId, post);
 

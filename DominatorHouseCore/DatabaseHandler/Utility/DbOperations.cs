@@ -182,7 +182,10 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 var dataToUpdate = _context.Table<AccountDetails>().FirstOrDefault(x => x.AccountId == dominatorAccountModel.AccountId);
 
                 if (dataToUpdate == null)
+                {
+                    AddIfNotExist(dominatorAccountModel);
                     return false;
+                }
 
                 dataToUpdate.UserName = dominatorAccountModel.AccountBaseModel.UserName;
                 dataToUpdate.Password = dominatorAccountModel.AccountBaseModel.Password;
@@ -204,6 +207,34 @@ namespace DominatorHouseCore.DatabaseHandler.Utility
                 return Update(dataToUpdate);
             }
         }
+
+        private void AddIfNotExist(DominatorAccountModel dominatorAccountModel)
+        {
+            Add(new AccountDetails
+            {
+                AccountNetwork = dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString(),
+                AccountId = dominatorAccountModel.AccountBaseModel.AccountId,
+                AccountGroup = dominatorAccountModel.AccountBaseModel.AccountGroup.Content,
+                UserName = dominatorAccountModel.AccountBaseModel.UserName,
+                Password = dominatorAccountModel.AccountBaseModel.Password,
+                UserFullName = dominatorAccountModel.AccountBaseModel.UserFullName,
+                Status = dominatorAccountModel.AccountBaseModel.Status.ToString(),
+                ProxyIP = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyIp,
+                ProxyPort = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPort,
+                ProxyUserName = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyUsername,
+                ProxyPassword = dominatorAccountModel.AccountBaseModel.AccountProxy?.ProxyPassword,
+                ProfilePictureUrl = dominatorAccountModel.AccountBaseModel.ProfilePictureUrl,
+                Cookies = JsonConvert.SerializeObject(dominatorAccountModel.Cookies),
+                UserAgent = dominatorAccountModel.UserAgentWeb,
+                AddedDate = DateTime.Now,
+                ActivityManager = JsonConvert.SerializeObject(dominatorAccountModel.ActivityManager),
+                DisplayColumnValue1 = dominatorAccountModel.DisplayColumnValue1,
+                DisplayColumnValue2 = dominatorAccountModel.DisplayColumnValue2,
+                DisplayColumnValue3 = dominatorAccountModel.DisplayColumnValue3,
+                DisplayColumnValue4 = dominatorAccountModel.DisplayColumnValue4,
+            });
+        }
+
         public void UpdateAccountActivityManager(DominatorAccountModel dominatorAccountModel)
         {
             lock (_syncObject)
