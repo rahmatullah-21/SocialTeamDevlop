@@ -577,8 +577,8 @@ namespace EmbeddedBrowser
                 }
 
                 if (!_htmlHasUserName)
-                    _htmlHasUserName = _html.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) || _html.Contains("\"LOGGED_IN\":true")
-                                                                                                          || (_pageText.Contains("Protect your account") && _pageText.ToLower().Contains(DominatorAccountModel.UserName.ToLower()));
+                    _htmlHasUserName = /*_html.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) ||*/ _html.Contains("\"LOGGED_IN\":true")
+                                                                                                          || (_pageText.Contains("Protect your account") && _html.ToLower().Contains(DominatorAccountModel.UserName.ToLower()));
                 SetGoogleLangAsEng();
 
                 if (!_isLoggedIn && (_pageText.Contains("Verify your identity") || _pageText.Contains("\n\nEnter verification code\n\n") || _pageText.Contains("English (")) && !IsGoogleAccountLoginFailed())
@@ -601,7 +601,7 @@ namespace EmbeddedBrowser
                     }
                 }
 
-                if (!_loginFailed && !_isLoggedIn && _htmlHasUserName && !CustomUse)
+                if (/*!_loginFailed && */!_isLoggedIn && _htmlHasUserName && !CustomUse)
                 {
                     if (string.IsNullOrEmpty(TargetUrl))
                         TargetUrl = SocialHomeUrls();
@@ -619,6 +619,7 @@ namespace EmbeddedBrowser
             catch
             { /*ignored*/}
         }
+
 
         private void SetGoogleLangAsEng()
         {
@@ -1363,19 +1364,23 @@ namespace EmbeddedBrowser
 
         private void LinkedInBrowserLogin(string html)
         {
-            if (!string.IsNullOrEmpty(html) && html.Contains("LinkedIn: Log In or Sign Up"))
+            if (!string.IsNullOrEmpty(html))
             {
-                if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
+
+                if (CurrentUrl().Contains("https://www.linkedin.com/hp"))
+                    BrowserAct(ActType.ClickByClass, "nav__button-secondary");
+
+                if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password) && html.Contains("consumer_login__text_plain__large_username"))
                 {
-                    Browser.ExecuteScriptAsync("document.getElementById('login-email').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
+                    Browser.ExecuteScriptAsync("document.getElementById('username').value= '" + DominatorAccountModel.AccountBaseModel.UserName + "'");
 
-                    Browser.ExecuteScriptAsync("document.getElementById('login-password').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
+                    Browser.ExecuteScriptAsync("document.getElementById('password').value= '" + DominatorAccountModel.AccountBaseModel.Password + "'");
 
-                    Browser.ExecuteScriptAsync("document.getElementById('login-submit').disabled = false");
+                    Browser.ExecuteScriptAsync("document.getElementById('btn__primary--large from__button--floating').disabled = false");
 
                     Thread.Sleep(4000);
 
-                    Browser.ExecuteScriptAsync("document.getElementById('login-submit').click()");
+                    Browser.ExecuteScriptAsync("document.getElementsByClassName('btn__primary--large from__button--floating')[0].click()");
 
                 }
             }

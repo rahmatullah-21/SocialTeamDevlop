@@ -16,20 +16,20 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus")]
         Unlike = 4,
 
-        [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube")]
+        [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube,Reddit")]
         Comment = 5,
 
-        [Description("Twitter,Instagram,Reddit")]
+        [Description("Instagram")]
         DeleteComment = 6,
 
-        [Description("Twitter,Instagram")]
+        [Description("Instagram")]
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
         [Description("Twitter")]
         Repost = 8,
 
-        [Description("Twitter,Instagram")]
+        [Description("Instagram")]
         DeletePost = 9,
 
         //[Description("Facebook,Twitter,Instagram")]
@@ -38,8 +38,8 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit,Tumblr")]
         UserScraper = 11,
 
-        [Description("Twitter")]
-        DownloadScraper = 12,
+         [Description("Facebook")]
+         DownloadScraper = 12,
 
         [Description("Twitter,Instagram")]
         Reposter = 13,
@@ -181,8 +181,8 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Pinterest")]
         FollowBack = 60,
 
-        [Description("Twitter")]
-        DeleteTweet = 61,
+        //[Description("Twitter")]
+        //DeleteTweet = 61,
 
         [Description("Twitter")]
         Mute = 62,

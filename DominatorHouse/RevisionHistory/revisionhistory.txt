@@ -1,3 +1,67 @@
+Version[1.0.0.57],[7tht-June-19]
+New Features:
+	Instagram :
+		SocioPublisher => Add an option to upload videos as Album.
+	Facebook :
+		Engage => Post comment => Add feature split comment by next line.
+	LinkedIn : 
+		Engage => Someone Post => Added feature to share Linkedin company post.
+	Pinterest :
+		Board => Add Multiple Board By .Csv file 
+	
+Fixed:-
+	Social : 
+		Campaign => Solved issue in deleted campaigns getting back after we restart the software.
+	Instagram : 
+		GrowFollowers => Unfollow => Issue fixed with unfollowing users followed by software.
+		InstaChat => Broadcast Messages => Issue fixed with sending messages.
+	Facebook :
+		Fixed issue with send greetings.
+	LinkedIn : 
+		Scraper => Fixed issue with scraping data using keyword.
+		Grow Connection => Fixed issue with sending connection request using sale Navigator Search URL.
+	Reddit : 
+		Engage => Edit comment => Issue solved in edit comment
+		Sociopublisher=> Issue solved delay between two post
+	YouTube : 
+		Engage => Comment => Fixed issue with commenting.
+	Pinterest : 
+		Grow Followers => Query type custom board => Issue solved in follower after following One user it was showing process completed.
+		Repin => Solved issue in repin it get started and stoped without doing any repin.
+		Pin poster => Edit => Issue solved in edit pin.
+		Repin => Solved issue in failed account is showing in select account.
+		Social publisher => Post configuration => Advanced settings => Automatic hashtag => Issue solved in hashtag was not working for multiple post.
+
+Version[1.0.0.56],[31st-May-19]
+	New Features :-
+		Instagram : 
+			Social Publisher => Now you can post multiple video as album.
+		Reddit :
+			Scrapper => Url Scrapper => Added query type custom url for scrapping.
+
+	Fixed:-
+		Social :
+			Sociobuplisher => Monitor Folder => Fixed issue with editing description.
+			Sociobuplisher => Post Configuration. Issue fixed with post per day count.
+		Instagram : 
+			Instachat => Broadcast message/ Send Message to New Followers => Fixed issue with delivering duplicate messages.
+			Growfollower => Issue fixed with sending message to user after following.
+		Facebook : 
+			Sociobuplisher => Fixed issue with posting on facebook page.
+			Enage => post like => Fixed issue with posting comment after like post 
+			Brosdcast message => Send Gerating to Friend => Fxed issue with send greeting to uniqe user.
+		LinkedIn :
+			Sociobuplisher => Fixed issue with posting video on account wall and group.
+		Twitter :
+			Sociopublisher => Fixed issue with publishing posts in mass.
+		Pinterest :
+			Social publisher => Advanced Settings => Issue fixed with Automatic Hashtag.
+			Social Publisher => Issue fixed Scraping post.
+			Account Activity => Repin => Issue fixed with Not selecting boards while repin action.
+		YouTube :
+			Watch video => View Increaser => Fixed issue with video information in reports.
+			Subscriber => Unsubscriber => Fixed issue of no more data
+
 Version[1.0.0.55],[22nd-May-19]
 	Fixed Issue:-
 		Instagram :
