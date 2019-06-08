@@ -1329,8 +1329,8 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(html))
             {
 
-                if (CurrentUrl().Contains("https://www.linkedin.com/hp"))
-                    BrowserAct(ActType.ClickByClass, "nav__button-secondary");
+                //if (CurrentUrl().Contains("https://www.linkedin.com/hp"))
+                //    BrowserAct(ActType.ClickByClass, "nav__button-secondary");
 
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password) && html.Contains("consumer_login__text_plain__large_username"))
                 {
