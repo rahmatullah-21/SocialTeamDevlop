@@ -1650,7 +1650,11 @@ namespace EmbeddedBrowser
             DataReferer = 14,
             [Description("type")]
             Type = 15,
-
+            [Description("data-click")]
+            DataClick = 16,
+            [Description("aria-checked")]
+            AriaChecked = 17
+            //aria-checked
         }
 
 
@@ -1783,7 +1787,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].{value}";
+            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
 
             switch (actType)
             {
@@ -1883,7 +1887,8 @@ namespace EmbeddedBrowser
 
             List<string> listNodes = new List<string>();
 
-            int itemCount = int.Parse(await GetElementValueAsync(ActType.GetLength, attributeType, attributeValue)) - 1;
+            int itemCount = actType == ActType.ActByQuery ? int.Parse(await GetElementValueAsync(ActType.GetLengthByQuery, attributeType, attributeValue)) - 1
+                : int.Parse(await GetElementValueAsync(ActType.GetLength, attributeType, attributeValue)) - 1;
 
             while (itemCount >= 0)
             {
@@ -1904,7 +1909,7 @@ namespace EmbeddedBrowser
 
             List<string> listNodes = new List<string>();
 
-            int itemCount = actType== ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(ActType.GetLengthByCustomQuery, parentAttributeType,
+            int itemCount = actType == ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(ActType.GetLengthByCustomQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1
                 : int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
@@ -1938,15 +1943,22 @@ namespace EmbeddedBrowser
                 case ActType.GetValue:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{valueType.GetDescriptionAttr()}");
                     break;
+
                 case ActType.GetLength:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').length");
                     break;
+
+                case ActType.GetLengthByQuery:
+                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]').length").Result?.Result?.ToString() ?? "0";
+
                 case ActType.GetLengthByCustomQuery:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').{value}.length");
                     break;
+
                 case ActType.GetAttribute:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].getAttribute('{valueType.GetDescriptionAttr()}')");
                     break;
+
                 case ActType.CustomActByQueryType:
                     jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
                     break;
