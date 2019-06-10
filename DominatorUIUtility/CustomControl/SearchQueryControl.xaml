@@ -6,7 +6,7 @@
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" Name="QueryControl"
-              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -48,7 +48,7 @@
                         </TextBox>
                         <StackPanel Orientation="Horizontal">
                             <Button Name="BtnImportQuery"  Foreground="White"  
-                                        Height="25" Width="40" VerticalAlignment="Top" Margin="10,0" ToolTip="Import From csv/txt file" Click="BtnImportQuery_OnClick">
+                                        Height="25" Width="100" VerticalAlignment="Top" Margin="10,0" ToolTip="Import From csv/txt file" Click="BtnImportQuery_OnClick">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                                         <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
@@ -65,6 +65,7 @@
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_upload}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
+                                    <TextBlock VerticalAlignment="Center" Margin="5,0" Text="{DynamicResource LangKeyImport}"/>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -76,7 +77,7 @@
                                     Content="{DynamicResource LangKeyFilter}"
                                     Command="{Binding CustomFilterCommand}"  CommandParameter="{Binding CommandParameter}"/>
 
-                        <Button Name="BtnAddToList" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25"  VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="Add Queries To The List"                                    
+                        <Button Name="BtnAddToList" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="25"  VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="Add Queries To The List"                                    
                                 Command="{Binding AddQueryCommand}" CommandParameter="{Binding CommandParameter}">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
@@ -84,6 +85,8 @@
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add_multiple}" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
+                                <TextBlock VerticalAlignment="Center" Margin="5,0" Text="{DynamicResource LangKeyAdd}"/>
+
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -91,7 +94,42 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1" >
-                <GroupBox  FontWeight="Bold" BorderThickness="1" Header="{DynamicResource LangKeyQueriesList}" Foreground="white">
+                <GroupBox  FontWeight="Bold" BorderThickness="1" Foreground="white">
+                    <GroupBox.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{DynamicResource LangKeyQueriesList}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="5,0" HorizontalAlignment="Right">
+                                <Button Background="Transparent" Command="{Binding DeleteMulipleCommand}">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Rectangle Fill="White" Height="20" Width="15" ToolTip="{DynamicResource LangKeyDeleteSelected}" >
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                            <TextBlock Margin="5,0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Text="{DynamicResource LangKeyDeleteSelected}"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Background="Transparent" Click="ExportSelected" VerticalAlignment="Center" Margin="5,0">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Rectangle Fill="White" Height="17" Width="15" ToolTip="{DynamicResource LangKeyExportSelected}" >
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                            <TextBlock Margin="5,0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Text="{DynamicResource LangKeyExportSelected}"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox.Header>
 
                     <DataGrid x:Name="SearchQueries" Width="auto" Background="White" AutoGenerateColumns="False"  CanUserAddRows="false"
                                   ItemsSource="{Binding ListQueryInfo}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" HorizontalAlignment="Stretch"
@@ -103,17 +141,8 @@
                                 <DataGridTemplateColumn.HeaderTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                            <CheckBox IsChecked="{Binding DataContext.IsAllQuerySelected,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                            <Button Background="Transparent" Command="{Binding DataContext.DeleteMulipleCommand,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
-                                                <Button.Content>
-                                                    <Rectangle Fill="Black" Height="20" Width="15" ToolTip="{DynamicResource LangKeyDeleteSelected}" >
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"/>
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Button.Content>
-                                            </Button>
-                                        </StackPanel>
+                                           <CheckBox IsChecked="{Binding DataContext.IsAllQuerySelected,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                       </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.HeaderTemplate>
                                 <DataGridTemplateColumn.CellTemplate>
@@ -144,18 +173,7 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <TextBlock Text="{DynamicResource LangKeyAction}" Margin="10,0" VerticalAlignment="Center"/>
-                                            <Button Background="Transparent" Click="ExportSelected" VerticalAlignment="Center">
-                                                <Button.Content>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Rectangle Fill="Black" Height="17" Width="15" ToolTip="{DynamicResource LangKeyExportSelected}" >
-                                                            <Rectangle.OpacityMask>
-                                                                <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill"/>
-                                                            </Rectangle.OpacityMask>
-                                                        </Rectangle>
-                                                        <TextBlock Margin="5,0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource LangKeyExportSelected}"/>
-                                                    </StackPanel>
-                                                </Button.Content>
-                                            </Button>
+                                          
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.HeaderTemplate>
