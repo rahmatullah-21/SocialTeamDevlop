@@ -8,23 +8,29 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <ItemsControl ItemsSource="{Binding SelectActivityModel.LstNetworkActivityType}" Padding="2"
-                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5">
+        <StackPanel  HorizontalAlignment="Left" Margin="0,5">
+            <TextBlock Text="Activities Selection" VerticalAlignment="Center" Margin="20,0"  FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectAccount.AccountBaseModel.UserName,StringFormat=Select the activities you want to perform with this account ({0})}" 
+                       VerticalAlignment="Center" FontWeight="DemiBold" Margin="35,2"/>
+        </StackPanel>
+        <ItemsControl ItemsSource="{Binding SelectActivityModel.LstNetworkActivityType}"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Grid.Row="1" >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="4" IsItemsHost="True" HorizontalAlignment="Stretch"/>
+                    <UniformGrid Columns="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsItemsHost="True" Margin="8"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox Content="{Binding ActivityType}" IsChecked="{Binding IsActivity}" Margin="5"/>
+                    <CheckBox Content="{Binding DisplayActivity}" IsChecked="{Binding IsActivity}" Margin="5"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Right" Grid.Row="1"
+        <Button Height="30" x:Name="BtnNext" HorizontalAlignment="Right" Grid.Row="2"
                     Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
                     Margin="5" Content="{DynamicResource LangKeyNext}"
                     Command="{Binding NextCommand}" />

@@ -28,7 +28,7 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-              
+
                 <StackPanel >
                     <Label Content="{DynamicResource LangKeyUnfollowSource}" FontWeight="SemiBold" Margin="5,10,0,0"/>
                     <StackPanel  Margin="15,0,0,5" >
@@ -56,9 +56,9 @@
                         <Label Content="{DynamicResource LangKeyHours}"/>
                     </StackPanel>
                 </StackPanel>
-
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

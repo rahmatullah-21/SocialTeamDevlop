@@ -31,11 +31,10 @@
 
                 <Label Content="{DynamicResource LangKeyIgnoreConnectionSource}" FontWeight="Bold" Margin="5,10,0,0"/>
                 <RadioButton  GroupName="ConnectionRequest" Content="{DynamicResource LangKeyAllInvitations}" Margin="15,15,0,5" IsChecked="{Binding IsChkIgnoreAllInvitations}"/>
-
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-
-
-</StackPanel>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" >
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
+            </StackPanel>
 
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

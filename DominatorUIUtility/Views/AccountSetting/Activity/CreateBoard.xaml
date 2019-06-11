@@ -112,7 +112,9 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}" />
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
 

@@ -55,7 +55,9 @@
                         <customControl:ManageMediaMessages  LstManageMessagesModel="{Binding LstDisplayManageMessageModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </StackPanel>
                 </Expander>
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" >
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

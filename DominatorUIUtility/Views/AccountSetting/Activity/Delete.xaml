@@ -31,7 +31,7 @@
                     <StackPanel>
                         <CheckBox Content="{DynamicResource LangKeyDeleteTweets}" Margin="5,15,0,5" IsChecked="{Binding DeleteSetting.IsChkDeleteTweet}"/>
                         <StackPanel Margin="30,0,0,0" Visibility="{Binding DeleteSetting.IsChkDeleteTweet, Converter={StaticResource BooleanToVisibilityConverter}}">
-                         
+
                             <StackPanel Orientation="Horizontal" >
                                 <RadioButton GroupName="DeleteTweets" Content="{DynamicResource LangKeyTweetedDateMustBeWithin}" Margin="5,0,0,0" IsChecked="{Binding DeleteSetting.IsChkTweetedDateMustBeInSpecificRange}"/>
                                 <controls:DateTimePicker Margin="5,5,5,0" IsEnabled="{Binding DeleteSetting.IsChkTweetedDateMustBeInSpecificRange}" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="Start Date"
@@ -47,7 +47,7 @@
                     <StackPanel>
                         <CheckBox Content="{DynamicResource LangKeyDeleteComments}" Margin="5" IsChecked="{Binding DeleteSetting.IsChkDeleteComment}"/>
                         <StackPanel Margin="30,0,0,0" Visibility="{Binding DeleteSetting.IsChkDeleteComment, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                           
+
                             <StackPanel Orientation="Horizontal" >
                                 <RadioButton GroupName="DeleteComments" Content="{DynamicResource LangKeyCommentedDateMustBeWithin}" Margin="5,0,0,0" IsChecked="{Binding DeleteSetting.IsChkCommentedDateMustBeInSpecificRange}"/>
                                 <controls:DateTimePicker Margin="5,5,5,0" IsEnabled="{Binding DeleteSetting.IsChkCommentedDateMustBeInSpecificRange}" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="Start Date"
@@ -64,7 +64,7 @@
                     <StackPanel>
                         <CheckBox Content="{DynamicResource LangKeyUndoRetweets}" Margin="5" IsChecked="{Binding DeleteSetting.IsChkUndoRetweet}"/>
                         <StackPanel Margin="30,0,0,0"  Visibility="{Binding DeleteSetting.IsChkUndoRetweet ,Converter={StaticResource BooleanToVisibilityConverter}}">
-                           
+
                             <StackPanel Orientation="Horizontal" >
                                 <RadioButton  GroupName="UndoRetweets" Content="{DynamicResource LangKeyRetweetedDateMustBeWithin}" Margin="5,0,0,0" IsChecked="{Binding DeleteSetting.IsChkRetweetedDateMustBeInSpecificRange}"/>
                                 <controls:DateTimePicker Margin="5,5,5,0" controls:TextBoxHelper.UseFloatingWatermark="True"  SelectedDateFormat="Long"  controls:TextBoxHelper.Watermark="Start Date"
@@ -81,8 +81,9 @@
                     </StackPanel>
 
                 </StackPanel>
-
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

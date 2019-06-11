@@ -2,6 +2,9 @@
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
+using DominatorHouseCore.Enums;
+using System.Linq;
 
 namespace DominatorHouseCore.Models
 {
@@ -47,6 +50,7 @@ namespace DominatorHouseCore.Models
             IncreaseActivitiesEachDay = new IncreaseActivityRange(0, 0, false);
 
             SelectedItem =  "Slow";
+            Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList();
 
         }
 

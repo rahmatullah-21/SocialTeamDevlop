@@ -95,6 +95,28 @@ namespace DominatorHouse.ViewModels
 
         public ICommand ModuleSettingCloseCommand { get; }
         public ICommand MaximizeCommand { get; }
+
+        private string _accountName;
+        public string AccountName
+        {
+            get { return _accountName; }
+            set { SetProperty(ref _accountName, value); }
+        }
+
+        private SocialNetworks _network;
+        public SocialNetworks Network
+        {
+            get { return _network; }
+            set { SetProperty(ref _network, value); }
+        }
+
+        private Visibility _isHeadingVisible = Visibility.Visible;
+        public Visibility IsHeadingVisible
+        {
+            get { return _isHeadingVisible; }
+            set { SetProperty(ref _isHeadingVisible, value); }
+        }
+
         IRegionManager _regionManager;
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy, IRegionManager regionManager)
         {
@@ -162,7 +184,6 @@ namespace DominatorHouse.ViewModels
         private void OnModuleSettingClose()
         {
             IsPopUpOpen = false;
-
             Width = 777;
             Height = 500;
             StartupBaseViewModel.selectedIndex = 0;

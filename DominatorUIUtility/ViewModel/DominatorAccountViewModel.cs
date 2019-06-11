@@ -106,7 +106,6 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
-
         private ObservableCollection<GridViewColumn> _visibleColumns;
 
         public ObservableCollection<GridViewColumn> VisibleColumns
@@ -115,6 +114,7 @@ namespace DominatorUIUtility.ViewModel
             set { SetProperty(ref _visibleColumns, value); }
         }
         IMainViewModel _mainViewModel;
+
         #region Command 
 
         public ICommand AddSingleAccountCommand { get; }
@@ -229,6 +229,8 @@ namespace DominatorUIUtility.ViewModel
             viewModel.SelectAccount = account;
 
             _mainViewModel.IsPopUpOpen = true;
+            _mainViewModel.AccountName = account.AccountBaseModel.UserName;
+            _mainViewModel.Network = account.AccountBaseModel.AccountNetwork;
         }
 
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)

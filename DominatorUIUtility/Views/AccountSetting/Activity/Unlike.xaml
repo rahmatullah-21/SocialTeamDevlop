@@ -36,14 +36,16 @@
                 </StackPanel>
 
                 <RadioButton IsChecked="{Binding IsCheckedUnlikeMedia,Mode=TwoWay}" Content="Unlike Media" Visibility="{Binding InstagramElementsVisibility}" />
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
 
-            <DockPanel Grid.Row="2" >
-                <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>
-            </DockPanel>
+        </DockPanel>
 
     </Grid>
 </UserControl>

@@ -39,7 +39,9 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="5,5">
-                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                        <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                    </Expander>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

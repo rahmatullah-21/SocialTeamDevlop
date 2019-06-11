@@ -24,7 +24,7 @@ namespace DominatorHouseCore.Enums
         DeleteComment = 6,
     
 
-        [Description("Instagram")]
+        //[Description("Instagram")]
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)

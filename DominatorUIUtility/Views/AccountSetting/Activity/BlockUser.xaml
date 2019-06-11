@@ -33,8 +33,9 @@
                                                    InputText="{Binding UrlInput}" SaveCommand="{Binding SaveCustomUserListCommand}"
                                                    WaterMarkText="{DynamicResource LangKeyEnterProfileUrlS}"/>
                 </StackPanel>
-
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

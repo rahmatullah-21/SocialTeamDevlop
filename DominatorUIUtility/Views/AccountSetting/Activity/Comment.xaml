@@ -15,21 +15,23 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="Comment"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <StackPanel Margin="10">
-
-        <Expander Header="{DynamicResource LangKeyCommentManager}" Margin="5,5" >
+    <Grid Margin="10">
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
             <StackPanel>
-                <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding CommentModel.IsSpintax}" Margin="15,2" ToolTip="{DynamicResource LangKeyCommentSpintaxFormat}" FontSize="15" FontWeight="Bold" />
-                <customControl:CommentControl x:Name="CommentControl" Comments="{Binding CommentModel.ManageCommentModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                              AddCommentsCommand="{Binding AddCommentsCommand}"
-                                              CommandParameter="{Binding ElementName=CommentControl}"/>
-                <customControl:ManageComment  LstManageCommentModel="{Binding CommentModel.LstDisplayManageCommentModel}" />
-            </StackPanel>
-        </Expander>
-        <actcustom:ActivitySetting x:Name="Activity" Heading="Comment Setting" JobConfiguration="{Binding JobConfiguration}"
+                <actcustom:ActivitySetting x:Name="Activity" Heading="Comment Setting" JobConfiguration="{Binding JobConfiguration}"
                                    ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
                                    NextCommand="{Binding NextCommand}" PreviousCommand="{Binding PreviousCommand}"
                                    AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
-
-    </StackPanel>
+                <Expander Header="{DynamicResource LangKeyCommentManager}" Margin="5,5" >
+                    <StackPanel>
+                        <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding CommentModel.IsSpintax}" Margin="15,2" ToolTip="{DynamicResource LangKeyCommentSpintaxFormat}" FontSize="15" FontWeight="Bold" />
+                        <customControl:CommentControl x:Name="CommentControl" Comments="{Binding CommentModel.ManageCommentModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                              AddCommentsCommand="{Binding AddCommentsCommand}"
+                                              CommandParameter="{Binding ElementName=CommentControl}"/>
+                        <customControl:ManageComment  LstManageCommentModel="{Binding CommentModel.LstDisplayManageCommentModel}" />
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

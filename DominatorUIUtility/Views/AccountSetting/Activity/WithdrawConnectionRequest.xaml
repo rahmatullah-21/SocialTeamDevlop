@@ -38,7 +38,7 @@
                                                            Visibility="{Binding IsCheckedLangKeyCustomUserList,Converter={StaticResource BooleanToVisibilityConverter}}"
                                                            />
                 </StackPanel>
-               
+
                 <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="Bold" Margin="5,10,0,0"/>
                 <StackPanel Orientation="Horizontal"  Margin="15,0,0,5">
                     <CheckBox Content="{DynamicResource LangKeyRequestedBefore}" Margin="5" IsChecked="{Binding IsCheckedRequestedBefore}"/>
@@ -48,7 +48,9 @@
                     <controls:NumericUpDown Value="{Binding Hours}" Minimum="0" Maximum="24" IsEnabled="{Binding IsCheckedRequestedBefore}"/>
                     <Label Content="{DynamicResource LangKeyHours}"/>
                 </StackPanel>
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

@@ -20,7 +20,6 @@ namespace DominatorUIUtility.ViewModel.Startup
     }
     public class SelectActivityViewModel : StartupBaseViewModel, ISelectActivityViewModel
     {
-
         public SelectActivityViewModel(IRegionManager region) : base(region)
         {
             NextCommand = new DelegateCommand(OnNextClick);
@@ -69,6 +68,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         }
         public void SetActivityTypeByNetwork(string network)
         {
+           // regionManager.RequestNavigate("StartupRegion", "SelectActivity");
             SelectActivityModel.LstNetworkActivityType.Clear();
 
             foreach (var name in Enum.GetNames(typeof(ActivityType)))
@@ -82,6 +82,8 @@ namespace DominatorUIUtility.ViewModel.Startup
 
                 }
             }
+           
+
         }
 
     }

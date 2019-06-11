@@ -24,11 +24,15 @@
             <TextBlock Text="Follow Back Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
-        <StackPanel  Margin="15,0,0,5">
-            <RadioButton GroupName="AcceptAndFollowBack" Content="{DynamicResource LangKeyFollowBack}" Margin="5,15,0,5" IsChecked="{Binding IsFollowBack}"/>
-            <RadioButton GroupName="AcceptAndFollowBack" Content="{DynamicResource LangKeyAcceptFollowRequest}" Margin="5" IsChecked="{Binding IsAcceptFollowRequest}"/>
-            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-        </StackPanel>
+            <StackPanel  Margin="15,0,0,5">
+                <RadioButton GroupName="AcceptAndFollowBack" Content="{DynamicResource LangKeyFollowBack}" Margin="5,15,0,5" IsChecked="{Binding IsFollowBack}"/>
+                <RadioButton GroupName="AcceptAndFollowBack" Content="{DynamicResource LangKeyAcceptFollowRequest}" Margin="5" IsChecked="{Binding IsAcceptFollowRequest}"/>
+
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
+
+            </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"

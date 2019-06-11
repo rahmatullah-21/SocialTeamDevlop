@@ -34,7 +34,9 @@
                           IsChecked="{Binding IsCancelReceivedRequest}" Checked="Postoptions_Checked"
                           Unchecked="Postoptions_Unchecked"/>
             </StackPanel>
-            <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}" />
+            <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+            </Expander>
         </StackPanel>
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"

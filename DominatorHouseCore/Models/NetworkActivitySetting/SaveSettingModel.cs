@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System.Text.RegularExpressions;
 
 namespace DominatorHouseCore.Models.NetworkActivitySetting
 {
@@ -22,7 +23,7 @@ namespace DominatorHouseCore.Models.NetworkActivitySetting
             get { return _lstNetworkActivityType; }
             set { SetProperty(ref _lstNetworkActivityType, value); }
         }
-      
+
         private ObservableCollection<QueryInfo> _listQueryInfo = new ObservableCollection<QueryInfo>();
         [ProtoMember(3)]
         public virtual ObservableCollection<QueryInfo> ListQueryInfo
@@ -80,6 +81,15 @@ namespace DominatorHouseCore.Models.NetworkActivitySetting
         {
             get { return _isActivity; }
             set { SetProperty(ref _isActivity, value); }
+        }
+
+
+        public string DisplayActivity
+        {
+            get
+            {
+                return Regex.Replace(ActivityType, "(\\B[A-Z])", " $1");
+            }
         }
 
     }

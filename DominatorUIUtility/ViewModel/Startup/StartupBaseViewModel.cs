@@ -23,7 +23,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         [field: NonSerialized]
         public IRegionManager regionManager;
         [field: NonSerialized]
-        public static Func<string,BaseActivity> GetFaceBookActivity;
+        public static Func<string, BaseActivity> GetFaceBookActivity;
         public static int selectedIndex = 0;
         public static List<string> NavigationList { get; set; }
         public static List<ActivityConfig> ViewModelToSave { get; set; } = new List<ActivityConfig>();
@@ -56,8 +56,10 @@ namespace DominatorUIUtility.ViewModel.Startup
             {
                 var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
                 saveSetting.Save();
+              
                 var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
                 mainViewModel.IsPopUpOpen = false;
+                selectedIndex = 0;
             }
 
             if (selectedIndex >= NavigationList.Count - 1)

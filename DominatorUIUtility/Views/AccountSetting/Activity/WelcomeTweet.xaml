@@ -26,8 +26,9 @@
         </DockPanel>
         <StackPanel>
             <customControl:InputBoxControl Grid.Row="1" Margin="30,5" x:Name="WelcomeMessageText"  InputText="{Binding WelcomeMessageText}" ToolTip="{DynamicResource LangKeyWelcomeTweetFormat}" />
-            <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-
+            <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+            </Expander>
         </StackPanel>
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"

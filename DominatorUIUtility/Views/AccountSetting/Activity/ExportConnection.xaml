@@ -14,7 +14,7 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="ExportConnection"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-   
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -39,7 +39,7 @@
                                                            Visibility="{Binding IsCheckedLangKeyCustomUserList,Converter={StaticResource BooleanToVisibilityConverter}}"
                                                            />
                 </StackPanel>
-              
+
                 <Label  Content="{DynamicResource LangKeySourceFilter}" FontWeight="Bold" Margin="5,10,0,0"/>
                 <StackPanel Orientation="Horizontal"  Margin="15,0,0,5">
                     <CheckBox Content="{DynamicResource LangKeyConnectedWithin}" Margin="5" IsChecked="{Binding IsCheckedConnectedBefore}"/>
@@ -49,7 +49,9 @@
                     <controls:NumericUpDown Value="{Binding Hours}" Minimum="0" Maximum="24" IsEnabled="{Binding IsCheckedConnectedBefore}"/>
                     <Label Content="{DynamicResource LangKeyHours}"/>
                 </StackPanel>
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

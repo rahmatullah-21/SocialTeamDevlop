@@ -24,7 +24,7 @@
             <TextBlock Text="Group Joiner Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
-          
+
             <StackPanel>
                 <Label Content="{DynamicResource LangKeyGroupSources}" FontWeight="Bold" Margin="5,10,0,0"></Label>
                 <StackPanel Visibility="{Binding LinkedInElementsVisibility}"  Margin="15,0,0,5" >
@@ -37,7 +37,9 @@
                                                    WaterMarkText="{DynamicResource LangKeyEnterYourGroupUrlS}"
                                                    Visibility="{Binding IsCheckedCustomGroupList,Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </StackPanel>
-                <actcustom:ActivityJobConfig></actcustom:ActivityJobConfig>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >
