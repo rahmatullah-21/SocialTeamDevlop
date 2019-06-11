@@ -2289,7 +2289,7 @@ namespace EmbeddedBrowser
             return resp;
         }
 
-        public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "")
+        public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0)
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
             var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().top";
