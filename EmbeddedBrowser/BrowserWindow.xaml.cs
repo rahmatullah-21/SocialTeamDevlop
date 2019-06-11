@@ -1653,7 +1653,13 @@ namespace EmbeddedBrowser
             [Description("data-click")]
             DataClick = 16,
             [Description("aria-checked")]
-            AriaChecked = 17
+            AriaChecked = 17,
+            [Description("aria-label")]
+            AriaLabel = 18,
+            [Description("action_click")]
+            ActionClick = 19,
+            [Description("target")]
+            Target = 20
             //aria-checked
         }
 
@@ -2289,7 +2295,7 @@ namespace EmbeddedBrowser
             return resp;
         }
 
-        public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "")
+        public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0)
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
             var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().top";
