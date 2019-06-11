@@ -1,3 +1,37 @@
+Version[1.0.0.57],[7tht-June-19]
+New Features:
+	Instagram :
+		SocioPublisher => Add an option to upload videos as Album.
+	Facebook :
+		Engage => Post comment => Add feature split comment by next line.
+	LinkedIn : 
+		Engage => Someone Post => Added feature to share Linkedin company post.
+	Pinterest :
+		Board => Add Multiple Board By .Csv file 
+	
+Fixed:-
+	Social : 
+		Campaign => Solved issue in deleted campaigns getting back after we restart the software.
+	Instagram : 
+		GrowFollowers => Unfollow => Issue fixed with unfollowing users followed by software.
+		InstaChat => Broadcast Messages => Issue fixed with sending messages.
+	Facebook :
+		Fixed issue with send greetings.
+	LinkedIn : 
+		Scraper => Fixed issue with scraping data using keyword.
+		Grow Connection => Fixed issue with sending connection request using sale Navigator Search URL.
+	Reddit : 
+		Engage => Edit comment => Issue solved in edit comment
+		Sociopublisher=> Issue solved delay between two post
+	YouTube : 
+		Engage => Comment => Fixed issue with commenting.
+	Pinterest : 
+		Grow Followers => Query type custom board => Issue solved in follower after following One user it was showing process completed.
+		Repin => Solved issue in repin it get started and stoped without doing any repin.
+		Pin poster => Edit => Issue solved in edit pin.
+		Repin => Solved issue in failed account is showing in select account.
+		Social publisher => Post configuration => Advanced settings => Automatic hashtag => Issue solved in hashtag was not working for multiple post.
+
 Version[1.0.0.56],[31st-May-19]
 	New Features :-
 		Instagram : 
