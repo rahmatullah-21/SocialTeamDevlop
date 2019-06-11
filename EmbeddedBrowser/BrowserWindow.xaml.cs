@@ -1171,7 +1171,7 @@ namespace EmbeddedBrowser
                     var htmlData = Browser.GetSourceAsync().Result;
                     if (htmlData.Contains("youtube.com/create_channel\">") && htmlData.Contains("id=\"create-channel-identity-lb"))
                     {
-                        Thread.Sleep(5000);
+                        Thread.Sleep(3000);
                         Browser.ExecuteScriptAsync("document.getElementById('create-channel-submit-button').click()");
                         break;
                     }
@@ -1179,8 +1179,8 @@ namespace EmbeddedBrowser
                         break;
                     Thread.Sleep(1000);
                 }
-                Thread.Sleep(1000);
                 Browser.Load("https://www.youtube.com/");
+                Thread.Sleep(1000);
             }
             catch
             {/*ignored*/}
@@ -2281,6 +2281,14 @@ namespace EmbeddedBrowser
             Thread.Sleep(TimeSpan.FromSeconds(delayInSec));
             return resp;
         }
+
+        public async Task<JavascriptResponse> ExecuteScriptAsync(string script, int delayInSec = 2)
+        {
+            var resp = Browser.EvaluateScriptAsync(script).Result;
+            await Task.Delay(TimeSpan.FromSeconds(delayInSec));
+            return resp;
+        }
+
         public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "")
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
@@ -2292,6 +2300,24 @@ namespace EmbeddedBrowser
                 var scriptResponse = ExecuteScript(scriptx, 0);
                 var x = ConvertDoubleAndInt(scriptResponse.Result.ToString());
                 scriptResponse = ExecuteScript(scripty, 0);
+                var y = ConvertDoubleAndInt(scriptResponse.Result.ToString());
+                xAndY = new KeyValuePair<int, int>(x, y);
+                return xAndY;
+            }
+            return xAndY;
+        }
+
+        public async Task<KeyValuePair<int, int>> GetXAndYAsync(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0)
+        {
+            KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
+            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
+            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
+
+            if ((await ExecuteScriptAsync(scriptx, 0)).Success)
+            {
+                var scriptResponse = await ExecuteScriptAsync(scriptx, 0);
+                var x = ConvertDoubleAndInt(scriptResponse.Result.ToString());
+                scriptResponse = await ExecuteScriptAsync(scripty, 0);
                 var y = ConvertDoubleAndInt(scriptResponse.Result.ToString());
                 xAndY = new KeyValuePair<int, int>(x, y);
                 return xAndY;
