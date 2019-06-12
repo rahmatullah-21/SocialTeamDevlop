@@ -3574,4 +3574,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySearchPostSortBy">Search Post Sort by</system:String>
     <system:String x:Key="LangKeySpliteCommentWithNextLine">Split Comment By Next Line</system:String>
     <system:String x:Key="LangKeySpliteNextValueIntoNextComment">Create Multiple Comment From Single Comment, Splitting By Next Line</system:String>
+    <system:String x:Key="LangKeyAddMultipleMessageSeparatedByNewLine">Add Multiple Message Separated By New Line</system:String>
 </ResourceDictionary>
