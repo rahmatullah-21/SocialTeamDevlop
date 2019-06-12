@@ -6,6 +6,6 @@ namespace DominatorHouseCore.StartupActivity
     public abstract class BaseActivity
     {
         public abstract List<string> GetQueryType();
-        //public abstract Type GetEnumType();
+        public abstract Type GetEnumType();
     }
 }

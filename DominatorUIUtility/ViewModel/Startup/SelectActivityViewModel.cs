@@ -8,6 +8,8 @@ using System.Linq;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.Interfaces.StartUp;
 using DominatorHouseCore.Models;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -60,7 +62,8 @@ namespace DominatorUIUtility.ViewModel.Startup
                 Dialog.ShowDialog("Error", "Please select atleast one activity.");
                 return;
             }
-            NavigationList = new System.Collections.Generic.List<string>();
+            NavigationList = new List<string>();
+            LstGlobalQuery = new Dictionary<Type, List<QueryInfo>>();
             NavigationList.Add("SelectActivity");
             allSelectedActivity.ForEach(name => NavigationList.Add(name.ActivityType));
             SocialNetworkActivity.RegisterNetwork();
@@ -68,7 +71,6 @@ namespace DominatorUIUtility.ViewModel.Startup
         }
         public void SetActivityTypeByNetwork(string network)
         {
-           // regionManager.RequestNavigate("StartupRegion", "SelectActivity");
             SelectActivityModel.LstNetworkActivityType.Clear();
 
             foreach (var name in Enum.GetNames(typeof(ActivityType)))
@@ -79,12 +81,8 @@ namespace DominatorUIUtility.ViewModel.Startup
                     {
                         ActivityType = name
                     });
-
                 }
             }
-           
-
         }
-
     }
 }

@@ -271,6 +271,36 @@
     <Compile Include="CustomControl\AutoReplyMessege.xaml.cs">
       <DependentUpon>AutoReplyMessege.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml.cs">
+      <DependentUpon>AutoReplyOptionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\EventCreaterManager.xaml.cs">
+      <DependentUpon>EventCreaterManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\FbMultiMediaControl.xaml.cs">
+      <DependentUpon>FbMultiMediaControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\InviterOptionsControl.xaml.cs">
+      <DependentUpon>InviterOptionsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\LikerCommentorConfiguration.xaml.cs">
+      <DependentUpon>LikerCommentorConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\ManageEventDetails.xaml.cs">
+      <DependentUpon>ManageEventDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\ManageFriendsOptionControl.xaml.cs">
+      <DependentUpon>ManageFriendsOptionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\PostOptionCustomControl.xaml.cs">
+      <DependentUpon>PostOptionCustomControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\SelectOptionControl.xaml.cs">
+      <DependentUpon>SelectOptionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FacebookCustomControl\UnfriendOptionsControl.xaml.cs">
+      <DependentUpon>UnfriendOptionsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\PrivateBlacklistUserControl.xaml.cs">
       <DependentUpon>PrivateBlacklistUserControl.xaml</DependentUpon>
     </Compile>
@@ -1148,6 +1178,46 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\AutoReplyMessege.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\EventCreaterManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\FbMultiMediaControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\InviterOptionsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\LikerCommentorConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\ManageEventDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\ManageFriendsOptionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\PostOptionCustomControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\SelectOptionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\FacebookCustomControl\UnfriendOptionsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2159,6 +2229,7 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -395,6 +395,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
         public ActivityType ActivityType { get; set; }
+        public string Network { get; set; }
 
         public ICommand CustomFilterCommand
         {
@@ -505,11 +506,11 @@ namespace DominatorUIUtility.CustomControl
                     Dialog.ShowDialog("Error", "Please select atleast one query.");
                     return;
                 }
-                var network = SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social ? SocinatorInitialize.AccountModeActiveSocialNetwork : SocinatorInitialize.ActiveSocialNetwork;
+               // var network = SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social ? SocinatorInitialize.AccountModeActiveSocialNetwork : SocinatorInitialize.ActiveSocialNetwork;
                 SaveFileDialog saveFiledialog = new SaveFileDialog
                 {
                     Filter = "CSV file (.csv)|*.csv",
-                    FileName = network + "-" + ActivityType.ToString() + "-Query-" + DateTimeUtilities.GetCurrentEpochTime(DateTime.Now)
+                    FileName = Network + "-" + ActivityType.ToString() + "-Query-" + DateTimeUtilities.GetCurrentEpochTime(DateTime.Now)
                 };
 
                 if (saveFiledialog.ShowDialog() == true)
@@ -521,7 +522,7 @@ namespace DominatorUIUtility.CustomControl
                         {
                             if (x.IsQuerySelected)
                             {
-                                streamWriter.WriteLine(network + "," + ActivityType.ToString() + "," + x.QueryType + "," + x.QueryValue);
+                                streamWriter.WriteLine(Network + "," + ActivityType.ToString() + "," + x.QueryType + "," + x.QueryValue);
                             }
                         });
                         ToasterNotification.ShowSuccess("Query successfully exported.");

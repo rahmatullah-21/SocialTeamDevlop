@@ -28,9 +28,9 @@
                 <StackPanel>
                 <TextBlock Text="{DynamicResource LangKeyKeywords}" FontWeight="SemiBold" FontSize="16" Margin="10,5"/>
                 <customControl:InputBoxControl Margin="10,5" x:Name="Keywords"   InputText="{Binding Keyword}"/>
-                    <StackPanel Margin="5,5">
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5,5">
                         <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-                    </StackPanel>
+                    </Expander>
                 </StackPanel>
             
         </ScrollViewer>

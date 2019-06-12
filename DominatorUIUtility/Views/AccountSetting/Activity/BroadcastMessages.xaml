@@ -27,12 +27,12 @@
         
             <StackPanel>
                 <actcustom:ActivitySetting x:Name="Activity" HeaderNextPreViousVisiblity="Collapsed"
-                                           JobConfiguration="{Binding JobConfiguration}"
+                                           JobConfiguration="{Binding JobConfiguration}" IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
                                            NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                            AddQueryCommand="{Binding AddQueryToMessageCommand}" CommandParameter="{Binding ElementName=Activity}"
                                            NextButtonContent="{Binding NextButtonContent}"
-                                           DeleteQueryCommand="{Binding DeleteQueryCommand}" DeleteMulipleCommand="{Binding DeleteMulipleCommand}" />
+                                           DeleteQueryCommand="{Binding DeleteQueryCommand}" DeleteMulipleCommand="{Binding DeleteMultipleCommand}" />
                 <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
                     <StackPanel>
                         <CheckBox Name="ChckSpintax" Margin="0,5,15,0" Content="{DynamicResource LangKeySpintax}" FontWeight="SemiBold" Foreground="Black" 

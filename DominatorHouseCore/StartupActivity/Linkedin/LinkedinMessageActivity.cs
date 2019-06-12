@@ -7,6 +7,11 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
 {
     class LinkedinMessageActivity : BaseActivity
     {
+        public override Type GetEnumType()
+        {
+            return typeof(LDMessengerQueryParameters);
+        }
+
         public override List<string> GetQueryType()
         {
             return Enum.GetNames(typeof(LDMessengerQueryParameters)).ToList();

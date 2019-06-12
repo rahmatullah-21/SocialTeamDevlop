@@ -431,7 +431,10 @@ namespace DominatorUIUtility.CustomControl
 
             CampaignName = $"{SocialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
             if (_queryControl != null)
+            {
                 _queryControl.ActivityType = _activityType;
+                _queryControl.Network = SocialNetwork.ToString();
+            }
             UpdateJobConfigurationSetting();
         }
 
@@ -1816,8 +1819,10 @@ namespace DominatorUIUtility.CustomControl
                 _mainGrid.DataContext = ObjViewModel;
                 _accountGrowthModeHeader.DataContext = this;
                 if (_queryControl != null)
+                {
                     _queryControl.ActivityType = _activityType;
-
+                    _queryControl.Network = SocialNetwork.ToString();
+                }
                 UpdateJobConfigurationSetting();
             }
             catch (Exception ex)

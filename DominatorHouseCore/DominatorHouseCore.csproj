@@ -472,6 +472,8 @@
     <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
     <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
     <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
+    <Compile Include="Enums\FdQuery\PostOptions.cs" />
+    <Compile Include="Enums\FdQuery\ReactionType.cs" />
     <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
     <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
     <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
@@ -577,6 +579,16 @@
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
+    <Compile Include="Models\FacebookModels\EventCreaterManagerModel.cs" />
+    <Compile Include="Models\FacebookModels\FbMultiMediaModel.cs" />
+    <Compile Include="Models\FacebookModels\InviterDetails.cs" />
+    <Compile Include="Models\FacebookModels\InviterOptions.cs" />
+    <Compile Include="Models\FacebookModels\LikerCommentorConfigModel.cs" />
+    <Compile Include="Models\FacebookModels\ManageCustomCommentsModel.cs" />
+    <Compile Include="Models\FacebookModels\ManageFriends.cs" />
+    <Compile Include="Models\FacebookModels\MultiMediaValueModel.cs" />
+    <Compile Include="Models\FacebookModels\PostLikeCommentorModel.cs" />
+    <Compile Include="Models\FacebookModels\UnfriendOption.cs" />
     <Compile Include="Models\IModuleSetting.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
@@ -930,6 +942,7 @@
   <ItemGroup>
     <Resource Include="Images\delete.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

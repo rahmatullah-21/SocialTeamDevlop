@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
              mc:Ignorable="d" 
-            xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
     <i:Interaction.Triggers>
@@ -15,10 +16,46 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Post Liker Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Post Liker Settings" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
 
+                <customControl1:PostOptionCustomControl PostLikeCommentorModel="{Binding PostLikeCommentorModel}" />
+                <Expander Header="{DynamicResource LangKeyPagePostReactBy}" Margin="5,5"
+                                   IsExpanded="true">
+                    <StackPanel Orientation="Vertical" Margin="15,10">
+                        <CheckBox IsChecked="{Binding IsActionasOwnAccountChecked}" Margin="5" FontSize="12" FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnAccount}"/>
+
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox IsChecked="{Binding IsActionasPageChecked}" Margin="5" FontSize="12" FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnPage}"/>
+                            <customControl1:SelectOptionControl x:Name="BtnSelectOwnPages" SelectedInputOption="{DynamicResource LangKeySelectFriends}"
+                                                               LstSelectedInput="{Binding ListOwnPageUrl}" InputText="{Binding OwnPageUrl}" IsSelectButtonVisible="False"                                                                                                                          
+                                                               SelectedOptionDisplayName="{DynamicResource LangKeySelectFriends}" Margin="25,0"
+                                                                Visibility="{Binding IsActionasPageChecked,Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </StackPanel>
+
+                    </StackPanel>
+                </Expander>
+                <Expander Header="{DynamicResource LangKeyReactionType}" Margin="5,5"
+                                   IsExpanded="true">
+                    <customControl1:LikerCommentorConfiguration x:Name="LikerCommentorConfig" IsLikeTypeFilterRequired="True"  IsLikeOptionVisible="True" LikerCommentorConfig="{Binding LikerCommentorConfigModel}"/>
+                </Expander>
+
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
+
 </UserControl>

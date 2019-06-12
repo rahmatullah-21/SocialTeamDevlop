@@ -10,7 +10,6 @@ namespace DominatorHouseCore.StartupActivity.Instagram
             {
                 case "Follow":
                 case "BroadcastMessages":
-                case "Reposter":
                 case "DownloadScraper":
                 case "UserScraper":
                     return new InstagramUserActivity();

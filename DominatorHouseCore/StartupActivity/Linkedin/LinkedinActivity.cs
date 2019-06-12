@@ -16,10 +16,13 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
                     return new LinkedinConnectionActivity();
                 case "BroadcastMessages":
                     return new LinkedinMessageActivity();
-                case "CompanyScraper":
-                case "JobScraper":
                 case "UserScraper":
+                case "SalesNavigatorUserScraper":
                     return new LinkedinScraperActivity();
+                case "JobScraper":
+                case "CompanyScraper":
+                case "SalesNavigatorCompanyScraper":
+                    return new LinkedinCompanyScraperActivity();
                 default:
                     return new LinkedinEngageActivity();
             }

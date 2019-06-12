@@ -8,6 +8,11 @@ namespace DominatorHouse.Utilities.Facebook
 {
     class FacebookFanepageLikerActivity : BaseActivity
     {
+        public override Type GetEnumType()
+        {
+            return typeof(FanpageLikerQueryParameters);
+        }
+
         public override List<string> GetQueryType()
         {
             return Enum.GetNames(typeof(FanpageLikerQueryParameters)).ToList();

@@ -27,10 +27,11 @@
             <StackPanel>
               
                 <actcustom:ActivitySetting HeaderNextPreViousVisiblity="Collapsed"
+                                           IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            JobConfiguration="{Binding JobConfiguration}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}" 
                                            DeleteQueryCommand="{Binding DeleteQueryCommand}"
-                                           DeleteMulipleCommand="{Binding DeleteMulipleCommand}"
+                                           DeleteMulipleCommand="{Binding DeleteMultipleCommand}"
                                            AddQueryCommand="{Binding AddQueryToMsgCommand}"
                                            NextButtonContent="{Binding NextButtonContent}"/>
                   <Expander  Header="{DynamicResource LangKeyManageAnswer}" Margin="5,5,5,0" >

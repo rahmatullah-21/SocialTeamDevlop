@@ -16,6 +16,7 @@
     </i:Interaction.Triggers>
     <Grid Margin="10">
         <actcustom:ActivitySetting Heading="Community Scraper Setting" JobConfiguration="{Binding JobConfiguration}"
+                                   IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                    ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
                                    NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                    AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>

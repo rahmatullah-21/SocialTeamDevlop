@@ -15,6 +15,7 @@ using ProtoBuf;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.StartupActivity;
+using DominatorHouseCore.LogHelper;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -26,6 +27,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         public static Func<string, BaseActivity> GetFaceBookActivity;
         public static int selectedIndex = 0;
         public static List<string> NavigationList { get; set; }
+        public static Dictionary<Type, List<QueryInfo>> LstGlobalQuery { get; set; }
         public static List<ActivityConfig> ViewModelToSave { get; set; } = new List<ActivityConfig>();
         public StartupBaseViewModel(IRegionManager region)
         {
@@ -104,20 +106,33 @@ namespace DominatorUIUtility.ViewModel.Startup
             get { return _isNonQuery; }
             set { SetProperty(ref _isNonQuery, value); }
         }
-        private Dictionary<Type, ObservableCollection<QueryInfo>> _lstGlobalQuery = new Dictionary<Type, ObservableCollection<QueryInfo>>();
 
-        public Dictionary<Type, ObservableCollection<QueryInfo>> LstGlobalQuery
-        {
-            get { return _lstGlobalQuery; }
-            set { SetProperty(ref _lstGlobalQuery , value); }
-        }
 
         private bool _isUseGlobalQuery;
 
         public bool IsUseGlobalQuery
         {
             get { return _isUseGlobalQuery; }
-            set { SetProperty(ref _isUseGlobalQuery, value); }
+            set
+            {
+                SetProperty(ref _isUseGlobalQuery, value);
+                if (_isUseGlobalQuery && LstGlobalQuery.ContainsKey(CurrentType))
+                {
+                    SavedQueries.Clear();
+                    LstGlobalQuery[CurrentType].ForEach(query =>
+                    {
+                        var currentQuery = new QueryInfo
+                        {
+                            QueryType = query.QueryType,
+                            QueryTypeDisplayName = query.QueryType,
+                            QueryValue = query.QueryValue
+                        };
+                        SavedQueries.Add(currentQuery);
+                    });
+
+
+                }
+            }
         }
         public Type CurrentType { get; set; }
         #endregion
@@ -128,6 +143,11 @@ namespace DominatorUIUtility.ViewModel.Startup
         {
             try
             {
+                bool IsQueryOfCurrentModule = false;
+                var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+                var network = actvity.QueryControl.Network = viewModel.SelectedNetwork;
+                var _activityType = actvity.QueryControl.ActivityType = (ActivityType)Enum.Parse(typeof(ActivityType), NavigationList[selectedIndex]);
+               
                 if (string.IsNullOrEmpty(actvity.QueryControl.CurrentQuery.QueryValue) && actvity.QueryControl.QueryCollection.Count != 0)
                 {
                     actvity.QueryControl.QueryCollection.ForEach(query =>
@@ -135,11 +155,24 @@ namespace DominatorUIUtility.ViewModel.Startup
                         var currentQuery = actvity.QueryControl.CurrentQuery.Clone() as QueryInfo;
 
                         if (currentQuery == null) return;
-
-                        currentQuery.QueryValue = query;
-                        currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
-                        currentQuery.QueryPriority = SavedQueries.Count + 1;
-
+                        var lstquery = query.Split('\t').ToList();
+                        if (lstquery.Count > 1)
+                            if (network.ToString() == lstquery[0] && lstquery[1] == _activityType.ToString())
+                            {
+                                currentQuery.QueryType = lstquery[2];
+                                currentQuery.QueryValue = lstquery[3];
+                                currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                                currentQuery.QueryPriority = SavedQueries.Count + 1;
+                                IsQueryOfCurrentModule = true;
+                            }
+                            else
+                                return;
+                        else
+                        {
+                            currentQuery.QueryValue = query;
+                            currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
+                            currentQuery.QueryPriority = SavedQueries.Count + 1;
+                        }
                         if (SavedQueries.Any(x => x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
                         {
                             Dialog.ShowDialog("Warning", "Query already exist.");
@@ -147,9 +180,16 @@ namespace DominatorUIUtility.ViewModel.Startup
                         }
                         SavedQueries.Add(currentQuery);
                     });
+                    if (!IsQueryOfCurrentModule)
+                        GlobusLogHelper.log.Info(Log.CustomMessage, network, viewModel.SelectAccount.UserName, _activityType, $"Query can't add because it may not related to {network}  {_activityType} module.");
                 }
                 else
                 {
+                    if (string.IsNullOrEmpty(actvity.QueryControl.CurrentQuery.QueryValue))
+                    {
+                        Dialog.ShowDialog("Warning", "Please type some Query.");
+                        return;
+                    }
                     actvity.QueryControl.CurrentQuery.QueryTypeDisplayName = actvity.QueryControl.CurrentQuery.QueryType;
                     var currentQuery = actvity.QueryControl.CurrentQuery.Clone() as QueryInfo;
 
@@ -175,12 +215,15 @@ namespace DominatorUIUtility.ViewModel.Startup
         }
         protected void NevigateNext()
         {
+            if (CurrentType != null)
+                if (!LstGlobalQuery.ContainsKey(CurrentType))
+                    LstGlobalQuery.Add(CurrentType, SavedQueries.ToList());
 
             if (selectedIndex > 0 && !ValidateRunningTime())
                 return;
             if (!IsNonQuery && selectedIndex > 0 && !ValidateQuery())
                 return;
-
+            bool IsNeedToStart = false;
             if (NextButtonContent == "LangKeyFinish".FromResourceDictionary())
             {
                 var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
@@ -189,9 +232,12 @@ namespace DominatorUIUtility.ViewModel.Startup
                 var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
                 mainViewModel.IsPopUpOpen = false;
                 selectedIndex = 0;
+                IsNeedToStart = true;
+                regionManager.Regions["StartupRegion"].RemoveAll();
+                regionManager.RequestNavigate("StartupRegion", "SelectActivity");
             }
 
-            if (selectedIndex >= NavigationList.Count - 1)
+            if (selectedIndex >= NavigationList.Count - 1 || IsNeedToStart)
                 return;
             selectedIndex++;
             var next = NavigationList[selectedIndex];
@@ -228,9 +274,18 @@ namespace DominatorUIUtility.ViewModel.Startup
             ListQueryType.Clear();
             var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
             if (viewModel.SelectedNetwork == "Facebook")
-                ListQueryType = GetFaceBookActivity(activityType).GetQueryType();
+            {
+                var activity = GetFaceBookActivity(activityType);
+                ListQueryType = activity.GetQueryType();
+                CurrentType = activity.GetEnumType();
+            }
             else
-                ListQueryType = SocialNetworkActivity.GetNetworkActivity(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
+            {
+                var activity = SocialNetworkActivity.GetNetworkActivity(viewModel.SelectedNetwork).GetActivity(activityType);
+                ListQueryType = activity.GetQueryType();
+                CurrentType = activity.GetEnumType();
+
+            }
             if (selectedIndex == NavigationList.Count - 1)
                 NextButtonContent = "LangKeyFinish".FromResourceDictionary();
             else

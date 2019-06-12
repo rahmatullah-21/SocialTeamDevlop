@@ -70,7 +70,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
             AddQueryToMessageCommand = new DelegateCommand<object>(AddQueryToMessageControl);
 
-            DeleteQueryCommand = new DelegateCommand<object>( DeleteQuery);
+            DeleteQueryCommand = new DelegateCommand<object>(DeleteQuery);
             DeleteMultipleCommand = new DelegateCommand(DeleteMultiple);
             JobConfiguration = new JobConfiguration
             {
@@ -87,7 +87,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public ICommand AddMessagesCommand { get; set; }
         public ICommand AddQueryToMessageCommand { get; set; }
         public ICommand DeleteQueryCommand { get; set; }
-        public ICommand DeleteMultipleCommand { get; set; } 
+        public ICommand DeleteMultipleCommand { get; set; }
         #endregion
 
         private BroadcastMessagesModel _broadcastMessagesModel = new BroadcastMessagesModel();

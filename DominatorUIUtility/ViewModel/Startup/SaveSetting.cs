@@ -6,6 +6,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using Prism.Regions;
 using System.Collections.Generic;
 
 namespace DominatorUIUtility.ViewModel.Startup
@@ -17,8 +18,10 @@ namespace DominatorUIUtility.ViewModel.Startup
     public class SaveSetting : ISaveSetting
     {
         ISelectActivityViewModel _selectActivityViewModel;
-        public SaveSetting(ISelectActivityViewModel selectActivityViewModel)
+        IRegionManager _regionManager;
+        public SaveSetting(ISelectActivityViewModel selectActivityViewModel, IRegionManager region)
         {
+            _regionManager = region;
             _selectActivityViewModel = selectActivityViewModel;
         }
         public void Save()
@@ -32,6 +35,7 @@ namespace DominatorUIUtility.ViewModel.Startup
                 SaveTemplateToAccounts(templateId, account, data.Model, data.ActivityType);
                 dominatorScheduler.ScheduleNextActivity(account, data.ActivityType);
             });
+            
         }
         private void SaveTemplateToAccounts(string templateId, DominatorAccountModel account, dynamic Model, ActivityType _activityType)
         {

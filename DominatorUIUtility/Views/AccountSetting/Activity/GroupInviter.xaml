@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
              mc:Ignorable="d" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
     <i:Interaction.Triggers>
@@ -14,11 +15,33 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="GroupInviter"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Group Inviter Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
 
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Group Inviter Settings" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
+                <customControl1:InviterOptionsControl InviterOptionsModel="{Binding InviterOptionsModel}" IsInviteInMessageVisible="False"/>
+
+                <CheckBox Margin="15,5,0,0" Name="ChkboxFormemberFilter" FontWeight="SemiBold" Foreground="Black" IsChecked="{Binding IsFilterMemberChkd}" Content="{DynamicResource LangKeySkipFriendsAlreadyMemberOfGroup}" />
+
+                <RadioButton Content="{DynamicResource LangKeySelectAccountDetails}" IsChecked="{Binding IsSelctDetails}" Checked="SelectAccountDetails_Click"/>
+
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
+
+
 </UserControl>

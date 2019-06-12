@@ -8,6 +8,11 @@ namespace DominatorHouse.Utilities.Facebook
 {
     class FacebookPlaceActivity : BaseActivity
     {
+        public override Type GetEnumType()
+        {
+            return null;// typeof(PlaceQueryParameters);
+        }
+
         public override List<string> GetQueryType()
         {
             return null;// Enum.GetNames(typeof(PlaceQueryParameters)).ToList();

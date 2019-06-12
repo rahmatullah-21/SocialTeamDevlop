@@ -104,7 +104,7 @@
                             </Button>
                             <Button Background="Transparent" Command="{Binding ModuleSettingCloseCommand}">
                                 <Button.Content>
-                                    <Rectangle Fill="White" Height="15" Width="15">
+                                    <Rectangle Fill="White" Height="15" Width="15" ToolTip="{DynamicResource LangKeyClose}">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}" />
                                         </Rectangle.OpacityMask>

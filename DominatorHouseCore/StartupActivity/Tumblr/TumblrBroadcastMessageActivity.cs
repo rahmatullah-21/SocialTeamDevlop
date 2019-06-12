@@ -7,6 +7,12 @@ namespace DominatorHouseCore.StartupActivity.Tumblr
 {
     class TumblrBroadcastMessageActivity : BaseActivity
     {
+        public override Type GetEnumType()
+        {
+            return typeof(TumblrBroadcastMessageQuery);
+
+        }
+
         public override List<string> GetQueryType()
         {
             return Enum.GetNames(typeof(TumblrBroadcastMessageQuery)).ToList();

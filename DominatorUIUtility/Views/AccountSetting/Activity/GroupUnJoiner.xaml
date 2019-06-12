@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
     <i:Interaction.Triggers>
@@ -20,26 +21,13 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Group Joiner Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" >
+            <TextBlock Text="Group UnJoiner" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
-
-            <StackPanel>
-                <Label Content="{DynamicResource LangKeyGroupSources}" FontWeight="Bold" Margin="5,10,0,0"></Label>
-                <StackPanel Visibility="{Binding LinkedInElementsVisibility}"  Margin="15,0,0,5" >
-                    <CheckBox Content="{DynamicResource LangKeyBySoftware}" Margin="5" IsChecked="{Binding IsCheckedBySoftware}"/>
-                    <CheckBox Content="{DynamicResource LangKeyOutsideSoftware}" Margin="5" IsChecked="{Binding IsCheckedOutSideSoftware}"/>
-                    <CheckBox Content="{DynamicResource LangKeyCustomGroupList}" Margin="5" IsChecked="{Binding IsCheckedCustomGroupList}"/>
-                    <customControl:InputBoxControl Margin="25,5" x:Name="CustomGroupListInputBox" 
-                                                   InputText="{Binding UrlInput}"
-                                                   SaveCommand="{Binding SaveCommand}"
-                                                   WaterMarkText="{DynamicResource LangKeyEnterYourGroupUrlS}"
-                                                   Visibility="{Binding IsCheckedCustomGroupList,Converter={StaticResource BooleanToVisibilityConverter}}" />
-                </StackPanel>
-                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
-                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
-                </Expander>
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+                <customControl1:UnfriendOptionsControl UnfriendOptionModel="{Binding UnfriendOptionModel}" />
+                <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}" />
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >
@@ -47,4 +35,5 @@
                                           NextButtonContent="{Binding NextButtonContent}"/>
         </DockPanel>
     </Grid>
+  
 </UserControl>

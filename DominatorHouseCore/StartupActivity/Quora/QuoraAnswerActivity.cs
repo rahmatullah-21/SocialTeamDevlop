@@ -7,6 +7,11 @@ namespace DominatorHouseCore.StartupActivity.Quora
 {
     public class QuoraAnswerActivity : BaseActivity
     {
+        public override Type GetEnumType()
+        {
+            return typeof(AnswerQueryParameters);
+        }
+
         public override List<string> GetQueryType()
         {
             return Enum.GetNames(typeof(AnswerQueryParameters)).ToList();

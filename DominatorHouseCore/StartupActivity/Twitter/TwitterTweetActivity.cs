@@ -7,6 +7,11 @@ namespace DominatorHouseCore.StartupActivity.Twitter
 {
     class TwitterTweetActivity : BaseActivity
     {
+        public override Type GetEnumType()
+        {
+            return typeof(TdTweetInteractionQueryEnum);
+        }
+
         public override List<string> GetQueryType()
         {
             return Enum.GetNames(typeof(TdTweetInteractionQueryEnum)).ToList();

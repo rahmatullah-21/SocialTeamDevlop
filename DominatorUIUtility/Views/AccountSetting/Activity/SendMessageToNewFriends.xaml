@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
     <i:Interaction.Triggers>
@@ -14,11 +15,54 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="SendMessageToNewFriends"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Send Message To New Friends Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
 
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Send Message To New Friends" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{DynamicResource LangKeySourceFilter}" Margin="4,10,4,10" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,15,30">
+                        <TextBlock Margin="10,5,15,5" Text="{DynamicResource LangKeyFriendsShouldHaveBeenAddedBefore}" FontWeight="SemiBold" Foreground="Black" FontSize="13" />
+                        <controls:NumericUpDown Value="{Binding DaysBefore.StartValue}" FontWeight="SemiBold" Foreground="Black" Minimum="0" />
+                        <Label Content="{DynamicResource LangKeyTo}" FontWeight="SemiBold" Foreground="Black" />
+                        <controls:NumericUpDown Value="{Binding DaysBefore.EndValue}"  FontWeight="SemiBold" Foreground="Black" Minimum="0"/>
+                        <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
+                    </StackPanel>
+                </StackPanel>
+                <Expander Header="{DynamicResource LangKeyManageMessages}" Margin="5,5"
+                                  IsExpanded="true">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name="ChckAcceptFilter" Margin="5,5,15,0" Content="{DynamicResource LangKeySendMessageWithLinkAsPreview}" FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding IsMessageAsPreview}" />
+                            <CheckBox Name="ChckSpintax" Margin="0,5,15,0" Content="{DynamicResource LangKeySpintax}" FontWeight="SemiBold" Foreground="Black"  ToolTip="{StaticResource LangKeyMessageSpintaxFormat}" IsChecked="{Binding IsSpintaxChecked}" />
+                            <CheckBox Name="ChckTag" Margin="0,5,0,0" Content="{DynamicResource LangKeyTag}" FontWeight="SemiBold" Foreground="Black" ToolTip="{StaticResource LangKeyMessageTextFormat}" IsChecked="{Binding IsTagChecked}" />
+
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="8,5">
+                            <customControl:MessageMediaControl x:Name="MessageControl" Messages="{Binding ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                   AddMessagesCommand="{Binding AddMessagesCommand}" CommandParameter="{Binding ElementName=MessageControl}"/>
+
+                            <customControl:ManageMediaMessages LstManageMessagesModel="{Binding LstManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
+
 </UserControl>

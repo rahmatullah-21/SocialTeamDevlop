@@ -38,7 +38,6 @@ using System.Windows.Input;
 using DominatorUIUtility.Views;
 using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
-using DominatorUIUtility.Views.AccountSetting;
 using DominatorUIUtility.ViewModel.Startup;
 
 namespace DominatorUIUtility.ViewModel

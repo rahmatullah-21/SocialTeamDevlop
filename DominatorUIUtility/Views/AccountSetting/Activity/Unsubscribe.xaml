@@ -49,7 +49,9 @@
                         <Label Content="{DynamicResource LangKeyHours}"/>
                         <Label Content="*** Not applicable for custom users list."/>
                     </StackPanel>
-                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                        <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                    </Expander>
                 </StackPanel>
 
                 <StackPanel Visibility="{Binding YoutubeElementsVisibility}">
