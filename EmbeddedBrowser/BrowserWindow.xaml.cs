@@ -2573,5 +2573,33 @@ namespace EmbeddedBrowser
             }
             return xAndY;
         }
- }
+        public IFrame GetFrame(string url)
+        {
+            IFrame frame = null;
+
+            var identifiers = Browser.GetBrowser().GetFrameIdentifiers();
+
+            foreach (var i in identifiers)
+            {
+
+                var v = Browser.GetBrowser().GetFrameNames();
+                frame = Browser.GetBrowser().GetFrame(i);
+                if (frame.Url.Contains("follow"))
+                    return frame;
+
+            }
+            return null;
+        }
+        public async Task<string> GetElementValueAsyncFromFrame(IFrame frame, string script)
+        {
+            await Task.Delay(1000);
+            var jsResponse = await frame.EvaluateScriptAsync(script);
+            return jsResponse.Success ? jsResponse.Result?.ToString() : jsResponse.Message?.ToString();
+        }
+        public async Task ExecuteJSAsyncFromFrame(IFrame frame, string script)
+        {
+            await Task.Delay(1000);
+            frame.ExecuteJavaScriptAsync(script);
+        }
+    }
 }
