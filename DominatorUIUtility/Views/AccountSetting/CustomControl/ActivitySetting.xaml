@@ -8,7 +8,11 @@
              xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
               xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl">
+             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
+             xmlns:convert="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <convert:BooleanToVisibilityConverter IsInversed="True" x:Key="BoolToVisible"/>
+    </UserControl.Resources>
     <Grid Margin="5,0" Name="Setting">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -20,10 +24,13 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible"  HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel Grid.Row="1">
-                <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5">
-                    <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
+                <CheckBox Content="Use Global query" IsChecked="{Binding IsUseGlobalQuery}" Margin="5"/>
+                <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5" 
+                          Visibility="{Binding IsUseGlobalQuery,Converter={StaticResource BoolToVisible}}">
+                   <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
                                                       ListQueryInfo="{Binding SavedQueries}" DeleteQueryCommand="{Binding DeleteQueryCommand}" DeleteMulipleCommand="{Binding DeleteMulipleCommand}"
                                                       AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
+            
                 </Expander>
                 <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5">
                     <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>

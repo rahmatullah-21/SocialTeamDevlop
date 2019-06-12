@@ -81,6 +81,19 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         public static readonly DependencyProperty SavedQueriesProperty =
             DependencyProperty.Register("SavedQueries", typeof(ObservableCollection<QueryInfo>), typeof(ActivitySetting), new PropertyMetadata(new ObservableCollection<QueryInfo>()));
 
+
+
+        public bool IsUseGlobalQuery
+        {
+            get { return (bool)GetValue(IsUseGlobalQueryProperty); }
+            set { SetValue(IsUseGlobalQueryProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsUseGlobalQuery.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsUseGlobalQueryProperty =
+            DependencyProperty.Register("IsUseGlobalQuery", typeof(bool), typeof(ActivitySetting), new PropertyMetadata(false));
+
+
         public ICommand NextCommand
         {
             get { return (ICommand)GetValue(NextCommandProperty); }

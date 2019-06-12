@@ -33,6 +33,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             regionManager = region;
             AddQueryCommand = new DelegateCommand<ActivitySetting>(AddQuery);
         }
+
         #region Commands
 
         public ICommand NextCommand { get; set; }
@@ -44,69 +45,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         public ICommand AddQueryCommand { get; set; }
         #endregion
 
-        protected void NevigateNext()
-        {
-
-            if (selectedIndex > 0 && !ValidateRunningTime())
-                return;
-            if (!IsNonQuery && selectedIndex > 0 && !ValidateQuery())
-                return;
-
-            if (NextButtonContent == "LangKeyFinish".FromResourceDictionary())
-            {
-                var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
-                saveSetting.Save();
-              
-                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
-                mainViewModel.IsPopUpOpen = false;
-                selectedIndex = 0;
-            }
-
-            if (selectedIndex >= NavigationList.Count - 1)
-                return;
-            selectedIndex++;
-            var next = NavigationList[selectedIndex];
-            regionManager.RequestNavigate("StartupRegion", next);
-        }
-        public bool ValidateRunningTime()
-        {
-            if (JobConfiguration.RunningTime.All(time => time.Timings.Count == 0))
-            {
-                Dialog.ShowDialog("Error", "Please add at least one time range when to run and stop the activity.");
-                return false;
-            }
-            return true;
-        }
-        public bool ValidateQuery()
-        {
-            if (SavedQueries.Count == 0)
-            {
-                Dialog.ShowDialog("Error", "Please add at least one query.");
-                return false;
-            }
-            return true;
-        }
-        protected void NevigatePrevious()
-        {
-            if (selectedIndex <= 0)
-                return;
-            selectedIndex--;
-            var previous = NavigationList[selectedIndex];
-            regionManager.RequestNavigate("StartupRegion", previous);
-        }
-        public void OnLoad(string activityType)
-        {
-            ListQueryType.Clear();
-            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-            if (viewModel.SelectedNetwork == "Facebook")
-                ListQueryType = GetFaceBookActivity(activityType).GetQueryType();
-            else
-                ListQueryType = SocialNetworkActivity.GetNetworkActivity(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
-            if (selectedIndex == NavigationList.Count - 1)
-                NextButtonContent = "LangKeyFinish".FromResourceDictionary();
-            else
-                NextButtonContent = "LangKeyNext".FromResourceDictionary();
-        }
+        #region Properties
 
         private JobConfiguration _jobConfiguration;
         [ProtoMember(1)]
@@ -158,13 +97,32 @@ namespace DominatorUIUtility.ViewModel.Startup
             get { return _nextButtonContent; }
             set { SetProperty(ref _nextButtonContent, value); }
         }
-        private bool _isNonQuery;
 
+        private bool _isNonQuery;
         public bool IsNonQuery
         {
             get { return _isNonQuery; }
             set { SetProperty(ref _isNonQuery, value); }
         }
+        private Dictionary<Type, ObservableCollection<QueryInfo>> _lstGlobalQuery = new Dictionary<Type, ObservableCollection<QueryInfo>>();
+
+        public Dictionary<Type, ObservableCollection<QueryInfo>> LstGlobalQuery
+        {
+            get { return _lstGlobalQuery; }
+            set { SetProperty(ref _lstGlobalQuery , value); }
+        }
+
+        private bool _isUseGlobalQuery;
+
+        public bool IsUseGlobalQuery
+        {
+            get { return _isUseGlobalQuery; }
+            set { SetProperty(ref _isUseGlobalQuery, value); }
+        }
+        public Type CurrentType { get; set; }
+        #endregion
+
+        #region Methods
 
         private void AddQuery(ActivitySetting actvity)
         {
@@ -215,7 +173,71 @@ namespace DominatorUIUtility.ViewModel.Startup
                 ex.DebugLog();
             }
         }
+        protected void NevigateNext()
+        {
 
+            if (selectedIndex > 0 && !ValidateRunningTime())
+                return;
+            if (!IsNonQuery && selectedIndex > 0 && !ValidateQuery())
+                return;
+
+            if (NextButtonContent == "LangKeyFinish".FromResourceDictionary())
+            {
+                var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
+                saveSetting.Save();
+
+                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                mainViewModel.IsPopUpOpen = false;
+                selectedIndex = 0;
+            }
+
+            if (selectedIndex >= NavigationList.Count - 1)
+                return;
+            selectedIndex++;
+            var next = NavigationList[selectedIndex];
+            regionManager.RequestNavigate("StartupRegion", next);
+        }
+        public bool ValidateRunningTime()
+        {
+            if (JobConfiguration.RunningTime.All(time => time.Timings.Count == 0))
+            {
+                Dialog.ShowDialog("Error", "Please add at least one time range when to run and stop the activity.");
+                return false;
+            }
+            return true;
+        }
+        public bool ValidateQuery()
+        {
+            if (SavedQueries.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please add at least one query.");
+                return false;
+            }
+            return true;
+        }
+        protected void NevigatePrevious()
+        {
+            if (selectedIndex <= 0)
+                return;
+            selectedIndex--;
+            var previous = NavigationList[selectedIndex];
+            regionManager.RequestNavigate("StartupRegion", previous);
+        }
+        public void OnLoad(string activityType)
+        {
+            ListQueryType.Clear();
+            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            if (viewModel.SelectedNetwork == "Facebook")
+                ListQueryType = GetFaceBookActivity(activityType).GetQueryType();
+            else
+                ListQueryType = SocialNetworkActivity.GetNetworkActivity(viewModel.SelectedNetwork).GetActivity(activityType).GetQueryType();
+            if (selectedIndex == NavigationList.Count - 1)
+                NextButtonContent = "LangKeyFinish".FromResourceDictionary();
+            else
+                NextButtonContent = "LangKeyNext".FromResourceDictionary();
+        }
+
+        #endregion
     }
     [ProtoContract]
     public class ActivityConfig
