@@ -3575,4 +3575,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySpliteCommentWithNextLine">Split Comment By Next Line</system:String>
     <system:String x:Key="LangKeySpliteNextValueIntoNextComment">Create Multiple Comment From Single Comment, Splitting By Next Line</system:String>
     <system:String x:Key="LangKeyAddMultipleMessageSeparatedByNewLine">Add Multiple Message Separated By New Line</system:String>
+    <system:String x:Key="LangKeyScrapeDataUpto">Scrape data upto</system:String>
+    <system:String x:Key="LangKeyPaginationsBeforeSendItToPerformActivity">paginations before send it to perform activity.</system:String>
+
 </ResourceDictionary>
