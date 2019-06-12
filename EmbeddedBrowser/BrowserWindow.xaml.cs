@@ -2535,10 +2535,43 @@ namespace EmbeddedBrowser
                 urlNow = Browser.Address;
             return urlNow;
         }
+        public async Task SelectTextAsync(int stratXlocation, int startYLocation, int moveToXLocation,
+                     int moveToYLocation, double delayBefore = 0, double delayAfter = 0, int clickLeavEvent = 0)
+        {
+            MouseButtonType mouseButton = MouseButtonType.Left;
 
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
+            if (Browser.IsDisposed) return;
 
+            await MouseClickAsync(stratXlocation, startYLocation);
+            await Task.Delay(500);
 
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 0, CefEventFlags.ShiftDown);
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, false, 1, CefEventFlags.ShiftDown);
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 1, CefEventFlags.ShiftDown);
 
-    }
+            if (delayAfter > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+        }
+
+        public KeyValuePair<int, int> GetEndXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "")
+        {
+            KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
+            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().bottom" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().bottom";
+            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().right" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().right";
+
+            if (ExecuteScript(scriptx, 0).Success)
+            {
+                var scriptResponse = ExecuteScript(scriptx, 0);
+                var x = ConvertDoubleAndInt(scriptResponse.Result.ToString());
+                scriptResponse = ExecuteScript(scripty, 0);
+                var y = ConvertDoubleAndInt(scriptResponse.Result.ToString());
+                xAndY = new KeyValuePair<int, int>(x, y);
+                return xAndY;
+            }
+            return xAndY;
+        }
+ }
 }
