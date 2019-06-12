@@ -1841,11 +1841,10 @@ namespace EmbeddedBrowser
 
 
 
-        public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0)
+        public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
+              MouseButtonType mouseButton = MouseButtonType.Left)
         {
-
-            MouseButtonType mouseButton = MouseButtonType.Left;
-
+            
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
