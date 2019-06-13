@@ -1844,7 +1844,7 @@ namespace EmbeddedBrowser
         public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
               MouseButtonType mouseButton = MouseButtonType.Left)
         {
-            
+
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
@@ -2454,7 +2454,8 @@ namespace EmbeddedBrowser
         }
 
         //Get json data for pagination
-        public async Task<string> GetPaginationData(string startSearchText, bool isContains = false)
+        public async Task<string> GetPaginationData(string startSearchText, bool isContains = false
+            , string endString = "")
         {
             var response = string.Empty;
             try
@@ -2462,7 +2463,7 @@ namespace EmbeddedBrowser
                 await Task.Delay(10);
                 var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
-                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains));
+                var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 if (responseStream != null)
                     response = Encoding.UTF8.GetString(responseStream.Data);
                 return response;
@@ -2474,13 +2475,49 @@ namespace EmbeddedBrowser
             return response;
         }
 
+
+        public async Task<List<string>> GetPaginationDataList(string startSearchText, bool isContains = false
+            , string endString = "")
+        {
+            var responseList = new List<string>();
+            try
+            {
+                await Task.Delay(10);
+                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                lstResponseStream.RemoveAll(x => x.Data == null);
+                var responseStreamList = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
+                foreach(var responseStream in responseStreamList)
+                {
+                    try
+                    {
+                        responseList.Add(Encoding.UTF8.GetString(responseStream.Data));
+                    }
+                    catch(Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                }
+                    
+                return responseList;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return responseList;
+        }
+
         //To check reddit json data 
-        private bool GetPaginatoinDataFromByte(byte[] data, string startSearchText, bool isContains = false)
+        private bool GetPaginatoinDataFromByte(byte[] data, string startSearchText, bool isContains = false,
+            string endString = "")
         {
             try
             {
                 string searchText = Encoding.UTF8.GetString(data);
                 if (isContains && searchText.Contains(startSearchText))
+                    return true;
+                if (isContains && string.IsNullOrEmpty(endString) && searchText.Contains(endString) &&
+                    searchText.Contains(startSearchText))
                     return true;
                 else if (searchText.StartsWith(startSearchText))
                     return true;
