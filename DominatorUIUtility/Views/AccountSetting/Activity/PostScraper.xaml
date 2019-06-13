@@ -23,16 +23,28 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5" Visibility="{Binding FacebookElementsVisibility}">
             <TextBlock Text="Post Scraper Settings" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-                <customControl1:PostOptionCustomControl PostLikeCommentorModel="{Binding PostLikeCommentorModel}" />
+                <StackPanel Visibility="{Binding FacebookElementsVisibility}">
+                    <CheckBox Margin="15,5,0,0" Name="ChkboxFormemberFilter" FontWeight="SemiBold" Foreground="Black" IsChecked="{Binding IsFilterMemberChkd}" Content="{DynamicResource LangKeySkipFriendsAlreadyMemberOfGroup}" />
+                    <customControl1:PostOptionCustomControl PostLikeCommentorModel="{Binding PostLikeCommentorModel}" />
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                        <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}" Margin="5,0"/>
+                    </Expander>
+                </StackPanel>
 
-                <CheckBox Margin="15,5,0,0" Name="ChkboxFormemberFilter" FontWeight="SemiBold" Foreground="Black" IsChecked="{Binding IsFilterMemberChkd}" Content="{DynamicResource LangKeySkipFriendsAlreadyMemberOfGroup}" />
+                <actcustom:ActivitySetting Heading="Post Scraper Settings" JobConfiguration="{Binding JobConfiguration}" 
+                                           Visibility="{Binding AllVisibility}"
+                                           IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                           ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
+                                           NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                           AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
 
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+
+               
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Enums.PdQuery;
+using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace DominatorHouseCore.StartupActivity.Pinterest
 
         public override List<string> GetQueryType()
         {
-            return Enum.GetNames(typeof(PDPinQueries)).ToList();
+            var listQueryType = new List<string>();
+            Enum.GetValues(typeof(PDPinQueries)).Cast<PDPinQueries>().ToList().ForEach(query =>
+            {
+                listQueryType.Add(query.GetDescriptionAttr()?.FromResourceDictionary());
+            });
+            return listQueryType;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Enums.QdQuery;
+using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace DominatorHouseCore.StartupActivity.Quora
 
         public override List<string> GetQueryType()
         {
-            return Enum.GetNames(typeof(QuestionQueryParameters)).ToList();
+            var listQueryType = new List<string>();
+            Enum.GetValues(typeof(QuestionQueryParameters)).Cast<QuestionQueryParameters>().ToList().ForEach(query =>
+            {
+                listQueryType.Add(query.GetDescriptionAttr()?.FromResourceDictionary());
+            });
+            return listQueryType;
         }
     }
 }

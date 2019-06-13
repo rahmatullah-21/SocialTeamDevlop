@@ -21,11 +21,13 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="UnFollow user Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <TextBlock Text="Block Follower Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
-        <Expander Header="{DynamicResource LangKeyJobConfiguration}" Grid.Row="1">
-            <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
-        </Expander>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Margin="5,0,0,0" Grid.Row="1">
+            <Expander Header="{DynamicResource LangKeyJobConfiguration}" >
+                <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+            </Expander>
+        </ScrollViewer>
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>

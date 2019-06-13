@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Enums.YdQuery;
+using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace DominatorHouseCore.StartupActivity.Youtube
 
         public override List<string> GetQueryType()
         {
-            return Enum.GetNames(typeof(YdScraperParameters)).ToList();
+            var listQueryType = new List<string>();
+            Enum.GetValues(typeof(YdScraperParameters)).Cast<YdScraperParameters>().ToList().ForEach(query =>
+            {
+                listQueryType.Add(query.GetDescriptionAttr()?.FromResourceDictionary());
+            });
+            return listQueryType;
         }
     }
 }

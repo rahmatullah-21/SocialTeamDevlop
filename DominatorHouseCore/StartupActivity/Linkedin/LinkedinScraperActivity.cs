@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Enums.LdQuery;
+using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,15 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
 
         public override List<string> GetQueryType()
         {
-            return Enum.GetNames(typeof(LDScraperUserQueryParameters)).ToList();
+            var listQueryType = new List<string>();
+            Enum.GetValues(typeof(LDScraperUserQueryParameters)).Cast<LDScraperUserQueryParameters>().ForEach(query =>
+            {
+                if (query != LDScraperUserQueryParameters.Input)
+                {
+                    listQueryType.Add(query.GetDescriptionAttr()?.FromResourceDictionary());
+                }
+            });
+            return listQueryType;
         }
     }
 
@@ -27,7 +36,7 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
 
         public override List<string> GetQueryType()
         {
-            return new List<string> { "SearchUrl" };
+            return new List<string> { "Search Url" };
         }
     }
 }

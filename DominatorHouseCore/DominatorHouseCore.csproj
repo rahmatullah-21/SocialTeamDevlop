@@ -472,6 +472,7 @@
     <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
     <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
     <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
+    <Compile Include="Enums\FdQuery\PlaceQueryParameters.cs" />
     <Compile Include="Enums\FdQuery\PostOptions.cs" />
     <Compile Include="Enums\FdQuery\ReactionType.cs" />
     <Compile Include="Enums\GdQuery\GdPostQuery.cs" />

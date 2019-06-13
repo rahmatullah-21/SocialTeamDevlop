@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Enums.TdQuery;
+using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace DominatorHouseCore.StartupActivity.Twitter
 
         public override List<string> GetQueryType()
         {
-            return Enum.GetNames(typeof(TdTweetInteractionQueryEnum)).ToList();
+            var listQueryType = new List<string>();
+            Enum.GetValues(typeof(TdTweetInteractionQueryEnum)).Cast<TdTweetInteractionQueryEnum>().ToList().ForEach(query =>
+            {
+                listQueryType.Add(query.GetDescriptionAttr()?.FromResourceDictionary());
+            });
+            return listQueryType;
         }
     }
 }

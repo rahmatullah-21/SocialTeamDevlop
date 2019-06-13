@@ -4,11 +4,13 @@ using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.CustomControl;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -21,7 +23,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     public class PostCommentorViewModel : StartupBaseViewModel, IPostCommentorViewModel
     {
         public ICommand CommentCheckedChangedCommand { get; set; }
-
+        public ICommand SpecificWordListCommand { get; set; }
         public PostCommentorViewModel(IRegionManager region) : base(region)
         {
             LikerCommentorConfigModel.ManageCommentModel.LstQueries.Add(new QueryContent
@@ -33,6 +35,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             CommentCheckedChangedCommand=new DelegateCommand<object>(CheckedChangedExecute);
+            SpecificWordListCommand = new DelegateCommand<object>(SpecificWordListChangedExecute);
 
             JobConfiguration = new JobConfiguration
             {
@@ -219,6 +222,45 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         ManageAddComments(PostOptions.ProfileScraper);
                     break;
 
+            }
+        }
+
+        private void SpecificWordListChangedExecute(object sender)
+        {
+            var control = ((InputBoxControl)sender).Name;
+
+            var likerCommentorModel = PostLikeCommentorModel;
+
+            switch (control)
+            {
+                case "InputBoxFriends":
+                    likerCommentorModel.ListFriendProfileUrl = Regex.Split(likerCommentorModel.FriendProfileUrl, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                    ManageAddComments(PostOptions.FriendWall);
+                    break;
+                case "InputBoxGroups":
+                    likerCommentorModel.ListGroupUrl = Regex.Split(likerCommentorModel.GroupUrl, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                    ManageAddComments(PostOptions.Group);
+                    break;
+                case "InputBoxPages":
+                    likerCommentorModel.ListPageUrl = Regex.Split(likerCommentorModel.PageUrl, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                    ManageAddComments(PostOptions.Pages);
+                    break;
+                case "InputBoxCustom":
+                    likerCommentorModel.ListCustomPostList = Regex.Split(likerCommentorModel.CustomPostList, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                    ManageAddComments(PostOptions.CustomPostList);
+                    break;
+                case "InputBoxCampaign":
+                    likerCommentorModel.ListFaceDominatorCampaign = Regex.Split(likerCommentorModel.Campaign, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                    ManageAddComments(PostOptions.Campaign);
+                    break;
+                case "InputBoxKeyword":
+                    likerCommentorModel.ListKeywords = Regex.Split(likerCommentorModel.Keyword, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                    ManageAddComments(PostOptions.Keyword);
+                    break;
+                case "InputBoxProfileScraperCampaign":
+                    likerCommentorModel.ListCampaign = Regex.Split(likerCommentorModel.NrlCampaign, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                    ManageAddComments(PostOptions.ProfileScraper);
+                    break;
             }
         }
 

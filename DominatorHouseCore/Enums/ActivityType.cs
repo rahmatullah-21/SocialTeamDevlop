@@ -213,7 +213,7 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
         BroadcastMessages = 70,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
+        [Description("Instagram,Twitter,Pinterest,Quora")]
         SendMessageToFollower = 71,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]

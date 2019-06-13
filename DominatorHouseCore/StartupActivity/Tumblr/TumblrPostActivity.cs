@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Enums.TumblrQuery;
+using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace DominatorHouseCore.StartupActivity.Tumblr
 
         public override List<string> GetQueryType()
         {
-            return Enum.GetNames(typeof(TumblrPostQuery)).ToList();
+            var listQueryType = new List<string>();
+            Enum.GetValues(typeof(TumblrPostQuery)).Cast<TumblrPostQuery>().ToList().ForEach(query =>
+            {
+                listQueryType.Add(query.GetDescriptionAttr()?.FromResourceDictionary());
+            });
+            return listQueryType;
         }
     }
 }

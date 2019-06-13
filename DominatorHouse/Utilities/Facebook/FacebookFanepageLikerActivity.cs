@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.StartupActivity;
+using DominatorHouseCore.Utility;
 using FaceDominatorCore.FDEnums;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,12 @@ namespace DominatorHouse.Utilities.Facebook
 
         public override List<string> GetQueryType()
         {
-            return Enum.GetNames(typeof(FanpageLikerQueryParameters)).ToList();
+            var listQueryType = new List<string>();
+            Enum.GetValues(typeof(FanpageLikerQueryParameters)).Cast<FanpageLikerQueryParameters>().ToList().ForEach(query =>
+            {
+                listQueryType.Add(query.GetDescriptionAttr()?.FromResourceDictionary());
+            });
+            return listQueryType;
         }
     }
 }

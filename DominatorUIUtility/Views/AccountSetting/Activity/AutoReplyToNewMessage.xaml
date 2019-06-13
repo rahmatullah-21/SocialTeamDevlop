@@ -24,30 +24,51 @@
             <TextBlock Text="Auto Reply To New Message Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
-            <StackPanel >
+            <StackPanel>
                 <Expander IsExpanded="True" Header="{DynamicResource LangKeyMessageFilter}" Margin="5,5">
                     <StackPanel>
-                        <RadioButton Content="{DynamicResource LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount}"
+                        <StackPanel>
+                            <RadioButton Content="{DynamicResource LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount}"
                                          VerticalAlignment="Center" Margin="5"
                                          IsChecked="{Binding IsReplyToPendingMessagesChecked}"/>
-                        <RadioButton Content="{DynamicResource LangKeyReplyToAllMessages}"
+
+                            <RadioButton Content="LangKeyReplyToConnectedPeopleReplyToThePeopleWhoAreConnectedInMessanger" 
+                                         VerticalAlignment="Center" Margin="5" Visibility="{Binding FacebookElementsVisibility}"
+                                         IsChecked="{Binding AutoReplyOptionModel.IsFriendsMessageChecked}" />
+
+                            <RadioButton Content="{DynamicResource LangKeyReplyToAllMessages}"
                                          VerticalAlignment="Center" Margin="5"
-                                         IsChecked="{Binding IsReplyToAllMessagesChecked}"/>
-                        <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainsSpecificWord}"
+                                         IsChecked="{Binding IsReplyToAllMessagesChecked}" Visibility="{Binding AllMessagesVisibility}"/>
+                            
+                            <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainsSpecificWord}"
                                   VerticalAlignment="Center" Margin="5"
                                   IsChecked="{Binding IsReplyToMessagesThatContainSpecificWordChecked}"/>
 
-
-                        <customControl:InputBoxControl x:Name="TextBoxSpecificWords"
+                            <customControl:InputBoxControl x:Name="TextBoxSpecificWords"
                                 WaterMarkText ="{DynamicResource LangKeySeparateTheWordsUsingCommaEGHiHello}"
                                 SaveCommand="{Binding InputSaveCommand}"
                                 InputText="{Binding SpecificWord}"
                                 Visibility="{Binding IsReplyToMessagesThatContainSpecificWordChecked,
                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding FacebookElementsVisibility}">
+
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal" >
+                                    <CheckBox Margin="5" Content="{DynamicResource LangKeyMessageShouldHaveBeenSentBefore}" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
+                                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.DaysBefore}" FontWeight="SemiBold" Foreground="Black" Minimum="0" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}" />
+                                    <Label Content="{DynamicResource LangKeyDays}" Foreground="Black" />
+                                    <Label Content="{DynamicResource LangKeyAnd}" Margin="0,0,5,0" Foreground="Black" />
+                                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.HoursBefore}" Foreground="Black" Minimum="0" Maximum="23" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
+                                    <Label Content="{DynamicResource LangKeyHours}" Foreground="Black" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </Expander>
-                <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
+
+                    <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
                     <StackPanel>
                         <CheckBox  Content="{DynamicResource LangKeyMakeMessageAsSpinText}" Name="ChkMakeCaptionAsSpinText" IsChecked="{Binding IsChkMakeCaptionAsSpinText}"/>
                         <customControl:MessageMediaControl x:Name="MessagesControl" Messages="{Binding ManageMessagesModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 

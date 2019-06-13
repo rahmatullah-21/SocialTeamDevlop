@@ -2,8 +2,10 @@
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
+using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -11,21 +13,34 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
 
-    public interface IAutoReplyToNewMessageViewModel
+    public interface IAutoReplyToNewMessageViewModel : IFacebookModel
     {
     }
     public class AutoReplyToNewMessageViewModel : StartupBaseViewModel, IAutoReplyToNewMessageViewModel
     {
+        public Visibility FacebookElementsVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility AllMessagesVisibility { get; set; } = Visibility.Visible;
         public AutoReplyToNewMessageViewModel(IRegionManager region) : base(region)
         {
+
+            ManageMessagesModel.LstQueries.Add(new QueryContent { Content = new QueryInfo() { QueryType = "All", QueryValue = "All" } });
+
             IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.AutoReplyToNewMessage });
-            NextCommand = new DelegateCommand(NevigateNext);
+
+            ElementsVisibility.NetworkElementsVisibilty(this);
+
+            //For Facebook Reply to all message is not required
+            if (FacebookElementsVisibility == Visibility.Visible)
+                AllMessagesVisibility = Visibility.Collapsed;
+
+            NextCommand = new DelegateCommand(AutoReplyToNewMessageValidation);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
@@ -42,7 +57,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         }
         public ICommand AddMessagesCommand { get; set; }
         public ICommand InputSaveCommand { get; set; }
-        private List<string> _lstMessage=new List<string>();
+        private List<string> _lstMessage = new List<string>();
         public List<string> LstMessage
         {
             get
@@ -111,7 +126,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 GlobusLogHelper.log.Info("Please add query type with message(s)");
                 return;
             }
-          
+
             messageData.Messages.SelectedQuery.Remove(messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
 
             if (messageData.Messages.MessagesText != null)
@@ -167,9 +182,16 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 if (_isReplyToMessagesThatContainSpecificWord﻿Checked == value)
                     return;
                 SetProperty(ref _isReplyToMessagesThatContainSpecificWord﻿Checked, value);
-
+                FbMethod();
             }
         }
+
+        private void FbMethod()
+        {
+            AutoReplyOptionModel.IsMessageRequestChecked = IsReplyToPendingMessagesChecked;
+            AutoReplyOptionModel.IsFilterByIncommingMessageText = IsReplyToMessagesThatContainSpecificWord﻿Checked;
+        }
+
         private bool _isReplyToPendingMessages﻿﻿Checked;
 
         public bool IsReplyToPendingMessages﻿﻿Checked
@@ -183,9 +205,29 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 if (_isReplyToPendingMessages﻿﻿Checked == value)
                     return;
                 SetProperty(ref _isReplyToPendingMessages﻿﻿Checked, value);
-
+                if (_isReplyToPendingMessages﻿﻿Checked == true)
+                    FbMethod();
             }
         }
+
+        private bool _isReplyToConnectedPeople﻿﻿﻿﻿Checked;
+
+        public bool IsReplyToConnectedPeople﻿﻿﻿﻿Checked
+        {
+            get
+            {
+                return _isReplyToConnectedPeople﻿﻿Checked;
+            }
+            set
+            {
+                if (_isReplyToConnectedPeople﻿﻿Checked == value)
+                    return;
+                SetProperty(ref _isReplyToConnectedPeople﻿﻿Checked, value);
+                if (_isReplyToConnectedPeople﻿﻿Checked == true)
+                    FbMethod();
+            }
+        }
+
         private bool _isReplyToAllMessages﻿﻿Checked;
 
         public bool IsReplyToAllMessagesChecked
@@ -220,7 +262,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         }
 
         private bool _IsChkMakeCaptionAsSpinText;
-      
+
         public bool IsChkMakeCaptionAsSpinText
         {
             get
@@ -303,6 +345,44 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         public ManageMessagesModel ManageMessagesModel { get; set; } = new ManageMessagesModel();
 
+        private AutoReplyOptionModel _autoReplyOptionModel = new AutoReplyOptionModel();
+        public AutoReplyOptionModel AutoReplyOptionModel
+        {
+            get { return _autoReplyOptionModel; }
+            set
+            {
+                if (_autoReplyOptionModel == value & _autoReplyOptionModel == null)
+                    return;
+                SetProperty(ref _autoReplyOptionModel, value);
+            }
+        }
+
+        public void AutoReplyToNewMessageValidation()
+        {
+
+            if (IsReplyToMessagesThatContainSpecificWord﻿Checked && SpecificWord == string.Empty)
+            {
+                Dialog.ShowDialog("Error", "Please add atleast on keyword");
+                return;
+            }
+            if (!IsReplyToPendingMessages﻿﻿Checked && !IsReplyToAllMessagesChecked)
+            {
+                if (FacebookElementsVisibility == Visibility.Visible
+                    && !AutoReplyOptionModel.IsFriendsMessageChecked)
+                {
+                    Dialog.ShowDialog("Error", "Please Check Atleast One mesaage type");
+                    return;
+                }
+            }
+
+            if (LstDisplayManageMessageModel.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please add atleast One Message");
+                return;
+            }
+
+            NevigateNext();
+        }
 
     }
 }

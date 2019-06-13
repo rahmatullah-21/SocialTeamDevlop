@@ -28,7 +28,7 @@
                 <VisualBrush Visual="{StaticResource appbar_book_open_hardcover}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="DeleteIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="DeleteIcon" Fill="Black" Width="17" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill" />
             </Rectangle.OpacityMask>
@@ -38,12 +38,12 @@
                 <VisualBrush Visual="{StaticResource appbar_browser}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="GoToToolsIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="GoToToolsIcon" Fill="Black" Width="20" Height="18">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_tools}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="CheckStatusIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="CheckStatusIcon" Fill="Black" Width="20" Height="18">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_page_search}" Stretch="Fill" />
             </Rectangle.OpacityMask>
@@ -66,6 +66,11 @@
         <Rectangle x:Key="CopyAccountIdIcon" Fill="Black" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_page_copy}" Stretch="Fill" />
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <Rectangle x:Key="CustomSetting" Fill="Black" Width="20" Height="20">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{StaticResource appbar_settings}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
     </UserControl.Resources>
@@ -335,7 +340,17 @@
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
 
-                        <MenuItem  Height="30"  Header="Custom Setting" >
+                        <MenuItem  Height="30"  Header="Custom Setting" Icon="{StaticResource CustomSetting}">
+                            <!--<MenuItem.Style>
+                                <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </MenuItem.Style>-->
                             <MenuItem Header="Setting Wizard" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>

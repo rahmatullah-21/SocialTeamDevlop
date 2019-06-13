@@ -23,7 +23,7 @@
 
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="UnFollow user Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <TextBlock Text="Unlike Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel >
@@ -35,7 +35,7 @@
                                                            CommandParameter="{Binding ElementName=CustomPostLists}" />
                 </StackPanel>
 
-                <RadioButton IsChecked="{Binding IsCheckedUnlikeMedia,Mode=TwoWay}" Content="Unlike Media" Visibility="{Binding InstagramElementsVisibility}" />
+                <RadioButton Margin="5,0" IsChecked="{Binding IsCheckedUnlikeMedia,Mode=TwoWay}" Content="Unlike Media" Visibility="{Binding InstagramElementsVisibility}" />
                 <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
                     <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>

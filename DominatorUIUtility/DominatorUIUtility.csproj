@@ -379,6 +379,7 @@
     </Compile>
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
+    <Compile Include="Module\IDialogModule.cs" />
     <Compile Include="Module\UiModule.cs" />
     <Compile Include="ViewModel\AccountCollectionViewModel.cs" />
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />

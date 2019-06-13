@@ -32,9 +32,11 @@
 
                 <CheckBox Margin="15,5,0,0" Name="ChkboxFormemberFilter" FontWeight="SemiBold" Foreground="Black" IsChecked="{Binding IsFilterMemberChkd}" Content="{DynamicResource LangKeySkipFriendsAlreadyMemberOfGroup}" />
 
-                <RadioButton Content="{DynamicResource LangKeySelectAccountDetails}" IsChecked="{Binding IsSelctDetails}" Checked="SelectAccountDetails_Click"/>
+                <RadioButton Margin="5" Content="{DynamicResource LangKeySelectAccountDetails}" IsChecked="{Binding IsSelctDetails}" Checked="SelectAccountDetails_Click"/>
 
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

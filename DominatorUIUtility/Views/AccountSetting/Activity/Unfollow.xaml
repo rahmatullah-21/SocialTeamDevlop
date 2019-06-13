@@ -51,7 +51,7 @@
                                                 IsEnabled="{Binding IsUserFollowedBeforeChecked}"/>
                         <Label Content="{DynamicResource LangKeyDays}"/>
                         <Label Content="{DynamicResource LangKeyAnd}"/>
-                        <mah:NumericUpDown Value="{Binding FollowedBeforeHour}" Maximum="24" Minimum="{Binding FollowedBeforeDay}"
+                        <mah:NumericUpDown Value="{Binding FollowedBeforeHour}" Maximum="24" Minimum="0"
                                                 IsEnabled="{Binding IsUserFollowedBeforeChecked}"/>
                         <Label Content="{DynamicResource LangKeyHours}"/>
                     </StackPanel>

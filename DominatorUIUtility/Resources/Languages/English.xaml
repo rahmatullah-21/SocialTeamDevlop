@@ -3579,4 +3579,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyVideosOfAChannel">videos of a channel</system:String>
     <system:String x:Key="LangKeyProvideCommentIdSpecifically">Provide a specific commentId of a comment of a custom video url.</system:String>
     <system:String x:Key="LangKeyAddMultipleMessageSeparatedByNewLine">Add Multiple Message Separated By New Line</system:String>
+    <system:String x:Key="LangKeyNumberOfUnLikesPerDay">Number Of Unlikes Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfUnLikesPerHour">Number Of Unlikes Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfUnLikesPerJob">Number Of Unlikes Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfUnLikesPerWeek">Number Of Unlikes Per Week</system:String>
+    <system:String x:Key="LangKeyMaxUnLikesPerDay">Max Unlikes Per Day</system:String>
+
 </ResourceDictionary>

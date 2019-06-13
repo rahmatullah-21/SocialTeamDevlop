@@ -16,7 +16,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-       
+
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
@@ -27,7 +27,6 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-
                 <customControl1:PostOptionCustomControl PostLikeCommentorModel="{Binding PostLikeCommentorModel}" />
                 <Expander Header="{DynamicResource LangKeyPagePostReactBy}" Margin="5,5"
                                    IsExpanded="true">
@@ -48,8 +47,9 @@
                                    IsExpanded="true">
                     <customControl1:LikerCommentorConfiguration x:Name="LikerCommentorConfig" IsLikeTypeFilterRequired="True"  IsLikeOptionVisible="True" LikerCommentorConfig="{Binding LikerCommentorConfigModel}"/>
                 </Expander>
-
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >
