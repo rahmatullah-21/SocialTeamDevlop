@@ -1593,7 +1593,12 @@ namespace EmbeddedBrowser
 
         #region Browser Automation Changes
 
-
+        public enum MouseClickType
+        {
+            Left = 1,
+            Right = 2,
+            Middle = 3
+        }
 
         public enum PostContent
         {
@@ -1842,11 +1847,14 @@ namespace EmbeddedBrowser
 
 
         public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
-              MouseButtonType mouseButton = MouseButtonType.Left)
+              MouseClickType mouseClickType = MouseClickType.Left)
         {
 
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            MouseButtonType mouseButton = mouseClickType == MouseClickType.Left ? MouseButtonType.Left
+                : (mouseClickType == MouseClickType.Right ? MouseButtonType.Right : MouseButtonType.Middle);
 
             if (Browser.IsDisposed) return;
 
@@ -2486,18 +2494,18 @@ namespace EmbeddedBrowser
                 var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStreamList = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
-                foreach(var responseStream in responseStreamList)
+                foreach (var responseStream in responseStreamList)
                 {
                     try
                     {
                         responseList.Add(Encoding.UTF8.GetString(responseStream.Data));
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         ex.DebugLog();
                     }
                 }
-                    
+
                 return responseList;
             }
             catch (Exception ex)
