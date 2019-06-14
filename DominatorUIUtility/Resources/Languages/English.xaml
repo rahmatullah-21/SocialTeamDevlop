@@ -3584,5 +3584,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfUnLikesPerJob">Number Of Unlikes Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfUnLikesPerWeek">Number Of Unlikes Per Week</system:String>
     <system:String x:Key="LangKeyMaxUnLikesPerDay">Max Unlikes Per Day</system:String>
-
+    <system:String x:Key="LangKeyScrapeDataUpto">Scrape data upto</system:String>
+    <system:String x:Key="LangKeyPaginationsBeforeSendItToPerformActivity">paginations before send it to perform activity.</system:String>
+    <system:String x:Key="LangKeyChangeHashOfImage">Change hash of image</system:String>
+    <system:String x:Key="LangKeyMentionUserInStoryPost">Mention user in story post</system:String>
 </ResourceDictionary>

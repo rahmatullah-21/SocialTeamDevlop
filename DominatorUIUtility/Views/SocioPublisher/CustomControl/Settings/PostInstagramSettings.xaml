@@ -33,13 +33,18 @@
                              IsEnabled="{Binding IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="15,2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
                 </StackPanel>
             </StackPanel>
-            
+
             <StackPanel Orientation="Vertical">
                 <CheckBox Margin="2" IsChecked="{Binding IsTagUser}" Content="{DynamicResource LangKeyTagUsers}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding TagUserList}" IsEnabled="{Binding IsTagUser}" AcceptsReturn="True"
+                <TextBox VerticalAlignment="Center" Visibility="{Binding IsTagUser,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding TagUserList}" IsEnabled="{Binding IsTagUser}" AcceptsReturn="True"
                          HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
-            
+            <StackPanel Orientation="Vertical">
+                <CheckBox Margin="2" IsChecked="{Binding IsMentionUser}" Content="{DynamicResource LangKeyMentionUserInStoryPost}" />
+                <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}" IsEnabled="{Binding IsMentionUser}" AcceptsReturn="True"
+                         HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" Visibility="{Binding IsMentionUser,Converter={StaticResource BooleanToVisibilityConverter}}"></TextBox>
+            </StackPanel>
+
         </StackPanel>
         
         
