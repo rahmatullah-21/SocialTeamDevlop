@@ -114,7 +114,7 @@
                         </StackPanel>
                     </Grid>
                    
-                    <ContentControl regions:RegionManager.RegionName="StartupRegion" DataContext="{Binding}" Grid.Row="1" />
+                    <!--<ContentControl regions:RegionManager.RegionName="StartupRegion" DataContext="{Binding}" Grid.Row="1" />-->
                 </Grid>
             </Border>
         </Popup>

@@ -19,7 +19,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             InitializeComponent();
             MainGrid.DataContext = this;
         }
-
+        public Speed Model => new Speed();
 
         public JobConfiguration JobConfiguration
         {

@@ -16,24 +16,39 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
+            <TextBlock Text="Comment Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
+        </DockPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
-                <actcustom:ActivitySetting x:Name="Activity" Heading="Comment Setting" 
+                <actcustom:ActivitySettingWithoutButton x:Name="Activity"
                                            JobConfiguration="{Binding JobConfiguration}"
                                            IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                           NextCommand="{Binding NextCommand}" PreviousCommand="{Binding PreviousCommand}"
-                                           AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+                                           AddQueryCommand="{Binding AddQueryToCommentCommand}"
+                                           DeleteQueryCommand="{Binding DeleteQueryCommand}" 
+                                           DeleteMulipleCommand="{Binding DeleteMultipleCommand}" />
                 <Expander Header="{DynamicResource LangKeyCommentManager}" Margin="5,5" >
                     <StackPanel>
                         <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding CommentModel.IsSpintax}" Margin="15,2" ToolTip="{DynamicResource LangKeyCommentSpintaxFormat}" FontSize="15" FontWeight="Bold" />
-                        <customControl:CommentControl x:Name="CommentControl" Comments="{Binding CommentModel.ManageCommentModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                              AddCommentsCommand="{Binding AddCommentsCommand}"
-                                              CommandParameter="{Binding ElementName=CommentControl}"/>
+                        <customControl:CommentControl x:Name="CommentControl" 
+                                                      Comments="{Binding CommentModel.ManageCommentModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                      AddCommentsCommand="{Binding AddCommentCommand}"
+                                                      CommandParameter="{Binding ElementName=CommentControl}"/>
                         <customControl:ManageComment  LstManageCommentModel="{Binding CommentModel.LstDisplayManageCommentModel}" />
                     </StackPanel>
                 </Expander>
             </StackPanel>
         </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton  NextCommand="{Binding NextCommand}" 
+                                           PreviousCommand="{Binding PreviousCommand}"
+                                           NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

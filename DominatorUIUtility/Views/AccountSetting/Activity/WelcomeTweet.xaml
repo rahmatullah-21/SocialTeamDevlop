@@ -24,9 +24,9 @@
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
             <TextBlock Text="Welcome Tweet Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
-        <StackPanel>
-            <customControl:InputBoxControl Grid.Row="1" Margin="30,5" x:Name="WelcomeMessageText"  InputText="{Binding WelcomeMessageText}" ToolTip="{DynamicResource LangKeyWelcomeTweetFormat}" />
-            <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+        <StackPanel Grid.Row="1"  Margin="5">
+            <customControl:InputBoxControl  x:Name="WelcomeMessageText"  InputText="{Binding WelcomeMessageText}" ToolTip="{DynamicResource LangKeyWelcomeTweetFormat}" />
+            <Expander Margin="0,5"  Header="{DynamicResource LangKeyJobConfiguration}">
                 <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
             </Expander>
         </StackPanel>

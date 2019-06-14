@@ -25,6 +25,8 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQueryExecute);
             DeleteMulipleCommand = new DelegateCommand<object>(DeleteMulipleExecute);
         }
+
+        public Speed Model => new Speed();
         public string Heading
         {
             get { return (string)GetValue(HeadingProperty); }
@@ -174,7 +176,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         // Using a DependencyProperty as the backing store for DeleteQueryCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DeleteQueryCommandProperty =
             DependencyProperty.Register("DeleteQueryCommand", typeof(ICommand), typeof(ActivitySetting));
-   
+
 
         public ICommand DeleteMulipleCommand
         {
@@ -208,7 +210,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
                 DeleteQueryEventHandler();
                 if (SavedQueries.Any(x => QueryToDelete != null && x.Id == QueryToDelete.Id))
                 {
-                   SavedQueries.Remove(QueryToDelete);
+                    SavedQueries.Remove(QueryToDelete);
                 }
             }
             catch (Exception ex)
@@ -233,5 +235,58 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
                 ex.DebugLog();
             }
         }
+    }
+    public class Speed
+    {
+        public Activity SlowSpeed = new Activity()
+        {
+            ActivitiesPerDay = new RangeUtilities(66, 100),
+            ActivitiesPerHour = new RangeUtilities(6, 10),
+            ActivitiesPerWeek = new RangeUtilities(400, 600),
+            ActivitiesPerJob = new RangeUtilities(8, 12),
+            DelayBetweenJobs = new RangeUtilities(73, 110),
+            DelayBetweenActivity = new RangeUtilities(1, 2)
+        };
+
+        public Activity MediumSpeed = new Activity()
+        {
+            ActivitiesPerDay = new RangeUtilities(133, 200),
+            ActivitiesPerHour = new RangeUtilities(13, 20),
+            ActivitiesPerWeek = new RangeUtilities(800, 1200),
+            ActivitiesPerJob = new RangeUtilities(16, 25),
+            DelayBetweenJobs = new RangeUtilities(73, 110),
+            DelayBetweenActivity = new RangeUtilities(0, 1)
+        };
+
+        public Activity FastSpeed = new Activity()
+        {
+            ActivitiesPerDay = new RangeUtilities(266, 400),
+            ActivitiesPerHour = new RangeUtilities(26, 40),
+            ActivitiesPerWeek = new RangeUtilities(1600, 2400),
+            ActivitiesPerJob = new RangeUtilities(33, 50),
+            DelayBetweenJobs = new RangeUtilities(65, 97),
+            DelayBetweenActivity = new RangeUtilities(0, 1)
+        };
+
+
+        public Activity SuperfastSpeed = new Activity()
+        {
+            ActivitiesPerDay = new RangeUtilities(400, 600),
+            ActivitiesPerHour = new RangeUtilities(40, 60),
+            ActivitiesPerWeek = new RangeUtilities(2400, 3600),
+            ActivitiesPerJob = new RangeUtilities(50, 75),
+            DelayBetweenJobs = new RangeUtilities(77, 116),
+            DelayBetweenActivity = new RangeUtilities(0, 1)
+
+        };
+    }
+    public class Activity
+    {
+        public RangeUtilities ActivitiesPerDay = new RangeUtilities();
+        public RangeUtilities ActivitiesPerHour = new RangeUtilities();
+        public RangeUtilities ActivitiesPerWeek = new RangeUtilities();
+        public RangeUtilities ActivitiesPerJob = new RangeUtilities();
+        public RangeUtilities DelayBetweenJobs = new RangeUtilities();
+        public RangeUtilities DelayBetweenActivity = new RangeUtilities();
     }
 }

@@ -20,25 +20,24 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
-            <TextBlock Text="Broadcast Messages Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White"/>
+              <DockPanel  Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
+            <TextBlock Text="Broadcast Messages Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
-        
             <StackPanel>
-                <actcustom:ActivitySetting x:Name="Activity" HeaderNextPreViousVisiblity="Collapsed"
+                <actcustom:ActivitySettingWithoutButton x:Name="Activity" 
                                            JobConfiguration="{Binding JobConfiguration}" IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                           NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                            AddQueryCommand="{Binding AddQueryToMessageCommand}" CommandParameter="{Binding ElementName=Activity}"
-                                           NextButtonContent="{Binding NextButtonContent}"
                                            DeleteQueryCommand="{Binding DeleteQueryCommand}" DeleteMulipleCommand="{Binding DeleteMultipleCommand}" />
                 <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
                     <StackPanel>
                         <CheckBox Name="ChckSpintax" Margin="0,5,15,0" Content="{DynamicResource LangKeySpintax}" FontWeight="SemiBold" Foreground="Black" 
                           IsChecked="{Binding BroadcastMessagesModel.IsSpintaxChecked}" />
-                        <customControl:MessagesControl x:Name="MessagesControl" Messages="{Binding BroadcastMessagesModel.ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                               AddMessagesCommand="{Binding AddMessagesCommand}" CommandParameter="{Binding ElementName=MessagesControl}" HorizontalAlignment="Stretch"/>
+                        <customControl:MessagesControl x:Name="MessagesControl"
+                                                       Messages="{Binding BroadcastMessagesModel.ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                       AddMessagesCommand="{Binding AddMessagesCommand}" 
+                                                       CommandParameter="{Binding ElementName=MessagesControl}" HorizontalAlignment="Stretch"/>
                         <customControl:ManageMessages  LstManageMessagesModel="{Binding BroadcastMessagesModel.LstDisplayManageMessageModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                     </StackPanel>
                 </Expander>

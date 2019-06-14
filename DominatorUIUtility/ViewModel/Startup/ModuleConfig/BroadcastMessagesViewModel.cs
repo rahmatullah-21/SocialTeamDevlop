@@ -151,20 +151,20 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             try
             {
-                var moduleSettingsUserControl = sender as ActivitySetting;
+                var activitySetting = sender as ActivitySettingWithoutButton;
                 if (!BroadcastMessagesModel.ManageMessagesModel.LstQueries.Any(x =>
-                    moduleSettingsUserControl != null && (x.Content.QueryValue == moduleSettingsUserControl.QueryControl.CurrentQuery.QueryValue &&
-                                                          x.Content.QueryType == moduleSettingsUserControl.QueryControl.CurrentQuery.QueryType)))
+                    activitySetting != null && (x.Content.QueryValue == activitySetting.QueryControl.CurrentQuery.QueryValue &&
+                                                          x.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType)))
                 {
-                    if (moduleSettingsUserControl != null && moduleSettingsUserControl.QueryControl.CurrentQuery.QueryValue.Contains(","))
-                        moduleSettingsUserControl.QueryControl.CurrentQuery.QueryValue.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct().ForEach(query =>
+                    if (activitySetting != null && activitySetting.QueryControl.CurrentQuery.QueryValue.Contains(","))
+                        activitySetting.QueryControl.CurrentQuery.QueryValue.Split(',').Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct().ForEach(query =>
                         {
                             var newquery = new QueryContent
                             {
                                 Content = new QueryInfo
                                 {
                                     QueryValue = query,
-                                    QueryType = moduleSettingsUserControl.QueryControl.CurrentQuery.QueryType
+                                    QueryType = activitySetting.QueryControl.CurrentQuery.QueryType
                                 }
                             };
                             BroadcastMessagesModel.ManageMessagesModel.LstQueries.Add(newquery);
@@ -172,19 +172,19 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                             {
                                 if (!x.LstQueries.Any(y =>
                                     newquery.Content.QueryType ==
-                                    moduleSettingsUserControl.QueryControl.CurrentQuery.QueryType &&
+                                    activitySetting.QueryControl.CurrentQuery.QueryType &&
                                     y.Content.QueryValue == newquery.Content.QueryValue))
                                     x.LstQueries.Add(newquery);
                             });
                         });
-                    else if (moduleSettingsUserControl != null)
+                    else if (activitySetting != null)
                     {
                         var newquery = new QueryContent
                         {
                             Content = new QueryInfo
                             {
-                                QueryValue = moduleSettingsUserControl.QueryControl.CurrentQuery.QueryValue,
-                                QueryType = moduleSettingsUserControl.QueryControl.CurrentQuery.QueryType
+                                QueryValue = activitySetting.QueryControl.CurrentQuery.QueryValue,
+                                QueryType = activitySetting.QueryControl.CurrentQuery.QueryType
                             }
                         };
                         BroadcastMessagesModel.ManageMessagesModel.LstQueries.Add(newquery);
@@ -192,7 +192,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         {
                             if (!x.LstQueries.Any(y =>
                                 newquery.Content.QueryType ==
-                                moduleSettingsUserControl.QueryControl.CurrentQuery.QueryType &&
+                                activitySetting.QueryControl.CurrentQuery.QueryType &&
                                 y.Content.QueryValue == newquery.Content.QueryValue))
                                 x.LstQueries.Add(newquery);
                         });

@@ -255,7 +255,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Reddit")]
         Reply = 84,
 
-        [Description("Reddit,Twitter")]
+        [Description("Twitter")]
         Delete = 85,
 
         [Description("Facebook")]

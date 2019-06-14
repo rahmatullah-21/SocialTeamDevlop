@@ -33,7 +33,7 @@
             
                 </Expander>
                 <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5">
-                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                    <customControl:JobConfigControl JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>
             </StackPanel>
 

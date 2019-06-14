@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
              mc:Ignorable="d" 
-              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
     <i:Interaction.Triggers>
@@ -32,16 +32,17 @@
                                          VerticalAlignment="Center" Margin="5"
                                          IsChecked="{Binding IsReplyToPendingMessagesChecked}"/>
 
-                            <RadioButton Content="LangKeyReplyToConnectedPeopleReplyToThePeopleWhoAreConnectedInMessanger" 
+                            <RadioButton Content="{DynamicResource LangKeyReplyToConnectedPeopleReplyToThePeopleWhoAreConnectedInMessanger}" 
                                          VerticalAlignment="Center" Margin="5" Visibility="{Binding FacebookElementsVisibility}"
                                          IsChecked="{Binding AutoReplyOptionModel.IsFriendsMessageChecked}" />
 
                             <RadioButton Content="{DynamicResource LangKeyReplyToAllMessages}"
                                          VerticalAlignment="Center" Margin="5"
                                          IsChecked="{Binding IsReplyToAllMessagesChecked}" Visibility="{Binding AllMessagesVisibility}"/>
-                            
+
                             <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainsSpecificWord}"
                                   VerticalAlignment="Center" Margin="5"
+                                        Unchecked="ChkMessagesContainsSpecificWords_OnUnchecked"
                                   IsChecked="{Binding IsReplyToMessagesThatContainSpecificWordChecked}"/>
 
                             <customControl:InputBoxControl x:Name="TextBoxSpecificWords"
@@ -68,7 +69,7 @@
                     </StackPanel>
                 </Expander>
 
-                    <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
+                <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
                     <StackPanel>
                         <CheckBox  Content="{DynamicResource LangKeyMakeMessageAsSpinText}" Name="ChkMakeCaptionAsSpinText" IsChecked="{Binding IsChkMakeCaptionAsSpinText}"/>
                         <customControl:MessageMediaControl x:Name="MessagesControl" Messages="{Binding ManageMessagesModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 

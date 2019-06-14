@@ -14,12 +14,31 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="MakeAdmin"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Make Admin Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
 
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text=" Make Group Admin Settings" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
+             
+                <RadioButton Margin="5,10,0,10" Content="{DynamicResource LangKeySelectAccountDetails}" IsChecked="{Binding IsSelctDetails}" Checked="SelectAccountDetails_Click"/>
+
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
+
 </UserControl>

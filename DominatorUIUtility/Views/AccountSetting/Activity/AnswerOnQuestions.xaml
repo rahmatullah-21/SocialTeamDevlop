@@ -25,15 +25,13 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
-              
-                <actcustom:ActivitySetting HeaderNextPreViousVisiblity="Collapsed"
+              <actcustom:ActivitySettingWithoutButton 
                                            IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            JobConfiguration="{Binding JobConfiguration}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}" 
                                            DeleteQueryCommand="{Binding DeleteQueryCommand}"
                                            DeleteMulipleCommand="{Binding DeleteMultipleCommand}"
-                                           AddQueryCommand="{Binding AddQueryToMsgCommand}"
-                                           NextButtonContent="{Binding NextButtonContent}"/>
+                                           AddQueryCommand="{Binding AddQueryToMsgCommand}"/>
                   <Expander  Header="{DynamicResource LangKeyManageAnswer}" Margin="5,5,5,0" >
                     <StackPanel>
                         <customControl:CommentControl x:Name="CommentControl" Comments="{Binding AnswerQuestionModel.ManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 

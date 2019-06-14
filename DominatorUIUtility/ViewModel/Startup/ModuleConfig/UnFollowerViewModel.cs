@@ -8,6 +8,7 @@ using Prism.Regions;
 using ProtoBuf;
 using System.Collections.Generic;
 using System.Windows;
+using System;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -18,7 +19,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         private int _followedBeforeDay;
         private int _followedBeforeHour;
         private bool _isChkCustomUsersListChecked;
-
         private bool _isChkPeopleFollowedBySoftwareCheecked;
         private bool _isChkPeopleFollowedOutsideSoftwareChecked;
         private bool _isUserFollowedBeforeChecked;
@@ -132,6 +132,25 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 SetProperty(ref _listOfCustomUsers, value);
             }
         }
+
+        [ProtoMember(13)]
+        public bool IsRdWhoDoNotFollowBackChecked
+        {
+            get { return _isWhoDoNotFollowBackChecked; }
+            set
+            {
+                SetProperty(ref _isWhoDoNotFollowBackChecked, value);
+            }
+        }
+        [ProtoMember(14)]
+        public bool IsRdWhoFollowBackChecked
+        {
+            get { return _isWhoFollowBackChecked; }
+            set
+            {
+                SetProperty(ref _isWhoFollowBackChecked, value);
+            }
+        }
     }
     public interface IUnFollowerViewModel : ITwitterVisibilityModel
     {
@@ -153,15 +172,20 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         private UnFollower _UnFollower = new UnFollower();
         public Visibility TwitterElementsVisibility { get; set; } = Visibility.Collapsed;
-
+        public Visibility InstagramElementsVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility AllVisibility { get; set; } = Visibility.Visible;
         public UnFollowerViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unfollow });
             IsNonQuery = true;
-            NextCommand = new DelegateCommand(NevigateNext);
+            NextCommand = new DelegateCommand(NextValidation);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             ElementsVisibility.NetworkElementsVisibilty(this);
+
+            if (InstagramElementsVisibility == Visibility.Visible)
+                AllVisibility = Visibility.Collapsed;
+
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfUnfollowPerJob".FromResourceDictionary(),
@@ -171,6 +195,18 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 IncreaseActivityDisplayName = "LangKeyMaxUnfollowsPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes
             };
+        }
+
+        private void NextValidation()
+        {
+            if ((_UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked || _UnFollower.IsChkPeopleFollowedBySoftwareCheecked || _UnFollower.IsChkCustomUsersListChecked) &&
+                (_UnFollower.IsWhoDoNotFollowBackChecked || _UnFollower.IsWhoFollowBackChecked))
+                NevigateNext();
+            else
+            {
+                Dialog.ShowDialog("Error", "Please select Unfollow source and source type");
+                return;
+            }
         }
 
         public UnFollower UnFollower
@@ -285,9 +321,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 UnFollower.IsWhoFollowBackChecked = value;
             }
         }
-
         private bool _isWhoFollowBackChecked;
-
         public bool IsWhoFollowBackChecked
         {
             get

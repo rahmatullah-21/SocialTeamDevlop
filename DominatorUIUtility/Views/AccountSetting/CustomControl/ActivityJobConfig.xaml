@@ -15,7 +15,9 @@
     </UserControl.Resources>
     <Grid Name="MainGrid">
         <StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
+            <custom:JobConfigControl JobConfiguration="{Binding JobConfiguration}"/>
+         
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,8,0,0">
                 <TextBlock  VerticalAlignment="Center" Text="{StaticResource LangKeyDelayBetweenEachOperation}"  />
                 <controls:NumericUpDown Minimum="0" Name="DelayOperationStartValue" Margin="5,5,5,0" Value="{Binding JobConfiguration.DelayBetweenActivity.StartValue}" />
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"  Content="{DynamicResource LangKeyTo}" />
@@ -101,7 +103,8 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </StackPanel>
-            </StackPanel>
+            </StackPanel>-->
+        
         </StackPanel>
     </Grid>
 </UserControl>

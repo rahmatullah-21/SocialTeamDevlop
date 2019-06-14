@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:DominatorHouse"
         mc:Ignorable="d"
          xmlns:regions="http://prismlibrary.com/"
-        Title="ModuleSetting" Height="300" Width="300">
+        Title="ModuleSetting" MinHeight="300" MinWidth="300">
     <Grid>
-        <ContentControl regions:RegionManager.RegionName="StartupRegion"  />
+        <TextBlock Text="gytqwfghbjfhfe"/>
+        <ContentControl regions:RegionManager.RegionName="StartupRegion" Height="500" Width="500" />
     </Grid>
 </Window>

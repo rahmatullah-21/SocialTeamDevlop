@@ -2,6 +2,6 @@
 {
     public interface IDialogModule
     {
-        bool? ShowModuleSetting();
+        void ShowModuleSetting();
     }
 }

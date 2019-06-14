@@ -26,11 +26,11 @@
             <TextBlock Text="Send Message To Follower Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-            <StackPanel>
+            <StackPanel Margin="5,5">
                 <RadioButton IsChecked="{Binding IsCheckedSendMessageToNewFollowers,Mode=TwoWay}" Content="Send message(s) to new followers" Name="IsSendMessageToNewFollowers" />
-                <StackPanel Margin="5,5">
+                <StackPanel >
                     <customControl:InputBoxControl InputText="{Binding TextMessage}"/>
-                    <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5">
                         <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
                     </Expander>
                 </StackPanel>

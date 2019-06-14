@@ -30,12 +30,12 @@
                 <StackPanel Visibility="{Binding TwitterElementsVisibility}" >
                     <CheckBox IsChecked="{Binding UnLike.IsLikedTweets}" Content="{DynamicResource LangKeyLikedTweets}"  Margin="5"  />
                     <CheckBox IsChecked="{Binding UnLike.IsCustomTweets}" Content="{DynamicResource LangKeyCustomTweetLists}" Margin="5" />
-                    <customControl:InputBoxControl  Visibility="{Binding UnLike.IsCustomTweets,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                    <customControl:InputBoxControl Margin="5,0" Visibility="{Binding UnLike.IsCustomTweets,Converter={StaticResource BooleanToVisibilityConverter}}" 
                                                            InputText="{Binding UnLike.CustomTweets}"  SaveCommand="{Binding SplitInputToListCommand}"
                                                            CommandParameter="{Binding ElementName=CustomPostLists}" />
                 </StackPanel>
 
-                <RadioButton Margin="5,0" IsChecked="{Binding IsCheckedUnlikeMedia,Mode=TwoWay}" Content="Unlike Media" Visibility="{Binding InstagramElementsVisibility}" />
+                <RadioButton Margin="5" IsChecked="{Binding IsCheckedUnlikeMedia,Mode=TwoWay}" Content="Unlike Media" Visibility="{Binding InstagramElementsVisibility}" />
                 <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
                     <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>

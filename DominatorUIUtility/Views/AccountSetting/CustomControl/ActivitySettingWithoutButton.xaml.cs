@@ -1,6 +1,5 @@
 ﻿using DominatorHouseCore;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Utility;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -25,17 +24,18 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQueryExecute);
             DeleteMulipleCommand = new DelegateCommand<object>(DeleteMulipleExecute);
         }
-        public string Heading
+      
+        public Speed Model => new Speed();
+        
+        public bool IsUseGlobalQuery
         {
-            get { return (string)GetValue(HeadingProperty); }
-            set { SetValue(HeadingProperty, value); }
+            get { return (bool)GetValue(IsUseGlobalQueryProperty); }
+            set { SetValue(IsUseGlobalQueryProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Heading.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HeadingProperty =
-            DependencyProperty.Register("Heading", typeof(string), typeof(ActivitySetting), new PropertyMetadata(string.Empty));
-
-
+        // Using a DependencyProperty as the backing store for IsUseGlobalQuery.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsUseGlobalQueryProperty =
+            DependencyProperty.Register("IsUseGlobalQuery", typeof(bool), typeof(ActivitySettingWithoutButton), new PropertyMetadata(false));
 
         public JobConfiguration JobConfiguration
         {
@@ -45,7 +45,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
 
         // Using a DependencyProperty as the backing store for JobConfiguration.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty JobConfigurationProperty =
-            DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(ActivitySetting), new FrameworkPropertyMetadata()
+            DependencyProperty.Register("JobConfiguration", typeof(JobConfiguration), typeof(ActivitySettingWithoutButton), new FrameworkPropertyMetadata()
             {
                 BindsTwoWayByDefault = true,
                 DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -59,7 +59,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
 
         // Using a DependencyProperty as the backing store for ListQueryType.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ListQueryTypeProperty =
-            DependencyProperty.Register("ListQueryType", typeof(List<string>), typeof(ActivitySetting), new PropertyMetadata(new List<string>()));
+            DependencyProperty.Register("ListQueryType", typeof(List<string>), typeof(ActivitySettingWithoutButton), new PropertyMetadata(new List<string>()));
 
         public ObservableCollection<QueryInfo> SavedQueries
         {
@@ -69,11 +69,11 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
 
         // Using a DependencyProperty as the backing store for SavedQueries.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SavedQueriesProperty =
-            DependencyProperty.Register("SavedQueries", typeof(ObservableCollection<QueryInfo>), typeof(ActivitySetting), new PropertyMetadata(new ObservableCollection<QueryInfo>()));
+            DependencyProperty.Register("SavedQueries", typeof(ObservableCollection<QueryInfo>), typeof(ActivitySettingWithoutButton), new PropertyMetadata(new ObservableCollection<QueryInfo>()));
 
 
         private static readonly DependencyProperty AddQueryCommandProperty
-          = DependencyProperty.Register("AddQueryCommand", typeof(ICommand), typeof(ActivitySetting));
+          = DependencyProperty.Register("AddQueryCommand", typeof(ICommand), typeof(ActivitySettingWithoutButton));
 
         public ICommand AddQueryCommand
         {
@@ -95,7 +95,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(ActivitySetting), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(ActivitySettingWithoutButton), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
 
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -109,7 +109,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
 
         // Using a DependencyProperty as the backing store for DeleteQueryCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DeleteQueryCommandProperty =
-            DependencyProperty.Register("DeleteQueryCommand", typeof(ICommand), typeof(ActivitySetting));
+            DependencyProperty.Register("DeleteQueryCommand", typeof(ICommand), typeof(ActivitySettingWithoutButton));
 
 
         public ICommand DeleteMulipleCommand
@@ -120,10 +120,10 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
 
         // Using a DependencyProperty as the backing store for DeleteMulipleCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DeleteMulipleCommandProperty =
-            DependencyProperty.Register("DeleteMulipleCommand", typeof(ICommand), typeof(ActivitySetting));
+            DependencyProperty.Register("DeleteMulipleCommand", typeof(ICommand), typeof(ActivitySettingWithoutButton));
 
         private static readonly RoutedEvent DeleteQueryEvent = EventManager.RegisterRoutedEvent("DeleteQuery",
-                  RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ActivitySetting));
+                  RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ActivitySettingWithoutButton));
 
         public event RoutedEventHandler DeleteQuery
         {

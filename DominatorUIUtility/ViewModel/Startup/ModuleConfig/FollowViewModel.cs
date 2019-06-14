@@ -3,8 +3,6 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -28,9 +26,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfFollowsPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxFollowsPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes,
-                IsAdvanceSetting = true
             };
-            JobConfiguration.SelectedItem = string.Empty;
             ListQueryType.Clear();
         }
     }

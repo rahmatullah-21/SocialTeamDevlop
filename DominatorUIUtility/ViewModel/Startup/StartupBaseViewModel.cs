@@ -33,7 +33,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         {
             IsNonQuery = false;
             regionManager = region;
-            AddQueryCommand = new DelegateCommand<ActivitySetting>(AddQuery);
+            AddQueryCommand = new DelegateCommand<dynamic>(AddQuery);
         }
 
         #region Commands
@@ -139,7 +139,7 @@ namespace DominatorUIUtility.ViewModel.Startup
 
         #region Methods
 
-        private void AddQuery(ActivitySetting actvity)
+        private void AddQuery(dynamic actvity)
         {
             try
             {
@@ -147,15 +147,15 @@ namespace DominatorUIUtility.ViewModel.Startup
                 var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
                 var network = actvity.QueryControl.Network = viewModel.SelectedNetwork;
                 var _activityType = actvity.QueryControl.ActivityType = (ActivityType)Enum.Parse(typeof(ActivityType), NavigationList[selectedIndex]);
-               
+
                 if (string.IsNullOrEmpty(actvity.QueryControl.CurrentQuery.QueryValue) && actvity.QueryControl.QueryCollection.Count != 0)
                 {
-                    actvity.QueryControl.QueryCollection.ForEach(query =>
+                    foreach (var query in actvity.QueryControl.QueryCollection)
                     {
                         var currentQuery = actvity.QueryControl.CurrentQuery.Clone() as QueryInfo;
 
                         if (currentQuery == null) return;
-                        var lstquery = query.Split('\t').ToList();
+                        var lstquery = new List<string>(query.Split('\t'));
                         if (lstquery.Count > 1)
                             if (network.ToString() == lstquery[0] && lstquery[1] == _activityType.ToString())
                             {
@@ -172,6 +172,7 @@ namespace DominatorUIUtility.ViewModel.Startup
                             currentQuery.QueryValue = query;
                             currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
                             currentQuery.QueryPriority = SavedQueries.Count + 1;
+                            IsQueryOfCurrentModule = true;
                         }
                         if (SavedQueries.Any(x => x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
                         {
@@ -179,7 +180,9 @@ namespace DominatorUIUtility.ViewModel.Startup
                             return;
                         }
                         SavedQueries.Add(currentQuery);
-                    });
+
+                    }
+
                     if (!IsQueryOfCurrentModule)
                         GlobusLogHelper.log.Info(Log.CustomMessage, network, viewModel.SelectAccount.UserName, _activityType, $"Query can't add because it may not related to {network}  {_activityType} module.");
                 }

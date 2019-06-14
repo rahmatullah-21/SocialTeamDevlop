@@ -39,6 +39,7 @@ using DominatorUIUtility.Views;
 using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
 using DominatorUIUtility.ViewModel.Startup;
+using DominatorUIUtility.Module;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -221,6 +222,9 @@ namespace DominatorUIUtility.ViewModel
 
         private void CustomSetting(DominatorAccountModel account)
         {
+            //var ui = ServiceLocator.Current.GetInstance<IDialogModule>();
+            //ui.ShowModuleSetting();
+
             if (_mainViewModel.IsPopUpOpen)
                 return;
             var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();

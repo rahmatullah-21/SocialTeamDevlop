@@ -1,11 +1,14 @@
 ﻿#region Namespaces
 using CommonServiceLocator;
+using DominatorHouse;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
+using DominatorUIUtility.Module;
 using MahApps.Metro.Controls.Dialogs;
+using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +26,7 @@ namespace Socinator
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : IMainWindow
+    public partial class MainWindow : IMainWindow, IDialogModule
     {
         private bool IsClickedFromMainWindow { get; set; } = true;
         IMainViewModel mainViewModel;
@@ -130,5 +133,17 @@ namespace Socinator
             _isDragble = false;
         }
 
+        public void ShowModuleSetting()
+        {
+            try
+            {
+                var moduleSetting = new ModuleSetting(ServiceLocator.Current.GetInstance<IRegionManager>());
+                moduleSetting.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+            }
+          
+        }
     }
 }

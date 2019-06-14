@@ -2,6 +2,7 @@
 using DominatorHouse.ViewModels;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.ViewModel;
+using DominatorUIUtility.Module;
 using DominatorUIUtility.ViewModel.Startup;
 using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
 using Unity;
@@ -16,6 +17,7 @@ namespace DominatorHouse.IoC
             // views
 
             // view models
+            Container.RegisterSingleton<IDialogModule, Socinator.MainWindow>();
             Container.RegisterSingleton<IMainViewModel, MainViewModel>();
             Container.RegisterSingleton<IPerfCounterViewModel, PerfCounterViewModel>();
             Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();

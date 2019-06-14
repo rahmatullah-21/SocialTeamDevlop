@@ -31,7 +31,7 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-                <RadioButton IsChecked="{Binding IsCheckedDeleteAllPosts,Mode=TwoWay}" Content="Delete Posts" Name="IsDeleteAllPosts" />
+                <RadioButton IsChecked="{Binding IsCheckedDeleteAllPosts,Mode=TwoWay}" Margin="5" Content="Delete Posts" Name="IsDeleteAllPosts" />
                 <StackPanel Margin="15,0" Visibility="{Binding IsCheckedDeleteAllPosts,Converter={StaticResource BooleanToVisibilityConverters}}">
                     <StackPanel Orientation="Vertical" Margin="5,5">
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyDeletePostWhichIsPostedBySoftware}" Name="Chk_DeletePostWhichIsPostedBySoftware" IsChecked="{Binding ChkDeletePostWhichIsPostedBySoftware}"/>
