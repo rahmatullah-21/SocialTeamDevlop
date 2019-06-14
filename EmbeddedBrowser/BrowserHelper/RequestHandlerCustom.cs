@@ -12,9 +12,12 @@ namespace EmbeddedBrowser.BrowserHelper
 
         public List<MemoryStreamResponseFilter> responseList = new List<MemoryStreamResponseFilter>();
 
-        public RequestHandlerCustom(BrowserWindow embedBrowser)
+        public bool IsNeedResourceData { get; set; }
+
+        public RequestHandlerCustom(BrowserWindow embedBrowser, bool isNeedResourceData = false)
         {
             this.embedBrowser = embedBrowser;
+            IsNeedResourceData = isNeedResourceData;
         }
 
         public bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy,
@@ -35,9 +38,12 @@ namespace EmbeddedBrowser.BrowserHelper
         {
             try
             {
-                var dataFilter = new MemoryStreamResponseFilter();
-                responseList.Add(dataFilter);
-                return dataFilter;
+                if(IsNeedResourceData)
+                {
+                    var dataFilter = new MemoryStreamResponseFilter();
+                    responseList.Add(dataFilter);
+                    return dataFilter;
+                }
             }
             catch (Exception ex)
             {
@@ -98,7 +104,7 @@ namespace EmbeddedBrowser.BrowserHelper
 
         public void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame,
             IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
-         {
+        {
             if (embedBrowser.Browser.IsDisposed) return;
             if (!embedBrowser.Dispatcher.CheckAccess())
                 embedBrowser.Dispatcher.BeginInvoke(new Action(delegate
@@ -113,8 +119,8 @@ namespace EmbeddedBrowser.BrowserHelper
                         embedBrowser.Browser.Address = embedBrowser.UrlBar.Text = "https://myaccount.google.com/";
                         return;
                     }
-                    if (embedBrowser.UrlBar.Text ==embedBrowser.Browser.Address)
-                    return;
+                    if (embedBrowser.UrlBar.Text == embedBrowser.Browser.Address)
+                        return;
 
                     embedBrowser.UrlBar.Text = embedBrowser.Browser.Address;
                 }));

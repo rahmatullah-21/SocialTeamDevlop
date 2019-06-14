@@ -74,14 +74,15 @@ namespace EmbeddedBrowser
             SearchCommand = new DelegateCommand(() => GoToUrl());
         }
 
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false)
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false,
+            bool skipAd = false, bool isNeedResourceData = false)
             : this()
         {
             DominatorAccountModel = dominatorAccountModel;
             TargetUrl = targetUrl;
             CustomUse = customUse;
             SkipYoutubeAd = skipAd;
-            _requestHandlerCustom = new RequestHandlerCustom(this);
+            _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
@@ -1664,8 +1665,9 @@ namespace EmbeddedBrowser
             [Description("action_click")]
             ActionClick = 19,
             [Description("target")]
-            Target = 20
-            //aria-checked
+            Target = 20,
+            [Description("action_mousedown")]
+            ActionMouseDown = 21
         }
 
 
@@ -1798,7 +1800,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
+            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()";
 
             switch (actType)
             {
@@ -2548,7 +2550,22 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10);
-                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                var lstResponseStream = new List<MemoryStreamResponseFilter>();
+
+                bool isSuccess = false;
+
+                while (!isSuccess)
+                {
+                    try
+                    {
+                        lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                        isSuccess = true;
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains));
                 if (responseStream != null)
@@ -2579,27 +2596,6 @@ namespace EmbeddedBrowser
                 urlNow = Browser.Address;
             return urlNow;
         }
-        public async Task SelectTextAsync(int stratXlocation, int startYLocation, int moveToXLocation,
-                     int moveToYLocation, double delayBefore = 0, double delayAfter = 0, int clickLeavEvent = 0)
-        {
-            MouseButtonType mouseButton = MouseButtonType.Left;
-
-            if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
-
-            if (Browser.IsDisposed) return;
-
-            await MouseClickAsync(stratXlocation, startYLocation);
-            await Task.Delay(500);
-
-            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 0, CefEventFlags.ShiftDown);
-            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, false, 1, CefEventFlags.ShiftDown);
-            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 1, CefEventFlags.ShiftDown);
-
-            if (delayAfter > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
-        }
-
         public KeyValuePair<int, int> GetEndXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "")
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
@@ -2617,7 +2613,7 @@ namespace EmbeddedBrowser
             }
             return xAndY;
         }
-        public IFrame GetFrame(string url)
+        public async Task<IFrame> GetFrame(string url)
         {
             IFrame frame = null;
 
@@ -2628,12 +2624,14 @@ namespace EmbeddedBrowser
 
                 var v = Browser.GetBrowser().GetFrameNames();
                 frame = Browser.GetBrowser().GetFrame(i);
-                if (frame.Url.Contains("follow"))
+                if (frame.Url.Contains("url"))
                     return frame;
+                var document = await frame.GetSourceAsync();
 
             }
             return null;
         }
+
         public async Task<string> GetElementValueAsyncFromFrame(IFrame frame, string script)
         {
             await Task.Delay(1000);
@@ -2645,5 +2643,35 @@ namespace EmbeddedBrowser
             await Task.Delay(1000);
             frame.ExecuteJavaScriptAsync(script);
         }
+       
+        public async Task SelectTextAsync(int stratXlocation, int startYLocation, int moveToXLocation,
+                     int moveToYLocation, double delayBefore = 0, double delayAfter = 0,
+            int clickLeavEvent = 0)
+        {
+            MouseButtonType mouseButton = MouseButtonType.Left;
+
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return;
+
+            await MouseClickAsync(stratXlocation, startYLocation);
+            await Task.Delay(1000);
+
+            //Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 0, CefEventFlags.ShiftDown);
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, false, 1, CefEventFlags.ShiftDown);
+            Browser.GetBrowser().GetHost().SendMouseClickEvent(stratXlocation + moveToXLocation, moveToYLocation, mouseButton, true, 1, CefEventFlags.ShiftDown);
+
+            if (delayAfter > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+        }
+
+
+        public void SetResourceLoadInstance() =>
+            _requestHandlerCustom.IsNeedResourceData = true;
+
+        public void ReSetResourceLoadInstance() =>
+            _requestHandlerCustom.IsNeedResourceData = false;
+
     }
 }
