@@ -641,7 +641,7 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _exportPath, value); }
         }
 
-        private bool _isRunProcessThroughBrowser = true;
+        private bool _isRunProcessThroughBrowser;
         [ProtoMember(44)]
         public bool IsRunProcessThroughBrowser
         {
