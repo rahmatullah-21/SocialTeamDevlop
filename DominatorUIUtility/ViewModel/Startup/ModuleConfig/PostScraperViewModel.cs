@@ -5,6 +5,8 @@ using DominatorHouseCore.Utility;
 using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
+using System;
+using System.Linq;
 using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
@@ -37,7 +39,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyScrapNumberOfPostsPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyScrapNumberOfPostsPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyScrapMaxPostsPerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
         }

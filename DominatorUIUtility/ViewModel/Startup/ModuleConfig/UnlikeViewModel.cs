@@ -7,6 +7,7 @@ using Prism.Commands;
 using Prism.Regions;
 using ProtoBuf;
 using System;
+using System.Linq;
 using System.Windows;
 
 
@@ -79,13 +80,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfUnLikesPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfUnLikesPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxUnLikesPerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
         }
-
-
     }
-
-
 }

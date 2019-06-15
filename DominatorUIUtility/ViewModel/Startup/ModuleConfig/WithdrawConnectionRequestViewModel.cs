@@ -53,7 +53,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfConnectionsRequestsToWithdrawPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfConnectionsRequestsToWithdrawPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxConnectionRequestsToWithdrawPerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
         private void SaveCustomUsers(object sender)

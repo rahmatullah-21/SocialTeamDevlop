@@ -42,7 +42,6 @@
 
                             <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainsSpecificWord}"
                                   VerticalAlignment="Center" Margin="5"
-                                        Unchecked="ChkMessagesContainsSpecificWords_OnUnchecked"
                                   IsChecked="{Binding IsReplyToMessagesThatContainSpecificWordChecked}"/>
 
                             <customControl:InputBoxControl x:Name="TextBoxSpecificWords"
@@ -68,8 +67,10 @@
                         </StackPanel>
                     </StackPanel>
                 </Expander>
-
-                <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
+                <Expander IsExpanded="True" Visibility="{Binding QuoraElementsVisibility}" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
+                    <customControl:InputBoxControl x:Name="InputMessageForReply" InputText="{Binding Message}"/>
+                </Expander>
+                <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" Visibility="{Binding MessagesVisibility}">
                     <StackPanel>
                         <CheckBox  Content="{DynamicResource LangKeyMakeMessageAsSpinText}" Name="ChkMakeCaptionAsSpinText" IsChecked="{Binding IsChkMakeCaptionAsSpinText}"/>
                         <customControl:MessageMediaControl x:Name="MessagesControl" Messages="{Binding ManageMessagesModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
@@ -77,7 +78,7 @@
                         <customControl:ManageMediaMessages  LstManageMessagesModel="{Binding LstDisplayManageMessageModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </StackPanel>
                 </Expander>
-                <Expander Header="{DynamicResource LangKeyJobConfiguration}" >
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" >
                     <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>
             </StackPanel>

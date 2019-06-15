@@ -43,7 +43,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfCommentsPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfCommentsPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxCommentPerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
 
         }

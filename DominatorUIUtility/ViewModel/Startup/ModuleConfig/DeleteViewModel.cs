@@ -5,6 +5,7 @@ using Prism.Commands;
 using Prism.Regions;
 using ProtoBuf;
 using System;
+using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -275,7 +276,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfDeletesPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfDeletesPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxDeletePerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
     }

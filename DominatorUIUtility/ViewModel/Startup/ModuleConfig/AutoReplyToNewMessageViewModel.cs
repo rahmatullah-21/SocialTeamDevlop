@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore;
+﻿using CommonServiceLocator;
+using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
@@ -25,20 +26,22 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     public class AutoReplyToNewMessageViewModel : StartupBaseViewModel, IAutoReplyToNewMessageViewModel
     {
         public Visibility FacebookElementsVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility QuoraElementsVisibility { get; set; } = Visibility.Collapsed;
         public Visibility AllMessagesVisibility { get; set; } = Visibility.Visible;
+        public Visibility MessagesVisibility { get; set; } = Visibility.Visible;
         public AutoReplyToNewMessageViewModel(IRegionManager region) : base(region)
         {
 
             ManageMessagesModel.LstQueries.Add(new QueryContent { Content = new QueryInfo() { QueryType = "All", QueryValue = "All" } });
-
             IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.AutoReplyToNewMessage });
 
             ElementsVisibility.NetworkElementsVisibilty(this);
 
-            //For Facebook Reply to all message is not required
             if (FacebookElementsVisibility == Visibility.Visible)
                 AllMessagesVisibility = Visibility.Collapsed;
+            if (QuoraElementsVisibility == Visibility.Visible)
+                MessagesVisibility = Visibility.Collapsed;
 
             NextCommand = new DelegateCommand(AutoReplyToNewMessageValidation);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
@@ -52,7 +55,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfMessagesPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfMessagesPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxMessagesPerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
         public ICommand AddMessagesCommand { get; set; }
@@ -183,6 +187,21 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     return;
                 SetProperty(ref _isReplyToMessagesThatContainSpecificWord﻿Checked, value);
                 FbMethod();
+                if (!_isReplyToMessagesThatContainSpecificWord﻿Checked)
+                {
+                    SpecificWord = string.Empty;
+                    int count = ManageMessagesModel.LstQueries.Count;
+                    while (count > 1)
+                    {
+                        var Content = ManageMessagesModel.LstQueries[count - 1].Content;
+                        if (Content.QueryValue != "Default" &&
+                            Content.QueryValue != "LangKeyReplyToAllMessages"?.FromResourceDictionary())
+                        {
+                            ManageMessagesModel.LstQueries.RemoveAt(count - 1);
+                        }
+                        count--;
+                    }
+                }
             }
         }
 
@@ -192,6 +211,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             AutoReplyOptionModel.IsFilterByIncommingMessageText = IsReplyToMessagesThatContainSpecificWord﻿Checked;
         }
 
+        private string _message;
+        public string Message
+        {
+            get { return _message; }
+            set { SetProperty(ref _message, value); }
+        }
         private bool _isReplyToPendingMessages﻿﻿Checked;
 
         public bool IsReplyToPendingMessages﻿﻿Checked
@@ -205,8 +230,44 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 if (_isReplyToPendingMessages﻿﻿Checked == value)
                     return;
                 SetProperty(ref _isReplyToPendingMessages﻿﻿Checked, value);
-                if (_isReplyToPendingMessages﻿﻿Checked == true)
+                if (_isReplyToPendingMessages﻿﻿Checked)
+                {
                     FbMethod();
+                    AddQuery("LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount");
+                }
+                else RemoveQuery("LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount");
+            }
+        }
+
+        public void AddQuery(string keyResource)
+        {
+            try
+            {
+                var queryValue = keyResource.Equals("All") ? "All" : keyResource?.FromResourceDictionary();
+                if (ManageMessagesModel.LstQueries.All(x => x.Content.QueryValue != queryValue))
+                    ManageMessagesModel.LstQueries.Add(new QueryContent
+                    {
+                        Content = new QueryInfo
+                        {
+                            QueryValue = queryValue
+                        }
+                    });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        public void RemoveQuery(string keyResource)
+        {
+            try
+            {
+                var queryValue = keyResource.Equals("All") ? "All" : keyResource?.FromResourceDictionary();
+                ManageMessagesModel.LstQueries.Remove(ManageMessagesModel.LstQueries.FirstOrDefault(x => x.Content.QueryValue == queryValue));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
             }
         }
 
@@ -238,10 +299,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
             set
             {
-                if (_isReplyToAllMessages﻿﻿Checked == value)
-                    return;
                 SetProperty(ref _isReplyToAllMessages﻿﻿Checked, value);
+                if (IsReplyToAllMessagesChecked)
+                    AddQuery("LangKeyReplyToAllMessages");
 
+                else
+                    RemoveQuery("LangKeyReplyToAllMessages");
             }
         }
         private string _specificWord;
@@ -373,11 +436,22 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     Dialog.ShowDialog("Error", "Please Check Atleast One mesaage type");
                     return;
                 }
+                Dialog.ShowDialog("Error", "Please Check Atleast One mesaage type");
+                return;
             }
+            var account = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount;
 
-            if (LstDisplayManageMessageModel.Count == 0)
+            if (account.AccountBaseModel.AccountNetwork != SocialNetworks.Quora)
             {
-                Dialog.ShowDialog("Error", "Please add atleast One Message");
+                if (LstDisplayManageMessageModel.Count == 0)
+                {
+                    Dialog.ShowDialog("Error", "Please add atleast One Message");
+                    return;
+                }
+            }
+            else if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Quora && string.IsNullOrEmpty(Message))
+            {
+                Dialog.ShowDialog("Error", "Please add type some message.");
                 return;
             }
 

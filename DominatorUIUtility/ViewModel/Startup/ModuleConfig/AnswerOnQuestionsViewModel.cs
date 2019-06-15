@@ -67,7 +67,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyAnswerScrapePerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyAnswerScrapePerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxAnswerScrapePerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
 

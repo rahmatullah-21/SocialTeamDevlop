@@ -109,7 +109,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfBoardsCreatePerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfBoardsCreatePerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxBoardsCreatePerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             AssignNewCategory();
             AddBoardCommand = new BaseCommand<object>((sender) => true, AddBoard);

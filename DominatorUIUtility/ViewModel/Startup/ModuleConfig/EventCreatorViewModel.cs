@@ -43,7 +43,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyCreateNumberOfEventsPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyCreateNumberOfMaximumEventsPerDay".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyCreateNumberOfEventsPerWeek".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
         }

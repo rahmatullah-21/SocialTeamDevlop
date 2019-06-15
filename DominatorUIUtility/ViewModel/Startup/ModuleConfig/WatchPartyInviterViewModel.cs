@@ -31,7 +31,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerWeekDisplayName = "LangKeyInviteToNumberOfProfilesPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyInviteMaxProfilesPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes,
-                Speeds=Enum.GetNames(typeof(ActivitySpeed)).ToList()
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
 
@@ -47,7 +47,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
-        private InviterOptions _inviterOptions=new InviterOptions();
+        private InviterOptions _inviterOptions = new InviterOptions();
         public InviterOptions InviterOptionsModel
         {
             get { return _inviterOptions; }

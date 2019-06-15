@@ -103,8 +103,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfSendBoardInvitationPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfSendBoardInvitationPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeySendBoardInvitationPerDay".FromResourceDictionary(),
-
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             AddBoardCollaboratorCommand = new BaseCommand<object>((sender) => true, AddBoardCollaborator);
             DeleteBoardCollaboratorCommand = new BaseCommand<object>((sender) => true, DeleteBoardCollaborator);

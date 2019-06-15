@@ -61,13 +61,12 @@ namespace DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig
                     case SocialNetworks.Reddit:
                         visibilityModel.RedditElementsVisibility = Visibility.Visible;
                         break;
-
+                    case SocialNetworks.Quora:
+                        visibilityModel.QuoraElementsVisibility = Visibility.Visible;
+                        break;
                 }
             }
-            catch (Exception ex)
-            {
-           
-            }
+            catch{ }
         }
     }
 }

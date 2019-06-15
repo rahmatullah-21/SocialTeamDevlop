@@ -3,7 +3,8 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
-
+using System;
+using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -27,7 +28,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyNumberOfBoardScrapPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyNumberOfBoardScrapPerWeek".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMaxBoardScrapPerDay".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
         }

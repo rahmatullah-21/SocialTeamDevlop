@@ -4,6 +4,8 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
+using System;
+using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -29,7 +31,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ActivitiesPerDayDisplayName = "LangKeyMakeAdminToNumberOfProfilesPerDay".FromResourceDictionary(),
                 ActivitiesPerWeekDisplayName = "LangKeyMakeAdminToMaxProfilesPerDay".FromResourceDictionary(),
                 IncreaseActivityDisplayName = "LangKeyMakeAdminToNumberOfProfilesPerWeek".FromResourceDictionary(),
-                RunningTime = RunningTimes.DayWiseRunningTimes
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
         }
