@@ -40,8 +40,9 @@
                                                        Visibility="{Binding IsChkCustomUsersListChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </StackPanel>
                     <Label Content="{DynamicResource LangKeySourceType}"  FontWeight="SemiBold" Margin="5,10,0,0"/>
-                    <StackPanel   Margin="15,0,0,5" Visibility="{Binding AllVisibility}">
-                        <CheckBox Content="{DynamicResource LangKeyWhoDoNotFollowBack}" Margin="5" IsChecked="{Binding IsWhoDoNotFollowBackChecked}"/>
+                    <StackPanel Margin="15,0,0,5" Visibility="{Binding AllVisibility}">
+                        <CheckBox Content="{DynamicResource LangKeyWhoDoNotFollowBack}" Margin="5"
+                                  IsChecked="{Binding IsWhoDoNotFollowBackChecked,UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox Content="{DynamicResource LangKeyWhoFollowBack}" Margin="5" IsChecked="{Binding IsWhoFollowBackChecked}"/>
                     </StackPanel>
                     <StackPanel   Margin="15,0,0,5" Visibility="{Binding InstagramElementsVisibility}">

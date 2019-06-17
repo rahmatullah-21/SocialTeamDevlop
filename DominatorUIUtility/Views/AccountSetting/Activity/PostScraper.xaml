@@ -23,7 +23,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5" Visibility="{Binding FacebookElementsVisibility}">
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5" >
             <TextBlock Text="Post Scraper Settings" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
@@ -36,15 +36,14 @@
                     </Expander>
                 </StackPanel>
 
-                <actcustom:ActivitySetting Heading="Post Scraper Settings" JobConfiguration="{Binding JobConfiguration}" 
+                <actcustom:ActivitySettingWithoutButton JobConfiguration="{Binding JobConfiguration}" 
                                            Visibility="{Binding AllVisibility}"
                                            IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                           NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                           AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+                                           AddQueryCommand="{Binding AddQueryCommand}"/>
 
 
-               
+
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

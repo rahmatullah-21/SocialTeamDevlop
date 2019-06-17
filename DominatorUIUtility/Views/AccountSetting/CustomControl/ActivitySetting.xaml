@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              mc:Ignorable="d" 
              xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
-              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:convert="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>

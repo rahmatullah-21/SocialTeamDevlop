@@ -40,6 +40,8 @@ using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
 using DominatorUIUtility.ViewModel.Startup;
 using DominatorUIUtility.Module;
+using DominatorUIUtility.Views.AccountSetting;
+using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -222,18 +224,22 @@ namespace DominatorUIUtility.ViewModel
 
         private void CustomSetting(DominatorAccountModel account)
         {
-            //var ui = ServiceLocator.Current.GetInstance<IDialogModule>();
-            //ui.ShowModuleSetting();
-
-            if (_mainViewModel.IsPopUpOpen)
-                return;
             var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
             viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
             viewModel.SelectAccount = account;
+            ModuleSetting.Instance.Show();
 
-            _mainViewModel.IsPopUpOpen = true;
-            _mainViewModel.AccountName = account.AccountBaseModel.UserName;
-            _mainViewModel.Network = account.AccountBaseModel.AccountNetwork;
+            #region Old code
+            //if (_mainViewModel.IsPopUpOpen)
+            //    return;
+            //var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            //viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
+            //viewModel.SelectAccount = account;
+
+            //_mainViewModel.IsPopUpOpen = true;
+            //_mainViewModel.AccountName = account.AccountBaseModel.UserName;
+            //_mainViewModel.Network = account.AccountBaseModel.AccountNetwork; 
+            #endregion
         }
 
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)

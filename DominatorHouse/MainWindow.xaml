@@ -47,77 +47,7 @@
             <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <Popup  StaysOpen="true" Placement="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="pop"
-                IsOpen="{Binding IsPopUpOpen}" MouseMove="Popup_MouseMove" MouseLeftButtonDown="pop_MouseLeftButtonDown"
-                MouseLeftButtonUp="pop_MouseLeftButtonUp" MouseLeave="pop_MouseLeave" MinHeight="500" MinWidth="777" 
-                Height="{Binding Height}" Width="{Binding Width}" >
-            <Border BorderBrush="Black" BorderThickness="1" Background="AliceBlue"  CornerRadius="10,0,10,0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Background="{DynamicResource AccentBaseColorBrush}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Image Source="SociNator.ico" Margin="5,0" Height="20" Width="20" VerticalAlignment="Center"/>
-                            <TextBlock VerticalAlignment="Center"  Margin="5,0" Foreground="White">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}Socinator - {{ {0} }} ( {1} )" >
-                                        <Binding Path="Network" UpdateSourceTrigger="PropertyChanged"/>
-                                        <Binding Path="AccountName" UpdateSourceTrigger="PropertyChanged"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" Grid.Column="1">
-                            <Button Background="Transparent" Command="{Binding MaximizeCommand}">
-                                <Button.Content>
-                                    <Rectangle  Fill="White" Height="15" Width="15">
-                                        <Rectangle.Style>
-                                            <Style TargetType="{x:Type Rectangle}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsRestore,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="False">
-                                                        <Setter Property="OpacityMask">
-                                                            <Setter.Value>
-                                                                <VisualBrush  Stretch="Fill" Visual="{DynamicResource appbar_window_maximize}" />
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Setter Property="ToolTip" Value="Maximize"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsRestore,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="True">
-                                                        <Setter Property="OpacityMask">
-                                                            <Setter.Value>
-                                                                <VisualBrush  Stretch="Fill" Visual="{DynamicResource appbar_window_restore}" />
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Setter Property="ToolTip" Value="Restore Down"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Rectangle.Style>
-                                    </Rectangle>
-                                </Button.Content>
-                            </Button>
-                            <Button Background="Transparent" Command="{Binding ModuleSettingCloseCommand}">
-                                <Button.Content>
-                                    <Rectangle Fill="White" Height="15" Width="15" ToolTip="{DynamicResource LangKeyClose}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button.Content>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
 
-                    <ContentControl regions:RegionManager.RegionName="StartupRegion" DataContext="{Binding}" Grid.Row="1" />
-                </Grid>
-            </Border>
-        </Popup>
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"

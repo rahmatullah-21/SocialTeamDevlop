@@ -26,7 +26,7 @@ namespace Socinator
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : IMainWindow, IDialogModule
+    public partial class MainWindow : IMainWindow
     {
         private bool IsClickedFromMainWindow { get; set; } = true;
         IMainViewModel mainViewModel;
@@ -52,8 +52,6 @@ namespace Socinator
                 ex.DebugLog();
             }
         }
-
-
         private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             statusbar.IsEnabled = false;
@@ -95,55 +93,6 @@ namespace Socinator
                 activityLogWindow.Show();
 
             }
-        }
-
-        private void Popup_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (_isDragble)
-            {
-                var currentPoint = e.GetPosition(null);
-                pop.HorizontalOffset = pop.HorizontalOffset + (currentPoint.X - _initialMousePosition.X);
-                pop.VerticalOffset = pop.VerticalOffset + (currentPoint.Y - _initialMousePosition.Y);
-            }
-        }
-        bool _isDragble;
-        Point _initialMousePosition;
-        private void pop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var element = sender as FrameworkElement;
-            _initialMousePosition = e.GetPosition(null);
-            element.CaptureMouse();
-            _isDragble = true;
-            e.Handled = true;
-        }
-
-        private void pop_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (_isDragble)
-            {
-                var element = sender as FrameworkElement;
-                element.ReleaseMouseCapture();
-                _isDragble = false;
-                e.Handled = true;
-            }
-        }
-
-        private void pop_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _isDragble = false;
-        }
-
-        public void ShowModuleSetting()
-        {
-            try
-            {
-                var moduleSetting = new ModuleSetting(ServiceLocator.Current.GetInstance<IRegionManager>());
-                moduleSetting.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-            }
-          
         }
     }
 }

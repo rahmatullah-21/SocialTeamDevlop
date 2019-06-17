@@ -9,7 +9,6 @@ using DominatorHouseCore.Utility;
 using System.Linq;
 using System;
 using DominatorHouseCore;
-using DominatorUIUtility.Views.AccountSetting.CustomControl;
 using CommonServiceLocator;
 using ProtoBuf;
 using DominatorHouseCore.Enums;

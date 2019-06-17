@@ -29,6 +29,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public Visibility QuoraElementsVisibility { get; set; } = Visibility.Collapsed;
         public Visibility AllMessagesVisibility { get; set; } = Visibility.Visible;
         public Visibility MessagesVisibility { get; set; } = Visibility.Visible;
+        public Visibility LinkedInElementsVisibility { get; set; } = Visibility.Collapsed;
+        public bool IsLinkedIn { get; set; }
         public AutoReplyToNewMessageViewModel(IRegionManager region) : base(region)
         {
 
@@ -42,6 +44,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 AllMessagesVisibility = Visibility.Collapsed;
             if (QuoraElementsVisibility == Visibility.Visible)
                 MessagesVisibility = Visibility.Collapsed;
+            if (LinkedInElementsVisibility == Visibility.Visible)
+                IsLinkedIn = true;
 
             NextCommand = new DelegateCommand(AutoReplyToNewMessageValidation);
             PreviousCommand = new DelegateCommand(NevigatePrevious);
@@ -79,7 +83,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             try
             {
-                List<string> lstSpecificWords = Regex.Split(SpecificWord, "\n").Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim()).ToList();
+                List<string> lstSpecificWords = Regex.Split(SpecificWord.Trim(), "\n").Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim()).ToList();
                 LstMessage = lstSpecificWords;
 
                 int count = ManageMessagesModel.LstQueries.Count;
@@ -88,8 +92,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 {
                     var Content = ManageMessagesModel.LstQueries[count - 1].Content;
 
-                    if (Content.QueryValue != "All")
+                    if (Content.QueryValue != "All" && (Content.QueryValue != "LangKeyReplyToAllMessages"?.FromResourceDictionary() &&
+                        Content.QueryValue != "LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount".FromResourceDictionary()))
                     {
+                       
                         ManageMessagesModel.LstQueries.RemoveAt(count - 1);
                     }
                     count--;

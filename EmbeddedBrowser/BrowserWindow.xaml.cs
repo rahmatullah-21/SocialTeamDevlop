@@ -106,19 +106,15 @@ namespace EmbeddedBrowser
         /// <summary>
         /// Set Account Model Cookies into the browser
         /// </summary>
+      
         public async Task SetCookie()
         {
             try
             {
-                var callBack = new TaskCompletionCallback();
-
                 if (DominatorAccountModel.Cookies.Count == 0)
-                {
-                    Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
                     return;
-                }
 
-                Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
+                var callBack = new TaskCompletionCallback();
 
                 foreach (var accCookie in DominatorAccountModel.Cookies)
                 {
@@ -135,7 +131,13 @@ namespace EmbeddedBrowser
                         Path = cook.Path
                     };
 
-                    var url = "https://www" + (!cook.Domain.StartsWith(".") ? "." : "") + cook.Domain;
+                    var url = "";
+                    if (cefCookie.Domain.Contains("www."))
+                        url = "https://" + cefCookie.Domain.TrimStart('.');
+                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && cefCookie.Domain.Contains("pinterest"))
+                        url = "https://" + (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest") ? "www." : "") + cefCookie.Domain.TrimStart('.');
+                    else
+                        url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
                     var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
 
@@ -153,7 +155,6 @@ namespace EmbeddedBrowser
                 ex.DebugLog();
             }
         }
-
         private void LoadSettings(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             if (!Browser.IsBrowserInitialized)
@@ -1297,7 +1298,7 @@ namespace EmbeddedBrowser
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
-                if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
+                if (!string.IsNullOrEmpty(result) && (result.Contains("\"isAuth\": true") || result.Contains("\"isAuth\":true")) && SaveCookies())
                     LoadPostPage();
 
             }
@@ -2613,6 +2614,7 @@ namespace EmbeddedBrowser
             }
             return xAndY;
         }
+
         public async Task<IFrame> GetFrame(string url)
         {
             IFrame frame = null;
@@ -2621,13 +2623,11 @@ namespace EmbeddedBrowser
 
             foreach (var i in identifiers)
             {
-
                 var v = Browser.GetBrowser().GetFrameNames();
                 frame = Browser.GetBrowser().GetFrame(i);
-                if (frame.Url.Contains("url"))
+                if (frame.Url.Contains(url))
                     return frame;
                 var document = await frame.GetSourceAsync();
-
             }
             return null;
         }
@@ -2643,7 +2643,7 @@ namespace EmbeddedBrowser
             await Task.Delay(1000);
             frame.ExecuteJavaScriptAsync(script);
         }
-       
+
         public async Task SelectTextAsync(int stratXlocation, int startYLocation, int moveToXLocation,
                      int moveToYLocation, double delayBefore = 0, double delayAfter = 0,
             int clickLeavEvent = 0)

@@ -320,7 +320,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isWhoDoNotFollowBackChecked, value);
-                UnFollower.IsWhoFollowBackChecked = value;
+                UnFollower.IsWhoDoNotFollowBackChecked = value;
             }
         }
         private bool _isWhoFollowBackChecked;

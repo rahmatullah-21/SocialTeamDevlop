@@ -25,7 +25,33 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
-                <actcustom:ActivitySettingWithoutButton x:Name="Activity" 
+                <StackPanel Visibility="{Binding LinkedInElementsVisibility}">
+                    <RadioButton GroupName="SourceType" Content="{DynamicResource LangKeyConnectionSources}" IsChecked="{Binding BroadcastMessagesModel.IsConnections}"  FontWeight="Bold" Margin="5,10,0,0" />
+                    <StackPanel  Margin="15,0,0,5"  Visibility="{Binding BroadcastMessagesModel.IsConnections,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <CheckBox Content="{DynamicResource LangKeyBySoftware}"   Margin="5" 
+                                  IsChecked="{Binding BroadcastMessagesModel.IsCheckedBySoftware}" />
+
+                        <CheckBox Content="{DynamicResource LangKeyOutsideSoftware}" Margin="5" 
+                                  IsChecked="{Binding BroadcastMessagesModel.IsCheckedOutSideSoftware}" />
+                        <CheckBox Content="{DynamicResource LangKeyCustomUsersList}"  Margin="5"
+                                  IsChecked="{Binding BroadcastMessagesModel.IsCheckedLangKeyCustomUserList}"/>
+                        <customControl:InputBoxControl Margin="25,5" x:Name="CustomUserListInputBox" 
+                                 InputText="{Binding BroadcastMessagesModel.UrlInput}"
+                                 SaveCommand="{Binding SaveCustomUserListCommand}"
+                                 WaterMarkText="{DynamicResource LangKeyEnterProfileUrlS}"
+                                 Visibility="{Binding BroadcastMessagesModel.IsCheckedLangKeyCustomUserList,Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    </StackPanel>
+
+                    <RadioButton GroupName="SourceType" FontWeight="Bold" Margin="5,10,0,0" ToolTip="Send message to members of the group"   Content="Group Sources :" IsChecked="{Binding BroadcastMessagesModel.IsGroup}"   />
+                    <StackPanel  Margin="15,0,0,5"  Visibility="{Binding BroadcastMessagesModel.IsGroup,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <customControl:InputBoxControl Margin="25,5"  InputText="{Binding BroadcastMessagesModel.GroupUrlInput}"
+                                                         SaveCommand="{Binding SaveCustomGroupListCommand}" WaterMarkText="Enter Joined Group Urls" ToolTip="Send message to members of the group" />
+                    </StackPanel>
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                        <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}" />
+                    </Expander>
+                </StackPanel>
+                <actcustom:ActivitySettingWithoutButton x:Name="Activity" Visibility="{Binding AllVisibility}"
                                            JobConfiguration="{Binding JobConfiguration}" IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
                                            AddQueryCommand="{Binding AddQueryToMessageCommand}" CommandParameter="{Binding ElementName=Activity}"

@@ -1,14 +1,19 @@
 ﻿using DominatorHouseCore;
 using DominatorHouseCore.Enums;
+using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.AccountSetting.CustomControl;
+using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
@@ -55,12 +60,109 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 SetProperty(ref _isSpintaxChecked, value);
             }
         }
+
+        private bool _IsChkSpintaxChecked;
+        private bool _IsChkTagChecked;
+        private bool _IsCheckedBySoftware;
+        private bool _IsCheckedOutSideSoftware;
+        private bool _IsCheckedLangKeyCustomUserList;
+        private bool _IsChkSkipBlackListedUser;
+        private string _UrlInput;
+        private bool _IsChkPrivateBlackList;
+        private bool _IsChkGroupBlackList;
+
+        private string _GroupUrlInput;
+        private bool _IsConnections = true;
+        private bool _IsGroup;
+        List<string> _UrlList;
+        public bool IsCheckedBySoftware
+        {
+            get { return _IsCheckedBySoftware; }
+            set { SetProperty(ref _IsCheckedBySoftware, value); }
+        }
+
+
+        public bool IsCheckedOutSideSoftware
+        {
+            get { return _IsCheckedOutSideSoftware; }
+            set { SetProperty(ref _IsCheckedOutSideSoftware, value); }
+        }
+
+
+        public bool IsCheckedLangKeyCustomUserList
+        {
+            get { return _IsCheckedLangKeyCustomUserList; }
+            set { SetProperty(ref _IsCheckedLangKeyCustomUserList, value); }
+        }
+
+
+
+        public string UrlInput
+        {
+            get { return _UrlInput; }
+            set { SetProperty(ref _UrlInput, value); }
+        }
+        public List<string> UrlList
+        {
+            get { return _UrlList; }
+            set { SetProperty(ref _UrlList, value); }
+        }
+        List<string> _GroupUrlList;
+        public List<string> GroupUrlList
+        {
+            get { return _GroupUrlList; }
+            set { SetProperty(ref _GroupUrlList, value); }
+        }
+
+
+
+        public bool IsChkSkipBlackListedUser
+        {
+            get { return _IsChkSkipBlackListedUser; }
+            set { SetProperty(ref _IsChkSkipBlackListedUser, value); }
+        }
+
+
+
+        public bool IsChkPrivateBlackList
+        {
+            get { return _IsChkPrivateBlackList; }
+            set { SetProperty(ref _IsChkPrivateBlackList, value); }
+        }
+
+
+
+        public bool IsChkGroupBlackList
+        {
+            get { return _IsChkGroupBlackList; }
+            set { SetProperty(ref _IsChkGroupBlackList, value); }
+        }
+
+        public bool IsConnections
+        {
+            get { return _IsConnections; }
+            set { SetProperty(ref _IsConnections, value); }
+        }
+
+        public bool IsGroup
+        {
+            get { return _IsGroup; }
+            set { SetProperty(ref _IsGroup, value); }
+        }
+        public string GroupUrlInput
+        {
+            get { return _GroupUrlInput; }
+            set { SetProperty(ref _GroupUrlInput, value); }
+        }
     }
     public interface IBroadcastMessagesViewModel
     {
     }
     public class BroadcastMessagesViewModel : StartupBaseViewModel, IBroadcastMessagesViewModel
     {
+        public Visibility LinkedInElementsVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility AllVisibility { get; set; } = Visibility.Visible;
+
         public BroadcastMessagesViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.BroadcastMessages });
@@ -72,6 +174,15 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQuery);
             DeleteMultipleCommand = new DelegateCommand(DeleteMultiple);
+            SaveCustomUserListCommand = new DelegateCommand<object>(SaveCustomUsers);
+            SaveCustomGroupListCommand = new DelegateCommand<object>(SaveCustomGroup);
+            ElementsVisibility.NetworkElementsVisibilty(this);
+
+            if (LinkedInElementsVisibility == Visibility.Visible)
+            {
+                AllVisibility = Visibility.Collapsed;
+                AddQueries();
+            }
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfMessagesPerJob".FromResourceDictionary(),
@@ -89,6 +200,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public ICommand AddQueryToMessageCommand { get; set; }
         public ICommand DeleteQueryCommand { get; set; }
         public ICommand DeleteMultipleCommand { get; set; }
+        public ICommand SaveCustomUserListCommand { get; set; }
+        public ICommand SaveCustomGroupListCommand { get; set; }
         #endregion
 
         private BroadcastMessagesModel _broadcastMessagesModel = new BroadcastMessagesModel();
@@ -277,6 +390,78 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+        private void SaveCustomUsers(object sender)
+        {
+            try
+            {
+                if (BroadcastMessagesModel.UrlInput.Contains("\r\n"))
+                {
+                    BroadcastMessagesModel.UrlList =
+                        Regex.Split(BroadcastMessagesModel.UrlInput, "\r\n").Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct().ToList();
+
+                    GlobusLogHelper.log.Info("" + BroadcastMessagesModel.UrlList.Count + " profile urls saved sucessfully");
+                }
+                else
+                {
+                    BroadcastMessagesModel.UrlList = new List<string>();
+                    BroadcastMessagesModel.UrlList.Add(BroadcastMessagesModel.UrlInput);
+                    GlobusLogHelper.log.Info("One profile url saved sucessfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        private void SaveCustomGroup(object sender)
+        {
+            try
+            {
+                if (BroadcastMessagesModel.GroupUrlInput.Contains("\r\n"))
+                {
+                    BroadcastMessagesModel.GroupUrlList =
+                        Regex.Split(BroadcastMessagesModel.GroupUrlInput, "\r\n").Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct().ToList();
+
+                    GlobusLogHelper.log.Info("" + BroadcastMessagesModel.GroupUrlList.Count + " group urls saved sucessfully");
+                }
+                else
+                {
+                    BroadcastMessagesModel.GroupUrlList = new List<string> { BroadcastMessagesModel.UrlInput };
+                    GlobusLogHelper.log.Info("One group url saved sucessfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+        public void AddQueries()
+        {
+            AddQuery("All");
+            AddQuery("LangKeyBySoftware");
+            AddQuery("LangKeyOutsideSoftware");
+            AddQuery("LangKeyCustomUsersList");
+            AddQuery("LangKeyCustomGroupUrl");
+        }
+        public void AddQuery(string keyResource)
+        {
+            try
+            {
+                string queryValue = keyResource.Equals("All") ? "All" : keyResource?.FromResourceDictionary();
+                if (BroadcastMessagesModel.ManageMessagesModel.LstQueries.All(x => x.Content.QueryValue != queryValue))
+                    BroadcastMessagesModel.ManageMessagesModel.LstQueries.Add(new QueryContent
+                    {
+                        Content = new QueryInfo
+                        {
+                            QueryValue = queryValue
+                        }
+                    });
+            }
+            catch (Exception exception)
+            {
+                exception.DebugLog();
             }
         }
     }

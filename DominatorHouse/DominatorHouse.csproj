@@ -276,9 +276,6 @@
     <Compile Include="IoC\MainContainerExtension.cs" />
     <Compile Include="IoC\SocialContainerExtension.cs" />
     <Compile Include="IoC\MainDominatorModule.cs" />
-    <Compile Include="ModuleSetting.xaml.cs">
-      <DependentUpon>ModuleSetting.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Modules\SocialPrismModule.cs" />
     <Compile Include="OtherConfiguration\MigrationFromOldDominator.xaml.cs">
@@ -332,10 +329,6 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="ModuleSetting.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="OtherConfiguration\MigrationFromOldDominator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
