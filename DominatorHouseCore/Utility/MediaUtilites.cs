@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DominatorHouseCore.Utility
 {
@@ -12,19 +15,28 @@ namespace DominatorHouseCore.Utility
         /// <param name="filePath">pass the media path(local)</param>              
         public string GetThumbnail(string filePath)
         {
-            var extension = System.IO.Path.GetExtension(filePath)?.Replace(".", "");
+            var extension = Path.GetExtension(filePath)?.Replace(".", "");
             if (ConstantVariable.SupportedVideoFormat.Contains(extension))
             {
-                var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertFileName}";
+                var thumbPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\{ConstantVariable.ApplicationName}\\.thumb\\";
+
+                FileInfo file = new FileInfo(filePath);
+                if (!Directory.Exists(thumbPath))
+                    Directory.CreateDirectory(thumbPath);
+                var newFilePath = $"{thumbPath}{file.Name + ConstantVariable.VideoToImageConvertFileName}";
                 try
                 {
-                    var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                    ffMpeg.GetVideoThumbnail(filePath, newFilePath, 2);
-                }
+                    if (!File.Exists(newFilePath))
+                    {
+                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                        ffMpeg.GetVideoThumbnail(filePath, newFilePath);
+                    }
+              }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
                 }
+
                 return newFilePath;
             }
             return filePath;
@@ -637,7 +649,7 @@ namespace DominatorHouseCore.Utility
         }
         public string GetThumbnailPng(string filePath)
         {
-            var extension = System.IO.Path.GetExtension(filePath)?.Replace(".", "");
+            var extension = Path.GetExtension(filePath)?.Replace(".", "");
             if (ConstantVariable.SupportedVideoFormat.Contains(extension))
             {
                 var newFilePath = $"{filePath}{ConstantVariable.VideoToImageConvertPngFileName}";
@@ -653,6 +665,48 @@ namespace DominatorHouseCore.Utility
                 return newFilePath;
             }
             return filePath;
+        }
+        
+        public static string CalculateMD5Hash(string input)
+        {
+            string newImage = String.Empty;
+            try
+            {
+                MD5 md5 = MD5.Create();
+                byte[] inputBytes = File.ReadAllBytes(input);
+                string oldImage = GetMd5HashCode(input, md5, inputBytes);
+
+                byte[] bArray = new byte[inputBytes.Length + 1];
+                inputBytes.CopyTo(bArray, 0);
+                bArray[bArray.Length - 1] = Convert.ToByte('\0');
+                newImage = input.Split('.')[0] + "_hash.jpg";
+                File.WriteAllBytes(newImage, bArray);
+
+                inputBytes = File.ReadAllBytes(newImage);
+                string newHashCode = GetMd5HashCode(newImage, md5, inputBytes);
+                if (File.Exists(input))
+                    File.Delete(input);
+            }
+            catch (Exception ex)
+            {
+                //ignored
+            }
+            return newImage;
+        }
+
+        public static string GetMd5HashCode(string input, MD5 md5, byte[] inputBytes)
+        {
+            StringBuilder sb = new StringBuilder();
+           
+            byte[] hash1 = md5.ComputeHash(inputBytes);
+
+            // step 2, convert byte array to hex string
+
+            for (int i = 0; i < hash1.Length; i++)
+            {
+                sb.Append(hash1[i].ToString("X2"));
+            }
+            return sb.ToString();
         }
     }
 }

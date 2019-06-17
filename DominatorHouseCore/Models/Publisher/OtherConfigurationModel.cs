@@ -114,6 +114,39 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _isCheckedForApprovePost, value);
             }
         }
+        private bool _IsMentionUser;
+        [ProtoMember(12)]
+        public bool IsMentionUser
+        {
+            get
+            {
+                return _IsMentionUser;
+            }
+            set
+            {
+                if (value)
+                    _IsMentionUser = false;
+
+                SetProperty(ref _IsMentionUser, value);
+            }
+        }
+
+        private string _MentionUserList;
+        [ProtoMember(13)]
+        public string MentionUserList
+        {
+            get
+            {
+                return _MentionUserList;
+            }
+            set
+            {
+                if (_MentionUserList == value)
+                    return;
+
+                SetProperty(ref _MentionUserList, value);
+            }
+        }
 
         #region Not Used
 

@@ -12,6 +12,7 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             MainGrid.DataContext = proxyManagerViewModel;
+            proxyManagerViewModel.ProxyDataGrid = ProxyDataGrid;
         }
     }
 }

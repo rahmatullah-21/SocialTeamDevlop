@@ -489,6 +489,7 @@
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
+    <Compile Include="Enums\TumblrQuery\TumblrBroadcastMessageQuery.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
     <Compile Include="Enums\VerificationType.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
@@ -582,6 +583,7 @@
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\PinterestOtherConfigModel.cs" />
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
     <Compile Include="Models\PrivateWhitelistUserModel.cs" />
     <Compile Include="Models\ProcessScopeModel.cs" />

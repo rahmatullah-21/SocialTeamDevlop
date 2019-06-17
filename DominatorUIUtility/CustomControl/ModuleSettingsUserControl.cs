@@ -17,13 +17,12 @@ using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -100,6 +99,7 @@ namespace DominatorUIUtility.CustomControl
             }
 
         }
+
         private void CreateOrUpdateCampaign(object sender)
         {
             var control = sender as FooterControl;
@@ -108,6 +108,7 @@ namespace DominatorUIUtility.CustomControl
                 CreateCampaign();
             else
                 UpdateCampaign();
+
         }
 
         #region Commands
@@ -358,7 +359,13 @@ namespace DominatorUIUtility.CustomControl
         {
             if (string.IsNullOrEmpty(CampaignName))
             {
-                Dialog.ShowDialog("Error", "Campaign name should not be empty.Please type name for Campaign");
+                Dialog.ShowDialog("Error", "Campaign name should not be empty. Please provide name for Campaign.");
+                return true;
+            }
+            var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
+            if (_footerControl.CampaignManager == ConstantVariable.CreateCampaign && campaignFileManager.Any(x => x.CampaignName == CampaignName))
+            {
+                Dialog.ShowDialog("Error", "Campaign with same name already exists. Please change name of Campaign.");
                 return true;
             }
             return false;
@@ -425,6 +432,7 @@ namespace DominatorUIUtility.CustomControl
             CampaignName = $"{SocialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
             if (_queryControl != null)
                 _queryControl.ActivityType = _activityType;
+            UpdateJobConfigurationSetting();
         }
 
         #endregion
@@ -433,6 +441,7 @@ namespace DominatorUIUtility.CustomControl
 
         protected void CreateCampaign()
         {
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (ValidateCampaignName())
@@ -444,45 +453,58 @@ namespace DominatorUIUtility.CustomControl
                 if (!ValidateExtraProperty())
                     return;
 
-                var schedulePending = ImmutableQueue<Action>.Empty;
+                //var schedulePending = ImmutableQueue<Action>.Empty;
                 if (IsNeedToSaveTemplate())
                 {
-                    //     UpdateJobconfiguration();
                     TemplateId = TemplateModel.SaveTemplate((TModel)Model, _activityType.ToString(), SocialNetwork,
                         CampaignName);
                     SaveTemplateToAccounts(TemplateId);
                     SaveTemplateToCampaigns();
-
                     var accountDetails =
                         _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
-
                     try
                     {
-                        new Thread(() =>
-                        {
-                            foreach (var account in accountDetails)
-                            {
-                                Action scheduleAccount = () =>
-                                {
-                                    _dominatorScheduler.ScheduleNextActivity(account, _activityType);
-                                };
-                                schedulePending = schedulePending.Enqueue(scheduleAccount);
-                            }
-
-                            while (!schedulePending.IsEmpty)
-                            {
-                                Action startSchedule;
-                                schedulePending = schedulePending.Dequeue(out startSchedule);
-                                startSchedule();
-                            }
-
-                        })
-                        { IsBackground = true }.Start();
+                        Task.Factory.StartNew(() =>
+                                   {
+                                       foreach (var account in accountDetails)
+                                       {
+                                           _dominatorScheduler.ScheduleNextActivity(account, _activityType);
+                                       }
+                                   });
                     }
-                    catch (Exception ex)
-                    {
-                        ex.DebugLog();
-                    }
+                    catch (AggregateException) { }
+                    catch (Exception) { }
+                    #region Old code
+
+                    //try
+                    //{
+                    //new Thread(() =>
+                    //{
+                    //    foreach (var account in accountDetails)
+                    //    {
+                    //        Action scheduleAccount = () =>
+                    //        {
+                    //            _dominatorScheduler.ScheduleNextActivity(account, _activityType);
+                    //        };
+                    //        schedulePending = schedulePending.Enqueue(scheduleAccount);
+                    //    }
+
+                    //    while (!schedulePending.IsEmpty)
+                    //    {
+                    //        Action startSchedule;
+                    //        schedulePending = schedulePending.Dequeue(out startSchedule);
+                    //        startSchedule();
+                    //    }
+
+                    //})
+                    //{ IsBackground = true }.Start();
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    ex.DebugLog();
+                    //} 
+                    #endregion
+
                     SetDataContext();
 
                     TabSwitcher.GoToCampaign();
@@ -548,10 +570,13 @@ namespace DominatorUIUtility.CustomControl
             _dataBaseHandler.DbCampaignInitialCounters[SocialNetwork](dbOperations);
 
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-            campaignFileManager.Add(campaignDetails);
+            if (!campaignFileManager.Any(x => x.CampaignId == campaignDetails.CampaignId))
+            {
+                campaignFileManager.Add(campaignDetails);
 
-            //Updating Campaign UI
-            Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.Add(campaignDetails);
+                //Updating Campaign UI
+                Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.Add(campaignDetails);
+            }
         }
 
 
@@ -911,6 +936,7 @@ namespace DominatorUIUtility.CustomControl
                 ToasterNotification.ShowSuccess($"Campaign:- {CampaignName } updated successfully");
 
             SetDataContext();
+
             TabSwitcher.GoToCampaign();
         }
 
@@ -1581,9 +1607,13 @@ namespace DominatorUIUtility.CustomControl
                         accountModuleSettings.LstRunningTimes = new List<RunningTimes>();
 
                     accountModuleSettings.LstRunningTimes = jobConfiguration.RunningTime;
+
+                    accountModuleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(accountModuleSettings);
+                    _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, accountModuleSettings);
                 }
-                accountModuleSettings.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(accountModuleSettings);
-                _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, accountModuleSettings);
+                else
+                    GlobusLogHelper.log.Debug($"{account.UserName} with Account Id {account.AccountId} not having {_activityType} Configuration");
+
                 _accountsCacheService.UpsertAccounts(account);
                 globalDbOperation.UpdateAccountActivityManager(account);
             }
@@ -1673,6 +1703,7 @@ namespace DominatorUIUtility.CustomControl
                             currentQuery.QueryValue = query;
                             currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
                             currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+                            IsQueryOfCurrentModule = true;
                         }
 
                         if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
@@ -1690,14 +1721,9 @@ namespace DominatorUIUtility.CustomControl
                     if (queryValuIndex.Count > 0)
                     {
                         if (queryValuIndex.Count <= 10)
-                        {
                             GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, "{ " + string.Join(" },{ ", queryValuIndex.ToArray()) + " }");
-                        }
                         else
-                        {
                             GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, queryValuIndex.Count);
-
-                        }
                     }
                 }
                 else
@@ -1771,7 +1797,6 @@ namespace DominatorUIUtility.CustomControl
                 SocinatorInitialize.GetSocialLibrary(network)
                      .GetNetworkCoreFactory().AccountUserControlTools.RecentlySelectedAccount = _accountGrowthModeHeader.SelectedItem;
 
-
                 var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
                 var moduleConfiguration = jobActivityConfigurationManager[accountDetails.AccountId, _activityType];
 
@@ -1789,13 +1814,64 @@ namespace DominatorUIUtility.CustomControl
                 if (_queryControl != null)
                     _queryControl.ActivityType = _activityType;
 
+                UpdateJobConfigurationSetting();
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
+        void UpdateJobConfigurationSetting()
+        {
+            try
+            {
+                if (Model.JobConfiguration.SelectedItem == "Slow")
+                {
+                    var slowSpeed = Model.SlowSpeed;
+                    Model.JobConfiguration.ActivitiesPerDay = slowSpeed.ActivitiesPerDay;
+                    Model.JobConfiguration.ActivitiesPerHour = slowSpeed.ActivitiesPerHour;
+                    Model.JobConfiguration.ActivitiesPerWeek = slowSpeed.ActivitiesPerWeek;
+                    Model.JobConfiguration.ActivitiesPerJob = slowSpeed.ActivitiesPerJob;
+                    Model.JobConfiguration.DelayBetweenJobs = slowSpeed.DelayBetweenJobs;
+                    Model.JobConfiguration.DelayBetweenActivity = slowSpeed.DelayBetweenActivity;
+                }
+                else if (Model.JobConfiguration.SelectedItem == "Medium")
+                {
+                    var mediumSpeed = Model.MediumSpeed;
+                    Model.JobConfiguration.ActivitiesPerDay = mediumSpeed.ActivitiesPerDay;
+                    Model.JobConfiguration.ActivitiesPerHour = mediumSpeed.ActivitiesPerHour;
+                    Model.JobConfiguration.ActivitiesPerWeek = mediumSpeed.ActivitiesPerWeek;
+                    Model.JobConfiguration.ActivitiesPerJob = mediumSpeed.ActivitiesPerJob;
+                    Model.JobConfiguration.DelayBetweenJobs = mediumSpeed.DelayBetweenJobs;
+                    Model.JobConfiguration.DelayBetweenActivity = mediumSpeed.DelayBetweenActivity;
+                }
+                else if (Model.JobConfiguration.SelectedItem == "Fast")
+                {
+                    var fastSpeed = Model.FastSpeed;
+                    Model.JobConfiguration.ActivitiesPerDay = fastSpeed.ActivitiesPerDay;
+                    Model.JobConfiguration.ActivitiesPerHour = fastSpeed.ActivitiesPerHour;
+                    Model.JobConfiguration.ActivitiesPerWeek = fastSpeed.ActivitiesPerWeek;
+                    Model.JobConfiguration.ActivitiesPerJob = fastSpeed.ActivitiesPerJob;
+                    Model.JobConfiguration.DelayBetweenJobs = fastSpeed.DelayBetweenJobs;
+                    Model.JobConfiguration.DelayBetweenActivity = fastSpeed.DelayBetweenActivity;
+                }
+                else if (Model.JobConfiguration.SelectedItem == "Superfast")
+                {
+                    var superfastSpeed = Model.SuperfastSpeed;
+                    Model.JobConfiguration.ActivitiesPerDay = superfastSpeed.ActivitiesPerDay;
+                    Model.JobConfiguration.ActivitiesPerHour = superfastSpeed.ActivitiesPerHour;
+                    Model.JobConfiguration.ActivitiesPerWeek = superfastSpeed.ActivitiesPerWeek;
+                    Model.JobConfiguration.ActivitiesPerJob = superfastSpeed.ActivitiesPerJob;
+                    Model.JobConfiguration.DelayBetweenJobs = superfastSpeed.DelayBetweenJobs;
+                    Model.JobConfiguration.DelayBetweenActivity = superfastSpeed.DelayBetweenActivity;
+                }
 
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
         public void AccountModeStatusChange()
         {
             try

@@ -171,7 +171,7 @@ namespace DominatorHouseCore.Utility
                         // Generate the post model
                         var publisherPostlistModel = new PublisherPostlistModel
                         {
-                            MediaList = new ObservableCollection<string> { mediaUtilites.GetThumbnail(file) },
+                            MediaList = new ObservableCollection<string> { file },
                             CampaignId = campaignId,
                             CreatedTime = DateTime.Now,
                             ExpiredTime = expireDate,
@@ -258,16 +258,19 @@ namespace DominatorHouseCore.Utility
                         }
 
                         #endregion
-
-                        // Manipulate the post descriptions
-                        publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
-                            .Replace("[FileType]", monitorFolderModel.FileType)
-                            .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
-                            .Replace("[FileTitle]", monitorFolderModel.FileTitle)
-                            .Replace("[FileSubject]", monitorFolderModel.FileSubject)
-                            .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
-                            .Replace("[FileComments]", monitorFolderModel.FileComment)
-                            .Replace("[FileTags]", monitorFolderModel.FileTags);
+                        var existingFile = monitorFolderFiles.FirstOrDefault(f => f.MonitorFilePath == file);
+                        if (existingFile == null)
+                            // Manipulate the post descriptions
+                            publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
+                                .Replace("[FileType]", monitorFolderModel.FileType)
+                                .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
+                                .Replace("[FileTitle]", monitorFolderModel.FileTitle)
+                                .Replace("[FileSubject]", monitorFolderModel.FileSubject)
+                                .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
+                                .Replace("[FileComments]", monitorFolderModel.FileComment)
+                                .Replace("[FileTags]", monitorFolderModel.FileTags);
+                        else
+                            publisherPostlistModel.PostDescription = existingFile.PostDescription;
                         if (campaignDetails.Count > 0)
                         {
                             var post = campaignDetails.FirstOrDefault(x =>
