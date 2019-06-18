@@ -413,6 +413,11 @@ namespace DominatorUIUtility.ViewModel
                         if (!AllCampStatus)
                         {
                             var campignNotHavingAccount = lstSelectedCampaign.Where(x => x.Status == "Active");
+                            if(campignNotHavingAccount.Count()==0)
+                            {
+                                AllCampStatus = true;
+                                return;
+                            }
                             campignNotHavingAccount.ForEach(camp =>
                             {
                                 ActivePauseCampaign(camp, AllCampStatus);
