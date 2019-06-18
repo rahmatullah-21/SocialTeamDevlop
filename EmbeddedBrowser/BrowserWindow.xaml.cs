@@ -719,20 +719,20 @@ namespace EmbeddedBrowser
                 },
                 {
                     pageData => pageData.Contains("Get a verification code")
-                                && !pageData.Contains("Google will send a notification to your phone to verify that it's you"),
-                    NeedEmailVerification
+                                || pageData.Contains("Do you have your phone?")
+                                || (pageData.Contains("Google will send a verification code to")&& pageData.Contains("Standard rates apply")),
+                    NeedPhoneVerification
                 },
                 {
                     pageData => pageData.Contains("Get a verification code")
-                                || pageData.Contains("Do you have your phone?")
-                                || pageData.Contains("Google will send a notification to your phone to verify that it's you"),
-                    NeedPhoneVerification
+                                && !pageData.Contains("Google will send a notification to"),
+                    NeedEmailVerification
                 },
                 {
                     pageData => pageData.Contains("Type the text you hear or see")
                                 || pageData.Contains("Google couldn't verify this account belongs to you.")
-                                || pageData.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
-                                || pageData.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you."),
+                               /*|| pageData.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
+                                || pageData.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you.") */,
                     NeedsVerification
                 },
                 {
@@ -1068,6 +1068,46 @@ namespace EmbeddedBrowser
         private bool NeedPhoneVerification()
         {
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
+           
+            if(VerifyingAccount && (_pageText.Contains("Text") && _pageText.Contains("Call")))
+            {
+                PressAnyKey(3, 200, winKeyCode: 9); //Press Tab 3 Times key
+                
+                PressAnyKey(1, 0, winKeyCode: 13,
+                    delayAtLast: 4); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
+
+                _pageText = Browser.GetTextAsync().Result;
+                var isWrong = !(_pageText.Contains("A text message with a 6-digit verification code was just sent to") || _pageText.Contains("\n\nEnter verification code\n\n"));
+
+                if (!isWrong)
+                {
+                    var number = Utilities.GetBetween(_pageText, "code was just sent to", "\n");
+                    if (string.IsNullOrEmpty(number))
+                        number = "the number you submitted";
+                    CustomLog($"A text message with a 6-digit verification code was just sent to {number}. Enter the code within 2 minutes.");
+                }
+                return false;
+            }
+            else if (VerifyingAccount && _pageText.Contains("Google will send a notification to your phone to verify that it's you"))
+            {
+                PressAnyKey(4, 200, winKeyCode: 9); //Press Tab 4 Times key
+
+                PressAnyKey(1, 0, winKeyCode: 13,
+                    delayAtLast: 4); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
+
+                _pageText = Browser.GetTextAsync().Result;
+               
+                var isWrong = !(_pageText.Contains("Google sent a notification to your phone. Tap Yes on the notification, then tap"));
+
+                if (!isWrong)
+                {
+                    var number = Utilities.GetBetween(_pageText, "Check your phone\n", "\n");
+                    
+                    CustomLog($"Check your phone. {number} . Perform it within 2 minutes.");
+                }
+                return false;
+            }
+            else
             return true;
         }
 
@@ -2308,8 +2348,8 @@ namespace EmbeddedBrowser
         public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0)
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
-            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().top";
-            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().left";
+            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
+            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
 
             if (ExecuteScript(scriptx, 0).Success)
             {
