@@ -1702,7 +1702,8 @@ namespace DominatorUIUtility.ViewModel
 
                             if (checkResult)
                             {
-
+                                var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                                runningActivityManager.ScheduleIfAccountGotSucess(account);
                                 account.Token.ThrowIfCancellationRequested();
 
                                 await asyncAccount.UpdateDetailsAsync(account, account.Token);
@@ -1746,8 +1747,11 @@ namespace DominatorUIUtility.ViewModel
                     var checkAccount = new Task(async () =>
                     {
                         await asyncAccount.CheckStatusAsync(account, account.Token);
+
                         if (account.AccountBaseModel.Status == AccountStatus.Success)
                         {
+                            var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                            runningActivityManager.ScheduleIfAccountGotSucess(account);
                             //To update proxy status
                             UpdateProxyStatus(account.AccountBaseModel);
                         }
@@ -1859,12 +1863,12 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
+        public async void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
         {
             try
             {
                 var browserWindow = new BrowserWindow(dominatorAccountModel);
-                browserWindow.SetCookie();
+                await browserWindow.SetCookie();
                 browserWindow.Show();
             }
             catch (Exception ex)
@@ -1883,6 +1887,11 @@ namespace DominatorUIUtility.ViewModel
                         .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
                         .GetNetworkCoreFactory().AccountUpdateFactory;
                     accountUpdateFactory.CheckStatus(dominatorAccountModel);
+                    if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
+                    {
+                        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                        runningActivityManager.ScheduleIfAccountGotSucess(dominatorAccountModel);
+                    }
                 });
             }
             catch (Exception ex)
@@ -1890,7 +1899,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-
+       
         public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
             try
