@@ -82,6 +82,12 @@
         "Entry"
         {
         "MsmKey" = "8:_0CAE1E5AF845035094B9E609933D597B"
+        "OwnerKey" = "8:_40B0EEC0D4814169B9B59429E31D5DF6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0CAE1E5AF845035094B9E609933D597B"
         "OwnerKey" = "8:_DBDF379A233A36FDBD4691CC433120DD"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -311,6 +317,18 @@
         {
         "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
         "OwnerKey" = "8:_AD8C02F7A3D8A3FCBF4966D0362FF90A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
+        "OwnerKey" = "8:_7A8CC4D53AB12D0A0278A4D26A841B4C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
+        "OwnerKey" = "8:_40B0EEC0D4814169B9B59429E31D5DF6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1715,6 +1733,12 @@
         {
         "MsmKey" = "8:_95ED3598DEA7805C43372EDC4C27F6D6"
         "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_97A967FF6828405990EC65219E31336D"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -6649,6 +6673,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97A967FF6828405990EC65219E31336D"
+            {
+            "SourcePath" = "8:..\\DominatorHouse\\locales\\en-US.pak"
+            "TargetName" = "8:en-US.pak"
+            "Tag" = "8:"
+            "Folder" = "8:_AEBCE1DBD394409193F8B4E43B2A0505"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_981991DFE079FD1EA63B486E2F8A0831"
             {
             "AssemblyRegister" = "3:1"
@@ -8829,6 +8873,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_AEBCE1DBD394409193F8B4E43B2A0505"
+                    {
+                    "Name" = "8:locales"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_2062ABCB29934148822DA3D79AA5DFE6"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_8DE6D36335C14108B6FB0F70645E0348"
@@ -8858,19 +8913,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{868C1196-375D-4BB5-8A53-9580B39C3901}"
-        "PackageCode" = "8:{C36E20EF-6E1A-4660-B84B-DFE5A99B8226}"
+        "ProductCode" = "8:{E82A285C-8556-485A-9F75-F834A79543A1}"
+        "PackageCode" = "8:{706BEF4E-453A-42D4-87D5-9A003B582080}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.362"
+        "ProductVersion" = "8:1.0.367"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.362"
+        "Title" = "8:Socinator 1.0.0.367"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"

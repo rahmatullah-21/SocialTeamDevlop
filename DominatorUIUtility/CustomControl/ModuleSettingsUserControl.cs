@@ -1378,6 +1378,7 @@ namespace DominatorUIUtility.CustomControl
                     if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
                     {
                         DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                        moduleConfiguration.IsEnabled = false;
                         return false;
                     }
                 }
@@ -1703,6 +1704,7 @@ namespace DominatorUIUtility.CustomControl
                             currentQuery.QueryValue = query;
                             currentQuery.QueryTypeDisplayName = currentQuery.QueryType;
                             currentQuery.QueryPriority = Model.SavedQueries.Count + 1;
+                            IsQueryOfCurrentModule = true;
                         }
 
                         if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
@@ -1720,14 +1722,9 @@ namespace DominatorUIUtility.CustomControl
                     if (queryValuIndex.Count > 0)
                     {
                         if (queryValuIndex.Count <= 10)
-                        {
                             GlobusLogHelper.log.Info(Log.AlreadyExistQuery, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, "{ " + string.Join(" },{ ", queryValuIndex.ToArray()) + " }");
-                        }
                         else
-                        {
                             GlobusLogHelper.log.Info(Log.AlreadyExistQueryCount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _activityType, queryValuIndex.Count);
-
-                        }
                     }
                 }
                 else

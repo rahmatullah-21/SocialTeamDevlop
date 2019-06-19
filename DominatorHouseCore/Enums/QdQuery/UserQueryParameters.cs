@@ -16,8 +16,8 @@ namespace DominatorHouseCore.Enums.QdQuery
         EngagedUsers,
         //[Description("QDlangOwnFollowers")]
         //OwnFollowers,
-        [Description("LangKeyTopicFollowers")]
-        TopicFollowers,
+        //[Description("LangKeyTopicFollowers")]
+        //TopicFollowers,
         [Description("LangKeyAnswerUpvoters")]
         AnswerUpvoters
     }
