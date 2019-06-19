@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
+
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
@@ -35,6 +36,7 @@ namespace DominatorUIUtility.CustomControl
 
         private AccountCustomControl()
         {
+            _accountCustomInstance = this;
             _dominatorAccountViewModel = (DominatorAccountViewModel)ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
             InitializeComponent();
             AccountModule.DataContext = DominatorAccountViewModel;
@@ -66,5 +68,23 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        //private void SelectActivity(object sender, RoutedEventArgs e)
+        //{
+        //    DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
+        //    if (dominatorAccountModel != null)
+        //    {
+        //        Dialog dialog = new Dialog();
+        //        var window = dialog.GetMetroWindow(new SaveSetting(dominatorAccountModel.AccountBaseModel.AccountNetwork), "Startup");
+        //        //window.WindowStartupLocation = WindowStartupLocation.Manual;
+        //        //window.Top = 0;
+        //        //window.Left = 0;
+        //        //window.HorizontalContentAlignment = HorizontalAlignment.Center;
+        //        //window.VerticalContentAlignment = VerticalAlignment.Center;
+        //        //window.MinHeight = SystemParameters.PrimaryScreenHeight - 100;
+        //        //window.MinWidth = SystemParameters.PrimaryScreenWidth - 100;
+        //        window.ShowDialog();
+        //    }
+        //}
     }
 }

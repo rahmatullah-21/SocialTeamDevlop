@@ -38,6 +38,10 @@ using System.Windows.Input;
 using DominatorUIUtility.Views;
 using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
+using DominatorUIUtility.ViewModel.Startup;
+using DominatorUIUtility.Module;
+using DominatorUIUtility.Views.AccountSetting;
+using Prism.Regions;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -104,7 +108,6 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
-
         private ObservableCollection<GridViewColumn> _visibleColumns;
 
         public ObservableCollection<GridViewColumn> VisibleColumns
@@ -112,6 +115,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _visibleColumns; }
             set { SetProperty(ref _visibleColumns, value); }
         }
+        IMainViewModel _mainViewModel;
 
         #region Command 
 
@@ -135,6 +139,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateFriendshipCommand { get; }
         public ICommand EditNetworkProfileCommand { get; }
         public ICommand CopyAccountIdCommand { get; }
+        public ICommand SettingWizardCommand { get; }
 
 
         #endregion
@@ -142,6 +147,7 @@ namespace DominatorUIUtility.ViewModel
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler, IProxyFileManager proxyFileManager)
         {
+            _mainViewModel = mainViewModel;
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
             _softwareSettings = softwareSettings;
@@ -207,7 +213,33 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
 
+            #region Custom Setting Command
+
+            SettingWizardCommand = new DelegateCommand<DominatorAccountModel>(CustomSetting);
+
+            #endregion
+
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+        }
+
+        private void CustomSetting(DominatorAccountModel account)
+        {
+            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
+            viewModel.SelectAccount = account;
+            ModuleSetting.Instance.Show();
+
+            #region Old code
+            //if (_mainViewModel.IsPopUpOpen)
+            //    return;
+            //var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            //viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
+            //viewModel.SelectAccount = account;
+
+            //_mainViewModel.IsPopUpOpen = true;
+            //_mainViewModel.AccountName = account.AccountBaseModel.UserName;
+            //_mainViewModel.Network = account.AccountBaseModel.AccountNetwork; 
+            #endregion
         }
 
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)

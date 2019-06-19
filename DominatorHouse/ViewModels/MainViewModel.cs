@@ -18,9 +18,12 @@ using DominatorHouseCore.ViewModel.Common;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.IoC;
 using DominatorUIUtility.ViewModel;
+using DominatorUIUtility.ViewModel.Startup;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
+using Prism.Commands;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +32,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DominatorHouse.ViewModels
 {
@@ -60,13 +64,69 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
+        private bool _isPopUpOpen;
+
+        public bool IsPopUpOpen
+        {
+            get { return _isPopUpOpen; }
+            set { SetProperty(ref _isPopUpOpen, value); }
+        }
+        private double _height;
+
+        public double Height
+        {
+            get { return _height; }
+            set { SetProperty(ref _height, value); }
+        }
+        private double _width;
+
+        public double Width
+        {
+            get { return _width; }
+            set { SetProperty(ref _width, value); }
+        }
+        private bool _isRestore;
+
+        public bool IsRestore
+        {
+            get { return _isRestore; }
+            set { SetProperty(ref _isRestore, value); }
+        }
+
+        public ICommand ModuleSettingCloseCommand { get; }
+        public ICommand MaximizeCommand { get; }
+
+        private string _accountName;
+        public string AccountName
+        {
+            get { return _accountName; }
+            set { SetProperty(ref _accountName, value); }
+        }
+
+        private SocialNetworks _network;
+        public SocialNetworks Network
+        {
+            get { return _network; }
+            set { SetProperty(ref _network, value); }
+        }
+
+        private Visibility _isHeadingVisible = Visibility.Visible;
+        public Visibility IsHeadingVisible
+        {
+            get { return _isHeadingVisible; }
+            set { SetProperty(ref _isHeadingVisible, value); }
+        }
+
+        IRegionManager _regionManager;
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy, IRegionManager regionManager)
         {
             SocinatorKeyHelper.InitilizeKey();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
-
+            _regionManager = regionManager;
+            ModuleSettingCloseCommand = new DelegateCommand(OnModuleSettingClose);
+            MaximizeCommand = new DelegateCommand(MaximizeRestoreSetting);
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
@@ -103,6 +163,33 @@ namespace DominatorHouse.ViewModels
             };
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
+        }
+
+        private void MaximizeRestoreSetting()
+        {
+            if (IsRestore)
+            {
+                Width = 777;
+                Height = 500;
+                IsRestore = false;
+            }
+            else
+            {
+                Width = SystemParameters.PrimaryScreenWidth - 200;
+                Height = SystemParameters.PrimaryScreenHeight - 200;
+                IsRestore = true;
+            }
+        }
+
+        private void OnModuleSettingClose()
+        {
+            IsPopUpOpen = false;
+            Width = 777;
+            Height = 500;
+            StartupBaseViewModel.selectedIndex = 0;
+            StartupBaseViewModel.ViewModelToSave.Clear();
+            _regionManager.Regions["StartupRegion"].RemoveAll();
+            _regionManager.RequestNavigate("StartupRegion", "SelectActivity");
         }
 
         private void OnClosing(CancelEventArgs e)
@@ -292,6 +379,7 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
+
                 Task.Factory.StartNew(() =>
                  {
                      FeatureFlags.UpdateFeatures();
@@ -318,24 +406,24 @@ namespace DominatorHouse.ViewModels
                                  ex.DebugLog();
                              }
                          }
-                        //FeatureFlags.Check(module.Network.ToString(), () =>
-                        //{
-                        //    try
-                        //    {
-                        //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                        //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
-                        //        AddNetwork(socialNetworkModule.Network);
-                        //    }
-                        //    catch (AggregateException ex)
-                        //    {
-                        //        Console.WriteLine(ex.Message);
-                        //    }
-                        //    catch (Exception ex)
-                        //    {
-                        //        ex.DebugLog();
-                        //    }
-                        //});
-                        Task.Delay(5);
+                         //FeatureFlags.Check(module.Network.ToString(), () =>
+                         //{
+                         //    try
+                         //    {
+                         //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
+                         //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                         //        AddNetwork(socialNetworkModule.Network);
+                         //    }
+                         //    catch (AggregateException ex)
+                         //    {
+                         //        Console.WriteLine(ex.Message);
+                         //    }
+                         //    catch (Exception ex)
+                         //    {
+                         //        ex.DebugLog();
+                         //    }
+                         //});
+                         Task.Delay(5);
                      }
 
                      SetActiveNetwork(SocialNetworks.Social);

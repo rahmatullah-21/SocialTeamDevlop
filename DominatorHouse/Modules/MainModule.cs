@@ -9,12 +9,19 @@ namespace DominatorHouse.Modules
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            //containerRegistry.RegisterForNavigation<SelectActivity>();
+            //containerRegistry.RegisterForNavigation<Follow>();
+            //containerRegistry.RegisterForNavigation<JobConfig>();
+            //containerRegistry.RegisterForNavigation<QueryControl>();
+           
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
             regionManager.RegisterViewWithRegion("PerfCounterRegion", typeof(PerfCounterView));
+           // regionManager.RegisterViewWithRegion("StartupRegion", typeof(SelectActivity));
+
         }
     }
 }

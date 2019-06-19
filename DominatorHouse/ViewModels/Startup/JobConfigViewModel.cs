@@ -1,0 +1,218 @@
+﻿using DominatorHouse.ViewModels.Startup.ModuleConfig;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
+using DominatorHouseCore.Utility;
+using DominatorUIUtility.ViewModel.Startup;
+using Prism.Commands;
+using Prism.Regions;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using DominatorHouseCore.Models.NetworkActivitySetting;
+using System.Collections.Generic;
+using CommonServiceLocator;
+
+namespace DominatorHouse.ViewModels.Startup
+{
+    public interface IJobConfigViewModel
+    {
+        void AddJobConfiguration(IEnumerable<ActivityChecked> allSelectedActivity);
+    }
+    public class JobConfigViewModel : StartupBaseViewModel, IJobConfigViewModel
+    {
+        public JobConfigViewModel(IRegionManager region) : base(region)
+        {
+            NextCommand = new DelegateCommand<string>(OnNextClick);
+            PreviousCommand = new DelegateCommand<string>(OnPreviousClick);
+            JobConfiguration = new JobConfiguration
+            {
+                ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),
+                ActivitiesPerHourDisplayName = "LangKeyNumberOfFollowsPerHour".FromResourceDictionary(),
+                ActivitiesPerDayDisplayName = "LangKeyNumberOfFollowsPerDay".FromResourceDictionary(),
+                ActivitiesPerWeekDisplayName = "LangKeyNumberOfFollowsPerWeek".FromResourceDictionary(),
+                IncreaseActivityDisplayName = "LangKeyMaxFollowsPerDay".FromResourceDictionary(),
+                RunningTime = RunningTimes.DayWiseRunningTimes,
+                Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
+            };
+           
+            #region Demo LstJobConfiguration
+            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+            //{
+            //    ActivityType = "Follow",
+            //    ActivityJobConfiguration = new JobConfiguration
+            //    {
+            //        RunningTime = RunningTimes.DayWiseRunningTimes
+            //    }
+            //});
+            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+            //{
+            //    ActivityType = "Follow",
+            //    ActivityJobConfiguration = new JobConfiguration
+            //    {
+            //        RunningTime = RunningTimes.DayWiseRunningTimes
+            //    }
+            //});
+            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+            //{
+            //    ActivityType = "Follow",
+            //    ActivityJobConfiguration = new JobConfiguration
+            //    {
+            //        RunningTime = RunningTimes.DayWiseRunningTimes
+            //    }
+            //});
+            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+            //{
+            //    ActivityType = "Unlike",
+            //    ActivityJobConfiguration = new JobConfiguration
+            //    {
+            //        RunningTime = RunningTimes.DayWiseRunningTimes
+            //    }
+            //});
+            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+            //{
+            //    ActivityType = "Like",
+            //    ActivityJobConfiguration = new JobConfiguration
+            //    {
+            //        RunningTime = RunningTimes.DayWiseRunningTimes
+            //    }
+            //});
+            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+            //{
+            //    ActivityType = "UnFollow",
+            //    ActivityJobConfiguration = new JobConfiguration
+            //    {
+            //        RunningTime = RunningTimes.DayWiseRunningTimes
+            //    }
+
+            //});
+            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+            //{
+            //    ActivityType = "Follow",
+            //    ActivityJobConfiguration = new JobConfiguration
+            //    {
+            //        RunningTime = RunningTimes.DayWiseRunningTimes
+            //    }
+            //});
+            //LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+            //{
+            //    ActivityType = "Follow",
+            //    ActivityJobConfiguration = new JobConfiguration
+            //    {
+            //        RunningTime = RunningTimes.DayWiseRunningTimes
+            //    }
+            //});
+            #endregion
+
+        }
+        private bool _isIndivisualSelected;
+
+        public bool IsIndivisualSelected
+        {
+            get { return _isIndivisualSelected; }
+            set { SetProperty(ref _isIndivisualSelected, value); }
+        }
+
+        private JobConfiguration _jobConfiguration = new JobConfiguration();
+
+        public JobConfiguration JobConfiguration
+        {
+            get { return _jobConfiguration; }
+            set { SetProperty(ref _jobConfiguration, value); }
+        }
+
+        private ObservableCollection<ActivityTypeWithJobConfiguration> _lstJobConfiguration = new ObservableCollection<ActivityTypeWithJobConfiguration>();
+
+        public ObservableCollection<ActivityTypeWithJobConfiguration> LstJobConfiguration
+        {
+            get { return _lstJobConfiguration; }
+            set { SetProperty(ref _lstJobConfiguration, value); }
+        }
+       
+
+        public void AddJobConfiguration(IEnumerable<ActivityChecked> allSelectedActivity)
+        {
+            try
+            {
+                LstJobConfiguration.Clear();
+                var selectedNetwork = ServiceLocator.Current.GetInstance<ISelectNetworkViewModel>().SelectedNetwork;
+                var jobConfig = NetworkReg.RegisterNetworkJobConfig[selectedNetwork];
+                ((dynamic)jobConfig).RegisterJobConfiguration();
+                allSelectedActivity.ForEach(activity =>
+                {
+                    LstJobConfiguration.Add(new ActivityTypeWithJobConfiguration
+                    {
+                        ActivityType = activity.ActivityType,
+                        ActivityJobConfiguration = ((dynamic)jobConfig).RegisterJobConfigurations[activity.ActivityType].Model.JobConfiguration
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public Speed Model => new Speed();
+    }
+    public class Speed
+    {
+        public JobConfiguration SlowSpeed = new JobConfiguration()
+        {
+            ActivitiesPerDay = new RangeUtilities(66, 100),
+            ActivitiesPerHour = new RangeUtilities(6, 10),
+            ActivitiesPerWeek = new RangeUtilities(400, 600),
+            ActivitiesPerJob = new RangeUtilities(8, 12),
+            DelayBetweenJobs = new RangeUtilities(73, 110),
+            DelayBetweenActivity = new RangeUtilities(1, 2)
+        };
+
+        public JobConfiguration MediumSpeed = new JobConfiguration()
+        {
+            ActivitiesPerDay = new RangeUtilities(133, 200),
+            ActivitiesPerHour = new RangeUtilities(13, 20),
+            ActivitiesPerWeek = new RangeUtilities(800, 1200),
+            ActivitiesPerJob = new RangeUtilities(16, 25),
+            DelayBetweenJobs = new RangeUtilities(73, 110),
+            DelayBetweenActivity = new RangeUtilities(0, 1)
+        };
+
+        public JobConfiguration FastSpeed = new JobConfiguration()
+        {
+            ActivitiesPerDay = new RangeUtilities(266, 400),
+            ActivitiesPerHour = new RangeUtilities(26, 40),
+            ActivitiesPerWeek = new RangeUtilities(1600, 2400),
+            ActivitiesPerJob = new RangeUtilities(33, 50),
+            DelayBetweenJobs = new RangeUtilities(65, 97),
+            DelayBetweenActivity = new RangeUtilities(0, 1)
+        };
+
+        public JobConfiguration SuperfastSpeed = new JobConfiguration()
+        {
+            ActivitiesPerDay = new RangeUtilities(400, 600),
+            ActivitiesPerHour = new RangeUtilities(40, 60),
+            ActivitiesPerWeek = new RangeUtilities(2400, 3600),
+            ActivitiesPerJob = new RangeUtilities(50, 75),
+            DelayBetweenJobs = new RangeUtilities(77, 116),
+            DelayBetweenActivity = new RangeUtilities(0, 1)
+
+        };
+    }
+    public class ActivityTypeWithJobConfiguration : BindableBase
+    {
+        private JobConfiguration _activityJobConfiguration = new JobConfiguration();
+
+        public JobConfiguration ActivityJobConfiguration
+        {
+            get { return _activityJobConfiguration; }
+            set { SetProperty(ref _activityJobConfiguration, value); }
+        }
+        private string _activityType;
+
+        public string ActivityType
+        {
+            get { return _activityType; }
+            set { SetProperty(ref _activityType, value); }
+        }
+
+    }
+}

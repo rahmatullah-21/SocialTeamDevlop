@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.FacebookCustomControl.AutoReplyOptionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
+             mc:Ignorable="d"
+             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"   
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid Name="MainGrid">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding AutoReplyOptionModel.SourceDisplayName}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                <StackPanel Orientation="Vertical" >
+                    <CheckBox Margin="30,5" Content="{Binding AutoReplyOptionModel.BySoftwareDisplayName}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsMessageRequestChecked}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
+                    <CheckBox Margin="30,5" Content="{Binding AutoReplyOptionModel.OutsideSoftwareDisplayName}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsFriendsMessageChecked}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
+                    <!--<CheckBox Margin="30,5" Content="{DynamicResource LangKeyReplyToPendingPageMessages}" FontSize="12" FontWeight="SemiBold" IsChecked="{Binding AutoReplyOptionModel.IsReplyToPageMessagesChecked}" Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>-->
+                    <customControl:InputBoxControl Margin="35,5" x:Name="OwnPageUrls" InputText="{Binding AutoReplyOptionModel.OwnPages}"
+                                                   Visibility="{Binding AutoReplyOptionModel.IsReplyToPageMessagesChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    <CheckBox Visibility="Collapsed" Margin="30,5" Content="{DynamicResource LangKeyCustomUsersList}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.CustomUserList}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
+                </StackPanel>
+            </StackPanel>
+          
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{DynamicResource LangKeySourceFilter}" Margin="4,30,4,10" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                <StackPanel Orientation="Horizontal" >
+                    <CheckBox Margin="30,5,15,5" Content="{DynamicResource LangKeyMessageShouldHaveBeenSentBefore}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
+                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.DaysBefore}" FontWeight="SemiBold" Foreground="Black" Minimum="0" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}" />
+                    <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
+                    <Label Content="{DynamicResource LangKeyAnd}" FontWeight="SemiBold" Margin="0,0,5,0" Foreground="Black" />
+                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.HoursBefore}"  FontWeight="SemiBold" Foreground="Black" Minimum="0" Maximum="23" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
+                    <Label Content="{DynamicResource LangKeyHours}" FontWeight="SemiBold" Foreground="Black" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

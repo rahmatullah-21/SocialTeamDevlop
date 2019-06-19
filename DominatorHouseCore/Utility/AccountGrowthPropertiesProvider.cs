@@ -49,15 +49,15 @@ namespace DominatorHouseCore.Utility
                         new GrowthProperty {PropertyName = "Post Karma", PropertyValue = 0},
                         new GrowthProperty {PropertyName = "Comment Karma", PropertyValue = 0},
                     }
-                },
-                {
-                    SocialNetworks.Gplus, new List<GrowthProperty>
-                    {
-                        new GrowthProperty {PropertyName = "Followers", PropertyValue = 0},
-                        new GrowthProperty {PropertyName = "Followings", PropertyValue = 0},
-                        new GrowthProperty {PropertyName = "Communities", PropertyValue = 0},
-                    }
                 }
+               // {
+                    //SocialNetworks.Gplus, new List<GrowthProperty>
+                    //{
+                    //    new GrowthProperty {PropertyName = "Followers", PropertyValue = 0},
+                    //    new GrowthProperty {PropertyName = "Followings", PropertyValue = 0},
+                    //    new GrowthProperty {PropertyName = "Communities", PropertyValue = 0},
+                    //}
+               // }
                 ,
                 {
                     SocialNetworks.Youtube, new List<GrowthProperty>

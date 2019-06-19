@@ -177,6 +177,38 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                 SetProperty(ref _isLocationId, value);
             }
         }
+        private bool _IsMentionUser;
+        [ProtoMember(11)]
+        public bool IsMentionUser
+        {
+            get
+            {
+                return _IsMentionUser;
+            }
+            set
+            {
+                if (value)
+                    _IsMentionUser = false;
 
+                SetProperty(ref _IsMentionUser, value);
+            }
+        }
+
+        private string _MentionUserList;
+        [ProtoMember(12)]
+        public string MentionUserList
+        {
+            get
+            {
+                return _MentionUserList;
+            }
+            set
+            {
+                if (_MentionUserList == value)
+                    return;
+
+                SetProperty(ref _MentionUserList, value);
+            }
+        }
     }
 }

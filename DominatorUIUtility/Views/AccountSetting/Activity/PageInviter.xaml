@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="DominatorUIUtility.Views.AccountSetting.Activity.PageInviter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
+             mc:Ignorable="d" 
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl"
+             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="PageInviter"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Page Inviter Settings" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
+                <TextBlock Text="{DynamicResource LangKeyInviteBy}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="12"/>
+
+                <StackPanel Orientation="Vertical" >
+
+                    <RadioButton Name="ChckPostUrl" GroupName="Category" Content="{DynamicResource LangKeyInvitePagePostLikers}"  Width="300" Margin="10,5" FontSize="13" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Left" IsChecked="{Binding InviterDetailsModel.IsPostUrl}"/>
+
+                    <StackPanel Orientation="Vertical"  Margin="30,5" Visibility="{Binding InviterDetailsModel.IsPostUrl,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <RadioButton Margin="0,4,0,4" GroupName="PagePostOptions" Name="ChkboxRandomPost"  Foreground="Black" FontWeight="SemiBold"   Content="Random Post(s)" IsChecked="{Binding InviterDetailsModel.IsRandomPosts}"   />
+                        <RadioButton GroupName="PagePostOptions"  Name="ChkboxSpecificPost"  Foreground="Black" Margin="0,4,0,4"  FontWeight="SemiBold" Content="Specific Post" IsChecked="{Binding InviterDetailsModel.IsSpecificPosts}" />
+                        <customControl1:SelectOptionControl ToolTip="{DynamicResource LangKeyCustomPostUrl}" x:Name="BtnPostUrl" SelectedInputOption="{DynamicResource LangKeySelectPages}"
+                                                               LstSelectedInput="{Binding InviterDetailsModel.ListPostUrl}"
+                                                                                InputText="{Binding InviterDetailsModel.PostUrlText}" IsSelectButtonVisible="False"                                                                                                                          
+                                                               SelectedOptionDisplayName="{DynamicResource LangKeySelectPages}" Visibility="{Binding InviterDetailsModel.IsSpecificPosts,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="26,0" HorizontalAlignment="Left" />
+                    </StackPanel>
+
+                </StackPanel>
+                <StackPanel Orientation="Vertical"  >
+                    <RadioButton Name="ChckProfileUrl" GroupName="Category" Content="{DynamicResource LangKeyProfileUrlS}"  Width="140" Margin="10,5" FontSize="13" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Left" IsChecked="{Binding InviterDetailsModel.IsProfileUrl}"/>
+                </StackPanel>
+
+                <customControl1:InviterOptionsControl IsReinviteOptionNeeded="True" ToolTip="{DynamicResource LangKeyInviteProfileUrlOpt}" InviterOptionsModel="{Binding InviterOptionsModel}" 
+                                                      Visibility="{Binding InviterDetailsModel.IsProfileUrl,Converter={StaticResource BooleanToVisibilityConverter}}" IsInviteInMessageVisible="True"/>
+
+                <RadioButton Content="{DynamicResource LangKeySelectAccountDetails}" IsChecked="{Binding IsSelctDetails}" Checked="SelectAccountDetails_Click"/>
+
+                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
+    </Grid>
+
+</UserControl>

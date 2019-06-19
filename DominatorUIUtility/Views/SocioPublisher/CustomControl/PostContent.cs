@@ -461,7 +461,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                             break;
                         case SocialNetworks.Pinterest:
                         case SocialNetworks.Quora:
-                        case SocialNetworks.Gplus:
+                        //case SocialNetworks.Gplus:
                         case SocialNetworks.Youtube:
                             break;
                         // ReSharper disable once RedundantEmptySwitchSection

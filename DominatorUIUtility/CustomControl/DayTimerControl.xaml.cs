@@ -50,7 +50,7 @@ namespace DominatorUIUtility.CustomControl
             objSchedulerControl.TextBlockWarning.Visibility = Visibility.Collapsed;
 
             var dialogWindow = objDialogWindow.GetMetroWindow(objSchedulerControl, "Please provide the start and end time");
-
+            dialogWindow.Topmost = true;
             objSchedulerControl.btnAddInterval.Click += (btnSender, args) =>
             {
 

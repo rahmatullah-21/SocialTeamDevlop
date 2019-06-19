@@ -3571,14 +3571,21 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfUnSubscribesPerDay">Number of UnSubscribe Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfUnSubscribesPerWeek">Number of UnSubscribe Per Week</system:String>
     <system:String x:Key="LangKeyMaxUnSubscribesPerDay">Number of Maximum UnSubscribe Per Day</system:String>
-
+    <system:String x:Key="LangKeySearchPostSortBy">Search Post Sort by</system:String>
+    <system:String x:Key="LangKeySpliteCommentWithNextLine">Split Comment By Next Line</system:String>
+    <system:String x:Key="LangKeySpliteNextValueIntoNextComment">Create Multiple Comment From Single Comment, Splitting By Next Line</system:String>
     <system:String x:Key="LangKeyCommentsOfAVideo">Comments of a video</system:String>
     <system:String x:Key="LangKeyLikeCommentsOf">Like comments of</system:String>
     <system:String x:Key="LangKeyVideosOfAChannel">videos of a channel</system:String>
     <system:String x:Key="LangKeyProvideCommentIdSpecifically">Provide a specific commentId of a comment of a custom video url.</system:String>
-
-    <system:String x:Key="LangKeySearchPostSortBy">Search Post Sort by</system:String>
-    <system:String x:Key="LangKeySpliteCommentWithNextLine">Split Comment By Next Line</system:String>
-    <system:String x:Key="LangKeySpliteNextValueIntoNextComment">Create Multiple Comment From Single Comment, Splitting By Next Line</system:String>
-
+    <system:String x:Key="LangKeyAddMultipleMessageSeparatedByNewLine">Add Multiple Message Separated By New Line</system:String>
+    <system:String x:Key="LangKeyNumberOfUnLikesPerDay">Number Of Unlikes Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfUnLikesPerHour">Number Of Unlikes Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfUnLikesPerJob">Number Of Unlikes Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfUnLikesPerWeek">Number Of Unlikes Per Week</system:String>
+    <system:String x:Key="LangKeyMaxUnLikesPerDay">Max Unlikes Per Day</system:String>
+    <system:String x:Key="LangKeyScrapeDataUpto">Scrape data upto</system:String>
+    <system:String x:Key="LangKeyPaginationsBeforeSendItToPerformActivity">paginations before send it to perform activity.</system:String>
+    <system:String x:Key="LangKeyChangeHashOfImage">Change hash of image</system:String>
+    <system:String x:Key="LangKeyMentionUserInStoryPost">Mention user in story post</system:String>
 </ResourceDictionary>

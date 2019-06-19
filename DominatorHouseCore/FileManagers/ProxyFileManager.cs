@@ -68,6 +68,8 @@ namespace DominatorHouseCore.FileManagers
         }
         public async Task UpdateProxyStatusAsync(ProxyManagerModel currentProxyManager, string url)
         {
+            var stopWatch = new Stopwatch();
+
             try
             {
                 if (string.IsNullOrEmpty(url))
@@ -80,19 +82,16 @@ namespace DominatorHouseCore.FileManagers
 
                 if (currentProxyManager != null)
                 {
-                    var webProxy = new WebProxy(currentProxyManager.AccountProxy.ProxyIp, int.Parse(currentProxyManager.AccountProxy.ProxyPort))
+                    request.Proxy = new WebProxy(currentProxyManager.AccountProxy.ProxyIp, int.Parse(currentProxyManager.AccountProxy.ProxyPort))
                     {
                         BypassProxyOnLocal = true
                     };
                     if (!string.IsNullOrEmpty(currentProxyManager.AccountProxy.ProxyUsername)
                         && !string.IsNullOrEmpty(currentProxyManager.AccountProxy.ProxyPassword))
                     {
-                        webProxy.Credentials = new NetworkCredential(currentProxyManager.AccountProxy.ProxyUsername, currentProxyManager.AccountProxy.ProxyPassword);
+                        request.Proxy.Credentials = new NetworkCredential(currentProxyManager.AccountProxy.ProxyUsername, currentProxyManager.AccountProxy.ProxyPassword);
                     }
 
-                    request.Proxy = webProxy;
-
-                    var stopWatch = new Stopwatch();
                     stopWatch.Start();
                     GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Social, currentProxyManager.AccountProxy.ProxyIp + ":" + currentProxyManager.AccountProxy.ProxyPort);
 
@@ -100,10 +99,6 @@ namespace DominatorHouseCore.FileManagers
                     {
                         currentProxyManager.Status = response.StatusCode.ToString() == "OK" ? "Working" : "Not Working";
                     }
-
-                    stopWatch.Stop();
-                    var ts = stopWatch.Elapsed;
-                    currentProxyManager.ResponseTime = $"{ts.Milliseconds} milli seconds";
                 }
             }
             catch (Exception ex)
@@ -114,9 +109,16 @@ namespace DominatorHouseCore.FileManagers
                     currentProxyManager.Failures = 1;
                 }
             }
+            finally
+            {
+                if (currentProxyManager.Status == "Working")
+                    currentProxyManager.Failures = 0;
 
+                stopWatch.Stop();
+                var ts = stopWatch.Elapsed;
+                currentProxyManager.ResponseTime = $"{ts.Milliseconds} milli seconds";
+            }
             EditProxy(currentProxyManager);
-
         }
     }
 }

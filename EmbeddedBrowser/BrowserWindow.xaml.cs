@@ -106,19 +106,15 @@ namespace EmbeddedBrowser
         /// <summary>
         /// Set Account Model Cookies into the browser
         /// </summary>
+      
         public async Task SetCookie()
         {
             try
             {
-                var callBack = new TaskCompletionCallback();
-
                 if (DominatorAccountModel.Cookies.Count == 0)
-                {
-                    Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
                     return;
-                }
 
-                Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookies();
+                var callBack = new TaskCompletionCallback();
 
                 foreach (var accCookie in DominatorAccountModel.Cookies)
                 {
@@ -135,7 +131,13 @@ namespace EmbeddedBrowser
                         Path = cook.Path
                     };
 
-                    var url = "https://www" + (!cook.Domain.StartsWith(".") ? "." : "") + cook.Domain;
+                    var url = "";
+                    if (cefCookie.Domain.Contains("www."))
+                        url = "https://" + cefCookie.Domain.TrimStart('.');
+                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && cefCookie.Domain.Contains("pinterest"))
+                        url = "https://" + (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest") ? "www." : "") + cefCookie.Domain.TrimStart('.');
+                    else
+                        url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
                     var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
 
@@ -153,7 +155,6 @@ namespace EmbeddedBrowser
                 ex.DebugLog();
             }
         }
-
         private void LoadSettings(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             if (!Browser.IsBrowserInitialized)
@@ -670,20 +671,20 @@ namespace EmbeddedBrowser
                 },
                 {
                     pageData => pageData.Contains("Get a verification code")
-                                && !pageData.Contains("Google will send a notification to your phone to verify that it's you"),
-                    NeedEmailVerification
+                                || pageData.Contains("Do you have your phone?")
+                                || (pageData.Contains("Google will send a verification code to")&& pageData.Contains("Standard rates apply")),
+                    NeedPhoneVerification
                 },
                 {
                     pageData => pageData.Contains("Get a verification code")
-                                || pageData.Contains("Do you have your phone?")
-                                || pageData.Contains("Google will send a notification to your phone to verify that it's you"),
-                    NeedPhoneVerification
+                                && !pageData.Contains("Google will send a notification to"),
+                    NeedEmailVerification
                 },
                 {
                     pageData => pageData.Contains("Type the text you hear or see")
                                 || pageData.Contains("Google couldn't verify this account belongs to you.")
-                                || pageData.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
-                                || pageData.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you."),
+                               /*|| pageData.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
+                                || pageData.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you.") */,
                     NeedsVerification
                 },
                 {
@@ -1019,6 +1020,46 @@ namespace EmbeddedBrowser
         private bool NeedPhoneVerification()
         {
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
+           
+            if(VerifyingAccount && (_pageText.Contains("Text") && _pageText.Contains("Call")))
+            {
+                PressAnyKey(3, 200, winKeyCode: 9); //Press Tab 3 Times key
+                
+                PressAnyKey(1, 0, winKeyCode: 13,
+                    delayAtLast: 4); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
+
+                _pageText = Browser.GetTextAsync().Result;
+                var isWrong = !(_pageText.Contains("A text message with a 6-digit verification code was just sent to") || _pageText.Contains("\n\nEnter verification code\n\n"));
+
+                if (!isWrong)
+                {
+                    var number = Utilities.GetBetween(_pageText, "code was just sent to", "\n");
+                    if (string.IsNullOrEmpty(number))
+                        number = "the number you submitted";
+                    CustomLog($"A text message with a 6-digit verification code was just sent to {number}. Enter the code within 2 minutes.");
+                }
+                return false;
+            }
+            else if (VerifyingAccount && _pageText.Contains("Google will send a notification to your phone to verify that it's you"))
+            {
+                PressAnyKey(4, 200, winKeyCode: 9); //Press Tab 4 Times key
+
+                PressAnyKey(1, 0, winKeyCode: 13,
+                    delayAtLast: 4); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
+
+                _pageText = Browser.GetTextAsync().Result;
+               
+                var isWrong = !(_pageText.Contains("Google sent a notification to your phone. Tap Yes on the notification, then tap"));
+
+                if (!isWrong)
+                {
+                    var number = Utilities.GetBetween(_pageText, "Check your phone\n", "\n");
+                    
+                    CustomLog($"Check your phone. {number} . Perform it within 2 minutes.");
+                }
+                return false;
+            }
+            else
             return true;
         }
 
@@ -1249,7 +1290,7 @@ namespace EmbeddedBrowser
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
-                if (!string.IsNullOrEmpty(result) && result.Contains("\"isAuth\": true") && SaveCookies())
+                if (!string.IsNullOrEmpty(result) && (result.Contains("\"isAuth\": true") || result.Contains("\"isAuth\":true")) && SaveCookies())
                     LoadPostPage();
 
             }
@@ -1320,8 +1361,8 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(html))
             {
 
-                if (CurrentUrl().Contains("https://www.linkedin.com/hp"))
-                    BrowserAct(ActType.ClickByClass, "nav__button-secondary");
+                //if (CurrentUrl().Contains("https://www.linkedin.com/hp"))
+                //    BrowserAct(ActType.ClickByClass, "nav__button-secondary");
 
                 if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password) && html.Contains("consumer_login__text_plain__large_username"))
                 {
@@ -1452,7 +1493,7 @@ namespace EmbeddedBrowser
         /// Call this method only at login success condition
         /// </summary>
         /// <returns></returns>
-        private bool SaveCookies()
+        public bool SaveCookies()
         {
             if (_isLoggedIn) return false;
 
@@ -1619,9 +1660,10 @@ namespace EmbeddedBrowser
             [Description("target")]
             Target = 20,
             [Description("loggingname")]
-            LoggingName = 21
-
+            LoggingName = 21,
             //aria-checked
+            [Description("action_mousedown")]
+            ActionMouseDown = 22
         }
 
 
@@ -2348,8 +2390,8 @@ namespace EmbeddedBrowser
         public KeyValuePair<int, int> GetXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0)
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
-            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().top";
-            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().left";
+            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
+            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
 
             if (ExecuteScript(scriptx, 0).Success)
             {
@@ -2637,8 +2679,52 @@ namespace EmbeddedBrowser
                 urlNow = Browser.Address;
             return urlNow;
         }
+        public KeyValuePair<int, int> GetEndXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "")
+        {
+            KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
+            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().bottom" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().bottom";
+            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().right" : $"document.getElementsByClassName('{elementName}')[0].getBoundingClientRect().right";
 
+            if (ExecuteScript(scriptx, 0).Success)
+            {
+                var scriptResponse = ExecuteScript(scriptx, 0);
+                var x = ConvertDoubleAndInt(scriptResponse.Result.ToString());
+                scriptResponse = ExecuteScript(scripty, 0);
+                var y = ConvertDoubleAndInt(scriptResponse.Result.ToString());
+                xAndY = new KeyValuePair<int, int>(x, y);
+                return xAndY;
+            }
+            return xAndY;
+        }
 
+        public async Task<IFrame> GetFrame(string url)
+        {
+            IFrame frame = null;
+
+            var identifiers = Browser.GetBrowser().GetFrameIdentifiers();
+
+            foreach (var i in identifiers)
+            {
+                var v = Browser.GetBrowser().GetFrameNames();
+                frame = Browser.GetBrowser().GetFrame(i);
+                if (frame.Url.Contains(url))
+                    return frame;
+                var document = await frame.GetSourceAsync();
+            }
+            return null;
+        }
+
+        public async Task<string> GetElementValueAsyncFromFrame(IFrame frame, string script)
+        {
+            await Task.Delay(1000);
+            var jsResponse = await frame.EvaluateScriptAsync(script);
+            return jsResponse.Success ? jsResponse.Result?.ToString() : jsResponse.Message?.ToString();
+        }
+        public async Task ExecuteJSAsyncFromFrame(IFrame frame, string script)
+        {
+            await Task.Delay(1000);
+            frame.ExecuteJavaScriptAsync(script);
+        }
 
         public async Task SelectTextAsync(int stratXlocation, int startYLocation, int moveToXLocation,
                      int moveToYLocation, double delayBefore = 0, double delayAfter = 0,
@@ -2668,5 +2754,6 @@ namespace EmbeddedBrowser
 
         public void ReSetResourceLoadInstance() =>
             _requestHandlerCustom.IsNeedResourceData = false;
+
     }
 }

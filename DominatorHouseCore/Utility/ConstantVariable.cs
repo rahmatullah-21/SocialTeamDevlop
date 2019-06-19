@@ -229,7 +229,15 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherTumblrSettingsFile() => GetOtherDir() + @"\Tumblr.bin";
         public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
-       
+
+        public static string GetModuleConfigPath(string network)
+        {
+            string dir = $"{ GetConfigurationDir()}\\{network}";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir+ "\\Config.bin";
+
+        } 
+
         #endregion
 
 

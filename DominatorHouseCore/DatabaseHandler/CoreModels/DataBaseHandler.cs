@@ -23,7 +23,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         public IReadOnlyDictionary<SocialNetworks, Action<DbOperations>> DbInitialCounters { get; } = new Dictionary<SocialNetworks, Action<DbOperations>>
         {
-            {SocialNetworks.Gplus,(operation) => {operation.Count<GplusTables.Accounts.Friendships>();}},
+            //{SocialNetworks.Gplus,(operation) => {operation.Count<GplusTables.Accounts.Friendships>();}},
             {SocialNetworks.Twitter,(operation) =>{operation.Count<TdTables.Accounts.Friendships>();}},
             {SocialNetworks.Facebook,(operation)=>{operation.Count<FdTables.Accounts.Friends>();} },
             {SocialNetworks.Instagram,(operation)=>{operation.Count<GdTables.Accounts.Friendships>();}},
@@ -37,7 +37,7 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         public IReadOnlyDictionary<SocialNetworks, Action<DbOperations>> DbCampaignInitialCounters { get; } = new Dictionary<SocialNetworks, Action<DbOperations>>
         {
-            {SocialNetworks.Gplus,operation=>{ operation.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
+            //{SocialNetworks.Gplus,operation=>{ operation.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
             {SocialNetworks.Twitter,operation=>{operation.Count<TdTables.Campaign.InteractedUsers>();}},
             {SocialNetworks.Facebook,operation=>{operation.Count<FdTables.Campaigns.InteractedUsers>();} },
             {SocialNetworks.Instagram,operation=>{operation.Count<GdTables.Campaigns.InteractedUsers>(); } },

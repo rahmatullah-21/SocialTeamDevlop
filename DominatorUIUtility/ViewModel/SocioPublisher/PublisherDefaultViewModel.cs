@@ -534,13 +534,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
 
 
-                    file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
-                    var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if (googlePlusModel != null)
-                    {
-                        googlePlusModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        _genericFileManager.AddModule(googlePlusModel, file);
-                    }
+                    //file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
+                    //var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    //if (googlePlusModel != null)
+                    //{
+                    //    googlePlusModel.CampaignId = clonedCampaignStatus.CampaignId;
+                    //    _genericFileManager.AddModule(googlePlusModel, file);
+                    //}
 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
