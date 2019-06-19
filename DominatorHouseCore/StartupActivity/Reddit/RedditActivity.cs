@@ -7,7 +7,7 @@ namespace DominatorHouseCore.StartupActivity.Reddit
     {
         public BaseActivity GetActivity(string activity)
         {
-           
+
             switch (activity)
             {
                 case "Follow":
@@ -20,7 +20,12 @@ namespace DominatorHouseCore.StartupActivity.Reddit
                     return new RedditCommunityActivity();
                 case "RemoveVote":
                 case "RemoveVoteComment":
+                case "Reply":
+                case "UpvoteComment":
+                case "DownvoteComment":
                     return new RedditRemoveVoteActivity();
+                case "CommentScraper":
+                    return new RedditCommentScraperActivity();
                 default:
                     return new RedditPostActivity();
             }

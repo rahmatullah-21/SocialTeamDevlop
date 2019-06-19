@@ -437,8 +437,8 @@ namespace DominatorHouseCore.Process
 
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
-
-            Thread.Sleep(seconds * 1000);
+            Task.Delay(seconds * 1000, JobCancellationTokenSource.Token).Wait();
+            //Thread.Sleep(seconds * 1000);
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
         }
