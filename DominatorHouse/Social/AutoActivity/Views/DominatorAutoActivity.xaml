@@ -32,7 +32,9 @@
                                    Content="{DynamicResource LangKeyAccountsActivity}" />
             </StackPanel>
 
-            <ListView Grid.Row="1" 
+            <ListView Grid.Row="1" VirtualizingPanel.IsVirtualizing="True" 
+                      VirtualizingPanel.VirtualizationMode="Recycling"
+                      ScrollViewer.IsDeferredScrollingEnabled="True"
                       x:Name="CampaignStatusList"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"                  
                       ItemsSource="{Binding AccountsCollection,IsAsync=True}"
@@ -68,7 +70,6 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
-
                     <GridView>
                         <GridViewColumn Width="50">
                             <GridViewColumn.Header>

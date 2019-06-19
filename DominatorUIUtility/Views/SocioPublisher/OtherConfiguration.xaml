@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"          
              mc:Ignorable="d" 
+             xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
     <UserControl.Resources>
@@ -33,6 +34,12 @@
                       Content="{DynamicResource LangKeyAllowPublishingOfTextPostsWithLinksOnPinterest}"  Margin="5"/>
             <CheckBox IsChecked="{Binding OtherConfigurations.IsPostAsStoryChecked}" Visibility="{Binding Source={x:Static enums:SocialNetworks.Instagram},Converter={StaticResource FeatureVisibilityConverter}}"
                       Content="{DynamicResource LangKeyPostAsAPartOfYourStoryInsteadOfOnTheWallAppliesToInstagramDestinationOnly}"  Margin="5"/>
+            <StackPanel Orientation="Vertical" Margin="20,5,0,0">
+                <CheckBox  IsChecked="{Binding OtherConfigurations.IsMentionUser}" Content="{DynamicResource LangKeyMentionUserInStoryPost}" Visibility="{Binding OtherConfigurations.IsPostAsStoryChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBox VerticalAlignment="Center" Text="{Binding OtherConfigurations.MentionUserList}" IsEnabled="{Binding IsMentionUser}" AcceptsReturn="True"
+                         HorizontalAlignment="Left" control:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" TextWrapping="Wrap" Height="60" Width="404" Visibility="{Binding OtherConfigurations.IsMentionUser,Converter={StaticResource BooleanToVisibilityConverter}}"></TextBox>
+            </StackPanel>
+
             <!--<StackPanel Orientation="Horizontal">
                 <CheckBox IsChecked="{Binding OtherConfigurations.IsMakeImagesUniqueChecked}"
                           Content="{DynamicResource LangKeyMakeImagesUniqueBeforeTheyArePosted}"  Margin="5"/>

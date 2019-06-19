@@ -1381,6 +1381,7 @@ namespace DominatorUIUtility.CustomControl
                     if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
                     {
                         DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                        moduleConfiguration.IsEnabled = false;
                         return false;
                     }
                 }
