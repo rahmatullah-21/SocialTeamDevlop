@@ -363,9 +363,9 @@ namespace EmbeddedBrowser
 
         public void Dispose() => Browser.Dispose();
 
-        public void ChooseFileFromDialog(string filePath)
+        public void ChooseFileFromDialog(string filePath = "", List<string> pathList = null)
         {
-            var fileDialogHandler = new TempFileDialogHandler(this, filePath);
+            var fileDialogHandler = new TempFileDialogHandler(this, filePath, pathList);
             Browser.DialogHandler = fileDialogHandler;
         }
 
@@ -401,54 +401,6 @@ namespace EmbeddedBrowser
             GetLengthByCustomQuery
         }
 
-        /// <summary>
-        /// Browser actions
-        /// </summary>
-        /// <param name="actType">Type of activity doing on browser window</param>
-        /// <param name="element">type of element by which the action gonna be performed</param>
-        /// <param name="delayBefore">delay before the action (In seconds)</param>
-        /// <param name="delayAfter">delay after the action (In seconds)</param>
-        /// <param name="value">value which is going to be entered</param>
-        /// <param name="clickIndex">Sometimes multiple buttons have same tag-value</param>
-        public void BrowserAct(ActType actType, string element, double delayBefore = 0, double delayAfter = 0, string value = "", int clickIndex = 0)
-        {
-            if (delayBefore > 0)
-                Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
-
-            if (Browser.IsDisposed) return;
-
-            if (!string.IsNullOrEmpty(value) && value.Contains(@"\"))
-                value = value.Replace(@"\", "\\\\");
-
-            switch (actType)
-            {
-                case ActType.ClickByClass:
-                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].click()");
-                    break;
-
-                case ActType.ClickById:
-                    Browser.ExecuteScriptAsync($"document.getElementById('{element}').click()");
-                    break;
-
-                case ActType.ClickByName:
-                    Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].click()");
-                    break;
-
-                case ActType.EnterValueByClass:
-                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].value= '{value}'");
-                    break;
-
-                case ActType.EnterValueById:
-                    Browser.ExecuteScriptAsync($"document.getElementById('{element}').value= '{value}'");
-                    break;
-
-                case ActType.EnterValueByName:
-                    Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value= '{value}'");
-                    break;
-            }
-            if (delayAfter > 0)
-                Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
-        }
 
         /// <summary>
         /// Browser actions
@@ -1665,7 +1617,10 @@ namespace EmbeddedBrowser
             [Description("action_click")]
             ActionClick = 19,
             [Description("target")]
-            Target = 20
+            Target = 20,
+            [Description("loggingname")]
+            LoggingName = 21
+
             //aria-checked
         }
 
@@ -1794,7 +1749,8 @@ namespace EmbeddedBrowser
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
-            if (Browser.IsDisposed) return;
+            if (Browser.IsDisposed)
+                return;
 
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
@@ -1842,9 +1798,95 @@ namespace EmbeddedBrowser
             }
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+
+
         }
 
+        /// <summary>
+        /// Browser actions
+        /// </summary>
+        /// <param name="actType">Type of activity doing on browser window</param>
+        /// <param name="element">type of element by which the action gonna be performed</param>
+        /// <param name="delayBefore">delay before the action (In seconds)</param>
+        /// <param name="delayAfter">delay after the action (In seconds)</param>
+        /// <param name="value">value which is going to be entered</param>
+        /// <param name="clickIndex">Sometimes multiple buttons have same tag-value</param>
+        public void BrowserAct(ActType actType, string element = "", double delayBefore = 0, double delayAfter = 0, string value = "", int clickIndex = 0,
+            AttributeType attributeType = AttributeType.Null, string attributeValue = "", int scrollByPixel = 100)
+        {
+            if (delayBefore > 0)
+                Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
 
+            if (Browser.IsDisposed) return;
+
+            if (!string.IsNullOrEmpty(value) && value.Contains(@"\"))
+                value = value.Replace(@"\", "\\\\");
+
+            switch (actType)
+            {
+                case ActType.ClickByClass:
+                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].click()");
+                    break;
+
+                case ActType.ClickById:
+                    Browser.ExecuteScriptAsync($"document.getElementById('{element}').click()");
+                    break;
+
+                case ActType.ClickByName:
+                    Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].click()");
+                    break;
+
+                case ActType.EnterValueByClass:
+                    Browser.ExecuteScriptAsync($"document.getElementsByClassName('{element}')[{clickIndex}].value= '{value}'");
+                    break;
+
+                case ActType.EnterValueById:
+                    Browser.ExecuteScriptAsync($"document.getElementById('{element}').value= '{value}'");
+                    break;
+
+                case ActType.EnterValueByName:
+                    Browser.ExecuteScriptAsync($"document.getElementsByName('{element}')[{clickIndex}].value= '{value}'");
+                    break;
+
+                case ActType.EnterByQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].value= '{value}'");
+                    break;
+
+                case ActType.EnterValue:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].value= '{value}'");
+                    break;
+
+                case ActType.ActByQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].click()");
+                    break;
+
+                case ActType.ScrollWindow:
+                    Browser.ExecuteScriptAsync($"window.scrollBy(0, {scrollByPixel});");
+                    break;
+
+                case ActType.ScrollIntoView:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].scrollIntoView()");
+                    break;
+
+                case ActType.ScrollIntoViewQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].scrollIntoView()");
+                    break;
+
+                case ActType.CustomActType:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}");
+                    break;
+
+                case ActType.CustomActByQueryType:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
+                    break;
+
+                default:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{actType.GetDescriptionAttr()}");
+                    break;
+            }
+            if (delayAfter > 0)
+                Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
+        }
 
 
         public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
@@ -2553,18 +2595,18 @@ namespace EmbeddedBrowser
 
                 bool isSuccess = false;
 
-                while(!isSuccess)
+                while (!isSuccess)
                 {
                     try
                     {
                         lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
                         isSuccess = true;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                     }
                 }
-                    
+
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains));
                 if (responseStream != null)
