@@ -296,7 +296,8 @@ namespace DominatorHouseCore.Process
                           {
                               JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                               GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
-                              _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                              // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                              StopIfAccountLoginFail();
                           }
 
                       }
@@ -304,7 +305,8 @@ namespace DominatorHouseCore.Process
                       {
                           JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                           GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
-                          _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                          StopIfAccountLoginFail();
+                         // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                       }
 
 
@@ -317,6 +319,14 @@ namespace DominatorHouseCore.Process
 
                 return task;
             }
+        }
+
+        private void StopIfAccountLoginFail()
+        {
+            var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+            var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
+
+            _dominatorScheduler.Stop(DominatorAccountModel.AccountId, moduleConfiguration.TemplateId);
         }
 
         public void Stop()
