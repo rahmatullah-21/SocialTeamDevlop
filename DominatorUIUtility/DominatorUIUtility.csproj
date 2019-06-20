@@ -388,6 +388,7 @@
     <Compile Include="ViewModel\CampaignViewModel.cs" />
     <Compile Include="ViewModel\AccountsActivityDetailModel.cs" />
     <Compile Include="ViewModel\DominatorAccountViewModel.cs" />
+    <Compile Include="ViewModel\OtherConfigurations\BrowserAutomation\SocialAutomationViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\EmbeddedBrowserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\InstagramUserViewModel.cs" />
     <Compile Include="ViewModel\OtherConfigurations\IOtherConfigurationViewModel.cs" />
@@ -1068,6 +1069,10 @@
     <Page Include="Behaviours\ErrorModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigControl\BrowserAutomationTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConfigControl\CaptchaServicesTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>

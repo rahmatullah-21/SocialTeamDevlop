@@ -26,6 +26,12 @@ namespace DominatorHouseCore.Diagnostics
             return this;
         }
 
+        public SocinatorAccountBuilder AddOrUpdateBrowserSettings(bool isBrowerAutomationActive)
+        {
+            DominatorAccountModel.IsBrowerAutomationActive = isBrowerAutomationActive;
+            return this;
+        }
+
         public SocinatorAccountBuilder AddOrUpdateDominatorAccountBase(DominatorAccountBaseModel accountBaseModel)
         {
             DominatorAccountModel.AccountBaseModel = accountBaseModel;

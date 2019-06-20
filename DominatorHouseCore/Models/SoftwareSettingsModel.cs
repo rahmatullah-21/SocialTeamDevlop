@@ -1,11 +1,17 @@
-﻿using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
     public class SoftwareSettingsModel : BindableBase
     {
+
+       
         private bool _isRunDHAtStartUpChecked;
         [ProtoMember(1)]
         public bool IsRunDHAtStartUpChecked
@@ -619,14 +625,24 @@ namespace DominatorHouseCore.Models
         [ProtoMember(41)]
         public bool IsStopAutoSynchronizeAccount
         {
-            get { return _isStopAutoSynchronizeAccount; }
-            set { SetProperty(ref _isStopAutoSynchronizeAccount, value); }
+            get
+            {
+                return _isStopAutoSynchronizeAccount;
+            }
+            set
+            {
+                SetProperty(ref _isStopAutoSynchronizeAccount, value);
+            }
         }
+
         private bool _isDefaultExportPathSelected;
         [ProtoMember(42)]
         public bool IsDefaultExportPathSelected
         {
-            get { return _isDefaultExportPathSelected; }
+            get
+            {
+                return _isDefaultExportPathSelected;
+            }
             set
             {
                 SetProperty(ref _isDefaultExportPathSelected, value);
@@ -637,17 +653,45 @@ namespace DominatorHouseCore.Models
         [ProtoMember(43)]
         public string ExportPath
         {
-            get { return _exportPath; }
-            set { SetProperty(ref _exportPath, value); }
+            get
+            {
+                return _exportPath;
+            }
+            set
+            {
+                SetProperty(ref _exportPath, value);
+            }
         }
 
         private bool _isRunProcessThroughBrowser;
+
         [ProtoMember(44)]
         public bool IsRunProcessThroughBrowser
         {
-            get { return _isRunProcessThroughBrowser; }
-            set { SetProperty(ref _isRunProcessThroughBrowser, value); }
+            get
+            {
+                return _isRunProcessThroughBrowser;
+            }
+            set
+            {
+                SetProperty(ref _isRunProcessThroughBrowser, value);
+            }
         }
 
+        private ObservableCollection<ManageAutomationModel> _NetworkBrowserAutomationDictionary;
+
+
+        [ProtoMember(45)]
+        public ObservableCollection<ManageAutomationModel> NetworkBrowserAutomationList
+        {
+            get
+            {
+                return _NetworkBrowserAutomationDictionary;
+            }
+            set
+            {
+                SetProperty(ref _NetworkBrowserAutomationDictionary, value);
+            }
+        }
     }
 }

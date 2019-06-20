@@ -25,11 +25,10 @@ namespace DominatorUIUtility.IoC
             Container.RegisterSingleton<IOtherConfigurationViewModel, PinterestOtherConfigViewModel>("PinterestOtherConfigViewModel");
             Container.RegisterSingleton<IOtherConfigurationViewModel, LinkedInViewModel>("LinkedInViewModel");
             Container.RegisterSingleton<IOtherConfigurationViewModel, ThirdPartyViewModel>("ThirdPartyViewModel");
-
             Container.RegisterSingleton<IThridPartyServicesViewModel, CaptchaServicesViewModel>("CaptchaServicesViewModel");
             Container.RegisterSingleton<IThridPartyServicesViewModel, UrlShortnerServicesViewModel>("UrlShortnerServicesViewModel");
             Container.RegisterSingleton<IThridPartyServicesViewModel, ImageCaptchaServicesViewModel>("ImageCaptchaServicesViewModel");
-
+            Container.RegisterSingleton<IOtherConfigurationViewModel, SocialAutomationViewModel>("SocialAutomationViewModel");
             Container.RegisterSingleton<IOtherToolsViewModel, MediaGeneratorViewModel>("MediaGeneratorViewModel");
 
             Container.RegisterSingleton<IProxyManagerViewModel, ProxyManagerViewModel>();

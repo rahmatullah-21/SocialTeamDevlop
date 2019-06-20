@@ -3588,4 +3588,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPaginationsBeforeSendItToPerformActivity">paginations before send it to perform activity.</system:String>
     <system:String x:Key="LangKeyChangeHashOfImage">Change hash of image</system:String>
     <system:String x:Key="LangKeyMentionUserInStoryPost">Mention user in story post</system:String>
+    <system:String x:Key="LangKeyBrowserAutomation">Browser Automation</system:String>
+    <system:String x:Key="LangKeySelectAccountForBrowserAutomation">Select Account For Browser Automation</system:String>
 </ResourceDictionary>

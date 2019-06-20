@@ -86,13 +86,24 @@
                             <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
                             <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5" Text="{DynamicResource LangKeyRunAllActivityThroughBrowser}" />
+                            <ComboBox Width="170" Margin="5" HorizontalAlignment="Left"    
+                                 ItemsSource="{Binding NetworkBrowserAutomationList
+                                ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" SelectedIndex="-1">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsNetworkSelcted}">
+                                            <TextBlock Width="150" Height="20" Text="{Binding Path=SocialNetwork}" IsEnabled="False"/>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
-                              IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyRunAllActivityThroughBrowser}"
-                              IsChecked="{Binding IsRunProcessThroughBrowser}"/>
-                        
+
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <CheckBox Content="Default Export Path" Name="IsDefaultPath" IsChecked="{Binding IsDefaultExportPathSelected}"/>
                             <TextBox Text="{Binding ExportPath,Mode=TwoWay}"  Margin="5"
@@ -125,6 +136,7 @@
                                 </TextBox.Style>
                             </TextBox>
                         </StackPanel>
+
 
                     </StackPanel>
 

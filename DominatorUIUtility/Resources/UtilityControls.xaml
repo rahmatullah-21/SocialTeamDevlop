@@ -11,7 +11,7 @@
         <ResourceDictionary Source="../ConfigControl/CaptchaServicesTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/URLShortnerServicesTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/ImageCaptchaServicesTemplates.xaml"/>
-        
+        <ResourceDictionary Source="../ConfigControl/BrowserAutomationTemplates.xaml"/>
         <ResourceDictionary Source="../CustomControl/MediaGeneratorTemplates.xaml"/>
         <ResourceDictionary Source="../ConfigControl/InstagramTemplates.xaml"/>
     </ResourceDictionary.MergedDictionaries>

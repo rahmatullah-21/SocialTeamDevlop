@@ -149,6 +149,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
@@ -165,6 +166,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -580,6 +582,7 @@
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
+    <Compile Include="Models\Config\BrowserAutomationModel.cs" />
     <Compile Include="Models\FacebookModels\EventCreaterManagerModel.cs" />
     <Compile Include="Models\FacebookModels\FbMultiMediaModel.cs" />
     <Compile Include="Models\FacebookModels\InviterDetails.cs" />
@@ -601,6 +604,7 @@
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\ManageAutomationModel.cs" />
     <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
     <Compile Include="Models\PinterestOtherConfigModel.cs" />
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
