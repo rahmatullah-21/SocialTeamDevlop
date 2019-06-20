@@ -215,7 +215,7 @@ namespace DominatorUIUtility.ViewModel.Startup
                 ex.DebugLog();
             }
         }
-        protected void NevigateNext()
+        protected void NavigateNext()
         {
             if (CurrentType != null)
                 if (!LstGlobalQuery.ContainsKey(CurrentType))
@@ -230,9 +230,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             {
                 var saveSetting = ServiceLocator.Current.GetInstance<ISaveSetting>();
                 saveSetting.Save();
-
-                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
-                mainViewModel.IsPopUpOpen = false;
+                ModuleSetting.Instance.Close();
                 selectedIndex = 0;
                 IsNeedToStart = true;
                 regionManager.Regions["StartupRegion"].RemoveAll();
@@ -263,7 +261,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             }
             return true;
         }
-        protected void NevigatePrevious()
+        protected void NavigatePrevious()
         {
             if (selectedIndex <= 0)
                 return;
@@ -286,7 +284,6 @@ namespace DominatorUIUtility.ViewModel.Startup
                 var activity = SocialNetworkActivity.GetNetworkActivity(viewModel.SelectedNetwork).GetActivity(activityType);
                 ListQueryType = activity.GetQueryType();
                 CurrentType = activity.GetEnumType();
-
             }
             if (selectedIndex == NavigationList.Count - 1)
                 NextButtonContent = "LangKeyFinish".FromResourceDictionary();

@@ -180,7 +180,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unfollow });
             IsNonQuery = true;
             NextCommand = new DelegateCommand(NextValidation);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             ElementsVisibility.NetworkElementsVisibilty(this);
 
@@ -203,7 +203,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             if ((_UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked || _UnFollower.IsChkPeopleFollowedBySoftwareCheecked || _UnFollower.IsChkCustomUsersListChecked) &&
                 (_UnFollower.IsWhoDoNotFollowBackChecked || _UnFollower.IsWhoFollowBackChecked))
-                NevigateNext();
+                NavigateNext();
             else
             {
                 Dialog.ShowDialog("Error", "Please select Unfollow source and source type");

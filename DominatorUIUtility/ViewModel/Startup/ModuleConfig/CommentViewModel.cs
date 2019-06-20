@@ -28,8 +28,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public CommentViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Comment });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(NavigateNext);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddQueryToCommentCommand = new DelegateCommand<object>(AddQueryToComment);
             AddCommentCommand = new DelegateCommand<object>(AddComment);

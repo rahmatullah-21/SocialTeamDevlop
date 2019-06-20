@@ -265,8 +265,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public DeleteViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Delete });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNavigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             IsNonQuery = true;
             JobConfiguration = new JobConfiguration
@@ -279,6 +279,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
+        }
+
+        private void ValidateAndNavigate()
+        {
+            if ((!DeleteSetting.IsChkDeleteTweet) && (!DeleteSetting.IsChkDeleteComment)
+                                            && (!DeleteSetting.IsChkUndoRetweet))
+            {
+                Dialog.ShowDialog("Error", "Please select atleast one Delete source");
+                return;
+            }
+            NavigateNext();
         }
     }
 }

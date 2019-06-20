@@ -41,11 +41,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public WithdrawConnectionRequestViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WithdrawConnectionRequest });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             SaveCustomUserListCommand = new BaseCommand<object>((sender) => true, SaveCustomUsers);
-            IsNonQuery=true;
+            IsNonQuery = true;
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfConnectionsRequestsToWithdrawPerJob".FromResourceDictionary(),
@@ -57,6 +57,22 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
+
+        private void ValidateNevigate()
+        {
+            if (!IsCheckedBySoftware && !IsCheckedOutSideSoftware && !IsCheckedLangKeyCustomUserList)
+            {
+                Dialog.ShowDialog("Error", "select at least once of the connection or user sources");
+                return;
+            }
+            if (IsCheckedLangKeyCustomUserList && (UrlList == null || UrlList.Count == 0))
+            {
+                Dialog.ShowDialog("Error", "please save your custom user list ");
+                return;
+            }
+            NavigateNext();
+        }
+
         private void SaveCustomUsers(object sender)
         {
             try

@@ -25,7 +25,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         public SelectActivityViewModel(IRegionManager region) : base(region)
         {
             NextCommand = new DelegateCommand(OnNextClick);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
         }
 
         private SelectActivityModel _selectActivityModel = new SelectActivityModel();
@@ -67,7 +67,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             NavigationList.Add("SelectActivity");
             allSelectedActivity.ForEach(name => NavigationList.Add(name.ActivityType));
             SocialNetworkActivity.RegisterNetwork();
-            NevigateNext();
+            NavigateNext();
         }
         public void SetActivityTypeByNetwork(string network)
         {

@@ -8,6 +8,7 @@ using Prism.Regions;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -43,8 +44,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.UnSubscribe });
             IsNonQuery = true;
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             ElementsVisibility.NetworkElementsVisibilty(this);
 
@@ -60,10 +61,52 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
+        private void ValidateAndNevigate()
+        {
+            var network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel.AccountNetwork;
+            if (network == SocialNetworks.Youtube)
+            {
+                if (ValidateYoutube())
+                    NavigateNext();
+            }
+            else if (ValidateReddit())
+                NavigateNext();
+        }
+
         public Visibility YoutubeElementsVisibility { get; set; } = Visibility.Collapsed;
 
         public Visibility RedditElementsVisibility { get; set; } = Visibility.Collapsed;
+        bool ValidateYoutube()
+        {
+            if ((!IsChkChannelSubscribedBySoftwareChecked && !IsChkChannelSubscribedOutsideSoftwareChecked)
+                && (!IsChkCustomChannelsListChecked))
+            {
+                Dialog.ShowDialog("Error", "Please select atleast one unsubscribe source");
+                return false;
+            }
+            if (IsChkCustomChannelsListChecked && string.IsNullOrEmpty(CustomChannelsList))
+            {
+                Dialog.ShowDialog("Error", "Custom user list is empty");
+                return false;
+            }
+            return true;
+        }
+        bool ValidateReddit()
+        {
+            if (!IsChkCommunitySubscribedBySoftwareChecked && !IsChkCommunitySubscribedOutsideSoftwareChecked
+                && !IsChkCustomCommunityListChecked)
+            {
+                Dialog.ShowDialog("Input Error", "Please check atleast one UnSubscribe source option...");
+                return false;
+            }
 
+            if (IsChkCustomCommunityListChecked && string.IsNullOrEmpty(CustomCommunityList))
+            {
+                Dialog.ShowDialog("Error", "Custom community list is empty");
+                return false;
+            }
+            return true;
+        }
         #region Youtube Model
         private bool _uniqueSubscribe;
 

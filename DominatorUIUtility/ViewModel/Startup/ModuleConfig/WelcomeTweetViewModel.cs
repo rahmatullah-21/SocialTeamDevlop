@@ -16,8 +16,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public WelcomeTweetViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WelcomeTweet });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             IsNonQuery = true;
 
@@ -32,6 +32,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
+
+        private void ValidateAndNevigate()
+        {
+            if (string.IsNullOrEmpty(WelcomeMessageText?.Trim()))
+            {
+                Dialog.ShowDialog("Error", "Please enter atleast one message");
+                return;
+            }
+            NavigateNext();
+        }
+
         private string _welcomeMessageText;
 
         public string WelcomeMessageText

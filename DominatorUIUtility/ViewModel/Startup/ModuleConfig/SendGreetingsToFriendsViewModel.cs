@@ -30,7 +30,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendGreetingsToFriends });
             NextCommand = new DelegateCommand(SendGreetingsToFriendsValidate);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddMessagesCommand = new BaseCommand<object>((sender) => true, AddMessages);
 
@@ -78,7 +78,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            NevigateNext();
+            NavigateNext();
         }
 
         public ObservableCollection<ManageMessagesModel> _lstManageMessagesModel =

@@ -2755,5 +2755,60 @@ namespace EmbeddedBrowser
         public void ReSetResourceLoadInstance() =>
             _requestHandlerCustom.IsNeedResourceData = false;
 
+        public void BrowserActSync(ActType actType, AttributeType attributeType, string attributeValue,
+              string value = "", double delayBefore = 0, double delayAfter = 0, int index = 0, int scrollByPixel = 100)
+        {
+            if (delayBefore > 0)
+                Thread.Sleep(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return;
+
+            if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
+                attributeValue = attributeValue.Replace(@"\", "\\\\");
+
+            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()";
+
+            switch (actType)
+            {
+                case ActType.EnterByQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].value= '{value}'");
+                    break;
+
+                case ActType.EnterValue:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].value= '{value}'");
+                    break;
+
+                case ActType.ActByQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()");
+                    break;
+
+                case ActType.ScrollWindow:
+                    Browser.ExecuteScriptAsync($"window.scrollBy(0, {scrollByPixel});");
+                    break;
+
+                case ActType.ScrollIntoView:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].scrollIntoView()");
+                    break;
+
+                case ActType.ScrollIntoViewQuery:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].scrollIntoView()");
+                    break;
+
+                case ActType.CustomActType:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}");
+                    break;
+
+                case ActType.CustomActByQueryType:
+                    Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].{value}");
+                    break;
+
+                default:
+                    Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}");
+                    break;
+
+            }
+            if (delayAfter > 0)
+                Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
+        }
     }
 }

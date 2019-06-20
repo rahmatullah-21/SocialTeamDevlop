@@ -64,38 +64,8 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
-        private bool _isPopUpOpen;
-
-        public bool IsPopUpOpen
-        {
-            get { return _isPopUpOpen; }
-            set { SetProperty(ref _isPopUpOpen, value); }
-        }
-        private double _height;
-
-        public double Height
-        {
-            get { return _height; }
-            set { SetProperty(ref _height, value); }
-        }
-        private double _width;
-
-        public double Width
-        {
-            get { return _width; }
-            set { SetProperty(ref _width, value); }
-        }
-        private bool _isRestore;
-
-        public bool IsRestore
-        {
-            get { return _isRestore; }
-            set { SetProperty(ref _isRestore, value); }
-        }
-
-        public ICommand ModuleSettingCloseCommand { get; }
-        public ICommand MaximizeCommand { get; }
-
+       
+       
         private string _accountName;
         public string AccountName
         {
@@ -110,13 +80,7 @@ namespace DominatorHouse.ViewModels
             set { SetProperty(ref _network, value); }
         }
 
-        private Visibility _isHeadingVisible = Visibility.Visible;
-        public Visibility IsHeadingVisible
-        {
-            get { return _isHeadingVisible; }
-            set { SetProperty(ref _isHeadingVisible, value); }
-        }
-
+       
         IRegionManager _regionManager;
         public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy, IRegionManager regionManager)
         {
@@ -125,9 +89,7 @@ namespace DominatorHouse.ViewModels
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
             _regionManager = regionManager;
-            ModuleSettingCloseCommand = new DelegateCommand(OnModuleSettingClose);
-            MaximizeCommand = new DelegateCommand(MaximizeRestoreSetting);
-            LogViewModel = logViewModel;
+                  LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
             AvailableNetworks = availableNetworks;
@@ -164,34 +126,7 @@ namespace DominatorHouse.ViewModels
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
-
-        private void MaximizeRestoreSetting()
-        {
-            if (IsRestore)
-            {
-                Width = 777;
-                Height = 500;
-                IsRestore = false;
-            }
-            else
-            {
-                Width = SystemParameters.PrimaryScreenWidth - 200;
-                Height = SystemParameters.PrimaryScreenHeight - 200;
-                IsRestore = true;
-            }
-        }
-
-        private void OnModuleSettingClose()
-        {
-            IsPopUpOpen = false;
-            Width = 777;
-            Height = 500;
-            StartupBaseViewModel.selectedIndex = 0;
-            StartupBaseViewModel.ViewModelToSave.Clear();
-            _regionManager.Regions["StartupRegion"].RemoveAll();
-            _regionManager.RequestNavigate("StartupRegion", "SelectActivity");
-        }
-
+     
         private void OnClosing(CancelEventArgs e)
         {
             try

@@ -22,7 +22,14 @@
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Social}"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
-
+        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}" x:Key="VisiblityStyle">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
         <Rectangle x:Key="DetailsIcon" Fill="Black" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_book_open_hardcover}" Stretch="Fill" />
@@ -326,38 +333,23 @@
                         <MenuItem Header="Update Friendship"  Icon="{StaticResource UpdateFriendshipIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
-
                         <MenuItem Header="Edit Insta Profile" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
-                                      Icon="{StaticResource InstEditIcon}" 
-                                      Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
-                                      CommandParameter="{Binding}" />
+                                  Icon="{StaticResource InstEditIcon}" 
+                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
+                                  CommandParameter="{Binding}" />
                         <MenuItem Header="Edit Twitter Profile" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
-                                      Icon="{StaticResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
-                                      Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
-
+                                  Icon="{StaticResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
+                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
                         <MenuItem Header="Copy Account Id"  Icon="{StaticResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-
-                        <MenuItem  Height="30"  Header="Custom Setting" Icon="{StaticResource CustomSetting}">
-                            <!--<MenuItem.Style>
-                                <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.Success}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </MenuItem.Style>-->
+                        <MenuItem  Height="30"  Header="Custom Setting" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}">
                             <MenuItem Header="Setting Wizard" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>-->
                         </MenuItem>
-
-
                     </ContextMenu>
                 </ListView.Resources>
 

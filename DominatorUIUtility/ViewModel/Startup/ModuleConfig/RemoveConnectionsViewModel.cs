@@ -42,10 +42,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public RemoveConnectionsViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.RemoveConnections });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             SaveCustomUserListCommand = new BaseCommand<object>((sender) => true, SaveCustomUsers);
+            IsNonQuery = true;
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfConnectionsToRemovePerJob".FromResourceDictionary(),
@@ -56,6 +57,21 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
+        }
+
+        private void ValidateAndNevigate()
+        {
+            if (!IsCheckedBySoftware && !IsCheckedOutSideSoftware && !IsCheckedLangKeyCustomUserList)
+            {
+                Dialog.ShowDialog("Error", "select at least once of the connection sources");
+                return;
+            }
+            if (IsCheckedLangKeyCustomUserList && string.IsNullOrEmpty(UrlInput))
+            {
+                Dialog.ShowDialog("Error", "Please enter user list.");
+                return;
+            }
+            NavigateNext();
         }
 
         private void SaveCustomUsers(object sender)
@@ -79,20 +95,16 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ex.DebugLog();
             }
         }
-
-
         public int Days
         {
             get { return _days; }
             set { SetProperty(ref _days, value); }
         }
-
         public int Hours
         {
             get { return _hours; }
             set { SetProperty(ref _hours, value); }
         }
-
         public bool IsCheckedBySoftware
         {
             get { return _IsCheckedBySoftware; }
@@ -104,7 +116,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             get { return _IsCheckedConnectedBefore; }
             set { SetProperty(ref _IsCheckedConnectedBefore, value); }
         }
-
         public bool IsCheckedLangKeyCustomUserList
         {
             get { return _IsCheckedLangKeyCustomUserList; }

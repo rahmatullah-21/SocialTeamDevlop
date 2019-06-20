@@ -166,8 +166,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public BroadcastMessagesViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.BroadcastMessages });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(NavigateNext);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
             AddQueryToMessageCommand = new DelegateCommand<object>(AddQueryToMessageControl);
