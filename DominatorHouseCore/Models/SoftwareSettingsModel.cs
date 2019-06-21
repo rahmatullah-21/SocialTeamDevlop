@@ -663,35 +663,6 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isRunProcessThroughBrowser;
-
-        [ProtoMember(44)]
-        public bool IsRunProcessThroughBrowser
-        {
-            get
-            {
-                return _isRunProcessThroughBrowser;
-            }
-            set
-            {
-                SetProperty(ref _isRunProcessThroughBrowser, value);
-            }
-        }
-
-        private ObservableCollection<ManageAutomationModel> _NetworkBrowserAutomationDictionary;
-
-
-        [ProtoMember(45)]
-        public ObservableCollection<ManageAutomationModel> NetworkBrowserAutomationList
-        {
-            get
-            {
-                return _NetworkBrowserAutomationDictionary;
-            }
-            set
-            {
-                SetProperty(ref _NetworkBrowserAutomationDictionary, value);
-            }
-        }
+        
     }
 }

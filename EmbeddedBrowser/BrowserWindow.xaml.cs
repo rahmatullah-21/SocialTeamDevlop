@@ -1570,9 +1570,9 @@ namespace EmbeddedBrowser
 
         #region Browser Automation Changes
 
-        
+        public bool IsDisposed => Browser.IsDisposed;
 
-        
+
 
         public async Task<string> GetPageSourceAsync()
         {

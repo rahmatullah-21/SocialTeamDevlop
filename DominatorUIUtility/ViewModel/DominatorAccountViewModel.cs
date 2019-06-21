@@ -1759,7 +1759,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts)
+        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts, bool isNeedToSchedule = false)
         {
 
             ThreadFactory.Instance.Start(() =>
@@ -1773,7 +1773,7 @@ namespace DominatorUIUtility.ViewModel
                         if (x.IsEnabled)
                         {
                             x.IsEnabled = false;
-                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
+                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, isNeedToSchedule);
                         }
                     });
 
@@ -1828,7 +1828,7 @@ namespace DominatorUIUtility.ViewModel
                        .AddOrUpdateBrowserSettings(true)
                        .SaveToBinFile();
                     }
-                        
+
                 });
 
                 StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
@@ -1927,8 +1927,8 @@ namespace DominatorUIUtility.ViewModel
 
                     browserManager.BrowserLogin(dominatorAccountModel);
                 });
-              
-                
+
+
             }
             catch (Exception ex)
             {

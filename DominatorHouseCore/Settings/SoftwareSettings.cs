@@ -65,20 +65,7 @@ namespace DominatorHouseCore.Settings
             }
             //OtherInitializers();
 
-            if (Settings.NetworkBrowserAutomationList == null || Settings.NetworkBrowserAutomationList.Count == 0)
-            {
-                Settings.NetworkBrowserAutomationList = new ObservableCollection<ManageAutomationModel>();
-
-                SocinatorInitialize.AvailableNetworks.ForEach(networks =>
-                {
-                    Settings.NetworkBrowserAutomationList.Add(new ManageAutomationModel()
-                    {
-                        SocialNetwork = networks.ToString(),
-                        IsNetworkSelcted = false
-                    });
-                });
-            }
-
+            
             if (_fileSystemProvider.Exists(ConstantVariable.GetURLShortnerServicesFile()))
             {
                 var shortnerServices =

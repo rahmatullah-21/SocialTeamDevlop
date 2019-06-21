@@ -607,7 +607,6 @@
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
-    <Compile Include="Models\ManageAutomationModel.cs" />
     <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
     <Compile Include="Models\PinterestOtherConfigModel.cs" />
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
