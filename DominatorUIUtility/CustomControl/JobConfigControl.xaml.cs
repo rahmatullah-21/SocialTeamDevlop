@@ -125,9 +125,11 @@ namespace DominatorUIUtility.CustomControl
         {
             var newValue = e.NewValue;
         }
-       
+
         public void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (JobConfiguration.IsAdvanceSetting)
+                return;
             try
             {
                 var model = ((dynamic)((FrameworkElement)((FrameworkElement)sender).DataContext).DataContext).Model;

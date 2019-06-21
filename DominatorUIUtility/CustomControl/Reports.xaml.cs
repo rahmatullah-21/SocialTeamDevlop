@@ -15,6 +15,8 @@ using System.Windows.Data;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
+using CommonServiceLocator;
+using DominatorHouseCore.Interfaces;
 
 namespace DominatorUIUtility.CustomControl
 {
@@ -86,7 +88,17 @@ namespace DominatorUIUtility.CustomControl
 
             }
         }
-
+        private void ClkFollowRate(object sender, RoutedEventArgs e)
+        {
+            var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory();
+            var reportDetails = networkCoreFactory.ReportFactory.GetReportDetail(ReportModel, ReportModel.LstCurrentQueries, Campaign);
+            var reportControl = ServiceLocator.Current.GetInstance<IQueryFollowedControl>();
+            reportControl.AssignReportDetailsToModel(reportDetails, Campaign);
+            Dialog objDialog = new Dialog();
+            Window win = objDialog.GetMetroWindow(reportControl, "Get Follow Rate");
+            win.Owner = Application.Current.MainWindow;
+            win.ShowDialog();
+        }
         private void RefreshReport(object sender, RoutedEventArgs e)
         {
             var networkCoreFactory = SocinatorInitialize.GetSocialLibrary(Campaign.SocialNetworks).GetNetworkCoreFactory();

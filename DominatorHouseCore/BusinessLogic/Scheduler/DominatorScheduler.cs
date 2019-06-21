@@ -18,7 +18,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         void RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange,
             string module);
-
+        bool Stop(string accountName, string templateId);
         void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart);
         bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime);
         bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType);

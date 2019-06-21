@@ -1,16 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
+using System.Text.RegularExpressions;
 
 namespace DominatorUIUtility.ViewModel
 {
-    public class AccountsActivityDetailModel :BindableBase
+    public class AccountsActivityDetailModel : BindableBase
     {
         public string AccountName { get; set; }
 
         public string AccountId { get; set; }
 
-        public SocialNetworks  AccountNetwork { get; set; }
+        public SocialNetworks AccountNetwork { get; set; }
 
         public ObservableCollection<ActivityDetailsModel> ActivityDetailsCollections { get; set; }
     }
@@ -18,7 +19,7 @@ namespace DominatorUIUtility.ViewModel
     public class ActivityDetailsModel : BindableBase
     {
 
-        private string _accountId =string.Empty;
+        private string _accountId = string.Empty;
 
         public string AccountId
         {
@@ -27,7 +28,7 @@ namespace DominatorUIUtility.ViewModel
                 return _accountId;
             }
             set
-            {         
+            {
                 if (_accountId == value)
                     return;
                 SetProperty(ref _accountId, value);
@@ -48,6 +49,17 @@ namespace DominatorUIUtility.ViewModel
                 SetProperty(ref _title, value);
             }
         }
+        private string _activityTitle;
+
+        public string ActivityTitle
+        {
+            get
+            {
+                _activityTitle = Regex.Replace(Title.ToString(), "(\\B[A-Z])", " $1");
+                return _activityTitle;
+            }
+
+        }
 
         private bool _status;
         public bool Status
@@ -64,7 +76,4 @@ namespace DominatorUIUtility.ViewModel
             }
         }
     }
-
-  
-
 }

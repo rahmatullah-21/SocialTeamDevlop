@@ -1,4 +1,25 @@
-Version[1.0.0.57],[7tht-June-19]
+Version[1.0.0.58],[18th-June-19]
+New Features:
+	Publisher:- 
+		Instagram => Add an option for mention users in story.
+	Instagram:-
+		Insta Chat => Add an option split message into multiple line.
+		Scraper => Add an option for change media path.
+		Reposter => Add an option for change media path.
+
+Fixed:-
+	Instagram:-
+		Insta Scraper => Post Scraper => Fixed issue with showing trying to scrape.
+		Account Manager => Fixed issue with account login by using Email ID and password.
+	Facebook:-
+		Grow Friends => Send Friend Request => Fixed issue with sending friend request  to fanpageliker.
+		Grow Friends => Withdraw Send Friend Request => Fxed issue with withdraw sent request using day  filter.
+		Grow Friends => Withdraw Send Friend Request => Fixed issue with showing week limit in job configruation.
+	LinkedIn:-
+		Grow Connection => Fixed issue with sending connection request using keyword.
+		Scraper => Fixed issue with scraping the data using search URL.
+
+Version[1.0.0.57],[7th-June-19]
 New Features:
 	Instagram :
 		SocioPublisher => Add an option to upload videos as Album.
