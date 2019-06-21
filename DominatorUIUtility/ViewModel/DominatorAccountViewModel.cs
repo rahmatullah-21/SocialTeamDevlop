@@ -36,12 +36,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorUIUtility.Views;
-using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
 using DominatorUIUtility.ViewModel.Startup;
-using DominatorUIUtility.Module;
-using DominatorUIUtility.Views.AccountSetting;
-using Prism.Regions;
+using Unity;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -1922,9 +1919,15 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var browserManager = ServiceLocator.Current.GetInstance<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
+                Task.Factory.StartNew(() =>
+                {
+                    var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
 
-                browserManager.BrowserLogin(dominatorAccountModel);
+                    var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
+
+                    browserManager.BrowserLogin(dominatorAccountModel);
+                });
+              
                 
             }
             catch (Exception ex)
