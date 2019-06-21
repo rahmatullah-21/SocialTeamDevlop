@@ -1,6 +1,10 @@
 ﻿using ProtoBuf;
 using DominatorHouseCore.Utility;
 using System.Collections.ObjectModel;
+using Prism.Commands;
+using System;
+using DominatorHouseCore.FileManagers;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Models.Config
 {
@@ -11,12 +15,32 @@ namespace DominatorHouseCore.Models.Config
         ObservableCollection<string> ListSocialNetworks { get; set; }
 
         string SelectedNetwork { get; set; }
+
+        DelegateCommand NetWorkChangedCommand { get; set; }
     }
 
 
     [ProtoContract]
     public class BrowserAutomationModel : BindableBase, IBrowserAutomationModel
     {
+        public DelegateCommand NetWorkChangedCommand { get; set; }
+
+        private readonly IAccountsFileManager _accountsFileManager;
+
+        public BrowserAutomationModel(IAccountsFileManager accountsFileManager)
+        {
+            _accountsFileManager = accountsFileManager;
+            NetWorkChangedCommand = new DelegateCommand(UpdateAccountList);
+        }
+
+        private void UpdateAccountList()
+        {
+            if (SelectedNetwork == SocialNetworks.Social.ToString())
+                ListSocialAccounts = new ObservableCollection<DominatorAccountModel>(_accountsFileManager.GetAll());
+            else
+                ListSocialAccounts = new ObservableCollection<DominatorAccountModel>(_accountsFileManager.GetAll((SocialNetworks)Enum.Parse(typeof(SocialNetworks), SelectedNetwork)));
+        }
+
         private ObservableCollection<DominatorAccountModel> _listSocialAccounts;
 
         [ProtoMember(1)]

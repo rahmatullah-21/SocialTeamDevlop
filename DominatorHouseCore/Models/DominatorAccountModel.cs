@@ -460,20 +460,20 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isBrowerAutomationActive;
+        private bool _isRunProcessThroughBrowser;
         [ProtoMember(28)]
-        public bool IsBrowerAutomationActive
+        public bool IsRunProcessThroughBrowser
         {
             get
             {
-                return _isBrowerAutomationActive;
+                return _isRunProcessThroughBrowser;
             }
             set
             {
 
-                if (_isBrowerAutomationActive == value)
+                if (_isRunProcessThroughBrowser == value)
                     return;
-                SetProperty(ref _isBrowerAutomationActive, value);
+                SetProperty(ref _isRunProcessThroughBrowser, value);
             }
         }
 

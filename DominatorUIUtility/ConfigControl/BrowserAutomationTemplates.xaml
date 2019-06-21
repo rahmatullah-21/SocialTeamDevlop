@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                     xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <ControlTemplate x:Key="BrowserAutomationControlTemplate">
         <ControlTemplate.Resources>
@@ -32,9 +33,16 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Horizontal" >
                             <TextBlock Margin="15" Text="{DynamicResource LangKeySelectNetwork}" />
-                            <ComboBox Width="170" Margin="15" HorizontalAlignment="Left"    
+                            <ComboBox Width="150" Margin="15" HorizontalAlignment="Left" FontSize="11"
                                  ItemsSource="{Binding ListSocialNetworks
-                                ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" SelectedIndex="-1" />
+                                ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  FontWeight="SemiBold"  
+                                 SelectedIndex="0" SelectedValue="{Binding SelectedNetwork}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding NetWorkChangedCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="150,0,0,0">
@@ -60,8 +68,8 @@
                                                     Stretch="Fill" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <CheckBox IsChecked="{Binding Path=IsNetworkSelcted}">
-                                                <TextBlock Width="200" Height="20" Text="{Binding Path=AccountBaseModel.UserName}" IsEnabled="False"/>
+                                            <CheckBox IsChecked="{Binding Path=IsBrowerAutomationActive}">
+                                                <TextBlock Width="200" Height="20" FontSize="11" FontWeight="SemiBold"  Text="{Binding Path=AccountBaseModel.UserName}" IsEnabled="False"/>
                                             </CheckBox>
                                         </VirtualizingStackPanel>
                                     </DataTemplate>

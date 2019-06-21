@@ -235,6 +235,7 @@
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\AccountsFilterConverter.cs" />
     <Compile Include="Converters\AverageConverter.cs" />
+    <Compile Include="Converters\BooleanToAutomationStatusConverter.cs" />
     <Compile Include="Converters\BooleanToStringSelectConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
@@ -467,6 +468,7 @@
     <Compile Include="Enums\DHEnum\GrowthChartPeriod.cs" />
     <Compile Include="Enums\DHEnum\GrowthPeriod.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
+    <Compile Include="Enums\EmbeddedBrowser\BrowserEnums.cs" />
     <Compile Include="Enums\FdQuery\FbEntityTypes.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
@@ -516,6 +518,7 @@
     <Compile Include="Interfaces\ChatFactory.cs" />
     <Compile Include="Interfaces\ColumnSpecificationAdapter.cs" />
     <Compile Include="Interfaces\IAdScraperFactory.cs" />
+    <Compile Include="Interfaces\IBrowserManager.cs" />
     <Compile Include="Interfaces\ICampaignInteractionDetails.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Interfaces\IComments.cs" />

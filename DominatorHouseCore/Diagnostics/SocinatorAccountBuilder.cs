@@ -28,7 +28,7 @@ namespace DominatorHouseCore.Diagnostics
 
         public SocinatorAccountBuilder AddOrUpdateBrowserSettings(bool isBrowerAutomationActive)
         {
-            DominatorAccountModel.IsBrowerAutomationActive = isBrowerAutomationActive;
+            DominatorAccountModel.IsRunProcessThroughBrowser = isBrowerAutomationActive;
             return this;
         }
 

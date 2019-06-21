@@ -140,7 +140,8 @@ namespace DominatorUIUtility.ViewModel
         public ICommand EditNetworkProfileCommand { get; }
         public ICommand CopyAccountIdCommand { get; }
         public ICommand SettingWizardCommand { get; }
-
+        public ICommand ActivateBrowserAutomationCommand { get; }
+        public ICommand DeActivateBrowserAutomationCommand { get; }
 
         #endregion
 
@@ -197,6 +198,10 @@ namespace DominatorUIUtility.ViewModel
             UpdateGroupCommand = new DelegateCommand(UpdateGroupDetailsExecute);
 
             UpdateUserCradCommand = new BaseCommand<object>((sender) => true, UpdateUserCradExecute);
+
+            ActivateBrowserAutomationCommand = new BaseCommand<object>(ActivateBrowserAutomationCanExecute, ActivateBrowserAutomationExecute);
+
+            DeActivateBrowserAutomationCommand = new BaseCommand<object>(DeActivateBrowserAutomationCommandCanExecute, DeActivateBrowserAutomationCommandExecute);
 
             #region Context Menu Command
 
@@ -1808,6 +1813,60 @@ namespace DominatorUIUtility.ViewModel
         private bool UpdateAccountDetailsCanExecute(object sender) => true;
         #endregion
 
+
+        private bool ActivateBrowserAutomationCanExecute(object sender) => true;
+
+        private void ActivateBrowserAutomationExecute(object sender)
+        {
+            var result = Dialog.ShowCustomDialog("Actvating Browser Automation",
+                  "This will result in stopping all activity. Do you want to Continue?", "Continue", "Cancel");
+            if (result == MessageDialogResult.Affirmative)
+            {
+                LstDominatorAccountModel.ForEach(x =>
+                {
+                    if (x.IsAccountManagerAccountSelected)
+                    {
+                        x.IsRunProcessThroughBrowser = true;
+                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                       .AddOrUpdateBrowserSettings(true)
+                       .SaveToBinFile();
+                    }
+                        
+                });
+
+                StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+
+                StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+
+            }
+        }
+
+        private bool DeActivateBrowserAutomationCommandCanExecute(object sender) => true;
+
+        private void DeActivateBrowserAutomationCommandExecute(object sender)
+        {
+            var result = Dialog.ShowCustomDialog("Deactvating Browser Automation",
+                   "This will result in stopping all activity. Do you want to Continue?", "Continue", "Cancel");
+            if (result == MessageDialogResult.Affirmative)
+            {
+                LstDominatorAccountModel.ForEach(x =>
+                {
+                    if (x.IsAccountManagerAccountSelected)
+                    {
+                        x.IsRunProcessThroughBrowser = false;
+                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                           .AddOrUpdateBrowserSettings(false)
+                           .SaveToBinFile();
+                    }
+
+                });
+
+                StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+
+                StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+            }
+        }
+
         private void UpdateGroupDetailsExecute()
         {
             lock (_syncLoadAccounts)
@@ -1863,9 +1922,10 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                var browserWindow = new BrowserWindow(dominatorAccountModel);
-                browserWindow.SetCookie();
-                browserWindow.Show();
+                var browserManager = ServiceLocator.Current.GetInstance<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
+
+                browserManager.BrowserLogin(dominatorAccountModel);
+                
             }
             catch (Exception ex)
             {

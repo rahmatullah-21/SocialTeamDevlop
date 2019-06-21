@@ -22,6 +22,7 @@
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Social}"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
+        <converters:BooleanToAutomationStatusConverter x:Key="BooleanToAutomationStatusConverter"/>
 
         <Rectangle x:Key="DetailsIcon" Fill="Black" Width="20" Height="20">
             <Rectangle.OpacityMask>
@@ -73,6 +74,8 @@
                 <VisualBrush Visual="{StaticResource appbar_settings}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
+
+        
     </UserControl.Resources>
 
     <Grid Name="MainGrid">
@@ -247,6 +250,45 @@
                         </Controls:DropDownButton.Items>
                     </Controls:DropDownButton>
 
+                    <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnBrowserAutomation">
+                        <Controls:DropDownButton.Content>
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Fill="White" Width="25" Height="20">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource appbar_browser_chrome}" Stretch="Fill" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Label Content="{DynamicResource LangKeyBrowserAutomation}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Controls:DropDownButton.Content>
+                        <Controls:DropDownButton.Items>
+                            <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" Name="btnEnableBrowserAutomation" Command="{Binding ActivateBrowserAutomationCommand}" CommandParameter="UpdateAllDetail">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" Name="btnDisableBrowserAutomation" Command="{Binding DeActivateBrowserAutomationCommand}" CommandParameter="CheckAccountStatus">
+                                <MenuItem.Icon>
+                                    <Rectangle Width="15" Height="15" Fill="Black">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                          
+                        </Controls:DropDownButton.Items>
+                    </Controls:DropDownButton>
+                    
+
                     <Button Background="Transparent" Cursor="Hand" BorderBrush="Transparent"  Margin="10,0,0,0" BorderThickness="0" Name="btnExport" Command="{Binding ExportCommand}">
                         <Button.Template>
                             <ControlTemplate>
@@ -255,13 +297,9 @@
                                         <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
                                         <Label Content="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
-
-
                                 </Border>
-
                             </ControlTemplate>
                         </Button.Template>
-
                     </Button>
 
                     <Button Background="Transparent" Cursor="Hand"  Margin="10,0,0,0" BorderBrush="Transparent" BorderThickness="0"  Name="btnDeleteAccounts" Command="{Binding DeleteAccountsCommand}">
@@ -386,7 +424,6 @@
                         <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-
                                     <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <ContentControl>
                                             <ContentControl.Style>
@@ -528,6 +565,7 @@
 
                         </GridViewColumn>
 
+                        <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
                     </GridView>
 
 

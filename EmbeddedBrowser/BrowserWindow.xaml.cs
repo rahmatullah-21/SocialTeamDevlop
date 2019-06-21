@@ -24,6 +24,7 @@ using Unity;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System.Text;
+using DominatorHouseCore.Enums.EmbeddedBrowser;
 
 namespace EmbeddedBrowser
 {
@@ -106,7 +107,7 @@ namespace EmbeddedBrowser
         /// <summary>
         /// Set Account Model Cookies into the browser
         /// </summary>
-      
+
         public async Task SetCookie()
         {
             try
@@ -218,16 +219,19 @@ namespace EmbeddedBrowser
             Browser.LoadingStateChanged += BrowserOnLoaded;
         }
 
+        public bool IsLoaded { get; set; }
+
         private void BrowserOnLoaded(object sender, LoadingStateChangedEventArgs loadingStateChangedEventArgs)
         {
             try
             {
-                bool isLoaded = false;
+                IsLoaded = false;
+
                 Dispatcher.Invoke(() =>
                 {
                     try
                     {
-                        isLoaded = Browser.IsLoaded;
+                        IsLoaded = Browser.IsLoaded;
                     }
                     catch (Exception e)
                     {
@@ -235,65 +239,72 @@ namespace EmbeddedBrowser
                     }
                 });
 
-                if (!isLoaded || CustomUse) return;
-                if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) &&
-                    !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
-                {
-                    Browser.GetSourceAsync().ContinueWith(taskHtml =>
-                    {
-                        DominatorAccountModel.Token.ThrowIfCancellationRequested();
-                        try
-                        {
-                            lock (_cefLock)
-                            {
-                                // Get Current PageSource
-                                var html = Browser.GetSourceAsync().Result; //taskHtml.Result;
+                #region MyRegion
+                //if (!isLoaded || CustomUse) return;
+                //if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.UserName) &&
+                //    !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.Password))
+                //{
+                //    Browser.GetSourceAsync().ContinueWith(taskHtml =>
+                //    {
+                //        DominatorAccountModel.Token.ThrowIfCancellationRequested();
+                //        try
+                //        {
+                //            lock (_cefLock)
+                //            {
+                //                // Get Current PageSource
+                //                var html = Browser.GetSourceAsync().Result; //taskHtml.Result;
 
-                                DominatorAccountModel.Token.ThrowIfCancellationRequested();
-                                if (!string.IsNullOrEmpty(html) && !Browser.IsDisposed)
-                                {
-                                    switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
-                                    {
-                                        case SocialNetworks.Facebook:
-                                            FacebookBrowserLogin(html);
-                                            break;
-                                        case SocialNetworks.Instagram:
-                                            InstagramBrowserLogin(html);
-                                            break;
-                                        case SocialNetworks.Twitter:
-                                            TwitterLogin(html);
-                                            break;
-                                        case SocialNetworks.Pinterest:
-                                            PinterestBrowserLogin(html);
-                                            break;
-                                        case SocialNetworks.LinkedIn:
-                                            LinkedInBrowserLogin(html);
-                                            break;
-                                        case SocialNetworks.Reddit:
-                                            RedditBrowserLogin(html);
-                                            break;
-                                        case SocialNetworks.Quora:
-                                            QuoraLogin(html);
-                                            break;
-                                        case SocialNetworks.Youtube:
-                                        case SocialNetworks.Gplus:
-                                            GoogleBrowserLogin(html);
-                                            break;
-                                        case SocialNetworks.Tumblr:
-                                            TumblrBrowserLogin(html);
-                                            break;
-                                        default:
-                                            throw new ArgumentOutOfRangeException();
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    });
-                }
+                //                DominatorAccountModel.Token.ThrowIfCancellationRequested();
+                //                if (!string.IsNullOrEmpty(html) && !Browser.IsDisposed)
+                //                {
+                //                    #region commented
+                //                    //switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
+                //                    //{
+                //                    //    case SocialNetworks.Facebook:
+                //                    //        FacebookBrowserLogin(html);
+                //                    //        break;
+                //                    //    case SocialNetworks.Instagram:
+                //                    //        InstagramBrowserLogin(html);
+                //                    //        break;
+                //                    //    case SocialNetworks.Twitter:
+                //                    //        TwitterLogin(html);
+                //                    //        break;
+                //                    //    case SocialNetworks.Pinterest:
+                //                    //        PinterestBrowserLogin(html);
+                //                    //        break;
+                //                    //    case SocialNetworks.LinkedIn:
+                //                    //        LinkedInBrowserLogin(html);
+                //                    //        break;
+                //                    //    case SocialNetworks.Reddit:
+                //                    //        RedditBrowserLogin(html);
+                //                    //        break;
+                //                    //    case SocialNetworks.Quora:
+                //                    //        QuoraLogin(html);
+                //                    //        break;
+                //                    //    case SocialNetworks.Youtube:
+                //                    //    case SocialNetworks.Gplus:
+                //                    //        GoogleBrowserLogin(html);
+                //                    //        break;
+                //                    //    case SocialNetworks.Tumblr:
+                //                    //        TumblrBrowserLogin(html);
+                //                    //        break;
+                //                    //    default:
+                //                    //        throw new ArgumentOutOfRangeException();
+                //                    //} 
+                //                    #endregion
+                //                    var browserManager = ServiceLocator.Current.GetInstance<IBrowserManager>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
+
+                //                    browserManager.BrowserLogin(DominatorAccountModel);
+                //                }
+                //            }
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            ex.DebugLog();
+                //        }
+                //    });
+                //} 
+                #endregion
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -305,7 +316,7 @@ namespace EmbeddedBrowser
         public void GoToUrl(string url = null)
             => Browser.Load(url ?? UrlBar.Text);
 
-        private void LoadPostPage(bool isLoggedIn)
+        public void LoadPostPage(bool isLoggedIn)
         {
             if (isLoggedIn)
             {
@@ -370,37 +381,7 @@ namespace EmbeddedBrowser
             Browser.DialogHandler = fileDialogHandler;
         }
 
-        public enum ActType
-        {
-            ClickByClass,
-            ClickById,
-            ClickByName,
-            EnterValueByClass,
-            EnterValueById,
-            EnterValueByName,
-            GetValueByName,
-            GetValueByTagName,
-            GetLengthByClass,
-
-            // Added for Browser Automation
-            ScrollIntoView,
-            ScrollWindow,
-            GetValue,
-            GetLength,
-            [Description("click()")]
-            Click,
-            [Description("focus()")]
-            Focus,
-            EnterValue,
-            EnterByQuery,
-            ActByQuery,
-            CustomActType,
-            ScrollIntoViewQuery,
-            GetAttribute,
-            CustomActByQueryType,
-            GetLengthByQuery,
-            GetLengthByCustomQuery
-        }
+       
 
 
         /// <summary>
@@ -1020,11 +1001,11 @@ namespace EmbeddedBrowser
         private bool NeedPhoneVerification()
         {
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.PhoneVerification;
-           
-            if(VerifyingAccount && (_pageText.Contains("Text") && _pageText.Contains("Call")))
+
+            if (VerifyingAccount && (_pageText.Contains("Text") && _pageText.Contains("Call")))
             {
                 PressAnyKey(3, 200, winKeyCode: 9); //Press Tab 3 Times key
-                
+
                 PressAnyKey(1, 0, winKeyCode: 13,
                     delayAtLast: 4); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
 
@@ -1048,19 +1029,19 @@ namespace EmbeddedBrowser
                     delayAtLast: 4); //Press Enter key // BrowserAct(ActType.ClickByClass, "RveJvd snByac", delayAfter: 3);
 
                 _pageText = Browser.GetTextAsync().Result;
-               
+
                 var isWrong = !(_pageText.Contains("Google sent a notification to your phone. Tap Yes on the notification, then tap"));
 
                 if (!isWrong)
                 {
                     var number = Utilities.GetBetween(_pageText, "Check your phone\n", "\n");
-                    
+
                     CustomLog($"Check your phone. {number} . Perform it within 2 minutes.");
                 }
                 return false;
             }
             else
-            return true;
+                return true;
         }
 
         private bool NeedEmailVerification()
@@ -1247,7 +1228,7 @@ namespace EmbeddedBrowser
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
-                if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon") && SaveCookies())
+                if (!string.IsNullOrEmpty(result) && result.Contains("profile_icon") && SaveCookies().Result)
                     LoadPostPage();
             }
         }
@@ -1290,7 +1271,7 @@ namespace EmbeddedBrowser
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
-                if (!string.IsNullOrEmpty(result) && (result.Contains("\"isAuth\": true") || result.Contains("\"isAuth\":true")) && SaveCookies())
+                if (!string.IsNullOrEmpty(result) && (result.Contains("\"isAuth\": true") || result.Contains("\"isAuth\":true")) && SaveCookies().Result)
                     LoadPostPage();
 
             }
@@ -1351,7 +1332,7 @@ namespace EmbeddedBrowser
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
-                if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box") && SaveCookies())
+                if (!string.IsNullOrEmpty(result) && result.Contains("signout") && result.Contains("timeline-tweet-box") && SaveCookies().Result)
                     LoadPostPage();
             }
         }
@@ -1412,7 +1393,7 @@ namespace EmbeddedBrowser
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
-                if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true") && SaveCookies())
+                if (!string.IsNullOrEmpty(result) && result.Contains("\"logged_in\": true") && SaveCookies().Result)
                     LoadPostPage();
             }
         }
@@ -1436,7 +1417,7 @@ namespace EmbeddedBrowser
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
-                if (!string.IsNullOrEmpty(result) && (result.ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || result.Contains("Log out") || result.Contains("logged in")) && SaveCookies())
+                if (!string.IsNullOrEmpty(result) && (result.ToLower().Contains(DominatorAccountModel.AccountBaseModel.UserName.ToLower()) || result.Contains("Log out") || result.Contains("logged in")) && SaveCookies().Result)
                     LoadPostPage();
             }
         }
@@ -1480,7 +1461,7 @@ namespace EmbeddedBrowser
             if (!_isLoggedIn)
             {
                 var result = GetPageSource();
-                if (!string.IsNullOrEmpty(result) && (result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in")) && SaveCookies())
+                if (!string.IsNullOrEmpty(result) && (result.Contains("'User_Logged_In', 'Yes'") || result.Contains("logged_in")) && SaveCookies().Result)
                     LoadPostPage();
             }
         }
@@ -1493,16 +1474,18 @@ namespace EmbeddedBrowser
         /// Call this method only at login success condition
         /// </summary>
         /// <returns></returns>
-        public bool SaveCookies()
+        public async Task<bool> SaveCookies()
         {
             if (_isLoggedIn) return false;
 
             try
             {
+                await Task.Delay(1000);
+
                 _isLoggedIn = true;
                 _loginFailed = false;
 
-                DominatorAccountModel.Cookies = BrowserCookiesIntoModel().Result;
+                DominatorAccountModel.Cookies = await BrowserCookiesIntoModel();
                 DominatorAccountModel.IsUserLoggedIn = true;
                 DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
 
@@ -1587,111 +1570,9 @@ namespace EmbeddedBrowser
 
         #region Browser Automation Changes
 
-        public enum MouseClickType
-        {
-            Left = 1,
-            Right = 2,
-            Middle = 3
-        }
+        
 
-        public enum PostContent
-        {
-            PostId = 1,
-            AdId = 2,
-            PostUrl = 3,
-            PostedTime = 4,
-            LikerCount = 5,
-            ShareCount = 6,
-            CommentCount = 7,
-            OwnerDetails = 8,
-            OwnerLogo = 9,
-            AdDetails = 10,
-            AdText = 11,
-            NewsFeedDescription = 12,
-            SubDescription = 13,
-            CallToAction = 14,
-            Title = 15,
-            SharedPostText = 16,
-            SharedPostUrl = 17,
-            SharedAdTitle = 18,
-            MediaDetails = 19,
-            IsSharePost = 20,
-            MediaList = 21,
-        }
-
-        public enum AttributeType
-        {
-            Null = 0,
-            Id = 1,
-            [Description("name")]
-            Name = 2,
-            ClassName = 3,
-            TagName = 4,
-            [Description("value")]
-            Value = 5,
-            [Description("data-testid")]
-            DataTestId = 6,
-            [Description("role")]
-            Role = 7,
-            [Description("data-comment-prelude-ref")]
-            CommentPreclude = 8,
-            [Description("data-feed-option-name")]
-            DataFeedOptionName = 9,
-            [Description("title")]
-            Title = 10,
-            [Description("data-tab-key")]
-            DataTabKey = 11,
-            [Description("data-target")]
-            DataTarget = 12,
-            [Description("data-key")]
-            DataKey = 13,
-            [Description("data-referrer")]
-            DataReferer = 14,
-            [Description("type")]
-            Type = 15,
-            [Description("data-click")]
-            DataClick = 16,
-            [Description("aria-checked")]
-            AriaChecked = 17,
-            [Description("aria-label")]
-            AriaLabel = 18,
-            [Description("action_click")]
-            ActionClick = 19,
-            [Description("target")]
-            Target = 20,
-            [Description("loggingname")]
-            LoggingName = 21,
-            //aria-checked
-            [Description("action_mousedown")]
-            ActionMouseDown = 22
-        }
-
-
-        public enum ValueType
-        {
-            [Description("id")]
-            Id = 1,
-            [Description("href")]
-            Href = 7,
-            [Description("innerHTML")]
-            InnerHtml = 2,
-            [Description("outerHTML")]
-            OuterHtml = 3,
-            [Description("innerText")]
-            InnerText = 4,
-            [Description("outerText")]
-            OuterText = 5,
-            [Description("parentElement.id")]
-            ParentId = 6,
-            [Description("data-timestamp")]
-            TimeStamp = 8,
-            [Description("src")]
-            Source = 9,
-            [Description("aria-pressed")]
-            AriaPressed = 10,
-            [Description("aria-label")]
-            AriaLabel = 11
-        }
+        
 
         public async Task<string> GetPageSourceAsync()
         {
@@ -1978,7 +1859,7 @@ namespace EmbeddedBrowser
         }
 
         public async Task<List<string>> GetListInnerHtml(ActType actType, AttributeType attributeType, string attributeValue,
-            ValueType valueType = ValueType.InnerHtml, string value = "")
+            ValueTypes valueType = ValueTypes.InnerHtml, string value = "")
         {
             if (Browser.IsDisposed) return
                     new List<string>();
@@ -2000,7 +1881,7 @@ namespace EmbeddedBrowser
 
         public async Task<List<string>> GetListInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
             string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
-            ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
         {
             if (Browser.IsDisposed) return
                     new List<string>();
@@ -2025,7 +1906,7 @@ namespace EmbeddedBrowser
 
 
         public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
-            string attributeValue, ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int clickIndex = 0
+            string attributeValue, ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int clickIndex = 0
             , string value = "")
         {
             if (delayBefore > 0)
@@ -2073,7 +1954,7 @@ namespace EmbeddedBrowser
 
         public async Task<string> GetChildElementValueAsync(ActType actType, AttributeType parentAttributeType,
             string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
-            ValueType valueType = ValueType.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
         {
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
@@ -2114,7 +1995,7 @@ namespace EmbeddedBrowser
         public async Task ExpandAllSeeMore()
         {
             var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "see_more_link_inner",
-                ValueType.OuterHtml));
+                ValueTypes.OuterHtml));
 
             while (postCount-- > 0)
             {
@@ -2138,7 +2019,7 @@ namespace EmbeddedBrowser
             {
                 var adViewerDetails = string.Empty;
                 Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
-                var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueType.OuterHtml, clickIndex: lastCurrentCount);
+                var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: lastCurrentCount);
                 if (!(fullAdDetails).Contains("sponsored_ad"))
                 {
                     await Task.Delay(3000);
@@ -2181,10 +2062,10 @@ namespace EmbeddedBrowser
                     Dictionary<PostContent, string> dictPostDetails = new Dictionary<PostContent, string>();
 
                     var totalAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      ValueType.InnerHtml, clickIndex: postCount);
+                      ValueTypes.InnerHtml, clickIndex: postCount);
 
                     var adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      AttributeType.ClassName, "fsm fwn fcg", ValueType.InnerText, parentIndex: postCount);
+                      AttributeType.ClassName, "fsm fwn fcg", ValueTypes.InnerText, parentIndex: postCount);
 
                     bool isAd = string.IsNullOrEmpty(adsDetails) ? true : false;
 
@@ -2202,7 +2083,7 @@ namespace EmbeddedBrowser
                     }
 
                     dictPostDetails.Add(PostContent.PostId, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                        AttributeType.Name, "ft_ent_identifier", ValueType.OuterHtml, parentIndex: postCount));
+                        AttributeType.Name, "ft_ent_identifier", ValueTypes.OuterHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.AdDetails, isAd.ToString());
 
@@ -2237,7 +2118,7 @@ namespace EmbeddedBrowser
                     Dictionary<PostContent, string> dictPostDetails = new Dictionary<PostContent, string>();
 
                     var totalAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      ValueType.InnerHtml, clickIndex: postCount);
+                      ValueTypes.InnerHtml, clickIndex: postCount);
 
                     bool isSharedPost = (await GetChildElementValueAsync(ActType.GetLength, AttributeType.ClassName, "_5jmm _5pat _3lb4",
                         AttributeType.ClassName, $"_5pcp _5lel _2jyu _232_", parentIndex: postCount)) == "1" ? false : true;
@@ -2248,27 +2129,27 @@ namespace EmbeddedBrowser
                         : "scaledImageFitWidth img";
 
                     mediaList = await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      AttributeType.ClassName, "_kvn img", ValueType.Source, parentIndex: postCount);
+                      AttributeType.ClassName, "_kvn img", ValueTypes.Source, parentIndex: postCount);
 
                     mediaList = mediaList.Count > 0 ? mediaList : await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                       AttributeType.ClassName, $"{mediaListClassName}", ValueType.Source, parentIndex: postCount);
+                       AttributeType.ClassName, $"{mediaListClassName}", ValueTypes.Source, parentIndex: postCount);
 
                     if (totalAdDetails.Contains("_46-i img"))
                         mediaList.AddRange(await GetListInnerHtmlChildElement(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                       AttributeType.ClassName, "_46-i img", ValueType.Source, parentIndex: postCount));
+                       AttributeType.ClassName, "_46-i img", ValueTypes.Source, parentIndex: postCount));
 
                     var videoAdTitle = Browser.EvaluateScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{postCount}].getElementsByClassName('_2za- _2vd- uiContextualLayerParent _28dz')[0].firstElementChild.firstElementChild.firstElementChild.innerHTML").Result?.Result?.ToString() ?? "";
 
                     var adsDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      AttributeType.ClassName, "fsm fwn fcg", ValueType.InnerText, parentIndex: postCount);
+                      AttributeType.ClassName, "fsm fwn fcg", ValueTypes.InnerText, parentIndex: postCount);
 
                     bool isAd = string.IsNullOrEmpty(adsDetails) ? true : false;
 
                     var videoPostDetails = await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                        AttributeType.ClassName, "_1c_u _45oh", ValueType.OuterHtml, parentIndex: postCount);
+                        AttributeType.ClassName, "_1c_u _45oh", ValueTypes.OuterHtml, parentIndex: postCount);
 
                     bool isVideoPost = string.IsNullOrEmpty(await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                        AttributeType.ClassName, $"_1c_u _45oh", ValueType.OuterHtml, parentIndex: postCount)) ? false : true;
+                        AttributeType.ClassName, $"_1c_u _45oh", ValueTypes.OuterHtml, parentIndex: postCount)) ? false : true;
 
                     string adId = string.Empty;
 
@@ -2305,32 +2186,32 @@ namespace EmbeddedBrowser
 
                     var adTitle = !isSharedPost && !string.IsNullOrEmpty(videoAdTitle) ? videoAdTitle :
                         await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      AttributeType.ClassName, $"{titleClassName}", ValueType.InnerText, parentIndex: postCount);
+                      AttributeType.ClassName, $"{titleClassName}", ValueTypes.InnerText, parentIndex: postCount);
 
                     var sharedAdTitle = isSharedPost && !string.IsNullOrEmpty(videoAdTitle) ? videoAdTitle : string.Empty;
 
                     dictPostDetails.Add(PostContent.PostId, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                        AttributeType.Name, "ft_ent_identifier", ValueType.OuterHtml, parentIndex: postCount));
+                        AttributeType.Name, "ft_ent_identifier", ValueTypes.OuterHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.PostUrl, postUrl);
 
                     dictPostDetails.Add(PostContent.LikerCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                        AttributeType.DataTestId, $"{likersClassName}", ValueType.InnerHtml, parentIndex: postCount));
+                        AttributeType.DataTestId, $"{likersClassName}", ValueTypes.InnerHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.ShareCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                       AttributeType.DataTestId, $"{sharersClassName}", ValueType.InnerHtml, parentIndex: postCount));
+                       AttributeType.DataTestId, $"{sharersClassName}", ValueTypes.InnerHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.CommentCount, await GetChildElementValueAsync(ActType.ActByQuery, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                       AttributeType.DataTestId, $"{commentorsClassName}", ValueType.InnerHtml, parentIndex: postCount));
+                       AttributeType.DataTestId, $"{commentorsClassName}", ValueTypes.InnerHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.OwnerDetails, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                       AttributeType.ClassName, $"{ownerDetailsClassName}", ValueType.InnerHtml, parentIndex: postCount));
+                       AttributeType.ClassName, $"{ownerDetailsClassName}", ValueTypes.InnerHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.OwnerLogo, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                       AttributeType.ClassName, $"{ownerDetailsClassName}", ValueType.OuterHtml, parentIndex: postCount));
+                       AttributeType.ClassName, $"{ownerDetailsClassName}", ValueTypes.OuterHtml, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.PostedTime, await GetElementValueAsync(ActType.GetAttribute, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                       ValueType.TimeStamp, clickIndex: postCount));
+                       ValueTypes.TimeStamp, clickIndex: postCount));
 
                     dictPostDetails.Add(PostContent.AdDetails, isAd.ToString());
 
@@ -2339,18 +2220,18 @@ namespace EmbeddedBrowser
                     dictPostDetails.Add(PostContent.IsSharePost, isSharedPost ? "Shared" : "Original");
 
                     dictPostDetails.Add(PostContent.AdText, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      AttributeType.ClassName, "_5pbx userContent", ValueType.InnerText, parentIndex: postCount));
+                      AttributeType.ClassName, "_5pbx userContent", ValueTypes.InnerText, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.SubDescription, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      AttributeType.ClassName, $"{subDescriptionClassName}", ValueType.InnerText, parentIndex: postCount));
+                      AttributeType.ClassName, $"{subDescriptionClassName}", ValueTypes.InnerText, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.Title, adTitle);
 
                     dictPostDetails.Add(PostContent.SharedPostText, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      AttributeType.ClassName, $"{sharedPostTextClassName}", ValueType.InnerText, parentIndex: postCount));
+                      AttributeType.ClassName, $"{sharedPostTextClassName}", ValueTypes.InnerText, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.CallToAction, await GetChildElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4",
-                      AttributeType.ClassName, $"{callToActionClassName}", ValueType.InnerText, parentIndex: postCount));
+                      AttributeType.ClassName, $"{callToActionClassName}", ValueTypes.InnerText, parentIndex: postCount));
 
                     dictPostDetails.Add(PostContent.SharedAdTitle, sharedAdTitle);
 
