@@ -5,12 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
              mc:Ignorable="d" 
-               xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
+             xmlns:next="clr-namespace:DominatorUIUtility.Views.AccountSetting"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-
-              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
-           xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl" 
+             xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
+             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl" 
+             xmlns:cnvrt="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+    <UserControl.Resources>
+        <cnvrt:BooleanToVisibilityConverter x:Key="visiblity" IsInversed="True"/>
+    </UserControl.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="Unfollow"/>
@@ -39,13 +42,14 @@
                                                        SaveCommand="{Binding SaveInputCommand}" CommandParameter="{Binding CustomUsersList}"  Margin="25,5"
                                                        Visibility="{Binding IsChkCustomUsersListChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </StackPanel>
-                    <Label Content="{DynamicResource LangKeySourceType}"  FontWeight="SemiBold" Margin="5,10,0,0"/>
-                    <StackPanel Margin="15,0,0,5" Visibility="{Binding AllVisibility}">
+                    <StackPanel Margin="15,0,0,5" Visibility="{Binding IsVisible,Converter={StaticResource visiblity}}">
+                        <Label Content="{DynamicResource LangKeySourceType}" Margin="-5,0"  FontWeight="SemiBold"/>
                         <CheckBox Content="{DynamicResource LangKeyWhoDoNotFollowBack}" Margin="5"
                                   IsChecked="{Binding IsWhoDoNotFollowBackChecked,UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox Content="{DynamicResource LangKeyWhoFollowBack}" Margin="5" IsChecked="{Binding IsWhoFollowBackChecked}"/>
                     </StackPanel>
                     <StackPanel   Margin="15,0,0,5" Visibility="{Binding InstagramElementsVisibility}">
+                        <Label Content="{DynamicResource LangKeySourceType}" Margin="-5,0"  FontWeight="SemiBold"/>
                         <RadioButton Content="{DynamicResource LangKeyWhoDoNotFollowBack}" Margin="5" 
                                      IsChecked="{Binding IsRdWhoDoNotFollowBackChecked}" GroupName="radio"/>
                         <RadioButton Content="{DynamicResource LangKeyWhoFollowBack}" Margin="5" 

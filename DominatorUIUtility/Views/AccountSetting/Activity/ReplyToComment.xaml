@@ -8,18 +8,62 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="ReplyToComment"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Reply To Comment Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
+            <TextBlock Text="Reply To Comment Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
+        </DockPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="1">
+            <StackPanel>
+                <actcustom:ActivitySettingWithoutButton x:Name="Activity"
+                                                        JobConfiguration="{Binding JobConfiguration}"
+                                                        IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                        ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
+                                                        AddQueryCommand="{Binding AddQueryCommentCommand}"
+                                                        DeleteQueryCommand="{Binding DeleteQueryCommand}" 
+                                                        DeleteMulipleCommand="{Binding DeleteMulipleCommand}" />
+                <Expander Header="{DynamicResource LangKeyPagePostReactBy}" Margin="5,5"
+                                   IsExpanded="true">
+                    <StackPanel Orientation="Vertical" Margin="15,10">
+                        <CheckBox IsChecked="{Binding IsActionasOwnAccountChecked}" Margin="5" 
+                                          FontSize="12" FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnAccount}"/>
 
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox IsChecked="{Binding IsActionasPageChecked}" Margin="5" FontSize="12" FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnPage}"/>
+                                                   </StackPanel>
+                        <customControl1:SelectOptionControl x:Name="BtnSelectOwnPages" SelectedInputOption="{DynamicResource LangKeySelectFriends}"
+                                                            LstSelectedInput="{Binding ListOwnPageUrl}" InputText="{Binding OwnPageUrl}" IsSelectButtonVisible="False"                                                                                                                          
+                                                            SelectedOptionDisplayName="{DynamicResource LangKeySelectFriends}" Margin="25,0" Visibility="{Binding IsActionasPageChecked,Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="{DynamicResource LangKeyReactionType}" Margin="5,5"
+                                   IsExpanded="true"
+                                 >
+                    <StackPanel Orientation="Vertical">
+                        <customControl:CommentControl x:Name="CommentControl" Comments="{Binding ManageCommentsModel, UpdateSourceTrigger=PropertyChanged ,Mode=TwoWay}"  AddCommentsCommand="{Binding AddCommentsCommand}" CommandParameter="{Binding ElementName=CommentControl}"/>
+                        <customControl:ManageComment x:Name="ManageComments" LstManageCommentModel="{Binding LstManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+                    </StackPanel>
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton  NextCommand="{Binding NextCommand}" 
+                                           PreviousCommand="{Binding PreviousCommand}"
+                                           NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>

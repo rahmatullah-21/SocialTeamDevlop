@@ -14,12 +14,7 @@ using System.Windows.Input;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-    public class CommentModel
-    {
-        public ObservableCollection<ManageCommentModel> LstDisplayManageCommentModel { get; set; } = new ObservableCollection<ManageCommentModel>();
 
-        public ManageCommentModel ManageCommentModel { get; set; } = new ManageCommentModel();
-    }
     public interface ICommentViewModel
     {
     }
@@ -28,7 +23,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public CommentViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Comment });
-            NextCommand = new DelegateCommand(NavigateNext);
+            NextCommand = new DelegateCommand(ValidateAndNavigate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddQueryToCommentCommand = new DelegateCommand<object>(AddQueryToComment);
@@ -46,18 +41,38 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
-
         }
+
+        #region Command
         public ICommand AddQueryToCommentCommand { get; set; }
         public ICommand AddCommentCommand { get; set; }
-        private CommentModel _commentModel = new CommentModel();
         public ICommand DeleteQueryCommand { get; set; }
         public ICommand DeleteMultipleCommand { get; set; }
+        #endregion
 
-        public CommentModel CommentModel
+        #region Property
+
+        private int _isSpintax;
+
+        public int IsSpintax
         {
-            get { return _commentModel; }
-            set { SetProperty(ref _commentModel, value); }
+            get { return _isSpintax; }
+            set { SetProperty(ref _isSpintax, value); }
+        }
+
+        public ObservableCollection<ManageCommentModel> LstDisplayManageCommentModel { get; set; } = new ObservableCollection<ManageCommentModel>();
+        public ManageCommentModel ManageCommentModel { get; set; } = new ManageCommentModel();
+        #endregion
+
+        #region Methods
+        private void ValidateAndNavigate()
+        {
+            if (LstDisplayManageCommentModel.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please add at least one Comment.");
+                return;
+            }
+            NavigateNext();
         }
         private void AddQueryToComment(object sender)
         {
@@ -76,7 +91,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 {
                     foreach (var queryValue in activitySetting.QueryControl.QueryCollection)
                     {
-                        if (CommentModel.ManageCommentModel.LstQueries.Any(x =>
+                        if (ManageCommentModel.LstQueries.Any(x =>
                             x.Content.QueryValue == queryValue &&
                             x.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType))
                             continue;
@@ -89,8 +104,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                                     QueryType = activitySetting.QueryControl.CurrentQuery.QueryType
                                 }
                             };
-                            CommentModel.ManageCommentModel.LstQueries.Add(addNew);
-                            CommentModel.LstDisplayManageCommentModel.ForEach(x =>
+                            ManageCommentModel.LstQueries.Add(addNew);
+                            LstDisplayManageCommentModel.ForEach(x =>
                             {
                                 if (!x.LstQueries.Any(y => addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
                                                            y.Content.QueryValue == addNew.Content.QueryValue))
@@ -103,7 +118,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 {
                     foreach (var queryValue in splittedQueries)
                     {
-                        if (CommentModel.ManageCommentModel.LstQueries.Any(x =>
+                        if (ManageCommentModel.LstQueries.Any(x =>
                             x.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
                             x.Content.QueryValue == queryValue)) continue;
                         {
@@ -115,9 +130,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                                     QueryType = activitySetting.QueryControl.CurrentQuery.QueryType
                                 }
                             };
-                            CommentModel.ManageCommentModel.LstQueries.Add(addNew);
+                            ManageCommentModel.LstQueries.Add(addNew);
 
-                            CommentModel.LstDisplayManageCommentModel.ForEach(x =>
+                            LstDisplayManageCommentModel.ForEach(x =>
                             {
                                 if (!x.LstQueries.Any(y => addNew.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType &&
                                                            y.Content.QueryValue == addNew.Content.QueryValue))
@@ -139,11 +154,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         }
         private void AddQueryAll()
         {
-            if (CommentModel.ManageCommentModel.LstQueries.Count > 1 &&
-                !CommentModel.ManageCommentModel.LstQueries.Any(x =>
+            if (ManageCommentModel.LstQueries.Count > 1 &&
+                !ManageCommentModel.LstQueries.Any(x =>
                     x.Content.QueryValue == "All" && x.Content.QueryType == "All"))
             {
-                CommentModel.ManageCommentModel.LstQueries.Insert(0, new QueryContent
+                ManageCommentModel.LstQueries.Insert(0, new QueryContent
                 {
                     Content = new QueryInfo
                     {
@@ -154,31 +169,30 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             }
         }
-
         private void DeleteQuery(object sender)
         {
             try
             {
                 var currentQuery = sender as QueryInfo;
 
-                var queryToDelete = CommentModel.ManageCommentModel.LstQueries.FirstOrDefault(x =>
+                var queryToDelete = ManageCommentModel.LstQueries.FirstOrDefault(x =>
                         currentQuery != null && (x.Content.QueryValue == currentQuery.QueryValue
                                                  && x.Content.QueryType == currentQuery.QueryType));
 
                 if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
                     SavedQueries.Remove(currentQuery);
 
-                CommentModel.ManageCommentModel.LstQueries.Remove(queryToDelete);
-                foreach (var message in CommentModel.LstDisplayManageCommentModel.ToList())
+                ManageCommentModel.LstQueries.Remove(queryToDelete);
+                foreach (var message in LstDisplayManageCommentModel.ToList())
                 {
                     var queryDelete = message.SelectedQuery.FirstOrDefault(x => currentQuery != null && (x.Content.QueryType == currentQuery.QueryType && x.Content.QueryValue == currentQuery.QueryValue));
                     message.SelectedQuery.Remove(queryDelete);
 
                     if (message.SelectedQuery.Count == 0)
-                        CommentModel.LstDisplayManageCommentModel.Remove(message);
+                        LstDisplayManageCommentModel.Remove(message);
                 }
-                if (!CommentModel.ManageCommentModel.LstQueries.Skip(1).Any())
-                    CommentModel.ManageCommentModel.LstQueries[0].IsContentSelected = false;
+                if (!ManageCommentModel.LstQueries.Skip(1).Any())
+                    ManageCommentModel.LstQueries[0].IsContentSelected = false;
             }
             catch (Exception ex)
             {
@@ -194,19 +208,19 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 {
                     try
                     {
-                        var queryToDelete = CommentModel.ManageCommentModel.LstQueries.FirstOrDefault(x =>
+                        var queryToDelete = ManageCommentModel.LstQueries.FirstOrDefault(x =>
                                 x.Content.QueryValue == currentQuery.QueryValue
                                 && x.Content.QueryType == currentQuery.QueryType);
 
                         if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
                             SavedQueries.Remove(currentQuery);
 
-                        CommentModel.ManageCommentModel.LstQueries.Remove(queryToDelete);
-                        foreach (var message in CommentModel.LstDisplayManageCommentModel.ToList())
+                        ManageCommentModel.LstQueries.Remove(queryToDelete);
+                        foreach (var message in LstDisplayManageCommentModel.ToList())
                         {
                             message.SelectedQuery.Remove(queryToDelete);
                             if (message.SelectedQuery.Count == 0)
-                                CommentModel.LstDisplayManageCommentModel.Remove(message);
+                                LstDisplayManageCommentModel.Remove(message);
                         }
                     }
                     catch (Exception ex)
@@ -220,7 +234,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ex.DebugLog();
             }
         }
-
         private void AddComment(object sender)
         {
             try
@@ -252,11 +265,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 AddToCommentList(commentData.Comments, commentData.Comments.CommentText);
                 commentData.Comments = new ManageCommentModel
                 {
-                    LstQueries = CommentModel.ManageCommentModel.LstQueries
+                    LstQueries = ManageCommentModel.LstQueries
                 };
 
-                CommentModel.ManageCommentModel = commentData.Comments;
-                commentData.ComboBoxQueries.ItemsSource = CommentModel.ManageCommentModel.LstQueries;
+                ManageCommentModel = commentData.Comments;
+                commentData.ComboBoxQueries.ItemsSource = ManageCommentModel.LstQueries;
 
             }
             catch (Exception ex)
@@ -264,13 +277,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ex.DebugLog();
             }
         }
-
         private void AddToCommentList(ManageCommentModel commentModel, string commentText)
         {
             try
             {
                 var isContain = false;
-                CommentModel.LstDisplayManageCommentModel.ForEach(lstMessage =>
+                LstDisplayManageCommentModel.ForEach(lstMessage =>
                 {
                     if (lstMessage.CommentText.Equals(commentText, StringComparison.CurrentCultureIgnoreCase))
                         isContain = lstMessage.SelectedQuery.Any(x => commentModel.SelectedQuery.Contains(x));
@@ -278,7 +290,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
                 if (!isContain)
                 {
-                    CommentModel.LstDisplayManageCommentModel.Add(new ManageCommentModel
+                    LstDisplayManageCommentModel.Add(new ManageCommentModel
                     {
                         CommentText = commentText,
                         SelectedQuery = new ObservableCollection<QueryContent>(commentModel.LstQueries.Where(x => x.IsContentSelected && x.Content.QueryType != "All" && x.Content.QueryValue != "All").ToList()),
@@ -293,5 +305,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ex.DebugLog();
             }
         }
+        #endregion
     }
 }

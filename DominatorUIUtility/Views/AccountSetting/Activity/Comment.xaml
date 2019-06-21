@@ -35,12 +35,12 @@
                                            DeleteMulipleCommand="{Binding DeleteMultipleCommand}" />
                 <Expander Header="{DynamicResource LangKeyCommentManager}" Margin="5,5" >
                     <StackPanel>
-                        <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding CommentModel.IsSpintax}" Margin="15,2" ToolTip="{DynamicResource LangKeyCommentSpintaxFormat}" FontSize="15" FontWeight="Bold" />
+                        <CheckBox Content="{DynamicResource LangKeySpintax}" IsChecked="{Binding IsSpintax}" Margin="15,2" ToolTip="{DynamicResource LangKeyCommentSpintaxFormat}" FontSize="15" FontWeight="Bold" />
                         <customControl:CommentControl x:Name="CommentControl" 
-                                                      Comments="{Binding CommentModel.ManageCommentModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                      Comments="{Binding ManageCommentModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                       AddCommentsCommand="{Binding AddCommentCommand}"
                                                       CommandParameter="{Binding ElementName=CommentControl}"/>
-                        <customControl:ManageComment  LstManageCommentModel="{Binding CommentModel.LstDisplayManageCommentModel}" />
+                        <customControl:ManageComment  LstManageCommentModel="{Binding LstDisplayManageCommentModel}" />
                     </StackPanel>
                 </Expander>
             </StackPanel>

@@ -102,9 +102,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
             set
             {
-                if (_textMessage == value)
-                    return;
                 SetProperty(ref _textMessage, value);
+                Message = value;
             }
         }
     }

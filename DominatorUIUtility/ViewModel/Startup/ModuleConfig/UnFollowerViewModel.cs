@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System;
 using System.Linq;
+using CommonServiceLocator;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -141,6 +142,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isWhoDoNotFollowBackChecked, value);
+                IsWhoDoNotFollowBackChecked = value;
             }
         }
         [ProtoMember(14)]
@@ -150,6 +152,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set
             {
                 SetProperty(ref _isWhoFollowBackChecked, value);
+                IsWhoFollowBackChecked = value;
             }
         }
     }
@@ -175,6 +178,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public Visibility TwitterElementsVisibility { get; set; } = Visibility.Collapsed;
         public Visibility InstagramElementsVisibility { get; set; } = Visibility.Collapsed;
         public Visibility AllVisibility { get; set; } = Visibility.Visible;
+        public bool IsVisible { get; set; }
+        SocialNetworks network;
         public UnFollowerViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unfollow });
@@ -186,7 +191,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             if (InstagramElementsVisibility == Visibility.Visible)
                 AllVisibility = Visibility.Collapsed;
-
+            network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel.AccountNetwork;
+            if (network == SocialNetworks.Reddit || network == SocialNetworks.Instagram)
+                IsVisible = true;
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfUnfollowPerJob".FromResourceDictionary(),
@@ -201,16 +208,42 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         private void NextValidation()
         {
-            if ((_UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked || _UnFollower.IsChkPeopleFollowedBySoftwareCheecked || _UnFollower.IsChkCustomUsersListChecked) &&
-                (_UnFollower.IsWhoDoNotFollowBackChecked || _UnFollower.IsWhoFollowBackChecked))
-                NavigateNext();
+            if (_UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked || _UnFollower.IsChkPeopleFollowedBySoftwareCheecked || _UnFollower.IsChkCustomUsersListChecked)
+            {
+                if (network != SocialNetworks.Reddit)
+                {
+                    if (_UnFollower.IsWhoDoNotFollowBackChecked || _UnFollower.IsWhoFollowBackChecked)
+                    {
+                        if (CheckCustomUser())
+                            NavigateNext();
+                    }
+                    else
+                        Dialog.ShowDialog("Error", "Please select Unfollow source type.");
+                }
+                else if (CheckCustomUser())
+                    NavigateNext();
+            }
             else
             {
-                Dialog.ShowDialog("Error", "Please select Unfollow source and source type");
+                Dialog.ShowDialog("Error", "Please select Unfollow source.");
                 return;
             }
         }
-
+        bool CheckCustomUser()
+        {
+            if (!_UnFollower.IsChkCustomUsersListChecked)
+                return true;
+            else
+            {
+                if (!string.IsNullOrEmpty(_UnFollower.CustomUsers))
+                    return true;
+                else
+                {
+                    Dialog.ShowDialog("Error", "Please enter user list.");
+                    return false;
+                }
+            }
+        }
         public UnFollower UnFollower
         {
             get { return _UnFollower; }
@@ -334,6 +367,26 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             {
                 SetProperty(ref _isWhoFollowBackChecked, value);
                 UnFollower.IsWhoFollowBackChecked = value;
+            }
+        }
+        [ProtoMember(13)]
+        public bool IsRdWhoDoNotFollowBackChecked
+        {
+            get { return _isWhoDoNotFollowBackChecked; }
+            set
+            {
+                SetProperty(ref _isWhoDoNotFollowBackChecked, value);
+                IsWhoDoNotFollowBackChecked = value;
+            }
+        }
+        [ProtoMember(14)]
+        public bool IsRdWhoFollowBackChecked
+        {
+            get { return _isWhoFollowBackChecked; }
+            set
+            {
+                SetProperty(ref _isWhoFollowBackChecked, value);
+                IsWhoFollowBackChecked = value;
             }
         }
     }

@@ -252,7 +252,7 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         SendGreetingsToConnections = 83,
 
-        [Description("Twitter,Reddit")]
+        [Description("Reddit")]
         Reply = 84,
 
         [Description("Twitter")]
