@@ -24,7 +24,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.PostScraper });
 
             NextCommand = new DelegateCommand(PostScraperValidate);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
             ElementsVisibility.NetworkElementsVisibilty(this);
@@ -91,7 +91,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 }
 
             }
-            NevigateNext();
+            NavigateNext();
         }
 
         private PostLikeCommentorModel _postLikeCommentorModel = new PostLikeCommentorModel();

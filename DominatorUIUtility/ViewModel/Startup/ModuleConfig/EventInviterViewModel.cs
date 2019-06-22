@@ -20,7 +20,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.EventInviter });
             IsNonQuery = true;
             NextCommand = new DelegateCommand(EventInviterValidate);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
@@ -43,7 +43,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            NevigateNext();
+            NavigateNext();
         }
 
         private InviterDetails _inviterDetailsModel=new InviterDetails();

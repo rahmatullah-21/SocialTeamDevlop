@@ -11,9 +11,8 @@ namespace DominatorHouseCore.ViewModel
 
         void SetActiveNetwork(SocialNetworks social);
         AccessorStrategies Strategies { get; }
-        bool IsPopUpOpen { get; set; }
         string AccountName { get; set; }
         SocialNetworks Network { get; set; }
-        Visibility IsHeadingVisible { get; set; }
+     
     }
 }

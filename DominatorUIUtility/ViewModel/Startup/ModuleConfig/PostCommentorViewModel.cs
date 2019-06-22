@@ -32,7 +32,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.PostCommentor });
             NextCommand = new DelegateCommand(PostCommentorValidate);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             CommentCheckedChangedCommand=new DelegateCommand<object>(CheckedChangedExecute);
             SpecificWordListCommand = new DelegateCommand<object>(SpecificWordListChangedExecute);
@@ -107,7 +107,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            NevigateNext();
+            NavigateNext();
         }
 
         private PostLikeCommentorModel _postLikeCommentorModel = new PostLikeCommentorModel();

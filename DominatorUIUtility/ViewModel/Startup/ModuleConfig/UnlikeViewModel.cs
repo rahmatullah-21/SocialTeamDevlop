@@ -70,8 +70,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unlike });
             ElementsVisibility.NetworkElementsVisibilty(this);
             IsNonQuery = true;
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(validateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
@@ -84,6 +84,33 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
+        }
+
+        private void validateAndNevigate()
+        {
+            var network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel.AccountNetwork;
+            if (network == SocialNetworks.Twitter)
+            {
+                if (!UnLike.IsLikedTweets && !UnLike.IsCustomTweets)
+                {
+                    Dialog.ShowDialog("Error", "Please select at least one source type.");
+                    return;
+                }
+                if (UnLike.IsCustomTweets && string.IsNullOrEmpty(UnLike.CustomTweets.Trim()))
+                {
+                    Dialog.ShowDialog("Error", "Please type some Tweets.");
+                    return;
+                }
+            }
+            else if (network == SocialNetworks.Instagram)
+            {
+                if (!IsCheckedUnlikeMedia)
+                {
+                    Dialog.ShowDialog("Error", "Please check Source Type");
+                    return;
+                }
+            }
+            NavigateNext();
         }
     }
 }

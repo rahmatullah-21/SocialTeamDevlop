@@ -32,7 +32,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             IsNonQuery = true;
             NextCommand = new DelegateCommand(PageInviterValidate);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
@@ -62,7 +62,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            NevigateNext();
+            NavigateNext();
         }
 
         private InviterOptions _inviterOptionsModel = new InviterOptions();

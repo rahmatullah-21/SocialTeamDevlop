@@ -20,8 +20,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendMessageToFollower });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
             JobConfiguration = new JobConfiguration
@@ -34,6 +34,15 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
+        }
+        protected void ValidateAndNevigate()
+        {
+            if (string.IsNullOrEmpty(TextMessage))
+            {
+                Dialog.ShowDialog("Input Error", "Please add atleast one message and then click on save button to save the message");
+                return;
+            }
+            NavigateNext();
         }
         private string _message;
         public string Message
@@ -93,9 +102,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
             set
             {
-                if (_textMessage == value)
-                    return;
                 SetProperty(ref _textMessage, value);
+                Message = value;
             }
         }
     }

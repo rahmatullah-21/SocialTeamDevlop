@@ -26,8 +26,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.BlockUser });
             SaveCustomUserListCommand = new BaseCommand<object>((sender) => true, SaveCustomUsers);
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             IsNonQuery = true;
             JobConfiguration = new JobConfiguration
@@ -42,6 +42,15 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
         }
 
+        private void ValidateAndNevigate()
+        {
+            if (string.IsNullOrEmpty(UrlInput?.Trim()))
+            {
+                Dialog.ShowDialog("Error", "please add profile url(s).");
+                return;
+            }
+            NavigateNext();
+        }
 
         private string _UrlInput;
         private List<string> _urlList;

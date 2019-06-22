@@ -51,8 +51,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public AnswerOnQuestionsViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.AnswerOnQuestions });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(NavigateNext);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddAnswerCommand = new DelegateCommand<object>(AddAnswer);
             AddQueryToMsgCommand = new DelegateCommand<object>(AddQuery);

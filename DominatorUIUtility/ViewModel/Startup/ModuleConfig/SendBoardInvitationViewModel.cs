@@ -92,8 +92,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendBoardInvitation });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
             JobConfiguration = new JobConfiguration
@@ -110,6 +110,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             DeleteBoardCollaboratorCommand = new BaseCommand<object>((sender) => true, DeleteBoardCollaborator);
             ImportFromCsvCommand = new BaseCommand<object>((sender) => true, ImportFromCsv);
         }
+
+        private void ValidateAndNevigate()
+        {
+            if (BoardCollaboratorDetails.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please add at least one board Collaborator.");
+                return;
+            }
+            NavigateNext();
+        }
+
         public ObservableCollectionBase<BoardCollaboratorInfo> ListBoardCollaboratorInfo = new ObservableCollectionBase<BoardCollaboratorInfo>();
 
         public ICommand AddBoardCollaboratorCommand { get; set; }

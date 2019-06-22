@@ -19,9 +19,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         bool IsCheckedBirthdayGreeting { get; set; }
         bool IsCheckedNewJobGreeting { get; set; }
         bool IsCheckedWorkAnniversaryGreeting { get; set; }
-         bool IsChkSpintaxChecked { get; set; }
-         bool IsChkTagChecked { get; set; }
-     
+        bool IsChkSpintaxChecked { get; set; }
+        bool IsChkTagChecked { get; set; }
+
         ICommand AddMessagesCommand { get; set; }
         ManageMessagesModel ManageMessagesModel { get; set; }
         ObservableCollection<ManageMessagesModel> LstDisplayManageMessagesModel { get; set; }
@@ -38,12 +38,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
 
         public ICommand AddMessagesCommand { get; set; }
-     
+
         public SendGreetingsToConnectionsViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendGreetingsToConnections });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             IsNonQuery = true;
 
@@ -59,6 +59,21 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
+        }
+
+        private void ValidateAndNevigate()
+        {
+            if (!IsCheckedBirthdayGreeting && !IsCheckedNewJobGreeting && !IsCheckedWorkAnniversaryGreeting)
+            {
+                Dialog.ShowDialog("Error", "select at least once of the greeting options");
+                return;
+            }
+            if (ManageMessagesModel.LstQueries.Count > 0 && LstDisplayManageMessagesModel.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "please add at least one message to the list of messages.");
+                return;
+            }
+           NavigateNext();
         }
 
         public void AddMessages(object sender)
@@ -108,7 +123,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     Dialog.ShowDialog("Error", "Please make sure you have selected " + Application.Current.FindResource("LangKeyWorkAnniversaryGreeting") + " as connection source before adding to message list");
                     return;
                 }
-               #endregion
+                #endregion
 
                 messageData.Messages.SelectedQuery = new ObservableCollection<QueryContent>(messageData.Messages.LstQueries.Where(x => x.IsContentSelected));
 
@@ -177,19 +192,19 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             set { SetProperty(ref _IsCheckedWorkAnniversaryGreeting, value); }
         }
 
-      public bool IsChkSpintaxChecked
+        public bool IsChkSpintaxChecked
         {
             get { return _IsChkSpintaxChecked; }
             set { SetProperty(ref _IsChkSpintaxChecked, value); }
         }
 
-       
+
         public bool IsChkTagChecked
         {
             get { return _IsChkTagChecked; }
             set { SetProperty(ref _IsChkTagChecked, value); }
         }
-        
+
         public ObservableCollection<ManageMessagesModel> LstDisplayManageMessagesModel { get; set; } = new ObservableCollection<ManageMessagesModel>();
 
         public ManageMessagesModel ManageMessagesModel { get; set; } = new ManageMessagesModel();

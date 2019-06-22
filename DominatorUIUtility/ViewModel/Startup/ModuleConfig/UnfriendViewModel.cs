@@ -30,7 +30,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Unfriend });
             IsNonQuery = true;
             NextCommand = new DelegateCommand(UnfriendValidate);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
             UnfriendOptionModel = new UnfriendOption()
@@ -74,7 +74,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            NevigateNext();
+            NavigateNext();
         }
 
         //public ICommand SaveCommandBinding { get; set; }

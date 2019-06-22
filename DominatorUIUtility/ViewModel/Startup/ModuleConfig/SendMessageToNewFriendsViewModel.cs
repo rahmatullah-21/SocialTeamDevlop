@@ -28,7 +28,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.SendMessageToNewFriends });
             NextCommand = new DelegateCommand(SendMessageToNewFriendsValidate);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
             JobConfiguration = new JobConfiguration
@@ -57,7 +57,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            NevigateNext();
+            NavigateNext();
         }
 
         private void AddMessages(object sender)

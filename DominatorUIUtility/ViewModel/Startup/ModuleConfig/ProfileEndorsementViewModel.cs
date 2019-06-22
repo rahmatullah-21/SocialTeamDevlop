@@ -39,8 +39,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public ProfileEndorsementViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.ProfileEndorsement });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(NavigateNext);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             IsNonQuery = true;
             JobConfiguration = new JobConfiguration

@@ -17,8 +17,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public WebPostLikeCommentViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WebPostLikeComment });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(NavigateNext);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
             JobConfiguration = new JobConfiguration

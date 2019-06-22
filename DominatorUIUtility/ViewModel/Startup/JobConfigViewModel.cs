@@ -19,8 +19,8 @@ namespace DominatorUIUtility.ViewModel.Startup
     {
         public JobConfigViewModel(IRegionManager region) : base(region)
         {
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(NavigateNext);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfFollowsPerJob".FromResourceDictionary(),

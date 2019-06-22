@@ -12,8 +12,13 @@
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Name="CheckBoxPostasPartStory" Margin="2" IsChecked="{Binding IsPostAsStoryPost}" Content="{DynamicResource LangKeyPostAsPartOfYourStoryInsteadOfOnWall}" />
+            <StackPanel  Orientation="Vertical">
+                <CheckBox Name="CheckBoxPostasPartStory"  Margin="2" IsChecked="{Binding IsPostAsStoryPost}" Content="{DynamicResource LangKeyPostAsPartOfYourStoryInsteadOfOnWall}" />
+                <StackPanel Orientation="Vertical" Margin="20,5,0,0">
+                    <CheckBox  IsChecked="{Binding IsMentionUser}" Content="{DynamicResource LangKeyMentionUserInStoryPost}" Visibility="{Binding IsPostAsStoryPost,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}" IsEnabled="{Binding IsMentionUser}" AcceptsReturn="True"
+                         HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" TextWrapping="Wrap" Height="60" Width="404" Visibility="{Binding IsMentionUser,Converter={StaticResource BooleanToVisibilityConverter}}"></TextBox>
+                </StackPanel>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -39,11 +44,7 @@
                 <TextBox VerticalAlignment="Center" Visibility="{Binding IsTagUser,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding TagUserList}" IsEnabled="{Binding IsTagUser}" AcceptsReturn="True"
                          HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddTagUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
             </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <CheckBox Margin="2" IsChecked="{Binding IsMentionUser}" Content="{DynamicResource LangKeyMentionUserInStoryPost}" />
-                <TextBox VerticalAlignment="Center" Text="{Binding MentionUserList}" IsEnabled="{Binding IsMentionUser}" AcceptsReturn="True"
-                         HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddMentionUsers}" Margin="2" TextWrapping="Wrap" Height="60" Width="404" Visibility="{Binding IsMentionUser,Converter={StaticResource BooleanToVisibilityConverter}}"></TextBox>
-            </StackPanel>
+           
 
         </StackPanel>
         

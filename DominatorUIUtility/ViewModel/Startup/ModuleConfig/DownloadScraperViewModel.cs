@@ -20,7 +20,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.DownloadScraper });
             IsNonQuery = true;
             NextCommand = new DelegateCommand(DownloadScraperValidate);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
@@ -95,7 +95,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 return;
             }
 
-            NevigateNext();
+            NavigateNext();
         }
 
     }

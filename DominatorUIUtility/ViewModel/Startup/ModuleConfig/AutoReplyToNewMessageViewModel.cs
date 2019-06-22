@@ -48,7 +48,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 IsLinkedIn = true;
 
             NextCommand = new DelegateCommand(AutoReplyToNewMessageValidation);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
             InputSaveCommand = new DelegateCommand<object>(SaveInput);
@@ -323,10 +323,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
             set
             {
-                if (_specificWord == value)
-                    return;
                 SetProperty(ref _specificWord, value);
-
             }
         }
 
@@ -439,10 +436,10 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 if (FacebookElementsVisibility == Visibility.Visible
                     && !AutoReplyOptionModel.IsFriendsMessageChecked)
                 {
-                    Dialog.ShowDialog("Error", "Please Check Atleast One mesaage type");
+                    Dialog.ShowDialog("Error", "Please Check atleast One mesaage type");
                     return;
                 }
-                Dialog.ShowDialog("Error", "Please Check Atleast One mesaage type");
+                Dialog.ShowDialog("Error", "Please Check atleast One mesaage type");
                 return;
             }
             var account = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount;
@@ -457,12 +454,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
             else if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Quora && string.IsNullOrEmpty(Message))
             {
-                Dialog.ShowDialog("Error", "Please add type some message.");
+                Dialog.ShowDialog("Error", "Please type some message.");
                 return;
             }
 
-            NevigateNext();
+            NavigateNext();
         }
-
     }
 }

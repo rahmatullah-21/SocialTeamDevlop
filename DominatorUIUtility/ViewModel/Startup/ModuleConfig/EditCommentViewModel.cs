@@ -56,8 +56,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.EditComment });
             IsNonQuery = true;
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNavigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
             JobConfiguration = new JobConfiguration
@@ -74,6 +74,16 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             AddCommentCommand = new BaseCommand<object>(sender => true, AddComment);
             DeleteCommentCommand = new BaseCommand<object>(sender => true, DeleteComment);
             ImportFromCsvCommand = new BaseCommand<object>(sender => true, ImportFromCsv);
+        }
+
+        private void ValidateAndNavigate()
+        {
+            if (CommentDetails.Count == 0)
+            {
+                Dialog.ShowDialog("Input Error", "Please Add Comments Details");
+                return;
+            }
+            NavigateNext();
         }
 
         #region Commands

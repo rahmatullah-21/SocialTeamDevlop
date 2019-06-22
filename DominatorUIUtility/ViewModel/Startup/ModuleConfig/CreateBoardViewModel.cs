@@ -6,7 +6,6 @@ using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -99,8 +98,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.CreateBoard });
             IsNonQuery = true;
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
@@ -116,6 +115,16 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             AddBoardCommand = new BaseCommand<object>((sender) => true, AddBoard);
             DeleteBoardCommand = new BaseCommand<object>((sender) => true, DeleteBoard);
             ListQueryType.Clear();
+        }
+
+        private void ValidateAndNevigate()
+        {
+            if (BoardDetails.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please add at least one board.");
+                return;
+            }
+            NavigateNext();
         }
 
         public ICommand AddBoardCommand { get; set; }

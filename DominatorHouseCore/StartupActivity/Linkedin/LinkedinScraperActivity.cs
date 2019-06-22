@@ -39,4 +39,22 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
             return new List<string> { "Search Url" };
         }
     }
+    class LinkedinUserScraperActivity : BaseActivity
+    {
+        public override Type GetEnumType()
+        {
+            return typeof(LDScraperUserQueryParameters);
+        }
+
+        public override List<string> GetQueryType()
+        {
+            var listQueryType = new List<string>();
+
+            listQueryType.Add(LDScraperUserQueryParameters.Keyword.GetDescriptionAttr()?.FromResourceDictionary());
+            listQueryType.Add(LDScraperUserQueryParameters.ProfileUrl.GetDescriptionAttr()?.FromResourceDictionary());
+            listQueryType.Add(LDScraperUserQueryParameters.SearchUrl.GetDescriptionAttr()?.FromResourceDictionary());
+
+            return listQueryType;
+        }
+    }
 }

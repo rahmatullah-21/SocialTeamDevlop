@@ -7,7 +7,7 @@
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string StartingJob { get; set; } = "{0}\t {1}\t {2}\t" + "LangKeyStartedJobTo".FromResourceDictionary() + "{2}. \t" + CodeConstants.StartedJob;
+        public static string StartingJob { get; set; } = "{0}\t {1}\t {2}\t" + "LangKeyStartedJobTo".FromResourceDictionary() + " {2}. \t" + CodeConstants.StartedJob;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -43,8 +43,6 @@
         /// </summary>
         public static string StartedActivity { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyTryingTo".FromResourceDictionary() + " {2} {3}\t" + CodeConstants.StartedActivity;
 
-
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
@@ -52,7 +50,6 @@
         /// 3 = ObjectId
         /// </summary>
         public static string ActivitySuccessful { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeySuccessfulTo".FromResourceDictionary() + " {2} {3}\t" + CodeConstants.ActivitySuccessful;
-
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -85,7 +82,6 @@
         /// </summary>
         public static string CampaignPaused { get; set; } = "{0}\t {1}\t Campaign\t " + "LangKeySuccessfullyPaused".FromResourceDictionary() + "\t" + CodeConstants.CampaignPaused;
 
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
@@ -107,13 +103,11 @@
         /// </summary>
         public static string DeletedAccounts { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyDeleted".FromResourceDictionary() + " " + "LangKeyAccountsFrom".FromResourceDictionary() + " {3}.\t" + CodeConstants.DeletedAccounts;
 
-
         /// <summary>
         /// 0 = account.SocialNetwork
         /// 1 = account.Username
         /// </summary>
         public static string AccountEdited { get; set; } = "{0}\t {1}\t Account Info\t " + "LangKeyDetailsUpdatedSuccessfully".FromResourceDictionary() + "\t" + CodeConstants.AccountEdited;
-
 
         /// <summary>
         /// 0 = account.SocialNetwork
@@ -181,8 +175,7 @@
         /// 2 = ActivityType
         /// </summary>
         public static string ProcessStarted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyStartedProcessTo".FromResourceDictionary() + " {2}\t" + CodeConstants.ProcessStarted;
-
-
+        
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
@@ -192,13 +185,11 @@
 
         public static string CampaignNotSet { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyStoppedProcessTo".FromResourceDictionary() + " {2}\t" + CodeConstants.ProcessStopped;
 
-
         /// <summary>
         /// 0 = SocialNetwork
         /// 1 = Content
         /// </summary>
         public static string Deleted { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeySuccessfullyDeleted".FromResourceDictionary() + "\t" + CodeConstants.Deleted;
-
 
         /// <summary>
         /// 0 = SocialNetwork
@@ -224,7 +215,6 @@
         /// </summary>
         public static string AlreadyAddedAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyAlreadyAdded".FromResourceDictionary() + "\t" + CodeConstants.AlreadyAddedAccount;
 
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
@@ -237,7 +227,6 @@
         /// </summary>
         public static string AlreadyUpdatingAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccounts".FromResourceDictionary() + "\t" + "LangKeyAlreadyStarted".FromResourceDictionary() + "\t" + CodeConstants.AlreadyUpdatingAccount;
 
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
@@ -248,7 +237,7 @@
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// </summary>
-        public static string StopAllActivitiesOfAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccountActivities".FromResourceDictionary() + "\t" + "LangKeyStoppedAllActivitiesOf".FromResourceDictionary()+" {1}" + "\t" + CodeConstants.StopAllActivitiesOfAccount;
+        public static string StopAllActivitiesOfAccount { get; set; } = "{0}\t {1}\t " + "LangKeyAccountActivities".FromResourceDictionary() + "\t" + "LangKeyStoppedAllActivitiesOf".FromResourceDictionary() + " {1}" + "\t" + CodeConstants.StopAllActivitiesOfAccount;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -257,15 +246,12 @@
         /// </summary>
         public static string StartPublishing { get; set; } = "{0}\t {1}\t" + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPublishingStartedWith".FromResourceDictionary() + " {2}\t" + CodeConstants.StartPublishing;
 
-
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username   
         /// 2 = delay in seconds 
         /// </summary>
         public static string DelayBetweenPublishing { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyNextPostWillStartPublishingIn".FromResourceDictionary() + " {2} " + "LangKeySeconds".FromResourceDictionary() + "\t" + CodeConstants.DelayBetweenPublishing;
-
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -274,14 +260,11 @@
         /// </summary>
         public static string DelayBetweenMultiPost { get; set; } = "{0}\t {1}\t" + "LangKeyPublish".FromResourceDictionary() + "\t" + "Next post will start publishing in {2} minutes" + "\t" + CodeConstants.DelayBetweenMultiPost;
 
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username          
         /// </summary>
         public static string AlreadyPublishedOnOwnWall { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPostHasAlreadyPostedOnOwnWallProfile".FromResourceDictionary() + "\t" + CodeConstants.AlreadyPublishedOnOwnWall;
-
-        //Post has already posted with destintion
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -289,16 +272,13 @@
         /// 2 = Destination Type
         /// 3 = Destination Url        
         /// </summary>
-        public static string AlreadyPublishedOnDestination { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPostHasAlreadyPostedWithDestintion".FromResourceDictionary() + "{2}-{3}\t" + CodeConstants.AlreadyPublishedOnDestination;
-
+        public static string AlreadyPublishedOnDestination { get; set; } = "{0}\t {1}\t " + "LangKeyPublish".FromResourceDictionary() + "\t" + "LangKeyPostHasAlreadyPostedWithDestintion".FromResourceDictionary() + " {2}-{3}\t" + CodeConstants.AlreadyPublishedOnDestination;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username         
         /// </summary>
         public static string PostExpired { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyPostAlreadyExpired".FromResourceDictionary() + "\t" + CodeConstants.PostExpired;
-
-
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -332,7 +312,6 @@
         /// </summary>
         public static string ShareFailed { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyErrorWhileSharingOn".FromResourceDictionary() + " {2}-[{3}]\t" + CodeConstants.ShareFailed;
 
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username  
@@ -347,7 +326,6 @@
         /// </summary>
         public static string UploadingMediaSuccessful { get; set; } = "{0}\t {1}\t " + "LangKeyMedia".FromResourceDictionary() + "\t" + "LangKeySuccessfullyUploadedMediaFile".FromResourceDictionary() + " [{2}]\t" + CodeConstants.UploadingMediaSuccessful;
 
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username  
@@ -355,17 +333,12 @@
         /// </summary>
         public static string UploadingMediaFailed { get; set; } = "{0}\t {1}\t " + "LangKeyMedia".FromResourceDictionary() + "\t" + "LangKeyErrorWhileUploadingMediaFile".FromResourceDictionary() + " [{2}]\t" + CodeConstants.UploadingMediaFailed;
 
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username  
         /// 2 = Failed reason
         /// </summary>
         public static string UploadingMediaFailedReason { get; set; } = "{0}\t {1}\t" + "LangKeyMedia".FromResourceDictionary() + "\t" + "LangKeyFailedDueTo".FromResourceDictionary() + " [{2}]\t" + CodeConstants.UploadingMediaFailedReason;
-
-
-
-
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
@@ -379,7 +352,6 @@
         /// 3 = destination Value
         /// </summary>
         public static string NoPost { get; set; } = "{0}\t {1}\t No more post are available for {2}[{3}].";
-
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -401,7 +373,7 @@
         /// 1 = Account's Username   
         /// 2 = Varification type[Phone/Email]      
         /// </summary>
-        public static string FailedToSendVerificationCodeFaild { get; set; } = "{0}\t {1}\t " + "LangKeyVerification".FromResourceDictionary() + "\t" + "LangKeyfailedToSendVerificationCodeToRregistered".FromResourceDictionary() + " {2}. "  + "LangKeyPleaseTryAgain".FromResourceDictionary() + "\t" + CodeConstants.FailedToSendVerificationCodeFaild;
+        public static string FailedToSendVerificationCodeFaild { get; set; } = "{0}\t {1}\t " + "LangKeyVerification".FromResourceDictionary() + "\t" + "LangKeyfailedToSendVerificationCodeToRregistered".FromResourceDictionary() + " {2}. " + "LangKeyPleaseTryAgain".FromResourceDictionary() + "\t" + CodeConstants.FailedToSendVerificationCodeFaild;
 
         /// <summary>
         /// 0 = Account's SocialNetwork

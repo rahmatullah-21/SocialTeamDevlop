@@ -21,7 +21,7 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Accept Connection Request Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <TextBlock Text="Remove Connections" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>

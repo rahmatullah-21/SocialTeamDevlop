@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
-   
+
     public interface IDeletePostViewModel
     {
         bool IsCheckedDeleteAllPosts { get; set; }
@@ -21,8 +21,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.DeletePost });
             IsNonQuery = true;
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNavigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
             {
@@ -35,6 +35,16 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
+        }
+
+        private void ValidateAndNavigate()
+        {
+            if (!ChkDeletePostWhichIsPostedBySoftware && !ChkDeletePostWhichIsPostedByOutsideSoftware)
+            {
+                Dialog.ShowDialog("Input Error", "Please select atleast one option");
+                return;
+            }
+            NavigateNext();
         }
 
         private bool _IsCheckedDeleteAllPosts = true;

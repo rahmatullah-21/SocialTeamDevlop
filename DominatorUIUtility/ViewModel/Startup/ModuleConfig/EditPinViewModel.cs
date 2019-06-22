@@ -145,8 +145,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             IsNonQuery = true;
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.EditPin });
-            NextCommand = new DelegateCommand(NevigateNext);
-            PreviousCommand = new DelegateCommand(NevigatePrevious);
+            NextCommand = new DelegateCommand(ValidateAndNevigate);
+            PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
 
             JobConfiguration = new JobConfiguration
@@ -162,6 +162,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             AddPinCommand = new BaseCommand<object>((sender) => true, AddPin);
             DeletePinCommand = new BaseCommand<object>((sender) => true, DeletePin);
             ImportFromCsvCommand = new BaseCommand<object>((sender) => true, ImportFromCsv);
+        }
+
+        private void ValidateAndNevigate()
+        {
+            if (PinDetails.Count == 0)
+            {
+                Dialog.ShowDialog("Error", "Please add at least one pin.");
+                return;
+            }
+            else
+                NavigateNext();
         }
 
         public ICommand AddPinCommand { get; set; }
@@ -184,9 +195,9 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 editPinControl.PinDescription = editPinControl.PinDescription.Trim();
                 editPinControl.Section = editPinControl.Section.Trim();
                 editPinControl.WebsiteUrl = editPinControl.WebsiteUrl.Trim();
-                
-                
-             
+
+
+
                 if (string.IsNullOrEmpty(editPinControl.PinToBeEdit) || string.IsNullOrEmpty(editPinControl.Account) ||
                 (string.IsNullOrEmpty(editPinControl.Board) && string.IsNullOrEmpty(editPinControl.PinDescription) &&
                 string.IsNullOrEmpty(editPinControl.Section) && string.IsNullOrEmpty(editPinControl.WebsiteUrl)))

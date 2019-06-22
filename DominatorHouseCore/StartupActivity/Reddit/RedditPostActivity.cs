@@ -37,4 +37,19 @@ namespace DominatorHouseCore.StartupActivity.Reddit
             return listQueryType;
         }
     }
+    class RedditCommentScraperActivity : BaseActivity
+    {
+        public override Type GetEnumType()
+        {
+            return typeof(PostQuery);
+        }
+
+        public override List<string> GetQueryType()
+        {
+            var listQueryType = new List<string>();
+            listQueryType.Add(PostQuery.Keywords.GetDescriptionAttr()?.FromResourceDictionary());
+            listQueryType.Add(PostQuery.CustomUrl.GetDescriptionAttr()?.FromResourceDictionary());
+            return listQueryType;
+        }
+    }
 }

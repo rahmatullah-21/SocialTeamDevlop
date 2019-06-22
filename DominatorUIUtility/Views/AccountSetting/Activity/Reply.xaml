@@ -15,11 +15,37 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-        <actcustom:ActivitySetting Heading="Reply Setting" JobConfiguration="{Binding JobConfiguration}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <TextBlock Text="Reply Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
+            <StackPanel>
+                <actcustom:ActivitySettingWithoutButton JobConfiguration="{Binding JobConfiguration}"
                                    IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                    ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>
+                                   AddQueryCommand="{Binding AddQueryCommand}"/>
+                <Expander Header="{DynamicResource LangKeyReply}" Margin="5,5"
+                                  IsExpanded="true">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="ChkboxSpinText" Content="{StaticResource LangKeyMakeCommentAsSpinText}" 
+                                          IsChecked="{Binding ReplyModel.MakeReplyAsSpinText}" FontSize="15" FontWeight="SemiBold"
+                                          Margin="5,5"/>
+                        <customControl:CommentControl x:Name="CommentControl" Comments="{Binding ReplyModel.ManageCommentModel, UpdateSourceTrigger=PropertyChanged ,Mode=TwoWay}"  AddCommentsCommand="{Binding AddMessagesCommand}" CommandParameter="{Binding ElementName=CommentControl}"/>
+                        <customControl:ManageComment x:Name="ManageComments" LstManageCommentModel="{Binding ReplyModel.LstManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+                    </StackPanel>
 
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" >
+            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
+                                          NextButtonContent="{Binding NextButtonContent}"/>
+        </DockPanel>
     </Grid>
 </UserControl>
