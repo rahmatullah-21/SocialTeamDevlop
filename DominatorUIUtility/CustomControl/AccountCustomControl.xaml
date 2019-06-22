@@ -22,7 +22,7 @@
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Social}"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
-       
+        <converters:BooleanToAutomationStatusConverter x:Key="BooleanToAutomationStatusConverter" />
 
         <Rectangle x:Key="DetailsIcon" Fill="Black" Width="20" Height="20">
             <Rectangle.OpacityMask>
@@ -565,7 +565,7 @@
 
                         </GridViewColumn>
 
-                        <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser}"/>
+                        <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
                     </GridView>
 
 

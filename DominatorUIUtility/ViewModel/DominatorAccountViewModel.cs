@@ -1816,7 +1816,7 @@ namespace DominatorUIUtility.ViewModel
         private void ActivateBrowserAutomationExecute(object sender)
         {
             var result = Dialog.ShowCustomDialog("Actvating Browser Automation",
-                  "This will result in stopping all activity. Do you want to Continue?", "Continue", "Cancel");
+                  "This will result in stopping all activity through HTTP and starting activity by Browser. \nDo you want to Continue?", "Continue", "Cancel");
             if (result == MessageDialogResult.Affirmative)
             {
                 LstDominatorAccountModel.ForEach(x =>
@@ -1831,7 +1831,7 @@ namespace DominatorUIUtility.ViewModel
 
                 });
 
-                StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+                StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
 
                 StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
 
@@ -1843,7 +1843,7 @@ namespace DominatorUIUtility.ViewModel
         private void DeActivateBrowserAutomationCommandExecute(object sender)
         {
             var result = Dialog.ShowCustomDialog("Deactvating Browser Automation",
-                   "This will result in stopping all activity. Do you want to Continue?", "Continue", "Cancel");
+                   "This will result in stopping all activity through Browser and starting activity by HTTP. \nDo you want to Continue?", "Continue", "Cancel");
             if (result == MessageDialogResult.Affirmative)
             {
                 LstDominatorAccountModel.ForEach(x =>
@@ -1858,7 +1858,7 @@ namespace DominatorUIUtility.ViewModel
 
                 });
 
-                StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+                StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
 
                 StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
             }
