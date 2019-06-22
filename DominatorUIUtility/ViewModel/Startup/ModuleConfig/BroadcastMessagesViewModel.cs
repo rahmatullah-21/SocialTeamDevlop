@@ -71,7 +71,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         private bool _IsChkPrivateBlackList;
         private bool _IsChkGroupBlackList;
 
-        private string _GroupUrlInput;
         private bool _IsConnections = true;
         private bool _IsGroup;
         List<string> _UrlList;
@@ -149,6 +148,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             get { return _IsGroup; }
             set { SetProperty(ref _IsGroup, value); }
         }
+        private string _GroupUrlInput;
         public string GroupUrlInput
         {
             get { return _GroupUrlInput; }
@@ -162,7 +162,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public Visibility LinkedInElementsVisibility { get; set; } = Visibility.Collapsed;
         public Visibility AllVisibility { get; set; } = Visibility.Visible;
-
+        public Visibility FacebookElementsVisibility { get; set; } = Visibility.Collapsed;
         public BroadcastMessagesViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.BroadcastMessages });
@@ -180,6 +180,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             if (LinkedInElementsVisibility == Visibility.Visible)
             {
+                IsNonQuery = true;
                 AllVisibility = Visibility.Collapsed;
                 AddQueries();
             }
@@ -204,18 +205,163 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public ICommand SaveCustomGroupListCommand { get; set; }
         #endregion
 
-        private BroadcastMessagesModel _broadcastMessagesModel = new BroadcastMessagesModel();
-        public BroadcastMessagesModel BroadcastMessagesModel
+        #region Properties
+        private bool _isSpintaxChecked;
+
+        public bool IsSpintaxChecked
         {
             get
             {
-                return _broadcastMessagesModel;
+                return _isSpintaxChecked;
             }
             set
             {
-                SetProperty(ref _broadcastMessagesModel, value);
+                SetProperty(ref _isSpintaxChecked, value);
             }
         }
+        private bool _IsCheckedBySoftware;
+        private bool _IsCheckedOutSideSoftware;
+        private bool _IsCheckedLangKeyCustomUserList;
+        private bool _IsChkSkipBlackListedUser;
+        private string _UrlInput;
+        private bool _IsChkPrivateBlackList;
+        private bool _IsChkGroupBlackList;
+
+        private bool _IsConnections = true;
+        private bool _IsGroup;
+        List<string> _UrlList;
+        public bool IsCheckedBySoftware
+        {
+            get { return _IsCheckedBySoftware; }
+            set { SetProperty(ref _IsCheckedBySoftware, value); }
+        }
+        public bool IsCheckedOutSideSoftware
+        {
+            get { return _IsCheckedOutSideSoftware; }
+            set { SetProperty(ref _IsCheckedOutSideSoftware, value); }
+        }
+        public bool IsCheckedLangKeyCustomUserList
+        {
+            get { return _IsCheckedLangKeyCustomUserList; }
+            set { SetProperty(ref _IsCheckedLangKeyCustomUserList, value); }
+        }
+
+        public string UrlInput
+        {
+            get { return _UrlInput; }
+            set { SetProperty(ref _UrlInput, value); }
+        }
+        public List<string> UrlList
+        {
+            get { return _UrlList; }
+            set { SetProperty(ref _UrlList, value); }
+        }
+        List<string> _GroupUrlList;
+        public List<string> GroupUrlList
+        {
+            get { return _GroupUrlList; }
+            set { SetProperty(ref _GroupUrlList, value); }
+        }
+
+        public bool IsChkSkipBlackListedUser
+        {
+            get { return _IsChkSkipBlackListedUser; }
+            set { SetProperty(ref _IsChkSkipBlackListedUser, value); }
+        }
+        public bool IsChkPrivateBlackList
+        {
+            get { return _IsChkPrivateBlackList; }
+            set { SetProperty(ref _IsChkPrivateBlackList, value); }
+        }
+        public bool IsChkGroupBlackList
+        {
+            get { return _IsChkGroupBlackList; }
+            set { SetProperty(ref _IsChkGroupBlackList, value); }
+        }
+
+        public bool IsConnections
+        {
+            get { return _IsConnections; }
+            set { SetProperty(ref _IsConnections, value); }
+        }
+
+        public bool IsGroup
+        {
+            get { return _IsGroup; }
+            set { SetProperty(ref _IsGroup, value); }
+        }
+
+        private BroadcastMessagesModel _broadcastMessagesModel = new BroadcastMessagesModel();
+        //public BroadcastMessagesModel BroadcastMessagesModel
+        //{
+        //    get
+        //    {
+        //        return _broadcastMessagesModel;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref _broadcastMessagesModel, value);
+        //    }
+        //}
+        private ObservableCollection<ManageMessagesModel> _lstDisplayManageMessageModel = new ObservableCollection<ManageMessagesModel>();
+        public ObservableCollection<ManageMessagesModel> LstDisplayManageMessageModel
+        {
+            get
+            {
+                return _lstDisplayManageMessageModel;
+            }
+            set
+            {
+                SetProperty(ref _lstDisplayManageMessageModel, value);
+            }
+        }
+        private string _GroupUrlInput;
+        public string GroupUrlInput
+        {
+            get { return _GroupUrlInput; }
+            set { SetProperty(ref _GroupUrlInput, value); }
+        }
+        private ManageMessagesModel _manageMessagesModel = new ManageMessagesModel();
+        public ManageMessagesModel ManageMessagesModel
+        {
+            get
+            {
+                return _manageMessagesModel;
+            }
+            set
+            {
+                SetProperty(ref _manageMessagesModel, value);
+            }
+        }
+
+        private bool _isMessageAsPreview;
+        public bool IsMessageAsPreview
+        {
+            get { return _isMessageAsPreview; }
+            set
+            {
+                if (value == _isMessageAsPreview)
+                    return;
+                SetProperty(ref _isMessageAsPreview, value);
+            }
+        }
+
+        private bool _isTagChecked;
+        public bool IsTagChecked
+        {
+            get { return _isTagChecked; }
+            set
+            {
+                if (value == _isTagChecked)
+                    return;
+                SetProperty(ref _isTagChecked, value);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
         private void AddMessages(object sender)
         {
             try
@@ -240,11 +386,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 }
                 messageData.Messages.SelectedQuery.Remove(messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
 
-                BroadcastMessagesModel.LstDisplayManageMessageModel.Add(messageData.Messages);
+                LstDisplayManageMessageModel.Add(messageData.Messages);
 
                 messageData.Messages = new ManageMessagesModel
                 {
-                    LstQueries = BroadcastMessagesModel.ManageMessagesModel.LstQueries
+                    LstQueries = ManageMessagesModel.LstQueries
                 };
                 messageData.Messages.LstQueries.Select(x =>
                 {
@@ -252,21 +398,20 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     return x;
                 }).ToList();
 
-                BroadcastMessagesModel.ManageMessagesModel = messageData.Messages;
-                messageData.ComboBoxQueries.ItemsSource = BroadcastMessagesModel.ManageMessagesModel.LstQueries;
+                ManageMessagesModel = messageData.Messages;
+                messageData.ComboBoxQueries.ItemsSource = ManageMessagesModel.LstQueries;
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
-
         private void AddQueryToMessageControl(object sender)
         {
             try
             {
                 var activitySetting = sender as ActivitySettingWithoutButton;
-                if (!BroadcastMessagesModel.ManageMessagesModel.LstQueries.Any(x =>
+                if (!ManageMessagesModel.LstQueries.Any(x =>
                     activitySetting != null && (x.Content.QueryValue == activitySetting.QueryControl.CurrentQuery.QueryValue &&
                                                           x.Content.QueryType == activitySetting.QueryControl.CurrentQuery.QueryType)))
                 {
@@ -281,8 +426,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                                     QueryType = activitySetting.QueryControl.CurrentQuery.QueryType
                                 }
                             };
-                            BroadcastMessagesModel.ManageMessagesModel.LstQueries.Add(newquery);
-                            BroadcastMessagesModel.LstDisplayManageMessageModel.ForEach(x =>
+                            ManageMessagesModel.LstQueries.Add(newquery);
+                            LstDisplayManageMessageModel.ForEach(x =>
                             {
                                 if (!x.LstQueries.Any(y =>
                                     newquery.Content.QueryType ==
@@ -301,8 +446,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                                 QueryType = activitySetting.QueryControl.CurrentQuery.QueryType
                             }
                         };
-                        BroadcastMessagesModel.ManageMessagesModel.LstQueries.Add(newquery);
-                        BroadcastMessagesModel.LstDisplayManageMessageModel.ForEach(x =>
+                        ManageMessagesModel.LstQueries.Add(newquery);
+                        LstDisplayManageMessageModel.ForEach(x =>
                         {
                             if (!x.LstQueries.Any(y =>
                                 newquery.Content.QueryType ==
@@ -313,8 +458,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                     }
 
                 }
-                if (BroadcastMessagesModel.ManageMessagesModel.LstQueries[0].IsContentSelected)
-                    BroadcastMessagesModel.ManageMessagesModel.LstQueries.Select(x =>
+                if (ManageMessagesModel.LstQueries[0].IsContentSelected)
+                    ManageMessagesModel.LstQueries.Select(x =>
                     {
                         x.IsContentSelected = true;
                         return x;
@@ -326,31 +471,30 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 ex.DebugLog();
             }
         }
-
         private void DeleteQuery(object sender)
         {
             try
             {
                 var currentQuery = sender as QueryInfo;
 
-                var queryToDelete = BroadcastMessagesModel.ManageMessagesModel.LstQueries.FirstOrDefault(x =>
+                var queryToDelete = ManageMessagesModel.LstQueries.FirstOrDefault(x =>
                         currentQuery != null && (x.Content.QueryValue == currentQuery.QueryValue
                                                  && x.Content.QueryType == currentQuery.QueryType));
 
                 if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
                     SavedQueries.Remove(currentQuery);
 
-                BroadcastMessagesModel.ManageMessagesModel.LstQueries.Remove(queryToDelete);
-                foreach (var message in BroadcastMessagesModel.LstDisplayManageMessageModel.ToList())
+                ManageMessagesModel.LstQueries.Remove(queryToDelete);
+                foreach (var message in LstDisplayManageMessageModel.ToList())
                 {
                     var queryDelete = message.SelectedQuery.FirstOrDefault(x => currentQuery != null && (x.Content.QueryType == currentQuery.QueryType && x.Content.QueryValue == currentQuery.QueryValue));
                     message.SelectedQuery.Remove(queryDelete);
 
                     if (message.SelectedQuery.Count == 0)
-                        BroadcastMessagesModel.LstDisplayManageMessageModel.Remove(message);
+                        LstDisplayManageMessageModel.Remove(message);
                 }
-                if (!BroadcastMessagesModel.ManageMessagesModel.LstQueries.Skip(1).Any())
-                    BroadcastMessagesModel.ManageMessagesModel.LstQueries[0].IsContentSelected = false;
+                if (!ManageMessagesModel.LstQueries.Skip(1).Any())
+                    ManageMessagesModel.LstQueries[0].IsContentSelected = false;
             }
             catch (Exception ex)
             {
@@ -366,19 +510,19 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 {
                     try
                     {
-                        var queryToDelete = BroadcastMessagesModel.ManageMessagesModel.LstQueries.FirstOrDefault(x =>
+                        var queryToDelete = ManageMessagesModel.LstQueries.FirstOrDefault(x =>
                                 x.Content.QueryValue == currentQuery.QueryValue
                                 && x.Content.QueryType == currentQuery.QueryType);
 
                         if (SavedQueries.Any(x => currentQuery != null && x.Id == currentQuery.Id))
                             SavedQueries.Remove(currentQuery);
 
-                        BroadcastMessagesModel.ManageMessagesModel.LstQueries.Remove(queryToDelete);
-                        foreach (var message in BroadcastMessagesModel.LstDisplayManageMessageModel.ToList())
+                        ManageMessagesModel.LstQueries.Remove(queryToDelete);
+                        foreach (var message in LstDisplayManageMessageModel.ToList())
                         {
                             message.SelectedQuery.Remove(queryToDelete);
                             if (message.SelectedQuery.Count == 0)
-                                BroadcastMessagesModel.LstDisplayManageMessageModel.Remove(message);
+                                LstDisplayManageMessageModel.Remove(message);
                         }
                     }
                     catch (Exception ex)
@@ -396,17 +540,17 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             try
             {
-                if (BroadcastMessagesModel.UrlInput.Contains("\r\n"))
+                if (UrlInput.Contains("\r\n"))
                 {
-                    BroadcastMessagesModel.UrlList =
-                        Regex.Split(BroadcastMessagesModel.UrlInput, "\r\n").Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct().ToList();
+                    UrlList =
+                        Regex.Split(UrlInput, "\r\n").Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct().ToList();
 
-                    GlobusLogHelper.log.Info("" + BroadcastMessagesModel.UrlList.Count + " profile urls saved sucessfully");
+                    GlobusLogHelper.log.Info("" + UrlList.Count + " profile urls saved sucessfully");
                 }
                 else
                 {
-                    BroadcastMessagesModel.UrlList = new List<string>();
-                    BroadcastMessagesModel.UrlList.Add(BroadcastMessagesModel.UrlInput);
+                    UrlList = new List<string>();
+                    UrlList.Add(UrlInput);
                     GlobusLogHelper.log.Info("One profile url saved sucessfully");
                 }
             }
@@ -419,16 +563,16 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             try
             {
-                if (BroadcastMessagesModel.GroupUrlInput.Contains("\r\n"))
+                if (GroupUrlInput.Contains("\r\n"))
                 {
-                    BroadcastMessagesModel.GroupUrlList =
-                        Regex.Split(BroadcastMessagesModel.GroupUrlInput, "\r\n").Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct().ToList();
+                    GroupUrlList =
+                        Regex.Split(GroupUrlInput, "\r\n").Where(x => !string.IsNullOrEmpty(x.Trim())).Distinct().ToList();
 
-                    GlobusLogHelper.log.Info("" + BroadcastMessagesModel.GroupUrlList.Count + " group urls saved sucessfully");
+                    GlobusLogHelper.log.Info("" + GroupUrlList.Count + " group urls saved sucessfully");
                 }
                 else
                 {
-                    BroadcastMessagesModel.GroupUrlList = new List<string> { BroadcastMessagesModel.UrlInput };
+                    GroupUrlList = new List<string> { UrlInput };
                     GlobusLogHelper.log.Info("One group url saved sucessfully");
                 }
             }
@@ -450,8 +594,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             try
             {
                 string queryValue = keyResource.Equals("All") ? "All" : keyResource?.FromResourceDictionary();
-                if (BroadcastMessagesModel.ManageMessagesModel.LstQueries.All(x => x.Content.QueryValue != queryValue))
-                    BroadcastMessagesModel.ManageMessagesModel.LstQueries.Add(new QueryContent
+                if (ManageMessagesModel.LstQueries.All(x => x.Content.QueryValue != queryValue))
+                    ManageMessagesModel.LstQueries.Add(new QueryContent
                     {
                         Content = new QueryInfo
                         {
@@ -463,6 +607,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             {
                 exception.DebugLog();
             }
-        }
+        } 
+        #endregion
     }
 }
