@@ -331,6 +331,7 @@ namespace DominatorHouseCore.Models
         {
             CancellationSource.Cancel();
         }
+
         private string _varificationCode = string.Empty;
 
         public string VarificationCode

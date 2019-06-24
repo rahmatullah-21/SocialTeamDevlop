@@ -1819,26 +1819,44 @@ namespace DominatorUIUtility.ViewModel
 
         private void ActivateBrowserAutomationExecute(object sender)
         {
-            var result = Dialog.ShowCustomDialog("Actvating Browser Automation",
-                  "This will result in stopping all activity through HTTP and starting activity by Browser. \nDo you want to Continue?", "Continue", "Cancel");
-            if (result == MessageDialogResult.Affirmative)
+            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
             {
-                LstDominatorAccountModel.ForEach(x =>
+                var result = Dialog.ShowCustomDialog("Actvating Browser Automation",
+                  "This will result in stopping all activity through HTTP and starting activity by Browser. \nDo you want to Continue?", "Continue", "Cancel");
+                if (result == MessageDialogResult.Affirmative)
                 {
-                    if (x.IsAccountManagerAccountSelected)
+                    LstDominatorAccountModel.ForEach(x =>
                     {
-                        x.IsRunProcessThroughBrowser = true;
-                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                       .AddOrUpdateBrowserSettings(true)
-                       .SaveToBinFile();
-                    }
+                        if (x.IsAccountManagerAccountSelected)
+                        {
+                            x.IsRunProcessThroughBrowser = true;
+                            new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                           .AddOrUpdateBrowserSettings(true)
+                           .SaveToBinFile();
+                        }
 
-                });
+                    });
 
-                StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
+                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
 
-                StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
 
+                }
+
+                Task.Factory.StartNew(() =>
+                    {
+                        Thread.Sleep(10000);
+
+                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
+                        {
+                            x.CancellationSource = new CancellationTokenSource();
+                        });
+                    });
+
+            }
+            else
+            {
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Browser Automation", "No account selecetd. Please select atleast one account!");
             }
         }
 
@@ -1846,26 +1864,46 @@ namespace DominatorUIUtility.ViewModel
 
         private void DeActivateBrowserAutomationCommandExecute(object sender)
         {
-            var result = Dialog.ShowCustomDialog("Deactvating Browser Automation",
-                   "This will result in stopping all activity through Browser and starting activity by HTTP. \nDo you want to Continue?", "Continue", "Cancel");
-            if (result == MessageDialogResult.Affirmative)
+            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
             {
-                LstDominatorAccountModel.ForEach(x =>
+                var result = Dialog.ShowCustomDialog("Deactvating Browser Automation",
+                      "This will result in stopping all activity through Browser and starting activity by HTTP. \nDo you want to Continue?", "Continue", "Cancel");
+                if (result == MessageDialogResult.Affirmative)
                 {
-                    if (x.IsAccountManagerAccountSelected)
+                    LstDominatorAccountModel.ForEach(x =>
                     {
-                        x.IsRunProcessThroughBrowser = false;
-                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                           .AddOrUpdateBrowserSettings(false)
-                           .SaveToBinFile();
-                    }
+                        if (x.IsAccountManagerAccountSelected)
+                        {
+                            x.IsRunProcessThroughBrowser = false;
+                            new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                               .AddOrUpdateBrowserSettings(false)
+                               .SaveToBinFile();
+                        }
 
-                });
+                    });
 
-                StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
+                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
 
-                StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        Thread.Sleep(10000);
+
+                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
+                        {
+                            x.CancellationSource = new CancellationTokenSource();
+                        });
+                    });
+
+                }
             }
+            else
+            {
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Browser Automation", "No account selecetd. Please select atleast one account!");
+            }
+
+
         }
 
         private void UpdateGroupDetailsExecute()
@@ -1960,7 +1998,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-       
+
         public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
             try
