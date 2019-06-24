@@ -1591,7 +1591,19 @@ namespace EmbeddedBrowser
                     throw new ArgumentOutOfRangeException();
             }
         }
+        public JavascriptResponse EvaluateScript(string script, int delayInSec = 2)
+        {
+            var resp = Browser.EvaluateScriptAsync(script).Result;
+            Thread.Sleep(TimeSpan.FromSeconds(delayInSec));
+            return resp;
+        }
 
+        public void ExecuteScript(string script, int delayInSec = 2)
+        {
+            Browser.ExecuteScriptAsync(script);
+            Thread.Sleep(TimeSpan.FromSeconds(delayInSec));
+
+        }
         private void CustomLog(string message) => GlobusLogHelper.log.Info(Log.CustomMessage,
             DominatorAccountModel.AccountBaseModel.AccountNetwork,
             DominatorAccountModel.AccountBaseModel.UserName, "Account Browser Login", message);
