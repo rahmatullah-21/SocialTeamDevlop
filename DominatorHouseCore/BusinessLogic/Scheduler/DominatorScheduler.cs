@@ -29,7 +29,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType);
         bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId);
         void ScheduleEachActivity(DominatorAccountModel account);
-        void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType);
+        //void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType);
+        Task ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType);
         void ScheduleNextActivity(DominatorAccountModel dominatorAccountModel, ActivityType activityType);
         void RescheduleifLimitReached(IJobProcess jobProcess, ReachedLimitInfo limitInfo, ReachedLimitType limitType);
     }
@@ -46,6 +47,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         private readonly IRunningJobsHolder _runningJobsHolder;
         private readonly IJobProcessScopeFactory _jobProcessScopeFactory;
         public static SemaphoreSlim _lockWithThreadLimit;
+        public static SemaphoreSlim _lockForScheduling;
+        ISoftwareSettings softwareSettings;
+        int maxThreadCount;
         public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder, IJobProcessScopeFactory jobProcessScopeFactory, IAccountsCacheService accountsCacheService, IJobCountersManager jobCountersManager, IJobActivityConfigurationManager jobActivityConfigurationManager, IRunningJobsHolder runningJobsHolder)
         {
             _runningActivityManager = runningActivityManager;
@@ -56,9 +60,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             _jobCountersManager = jobCountersManager;
             _jobActivityConfigurationManager = jobActivityConfigurationManager;
             _runningJobsHolder = runningJobsHolder;
-            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
             if (softwareSettings.Settings.IsThreadLimitChecked)
-                _lockWithThreadLimit = new SemaphoreSlim(softwareSettings.Settings.MaxThreadCount);
+            {
+                maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+                _lockWithThreadLimit = new SemaphoreSlim(maxThreadCount, maxThreadCount);
+                _lockForScheduling = new SemaphoreSlim(maxThreadCount, maxThreadCount);
+            }
         }
 
         /// <summary>
@@ -132,7 +140,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 if (limitInfo.ReachedLimitType != ReachedLimitType.NoLimit)
                 {
                     RescheduleifLimitReached(jobProcess, limitInfo, limitInfo.ReachedLimitType);
-                    if (_lockWithThreadLimit != null)
+                    if (_lockWithThreadLimit?.CurrentCount != softwareSettings.Settings.MaxThreadCount)
                         _lockWithThreadLimit?.Release();
                     return;
                 }
@@ -147,8 +155,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             finally
             {
-                if (_lockWithThreadLimit != null)
+                if (_lockWithThreadLimit?.CurrentCount != softwareSettings.Settings.MaxThreadCount)
                     _lockWithThreadLimit?.Release();
+                if (_lockForScheduling.CurrentCount != maxThreadCount)
+                    _lockForScheduling.Release();
             }
         }
 
@@ -174,7 +184,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 var id = JobProcess.AsId(account.AccountId, templateId);
                 _schedulerProxy.RemoveJob(id);
                 var scheduledJob = _schedulerProxy[id];
-
                 try
                 {
                     if (!needRestart)
@@ -334,8 +343,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        public void ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType)
+        public async Task ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType)
         {
+            await _lockForScheduling?.WaitAsync();
             var moduleConfiguration = _jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
             if (moduleConfiguration == null || !moduleConfiguration.IsEnabled)
                 return;
@@ -408,7 +418,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
             {
-                ScheduleActivityForNextJob(dominatorAccountModel, activityType);
+                Task.Factory.StartNew(async () => { await ScheduleActivityForNextJob(dominatorAccountModel, activityType); });
             }
             else
             {
@@ -421,7 +431,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     if (_runningJobsHolder.IsRunning(id))
                         return;
                 }
-                _runningActivityManager.StartNextRound(dominatorAccountModel);
+                Task.Factory.StartNew(() => { _runningActivityManager.StartNextRound(dominatorAccountModel); });
+
             }
 
         }
@@ -448,18 +459,16 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         private void UpdatedScheduleJob(DominatorAccountModel dominatorAccount, TimingRange timing, string templateId,
             string jobId, DateTime timeToRunNext, DateTime stopTime)
         {
-
             _schedulerProxy.AddJob(async () =>
-            {
-                await RunActivity(dominatorAccount, templateId, timing, timing.Module);
-            }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
+             {
+                 await RunActivity(dominatorAccount, templateId, timing, timing.Module);
+             }, s => s.WithName(jobId).ToRunOnceAt(timeToRunNext));
 
 
             _schedulerProxy.AddJob(() =>
             {
                 StopActivity(dominatorAccount, timing.Module, templateId, true);
             }, s => s.ToRunOnceAt(stopTime));
-
 
             #region Old
             //Task.Factory.StartNew(() =>
