@@ -1039,8 +1039,8 @@ namespace EmbeddedBrowser
             string customScriptX = "", string customScriptY = "")
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
-            var scripty = !string.IsNullOrEmpty(customScriptX) ? customScriptX : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" :  $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
-            var scriptx = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
+            var scripty = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" :  $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
+            var scriptx = !string.IsNullOrEmpty(customScriptX) ? customScriptX : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
 
             if ((await ExecuteScriptAsync(scriptx, 0)).Success)
             {
