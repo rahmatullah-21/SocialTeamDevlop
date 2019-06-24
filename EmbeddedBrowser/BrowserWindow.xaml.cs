@@ -186,7 +186,7 @@ namespace EmbeddedBrowser
             Browser.LoadingStateChanged += BrowserOnLoaded;
         }
 
-        
+
         private void BrowserOnLoaded(object sender, LoadingStateChangedEventArgs loadingStateChangedEventArgs)
         {
             try
@@ -205,7 +205,7 @@ namespace EmbeddedBrowser
                     }
                 });
 
-              
+
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -365,9 +365,9 @@ namespace EmbeddedBrowser
 
         public async Task<List<CefSharp.Cookie>> BrowserCookies(TaskCompletionCallback callBack = null) => await Browser.RequestContext.GetDefaultCookieManager(callBack ?? new TaskCompletionCallback())
                 .VisitAllCookiesAsync();
-        
+
         #endregion
-        
+
         #region Window UI Interaction
 
         private void ButtonCheckIp_OnClick(object sender, RoutedEventArgs e)
@@ -527,7 +527,7 @@ namespace EmbeddedBrowser
             if (delayAtLast > 0)
                 Thread.Sleep(TimeSpan.FromSeconds(delayAtLast));
         }
-        
+
         public async Task<string> GetPageSourceAsync()
         {
             try
@@ -632,7 +632,7 @@ namespace EmbeddedBrowser
             if (!string.IsNullOrEmpty(attributeValue) && attributeValue.Contains(@"\"))
                 attributeValue = attributeValue.Replace(@"\", "\\\\");
 
-            var dfg = $"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].click()";
+            var dfg = $"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{value}";
 
             switch (actType)
             {
@@ -844,7 +844,9 @@ namespace EmbeddedBrowser
 
             int itemCount = actType == ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(ActType.GetLengthByCustomQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1
-                : int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
+                : actType == ActType.GetValue ? int.Parse(await GetChildElementValueAsync(ActType.GetLength, parentAttributeType,
+                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1 :
+                int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
 
             while (itemCount >= 0)
@@ -856,7 +858,7 @@ namespace EmbeddedBrowser
 
             return listNodes;
         }
-        
+
         public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
             string attributeValue, ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int clickIndex = 0
             , string value = "")
@@ -913,7 +915,7 @@ namespace EmbeddedBrowser
 
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].length";
 
-            var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
+            var doc2 = $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
             if (Browser.IsDisposed) return "";
             switch (actType)
@@ -940,7 +942,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        
+
         public int lastCurrentCount = -1;
 
         public async Task ExpandAllSeeMore()
@@ -1000,7 +1002,7 @@ namespace EmbeddedBrowser
             return dictAdViewerDetails;
         }
 
-       
+
         public JavascriptResponse ExecuteScript(string script, int delayInSec = 2)
         {
             var resp = Browser.EvaluateScriptAsync(script).Result;
@@ -1033,11 +1035,12 @@ namespace EmbeddedBrowser
             return xAndY;
         }
 
-        public async Task<KeyValuePair<int, int>> GetXAndYAsync(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0)
+        public async Task<KeyValuePair<int, int>> GetXAndYAsync(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0,
+            string customScriptX = "", string customScriptY = "")
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
-            var scripty = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
-            var scriptx = attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
+            var scripty = !string.IsNullOrEmpty(customScriptX) ? customScriptX : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" :  $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
+            var scriptx = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
 
             if ((await ExecuteScriptAsync(scriptx, 0)).Success)
             {
@@ -1056,7 +1059,7 @@ namespace EmbeddedBrowser
             var doubleResult = Convert.ToDouble(input);
             return Convert.ToInt32(doubleResult);
         }
-        
+
         public string GetNetworksLoginUrl()
         {
             switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
@@ -2375,10 +2378,10 @@ namespace EmbeddedBrowser
 
 
 
-#endregion
-        
+        #endregion
 
-  
+
+
     }
 }
 
