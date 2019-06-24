@@ -20,31 +20,31 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-              <DockPanel  Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
+        <DockPanel  Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
             <TextBlock Text="Broadcast Messages Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
                 <StackPanel Visibility="{Binding LinkedInElementsVisibility}">
-                    <RadioButton GroupName="SourceType" Content="{DynamicResource LangKeyConnectionSources}" IsChecked="{Binding BroadcastMessagesModel.IsConnections}"  FontWeight="Bold" Margin="5,10,0,0" />
-                    <StackPanel  Margin="15,0,0,5"  Visibility="{Binding BroadcastMessagesModel.IsConnections,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <RadioButton GroupName="SourceType" Content="{DynamicResource LangKeyConnectionSources}" IsChecked="{Binding IsConnections}"  FontWeight="Bold" Margin="5,10,0,0" />
+                    <StackPanel  Margin="15,0,0,5"  Visibility="{Binding IsConnections,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <CheckBox Content="{DynamicResource LangKeyBySoftware}"   Margin="5" 
-                                  IsChecked="{Binding BroadcastMessagesModel.IsCheckedBySoftware}" />
+                                  IsChecked="{Binding IsCheckedBySoftware}" />
 
                         <CheckBox Content="{DynamicResource LangKeyOutsideSoftware}" Margin="5" 
-                                  IsChecked="{Binding BroadcastMessagesModel.IsCheckedOutSideSoftware}" />
+                                  IsChecked="{Binding IsCheckedOutSideSoftware}" />
                         <CheckBox Content="{DynamicResource LangKeyCustomUsersList}"  Margin="5"
-                                  IsChecked="{Binding BroadcastMessagesModel.IsCheckedLangKeyCustomUserList}"/>
+                                  IsChecked="{Binding IsCheckedLangKeyCustomUserList}"/>
                         <customControl:InputBoxControl Margin="25,5" x:Name="CustomUserListInputBox" 
-                                 InputText="{Binding BroadcastMessagesModel.UrlInput}"
+                                 InputText="{Binding UrlInput}"
                                  SaveCommand="{Binding SaveCustomUserListCommand}"
                                  WaterMarkText="{DynamicResource LangKeyEnterProfileUrlS}"
-                                 Visibility="{Binding BroadcastMessagesModel.IsCheckedLangKeyCustomUserList,Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                 Visibility="{Binding IsCheckedLangKeyCustomUserList,Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </StackPanel>
 
-                    <RadioButton GroupName="SourceType" FontWeight="Bold" Margin="5,10,0,0" ToolTip="Send message to members of the group"   Content="Group Sources :" IsChecked="{Binding BroadcastMessagesModel.IsGroup}"   />
-                    <StackPanel  Margin="15,0,0,5"  Visibility="{Binding BroadcastMessagesModel.IsGroup,Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <customControl:InputBoxControl Margin="25,5"  InputText="{Binding BroadcastMessagesModel.GroupUrlInput}"
+                    <RadioButton GroupName="SourceType" FontWeight="Bold" Margin="5,10,0,0" ToolTip="Send message to members of the group"   Content="Group Sources :" IsChecked="{Binding IsGroup}"   />
+                    <StackPanel  Margin="15,0,0,5"  Visibility="{Binding IsGroup,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <customControl:InputBoxControl Margin="25,5"  InputText="{Binding GroupUrlInput}"
                                                          SaveCommand="{Binding SaveCustomGroupListCommand}" WaterMarkText="Enter Joined Group Urls" ToolTip="Send message to members of the group" />
                     </StackPanel>
                     <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
@@ -58,13 +58,20 @@
                                            DeleteQueryCommand="{Binding DeleteQueryCommand}" DeleteMulipleCommand="{Binding DeleteMultipleCommand}" />
                 <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
                     <StackPanel>
-                        <CheckBox Name="ChckSpintax" Margin="0,5,15,0" Content="{DynamicResource LangKeySpintax}" FontWeight="SemiBold" Foreground="Black" 
-                          IsChecked="{Binding BroadcastMessagesModel.IsSpintaxChecked}" />
+                        <StackPanel  Orientation="Horizontal">
+                            <CheckBox Name="ChckAcceptFilter" Margin="5,5,15,0"
+                                      Visibility="{Binding FacebookElementsVisibility}" Content="{DynamicResource LangKeySendMessageWithLinkAsPreview}" FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding IsMessageAsPreview}" />
+                            <CheckBox Name="ChckTag" Margin="0,5,0,0" Content="{DynamicResource LangKeyTag}" FontWeight="SemiBold" Foreground="Black" ToolTip="{StaticResource LangKeyMessageTextFormat}" 
+                                      IsChecked="{Binding IsTagChecked}" Visibility="{Binding FacebookElementsVisibility}" />
+                            <CheckBox Name="ChckSpintax" Margin="0,5,15,0" Content="{DynamicResource LangKeySpintax}" FontWeight="SemiBold" Foreground="Black" 
+                          IsChecked="{Binding IsSpintaxChecked}" />
+                        </StackPanel>
+                       
                         <customControl:MessagesControl x:Name="MessagesControl"
-                                                       Messages="{Binding BroadcastMessagesModel.ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                       Messages="{Binding ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                                                        AddMessagesCommand="{Binding AddMessagesCommand}" 
                                                        CommandParameter="{Binding ElementName=MessagesControl}" HorizontalAlignment="Stretch"/>
-                        <customControl:ManageMessages  LstManageMessagesModel="{Binding BroadcastMessagesModel.LstDisplayManageMessageModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+                        <customControl:ManageMessages  LstManageMessagesModel="{Binding LstDisplayManageMessageModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                     </StackPanel>
                 </Expander>
             </StackPanel>

@@ -19,33 +19,36 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
-
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Reply Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+        <DockPanel Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
+            <TextBlock Text="Reply Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
         </DockPanel>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
-                <actcustom:ActivitySettingWithoutButton JobConfiguration="{Binding JobConfiguration}"
-                                   IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   AddQueryCommand="{Binding AddQueryCommand}"/>
-                <Expander Header="{DynamicResource LangKeyReply}" Margin="5,5"
-                                  IsExpanded="true">
+                <actcustom:ActivitySettingWithoutButton x:Name="Activity"
+                                           JobConfiguration="{Binding JobConfiguration}"
+                                           IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                           ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
+                                           AddQueryCommand="{Binding AddQueryCommentCommand}"
+                                           DeleteQueryCommand="{Binding DeleteQueryCommand}" 
+                                           DeleteMulipleCommand="{Binding DeleteMultipleCommand}" />
+
+                <!-- Comments manager Expender-->
+                <Expander Header="{DynamicResource LangKeyReply}" Margin="5,5" IsExpanded="true" Grid.Row="1">
                     <StackPanel Orientation="Vertical">
                         <CheckBox x:Name="ChkboxSpinText" Content="{StaticResource LangKeyMakeCommentAsSpinText}" 
                                           IsChecked="{Binding ReplyModel.MakeReplyAsSpinText}" FontSize="15" FontWeight="SemiBold"
                                           Margin="5,5"/>
-                        <customControl:CommentControl x:Name="CommentControl" Comments="{Binding ReplyModel.ManageCommentModel, UpdateSourceTrigger=PropertyChanged ,Mode=TwoWay}"  AddCommentsCommand="{Binding AddMessagesCommand}" CommandParameter="{Binding ElementName=CommentControl}"/>
-                        <customControl:ManageComment x:Name="ManageComments" LstManageCommentModel="{Binding ReplyModel.LstManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+                        <customControl:CommentControl x:Name="CommentControl" Comments="{Binding ManageCommentModel, UpdateSourceTrigger=PropertyChanged ,Mode=TwoWay}"  AddCommentsCommand="{Binding AddCommentsCommand}" CommandParameter="{Binding ElementName=CommentControl}"/>
+                        <customControl:ManageComment x:Name="ManageComments" LstManageCommentModel="{Binding LstManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                     </StackPanel>
-
                 </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >
-            <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                          NextButtonContent="{Binding NextButtonContent}"/>
+            <actcustom:NextPreviousButton  NextCommand="{Binding NextCommand}" 
+                                           PreviousCommand="{Binding PreviousCommand}"
+                                           NextButtonContent="{Binding NextButtonContent}"/>
         </DockPanel>
     </Grid>
 </UserControl>
