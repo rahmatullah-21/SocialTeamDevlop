@@ -19,20 +19,44 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
-            <TextBlock Text="{Binding Heading}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
-        </DockPanel>
+        <!--<DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">-->
+        <Grid Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Heading}" HorizontalAlignment="Left" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0"  Foreground="White" />
+            <ToggleButton VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Right" Margin="5,0" Foreground="White"  Name="ClpsExpnd" Click="ClpsExpnd_OnClick" >
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroFlatToggleButton}">
+                        <Setter Property="IsChecked" Value="{Binding IsExpanded,UpdateSourceTrigger=PropertyChanged}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content" Value="{DynamicResource LangKeyCollapseAll}" />
+                                <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Content" Value="{DynamicResource LangKeyExpandAll}" />
+                                <Setter Property="Background" Value="{DynamicResource AccentBaseColorBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+        </Grid>
+        <!--</DockPanel>-->
         <ScrollViewer VerticalScrollBarVisibility="Visible"  HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel Grid.Row="1">
                 <CheckBox Content="Use Global query" IsChecked="{Binding IsUseGlobalQuery}" Margin="5"/>
-                <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5" 
+                <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5" IsExpanded="{Binding IsExpanded,UpdateSourceTrigger=Explicit}"
                           Visibility="{Binding IsUseGlobalQuery,Converter={StaticResource BoolToVisible}}">
-                   <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
+                    <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
                                                       ListQueryInfo="{Binding SavedQueries}" DeleteQueryCommand="{Binding DeleteQueryCommand}" DeleteMulipleCommand="{Binding DeleteMulipleCommand}"
                                                       AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
-            
+
                 </Expander>
-                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5">
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5" IsExpanded="{Binding IsExpanded,UpdateSourceTrigger=Explicit}">
                     <customControl:JobConfigControl JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>
             </StackPanel>

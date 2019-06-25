@@ -22,7 +22,6 @@ using System.Windows.Input;
 using EmbeddedBrowser.BrowserHelper;
 using Unity;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using System.Text;
 using DominatorHouseCore.Enums.EmbeddedBrowser;
 
@@ -204,8 +203,6 @@ namespace EmbeddedBrowser
                         e.DebugLog();
                     }
                 });
-
-
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -228,7 +225,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        private void LoadPostPage()
+        public void LoadPostPage()
         {
             if (CustomUse || string.IsNullOrEmpty(TargetUrl))
                 return;
@@ -245,7 +242,8 @@ namespace EmbeddedBrowser
         /// </summary>
         /// <returns></returns>
         public string GetPageSource() => Browser.GetSourceAsync().Result;
-
+        public bool IsDisposed => Browser.IsDisposed;
+        public void SelectAllText() => Browser.SelectAll();
         public async Task<string> PageText() => await Browser.GetTextAsync();
 
         public async Task SetCookie()
@@ -1039,7 +1037,7 @@ namespace EmbeddedBrowser
             string customScriptX = "", string customScriptY = "")
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
-            var scripty = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" :  $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
+            var scripty = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
             var scriptx = !string.IsNullOrEmpty(customScriptX) ? customScriptX : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
 
             if ((await ExecuteScriptAsync(scriptx, 0)).Success)
@@ -2379,9 +2377,6 @@ namespace EmbeddedBrowser
 
 
         #endregion
-
-
-
     }
 }
 

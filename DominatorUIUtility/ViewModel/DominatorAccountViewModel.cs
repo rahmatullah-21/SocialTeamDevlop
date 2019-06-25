@@ -230,18 +230,6 @@ namespace DominatorUIUtility.ViewModel
             viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
             viewModel.SelectAccount = account;
             ModuleSetting.Instance.Show();
-
-            #region Old code
-            //if (_mainViewModel.IsPopUpOpen)
-            //    return;
-            //var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-            //viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
-            //viewModel.SelectAccount = account;
-
-            //_mainViewModel.IsPopUpOpen = true;
-            //_mainViewModel.AccountName = account.AccountBaseModel.UserName;
-            //_mainViewModel.Network = account.AccountBaseModel.AccountNetwork; 
-            #endregion
         }
 
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)

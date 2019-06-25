@@ -82,12 +82,6 @@
         "Entry"
         {
         "MsmKey" = "8:_0CAE1E5AF845035094B9E609933D597B"
-        "OwnerKey" = "8:_40B0EEC0D4814169B9B59429E31D5DF6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0CAE1E5AF845035094B9E609933D597B"
         "OwnerKey" = "8:_DBDF379A233A36FDBD4691CC433120DD"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -232,37 +226,13 @@
         "Entry"
         {
         "MsmKey" = "8:_1B2F282223FB3302A6B9AC5F20B5CB95"
-        "OwnerKey" = "8:_7A8CC4D53AB12D0A0278A4D26A841B4C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1B2F282223FB3302A6B9AC5F20B5CB95"
-        "OwnerKey" = "8:_9CB5E449E4A4DDC041D85B565CEFEC6C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1B2F282223FB3302A6B9AC5F20B5CB95"
         "OwnerKey" = "8:_B849661CE8F27707D197FA40A7C00337"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_1B2F282223FB3302A6B9AC5F20B5CB95"
-        "OwnerKey" = "8:_40B0EEC0D4814169B9B59429E31D5DF6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1B2F282223FB3302A6B9AC5F20B5CB95"
         "OwnerKey" = "8:_DBDF379A233A36FDBD4691CC433120DD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1B2F282223FB3302A6B9AC5F20B5CB95"
-        "OwnerKey" = "8:_B1A868159EF10120E3B8A10900CBFB26"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -322,31 +292,7 @@
         "Entry"
         {
         "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
-        "OwnerKey" = "8:_7A8CC4D53AB12D0A0278A4D26A841B4C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
-        "OwnerKey" = "8:_40B0EEC0D4814169B9B59429E31D5DF6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
         "OwnerKey" = "8:_DBDF379A233A36FDBD4691CC433120DD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
-        "OwnerKey" = "8:_B1A868159EF10120E3B8A10900CBFB26"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
-        "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -359,6 +305,12 @@
         {
         "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
         "OwnerKey" = "8:_1B2F282223FB3302A6B9AC5F20B5CB95"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1C96364409736644E9DE8A4FCD46F883"
+        "OwnerKey" = "8:_3527753F54744C9C87FEEBDF617EEBD7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1853,12 +1805,6 @@
         {
         "MsmKey" = "8:_A16AA34B90BB7DC2BB7181DFFEDAD697"
         "OwnerKey" = "8:_AD8C02F7A3D8A3FCBF4966D0362FF90A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A16AA34B90BB7DC2BB7181DFFEDAD697"
-        "OwnerKey" = "8:_9CB5E449E4A4DDC041D85B565CEFEC6C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -8919,19 +8865,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{ABF42EE5-1008-42A2-A8E4-346379B25F6E}"
-        "PackageCode" = "8:{99A6321F-504F-4F65-92E1-ECF565AEF706}"
+        "ProductCode" = "8:{6E32902A-2F2B-4DBE-872A-9265C9A2A1E8}"
+        "PackageCode" = "8:{5EA59DA1-CA89-429E-8D80-C8C721876B61}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.375"
+        "ProductVersion" = "8:1.0.376"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.375"
+        "Title" = "8:Socinator 1.0.0.376"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"

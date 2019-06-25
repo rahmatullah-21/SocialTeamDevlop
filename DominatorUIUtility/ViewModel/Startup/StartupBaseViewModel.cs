@@ -15,6 +15,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.StartupActivity;
 using DominatorHouseCore.LogHelper;
+using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.ViewModel.Startup
 {
@@ -33,20 +34,33 @@ namespace DominatorUIUtility.ViewModel.Startup
             IsNonQuery = false;
             regionManager = region;
             AddQueryCommand = new DelegateCommand<dynamic>(AddQuery);
+            ExpandCollapseAllCommand = new DelegateCommand<object>(ExpandCollepseAll);
+        }
+
+        private void ExpandCollepseAll(object sender)
+        {
+            HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
         }
 
         #region Commands
 
         public ICommand NextCommand { get; set; }
-
         public ICommand PreviousCommand { get; set; }
-
         public ICommand LoadedCommand { get; set; }
-
         public ICommand AddQueryCommand { get; set; }
+        public ICommand ExpandCollapseAllCommand { get; set; }
+
         #endregion
 
         #region Properties
+
+        private bool _isExpanded;
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set { SetProperty(ref _isExpanded, value); }
+        }
 
         private JobConfiguration _jobConfiguration;
         [ProtoMember(1)]

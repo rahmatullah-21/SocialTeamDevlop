@@ -887,6 +887,9 @@
     <Compile Include="Views\AccountSetting\CustomControl\ActivitySetting.xaml.cs">
       <DependentUpon>ActivitySetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AccountSetting\CustomControl\ModuleHeader.xaml.cs">
+      <DependentUpon>ModuleHeader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AccountSetting\CustomControl\NextPreviousButton.xaml.cs">
       <DependentUpon>NextPreviousButton.xaml</DependentUpon>
     </Compile>
@@ -1881,6 +1884,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\CustomControl\ActivitySetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountSetting\CustomControl\ModuleHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
