@@ -50,6 +50,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         public static SemaphoreSlim _lockForScheduling;
         ISoftwareSettings softwareSettings;
         int maxThreadCount;
+        static bool islogged;
         public DominatorScheduler(IRunningActivityManager runningActivityManager, ISchedulerProxy schedulerProxy, IJobLimitsHolder jobLimitsHolder, IJobProcessScopeFactory jobProcessScopeFactory, IAccountsCacheService accountsCacheService, IJobCountersManager jobCountersManager, IJobActivityConfigurationManager jobActivityConfigurationManager, IRunningJobsHolder runningJobsHolder)
         {
             _runningActivityManager = runningActivityManager;
@@ -63,6 +64,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
             if (softwareSettings.Settings.IsThreadLimitChecked)
             {
+                islogged = false;
                 maxThreadCount = softwareSettings.Settings.MaxThreadCount;
                 _lockWithThreadLimit = new SemaphoreSlim(maxThreadCount, maxThreadCount);
                 _lockForScheduling = new SemaphoreSlim(maxThreadCount, maxThreadCount);
@@ -114,10 +116,20 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         //        ex.DebugLog();
         //    }
         //}
+        
         public async Task RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange, string module)
         {
             if (_lockWithThreadLimit != null)
+            {
+                if (_lockWithThreadLimit?.CurrentCount == 0 && !islogged)
+                {
+                    GlobusLogHelper.log.Info($"Thread limit {maxThreadCount} reached and pending account will run as per time priority.");
+                    islogged = true;
+                }
                 await _lockWithThreadLimit?.WaitAsync();
+            }
+            if (!account.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled && y.ActivityType.ToString() == module))
+                return;
             try
             {
                 var id = JobProcess.AsId(account.AccountBaseModel.AccountId, templateId);
@@ -140,7 +152,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 if (limitInfo.ReachedLimitType != ReachedLimitType.NoLimit)
                 {
                     RescheduleifLimitReached(jobProcess, limitInfo, limitInfo.ReachedLimitType);
-                    if (_lockWithThreadLimit?.CurrentCount != softwareSettings.Settings.MaxThreadCount)
+                    if (_lockWithThreadLimit?.CurrentCount != maxThreadCount)
                         _lockWithThreadLimit?.Release();
                     return;
                 }
@@ -155,10 +167,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
             finally
             {
-                if (_lockWithThreadLimit?.CurrentCount != softwareSettings.Settings.MaxThreadCount)
+                if (_lockWithThreadLimit?.CurrentCount != maxThreadCount)
                     _lockWithThreadLimit?.Release();
-                if (_lockForScheduling.CurrentCount != maxThreadCount)
-                    _lockForScheduling.Release();
+                //if (_lockForScheduling?.CurrentCount != maxThreadCount)
+                //    _lockForScheduling?.Release();
             }
         }
 
@@ -345,7 +357,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
         public async Task ScheduleActivityForNextJob(DominatorAccountModel dominatorAccount, ActivityType activityType)
         {
-            await _lockForScheduling?.WaitAsync();
+            //if (_lockForScheduling != null)
+            //    await _lockForScheduling?.WaitAsync();
             var moduleConfiguration = _jobActivityConfigurationManager[dominatorAccount.AccountId, activityType];
             if (moduleConfiguration == null || !moduleConfiguration.IsEnabled)
                 return;
@@ -447,6 +460,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
                     return false;
                 }
+
+                if (_lockWithThreadLimit?.CurrentCount != maxThreadCount)
+                    _lockWithThreadLimit?.Release();
                 return true;
             }
             catch (Exception ex)

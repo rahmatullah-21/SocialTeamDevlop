@@ -11,6 +11,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using MahApps.Metro.Controls.Dialogs;
@@ -466,8 +467,16 @@ namespace DominatorUIUtility.CustomControl
                     {
                         Task.Factory.StartNew(() =>
                                    {
+                                       bool islogged = false;
                                        foreach (var account in accountDetails)
                                        {
+                                           var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                                           if (softwareSettings.Settings.IsThreadLimitChecked)
+                                           {
+                                               var maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+                                               GlobusLogHelper.log.Info($"Thread limit {maxThreadCount} reached and pending account will run as per time priority.");
+                                               islogged = true;
+                                           }
                                            _dominatorScheduler.ScheduleNextActivity(account, _activityType);
                                        }
                                    });
@@ -1091,7 +1100,7 @@ namespace DominatorUIUtility.CustomControl
         public bool UpdateSelectedAccountDetails(List<DominatorAccountModel> allAccountDetails, List<string> listSelectedAccounts, List<RunningTimes> runningTime)
         {
             var isAccountDetailsUpdated = false;
-
+            bool islogged = false;
             var selectedAccounts = new List<DominatorAccountModel>(listSelectedAccounts.Count);
             var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
             foreach (var account in allAccountDetails)
@@ -1108,6 +1117,11 @@ namespace DominatorUIUtility.CustomControl
                     var moduleConfiguration =
                         _jobActivityConfigurationManager[account.AccountId, _activityType] ??
                         new ModuleConfiguration { ActivityType = _activityType };
+                    if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !islogged)
+                    {
+                        GlobusLogHelper.log.Info("Thread limit reached while Updating.");
+                        islogged = true;
+                    }
                     _dominatorScheduler.StopActivity(account, _activityType.ToString(), moduleConfiguration.TemplateId, true);
                     _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, _activityType, moduleConfiguration);
                     moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
@@ -1167,7 +1181,7 @@ namespace DominatorUIUtility.CustomControl
                     List<string> listSelectedAccounts, JobConfiguration jobConfiguration)
         {
             bool isAccountDetailsUpdated = false;
-
+            bool islogged = false;
             List<DominatorAccountModel> selectedAccounts = new List<DominatorAccountModel>(listSelectedAccounts.Count);
             foreach (var account in allAccountDetails)
             {
@@ -1201,6 +1215,16 @@ namespace DominatorUIUtility.CustomControl
             //schedule actitvities of selected accounts            
             foreach (var account in selectedAccounts)
             {
+                if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !islogged)
+                {
+                    var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                    if (softwareSettings.Settings.IsThreadLimitChecked)
+                    {
+                        var maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+                        GlobusLogHelper.log.Info($"Thread limit {maxThreadCount} reached and pending account will run as per time priority.");
+                        islogged = true;
+                    }
+                }
                 _dominatorScheduler.ScheduleNextActivity(account, _activityType);
             }
 
