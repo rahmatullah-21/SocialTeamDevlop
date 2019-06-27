@@ -1,18 +1,8 @@
 ﻿using DominatorUIUtility.Behaviours;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DominatorUIUtility.Views.AccountSetting.CustomControl
 {
@@ -24,6 +14,9 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         public ModuleHeader()
         {
             InitializeComponent();
+            Header.DataContext = this;
+            ExpandCollapseAllCommand = new DelegateCommand(ExpandCollepseAll);
+            HeaderHelper.UpdateToggleForNonQuery += UpdateToggleButton;
         }
         public string Heading
         {
@@ -47,35 +40,35 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
                 BindsTwoWayByDefault = true
             });
 
-        public object CommandParameter
+        public object View
         {
-            get { return (object)GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
+            get { return (object)GetValue(ViewProperty); }
+            set { SetValue(ViewProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(ModuleHeader), new FrameworkPropertyMetadata(OnAvailableItemsChanged));
+        // Using a DependencyProperty as the backing store for View.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewProperty =
+            DependencyProperty.Register("View", typeof(object), typeof(ModuleHeader));
+
 
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var newValue = e.NewValue;
         }
+        public ICommand ExpandCollapseAllCommand { get; set; }
 
-        public ICommand ExpandCollapseAllCommand
+        private void ExpandCollepseAll()
         {
-            get { return (ICommand)GetValue(ExpandCollapseAllCommandProperty); }
-            set { SetValue(ExpandCollapseAllCommandProperty, value); }
+            HeaderHelper.ExpandCollapseAllExpanderForActivity(View, IsExpanded);
         }
-
-        // Using a DependencyProperty as the backing store for ExpandCollapseAllCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ExpandCollapseAllCommandProperty =
-            DependencyProperty.Register("ExpandCollapseAllCommand", typeof(ICommand), typeof(ModuleHeader));
-
-
-        private void ClpsExpnd_OnClick(object sender, RoutedEventArgs e)
+        void UpdateToggleButton()
         {
-            HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
+            var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
+
+            if (isAllCollapsed)
+                IsExpanded = false;
+            else IsExpanded = true;
+
         }
     }
 }

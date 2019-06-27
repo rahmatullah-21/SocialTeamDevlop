@@ -28,7 +28,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10,5" Visibility="{Binding IsReinviteOptionNeeded,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <CheckBox Name="ChkboxReInviteInMessanger"  Margin="4"  FontWeight="SemiBold" Foreground="Black" IsChecked="{Binding InviterOptionsModel.IsReinvite}" Content="{DynamicResource LangKeyReinviteInMessanger}" ToolTip="{DynamicResource LangKeyInviteWithNoteTooltip}" />
-                <controls:NumericUpDown Margin="10,0" Value="{Binding InviterOptionsModel.SendMessageAfterDays}"/>
+                <controls:NumericUpDown Margin="10,0" Minimum="0" Value="{Binding InviterOptionsModel.SendMessageAfterDays}"/>
                 <Label Content="{StaticResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
             </StackPanel>
 

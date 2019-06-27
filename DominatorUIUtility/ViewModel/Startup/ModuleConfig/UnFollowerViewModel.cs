@@ -11,6 +11,7 @@ using System.Windows;
 using System;
 using System.Linq;
 using CommonServiceLocator;
+using DominatorUIUtility.Behaviours;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -187,6 +188,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             NextCommand = new DelegateCommand(NextValidation);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
+
             ElementsVisibility.NetworkElementsVisibilty(this);
 
             if (InstagramElementsVisibility == Visibility.Visible)
@@ -205,7 +207,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
-
+       
         private void NextValidation()
         {
             if (_UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked || _UnFollower.IsChkPeopleFollowedBySoftwareCheecked || _UnFollower.IsChkCustomUsersListChecked)
