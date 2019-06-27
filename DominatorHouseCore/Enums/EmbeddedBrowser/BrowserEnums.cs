@@ -137,4 +137,16 @@ namespace DominatorHouseCore.Enums.EmbeddedBrowser
         ActionMouseDown = 22
     }
 
+    public enum CoordinateDirection
+    {
+        [Description("left")]
+        Left = 1,
+        [Description("right")]
+        Right = 2,
+        [Description("top")]
+        Top = 3,
+        [Description("bottom")]
+        Buttom = 4
+    }
+
 }

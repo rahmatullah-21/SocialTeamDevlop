@@ -228,6 +228,8 @@ namespace EmbeddedBrowser
             }
         }
 
+        public bool IsDisposed => Browser.IsDisposed;
+
         private void LoadPostPage()
         {
             if (CustomUse || string.IsNullOrEmpty(TargetUrl))
@@ -1036,11 +1038,12 @@ namespace EmbeddedBrowser
         }
 
         public async Task<KeyValuePair<int, int>> GetXAndYAsync(AttributeType attributeType = AttributeType.Id, string elementName = "", int index = 0,
-            string customScriptX = "", string customScriptY = "")
+            string customScriptX = "", string customScriptY = "", CoordinateDirection horizontalDirection = CoordinateDirection.Left,
+            CoordinateDirection verticalDirection = CoordinateDirection.Top)
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
-            var scripty = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().top" :  $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().top";
-            var scriptx = !string.IsNullOrEmpty(customScriptX) ? customScriptX : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().left" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().left";
+            var scripty = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().{verticalDirection.GetDescriptionAttr()}" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().{verticalDirection.GetDescriptionAttr()}";
+            var scriptx = !string.IsNullOrEmpty(customScriptX) ? customScriptX : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().{horizontalDirection.GetDescriptionAttr()}" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().{horizontalDirection.GetDescriptionAttr()}";
 
             if ((await ExecuteScriptAsync(scriptx, 0)).Success)
             {
@@ -1351,7 +1354,8 @@ namespace EmbeddedBrowser
         }
         public async Task ExecuteJSAsyncFromFrame(IFrame frame, string script)
         {
-            await Task.Delay(1000);
+            await Task.Delay(10000);
+            
             frame.ExecuteJavaScriptAsync(script);
         }
 
