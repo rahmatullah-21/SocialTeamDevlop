@@ -24,16 +24,12 @@ namespace Socinator
     /// </summary>
     public partial class App : PrismApplication
     {
-        //protected override void OnStartup(StartupEventArgs e)
-        //{
-        //    //base.OnStartup(e);
-        //    var boostrapper = new Bootstrapper();
-        //    boostrapper.Run();
-        //}
         public void CheckAllforExpand(object sender, RoutedEventArgs e)
         {
             HeaderHelper.UpdateToggleButtonInCampaignMode?.Invoke();
             HeaderHelper.UpdateToggleButtonInAccountActivityMode?.Invoke();
+            HeaderHelper.UpdateToggleForNonQuery?.Invoke();
+            HeaderHelper.UpdateToggleForQuery?.Invoke();
         }
         protected override Window CreateShell()
         {

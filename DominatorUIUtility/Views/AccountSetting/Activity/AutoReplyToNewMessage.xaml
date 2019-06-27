@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="ActivityControl"
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
@@ -20,16 +20,19 @@
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
+
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Auto Reply To New Message Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <actcustom:ModuleHeader Heading="Auto Reply To New Message Setting" x:Name="header"
+                                    View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
+     
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-                <Expander IsExpanded="True" Header="{DynamicResource LangKeyMessageFilter}" Margin="5,5">
+                <Expander  Header="{DynamicResource LangKeyMessageFilter}" Margin="5,5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel>
                         <StackPanel>
                             <RadioButton Content="{DynamicResource LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount}"
@@ -71,10 +74,10 @@
                         </StackPanel>
                     </StackPanel>
                 </Expander>
-                <Expander IsExpanded="True" Visibility="{Binding QuoraElementsVisibility}" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Visibility="{Binding QuoraElementsVisibility}" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
                     <customControl:InputBoxControl x:Name="InputMessageForReply" InputText="{Binding Message}"/>
                 </Expander>
-                <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" Visibility="{Binding MessagesVisibility}">
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" Visibility="{Binding MessagesVisibility}">
                     <StackPanel>
                         <CheckBox  Content="{DynamicResource LangKeyMakeMessageAsSpinText}" Name="ChkMakeCaptionAsSpinText" IsChecked="{Binding IsChkMakeCaptionAsSpinText}"/>
                         <customControl:MessageMediaControl x:Name="MessagesControl" Messages="{Binding ManageMessagesModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
@@ -82,7 +85,7 @@
                         <customControl:ManageMediaMessages  LstManageMessagesModel="{Binding LstDisplayManageMessageModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </StackPanel>
                 </Expander>
-                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" >
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" >
                     <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>
             </StackPanel>

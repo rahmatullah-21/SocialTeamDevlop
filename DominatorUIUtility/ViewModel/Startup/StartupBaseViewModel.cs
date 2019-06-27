@@ -12,7 +12,6 @@ using DominatorHouseCore;
 using CommonServiceLocator;
 using ProtoBuf;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.StartupActivity;
 using DominatorHouseCore.LogHelper;
 
@@ -38,15 +37,21 @@ namespace DominatorUIUtility.ViewModel.Startup
         #region Commands
 
         public ICommand NextCommand { get; set; }
-
         public ICommand PreviousCommand { get; set; }
-
         public ICommand LoadedCommand { get; set; }
-
         public ICommand AddQueryCommand { get; set; }
+
         #endregion
 
         #region Properties
+
+        private bool _isExpanded;
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set { SetProperty(ref _isExpanded, value); }
+        }
 
         private JobConfiguration _jobConfiguration;
         [ProtoMember(1)]

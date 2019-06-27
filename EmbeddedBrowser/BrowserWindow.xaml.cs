@@ -22,7 +22,6 @@ using System.Windows.Input;
 using EmbeddedBrowser.BrowserHelper;
 using Unity;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using System.Text;
 using DominatorHouseCore.Enums.EmbeddedBrowser;
 
@@ -204,8 +203,6 @@ namespace EmbeddedBrowser
                         e.DebugLog();
                     }
                 });
-
-
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -228,9 +225,11 @@ namespace EmbeddedBrowser
             }
         }
 
+
         public bool IsDisposed => Browser.IsDisposed;
 
-        private void LoadPostPage()
+     
+        public void LoadPostPage()
         {
             if (CustomUse || string.IsNullOrEmpty(TargetUrl))
                 return;
@@ -247,7 +246,8 @@ namespace EmbeddedBrowser
         /// </summary>
         /// <returns></returns>
         public string GetPageSource() => Browser.GetSourceAsync().Result;
-
+        
+        public void SelectAllText() => Browser.SelectAll();
         public async Task<string> PageText() => await Browser.GetTextAsync();
 
         public async Task SetCookie()
@@ -1042,8 +1042,10 @@ namespace EmbeddedBrowser
             CoordinateDirection verticalDirection = CoordinateDirection.Top)
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
+
             var scripty = !string.IsNullOrEmpty(customScriptY) ? customScriptY : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().{verticalDirection.GetDescriptionAttr()}" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().{verticalDirection.GetDescriptionAttr()}";
             var scriptx = !string.IsNullOrEmpty(customScriptX) ? customScriptX : attributeType == AttributeType.Id ? $"$('#{elementName}').offset().{horizontalDirection.GetDescriptionAttr()}" : $"document.getElementsByClassName('{elementName}')[{index}].getBoundingClientRect().{horizontalDirection.GetDescriptionAttr()}";
+
 
             if ((await ExecuteScriptAsync(scriptx, 0)).Success)
             {
@@ -2383,9 +2385,6 @@ namespace EmbeddedBrowser
 
 
         #endregion
-
-
-
     }
 }
 

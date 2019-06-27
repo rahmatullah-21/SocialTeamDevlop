@@ -1,6 +1,7 @@
 ﻿using DominatorHouseCore;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
+using DominatorUIUtility.Behaviours;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             Setting.DataContext = this;
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQueryExecute);
             DeleteMulipleCommand = new DelegateCommand<object>(DeleteMulipleExecute);
+            HeaderHelper.UpdateToggleForQuery += UpdateToggleButton;
         }
 
         public Speed Model => new Speed();
@@ -167,6 +169,29 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         // Using a DependencyProperty as the backing store for PreviousVisiblity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PreviousVisiblityProperty =
             DependencyProperty.Register("PreviousVisiblity", typeof(Visibility), typeof(ActivitySetting), new PropertyMetadata(Visibility.Visible));
+
+        public bool IsExpanded
+        {
+            get { return (bool)GetValue(IsExpandedProperty); }
+            set { SetValue(IsExpandedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsExpanded.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsExpandedProperty =
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(ActivitySetting), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
+        public object View
+        {
+            get { return (object)GetValue(ViewProperty); }
+            set { SetValue(ViewProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for View.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewProperty =
+            DependencyProperty.Register("View", typeof(object), typeof(ActivitySetting));
+
         public ICommand DeleteQueryCommand
         {
             get { return (ICommand)GetValue(DeleteQueryCommandProperty); }
@@ -234,6 +259,19 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             {
                 ex.DebugLog();
             }
+        }
+
+        private void ClpsExpnd_OnClick(object sender, RoutedEventArgs e)
+        {
+            HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
+        }
+        void UpdateToggleButton()
+        {
+            var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
+            if (isAllCollapsed)
+                IsExpanded = false;
+            else IsExpanded = true;
+
         }
     }
     public class Speed
