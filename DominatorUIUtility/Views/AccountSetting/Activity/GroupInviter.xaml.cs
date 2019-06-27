@@ -154,7 +154,7 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
 
                     model = SaveDestinationExecute(model);
 
-                    model = selectAccountDetailsControl.GetPageInviterDetails(model);
+                    //model = selectAccountDetailsControl.GetPageInviterDetails(model);
 
                     ViewModel.SelectAccountDetailsModel = model;
 

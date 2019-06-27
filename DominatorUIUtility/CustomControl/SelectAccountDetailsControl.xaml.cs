@@ -179,39 +179,8 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public SelectAccountDetailsModel GetGroupInviterDetails(SelectAccountDetailsModel model)
-        {
-            List<Tuple<string, string, string>> listGroupInviterDetails = new List<Tuple<string, string, string>>();
-            foreach (KeyValuePair<string, string> accountGroup in model.AccountGroupPair)
-            {
-                var accountFriendPair = SelectAccountDetailsViewModel.SelectAccountDetailsModel.AccountFriendsPair;
-                var friendList = accountFriendPair.Where(x => x.Key == accountGroup.Key).Select(y => y.Value).ToList();
-                var customList = SelectAccountDetailsViewModel.SelectAccountDetailsModel.CustomDestinations;
 
-                List<string> accountCustomDestination = customList
-                    .Where(x => x.Key == accountGroup.Key && x.Value.DestinationType == "Friend")
-                    .Select(x => x.Value.DestinationValue).ToList();
-                friendList.ForEach(x =>
-                {
-                    Tuple<string, string, string> groupInviterDetail =
-                            new Tuple<string, string, string>(accountGroup.Key, accountGroup.Value, x);
 
-                    listGroupInviterDetails.Add(groupInviterDetail);
-                });
-
-                accountCustomDestination.ForEach(x =>
-                {
-                    Tuple<string, string, string> customGroupInviterDetail =
-                        new Tuple<string, string, string>(accountGroup.Key, accountGroup.Value, x);
-
-                    listGroupInviterDetails.Add(customGroupInviterDetail);
-                });
-            }
-
-            model.GroupInviterDetails = listGroupInviterDetails;
-
-            return model;
-        }
         public SelectAccountDetailsModel GetPageInviterDetails(SelectAccountDetailsModel model)
         {
             List<Tuple<string, string, string>> listPageInviterDetails = new List<Tuple<string, string, string>>();
