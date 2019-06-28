@@ -3599,4 +3599,6 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyFollowedCount">Followed count</system:String>
     <system:String x:Key="LangKeyFollowBackCount">Follow Back count</system:String>
 
+
+    <system:String x:Key="LangKeyPleaseWaitFor10Secs">Please Wait For 10 Secs</system:String>
 </ResourceDictionary>

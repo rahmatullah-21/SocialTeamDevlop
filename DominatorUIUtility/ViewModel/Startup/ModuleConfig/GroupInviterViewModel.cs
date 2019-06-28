@@ -43,17 +43,19 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         private void GroupInviterValidate()
         {
 
-            if (SelectAccountDetailsModel.DestinationDetailsModels.Count == 0)
+            var selectAccountDetailsControl = new SelectAccountDetailsModel();
+
+            if ((selectAccountDetailsControl.GetGroupInviterDetails(SelectAccountDetailsModel)).GroupInviterDetails.Count == 0)
             {
-                Dialog.ShowDialog( "Error", "Please select atleast one inviter details.");
+                Dialog.ShowDialog("Error", "Please select atleast one inviter details.");
                 return;
             }
             if (InviterOptionsModel.IsSendInvitationWithNote && string.IsNullOrEmpty(InviterOptionsModel.Note))
             {
-                Dialog.ShowDialog( "Error", "Please enter a note.");
+                Dialog.ShowDialog("Error", "Please enter a note.");
                 return;
             }
-
+            
             NavigateNext();
         }
 
