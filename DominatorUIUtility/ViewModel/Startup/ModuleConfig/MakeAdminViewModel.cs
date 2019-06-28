@@ -21,7 +21,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.MakeAdmin });
             IsNonQuery = true;
-            NextCommand = new DelegateCommand(NavigateNext);
+            NextCommand = new DelegateCommand(MakeAdminValidate);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
@@ -35,6 +35,19 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
             ListQueryType.Clear();
+        }
+
+        private void MakeAdminValidate()
+        {
+            var selectAccountDetailsControl = new SelectAccountDetailsModel();
+
+            if ((selectAccountDetailsControl.GetGroupInviterDetails(SelectAccountDetailsModel)).GroupInviterDetails.Count == 0)
+            {
+                Dialog.ShowDialog( "Error", "Please select atleast one Make Admin details.");
+                return;
+            }
+
+            NavigateNext();
         }
 
         private SelectAccountDetailsModel _selectAccountDetailsModel = new SelectAccountDetailsModel();

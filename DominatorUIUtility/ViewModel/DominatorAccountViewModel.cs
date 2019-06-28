@@ -55,6 +55,8 @@ namespace DominatorUIUtility.ViewModel
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDataBaseHandler _dataBaseHandler;
         private readonly IProxyFileManager _proxyFileManager;
+
+        private bool _IsProgressActive = false;
         public IAccountCollectionViewModel LstDominatorAccountModel { get; }
 
         public ObservableCollection<ContentSelectGroup> Groups { get; }
@@ -63,6 +65,20 @@ namespace DominatorUIUtility.ViewModel
         private ImmutableQueue<Action> _pendingActions = ImmutableQueue<Action>.Empty;
 
         private bool _allAccountsQueued;
+
+        public bool IsProgressActive
+        {
+            get
+            {
+                return _IsProgressActive;
+            }
+            set
+            {
+                if (_IsProgressActive == value)
+                    return;
+                SetProperty(ref _IsProgressActive, value);
+            }
+        }
 
         private readonly object _syncLoadAccounts = new object();
 
@@ -156,6 +172,7 @@ namespace DominatorUIUtility.ViewModel
             LstDominatorAccountModel = accountCollectionViewModel;
             _dataBaseHandler = dataBaseHandler;
             _proxyFileManager = proxyFileManager;
+
 
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, AccountCollectionViewModel.SyncObject);
 
@@ -1815,12 +1832,16 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.ForEach(x =>
                     {
-                        if (x.IsAccountManagerAccountSelected)
+                        if (x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram)
                         {
                             x.IsRunProcessThroughBrowser = true;
                             new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
                            .AddOrUpdateBrowserSettings(true)
                            .SaveToBinFile();
+                        }
+                        else if(x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
+                        {
+                            GlobusLogHelper.log.Info(Log.CustomMessage, x.AccountBaseModel.AccountNetwork, x.AccountBaseModel.UserName, "LangKeyAccountActivities".FromResourceDictionary(), $"Browser automation feature not available for instagram account!");
                         }
 
                     });
@@ -1833,12 +1854,20 @@ namespace DominatorUIUtility.ViewModel
 
                 Task.Factory.StartNew(() =>
                     {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), $"Please wait for 10 secs!");
+
+                        IsProgressActive = true;
+
                         Thread.Sleep(10000);
 
                         LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });
+                        
+                        IsProgressActive = false;
+
+
                     });
 
             }
@@ -1876,12 +1905,18 @@ namespace DominatorUIUtility.ViewModel
 
                     Task.Factory.StartNew(() =>
                     {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), $"Please wait for 10 secs!");
+
+                        IsProgressActive = true;
+
                         Thread.Sleep(10000);
 
                         LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });
+                        
+                        IsProgressActive = false;
                     });
 
                 }

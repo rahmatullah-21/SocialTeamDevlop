@@ -64,7 +64,7 @@ namespace DominatorHouseCore.Models.FacebookModels
         }
 
 
-        private string _note = string.Empty;
+        private string _note = ConstantVariable.PageInviterNote;
 
         [ProtoMember(3)]
         public string Note

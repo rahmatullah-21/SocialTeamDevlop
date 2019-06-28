@@ -49,7 +49,14 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         private void PageInviterValidate()
         {
+            var selectAccountDetailsControl = new SelectAccountDetailsModel();
 
+            if (InviterDetailsModel.IsProfileUrl && (selectAccountDetailsControl.GetPageInviterDetails
+               (SelectAccountDetailsModel)).PageInviterDetails.Count == 0)
+            {
+                Dialog.ShowDialog( "Error", "Please select atleast one inviter details.");
+                return;
+            }
             if (!InviterDetailsModel.IsPostUrl && !InviterDetailsModel.IsRandomPosts 
                                                && !InviterDetailsModel.IsSpecificPosts)
             {

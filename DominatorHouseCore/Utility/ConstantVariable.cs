@@ -308,6 +308,10 @@ namespace DominatorHouseCore.Utility
         public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
         public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
+
+        public static string PageInviterNote =>
+            "Hi, I'm inviting you to like my Page because I thought that you might be interested in supporting it.";
+
     }
 
     public static class FileDirPath
