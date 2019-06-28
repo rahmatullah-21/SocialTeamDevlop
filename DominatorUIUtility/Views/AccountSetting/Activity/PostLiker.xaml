@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="ActivityControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl"
@@ -16,20 +16,21 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Post Liker Settings" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <actcustom:ModuleHeader Heading="Post Liker Setting" x:Name="header"
+                                    View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
+   
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
                 <customControl1:PostOptionCustomControl PostLikeCommentorModel="{Binding PostLikeCommentorModel}" />
                 <Expander Header="{DynamicResource LangKeyPagePostReactBy}" Margin="5,5"
-                                   IsExpanded="true">
+                           IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel Orientation="Vertical" Margin="15,10">
                         <CheckBox IsChecked="{Binding IsActionasOwnAccountChecked}" Margin="5" FontSize="12" FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnAccount}"/>
 
@@ -44,10 +45,10 @@
                     </StackPanel>
                 </Expander>
                 <Expander Header="{DynamicResource LangKeyReactionType}" Margin="5,5"
-                                   IsExpanded="true">
+                           IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <customControl1:LikerCommentorConfiguration x:Name="LikerCommentorConfig" IsLikeTypeFilterRequired="True"  IsLikeOptionVisible="True" LikerCommentorConfig="{Binding LikerCommentorConfigModel}"/>
                 </Expander>
-                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5"  IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>
             </StackPanel>

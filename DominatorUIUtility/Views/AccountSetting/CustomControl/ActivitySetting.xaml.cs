@@ -25,7 +25,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             Setting.DataContext = this;
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQueryExecute);
             DeleteMulipleCommand = new DelegateCommand<object>(DeleteMulipleExecute);
-            HeaderHelper.UpdateToggleForQuery += UpdateToggleButton;
+            HeaderHelper.UpdateToggleForQuery = UpdateToggleButton;
         }
 
         public Speed Model => new Speed();
@@ -267,10 +267,13 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         }
         void UpdateToggleButton()
         {
-            var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
-            if (isAllCollapsed)
-                IsExpanded = false;
-            else IsExpanded = true;
+            if (View != null)
+            {
+                var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
+                if (isAllCollapsed)
+                    IsExpanded = false;
+                else IsExpanded = true;
+            }
 
         }
     }

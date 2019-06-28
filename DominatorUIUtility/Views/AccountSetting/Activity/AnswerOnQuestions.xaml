@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="ActivityControl"
               xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
@@ -16,26 +16,28 @@
     </i:Interaction.Triggers>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}">
-            <TextBlock Text="Answer On Questions Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White"/>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <actcustom:ModuleHeader Heading="Answer On Questions Setting" x:Name="header"
+                                    View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
-              <actcustom:ActivitySettingWithoutButton 
+                <actcustom:ActivitySettingWithoutButton IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}"
+                                                        IsJobExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}"
                                            IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            JobConfiguration="{Binding JobConfiguration}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}" 
                                            DeleteQueryCommand="{Binding DeleteQueryCommand}"
                                            DeleteMulipleCommand="{Binding DeleteMultipleCommand}"
                                            AddQueryCommand="{Binding AddQueryToMsgCommand}"/>
-                  <Expander  Header="{DynamicResource LangKeyManageAnswer}" Margin="5,5,5,0" >
+                <Expander  Header="{DynamicResource LangKeyManageAnswer}" Margin="5,5,5,0" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel>
                         <customControl:CommentControl x:Name="CommentControl" Comments="{Binding AnswerQuestionModel.ManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                            AddCommentsCommand="{Binding AddAnswerCommand}" CommandParameter="{Binding ElementName=CommentControl}"/>
+                                                     AddCommentsCommand="{Binding AddAnswerCommand}" CommandParameter="{Binding ElementName=CommentControl}"/>
                         <customControl:ManageComment  LstManageCommentModel="{Binding AnswerQuestionModel.LstManageCommentModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                     </StackPanel>
                 </Expander>

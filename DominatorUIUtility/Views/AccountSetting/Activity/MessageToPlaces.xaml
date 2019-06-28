@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="ActivityControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
@@ -16,16 +16,19 @@
     </i:Interaction.Triggers>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
-            <TextBlock Text="Message To Places Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <actcustom:ModuleHeader Heading="Message To Places Setting" x:Name="header"
+                                    View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
                 <actcustom:ActivitySettingWithoutButton x:Name="Activity"
+                                                        IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}"
+                                                        IsJobExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}"
                                                         JobConfiguration="{Binding JobConfiguration}"
                                                         IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                         ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
@@ -33,7 +36,7 @@
                                                         DeleteQueryCommand="{Binding DeleteQueryCommand}" 
                                                         DeleteMulipleCommand="{Binding DeleteMulipleCommand}" />
                 <Expander Header="{DynamicResource LangKeyManageMessages}" Margin="5,5"
-                          IsExpanded="true">
+                          IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <CheckBox Name="ChckAcceptFilter" Margin="5,5,15,0" Content="{DynamicResource LangKeySendMessageWithLinkAsPreview}" FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding IsMessageAsPreview}" />
@@ -41,7 +44,6 @@
                             <CheckBox Name="ChckTag" Margin="0,5,0,0" Content="{DynamicResource LangKeyTag}" FontWeight="SemiBold" Foreground="Black" ToolTip="{StaticResource LangKeyMessageFanpagesTextFormat}" IsChecked="{Binding IsTagChecked}" />
 
                         </StackPanel>
-
                         <StackPanel Orientation="Vertical" Margin="8,5">
                             <customControl:MessageMediaControl x:Name="MessageControl" Messages="{Binding ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                                AddMessagesCommand="{Binding AddMessagesCommand}" CommandParameter="{Binding ElementName=MessageControl}"/>
@@ -49,7 +51,6 @@
                             <customControl:ManageMediaMessages LstManageMessagesModel="{Binding LstManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
-
                 </Expander>
 
             </StackPanel>

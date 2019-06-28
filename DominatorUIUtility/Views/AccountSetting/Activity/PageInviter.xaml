@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="ActivityControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl"
@@ -17,14 +17,14 @@
     </i:Interaction.Triggers>
 
     <Grid Margin="10">
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Page Inviter Settings" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <actcustom:ModuleHeader Heading="Page Inviter Settings" x:Name="header"
+                                    View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>

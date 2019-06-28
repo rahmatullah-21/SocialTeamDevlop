@@ -24,7 +24,6 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
-
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
             <actcustom:ModuleHeader Heading="UnFollow user Setting" x:Name="header"

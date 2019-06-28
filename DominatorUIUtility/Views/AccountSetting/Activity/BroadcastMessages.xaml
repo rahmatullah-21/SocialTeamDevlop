@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="ActivityControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
@@ -16,13 +16,15 @@
     </i:Interaction.Triggers>
     <Grid  Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DockPanel  Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}">
-            <TextBlock Text="Broadcast Messages Setting" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" DockPanel.Dock="Top" Foreground="White" />
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5" Visibility="{Binding HeaderNextPreViousVisiblity}">
+            <actcustom:ModuleHeader Heading="Broadcast Messages Setting" x:Name="header" DockPanel.Dock="Top"
+                                    View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
+       
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
                 <StackPanel Visibility="{Binding LinkedInElementsVisibility}">
@@ -47,16 +49,19 @@
                         <customControl:InputBoxControl Margin="25,5"  InputText="{Binding GroupUrlInput}"
                                                          SaveCommand="{Binding SaveCustomGroupListCommand}" WaterMarkText="Enter Joined Group Urls" ToolTip="Send message to members of the group" />
                     </StackPanel>
-                    <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                         <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}" />
                     </Expander>
                 </StackPanel>
-                <actcustom:ActivitySettingWithoutButton x:Name="Activity" Visibility="{Binding AllVisibility}"
+                <actcustom:ActivitySettingWithoutButton x:Name="Activity"
+                                                        Visibility="{Binding AllVisibility}"
+                                                        IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}"
+                                                        IsJobExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}"
                                            JobConfiguration="{Binding JobConfiguration}" IsUseGlobalQuery="{Binding IsUseGlobalQuery,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                            ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
                                            AddQueryCommand="{Binding AddQueryToMessageCommand}" CommandParameter="{Binding ElementName=Activity}"
                                            DeleteQueryCommand="{Binding DeleteQueryCommand}" DeleteMulipleCommand="{Binding DeleteMultipleCommand}" />
-                <Expander IsExpanded="True" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Header="{DynamicResource LangKeyManageMessages}" Margin="5,5" >
                     <StackPanel>
                         <StackPanel  Orientation="Horizontal">
                             <CheckBox Name="ChckAcceptFilter" Margin="5,5,15,0"

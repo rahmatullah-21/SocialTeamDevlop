@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="ActivityControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
@@ -15,17 +15,16 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
-
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Unlike Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <actcustom:ModuleHeader Heading="Unlike Setting" x:Name="header"
+                                    View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+          <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel >
                 <StackPanel Visibility="{Binding TwitterElementsVisibility}" >
                     <CheckBox IsChecked="{Binding UnLike.IsLikedTweets}" Content="{DynamicResource LangKeyLikedTweets}"  Margin="5"  />
@@ -36,7 +35,7 @@
                 </StackPanel>
 
                 <RadioButton Margin="5" IsChecked="{Binding IsCheckedUnlikeMedia,Mode=TwoWay}" Content="Unlike Media" Visibility="{Binding InstagramElementsVisibility}" />
-                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5">
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>
             </StackPanel>

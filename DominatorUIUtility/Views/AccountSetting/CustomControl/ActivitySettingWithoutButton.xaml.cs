@@ -24,9 +24,9 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQueryExecute);
             DeleteMulipleCommand = new DelegateCommand<object>(DeleteMulipleExecute);
         }
-      
+
         public Speed Model => new Speed();
-        
+
         public bool IsUseGlobalQuery
         {
             get { return (bool)GetValue(IsUseGlobalQueryProperty); }
@@ -70,6 +70,33 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         // Using a DependencyProperty as the backing store for SavedQueries.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SavedQueriesProperty =
             DependencyProperty.Register("SavedQueries", typeof(ObservableCollection<QueryInfo>), typeof(ActivitySettingWithoutButton), new PropertyMetadata(new ObservableCollection<QueryInfo>()));
+        public bool IsExpanded
+        {
+            get { return (bool)GetValue(IsExpandedProperty); }
+            set { SetValue(IsExpandedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsExpanded.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsExpandedProperty =
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(ActivitySettingWithoutButton), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
+
+
+        public bool IsJobExpanded
+        {
+            get { return (bool)GetValue(IsJobExpandedProperty); }
+            set { SetValue(IsJobExpandedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsJobExpanded.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsJobExpandedProperty =
+            DependencyProperty.Register("IsJobExpanded", typeof(bool), typeof(ActivitySettingWithoutButton), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
+            {
+                BindsTwoWayByDefault = true
+            });
+
 
 
         private static readonly DependencyProperty AddQueryCommandProperty

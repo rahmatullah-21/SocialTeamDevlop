@@ -10,7 +10,7 @@
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             >
+             Name="ActivityControl">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -22,12 +22,13 @@
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Delete Post Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <actcustom:ModuleHeader Heading="Delete Post Setting" x:Name="header"
+                                    View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
@@ -39,7 +40,7 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="5,5">
-                    <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                    <Expander Header="{DynamicResource LangKeyJobConfiguration}" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                         <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
                     </Expander>
                 </StackPanel>
@@ -49,11 +50,5 @@
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>
         </DockPanel>
-
-        <!--<actcustom:ActivitySetting Heading="Delete Post Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>-->
-
     </Grid>
 </UserControl>

@@ -16,15 +16,14 @@
     </i:Interaction.Triggers>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
-
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="EditPin Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
+            <actcustom:ModuleHeader Heading="Edit Pin Settings" x:Name="header"
+                                    View="{Binding ElementName=EditPinUserControl}"/>
         </DockPanel>
-
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
                 <TabControl Name="PinsTab" Grid.Row="1" SelectedIndex="{Binding CurrentPin.SelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
@@ -151,7 +150,7 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <Expander Header="{DynamicResource LangKeyJobConfiguration}">
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
                 </Expander>
             </StackPanel>

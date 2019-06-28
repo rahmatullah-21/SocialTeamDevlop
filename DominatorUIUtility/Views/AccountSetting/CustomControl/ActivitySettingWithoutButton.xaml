@@ -12,13 +12,15 @@
     <Grid Margin="5,0" Name="Setting">
         <StackPanel >
             <CheckBox Content="Use Global query" IsChecked="{Binding IsUseGlobalQuery}" Margin="5"/>
-            <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5">
+            <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="0,5" 
+                      IsExpanded="{Binding IsExpanded,UpdateSourceTrigger=Explicit,Mode=OneWay}">
                 <customControl:SearchQueryControl  x:Name="QueryControl" x:FieldModifier="public" Width="1000" ListQueryType="{Binding ListQueryType}"
                                                    ListQueryInfo="{Binding SavedQueries}" DeleteQueryCommand="{Binding DeleteQueryCommand}" 
                                                    DeleteMulipleCommand="{Binding DeleteMulipleCommand}"
                                                    AddQueryCommand="{Binding AddQueryCommand}" CommandParameter="{Binding}"/>
             </Expander>
-            <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5">
+            <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="0,5" 
+                      IsExpanded="{Binding IsJobExpanded,UpdateSourceTrigger=Explicit,Mode=OneWay}">
                 <customControl:JobConfigControl JobConfiguration="{Binding JobConfiguration}"/>
             </Expander>
         </StackPanel>

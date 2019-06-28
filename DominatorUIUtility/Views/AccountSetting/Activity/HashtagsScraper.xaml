@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="ActivityControl"
               xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
@@ -15,33 +15,29 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10">
-     
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="40"/>
-            </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <TextBlock Text="Hashtags Scraper Setting" FontWeight="Bold" Margin="5,0" VerticalAlignment="Center" DockPanel.Dock="Top" Foreground="White"/>
-            </DockPanel>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
-                <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
+            <actcustom:ModuleHeader Heading="Hashtags Scraper Setting" x:Name="header"
+                                    View="{Binding ElementName=ActivityControl}"/>
+        </DockPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel>
                 <TextBlock Text="{DynamicResource LangKeyKeywords}" FontWeight="SemiBold" FontSize="16" Margin="10,5"/>
                 <customControl:InputBoxControl Margin="10,5" x:Name="Keywords"   InputText="{Binding Keyword}"/>
-                    <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5,5">
-                        <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
-                    </Expander>
-                </StackPanel>
-            
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" Margin="5,5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
+            </StackPanel>
+
         </ScrollViewer>
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>
         </DockPanel>
-            <!--<actcustom:ActivitySetting Heading="Hashtags Scraper Setting" JobConfiguration="{Binding JobConfiguration}"
-                                   ListQueryType="{Binding ListQueryType}" SavedQueries="{Binding SavedQueries}"
-                                   NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
-                                   AddQueryCommand="{Binding AddQueryCommand}" NextButtonContent="{Binding NextButtonContent}"/>-->
-
     </Grid>
 </UserControl>

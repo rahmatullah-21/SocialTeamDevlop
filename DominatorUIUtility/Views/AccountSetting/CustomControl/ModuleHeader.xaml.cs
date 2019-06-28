@@ -16,7 +16,7 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             InitializeComponent();
             Header.DataContext = this;
             ExpandCollapseAllCommand = new DelegateCommand(ExpandCollepseAll);
-            HeaderHelper.UpdateToggleForNonQuery += UpdateToggleButton;
+            HeaderHelper.UpdateToggleForNonQuery = UpdateToggleButton;
         }
         public string Heading
         {
@@ -63,12 +63,13 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
         }
         void UpdateToggleButton()
         {
-            var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
-
-            if (isAllCollapsed)
-                IsExpanded = false;
-            else IsExpanded = true;
-
+            //if (View != null)
+            //{
+            //    var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
+            //    if (isAllCollapsed)
+            //        IsExpanded = false;
+            //    else IsExpanded = true;
+            //}
         }
     }
 }
