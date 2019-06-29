@@ -81,7 +81,6 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     JobManager.RemoveJob(scheduledJob.Name);
                 }
             }
-
             dominatorScheduler.ScheduleActivityForNextJob(accountModel, moduleConfiguration.ActivityType);
         }
         public void ScheduleIfAccountGotSucess(DominatorAccountModel account)

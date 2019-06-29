@@ -640,6 +640,21 @@ namespace DominatorHouseCore.Models
             get { return _exportPath; }
             set { SetProperty(ref _exportPath, value); }
         }
+        private bool _isThreadLimitChecked;
+        [ProtoMember(45)]
+        public bool IsThreadLimitChecked
+        {
+            get { return _isThreadLimitChecked; }
+            set { SetProperty(ref _isThreadLimitChecked, value); }
+        }
+
+        private int _maxThreadCount;
+        [ProtoMember(46)]
+        public int MaxThreadCount
+        {
+            get { return _maxThreadCount; }
+            set { SetProperty(ref _maxThreadCount, value); }
+        }
 
     }
 }

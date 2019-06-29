@@ -1,3 +1,28 @@
+Version[1.0.0.59],[29th-June-19]
+New Features:-
+	Social:-
+		Adeed thread feature for account. 
+	Instagram:-
+		For all module => User filter => Added filter Must contain specific words in BIO.
+		Hashtag post(s)/Hashtag User's post(s) => Added filter based on top and recent post.
+		Grow Followers => Added feature for tracking Follow back result in report.
+
+Fixed:-
+	Instagram:-
+		Insta Scrape => User Scraper => Fixed issue with scrape unique users only for this campaign.
+		Insta Scrape => Comment Scraper => Fixed issue with comment scraper.
+		Instachat => Broadcast Message => Fixed issue with send message with image.
+	Facebook:-
+		Fixed issue with auto start group inviter campaign.
+		Grow friends => Fixed issues with send freind request to fanpage likers and group members.
+		Scrapper => Fanpage likers => Fixed issue with scrapping fanpage likers.
+		Fixed issue with  Send messages to fanpage.
+	Quora:-
+		Answer => Answer on Question => Fixed issue with query type keywords.
+	Pinterest:-
+		Account => Fixed issue in account status
+		Create => Fixed issue in creating board with multiple account
+
 Version[1.0.0.58],[18th-June-19]
 New Features:
 	Publisher:- 
