@@ -56,6 +56,8 @@ namespace DominatorHouseCore.Enums.EmbeddedBrowser
         AriaPressed = 10,
         [Description("aria-label")]
         AriaLabel = 11
+        
+        
     }
 
     public enum MouseClickType
@@ -134,7 +136,9 @@ namespace DominatorHouseCore.Enums.EmbeddedBrowser
         LoggingName = 21,
         //aria-checked
         [Description("action_mousedown")]
-        ActionMouseDown = 22
+        ActionMouseDown = 22,
+        [Description("aria-relevant")]
+        AriaRelevant = 23
     }
 
     public enum CoordinateDirection
