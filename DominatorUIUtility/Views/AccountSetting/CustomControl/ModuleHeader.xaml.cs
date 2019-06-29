@@ -56,20 +56,19 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             var newValue = e.NewValue;
         }
         public ICommand ExpandCollapseAllCommand { get; set; }
-
+        bool IsClickedFromToggle { get; set; }
         private void ExpandCollepseAll()
         {
+            IsClickedFromToggle = true;
             HeaderHelper.ExpandCollapseAllExpanderForActivity(View, IsExpanded);
         }
         void UpdateToggleButton()
         {
-            //if (View != null)
-            //{
-            //    var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
-            //    if (isAllCollapsed)
-            //        IsExpanded = false;
-            //    else IsExpanded = true;
-            //}
+            if (IsClickedFromToggle)
+            {
+                var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
+                IsExpanded = !isAllCollapsed;
+            }
         }
     }
 }

@@ -14,7 +14,7 @@
         <ToggleButton VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Right" Margin="5,0" Foreground="White"  Name="ClpsExpnd" Command="{Binding ExpandCollapseAllCommand}">
             <ToggleButton.Style>
                 <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroFlatToggleButton}">
-                    <Setter Property="IsChecked" Value="{Binding IsExpanded,UpdateSourceTrigger=PropertyChanged,Mode=OneWayToSource}" />
+                    <Setter Property="IsChecked" Value="{Binding IsExpanded,UpdateSourceTrigger=PropertyChanged}" />
                     <Style.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Content" Value="{DynamicResource LangKeyCollapseAll}" />

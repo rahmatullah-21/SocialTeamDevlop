@@ -260,21 +260,20 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
                 ex.DebugLog();
             }
         }
-
+        bool IsClickedFromToggle { get; set; }
         private void ClpsExpnd_OnClick(object sender, RoutedEventArgs e)
         {
+            IsClickedFromToggle = true;
             HeaderHelper.ExpandCollapseAllExpander(sender, IsExpanded);
         }
+       
         void UpdateToggleButton()
         {
-            if (View != null)
+            if (IsClickedFromToggle)
             {
                 var isAllCollapsed = HeaderHelper.IsAllExpanderCollapseOrNot(View);
-                if (isAllCollapsed)
-                    IsExpanded = false;
-                else IsExpanded = true;
+                IsExpanded = !isAllCollapsed;
             }
-
         }
     }
     public class Speed

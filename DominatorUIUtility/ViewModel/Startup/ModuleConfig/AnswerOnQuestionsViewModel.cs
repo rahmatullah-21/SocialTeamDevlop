@@ -95,6 +95,20 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             }
         }
 
+        private ObservableCollection<ManageCommentModel> _lstManageCommentModel = new ObservableCollection<ManageCommentModel>();
+
+        public ObservableCollection<ManageCommentModel> LstManageCommentModel
+        {
+            get
+            {
+                return _lstManageCommentModel;
+            }
+            set
+            {
+                SetProperty(ref _lstManageCommentModel, value);
+            }
+        }
+
         #region Methods
         private void AddAnswer(object sender)
         {
@@ -121,6 +135,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
                 AnswerQuestionModel.LstManageCommentModel.Add(messageData.Comments);
 
+                LstManageCommentModel.Add(messageData.Comments);
+
                 messageData.Comments = new ManageCommentModel
                 {
                     LstQueries = AnswerQuestionModel.ManageCommentModel.LstQueries
@@ -143,7 +159,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             try
             {
-                var moduleSettingsUserControl = sender as ActivitySetting;
+                var moduleSettingsUserControl = sender as ActivitySettingWithoutButton;
                 if (!AnswerQuestionModel.ManageCommentModel.LstQueries.Any(x =>
                     moduleSettingsUserControl != null && (x.Content.QueryValue == moduleSettingsUserControl.QueryControl.CurrentQuery.QueryValue &&
                                                           x.Content.QueryType == moduleSettingsUserControl.QueryControl.CurrentQuery.QueryType)))
@@ -252,3 +268,4 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         #endregion
     }
 }
+
