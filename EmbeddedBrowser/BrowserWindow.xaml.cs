@@ -41,7 +41,7 @@ namespace EmbeddedBrowser
         private RequestHandlerCustom _requestHandlerCustom { get; set; }
 
         #region Properties
-        
+
         private string TargetUrl { get; set; } = string.Empty;
 
         private bool CustomUse { get; set; }
@@ -98,7 +98,7 @@ namespace EmbeddedBrowser
 
             if (DominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
                 Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
-            
+
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksLoginUrl();
             UrlBar.Text = Browser.Address = url;
             Browser.IsBrowserInitializedChanged += LoadSettings;
@@ -215,7 +215,7 @@ namespace EmbeddedBrowser
 
 
         public bool IsDisposed => Browser.IsDisposed;
-        
+
         public void LoadPostPage()
         {
             if (CustomUse || string.IsNullOrEmpty(TargetUrl))
@@ -233,7 +233,7 @@ namespace EmbeddedBrowser
         /// </summary>
         /// <returns></returns>
         public string GetPageSource() => Browser.GetSourceAsync().Result;
-        
+
         public void SelectAllText() => Browser.SelectAll();
         public async Task<string> PageText() => await Browser.GetTextAsync();
 
@@ -543,11 +543,17 @@ namespace EmbeddedBrowser
             return await Browser.GetSourceAsync();
         }
 
-        public async Task PressAnyKeyUpdated(int winKeyCode = 13, int n = 1, int delay = 90, double delayAtLast = 0)
+        public async Task PressAnyKeyUpdated(int winKeyCode = 13, int n = 1, int delay = 90, double delayAtLast = 0,
+            bool isShiftDown = false)
         {
             var ke = new KeyEvent();
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
+
+            if (isShiftDown)
+            {
+                ke.Modifiers = CefEventFlags.ShiftDown;
+            }
 
             if (Browser.IsDisposed) return;
 
@@ -1344,7 +1350,7 @@ namespace EmbeddedBrowser
         public async Task ExecuteJSAsyncFromFrame(IFrame frame, string script)
         {
             await Task.Delay(10000);
-            
+
             frame.ExecuteJavaScriptAsync(script);
         }
 
@@ -1379,7 +1385,7 @@ namespace EmbeddedBrowser
 
 
         #endregion
-        
+
     }
 }
 
