@@ -215,7 +215,9 @@ namespace EmbeddedBrowser
 
 
         public bool IsDisposed => Browser.IsDisposed;
-        
+
+        public bool FoundAd { get; set; }
+
         public void LoadPostPage()
         {
             if (CustomUse || string.IsNullOrEmpty(TargetUrl))
@@ -655,6 +657,10 @@ namespace EmbeddedBrowser
 
                 case ActType.CustomActByQueryType:
                     Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].{value}");
+                    break;
+
+                case ActType.EnterValueById:
+                    Browser.ExecuteScriptAsync($"document.getElementById('{attributeValue}').value= '{value}'");
                     break;
 
                 default:
