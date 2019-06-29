@@ -20,6 +20,21 @@
         <Grid>
             <CheckBox Content="{DynamicResource LangKeyFilter}" x:Name="ChkFilter" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Visibility="{Binding ReportModel.FollowRate, Converter={StaticResource BooleanToVisibilityConverter}}" Background="{DynamicResource AccentBaseColorBrush}"
+                     Foreground="White" Margin="0,0,5,0"  HorizontalAlignment="Left" VerticalAlignment="Center" Click="ClkFollowRate">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="12" Height="15" Fill="White"  VerticalAlignment="Center"
+                                       ToolTip="{DynamicResource LangKeyFollowRate}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Margin="5,0" Text="{DynamicResource LangKeyFollowRate}"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
                 <Button  Background="{DynamicResource AccentBaseColorBrush}" Click="RefreshReport"
                      Foreground="White" Margin="0,0,5,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Button.Content>

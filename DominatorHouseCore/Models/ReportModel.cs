@@ -25,7 +25,7 @@ namespace DominatorHouseCore.Models
             get { return _reportCollection; }
             set { SetProperty(ref _reportCollection, value); }
         }
-       
+
         private ObservableCollection<object> _lstReports;
 
         public ObservableCollection<object> LstReports
@@ -36,7 +36,19 @@ namespace DominatorHouseCore.Models
         public ActivityType ActivityType { get; set; }
         public ObservableCollection<GridViewColumnDescriptor> GridViewColumn { get; set; } = new ObservableCollection<GridViewColumnDescriptor>();
         public List<KeyValuePair<string, string>> LstCurrentQueries = new List<KeyValuePair<string, string>>();
-      
+
         public string CampaignId { get; set; } = string.Empty;
+        private bool _FollowRate = false;
+        public bool FollowRate
+        {
+            get
+            {
+                return _FollowRate;
+            }
+            set
+            {
+                SetProperty(ref _FollowRate, value);
+            }
+        }
     }
 }

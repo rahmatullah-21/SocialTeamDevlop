@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.DatabaseHandler.DHTables;
 using DominatorHouseCore.DatabaseHandler.Utility;
@@ -223,9 +224,9 @@ namespace DominatorUIUtility.ViewModel
 
                     await asyncAccount.CheckStatusAsync(DominatorAccountModel, DominatorAccountModel.Token);
 
-
                     if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                     {
+                        ScheduleActivity();
                         await asyncAccount.UpdateDetailsAsync(DominatorAccountModel, DominatorAccountModel.Token);
                         new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
                             .UpdateLastUpdateTime(DateTimeUtilities.GetEpochTime())
@@ -248,7 +249,7 @@ namespace DominatorUIUtility.ViewModel
                         .AddOrUpdateIsAutoVerifyByEmail(DominatorAccountModel.IsAutoVerifyByEmail)
                         .SaveToBinFile();
                     }
-                  
+
                 }
                 catch (Exception ex)
                 {
@@ -262,6 +263,12 @@ namespace DominatorUIUtility.ViewModel
             });
 
             #endregion
+        }
+
+        private void ScheduleActivity()
+        {
+            var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+            runningActivityManager.ScheduleIfAccountGotSucess(DominatorAccountModel);
         }
 
         private bool EditAccount()
@@ -391,7 +398,6 @@ namespace DominatorUIUtility.ViewModel
 
                 #endregion
 
-
                 // Update Old DominatorAccountModel object
                 UpdateOldDominatorAccountModel();
             }
@@ -486,9 +492,12 @@ namespace DominatorUIUtility.ViewModel
                     {
                         if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, verificationType,
                             DominatorAccountModel.Token).Result)
+                        {
                             Application.Current.Dispatcher.Invoke(
                                     () => VerificationSectionVisibility = Visibility.Collapsed
                                 );
+                          ScheduleActivity();
+                        }
                         DominatorAccountModel.VarificationCode = string.Empty;
 
                     });

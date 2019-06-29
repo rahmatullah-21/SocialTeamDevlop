@@ -3579,4 +3579,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPaginationsBeforeSendItToPerformActivity">paginations before send it to perform activity.</system:String>
     <system:String x:Key="LangKeyChangeHashOfImage">Change hash of image</system:String>
     <system:String x:Key="LangKeyMentionUserInStoryPost">Mention user in story post</system:String>
+    <system:String x:Key="LangKeyFollowRate">Follow Rate</system:String>
+    <system:String x:Key="LangKeyFollowedCount">Followed count</system:String>
+    <system:String x:Key="LangKeyFollowBackCount">Follow Back count</system:String>
+    <system:String x:Key="LangKeyRecentHashTagPost">Recent Post of Hashtag</system:String>
+    <system:String x:Key="LangKeyTopHashTagPost">Top Post of Hashtag</system:String>
+    <system:String x:Key="LangKeyTopAndRecentHashTagPost">Top and Recent Post of Hashtag</system:String>
+    <system:String x:Key="LangKeyMustContainSpecificWordsInBio">Must Contain Specific Words in Bio</system:String>
+    <system:String x:Key="LangKeyTopRecentHashTagPost">Hashtag Top And Recent Post(only applicable for Hashtag post and Hashtag user's Post)</system:String>
 </ResourceDictionary>

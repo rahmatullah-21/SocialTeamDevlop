@@ -15,6 +15,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
     {
         void Initialize(IEnumerable<DominatorAccountModel> accountDetails);
         void StartNextRound(DominatorAccountModel accountModel);
+        void ScheduleIfAccountGotSucess(DominatorAccountModel account);
 
     }
     public class RunningActivityManager : IRunningActivityManager
@@ -80,10 +81,23 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     JobManager.RemoveJob(scheduledJob.Name);
                 }
             }
-
             dominatorScheduler.ScheduleActivityForNextJob(accountModel, moduleConfiguration.ActivityType);
         }
+        public void ScheduleIfAccountGotSucess(DominatorAccountModel account)
+        {
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
 
+            if (account.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled))
+                if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
+                {
+                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                    dominatorScheduler?.ScheduleEachActivity(account);
+                }
+                else
+                    StartNextRound(account);
+
+        }
         private int PickNextActivity(ModuleConfiguration arg)
         {
             int score = 0; //start from zero
