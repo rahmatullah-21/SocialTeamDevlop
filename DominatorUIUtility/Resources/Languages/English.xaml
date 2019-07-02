@@ -3587,4 +3587,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyTopAndRecentHashTagPost">Top and Recent Post of Hashtag</system:String>
     <system:String x:Key="LangKeyMustContainSpecificWordsInBio">Must Contain Specific Words in Bio</system:String>
     <system:String x:Key="LangKeyTopRecentHashTagPost">Hashtag Top And Recent Post(only applicable for Hashtag post and Hashtag user's Post)</system:String>
+    <system:String x:Key="LangKeyIsSpinTax">Is SpinTax</system:String>
 </ResourceDictionary>
