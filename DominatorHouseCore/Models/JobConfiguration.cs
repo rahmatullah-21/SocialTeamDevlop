@@ -131,8 +131,8 @@ namespace DominatorHouseCore.Models
                     ActivitiesPerWeek.StartValue = _activitiesPerDay.StartValue;
                 if (_activitiesPerDay.EndValue > ActivitiesPerWeek.StartValue)
                     ActivitiesPerWeek.StartValue = _activitiesPerDay.EndValue;
-                if (_activitiesPerHour.EndValue > _activitiesPerDay.StartValue && _activitiesPerDay.StartValue < _activitiesPerJob.EndValue)
-                    _activitiesPerHour.EndValue = _activitiesPerDay.StartValue;
+                //if (_activitiesPerHour.EndValue > _activitiesPerDay.StartValue && _activitiesPerDay.StartValue < _activitiesPerJob.EndValue)
+                //    _activitiesPerHour.EndValue = _activitiesPerDay.StartValue;
 
                 return _activitiesPerDay;
             }

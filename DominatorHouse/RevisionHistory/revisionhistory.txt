@@ -1,3 +1,23 @@
+Version[1.0.0.60],[5th July 2019]
+New Features:-
+	Linkedin :
+		Profile Endorsement=>Endorsement criteria=>Conencted within x days and y hours
+		Connection => Export connection => Added checkbox to stop the campaign after complete the activit
+Fixed:- 
+	Social :
+		Job Configuration => Fixed issue with per hour limit.
+		Fixed issue with publishing on group.
+
+	Instagram :
+		Account Manager => Fixed issue with saving cookies.
+		Publisher => Own wall => Fixed issue with tag geo location name/location ID.
+
+	Facebook :
+		Engage =>post like => Fixed issue with other configuraton setting.
+
+	Reddit :
+		Issue Fixed  while publishing  multiple post.
+
 Version[1.0.0.59],[29th-June-19]
 New Features:-
 	Social:-

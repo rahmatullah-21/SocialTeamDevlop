@@ -28,15 +28,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://209.250.252.53/soctest/</InstallUrl>
-    <UpdateUrl>http://209.250.252.53/soctest/</UpdateUrl>
+    <InstallUrl>http://209.250.252.53/socinator/</InstallUrl>
+    <UpdateUrl>http://209.250.252.53/socinator/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
     <PublisherName>Socinator</PublisherName>
     <MinimumRequiredVersion>1.0.0.164</MinimumRequiredVersion>
-    <ApplicationRevision>380</ApplicationRevision>
-    <ApplicationVersion>1.0.0.380</ApplicationVersion>
+    <ApplicationRevision>60</ApplicationRevision>
+    <ApplicationVersion>1.0.0.60</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -130,6 +130,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
