@@ -85,6 +85,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditDominatorCore.Integra
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SocinatorNew", "SocinatorNew\SocinatorNew.vdproj", "{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Socinator_Automation", "Socinator_Automation\Socinator_Automation.vdproj", "{D06EF46B-56B1-4681-9E14-7211B4515BE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -797,6 +799,24 @@ Global
 		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|x64.Build.0 = Release
 		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|x86.ActiveCfg = Release
 		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|x86.Build.0 = Release
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug|Any CPU.ActiveCfg = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug|Any CPU.Build.0 = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug|x64.ActiveCfg = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug|x64.Build.0 = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug|x86.ActiveCfg = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug|x86.Build.0 = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug-fast-test|Any CPU.ActiveCfg = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug-fast-test|Any CPU.Build.0 = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug-fast-test|x64.ActiveCfg = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug-fast-test|x64.Build.0 = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug-fast-test|x86.ActiveCfg = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Debug-fast-test|x86.Build.0 = Debug
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Release|Any CPU.ActiveCfg = Release
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Release|Any CPU.Build.0 = Release
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Release|x64.ActiveCfg = Release
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Release|x64.Build.0 = Release
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Release|x86.ActiveCfg = Release
+		{D06EF46B-56B1-4681-9E14-7211B4515BE6}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -820,7 +840,7 @@ Global
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal
