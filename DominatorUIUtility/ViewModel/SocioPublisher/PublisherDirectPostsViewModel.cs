@@ -24,8 +24,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherDirectPostsViewModel : BindableBase
     {
-
-
         #region Constructor
 
         public PublisherDirectPostsViewModel()
@@ -77,8 +75,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// </summary>
         private PublisherCreateCampaignViewModel.TabItemsControl tabItemsControl;
 
-
-
         private PostDetailsModel _postDetailsModel = new PostDetailsModel();
 
         /// <summary>
@@ -120,7 +116,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
         public List<string> MediaList { get; set; } = new List<string>();
-
 
         #endregion
 

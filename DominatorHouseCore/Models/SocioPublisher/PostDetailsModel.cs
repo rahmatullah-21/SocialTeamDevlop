@@ -459,6 +459,15 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _isSpinTax, value);
             }
         }
+
+        private bool _isChangeHashOfMedia;
+        [ProtoMember(24)]
+        public bool IsChangeHashOfMedia
+        {
+            get { return _isChangeHashOfMedia; }
+            set { SetProperty(ref _isChangeHashOfMedia, value); }
+        }
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);

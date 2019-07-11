@@ -152,6 +152,16 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty IsFdSellPostProperty =
             DependencyProperty.Register("IsFdSellPost", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
 
+        public bool IsChangeHashOfMedia
+        {
+            get { return (bool)GetValue(IsChangeHashOfMediaProperty); }
+            set { SetValue(IsChangeHashOfMediaProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsChangeHashOfMedia.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsChangeHashOfMediaProperty =
+            DependencyProperty.Register("IsChangeHashOfMedia", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+
 
 
         Button _selectMedia = new Button();

@@ -84,7 +84,9 @@ namespace DominatorHouse.ViewModels
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
+
             _regionManager = regionManager;
+
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
