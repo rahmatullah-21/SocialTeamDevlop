@@ -286,8 +286,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-
-
                 if (value == _lstPublishedPostDetailsModels)
                     return;
                 SetProperty(ref _lstPublishedPostDetailsModels, value);
@@ -734,7 +732,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     ImagePointer = 0;
                     MediaCurrentPointer = 1;
                     var mediaUtilites = new MediaUtilites();
-                  
+
                     CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
                     TotalMediaCount = MediaList.Count;
                     NextImageEnable = (TotalMediaCount - ImagePointer) > -1;

@@ -77,7 +77,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             }
             set
             {
-                SetValue(MediaListProperty, value);               
+                SetValue(MediaListProperty, value);
             }
         }
 
@@ -202,9 +202,6 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty MediaHeightProperty =
             DependencyProperty.Register("MediaHeight", typeof(double), typeof(MediaViewer), new PropertyMetadata(double.NaN));
 
-
-
-
         public double MediaWidth
         {
             get { return (double)GetValue(MediaWidthProperty); }
@@ -214,6 +211,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         // Using a DependencyProperty as the backing store for MediaWidth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MediaWidthProperty =
             DependencyProperty.Register("MediaWidth", typeof(double), typeof(MediaViewer), new PropertyMetadata(double.NaN));
+
 
         Button _buttonPreviousImage = new Button();
         Button _buttonNextImage = new Button();
@@ -390,7 +388,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                     CurrentMediaPointer = 1;
                     var mediaUtilites = new MediaUtilites();
                     CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
-                   // CurrentMediaUrl = MediaList[ImagePointer];
+                    // CurrentMediaUrl = MediaList[ImagePointer];
                     TotalMediaCount = MediaList.Count;
                     IsEnableNextPointer = (TotalMediaCount - ImagePointer) > 1;
                     IsEnablePreviousPointer = ImagePointer > 0;
@@ -424,10 +422,10 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 {
                     var mediaUtilites = new MediaUtilites();
                     CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
-                   // CurrentMediaUrl = MediaList[ImagePointer];
+                    // CurrentMediaUrl = MediaList[ImagePointer];
                     CurrentMediaPointer = CurrentMediaPointer - 1;
                     UpdateNavigationPointer();
-                }               
+                }
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -442,7 +440,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public void NextImageNavigator()
         {
             try
-            {                            
+            {
                 ImagePointer++;
                 if (ImagePointer < MediaList.Count)
                 {
@@ -451,7 +449,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                     // CurrentMediaUrl = MediaList[ImagePointer];
                     CurrentMediaPointer = CurrentMediaPointer + 1;
                     UpdateNavigationPointer();
-                }                  
+                }
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -459,7 +457,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
             }
             catch (Exception ex)
             {
-               ex.DebugLog();
+                ex.DebugLog();
             }
         }
 
