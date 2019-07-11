@@ -567,7 +567,23 @@
 
                             </GridViewColumn>
 
-                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+
+                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type ListViewItem}">
+                                        <TextBlock Name="AutomationStatus" Text="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}" />
+
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                <Setter TargetName="AutomationStatus" Property="Text" Value="NA" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+
+
+                            </GridViewColumn>
+                            
                         </GridView>
 
 
