@@ -1,7 +1,9 @@
-﻿using DominatorHouseCore.DatabaseHandler.Utility;
+﻿using CommonServiceLocator;
+using DominatorHouseCore.DatabaseHandler.Utility;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Unity;
+using Unity.ServiceLocation;
 
 namespace DominatorHouseCore.IntegrationTests
 {
@@ -15,6 +17,7 @@ namespace DominatorHouseCore.IntegrationTests
         {
             _sut = new UnityContainer();
             _sut.AddNewExtension<CoreUnityExtension>();
+            ServiceLocator.SetLocatorProvider(() => new UnityServiceLocator(_sut));
         }
 
         [TestMethod]
