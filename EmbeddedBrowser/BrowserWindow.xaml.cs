@@ -1383,6 +1383,12 @@ namespace EmbeddedBrowser
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
         }
+        public JavascriptResponse EvaluateScript(string script, int delayInSec = 2)
+        {
+            var resp = Browser.EvaluateScriptAsync(script).Result;
+            Thread.Sleep(TimeSpan.FromSeconds(delayInSec));
+            return resp;
+        }
 
 
         public void SetResourceLoadInstance() =>
@@ -1393,6 +1399,12 @@ namespace EmbeddedBrowser
 
 
         #endregion
+
+        //public void ExecuteScript(string script, int delayInSec = 2)
+        //{
+        //    Browser.ExecuteScriptAsync(script);
+        //    Thread.Sleep(TimeSpan.FromSeconds(delayInSec));
+        //}
 
     }
 }

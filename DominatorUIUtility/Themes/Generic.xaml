@@ -248,6 +248,10 @@
                                             </StackPanel>
                                         </StackPanel>
                                     </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <CheckBox  Name="CheckBoxIsSpinTax" Margin="2" Content="{DynamicResource LangKeyIsSpinTax}" 
+                                               IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSpinTax}"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

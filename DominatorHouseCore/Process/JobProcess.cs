@@ -282,6 +282,9 @@ namespace DominatorHouseCore.Process
         {
             lock (SyncJobProcess)
             {
+                if (!DominatorAccountModel.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled && y.ActivityType == ActivityType))
+                    return Task.CompletedTask;
+
                 if (!_runningJobsHolder.StartIfNotRunning(Id, this)) return Task.CompletedTask;
 
                 var task = ThreadFactory.Instance.Start(() =>
@@ -324,7 +327,7 @@ namespace DominatorHouseCore.Process
                           JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                           GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
                           StopIfAccountLoginFail();
-                         // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                          // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                       }
 
 

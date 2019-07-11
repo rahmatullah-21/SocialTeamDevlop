@@ -44,7 +44,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                 ScrapeWithoutQueriesActionTable[module]?.Invoke();
-                UpdateScheduleIfNoMoreData();
+                UpdateScheduleIfRequire();
                 _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             }
             catch (KeyNotFoundException ex)

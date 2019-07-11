@@ -345,9 +345,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
+        private bool _isSpinTax;
+        [ProtoMember(30)]
+        public bool IsSpinTax
+        {
+            get
+            {
+                return _isSpinTax;
+            }
+            set
+            {
+                if (value == _isSpinTax)
+                    return;
+                SetProperty(ref _isSpinTax, value);
+            }
+        }
         #region Postlist
-       
+
 
 
 

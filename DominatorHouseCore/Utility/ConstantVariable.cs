@@ -14,7 +14,7 @@ namespace DominatorHouseCore.Utility
         public static string UseragentLocale { get; } = "en_US";
 
         // public static string IgVersion { get; } = "40.33.0";
-        public static string IgVersion { get; } = "64.0.0.14.96";
+        public static string IgVersion { get; } = "94.0.0.22.116";
 
         public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
 
@@ -234,9 +234,9 @@ namespace DominatorHouseCore.Utility
         {
             string dir = $"{ GetConfigurationDir()}\\{network}";
             DirectoryUtilities.CreateDirectory(dir);
-            return dir+ "\\Config.bin";
+            return dir + "\\Config.bin";
 
-        } 
+        }
 
         #endregion
 

@@ -93,6 +93,12 @@
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
                               IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
 
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="5" Content="Maximum number of Threads want to run"
+                              IsChecked="{Binding IsThreadLimitChecked}"/>
+                            <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding MaxThreadCount}"/>
+                        </StackPanel>
+
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <CheckBox Content="Default Export Path" Name="IsDefaultPath" IsChecked="{Binding IsDefaultExportPathSelected}"/>
                             <TextBox Text="{Binding ExportPath,Mode=TwoWay}"  Margin="5"

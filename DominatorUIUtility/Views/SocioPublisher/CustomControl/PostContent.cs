@@ -244,6 +244,18 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         public static readonly DependencyProperty IsSourceUrlAndFdSellPostVisibleProperty =
             DependencyProperty.Register("IsSourceUrlAndFdSellPostVisible", typeof(Visibility), typeof(PostContent), new PropertyMetadata(Visibility.Visible));
 
+        public bool IsSpinTax
+        {
+            get { return (bool)GetValue(IsSpinTaxProperty); }
+            set { SetValue(IsSpinTaxProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsFdSellPost.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsSpinTaxProperty =
+            DependencyProperty.Register("IsSpinTax", typeof(bool), typeof(PostContent), new PropertyMetadata(false));
+
+
+
         #endregion
 
         #region Apply Template

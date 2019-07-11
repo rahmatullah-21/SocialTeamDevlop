@@ -11,6 +11,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.Behaviours;
 using MahApps.Metro.Controls.Dialogs;
@@ -508,47 +509,22 @@ namespace DominatorUIUtility.CustomControl
                     //} 
                     #endregion
 
+                    bool islogged = false;
                     SetDataContext();
 
                     TabSwitcher.GoToCampaign();
-
+                    var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                    if (softwareSettings.Settings.IsThreadLimitChecked)
+                    {
+                        if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !islogged)
+                        {
+                            var maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+                            GlobusLogHelper.log.Info($"Thread limit count {maxThreadCount} reached and pending account will starts once the running account's process stopped.");
+                            islogged = true;
+                        }
+                    }
                 }
             });
-
-        }
-
-
-        public void SaveTemplateToAccounts(string templateId, List<RunningTimes> runningTime)
-        {
-            var accountDetails = _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
-
-            accountDetails.ForEach(account =>
-            {
-                var moduleConfiguration = _jobActivityConfigurationManager[account.AccountId, _activityType] ?? new ModuleConfiguration { ActivityType = _activityType };
-                moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
-                moduleConfiguration.IsEnabled = true;
-                moduleConfiguration.Status = "Active";
-                moduleConfiguration.TemplateId = templateId;
-                moduleConfiguration.IsTemplateMadeByCampaignMode = true;
-
-                _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, _activityType, moduleConfiguration);
-
-                runningTime.ForEach(x =>
-                {
-                    foreach (var timingRange in x.Timings)
-                    {
-                        timingRange.Module = _activityType.ToString();
-                    }
-                });
-
-                account.ActivityManager.RunningTime = runningTime;
-
-                moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
-
-                _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
-                globalDbOperation.UpdateAccountActivityManager(account);
-            });
-            _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
 
         }
 
@@ -581,10 +557,6 @@ namespace DominatorUIUtility.CustomControl
                 Campaigns.GetCampaignsInstance(SocialNetwork).CampaignViewModel.LstCampaignDetails.Add(campaignDetails);
             }
         }
-
-
-        #region Createcampaign Method without errorMessage and runningTime
-
         public bool IsNeedToSaveTemplate()
         {
             bool needToCancel = false;
@@ -698,7 +670,6 @@ namespace DominatorUIUtility.CustomControl
             accountsCacheService.UpsertAccounts(accountDetails.ToArray());
 
         }
-
         private void AddTemplateToAccount(string templateId, DominatorAccountModel account, List<RunningTimes> runningTime)
         {
             var moduleConfiguration =
@@ -727,7 +698,39 @@ namespace DominatorUIUtility.CustomControl
             globalDbOperation.UpdateAccountActivityManager(account);
         }
 
-        #endregion
+        //public void SaveTemplateToAccounts(string templateId, List<RunningTimes> runningTime)
+        //{
+        //    var accountDetails = _accountsFileManager.GetAllAccounts(_footerControl.list_SelectedAccounts, SocialNetwork);
+
+        //    accountDetails.ForEach(account =>
+        //    {
+        //        var moduleConfiguration = _jobActivityConfigurationManager[account.AccountId, _activityType] ?? new ModuleConfiguration { ActivityType = _activityType };
+        //        moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
+        //        moduleConfiguration.IsEnabled = true;
+        //        moduleConfiguration.Status = "Active";
+        //        moduleConfiguration.TemplateId = templateId;
+        //        moduleConfiguration.IsTemplateMadeByCampaignMode = true;
+
+        //        _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, _activityType, moduleConfiguration);
+
+        //        runningTime.ForEach(x =>
+        //        {
+        //            foreach (var timingRange in x.Timings)
+        //            {
+        //                timingRange.Module = _activityType.ToString();
+        //            }
+        //        });
+
+        //        account.ActivityManager.RunningTime = runningTime;
+
+        //        moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
+
+        //        _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
+        //        globalDbOperation.UpdateAccountActivityManager(account);
+        //    });
+        //    _accountsCacheService.UpsertAccounts(accountDetails.ToArray());
+
+        //}
 
         #endregion
 
@@ -801,7 +804,6 @@ namespace DominatorUIUtility.CustomControl
         #endregion
 
         #region Update campaign
-
 
         protected void UpdateCampaign()
         {
@@ -932,7 +934,7 @@ namespace DominatorUIUtility.CustomControl
                     campaignFileManager.Edit(campaign);
                 }
             });
-
+            bool islogged = false;
             // Update Account Detail
             var accountDetails = _accountsFileManager.GetAll(SocialNetwork);
             if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
@@ -941,6 +943,17 @@ namespace DominatorUIUtility.CustomControl
             SetDataContext();
 
             TabSwitcher.GoToCampaign();
+
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+            if (softwareSettings.Settings.IsThreadLimitChecked)
+            {
+                if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !islogged)
+                {
+                    var maxThreadCount = softwareSettings.Settings.MaxThreadCount;
+                    GlobusLogHelper.log.Info($"Thread limit count {maxThreadCount} reached and pending account will starts once the running account's process stopped.");
+                    islogged = true;
+                }
+            }
         }
 
         private string GetWarningLangRsrc()
@@ -1091,72 +1104,77 @@ namespace DominatorUIUtility.CustomControl
             return isProcessSuccessful;
         }
 
-        public bool UpdateSelectedAccountDetails(List<DominatorAccountModel> allAccountDetails, List<string> listSelectedAccounts, List<RunningTimes> runningTime)
-        {
-            var isAccountDetailsUpdated = false;
+        //public bool UpdateSelectedAccountDetails(List<DominatorAccountModel> allAccountDetails, List<string> listSelectedAccounts, List<RunningTimes> runningTime)
+        //{
+        //    var isAccountDetailsUpdated = false;
+        //    bool islogged = false;
+        //    var selectedAccounts = new List<DominatorAccountModel>(listSelectedAccounts.Count);
+        //    var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+        //    foreach (var account in allAccountDetails)
+        //    {
+        //        if (!listSelectedAccounts.Contains(account.AccountBaseModel.UserName))
+        //            continue;
 
-            var selectedAccounts = new List<DominatorAccountModel>(listSelectedAccounts.Count);
-            var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
-            foreach (var account in allAccountDetails)
-            {
-                if (!listSelectedAccounts.Contains(account.AccountBaseModel.UserName))
-                    continue;
+        //        isAccountDetailsUpdated = true;
+        //        try
+        //        {
+        //            if (account.ActivityManager.RunningTime == null)
+        //                account.ActivityManager.RunningTime = RunningTimes.DayWiseRunningTimes;
 
-                isAccountDetailsUpdated = true;
-                try
-                {
-                    if (account.ActivityManager.RunningTime == null)
-                        account.ActivityManager.RunningTime = RunningTimes.DayWiseRunningTimes;
+        //            var moduleConfiguration =
+        //                _jobActivityConfigurationManager[account.AccountId, _activityType] ??
+        //                new ModuleConfiguration { ActivityType = _activityType };
+        //            if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !islogged)
+        //            {
+        //                GlobusLogHelper.log.Info("Thread limit reached while Updating.");
+        //                islogged = true;
+        //            }
+        //            _dominatorScheduler.StopActivity(account, _activityType.ToString(), moduleConfiguration.TemplateId, true);
+        //            _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, _activityType, moduleConfiguration);
+        //            moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
 
-                    var moduleConfiguration =
-                        _jobActivityConfigurationManager[account.AccountId, _activityType] ??
-                        new ModuleConfiguration { ActivityType = _activityType };
-                    _dominatorScheduler.StopActivity(account, _activityType.ToString(), moduleConfiguration.TemplateId, true);
-                    _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, _activityType, moduleConfiguration);
-                    moduleConfiguration.LastUpdatedDate = DateTimeUtilities.GetEpochTime();
+        //            moduleConfiguration.IsEnabled = true;
 
-                    moduleConfiguration.IsEnabled = true;
+        //            moduleConfiguration.Status = "Active";
 
-                    moduleConfiguration.Status = "Active";
+        //            moduleConfiguration.TemplateId = TemplateId;
+        //            moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration);
 
-                    moduleConfiguration.TemplateId = TemplateId;
-                    moduleConfiguration.NextRun = DateTimeUtilities.GetStartTimeOfNextJob(moduleConfiguration);
+        //            moduleConfiguration.IsTemplateMadeByCampaignMode = true;
 
-                    moduleConfiguration.IsTemplateMadeByCampaignMode = true;
+        //            runningTime.ForEach(x =>
+        //            {
+        //                foreach (var timingRange in x.Timings)
+        //                {
+        //                    timingRange.Module = _activityType.ToString();
+        //                }
+        //            });
 
-                    runningTime.ForEach(x =>
-                    {
-                        foreach (var timingRange in x.Timings)
-                        {
-                            timingRange.Module = _activityType.ToString();
-                        }
-                    });
+        //            account.ActivityManager.RunningTime = runningTime;
+        //            moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
+        //            moduleConfiguration.IsTemplateMadeByCampaignMode = true;
 
-                    account.ActivityManager.RunningTime = runningTime;
-                    moduleConfiguration.LstRunningTimes = new List<RunningTimes>(account.ActivityManager.RunningTime);
-                    moduleConfiguration.IsTemplateMadeByCampaignMode = true;
+        //            selectedAccounts.Add(account);
+        //            _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
 
-                    selectedAccounts.Add(account);
-                    _jobActivityConfigurationManager.AddOrUpdate(account.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
-
-                    globalDbOperation.UpdateAccountActivityManager(account);
-                }
-                catch (Exception ex)
-                {
-                    ex.DebugLog();
-                }
-            }
-            _accountsCacheService.UpsertAccounts(allAccountDetails.ToArray());
+        //            globalDbOperation.UpdateAccountActivityManager(account);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ex.DebugLog();
+        //        }
+        //    }
+        //    _accountsCacheService.UpsertAccounts(allAccountDetails.ToArray());
 
 
-            // schedule actitvities of selected accounts            
-            foreach (var account in selectedAccounts)
-            {
-                _dominatorScheduler.ScheduleNextActivity(account, _activityType);
-            }
-            return isAccountDetailsUpdated;
+        //    // schedule actitvities of selected accounts            
+        //    foreach (var account in selectedAccounts)
+        //    {
+        //        _dominatorScheduler.ScheduleNextActivity(account, _activityType);
+        //    }
+        //    return isAccountDetailsUpdated;
 
-        }
+        //}
 
 
         /// <summary>
