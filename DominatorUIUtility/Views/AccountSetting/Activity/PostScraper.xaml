@@ -29,7 +29,6 @@
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
                 <StackPanel Visibility="{Binding FacebookElementsVisibility}">
-                    <CheckBox Margin="15,5,0,0" Name="ChkboxFormemberFilter" FontWeight="SemiBold" Foreground="Black" IsChecked="{Binding IsFilterMemberChkd}" Content="{DynamicResource LangKeySkipFriendsAlreadyMemberOfGroup}" />
                     <customControl1:PostOptionCustomControl PostLikeCommentorModel="{Binding PostLikeCommentorModel}" />
                     <Expander Header="{DynamicResource LangKeyJobConfiguration}" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                         <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}" Margin="5,0"/>

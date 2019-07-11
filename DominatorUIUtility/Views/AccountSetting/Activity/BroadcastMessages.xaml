@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
              mc:Ignorable="d" Name="ActivityControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
@@ -14,6 +15,11 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="BroadcastMessages"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+
+    <UserControl.Resources>
+        <converter:BooleanToVisibilityConverter IsInversed="True" x:Key="FacebookInVisiblity"/>
+    </UserControl.Resources>
+
     <Grid  Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -71,12 +77,18 @@
                             <CheckBox Name="ChckSpintax" Margin="0,5,15,0" Content="{DynamicResource LangKeySpintax}" FontWeight="SemiBold" Foreground="Black" 
                           IsChecked="{Binding IsSpintaxChecked}" />
                         </StackPanel>
-                       
-                        <customControl:MessagesControl x:Name="MessagesControl"
+
+                        <customControl:MessagesControl x:Name="MessagesControl" Visibility="{Binding FaceBookIn,Converter={StaticResource FacebookInVisiblity}}"
                                                        Messages="{Binding ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                                                        AddMessagesCommand="{Binding AddMessagesCommand}" 
                                                        CommandParameter="{Binding ElementName=MessagesControl}" HorizontalAlignment="Stretch"/>
-                        <customControl:ManageMessages  LstManageMessagesModel="{Binding LstDisplayManageMessageModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+                        <customControl:ManageMessages Visibility="{Binding FaceBookIn,Converter={StaticResource FacebookInVisiblity}}" LstManageMessagesModel="{Binding LstDisplayManageMessageModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+
+                        <customControl:MessageMediaControl Visibility="{Binding FacebookElementsVisibility}" x:Name="MessageControl" Messages="{Binding ManageMessagesModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                   AddMessagesCommand="{Binding AddMultiMediaMessageCommand}" CommandParameter="{Binding ElementName=MessageControl}"/>
+
+                        <customControl:ManageMediaMessages Visibility="{Binding FacebookElementsVisibility}" LstManageMessagesModel="{Binding LstDisplayManageMessageModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+
                     </StackPanel>
                 </Expander>
             </StackPanel>

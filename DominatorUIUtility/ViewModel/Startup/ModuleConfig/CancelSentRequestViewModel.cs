@@ -1,10 +1,12 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Linq;
+using System.Windows;
 
 namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 {
@@ -16,9 +18,18 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public CancelSentRequestViewModel(IRegionManager region) : base(region)
         {
+            UnfriendOptionModel = new UnfriendOption()
+            {
+                SourceDisplayName = Application.Current.FindResource("LangKeyCancelSentRequestSource")?.ToString(),
+                BySoftwareDisplayName = Application.Current.FindResource("LangKeyPeopleAddedBySoftware")?.ToString(),
+                OutsideSoftwareDisplayName = Application.Current.FindResource("LangKeyPeopleAddedOutsideSoftware")?.ToString()
+            };
+
+            IsNonQuery = true;
+
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.CancelSentRequest });
 
-            NextCommand = new DelegateCommand(NavigateNext);
+            NextCommand = new DelegateCommand(ValidateCancelSentRequest);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             JobConfiguration = new JobConfiguration
@@ -33,5 +44,27 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             };
             ListQueryType.Clear();
         }
+
+
+        public void ValidateCancelSentRequest()
+        {
+            if (!UnfriendOptionModel.IsAddedThroughSoftware && !UnfriendOptionModel.IsAddedOutsideSoftware)
+            {
+                Dialog.ShowDialog("Error", "Please select atleast one source.");
+                return;
+            }
+
+            if (UnfriendOptionModel.IsFilterApplied && (UnfriendOptionModel.DaysBefore == 0 
+                && UnfriendOptionModel.HoursBefore == 0))
+            {
+                Dialog.ShowDialog("Error", "Please select valid source filter.");
+                return;
+            }
+
+            NavigateNext();
+        }
+
+        public UnfriendOption UnfriendOptionModel { get; set; } = new UnfriendOption();
+
     }
 }

@@ -163,6 +163,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public Visibility LinkedInElementsVisibility { get; set; } = Visibility.Collapsed;
         public Visibility AllVisibility { get; set; } = Visibility.Visible;
         public Visibility FacebookElementsVisibility { get; set; } = Visibility.Collapsed;
+        public bool FaceBookIn { get; set; } = false;
         public BroadcastMessagesViewModel(IRegionManager region) : base(region)
         {
             ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.BroadcastMessages });
@@ -171,6 +172,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
             AddQueryToMessageCommand = new DelegateCommand<object>(AddQueryToMessageControl);
+            AddMultiMediaMessageCommand = new DelegateCommand<object>(AddMultiMediaMessages);
 
             DeleteQueryCommand = new DelegateCommand<object>(DeleteQuery);
             DeleteMultipleCommand = new DelegateCommand(DeleteMultiple);
@@ -184,6 +186,11 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 AllVisibility = Visibility.Collapsed;
                 AddQueries();
             }
+            if (FacebookElementsVisibility == Visibility.Visible)
+            {
+                FaceBookIn = true;
+            }
+
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfMessagesPerJob".FromResourceDictionary(),
@@ -203,6 +210,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public ICommand DeleteMultipleCommand { get; set; }
         public ICommand SaveCustomUserListCommand { get; set; }
         public ICommand SaveCustomGroupListCommand { get; set; }
+        public ICommand AddMultiMediaMessageCommand { get; set; }
         #endregion
 
         #region Properties
@@ -362,28 +370,28 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
         #region Methods
 
-        private void AddMessages(object sender)
+        private void AddMultiMediaMessages(object sender)
         {
             try
             {
-                var messageData = sender as MessagesControl;
+                var messageData = sender as MessageMediaControl;
 
                 if (messageData == null) return;
 
                 messageData.Messages.SelectedQuery = new ObservableCollection<QueryContent>(messageData.Messages.LstQueries.Where(x => x.IsContentSelected));
 
-                if (messageData.Messages.SelectedQuery.Count == 0 || string.IsNullOrEmpty(messageData.Messages.MessagesText))
+                if (messageData.Messages.SelectedQuery.Count == 0)
                 {
-                    Dialog.ShowDialog("Warning", "May be you didn't select any query or message is missing.");
+                    Dialog.ShowDialog("Warning", "Please select atleast one query!!");
                     return;
                 }
 
-                if (messageData.Messages.SelectedQuery.Count == 1 &&
-                    messageData.Messages.SelectedQuery[0].Content.QueryType == "All")
+                if (string.IsNullOrEmpty(messageData.Messages.MessagesText))
                 {
-                    Dialog.ShowDialog("Warning", "May be you didn't select any query or message is missing.");
+                    Dialog.ShowDialog("Warning", "Please enter message text!!");
                     return;
                 }
+
                 messageData.Messages.SelectedQuery.Remove(messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
 
                 LstDisplayManageMessageModel.Add(messageData.Messages);
@@ -392,14 +400,93 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 {
                     LstQueries = ManageMessagesModel.LstQueries
                 };
-                messageData.Messages.LstQueries.Select(x =>
-                {
-                    x.IsContentSelected = false;
-                    return x;
-                }).ToList();
+
+                // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+                messageData.Messages.LstQueries.Select(query => { query.IsContentSelected = false; return query; }).ToList();
 
                 ManageMessagesModel = messageData.Messages;
+
                 messageData.ComboBoxQueries.ItemsSource = ManageMessagesModel.LstQueries;
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private void AddMessages(object sender)
+        {
+            try
+            {
+                var messageData = sender as MessageMediaControl;
+
+                if (messageData == null) return;
+
+                messageData.Messages.SelectedQuery = new ObservableCollection<QueryContent>(messageData.Messages.LstQueries.Where(x => x.IsContentSelected));
+
+                if (messageData.Messages.SelectedQuery.Count == 0)
+                {
+                    Dialog.ShowDialog("Warning","Please select atleast one query!!");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(messageData.Messages.MessagesText))
+                {
+                    Dialog.ShowDialog("Warning","Please enter message text!!");
+                    return;
+                }
+
+                messageData.Messages.SelectedQuery.Remove(messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+
+                LstDisplayManageMessageModel.Add(messageData.Messages);
+
+                messageData.Messages = new ManageMessagesModel
+                {
+                    LstQueries = ManageMessagesModel.LstQueries
+                };
+
+                // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+                messageData.Messages.LstQueries.Select(query => { query.IsContentSelected = false; return query; }).ToList();
+
+                ManageMessagesModel = messageData.Messages;
+
+                messageData.ComboBoxQueries.ItemsSource = ManageMessagesModel.LstQueries;
+
+                //var messageData = sender as MessagesControl;
+
+                //if (messageData == null) return;
+
+                //messageData.Messages.SelectedQuery = new ObservableCollection<QueryContent>(messageData.Messages.LstQueries.Where(x => x.IsContentSelected));
+
+                //if (messageData.Messages.SelectedQuery.Count == 0 || string.IsNullOrEmpty(messageData.Messages.MessagesText))
+                //{
+                //    Dialog.ShowDialog("Warning", "May be you didn't select any query or message is missing.");
+                //    return;
+                //}
+
+                //if (messageData.Messages.SelectedQuery.Count == 1 &&
+                //    messageData.Messages.SelectedQuery[0].Content.QueryType == "All")
+                //{
+                //    Dialog.ShowDialog("Warning", "May be you didn't select any query or message is missing.");
+                //    return;
+                //}
+                //messageData.Messages.SelectedQuery.Remove(messageData.Messages.SelectedQuery.FirstOrDefault(x => x.Content.QueryValue == "All"));
+
+                //LstDisplayManageMessageModel.Add(messageData.Messages);
+
+                //messageData.Messages = new ManageMessagesModel
+                //{
+                //    LstQueries = ManageMessagesModel.LstQueries
+                //};
+                //messageData.Messages.LstQueries.Select(x =>
+                //{
+                //    x.IsContentSelected = false;
+                //    return x;
+                //}).ToList();
+
+                //ManageMessagesModel = messageData.Messages;
+                //messageData.ComboBoxQueries.ItemsSource = ManageMessagesModel.LstQueries;
             }
             catch (Exception ex)
             {
