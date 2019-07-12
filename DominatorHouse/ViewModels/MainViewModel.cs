@@ -66,7 +66,6 @@ namespace DominatorHouse.ViewModels
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
-            MediaUtilites.CalculateMD5Hash(@"C:\Users\Public\Videos\Sample Videos\Wildlife - Copy.wmv");
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;

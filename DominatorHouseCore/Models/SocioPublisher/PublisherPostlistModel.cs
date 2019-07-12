@@ -697,7 +697,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _publisherPostSettings, value);
             }
         }
-
+        private bool _isChangeHashOfMedia;
+        [ProtoMember(35)]
+        public bool IsChangeHashOfMedia
+        {
+            get { return _isChangeHashOfMedia; }
+            set { SetProperty(ref _isChangeHashOfMedia, value); }
+        }
         #endregion
 
         #endregion
