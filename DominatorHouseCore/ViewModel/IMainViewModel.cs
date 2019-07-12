@@ -8,11 +8,7 @@ namespace DominatorHouseCore.ViewModel
     public interface IMainViewModel : IDisposable
     {
         void AddNetwork(SocialNetworks socialNetwork);
-
         void SetActiveNetwork(SocialNetworks social);
         AccessorStrategies Strategies { get; }
-        string AccountName { get; set; }
-        SocialNetworks Network { get; set; }
-     
     }
 }

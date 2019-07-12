@@ -313,7 +313,7 @@ namespace DominatorHouseCore.Enums
         MarketPlaceScraper = 107,
         [Description("Facebook")]
         SendGreetingsToFriends = 108,
-        [Description("Facebook")]
+        //[Description("Facebook")]
         WebPostLikeComment = 109,
         [Description("Pinterest")]
         EditPin = 110,

@@ -1839,20 +1839,19 @@ namespace DominatorUIUtility.ViewModel
                            .AddOrUpdateBrowserSettings(true)
                            .SaveToBinFile();
                         }
-                        else if(x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
+                        else if(x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
                         {
                             GlobusLogHelper.log.Info(Log.CustomMessage, x.AccountBaseModel.AccountNetwork, x.AccountBaseModel.UserName, "LangKeyAccountActivities".FromResourceDictionary(), $"Browser automation feature not available for instagram account!");
                         }
 
                     });
 
-                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
+                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList(), true);
 
-                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList());
 
-                }
 
-                Task.Factory.StartNew(() =>
+                    Task.Factory.StartNew(() =>
                     {
                         GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), $"Please wait for 10 secs!");
 
@@ -1860,15 +1859,18 @@ namespace DominatorUIUtility.ViewModel
 
                         Thread.Sleep(10000);
 
-                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
+                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList().ForEach(x =>
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });
-                        
+
                         IsProgressActive = false;
 
 
                     });
+                }
+
+                
 
             }
             else
@@ -1889,7 +1891,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.ForEach(x =>
                     {
-                        if (x.IsAccountManagerAccountSelected)
+                        if (x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram)
                         {
                             x.IsRunProcessThroughBrowser = false;
                             new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
@@ -1899,9 +1901,9 @@ namespace DominatorUIUtility.ViewModel
 
                     });
 
-                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
+                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList(), true);
 
-                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList());
 
                     Task.Factory.StartNew(() =>
                     {
@@ -1911,7 +1913,7 @@ namespace DominatorUIUtility.ViewModel
 
                         Thread.Sleep(10000);
 
-                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
+                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList().ForEach(x =>
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });
