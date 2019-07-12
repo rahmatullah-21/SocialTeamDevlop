@@ -59,7 +59,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             _jobActivityConfigurationManager = jobActivityConfigurationManager;
             _runningJobsHolder = runningJobsHolder;
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            if (softwareSettings.Settings.IsThreadLimitChecked)
+            if (softwareSettings.Settings?.IsThreadLimitChecked ?? false)
             {
                 islogged = false;
                 maxThreadCount = softwareSettings.Settings.MaxThreadCount;

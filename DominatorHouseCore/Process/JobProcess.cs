@@ -294,7 +294,10 @@ namespace DominatorHouseCore.Process
                       if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                       {
                           if (Login())
+                          {
+                              OnLoggedIn();
                               RunScrapper();
+                          }
                           else
                           {
                               JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -322,6 +325,10 @@ namespace DominatorHouseCore.Process
 
                 return task;
             }
+        }
+
+        protected virtual void OnLoggedIn()
+        {
         }
 
         private void StopIfAccountLoginFail()
