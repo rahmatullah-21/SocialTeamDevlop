@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.BusinessLogic.Scheduler;
+﻿using DominatorHouseCore.AppResources;
+using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Dal;
 using DominatorHouseCore.DatabaseHandler.Common.EntityCounters;
@@ -24,6 +25,8 @@ namespace DominatorHouseCore
         protected override void Initialize()
         {
             Container.RegisterSingleton<IGlobalDatabaseConnection, GlobalDatabaseConnection>();
+
+            Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
             Container.RegisterSingleton<ILogViewModel, LogViewModel>();
 
             Container.RegisterSingleton<IAccountScopeFactory, AccountScopeFactory>();

@@ -56,7 +56,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var currentItem = ((FrameworkElement)sender).DataContext as ManageCommentModel;
                 if (currentItem == null)
-                    throw new ArgumentNullException(nameof(currentItem));
+                    return;
 
                 var editComment = new CommentControl
                 {
@@ -81,7 +81,6 @@ namespace DominatorUIUtility.CustomControl
                 editComment.MainGrid.Margin = new Thickness(20);
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(editComment, "Edit comment");
-                window.ShowDialog();
                 window.Closed += (s, evnt) =>
                 {
                     if (editComment.Isupdated)
@@ -92,6 +91,8 @@ namespace DominatorUIUtility.CustomControl
 
                     currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
                 };
+                window.ShowDialog();
+              
             }
             catch (Exception ex)
             {

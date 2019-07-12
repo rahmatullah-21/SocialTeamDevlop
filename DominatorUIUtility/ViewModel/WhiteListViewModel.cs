@@ -50,7 +50,8 @@ namespace DominatorUIUtility.ViewModel
         #endregion
 
         #region Properties
-
+        bool IsNeedToStop;
+        bool IsAddingToDB;
         private static object _lock = new object();
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
@@ -149,13 +150,21 @@ namespace DominatorUIUtility.ViewModel
             {
                 DbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
-                    Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
-                                                     new WhitelistUserModel
-                                                     {
-                                                         WhitelistUser = user.UserName
-                                                     }));
-                    Thread.Sleep(5);
+                    IsAddingToDB = true;
+                    if (!IsNeedToStop)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
+                                                         new WhitelistUserModel
+                                                         {
+                                                             WhitelistUser = user.UserName
+                                                         }));
+                        Thread.Sleep(5);
+                    }
+                    else
+                        return;
                 });
+                IsNeedToStop = false;
+                IsAddingToDB = false;
             });
         }
 
@@ -181,31 +190,37 @@ namespace DominatorUIUtility.ViewModel
             List<BlackListUser> lstBlackListUser = BlackListDbOperations?.Get<BlackListUser>();
             lstuser?.ForEach(user =>
             {
-                var userName = user.Trim();
-                if (!string.IsNullOrEmpty(userName))
+                IsAddingToDB = true;
+                if (!IsNeedToStop)
                 {
-                    if (LstWhiteListUsers.All(x => string.Compare(x.WhitelistUser, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
-                        && lstBlackListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0))
+                    var userName = user.Trim();
+                    if (!string.IsNullOrEmpty(userName))
                     {
-
-                        Application.Current.Dispatcher.Invoke(() =>
+                        if (LstWhiteListUsers.All(x => string.Compare(x.WhitelistUser, userName, StringComparison.InvariantCultureIgnoreCase) != 0)
+                            && lstBlackListUser.All(x => string.Compare(x.UserName, userName, StringComparison.InvariantCultureIgnoreCase) != 0))
                         {
-                            _whiteListUser.Add(new WhiteListUser()
+
+                            Application.Current.Dispatcher.Invoke(() =>
                             {
-                                UserName = userName
-                            });
+                                _whiteListUser.Add(new WhiteListUser()
+                                {
+                                    UserName = userName
+                                });
+                            }
+                            );
                         }
-                        );
-                    }
-                    else
-                    {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,
-                            userName, UserType.WhiteListedUser,
-                            $"{userName} already added to Whitelist/Blacklist. Click on refresh button to view updated list.");
+                        else
+                        {
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,
+                                userName, UserType.WhiteListedUser,
+                                $"{userName} already added to Whitelist/Blacklist. Click on refresh button to view updated list.");
+                        }
                     }
                 }
+                else return;
             });
-
+            IsNeedToStop = false;
+            IsAddingToDB = false;
             // Remove duplicates
             _whiteListUser = _whiteListUser.GroupBy(x => x.UserName).Select(y => y.First()).ToList();
 
@@ -227,13 +242,20 @@ namespace DominatorUIUtility.ViewModel
             {
                 DbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
-                    Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
-                        new WhitelistUserModel
-                        {
-                            WhitelistUser = user.UserName
-                        }));
-                    Thread.Sleep(5);
+                    IsAddingToDB = true;
+                    if (!IsNeedToStop)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
+                            new WhitelistUserModel
+                            {
+                                WhitelistUser = user.UserName
+                            }));
+                        Thread.Sleep(5);
+                    }
+                    else return;
                 });
+                IsNeedToStop = false;
+                IsAddingToDB = false;
             });
         }
         private void SelectAll(bool isChecked)
@@ -267,15 +289,26 @@ namespace DominatorUIUtility.ViewModel
             }
             Task.Factory.StartNew(() =>
             {
-                selectedUser.ForEach(x =>
+                if (IsAllWhiteListUserChecked)
                 {
+                    if (IsAddingToDB) IsNeedToStop = true;
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        LstWhiteListUsers.Remove(x);
-                        DbOperations.Remove<WhiteListUser>(user => user.UserName == x.WhitelistUser);
+                        LstWhiteListUsers.Clear();
+                        DbOperations.RemoveAll<WhiteListUser>();
                     });
-                    Thread.Sleep(50);
-                });
+                    IsAllWhiteListUserChecked = false;
+                }
+                else
+                    selectedUser.ForEach(x =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            LstWhiteListUsers.Remove(x);
+                            DbOperations.Remove<WhiteListUser>(user => user.UserName == x.WhitelistUser);
+                        });
+                        Thread.Sleep(50);
+                    });
             });
         }
 

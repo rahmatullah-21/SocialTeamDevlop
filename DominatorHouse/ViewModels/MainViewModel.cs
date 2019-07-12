@@ -2,6 +2,7 @@
 using DominatorHouse.Social.AutoActivity.ViewModels;
 using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
+using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
@@ -20,7 +21,6 @@ using DominatorUIUtility.ViewModel;
 using DominatorUIUtility.Views.Publisher;
 using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,33 +60,12 @@ namespace DominatorHouse.ViewModels
                 SetProperty(ref _tabDock, value, nameof(TabDock));
             }
         }
-
-
-        private string _accountName;
-        public string AccountName
-        {
-            get { return _accountName; }
-            set { SetProperty(ref _accountName, value); }
-        }
-
-        private SocialNetworks _network;
-        public SocialNetworks Network
-        {
-            get { return _network; }
-            set { SetProperty(ref _network, value); }
-        }
-
-
-        IRegionManager _regionManager;
-        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy, IRegionManager regionManager)
+        public MainViewModel(ILogViewModel logViewModel, IApplicationResourceProvider applicationResourceProvider, IPerfCounterViewModel perfCounterViewModel, ISelectedNetworkViewModel availableNetworks, ISchedulerProxy schedulerProxy)
         {
             SocinatorKeyHelper.InitilizeKey();
             FatalErrorDiagnosis();
 
             Application.Current.MainWindow.Closing += (s, e) => OnClosing(e);
-
-            _regionManager = regionManager;
-
             LogViewModel = logViewModel;
             _applicationResourceProvider = applicationResourceProvider;
             PerfCounterViewModel = perfCounterViewModel;
@@ -176,6 +155,19 @@ namespace DominatorHouse.ViewModels
             catch (Exception ex)
             {
                 ex.DebugLog();
+                //if (!Application.Current.Dispatcher.CheckAccess())
+                //{
+                //    Application.Current.Dispatcher.Invoke(() =>
+                //    {
+                //        Application.Current.Shutdown();
+                //        Process.GetCurrentProcess().Kill();
+                //    });
+                //}
+                //else
+                //{
+                //    Application.Current.Shutdown();
+                //    Process.GetCurrentProcess().Kill();
+                //}
             }
         }
 
@@ -299,7 +291,6 @@ namespace DominatorHouse.ViewModels
         {
             try
             {
-
                 Task.Factory.StartNew(() =>
                  {
                      FeatureFlags.UpdateFeatures();
@@ -326,7 +317,24 @@ namespace DominatorHouse.ViewModels
                                  ex.DebugLog();
                              }
                          }
-                         Task.Delay(5);
+                        //FeatureFlags.Check(module.Network.ToString(), () =>
+                        //{
+                        //    try
+                        //    {
+                        //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
+                        //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                        //        AddNetwork(socialNetworkModule.Network);
+                        //    }
+                        //    catch (AggregateException ex)
+                        //    {
+                        //        Console.WriteLine(ex.Message);
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        ex.DebugLog();
+                        //    }
+                        //});
+                        Task.Delay(5);
                      }
 
                      SetActiveNetwork(SocialNetworks.Social);
@@ -380,6 +388,12 @@ namespace DominatorHouse.ViewModels
                     var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
                     softwareSetting.InitializeOnLoadConfigurations();
 
+                    //  softwareSetting.ActivityManagerInitializer();
+
+                    //softwareSetting.ScheduleAutoUpdation();
+                    //if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                    //    softwareSetting.ScheduleAdsScraping();
+
                     #endregion
 
                 });
@@ -401,6 +415,43 @@ namespace DominatorHouse.ViewModels
                             .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
                     deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
                 });
+
+                #region Commented
+                //Parallel.Invoke(() =>
+                //                 {
+                //                     DirectoryUtilities.DeleteOldLogsFile();
+                //                     DirectoryUtilities.CompressAccountDetails();
+                //                 },
+                //                 () =>
+                //                  {
+                //                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+                //                    softwareSetting.InitializeOnLoadConfigurations();
+                //                    softwareSetting.ActivityManagerInitializer();
+                //                    softwareSetting.ScheduleAutoUpdation();
+                //                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                //                        softwareSetting.ScheduleAdsScraping();
+                //                },
+
+                //                () =>
+                //                {
+                //                    PublisherInitialize.GetInstance.PublishCampaignInitializer();
+                //                    PublishScheduler.ScheduleTodaysPublisher();
+                //                    PublishScheduler.UpdateNewGroupList();
+                //                },
+                //               () =>
+                //                {
+                //                    var publisherPostFetcher = new PublisherPostFetcher();
+                //                    publisherPostFetcher.StartFetchingPostData();
+                //                },
+                //                () =>
+                //                {
+                //                    var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+                //                    var deletionPostlist =
+                //                        genericFileManager.GetModuleDetails<PostDeletionModel>(ConstantVariable
+                //                            .GetDeletePublisherPostModel).Where(x => x.IsDeletedAlready == false).ToList();
+                //                    deletionPostlist.ForEach(PublishScheduler.DeletePublishedPost);
+                //                }); 
+                #endregion
             }
             catch (Exception ex)
             {

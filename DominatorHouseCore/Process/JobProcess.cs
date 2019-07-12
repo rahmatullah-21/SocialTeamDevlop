@@ -53,7 +53,6 @@ namespace DominatorHouseCore.Process
         private readonly IQueryScraperFactory _queryScraperFactory;
         private readonly IHttpHelper _httpHelper;
         private readonly IDominatorScheduler _dominatorScheduler;
-        protected readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
         public CampaignDetails CampaignDetails { get; }
 
 
@@ -73,7 +72,6 @@ namespace DominatorHouseCore.Process
             _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-            _softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             TemplateId = processScopeModel.TemplateId;
             ActivityType = processScopeModel.ActivityType;
             SocialNetworks = processScopeModel.Network;
@@ -295,32 +293,19 @@ namespace DominatorHouseCore.Process
                       // Login and run scraper/poster from derived concrete classes
                       if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                       {
-                          try
+                          if (Login())
                           {
-                              if (Login())
-                                  RunScrapper();
-                              else
-                              {
-                                  JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                                  GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
-                                  StopIfAccountLoginFail();
-                                  //_dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
-                              }
+                              OnLoggedIn();
+                              RunScrapper();
                           }
-                          catch (OperationCanceledException)
+                          else
                           {
-                              throw new OperationCanceledException();
-                          }
-                          finally
-                          {
-                              CloseAutomationBrowser();
-
                               JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                               GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
                               // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                               StopIfAccountLoginFail();
-
                           }
+
                       }
                       else
                       {
@@ -340,6 +325,10 @@ namespace DominatorHouseCore.Process
 
                 return task;
             }
+        }
+
+        protected virtual void OnLoggedIn()
+        {
         }
 
         private void StopIfAccountLoginFail()
@@ -367,11 +356,6 @@ namespace DominatorHouseCore.Process
         ///     Use StartProcessAsync in consumer code to create task and start process.
         /// </summary>
         protected abstract bool Login();
-
-        protected virtual bool CloseAutomationBrowser()
-        {
-            return true;
-        }
 
         /// <summary>
         ///     Does a POST request for certain process after login. Like Follow, Like, Comment etc.
@@ -404,15 +388,9 @@ namespace DominatorHouseCore.Process
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
-                    if (!DominatorAccountModel.IsRunProcessThroughBrowser)
-                        logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
-                    else
-                        logInProcess.LoginWithBrowserMethod(DominatorAccountModel);
-
-                    
+                    logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
 
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
 
                 }
 
@@ -456,8 +434,8 @@ namespace DominatorHouseCore.Process
 
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
-            Task.Delay(seconds * 1000, JobCancellationTokenSource.Token).Wait();
-            //Thread.Sleep(seconds * 1000);
+
+            Thread.Sleep(seconds * 1000);
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
         }
