@@ -1832,23 +1832,19 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.ForEach(x =>
                     {
-                        if (x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram)
+                        if (x.IsAccountManagerAccountSelected)
                         {
                             x.IsRunProcessThroughBrowser = true;
                             new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
                            .AddOrUpdateBrowserSettings(true)
                            .SaveToBinFile();
                         }
-                        else if(x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
-                        {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, x.AccountBaseModel.AccountNetwork, x.AccountBaseModel.UserName, "LangKeyAccountActivities".FromResourceDictionary(), $"Browser automation feature not available for instagram account!");
-                        }
 
                     });
 
-                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList(), true);
+                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
 
-                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList());
+                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
 
 
                     Task.Factory.StartNew(() =>
@@ -1859,7 +1855,7 @@ namespace DominatorUIUtility.ViewModel
 
                         Thread.Sleep(10000);
 
-                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList().ForEach(x =>
+                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });
@@ -1891,7 +1887,7 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.ForEach(x =>
                     {
-                        if (x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram)
+                        if (x.IsAccountManagerAccountSelected)
                         {
                             x.IsRunProcessThroughBrowser = false;
                             new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
@@ -1901,9 +1897,9 @@ namespace DominatorUIUtility.ViewModel
 
                     });
 
-                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList(), true);
+                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
 
-                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList());
+                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
 
                     Task.Factory.StartNew(() =>
                     {
@@ -1913,7 +1909,7 @@ namespace DominatorUIUtility.ViewModel
 
                         Thread.Sleep(10000);
 
-                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram).ToList().ForEach(x =>
+                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });
