@@ -267,7 +267,7 @@
                             </Controls:DropDownButton.Items>
                         </Controls:DropDownButton>
 
-                        <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" Visibility="{Binding SelectedNetworkViewModel.Selected, Converter={StaticResource VisibleIfNetworkIsNotInstagramConverter}}" BorderThickness="0" Name="btnBrowserAutomation">
+                        <Controls:DropDownButton  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnBrowserAutomation">
                             <Controls:DropDownButton.Content>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal">
@@ -567,8 +567,9 @@
 
                             </GridViewColumn>
 
+                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
 
-                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
+                            <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate DataType="{x:Type ListViewItem}">
                                         <TextBlock Name="AutomationStatus" Text="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}" />
@@ -582,7 +583,7 @@
                                 </GridViewColumn.CellTemplate>
 
 
-                            </GridViewColumn>
+                            </GridViewColumn>-->
                             
                         </GridView>
 
