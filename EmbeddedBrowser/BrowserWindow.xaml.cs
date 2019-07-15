@@ -663,6 +663,10 @@ namespace EmbeddedBrowser
                     Browser.ExecuteScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{index}].{value}");
                     break;
 
+                case ActType.ClickById:
+                    Browser.ExecuteScriptAsync($"document.getElementById('{attributeValue}').click()");
+                    break;
+
                 default:
                     Browser.ExecuteScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{index}].{actType.GetDescriptionAttr()}");
                     break;
@@ -908,7 +912,7 @@ namespace EmbeddedBrowser
             if (delayBefore > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
-            var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].length";
+            var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
             var doc2 = $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
