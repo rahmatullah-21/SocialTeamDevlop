@@ -297,6 +297,26 @@ namespace EmbeddedBrowser
             }
         }
 
+
+        public async Task ClearCookies()
+        {
+            try
+            {
+                var callBack = new TaskCompletionCallback();
+
+                var set = Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookiesAsync("", "");
+
+                Refresh();
+
+                await Task.Delay(500);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
         public async Task<bool> SaveCookies()
         {
             if (_isLoggedIn) return false;
@@ -1260,7 +1280,7 @@ namespace EmbeddedBrowser
                     return true;
                 else
                     return false;
-                
+
                 _loginFailed = false;
 
                 DominatorAccountModel.Cookies = BrowserCookiesIntoModel().Result;
