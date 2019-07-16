@@ -64,6 +64,7 @@ namespace EmbeddedBrowser
                 OnPropertyChanged(nameof(DominatorAccountModel));
             }
         }
+        public bool browserLoginMessage { get; set; } = true;
 
         public bool IsLoaded { get; set; }
 
@@ -80,14 +81,20 @@ namespace EmbeddedBrowser
             SearchCommand = new DelegateCommand(() => GoToUrl());
         }
 
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false,
-            bool isNeedResourceData = false)
-            : this()
+
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false, bool isNeedResourceData = false,
+            bool browserLoginMessageToDisplay = true)
+              : this()
         {
             DominatorAccountModel = dominatorAccountModel;
             TargetUrl = targetUrl;
             CustomUse = customUse;
+
             _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
+
+            //SkipYoutubeAd = skipAd;
+            browserLoginMessage = browserLoginMessageToDisplay;
+
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
@@ -1253,6 +1260,22 @@ namespace EmbeddedBrowser
                     return true;
                 else
                     return false;
+                
+                _loginFailed = false;
+
+                DominatorAccountModel.Cookies = BrowserCookiesIntoModel().Result;
+                DominatorAccountModel.IsUserLoggedIn = true;
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
+
+                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                  .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                   .SaveToBinFile();
+
+                if (browserLoginMessage)
+                    CustomLog("Browser login successful.");
+                return true;
             }
             catch (Exception ex)
             {
