@@ -253,6 +253,7 @@
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\PositiveValueConvertor.cs" />
     <Compile Include="Converters\PublisherSyncStringToBooleanConverter.cs" />
+    <Compile Include="Converters\SocialNetworkToLinkConverter.cs" />
     <Compile Include="Converters\SocialNetworkToColorBrushConverter.cs" />
     <Compile Include="Converters\SocialNetworkToVisualBrushConverter.cs" />
     <Compile Include="Converters\StringLengthToBooleanConverter.cs" />

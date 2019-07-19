@@ -468,7 +468,7 @@ namespace DominatorUIUtility.ViewModel
                     var isChecked = ((ToggleSwitch)sender).IsChecked;
                     var isToggleSwitchSelected = isChecked != null && (bool)isChecked;
                     ChangeAllCampStatus();
-                    ThreadFactory.Instance.Start(() =>
+                    Task.Factory.StartNew(() =>
                     {
                         ActivePauseCampaign(selectedCampaign, isToggleSwitchSelected);
                     }).Wait();

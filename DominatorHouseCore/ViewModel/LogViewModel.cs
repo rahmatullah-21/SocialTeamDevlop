@@ -144,6 +144,7 @@ namespace DominatorHouseCore.ViewModel
 
         public void Add(string message, LogLevel logLevel)
         {
+            
             lock (SyncObject)
             {
 

@@ -81,6 +81,8 @@ namespace DominatorHouseCore.Utility
         }
 
 
+       
+
         public const string CreateCampaign = "_Create Campaign";
 
         public const string UpdateCampaign = "_Update Campaign";
@@ -300,6 +302,29 @@ namespace DominatorHouseCore.Utility
         public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
         public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
+
+        public static string SocialAccountManagerVideoLink => "https://www.youtube.com/playlist?list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE";
+
+        public static string FbAccountManagerVideoLink => "https://www.youtube.com/watch?v=R-ZJTZ1_SJg&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2&t=0s";
+
+        public static string IgAccountManagerVideoLink => "https://www.youtube.com/watch?v=oaDKQ1bg1sk&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2";
+
+        public static string LdAccountManagerVideoLink => "https://www.youtube.com/watch?v=qBlgzMm756s&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=3";
+
+        public static string QdAccountManagerVideoLink => "https://www.youtube.com/watch?v=g0oHEjXUr2A&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=4";
+
+        public static string RdAccountManagerVideoLink => "https://www.youtube.com/watch?v=nwXqBOC0Hq0&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=5";
+
+        public static string TmblrAccountManagerVideoLink => "https://www.youtube.com/watch?v=9s3i-2U-Nas&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=6";
+
+        public static string TdAccountManagerVideoLink => "https://www.youtube.com/watch?v=vcvos6uAhiI&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=7";
+
+        public static string PdAccountManagerVideoLink => "https://www.youtube.com/watch?v=RK2nzfJRudc&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=8";
+
+        public static string YtAccountManagerVideoLink => "https://www.youtube.com/watch?v=SWj2OdU_7Ts&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=9";
+
+       
+
 
     }
 

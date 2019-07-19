@@ -264,7 +264,7 @@ namespace DominatorHouseCore.Process
         #region Job Process workflow routines
 
         private static readonly object SyncJobProcess = new object();
-
+        
         public JobKey Id => AsId(AccountId, TemplateId);
 
         public static JobKey AsId(string account, string templateId)
@@ -283,8 +283,9 @@ namespace DominatorHouseCore.Process
                 if (!DominatorAccountModel.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled && y.ActivityType == ActivityType))
                     return Task.CompletedTask;
 
-                if (!_runningJobsHolder.StartIfNotRunning(Id, this)) return Task.CompletedTask;
-
+                if (!_runningJobsHolder.StartIfNotRunning(Id, this))
+                    return Task.CompletedTask;
+                
                 var task = ThreadFactory.Instance.Start(() =>
                   {
 
@@ -336,7 +337,10 @@ namespace DominatorHouseCore.Process
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
 
-            _dominatorScheduler.Stop(DominatorAccountModel.AccountId, moduleConfiguration.TemplateId);
+            //_dominatorScheduler.Stop(DominatorAccountModel.AccountId, moduleConfiguration.TemplateId);
+
+            if (_dominatorScheduler.Stop(DominatorAccountModel.AccountId, moduleConfiguration.TemplateId, true))
+                Stop();
         }
 
         public void Stop()
