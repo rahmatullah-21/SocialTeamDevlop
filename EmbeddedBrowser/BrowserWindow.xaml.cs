@@ -880,7 +880,7 @@ namespace EmbeddedBrowser
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1 :
                 int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
-
+            
             while (itemCount >= 0)
             {
                 listNodes.Add(await GetChildElementValueAsync(actType, parentAttributeType,
@@ -947,16 +947,19 @@ namespace EmbeddedBrowser
 
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
-            var doc2 = $"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
+            var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length";
+
+            var jsResponse = Browser.EvaluateScriptAsync(doc2).Result.Result;
 
             if (Browser.IsDisposed) return "";
+
             switch (actType)
             {
                 case ActType.GetValue:
                     return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
 
                 case ActType.GetLength:
-                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "";
+                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "0";
 
                 case ActType.GetLengthByQuery:
                     return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "0";
