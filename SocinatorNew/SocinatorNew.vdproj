@@ -8821,20 +8821,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Socinator_Test"
-        "ProductCode" = "8:{600D4456-8563-4984-93B0-8928FD145F4F}"
-        "PackageCode" = "8:{2B0A2305-9D27-48E2-9051-D5777EA8D73D}"
+        "ProductName" = "8:Socinator"
+        "ProductCode" = "8:{2239F023-5FE2-4E41-924C-19C16DE258C8}"
+        "PackageCode" = "8:{03D8C9F8-2917-4663-BF0B-558FFA96C70E}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.387"
+        "ProductVersion" = "8:1.0.61"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.387"
+        "Title" = "8:Socinator 1.0.0.61"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"
@@ -8945,7 +8945,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_57727BA5EBED400D88B097C059AE61DF"
             {
-            "Name" = "8:Socinator_Test"
+            "Name" = "8:Socinator"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -8959,7 +8959,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7E9BF449F6AE441B976DB97371E9EC99"
             {
-            "Name" = "8:Socinator_Test"
+            "Name" = "8:Socinator"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -8973,7 +8973,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9194CB137E9B44F69680BB8904162DA1"
             {
-            "Name" = "8:Socinator_Test"
+            "Name" = "8:Socinator"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -9386,7 +9386,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3527753F54744C9C87FEEBDF617EEBD7"
             {
-            "SourcePath" = "8:..\\DominatorHouse\\obj\\Debug\\Socinator.exe"
+            "SourcePath" = "8:..\\DominatorHouse\\obj\\Release\\Socinator.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_700B19654AF749FA895365FE0BFB2982"

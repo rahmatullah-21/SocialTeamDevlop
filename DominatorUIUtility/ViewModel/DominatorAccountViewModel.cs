@@ -97,13 +97,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _knowledgeBaseLink; }
             set { SetProperty(ref _knowledgeBaseLink, value); }
         }
-        private string _videoTutorialLink = "https://www.facebook.com/SociNator.TheSocialDominator/videos/vl.431197484282443/2245263829020170/?type=1";
-
-        public string VideoTutorialLink
-        {
-            get { return _videoTutorialLink; }
-            set { SetProperty(ref _videoTutorialLink, value); }
-        }
+       
 
 
         private bool _isOpenHelpControl;

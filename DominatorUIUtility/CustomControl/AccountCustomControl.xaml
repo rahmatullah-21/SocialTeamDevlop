@@ -26,7 +26,8 @@
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
         <converters:BooleanToAutomationStatusConverter x:Key="BooleanToAutomationStatusConverter" />
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
+        <converters:SocialNetworkToLinkConverter x:Key="SocialNetworkToLinkConverter" />
+        
         <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}" x:Key="VisiblityStyle">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
@@ -35,6 +36,9 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+
+
 
         <Rectangle x:Key="DetailsIcon" Fill="Black" Width="20" Height="20">
             <Rectangle.OpacityMask>
@@ -599,8 +603,9 @@
                 <Controls:FlyoutsControl>
                     <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
-                        <local:HelpControl ModuleDescription="You can add/delete single account,you can import/export multiple account"
-                                                 VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
+
+                    <local:HelpControl ModuleDescription="You can add/delete single account,you can import/export multiple account"
+                                                 VideoTutorial="{Binding SelectedNetworkViewModel.Selected, Converter={StaticResource SocialNetworkToLinkConverter}}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
                     </Controls:Flyout>
                 </Controls:FlyoutsControl>

@@ -5,7 +5,7 @@ namespace DominatorHouseCore.Process
     public interface IRunningJobsHolder
     {
         bool IsRunning(JobKey id);
-        bool Stop(JobKey id);
+        bool Stop(JobKey id, bool isStopIfAccountLoginFail = false);
         bool StartIfNotRunning(JobKey id, IJobProcess jobProcess);
         bool IsActivityRunningForAccount(string accountId);
     }
@@ -27,17 +27,21 @@ namespace DominatorHouseCore.Process
             }
         }
 
-        public bool Stop(JobKey id)
+        public bool Stop(JobKey id, bool isStopIfAccountLoginFail = false)
         {
             lock (_syncJobProcess)
-                if (IsRunning(id))
+            {
+                if (_runningJobProcesses.ContainsKey(id))
                 {
                     var jobProcess = _runningJobProcesses[id];
                     _runningJobProcesses.Remove(id);
                     _runningAccounts.Remove(id.AccountId);
-                    jobProcess.Stop();
+                    if (!isStopIfAccountLoginFail)
+                        jobProcess.Stop();
                     return true;
                 }
+            }
+
 
             return false;
         }
@@ -46,7 +50,7 @@ namespace DominatorHouseCore.Process
         {
             lock (_syncJobProcess)
             {
-                if (IsRunning(id))
+                if (_runningJobProcesses.ContainsKey(id))
                     return false;
                 _runningAccounts.Add(id.AccountId);
                 _runningJobProcesses.Add(id, jobProcess);

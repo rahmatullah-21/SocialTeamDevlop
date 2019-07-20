@@ -948,9 +948,7 @@ namespace EmbeddedBrowser
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
             var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length";
-
-            var jsResponse = Browser.EvaluateScriptAsync(doc2).Result.Result;
-
+            
             if (Browser.IsDisposed) return "";
 
             switch (actType)
