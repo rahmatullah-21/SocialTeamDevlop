@@ -294,7 +294,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
             }
 
-
             // Check whether campaign has end date or not 
             if (!PublisherCreateCampaignModel.JobConfigurations.IsCampaignHasEndDateChecked)
                 PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate = null;
@@ -322,7 +321,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             try
             {
-
                 // Gettings general settings of current campaign
                 var generalSettingsModel = _genericFileManager.GetModuleDetails<GeneralModel>
                 (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
@@ -416,8 +414,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             }
                             catch (Exception ex)
                             {
-
-
                             }
                             // Iterate the current post to readding times 
                             for (var readdCount = 1; readdCount < postData.PublisherPostSettings.GeneralPostSettings.ReaddCount; readdCount++)
@@ -434,8 +430,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                                 }
                                 catch (Exception ex)
                                 {
-
-
                                 }
                             }
                         }
@@ -771,6 +765,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherPostSettings = post.PublisherPostSettings,
                 ExpiredTime = expireDate,
                 PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+                IsChangeHashOfMedia = post.IsChangeHashOfMedia
             };
 
             // Assign Created Date Time
@@ -830,6 +825,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     FdSellLocation = post.FdSellLocation,
                     PostId = post.PostDetailsId,
                     PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
+                    IsChangeHashOfMedia = post.IsChangeHashOfMedia
                 };
                 LstPublishedPostDetailsModels.Add(postlistModel);
             });

@@ -37,7 +37,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static bool GetIsEnablePreviousPointer(DependencyObject element)
         {
-            return (bool) element.GetValue(IsEnablePreviousPointerProperty);
+            return (bool)element.GetValue(IsEnablePreviousPointerProperty);
         }
 
 
@@ -55,7 +55,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static bool GetIsEnableNextPointer(DependencyObject element)
         {
-            return (bool) element.GetValue(IsEnableNextPointerProperty);
+            return (bool)element.GetValue(IsEnableNextPointerProperty);
         }
 
         #endregion
@@ -72,7 +72,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static double GetMediaHeight(DependencyObject element)
         {
-            return (double) element.GetValue(MediaHeightProperty);
+            return (double)element.GetValue(MediaHeightProperty);
         }
 
         #endregion
@@ -89,7 +89,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static double GetMediaWidth(DependencyObject element)
         {
-            return (double) element.GetValue(MediaWidthProperty);
+            return (double)element.GetValue(MediaWidthProperty);
         }
 
 
@@ -107,7 +107,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static Visibility GetDeleteMenu(DependencyObject element)
         {
-            return (Visibility) element.GetValue(DeleteMenuProperty);
+            return (Visibility)element.GetValue(DeleteMenuProperty);
         }
 
         #endregion
@@ -124,7 +124,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static bool GetIsPostDetailsPresent(DependencyObject element)
         {
-            return (bool) element.GetValue(IsPostDetailsPresentProperty);
+            return (bool)element.GetValue(IsPostDetailsPresentProperty);
         }
 
         #endregion
@@ -141,7 +141,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static string GetCurrentMediaUrl(DependencyObject element)
         {
-            return (string) element.GetValue(CurrentMediaUrlProperty);
+            return (string)element.GetValue(CurrentMediaUrlProperty);
         }
 
         #endregion
@@ -158,7 +158,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static int GetTotalMediaCount(DependencyObject element)
         {
-            return (int) element.GetValue(TotalMediaCountProperty);
+            return (int)element.GetValue(TotalMediaCountProperty);
         }
 
 
@@ -168,7 +168,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
 
         public static readonly DependencyProperty CurrentMediaPointerProperty = DependencyProperty.RegisterAttached(
-            "CurrentMediaPointer", typeof(int), typeof(MediaViewerAssist), new FrameworkPropertyMetadata(default(int),FrameworkPropertyMetadataOptions.Inherits));
+            "CurrentMediaPointer", typeof(int), typeof(MediaViewerAssist), new FrameworkPropertyMetadata(default(int), FrameworkPropertyMetadataOptions.Inherits));
 
         public static void SetCurrentMediaPointer(DependencyObject element, int value)
         {
@@ -177,7 +177,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static int GetCurrentMediaPointer(DependencyObject element)
         {
-            return (int) element.GetValue(CurrentMediaPointerProperty);
+            return (int)element.GetValue(CurrentMediaPointerProperty);
         }
 
         #endregion
@@ -185,7 +185,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
         #region MediaList
 
         public static readonly DependencyProperty MediaListProperty = DependencyProperty.RegisterAttached(
-            "MediaList", typeof(ObservableCollection<string>), typeof(MediaViewerAssist), new FrameworkPropertyMetadata(new ObservableCollection<string>(),FrameworkPropertyMetadataOptions.Inherits,CallBack));
+            "MediaList", typeof(ObservableCollection<string>), typeof(MediaViewerAssist), new FrameworkPropertyMetadata(new ObservableCollection<string>(), FrameworkPropertyMetadataOptions.Inherits, CallBack));
 
         private static void CallBack(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -215,7 +215,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
         public static ObservableCollection<string> GetMediaList(DependencyObject element)
         {
-            return (ObservableCollection<string>) element.GetValue(MediaListProperty);
+            return (ObservableCollection<string>)element.GetValue(MediaListProperty);
         }
 
         #endregion

@@ -7,7 +7,6 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using System;
@@ -60,6 +59,7 @@ namespace EmbeddedBrowser
                 OnPropertyChanged(nameof(DominatorAccountModel));
             }
         }
+        public bool browserLoginMessage { get; set; } = true;
 
         #endregion
 
@@ -70,14 +70,14 @@ namespace EmbeddedBrowser
             SearchCommand = new DelegateCommand(() => GoToUrl());
         }
 
-        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false)
-            : this()
+        public BrowserWindow(DominatorAccountModel dominatorAccountModel, string targetUrl = "", bool customUse = false, bool skipAd = false, bool browserLoginMessageToDisplay = true)
+              : this()
         {
             DominatorAccountModel = dominatorAccountModel;
             TargetUrl = targetUrl;
             CustomUse = customUse;
             SkipYoutubeAd = skipAd;
-
+            browserLoginMessage = browserLoginMessageToDisplay;
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
@@ -1478,7 +1478,8 @@ namespace EmbeddedBrowser
                   .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                    .SaveToBinFile();
 
-                CustomLog("Browser login successful.");
+                if (browserLoginMessage)
+                    CustomLog("Browser login successful.");
                 return true;
             }
             catch (Exception ex)

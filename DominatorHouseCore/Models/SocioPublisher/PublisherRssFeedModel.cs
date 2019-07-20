@@ -68,6 +68,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _postDetailsModel, value);
             }
         }
-
+       
     }
 }

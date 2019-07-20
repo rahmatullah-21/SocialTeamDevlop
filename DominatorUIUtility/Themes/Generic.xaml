@@ -38,7 +38,7 @@
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <StackPanel Orientation="Horizontal" x:Name="PART_MainStackPanel" HorizontalAlignment="Center" Visibility="{TemplateBinding IsPostDataPresent,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal"  x:Name="PART_MainStackPanel" HorizontalAlignment="Center" Visibility="{TemplateBinding IsPostDataPresent,Converter={StaticResource BooleanToVisibilityConverter}}">
 
                             <Button x:Name="PART_NavigatePreviousImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnablePreviousPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="1,0,5,0">
                                 <Button.Template>
@@ -56,9 +56,7 @@
                                 </Button.Template>
                             </Button>
 
-
                             <Border>
-
                                 <Image x:Name="PART_Image" Margin="1" Width="50" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center"  Source="{TemplateBinding CurrentMediaUrl,Converter={StaticResource ImageConverter}}" >
                                     <Image.ContextMenu>
                                         <ContextMenu>
@@ -78,8 +76,6 @@
                                     <DropShadowEffect Color="Gray" Opacity="0.5" />
                                 </Border.Effect>
                             </Border>
-
-
 
                             <Button x:Name="PART_NavigateNextImage" Cursor="Hand" IsEnabled="{TemplateBinding IsEnableNextPointer}" Background="{DynamicResource AccentBaseColorBrush}"  Foreground="White" VerticalAlignment="Center"  Margin="5,0,2,0" >
                                 <Button.Template>
@@ -144,16 +140,28 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource LangKeyMediaS}" FontSize="12" VerticalAlignment="Center" />
                                 </StackPanel>
+                                <CheckBox Content="{DynamicResource LangKeyChangeHashOfMedia}" Margin="5" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsChangeHashOfMedia}">
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=PART_MediaViewer,Path=MediaList.Count}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center">
+
                                     <customControl:MediaViewer x:Name="PART_MediaViewer"                                      
                                                                MediaList="{TemplateBinding customControl:MediaViewerAssist.MediaList}"
                                                                IsPostDataPresent="{TemplateBinding customControl:MediaViewerAssist.IsPostDetailsPresent}"
                                                                CurrentMediaUrl="{TemplateBinding customControl:MediaViewerAssist.CurrentMediaUrl}"
                                                                MediaHeight="{TemplateBinding customControl:MediaViewerAssist.MediaHeight}"
                                                                MediaWidth="{TemplateBinding customControl:MediaViewerAssist.MediaWidth}"
-                                                               DeleteMenuVisibility="{TemplateBinding customControl:MediaViewerAssist.DeleteMenu}"
-                                                               />
+                                                               DeleteMenuVisibility="{TemplateBinding customControl:MediaViewerAssist.DeleteMenu}" />
                                     <StackPanel Orientation="Vertical" Margin="5,0,0,0">
 
                                         <Button Name="PART_ImportImage" Foreground="White" Margin="2" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsImportOptionsVisibility}" Background="{DynamicResource AccentBaseColorBrush}"  Cursor="Hand" HorizontalAlignment="Center"  Height="30" Width="100" VerticalAlignment="Center" >
@@ -247,6 +255,10 @@
                                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellLocation}"/>
                                             </StackPanel>
                                         </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <CheckBox  Name="CheckBoxIsSpinTax" Margin="2" Content="{DynamicResource LangKeyIsSpinTax}" 
+                                               IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSpinTax}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>

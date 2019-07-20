@@ -79,6 +79,7 @@
                                                 customControl:MediaViewerAssist.TotalMediaCount="{Binding PublisherMonitorFolderModel.PostDetailsModel.MediaViewer.TotalItem}"
                                                 customControl:MediaViewerAssist.CurrentMediaPointer="{Binding PublisherMonitorFolderModel.PostDetailsModel.MediaViewer.CurrentItem}"
                                                 customControl:MediaViewerAssist.DeleteMenu="Visible"
+                                                IsSpinTax="{Binding PublisherMonitorFolderModel.PostDetailsModel.IsSpinTax, Mode=TwoWay}"
                                                 PublisherInstagramTitle="{Binding PublisherMonitorFolderModel.PostDetailsModel.PublisherInstagramTitle, Mode=TwoWay}"
                                                 FdSellLocation="{Binding PublisherMonitorFolderModel.PostDetailsModel.FdSellLocation, Mode=TwoWay}"
                                                 FdSellPrice="{Binding PublisherMonitorFolderModel.PostDetailsModel.FdSellPrice, Mode=TwoWay}"

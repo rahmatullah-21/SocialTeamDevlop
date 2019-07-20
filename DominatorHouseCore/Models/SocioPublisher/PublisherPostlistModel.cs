@@ -286,8 +286,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
             set
             {
-
-
                 if (value == _lstPublishedPostDetailsModels)
                     return;
                 SetProperty(ref _lstPublishedPostDetailsModels, value);
@@ -345,9 +343,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
-
+        private bool _isSpinTax;
+        [ProtoMember(30)]
+        public bool IsSpinTax
+        {
+            get
+            {
+                return _isSpinTax;
+            }
+            set
+            {
+                if (value == _isSpinTax)
+                    return;
+                SetProperty(ref _isSpinTax, value);
+            }
+        }
         #region Postlist
-       
+
 
 
 
@@ -685,7 +697,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 SetProperty(ref _publisherPostSettings, value);
             }
         }
-
+        private bool _isChangeHashOfMedia;
+        [ProtoMember(35)]
+        public bool IsChangeHashOfMedia
+        {
+            get { return _isChangeHashOfMedia; }
+            set { SetProperty(ref _isChangeHashOfMedia, value); }
+        }
         #endregion
 
         #endregion
@@ -720,7 +738,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                     ImagePointer = 0;
                     MediaCurrentPointer = 1;
                     var mediaUtilites = new MediaUtilites();
-                  
+
                     CurrentMediaUrl = mediaUtilites.GetThumbnail(MediaList[ImagePointer]);
                     TotalMediaCount = MediaList.Count;
                     NextImageEnable = (TotalMediaCount - ImagePointer) > -1;

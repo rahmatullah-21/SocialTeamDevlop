@@ -23,7 +23,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         //    string module);
         Task RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange,
            string module);
-        bool Stop(string accountName, string templateId);
+        bool Stop(string accountName, string templateId, bool isStopIfAccountLoginFail = false);
         void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart);
         bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime);
         bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType);
@@ -59,7 +59,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             _jobActivityConfigurationManager = jobActivityConfigurationManager;
             _runningJobsHolder = runningJobsHolder;
             var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-            if (softwareSettings.Settings.IsThreadLimitChecked)
+            if (softwareSettings.Settings?.IsThreadLimitChecked ?? false)
             {
                 islogged = false;
                 maxThreadCount = softwareSettings.Settings.MaxThreadCount;
@@ -442,13 +442,13 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             }
         }
 
-        public bool Stop(string accountName, string templateId)
+        public bool Stop(string accountName, string templateId, bool isStopIfAccountLoginFail = false)
         {
             try
             {
                 var id = new JobKey(accountName, templateId);
 
-                if (!_runningJobsHolder.Stop(id))
+                if (!_runningJobsHolder.Stop(id, isStopIfAccountLoginFail))
                 {
                     GlobusLogHelper.log.Trace($"Job process with Id - {id} not found");
                     return false;

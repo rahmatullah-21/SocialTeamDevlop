@@ -443,6 +443,31 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
             }
         }
+
+        private bool _isSpinTax;
+        [ProtoMember(23)]
+        public bool IsSpinTax
+        {
+            get
+            {
+                return _isSpinTax;
+            }
+            set
+            {
+                if (value == _isSpinTax)
+                    return;
+                SetProperty(ref _isSpinTax, value);
+            }
+        }
+
+        private bool _isChangeHashOfMedia;
+        [ProtoMember(24)]
+        public bool IsChangeHashOfMedia
+        {
+            get { return _isChangeHashOfMedia; }
+            set { SetProperty(ref _isChangeHashOfMedia, value); }
+        }
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);

@@ -62,6 +62,7 @@
                                                 customControl:MediaViewerAssist.CurrentMediaUrl="{Binding PublisherRssFeedModel.PostDetailsModel.MediaViewer.MediaUrl,Mode=TwoWay}"
                                                 customControl:MediaViewerAssist.MediaHeight="75"
                                                 customControl:MediaViewerAssist.MediaWidth="75"
+                                                         IsChangeHashOfMedia="{Binding PublisherRssFeedModel.PostDetailsModel.IsChangeHashOfMedia,Mode=TwoWay}"
                                                 customControl:MediaViewerAssist.TotalMediaCount="{Binding PublisherRssFeedModel.PostDetailsModel.MediaViewer.TotalItem}"
                                                 customControl:MediaViewerAssist.CurrentMediaPointer="{Binding PublisherRssFeedModel.PostDetailsModel.MediaViewer.CurrentItem}"
                                                 customControl:MediaViewerAssist.DeleteMenu="Visible"

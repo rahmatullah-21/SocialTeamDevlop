@@ -31,7 +31,7 @@ namespace DominatorHouseCore.Utility
                         var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
                         ffMpeg.GetVideoThumbnail(filePath, newFilePath);
                     }
-              }
+                }
                 catch (Exception ex)
                 {
                     ex.DebugLog();
@@ -666,30 +666,33 @@ namespace DominatorHouseCore.Utility
             }
             return filePath;
         }
-        
+
         public static string CalculateMD5Hash(string input)
         {
-            string newImage = String.Empty;
-            try
-            {
-                MD5 md5 = MD5.Create();
-                byte[] inputBytes = File.ReadAllBytes(input);
-                string oldImage = GetMd5HashCode(input, md5, inputBytes);
+            var media = Path.Combine(Path.GetDirectoryName(input), Path.GetFileNameWithoutExtension(input));
+            var ext = Path.GetExtension(input);
 
-                byte[] bArray = new byte[inputBytes.Length + 1];
-                inputBytes.CopyTo(bArray, 0);
-                bArray[bArray.Length - 1] = Convert.ToByte('\0');
-                newImage = input.Split('.')[0] + "_hash.jpg";
-                File.WriteAllBytes(newImage, bArray);
-
-                inputBytes = File.ReadAllBytes(newImage);
-                string newHashCode = GetMd5HashCode(newImage, md5, inputBytes);
-                if (File.Exists(input))
-                    File.Delete(input);
-            }
-            catch (Exception ex)
+            string newImage = media + $"_hash{ext}";
+            if (!File.Exists(newImage))
             {
-                //ignored
+                try
+                {
+                    MD5 md5 = MD5.Create();
+                    byte[] inputBytes = File.ReadAllBytes(input);
+                    string oldImage = GetMd5HashCode(input, md5, inputBytes);
+
+                    byte[] bArray = new byte[inputBytes.Length + 1];
+                    inputBytes.CopyTo(bArray, 0);
+                    bArray[bArray.Length - 1] = Convert.ToByte('\0');
+
+                    File.WriteAllBytes(newImage, bArray);
+                    inputBytes = File.ReadAllBytes(newImage);
+                    string newHashCode = GetMd5HashCode(newImage, md5, inputBytes);
+                }
+                catch (Exception ex)
+                {
+                    //ignored
+                }
             }
             return newImage;
         }
@@ -697,7 +700,7 @@ namespace DominatorHouseCore.Utility
         public static string GetMd5HashCode(string input, MD5 md5, byte[] inputBytes)
         {
             StringBuilder sb = new StringBuilder();
-           
+
             byte[] hash1 = md5.ComputeHash(inputBytes);
 
             // step 2, convert byte array to hex string

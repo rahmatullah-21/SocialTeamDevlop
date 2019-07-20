@@ -50,12 +50,15 @@ namespace DominatorHouseCore.Utility
 
                     var objwebclient = new WebClient();
 
-                    objwebclient.Headers.Add("Host", "www.google.co.in");
-                    objwebclient.Headers.Add("User-Agent", " Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
-                    objwebclient.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                    objwebclient.Headers.Add("Accept-Language", "en-US,en;q=0.8");
-                    objwebclient.Headers.Add("Upgrade-Insecure-Requests", "1");
-                    var googlePageResult = objwebclient.DownloadString(scrapeUrl);
+                objwebclient.Headers.Add("Host", "www.google.co.in");
+                //  objwebclient.Headers.Add("User-Agent", " Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");                   
+                objwebclient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
+                objwebclient.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                objwebclient.Headers.Add("Accept-Language", "en-US,en;q=0.8");
+                objwebclient.Headers.Add("Upgrade-Insecure-Requests", "1");
+                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+
+                var googlePageResult = objwebclient.DownloadString(scrapeUrl);
 
                     var images = Regex.Split(googlePageResult, "ou\":\"").Skip(1).ToArray();
                     if (images.Length == 0)
