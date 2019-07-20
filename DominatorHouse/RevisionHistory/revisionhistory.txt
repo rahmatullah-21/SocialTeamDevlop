@@ -1,3 +1,39 @@
+Version[1.0.0.61],[19th July 2019]
+New Features:-
+	Facebook :
+		Facebook==>Engage==>Post comment==>Post comments from multiple pages at a Time.
+		
+Fixed:- 
+	Social :
+		Social publisher => Create  multiple post => Issue fixed with Not  uploading  photos  from url..
+		Fixed UI freezing issue while pausing campaign
+
+	Facebook :
+		Engage => Post like => Fixed issue with other configuraton setting.
+		Grow Friends => Send friend request => Post commenters => Fixed issue with send friend requests to post commenters.
+		Grow Friends => Send friend request => Group Members => Fixed issue with send friend requests to group members.
+	
+	Instagram :
+		Insta like/comment  => Comment  Issue fixed with Owned Liked  Post.
+
+	LinkedIn :
+		Grow Connection  => Withdraw Connection Request => Fixed issue with withdraw connection request
+		Grow Connection  => Other Configuration => Fixed issue with enable auto withdraw connection request when reaching xx to yy pending request.
+
+	Reddit :
+		Scrapper => Comment  scrapper => Issue  fixed  with Not  exporting one column  data to  excel  sheet..
+		
+	Pinterest :
+		Create board => Fixed issue with multiple board and with multiple description
+		Account manager => Fixed issue with updated board.
+		
+	Twitter :
+		Account activity => Unlike => Fixed issue with pause and active button
+		
+	Quora   :
+		Answer=> keywords => Fixed isue with query type of kewords 
+
+
 Version[1.0.0.60],[5th July 2019]
 New Features:-
 	Linkedin :
