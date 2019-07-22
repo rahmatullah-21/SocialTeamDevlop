@@ -76,9 +76,13 @@ namespace EmbeddedBrowser
 
         public BrowserWindow()
         {
-            var cfsettings = new CefSharp.CefSettings();
-            cfsettings.UserAgent = "Mozilla/5.0 (Windows NT 9.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
-            CefSharp.Cef.Initialize(cfsettings);
+            if(!Cef.IsInitialized)
+            {
+                var cfsettings = new CefSharp.CefSettings();
+                cfsettings.UserAgent = "Mozilla/5.0 (Windows NT 9.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
+                Cef.Initialize(cfsettings);
+            }
+          
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(() => GoToUrl());
