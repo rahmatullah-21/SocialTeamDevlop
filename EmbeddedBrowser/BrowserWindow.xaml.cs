@@ -76,6 +76,9 @@ namespace EmbeddedBrowser
 
         public BrowserWindow()
         {
+            var cfsettings = new CefSharp.CefSettings();
+            cfsettings.UserAgent = "Mozilla/5.0 (Windows NT 9.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
+            CefSharp.Cef.Initialize(cfsettings);
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(() => GoToUrl());
@@ -880,7 +883,7 @@ namespace EmbeddedBrowser
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1 :
                 int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
-            
+
             while (itemCount >= 0)
             {
                 listNodes.Add(await GetChildElementValueAsync(actType, parentAttributeType,
@@ -948,7 +951,7 @@ namespace EmbeddedBrowser
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
             var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length";
-            
+
             if (Browser.IsDisposed) return "";
 
             switch (actType)
