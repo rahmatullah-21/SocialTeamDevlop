@@ -294,7 +294,7 @@ namespace DominatorUIUtility.ViewModel
         public virtual void Search(object sender)
         {
             LstBlackListUsers.Clear();
-            IsAllBlackListUserChecked = true;
+            IsAllBlackListUserChecked = false;
             ThreadFactory.Instance.Start(() =>
             {
                 StopPreviousProcess();
