@@ -101,7 +101,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>7CA0403805573E3930EF5A62F40CEE09E849E52A</ManifestCertificateThumbprint>
@@ -121,6 +121,9 @@
     </Reference>
     <Reference Include="CsvHelper">
       <HintPath>..\packages\CsvHelper.7.1.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="DominatorHouse.ThreadUtils, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DominatorHouse.ThreadUtils.1.0.0.4\lib\net46\DominatorHouse.ThreadUtils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>

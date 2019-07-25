@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.AppResources;
+﻿using DominatorHouse.ThreadUtils;
+using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.Scheduler;
 using DominatorHouseCore.BusinessLogic.Scraper;
 using DominatorHouseCore.Dal;
@@ -72,7 +73,7 @@ namespace DominatorHouseCore
             Container.AddNewExtension<JobProcessUnityExtension>();
             Container.AddNewExtension<EntityCounterUnityExtension>();
 
-            Container.RegisterSingleton<IThreadUtility, ThreadUtility>();
+            Container.RegisterSingleton<IDelayService, DelayService>();
 
         }
     }
