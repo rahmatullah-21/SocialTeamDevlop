@@ -34,6 +34,7 @@ namespace DominatorUIUtility.ViewModel
             RefreshCommand = new BaseCommand<object>((sender) => true, Refresh);
             SelectCommand = new BaseCommand<object>((sender) => true, Select);
             DeleteCommand = new BaseCommand<object>((sender) => true, Delete);
+            TextSearchCommand = new BaseCommand<object>((sender) => true, Search);
             ImportCommand = new DelegateCommand(ImportUser);
             ExportCommand = new DelegateCommand(ExportUser);
             BindingOperations.EnableCollectionSynchronization(LstWhiteListUsers, _lock);
@@ -47,11 +48,14 @@ namespace DominatorUIUtility.ViewModel
         public ICommand DeleteCommand { get; set; }
         public ICommand ImportCommand { get; set; }
         public ICommand ExportCommand { get; set; }
+        public ICommand TextSearchCommand { get; set; }
         #endregion
 
         #region Properties
         bool IsNeedToStop;
         bool IsAddingToDB;
+        bool IsStopLoading;
+
         private static object _lock = new object();
         private IGlobalDatabaseConnection DataBaseConnectionGlb { get; set; }
 
@@ -137,6 +141,22 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        private string _textSearch = string.Empty;
+
+        public string TextSearch
+        {
+            get
+            {
+                return _textSearch;
+            }
+            set
+            {
+                if (value == _textSearch)
+                    return;
+                SetProperty(ref _textSearch, value);
+            }
+        }
+
         #endregion
         public void InitializeData()
         {
@@ -151,7 +171,7 @@ namespace DominatorUIUtility.ViewModel
                 DbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
                     IsAddingToDB = true;
-                    if (!IsNeedToStop)
+                    if (!IsNeedToStop && !IsStopLoading)
                     {
                         Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
                                                          new WhitelistUserModel
@@ -229,6 +249,10 @@ namespace DominatorUIUtility.ViewModel
             if (_whiteListUser.Count > 0)
                 ToasterNotification.ShowSuccess(
                     $"Successfully added {_whiteListUser.Count} distinct user{(_whiteListUser.Count > 1 ? "s" : "")}. Click on refresh button to view updated list");
+            else
+                if (_whiteListUser.Count > 0)
+                ToasterNotification.ShowError(
+                    $"No distinct users found!");
         }
 
         private void ClearUser(object sender)
@@ -240,10 +264,11 @@ namespace DominatorUIUtility.ViewModel
             LstWhiteListUsers.Clear();
             ThreadFactory.Instance.Start(() =>
             {
+                StopPreviousProcess();
                 DbOperations.Get<WhiteListUser>()?.ForEach(user =>
                 {
                     IsAddingToDB = true;
-                    if (!IsNeedToStop)
+                    if (!IsNeedToStop && !IsStopLoading)
                     {
                         Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
                             new WhitelistUserModel
@@ -258,6 +283,39 @@ namespace DominatorUIUtility.ViewModel
                 IsAddingToDB = false;
             });
         }
+
+        public virtual void Search(object sender)
+        {
+            IsAllWhiteListUserChecked = false;
+            LstWhiteListUsers.Clear();
+            ThreadFactory.Instance.Start(() =>
+            {
+                StopPreviousProcess();
+                IsAddingToDB = true;
+
+                var listWhiteListData = DbOperations.Get<WhiteListUser>()?.ToList();
+                listWhiteListData.RemoveAll(x => !x.UserName.ToLower().Contains(TextSearch.ToLower()));
+
+                listWhiteListData?.ForEach(user =>
+                {
+                    IsAddingToDB = true;
+                    if (!IsNeedToStop)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => LstWhiteListUsers.Add(
+                            new WhitelistUserModel
+                            {
+                                WhitelistUser = user.UserName
+                            }));
+                        Thread.Sleep(5);
+                    }
+                    else return;
+                });
+
+                IsNeedToStop = false;
+                IsAddingToDB = false;
+            });
+        }
+
         private void SelectAll(bool isChecked)
         {
             if (IsUnCheckedFromUser)
@@ -348,10 +406,22 @@ namespace DominatorUIUtility.ViewModel
 
         private void ImportUser()
         {
+            StopPreviousProcess();
             _whiteListUser = new List<WhiteListUser>();
             var lstUser = FileUtilities.FileBrowseAndReader();
             if (lstUser?.Count != 0)
-                AddToDB(lstUser);
+                Task.Factory.StartNew(() =>
+                {
+                    AddToDB(lstUser);
+                });
+        }
+
+        public virtual void StopPreviousProcess()
+        {
+            IsStopLoading = true;
+            Thread.Sleep(200);
+            LstWhiteListUsers.Clear();
+            IsStopLoading = false;
         }
     }
 }

@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
    
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.95*"/>
+            <ColumnDefinition Width="1.05*"/>
         </Grid.ColumnDefinitions>
         <GroupBox >
             <GroupBox.Header>
@@ -73,8 +74,8 @@
             <GroupBox.Header>
                 <Grid >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="1.2*"/>
                     </Grid.ColumnDefinitions>
                     <Label  Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="White"
                                 VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
@@ -106,6 +107,9 @@
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
+                        <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         VerticalAlignment="Center" Height="28" HorizontalAlignment="Right" Width="200"
+                         Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"  mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}"   />
                     </StackPanel>
                 </Grid>
             </GroupBox.Header>

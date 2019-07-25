@@ -34,6 +34,7 @@ namespace DominatorUIUtility.ViewModel
             RefreshCommand = new BaseCommand<object>((sender) => true, Refresh);
             SelectCommand = new BaseCommand<object>((sender) => true, Select);
             DeleteCommand = new BaseCommand<object>((sender) => true, Delete);
+            TextSearchCommand = new BaseCommand<object>((sender) => true, Search);
             ImportCommand = new DelegateCommand(ImportUser);
             ExportCommand = new DelegateCommand(ExportUser);
             BindingOperations.EnableCollectionSynchronization(LstBlackListUsers, _lock);
@@ -47,6 +48,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand DeleteCommand { get; set; }
         public ICommand ImportCommand { get; set; }
         public ICommand ExportCommand { get; set; }
+        public ICommand TextSearchCommand { get; set; }
         #endregion
 
         #region Properties
@@ -113,6 +115,8 @@ namespace DominatorUIUtility.ViewModel
         private string _blacklistUser = string.Empty;
         bool IsNeedToStop;
         bool IsAddingToDB;
+        bool IsStopLoading;
+
         public string BlacklistUser
         {
             get
@@ -142,6 +146,22 @@ namespace DominatorUIUtility.ViewModel
                 if (value == _lstBlackListUsers)
                     return;
                 SetProperty(ref _lstBlackListUsers, value);
+            }
+        }
+
+        private string _textSearch = string.Empty;
+
+        public string TextSearch
+        {
+            get
+            {
+                return _textSearch;
+            }
+            set
+            {
+                if (value == _textSearch)
+                    return;
+                SetProperty(ref _textSearch, value);
             }
         }
 
@@ -245,15 +265,17 @@ namespace DominatorUIUtility.ViewModel
         {
             BlacklistUser = string.Empty;
         }
+
         public virtual void Refresh(object sender)
         {
             LstBlackListUsers.Clear();
             ThreadFactory.Instance.Start(() =>
             {
+                StopPreviousProcess();
                 DbOperations.Get<BlackListUser>()?.ForEach(user =>
                 {
                     IsAddingToDB = true;
-                    if (!IsNeedToStop)
+                    if (!IsNeedToStop && !IsStopLoading)
                     {
                         Application.Current.Dispatcher.Invoke(() => LstBlackListUsers.Add(
                             new BlacklistUserModel
@@ -268,6 +290,39 @@ namespace DominatorUIUtility.ViewModel
                 IsAddingToDB = false;
             });
         }
+
+        public virtual void Search(object sender)
+        {
+            LstBlackListUsers.Clear();
+            IsAllBlackListUserChecked = true;
+            ThreadFactory.Instance.Start(() =>
+            {
+                StopPreviousProcess();
+                IsAddingToDB = true;
+
+                var listBlacklistData = DbOperations.Get<BlackListUser>()??new List<BlackListUser>();
+                listBlacklistData?.RemoveAll(x => !x.UserName.ToLower().Contains(TextSearch.ToLower()));
+
+                listBlacklistData?.ForEach(user =>
+                {
+                    IsAddingToDB = true;
+                    if (!IsNeedToStop && !IsStopLoading)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => LstBlackListUsers.Add(
+                            new BlacklistUserModel
+                            {
+                                BlacklistUser = user.UserName
+                            }));
+                        Thread.Sleep(5);
+                    }
+                    else return;
+                });
+
+                IsNeedToStop = false;
+                IsAddingToDB = false;
+            });
+        }
+
         private void SelectAll(bool isChecked)
         {
             if (IsUnCheckedFromUser)
@@ -362,6 +417,14 @@ namespace DominatorUIUtility.ViewModel
             var lstUser = FileUtilities.FileBrowseAndReader();
             if (lstUser?.Count != 0)
                 AddToDB(lstUser);
+        }
+
+        public virtual void StopPreviousProcess()
+        {
+            IsStopLoading = true;
+            Thread.Sleep(200);
+            LstBlackListUsers.Clear();
+            IsStopLoading = false;
         }
     }
 }
