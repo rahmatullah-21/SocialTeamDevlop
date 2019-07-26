@@ -36,7 +36,11 @@
                     <CheckBox IsChecked="{Binding IsLikedPageSelected}" Command="{Binding LikedPageCheckedCommand,Mode=OneWay}" FontSize="13" Margin="20,0,0,0"  Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyLikedPages}" />
                 </StackPanel>
 
-
+                <StackPanel Orientation="Horizontal" Visibility="{Binding IsGroupOptionVisible,Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Grid.Column="1" Margin="4,0,0,0">
+                    <CheckBox IsChecked="{Binding IsOwnPageSelected}" Command="{Binding OwnGroupCheckedCommand,Mode=OneWay}" FontSize="13" Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyOwnGroups}" />
+                    <CheckBox IsChecked="{Binding IsLikedPageSelected}" Command="{Binding JoinedGroupCheckedCommand,Mode=OneWay}" FontSize="13" Margin="20,0,0,0"  Foreground="White" FontWeight="SemiBold" Content="{DynamicResource LangKeyJoinedGroups}" />
+                </StackPanel>
+                
                 <TextBox Margin="5" mah:TextBoxHelper.Watermark="{DynamicResource LangKeySearch}" Text="{Binding TextSearch,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          VerticalAlignment="Center" Height="28" Grid.Column="2"  HorizontalAlignment="Right" Width="250"
                          Style="{StaticResource SearchMetroTextBox}" Name="TextSearch"  mah:TextBoxHelper.ButtonCommand="{Binding TextSearchCommand,Mode=OneWay}"   />

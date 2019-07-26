@@ -27,21 +27,24 @@ namespace DominatorUIUtility.CustomControl
         }
 
 
-        public AccountDetailsSelector(Action<AccountDetailsSelector> updateAllData, bool isPageOptionVisible = false)
+        public AccountDetailsSelector(Action<AccountDetailsSelector> updateAllData
+            , string detailsType = "")
         {
             InitializeComponent();
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
-            AccountDetailsSelectorViewModel.IsPageOptionVisible = isPageOptionVisible;
+            AccountDetailsSelectorViewModel.IsPageOptionVisible = detailsType == "Page" ? true : false;
+            AccountDetailsSelectorViewModel.IsGroupOptionVisible = detailsType == "Group" ? true : false;
             _updateAllDetails = updateAllData;
         }
 
 
         public AccountDetailsSelector(Func<AccountDetailsSelector, PublisherCreateDestinationSelectModel, Task> updateSingleData,
-            PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel, bool isPageOptionVisible = false)
+            PublisherCreateDestinationSelectModel publisherCreateDestinationSelectModel, string detailsType = "")
         {
             InitializeComponent();
             AccountDetailsSelectors.DataContext = AccountDetailsSelectorViewModel;
-            AccountDetailsSelectorViewModel.IsPageOptionVisible = isPageOptionVisible;
+            AccountDetailsSelectorViewModel.IsPageOptionVisible = detailsType == "Page" ? true : false;
+            AccountDetailsSelectorViewModel.IsGroupOptionVisible = detailsType == "Group" ? true : false;
             _updateSinlgeDetails = updateSingleData;
             _publisherCreateDestinationSelectModel = publisherCreateDestinationSelectModel;
         }

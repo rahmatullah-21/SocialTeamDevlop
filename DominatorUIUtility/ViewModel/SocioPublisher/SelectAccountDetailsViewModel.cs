@@ -424,7 +424,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             // Get the initial selector details and also passing the action for getting the group details
             var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountGroupsDetails,
-                allAccountDetailsSelectModel)
+                allAccountDetailsSelectModel, "Group")
             {
                 AccountDetailsSelectorViewModel =
                 {
@@ -562,7 +562,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             // Pass the fetching activity functions as action to UI
             var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountPagesDetails,
-                allAccountDetailsSelectModel, IsFanpage)
+                allAccountDetailsSelectModel, "Page")
             {
                 // Find whether page or board, its vary based on each network
                 AccountDetailsSelectorViewModel =
@@ -860,7 +860,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
 
-            var accountDetailsSelector = new AccountDetailsSelector(UpdateAllGroupsDetails)
+            var accountDetailsSelector = new AccountDetailsSelector(UpdateAllGroupsDetails, "Group")
             {
                 AccountDetailsSelectorViewModel =
                 {
@@ -957,7 +957,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var alreadySelectedPages = valuePairs.Select(x => x.Value).ToList();
 
-            var accountDetailsSelector = new AccountDetailsSelector(UpdatePagesDetails, true)
+            var accountDetailsSelector = new AccountDetailsSelector(UpdatePagesDetails, "Page")
             {
                 AccountDetailsSelectorViewModel =
                 {
