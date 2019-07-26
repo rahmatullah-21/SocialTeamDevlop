@@ -110,9 +110,9 @@
                         <DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Youtube}" >
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Gplus}" >
+                        <!--<DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Gplus}" >
                             <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
+                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </Grid.Style>

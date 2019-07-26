@@ -36,8 +36,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorUIUtility.Views;
-using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
+using DominatorUIUtility.ViewModel.Startup;
+using Unity;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -54,6 +55,8 @@ namespace DominatorUIUtility.ViewModel
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDataBaseHandler _dataBaseHandler;
         private readonly IProxyFileManager _proxyFileManager;
+
+        private bool _IsProgressActive = false;
         public IAccountCollectionViewModel LstDominatorAccountModel { get; }
 
         public ObservableCollection<ContentSelectGroup> Groups { get; }
@@ -62,6 +65,20 @@ namespace DominatorUIUtility.ViewModel
         private ImmutableQueue<Action> _pendingActions = ImmutableQueue<Action>.Empty;
 
         private bool _allAccountsQueued;
+
+        public bool IsProgressActive
+        {
+            get
+            {
+                return _IsProgressActive;
+            }
+            set
+            {
+                if (_IsProgressActive == value)
+                    return;
+                SetProperty(ref _IsProgressActive, value);
+            }
+        }
 
         private readonly object _syncLoadAccounts = new object();
 
@@ -98,7 +115,6 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
-
         private ObservableCollection<GridViewColumn> _visibleColumns;
 
         public ObservableCollection<GridViewColumn> VisibleColumns
@@ -106,6 +122,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _visibleColumns; }
             set { SetProperty(ref _visibleColumns, value); }
         }
+        IMainViewModel _mainViewModel;
 
         #region Command 
 
@@ -129,13 +146,16 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateFriendshipCommand { get; }
         public ICommand EditNetworkProfileCommand { get; }
         public ICommand CopyAccountIdCommand { get; }
-
+        public ICommand SettingWizardCommand { get; }
+        public ICommand ActivateBrowserAutomationCommand { get; }
+        public ICommand DeActivateBrowserAutomationCommand { get; }
 
         #endregion
 
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler, IProxyFileManager proxyFileManager)
         {
+            _mainViewModel = mainViewModel;
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
             _softwareSettings = softwareSettings;
@@ -146,6 +166,7 @@ namespace DominatorUIUtility.ViewModel
             LstDominatorAccountModel = accountCollectionViewModel;
             _dataBaseHandler = dataBaseHandler;
             _proxyFileManager = proxyFileManager;
+
 
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, AccountCollectionViewModel.SyncObject);
 
@@ -186,6 +207,10 @@ namespace DominatorUIUtility.ViewModel
 
             UpdateUserCradCommand = new BaseCommand<object>((sender) => true, UpdateUserCradExecute);
 
+            ActivateBrowserAutomationCommand = new BaseCommand<object>(ActivateBrowserAutomationCanExecute, ActivateBrowserAutomationExecute);
+
+            DeActivateBrowserAutomationCommand = new BaseCommand<object>(DeActivateBrowserAutomationCommandCanExecute, DeActivateBrowserAutomationCommandExecute);
+
             #region Context Menu Command
 
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
@@ -201,7 +226,21 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
 
+            #region Custom Setting Command
+
+            SettingWizardCommand = new DelegateCommand<DominatorAccountModel>(CustomSetting);
+
+            #endregion
+
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+        }
+
+        private void CustomSetting(DominatorAccountModel account)
+        {
+            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
+            viewModel.SelectAccount = account;
+            ModuleSetting.Instance.Show();
         }
 
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)
@@ -1723,7 +1762,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts)
+        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts, bool isNeedToSchedule = false)
         {
 
             ThreadFactory.Instance.Start(() =>
@@ -1737,7 +1776,7 @@ namespace DominatorUIUtility.ViewModel
                         if (x.IsEnabled)
                         {
                             x.IsEnabled = false;
-                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
+                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, isNeedToSchedule);
                         }
                     });
 
@@ -1773,6 +1812,114 @@ namespace DominatorUIUtility.ViewModel
 
         private bool UpdateAccountDetailsCanExecute(object sender) => true;
         #endregion
+
+
+        private bool ActivateBrowserAutomationCanExecute(object sender) => true;
+
+        private void ActivateBrowserAutomationExecute(object sender)
+        {
+            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
+            {
+                var result = Dialog.ShowCustomDialog("Actvating Browser Automation",
+                  "This will result in stopping all activity through HTTP and starting activity by Browser. \nDo you want to Continue?", "Continue", "Cancel");
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    LstDominatorAccountModel.ForEach(x =>
+                    {
+                        if (x.IsAccountManagerAccountSelected)
+                        {
+                            x.IsRunProcessThroughBrowser = true;
+                            new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                           .AddOrUpdateBrowserSettings(true)
+                           .SaveToBinFile();
+                        }
+
+                    });
+
+                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
+
+                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), $"Please wait for 10 secs!");
+
+                        IsProgressActive = true;
+
+                        Thread.Sleep(10000);
+
+                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
+                        {
+                            x.CancellationSource = new CancellationTokenSource();
+                        });
+
+                        IsProgressActive = false;
+
+
+                    });
+                }
+
+                
+
+            }
+            else
+            {
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Browser Automation", "No account selecetd. Please select atleast one account!");
+            }
+        }
+
+        private bool DeActivateBrowserAutomationCommandCanExecute(object sender) => true;
+
+        private void DeActivateBrowserAutomationCommandExecute(object sender)
+        {
+            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
+            {
+                var result = Dialog.ShowCustomDialog("Deactvating Browser Automation",
+                      "This will result in stopping all activity through Browser and starting activity by HTTP. \nDo you want to Continue?", "Continue", "Cancel");
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    LstDominatorAccountModel.ForEach(x =>
+                    {
+                        if (x.IsAccountManagerAccountSelected)
+                        {
+                            x.IsRunProcessThroughBrowser = false;
+                            new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                               .AddOrUpdateBrowserSettings(false)
+                               .SaveToBinFile();
+                        }
+
+                    });
+
+                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
+
+                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), $"Please wait for 10 secs!");
+
+                        IsProgressActive = true;
+
+                        Thread.Sleep(10000);
+
+                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
+                        {
+                            x.CancellationSource = new CancellationTokenSource();
+                        });
+                        
+                        IsProgressActive = false;
+                    });
+
+                }
+            }
+            else
+            {
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Browser Automation", "No account selecetd. Please select atleast one account!");
+            }
+
+
+        }
 
         private void UpdateGroupDetailsExecute()
         {
@@ -1825,13 +1972,18 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        public async void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
+        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
         {
             try
             {
-                var browserWindow = new BrowserWindow(dominatorAccountModel);
-                await browserWindow.SetCookie();
-                browserWindow.Show();
+                Task.Factory.StartNew(() =>
+                {
+                    var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
+
+                    var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
+
+                    browserManager.BrowserLogin(dominatorAccountModel);
+                });
             }
             catch (Exception ex)
             {
@@ -1861,7 +2013,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-       
+
         public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
             try

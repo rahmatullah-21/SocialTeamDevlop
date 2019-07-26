@@ -12,5 +12,7 @@ namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
         void LoginWithDataBaseCookies(DominatorAccountModel dominatorAccountModel, bool isMobileRequired);
 
         void LoginWithAlternativeMethod(DominatorAccountModel dominatorAccountModel);
+
+        void LoginWithBrowserMethod(DominatorAccountModel dominatorAccountModel);
     }
 }

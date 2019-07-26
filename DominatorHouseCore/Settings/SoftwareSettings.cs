@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -20,6 +19,7 @@ using FluentScheduler;
 using Microsoft.Win32;
 using Registry = Microsoft.Win32.Registry;
 using DominatorHouseCore.DatabaseHandler.Utility;
+using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.Settings
 {
@@ -64,6 +64,8 @@ namespace DominatorHouseCore.Settings
                 Settings = _softwareSettingsFileManager.GetSoftwareSettings();
             }
             //OtherInitializers();
+
+            
             if (_fileSystemProvider.Exists(ConstantVariable.GetURLShortnerServicesFile()))
             {
                 var shortnerServices =
@@ -306,14 +308,14 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-            var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-                async job =>
-                {
-                    await job.StartAdScarperAsync();
-                },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
 
-            await ScrapAdsProduceAsync(adScraperblock);
+            //await ScrapAdsProduceAsync(adScraperblock);
         }
 
 

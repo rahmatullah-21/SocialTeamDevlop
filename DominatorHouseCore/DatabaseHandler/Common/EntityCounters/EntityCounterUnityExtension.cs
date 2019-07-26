@@ -14,7 +14,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container.AddNewExtension<EntityCounterFunctionTumblrRegisterUnityExtension>();
             Container.AddNewExtension<EntityCounterFunctionInstagramRegisterUnityExtension>();
             Container.AddNewExtension<EntityCounterFunctionLinkedinRegisterUnityExtension>();
-            Container.AddNewExtension<EntityCounterFunctionGplusRegisterUnityExtension>();
+            //Container.AddNewExtension<EntityCounterFunctionGplusRegisterUnityExtension>();
             Container.AddNewExtension<EntityCounterFunctionPinterestRegisterUnityExtension>();
             Container.AddNewExtension<EntityCounterFunctionYoutubeRegisterUnityExtension>();
         }

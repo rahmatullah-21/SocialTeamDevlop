@@ -331,6 +331,7 @@ namespace DominatorHouseCore.Models
         {
             CancellationSource.Cancel();
         }
+
         private string _varificationCode = string.Empty;
 
         public string VarificationCode
@@ -410,6 +411,8 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
+
         private string _resetPasswordLink = string.Empty;
 
         public string ResetPasswordLink
@@ -441,6 +444,7 @@ namespace DominatorHouseCore.Models
 
         public string two_factor_identifier { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
+
         private bool _isManualVerify;
         public bool IsManualVerify
         {
@@ -456,6 +460,24 @@ namespace DominatorHouseCore.Models
                
             }
         }
+
+        private bool _isRunProcessThroughBrowser;
+        [ProtoMember(28)]
+        public bool IsRunProcessThroughBrowser
+        {
+            get
+            {
+                return _isRunProcessThroughBrowser;
+            }
+            set
+            {
+
+                if (_isRunProcessThroughBrowser == value)
+                    return;
+                SetProperty(ref _isRunProcessThroughBrowser, value);
+            }
+        }
+
         public bool IsNeedToSchedule { get; set; } = true;
         public DominatorAccountModel Clone()
         {

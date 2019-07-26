@@ -232,6 +232,14 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
 
+        public static string GetModuleConfigPath(string network)
+        {
+            string dir = $"{ GetConfigurationDir()}\\{network}";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir + "\\Config.bin";
+
+        }
+
         #endregion
 
 
@@ -303,6 +311,10 @@ namespace DominatorHouseCore.Utility
         public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
 
+
+        public static string PageInviterNote =>
+            "Hi, I'm inviting you to like my Page because I thought that you might be interested in supporting it.";
+
         public static string SocialAccountManagerVideoLink => "https://www.youtube.com/playlist?list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE";
 
         public static string FbAccountManagerVideoLink => "https://www.youtube.com/watch?v=R-ZJTZ1_SJg&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2&t=0s";
@@ -322,9 +334,6 @@ namespace DominatorHouseCore.Utility
         public static string PdAccountManagerVideoLink => "https://www.youtube.com/watch?v=RK2nzfJRudc&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=8";
 
         public static string YtAccountManagerVideoLink => "https://www.youtube.com/watch?v=SWj2OdU_7Ts&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=9";
-
-       
-
 
     }
 

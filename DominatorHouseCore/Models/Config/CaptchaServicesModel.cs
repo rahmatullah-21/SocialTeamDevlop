@@ -7,6 +7,7 @@ namespace DominatorHouseCore.Models.Config
     public class CaptchaServicesModel : BindableBase
     {
         private bool _isTwoCaptcha;
+
         [ProtoMember(1)]
         public bool IsTwoCaptcha
         {
@@ -21,7 +22,9 @@ namespace DominatorHouseCore.Models.Config
                 SetProperty(ref _isTwoCaptcha, value);
             }
         }
+
         private string _twoCaptchaApiKey;
+
         [ProtoMember(2)]
         public string TwoCaptchaApiKey
         {
