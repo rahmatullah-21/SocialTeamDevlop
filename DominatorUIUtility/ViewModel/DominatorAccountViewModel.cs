@@ -1982,7 +1982,7 @@ namespace DominatorUIUtility.ViewModel
 
                     var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
 
-                    browserManager.BrowserLogin(dominatorAccountModel);
+                    browserManager.BrowserLogin(dominatorAccountModel, LoginType.BrowserLogin);
                 });
             }
             catch (Exception ex)
