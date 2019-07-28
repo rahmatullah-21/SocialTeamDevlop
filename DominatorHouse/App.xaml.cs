@@ -3,15 +3,15 @@ using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
 using DominatorHouseCore;
 using DominatorUIUtility.Behaviours;
-using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
 using System;
 using System.Threading;
 using System.Windows;
+using Microsoft.Practices.Unity.Configuration;
 using Unity;
-using Unity.Interception.ContainerIntegration;
+using Unity.Interception;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Socinator
