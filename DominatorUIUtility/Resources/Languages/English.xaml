@@ -3609,4 +3609,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyJoinedGroups">Joined Groups</system:String>
     <system:String x:Key="LangKeyLikeEvery">Like Every</system:String>
     <system:String x:Key="LangKeyWatchEvery">Watch Every</system:String>
+    <system:String x:Key="LangKeySocinatorAdScraper">Socinator Ad Scraper</system:String>
 </ResourceDictionary>
