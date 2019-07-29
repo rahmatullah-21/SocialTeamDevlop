@@ -1006,17 +1006,17 @@ namespace EmbeddedBrowser
                 var adViewerDetails = string.Empty;
                 Browser.ExecuteScriptAsync($"document.getElementsByClassName('_5jmm _5pat _3lb4')[{lastCurrentCount}].querySelectorAll('[data-testid=\"post_chevron_button\"]')[0].scrollIntoView()");
                 var fullAdDetails = await GetElementValueAsync(ActType.GetValue, AttributeType.ClassName, "_5jmm _5pat _3lb4", ValueTypes.OuterHtml, clickIndex: lastCurrentCount);
-                if (!(fullAdDetails).Contains("sponsored_ad"))
+                if (!(fullAdDetails.ToLower()).Contains("sponsored_ad") && !(fullAdDetails).Contains("Sponsored"))
                 {
-                    await Task.Delay(3000);
+                    await Task.Delay(1000);
                     continue;
                 }
 
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 await BrowserActAsync(ActType.ScrollWindow, AttributeType.Null, "", scrollByPixel: -50);
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
-                await Task.Delay(2000);
+                await Task.Delay(60000);
                 MouseClick(xCoordinate, 58, delayBefore: 0.5, delayAfter: 0.5);
                 adViewerDetails = await GetElementValueAsync(ActType.ActByQuery, AttributeType.DataFeedOptionName, "FeedAdSeenReasonOption", clickIndex: adCount);
                 if (string.IsNullOrEmpty(adViewerDetails))

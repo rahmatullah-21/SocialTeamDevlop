@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <ControlTemplate x:Key="SoftwareSettingsControlTemplate">
         <ControlTemplate.Resources>
@@ -131,7 +132,20 @@
                                 </TextBox.Style>
                             </TextBox>
                         </StackPanel>
-
+                        <StackPanel Orientation="Horizontal" >
+                            <CheckBox Name="LikePosts" Content="{DynamicResource LangKeyLikeEvery}" Margin="5,4,0,4" Foreground="Black"  IsChecked="{Binding IsLikeCountChkd}"/>
+                            <controls:NumericUpDown Value="{Binding PostLikerCount.StartValue}"  Foreground="Black" Margin="10,2" IsEnabled="{Binding IsLikeCountChkd}" Maximum="100000" Minimum="0" Interval="25"/>
+                            <Label Content="{DynamicResource LangKeyAnd}" VerticalAlignment="Center"  Foreground="Black" />
+                            <controls:NumericUpDown Value="{Binding PostLikerCount.EndValue}"  Foreground="Black" Margin="10,2" IsEnabled="{Binding IsLikeCountChkd}" Maximum="100000000" Minimum="0" Interval="25"/>
+                            <Label Content="{DynamicResource LangKeyPosts}" VerticalAlignment="Center"  Foreground="Black" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" >
+                            <CheckBox Name="WatchVideos" Content="{DynamicResource LangKeyWatchEvery}" Margin="5,4,0,4" Foreground="Black"  IsChecked="{Binding IsWatchCountChkd}"/>
+                            <controls:NumericUpDown Value="{Binding WatchVideoCount.StartValue}"  Foreground="Black" Margin="10,2" IsEnabled="{Binding IsWatchCountChkd}" Maximum="100000" Minimum="0" Interval="25"/>
+                            <Label Content="{DynamicResource LangKeyAnd}" VerticalAlignment="Center"  Foreground="Black" />
+                            <controls:NumericUpDown Value="{Binding WatchVideoCount.EndValue}"  Foreground="Black" Margin="10,2" IsEnabled="{Binding IsWatchCountChkd}" Maximum="100000000" Minimum="0" Interval="25"/>
+                            <Label Content="{DynamicResource LangKeyPosts}" VerticalAlignment="Center"  Foreground="Black" />
+                        </StackPanel>
 
                     </StackPanel>
 
