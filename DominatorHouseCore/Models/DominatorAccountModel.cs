@@ -457,11 +457,11 @@ namespace DominatorHouseCore.Models
                 if (value)
                     IsAutoVerifyByEmail = false;
                 SetProperty(ref _isManualVerify, value);
-               
+
             }
         }
 
-        private bool _isRunProcessThroughBrowser;
+        private bool _isRunProcessThroughBrowser = true;
         [ProtoMember(28)]
         public bool IsRunProcessThroughBrowser
         {
