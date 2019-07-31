@@ -451,10 +451,6 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-
-
-
-
                         <GridViewColumn Width="130">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyPagesOrBoards}"/>
@@ -523,7 +519,10 @@
 
                         <GridViewColumn Width="130">
                             <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource LangKeyWallsProfiles}"/>
+                                <Border BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <CheckBox Margin="6,2,6,2" Content="{DynamicResource LangKeyWallsProfiles}" IsChecked="{Binding IsAllWallsSelected}"/>
+                                </Border>
+                                
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

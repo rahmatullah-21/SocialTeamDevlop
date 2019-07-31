@@ -118,7 +118,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand OpenContextMenuCommand { get; set; }
 
         public ICommand SelectionCommand { get; set; }
-
+        
         public ICommand GetSingleAccountPagesOrBoardsCommand { get; set; }
 
         public ICommand SaveDestinationCommand { get; set; }
@@ -248,6 +248,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 SetProperty(ref _isAllDestinationSelected, value);
                 SelectAllDestination(_isAllDestinationSelected);
                 _isUncheckedFromList = false;
+            }
+        }
+
+
+
+        private bool _isAllWallsSelected;
+        public bool IsAllWallsSelected
+        {
+            get
+            {
+                return _isAllWallsSelected;
+            }
+            set
+            {
+                if (_isAllWallsSelected == value)
+                    return;
+                SetProperty(ref _isAllWallsSelected, value);
+                SelectAllWalls(_isAllWallsSelected);
+                //_isUncheckedFromList = false;
             }
         }
 
@@ -606,7 +625,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     break;
             }
         }
-
+        
         private bool _isUncheckedFromList { get; set; }
         #endregion
 
@@ -621,6 +640,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                x.IsAccountSelected = isChecked;
                return x;
            }).ToList();
+        }
+
+        public void SelectAllWalls(bool isChecked)
+        {
+        //    if (_isUncheckedFromList)
+        //        return;
+            PublisherCreateDestinationModel.ListSelectDestination.Where(y => y.IsAccountSelected).Select(x =>
+             {
+                 x.PublishonOwnWall = isChecked;
+                 return x;
+             }).ToList();
         }
 
         private bool SelectAccountDetailsCanExecute(object sender) => true;
