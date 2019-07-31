@@ -97,7 +97,7 @@ namespace EmbeddedBrowser
 
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
-                CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
+                CachePath = $"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
 
             Browser.MenuHandler = new MenuHandler();
@@ -821,6 +821,30 @@ namespace EmbeddedBrowser
         }
 
 
+        public async Task MouseScrollAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
+             int scrollNoOfTimes = 1, double delayBetween = 0)
+        {
+
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+
+            if (Browser.IsDisposed) return;
+
+            while (scrollNoOfTimes-- > 0)
+            {
+                Browser.GetBrowser().SendMouseWheelEvent(0, -yLoc, 0, -yLoc, CefEventFlags.None);
+                await Task.Delay(TimeSpan.FromSeconds(delayBetween));
+            }
+
+            await Task.Delay(100);
+            // mouseUp(4th parameter) = true , MouseButton to be released
+
+            if (delayAfter > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+        }
+
+
         public async Task MouseHoverAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
             int clickLeavEvent = 0)
         {
@@ -880,7 +904,7 @@ namespace EmbeddedBrowser
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1 :
                 int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
-            
+
             while (itemCount >= 0)
             {
                 listNodes.Add(await GetChildElementValueAsync(actType, parentAttributeType,
@@ -948,7 +972,7 @@ namespace EmbeddedBrowser
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
             var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length";
-            
+
             if (Browser.IsDisposed) return "";
 
             switch (actType)

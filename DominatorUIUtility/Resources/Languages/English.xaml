@@ -3612,4 +3612,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAdScraper">Ad Scraper</system:String>
     <system:String x:Key="LangKeyShareEvery">Share Every</system:String>
     <system:String x:Key="LangKeySocinatorAdScraper">Socinator Ad Scraper</system:String>
+    <system:String x:Key="LangKeyAccountFarming">Account Farming</system:String>
+    <system:String x:Key="LangKeyNextFarming">Next</system:String>
+    <system:String x:Key="LangKeyActivityManager">Activity Manager</system:String>
+    <system:String x:Key="LangKeyActivitySettings">Activity Settings</system:String>
+    <system:String x:Key="LangKeyNewsfeedActivity">Newsfeed Activity</system:String>
 </ResourceDictionary>
