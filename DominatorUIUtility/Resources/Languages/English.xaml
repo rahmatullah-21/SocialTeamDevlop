@@ -3593,4 +3593,5 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyChangeHashOfMedia">Change hash of Media</system:String>
     <system:String x:Key="LangKeyOwnGroups">Own Groups</system:String>
     <system:String x:Key="LangKeyJoinedGroups">Joined Groups</system:String>
+    <system:String x:Key="LangKeyScrapUserWhomWeMessaged">Scrap users whom we messaged</system:String>
 </ResourceDictionary>

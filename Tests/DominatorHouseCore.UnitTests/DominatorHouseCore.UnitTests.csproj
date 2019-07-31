@@ -186,10 +186,6 @@
     <Compile Include="Tests\ViewModels\WhiteListViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\quoradominator-library\QuoraDominatorCore\QuoraDominatorCore.csproj">
-      <Project>{21B1D90E-F201-4EF0-B4E9-A99315945F1D}</Project>
-      <Name>QuoraDominatorCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\DominatorHouseCore\DominatorHouseCore.csproj">
       <Project>{f40a5c83-8eda-43c5-88b9-dfaab492a497}</Project>
       <Name>DominatorHouseCore</Name>
