@@ -24,21 +24,23 @@
             <actcustom:ModuleHeader Heading="Incomming Friend Request Setting" x:Name="header"
                                     View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="1">
-            <TextBlock Text="{DynamicResource LangKeyEngagementType}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
-            <StackPanel Orientation="Vertical" >
-                <CheckBox Margin="30,5" Content="{DynamicResource LangKeyAcceptRequest}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+                <TextBlock Text="{DynamicResource LangKeyEngagementType}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                <StackPanel Orientation="Vertical" >
+                    <CheckBox Margin="30,5" Content="{DynamicResource LangKeyAcceptRequest}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  
                           IsChecked="{Binding IsAcceptRequest}" Checked="Postoptions_Checked"
                           Unchecked="Postoptions_Unchecked"/>
-                <CheckBox Margin="30,5" Content="{DynamicResource LangKeyCancelReceivedRequest}"
+                    <CheckBox Margin="30,5" Content="{DynamicResource LangKeyCancelReceivedRequest}"
                           FontWeight="SemiBold" Foreground="Black" FontSize="13" 
                           IsChecked="{Binding IsCancelReceivedRequest}" Checked="Postoptions_Checked"
                           Unchecked="Postoptions_Unchecked"/>
+                </StackPanel>
+                <Expander Header="{DynamicResource LangKeyJobConfiguration}" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
-            <Expander Header="{DynamicResource LangKeyJobConfiguration}" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
-                <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}"/>
-            </Expander>
-        </StackPanel>
+        </ScrollViewer>
         <DockPanel Grid.Row="2" >
             <actcustom:NextPreviousButton NextCommand="{Binding NextCommand}"  PreviousCommand="{Binding PreviousCommand}"
                                           NextButtonContent="{Binding NextButtonContent}"/>
