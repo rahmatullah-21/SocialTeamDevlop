@@ -935,7 +935,7 @@ namespace EmbeddedBrowser
                     break;
             }
 
-            return jsResponse.Success ? jsResponse.Result.ToString() : "";
+            return jsResponse.Success ? jsResponse.Result?.ToString() : "";
         }
 
         public async Task<string> GetChildElementValueAsync(ActType actType, AttributeType parentAttributeType,
