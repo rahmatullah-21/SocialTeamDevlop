@@ -69,5 +69,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public int InteractionTimeStamp { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
+        public string Status { get; set; }
     }
 }
