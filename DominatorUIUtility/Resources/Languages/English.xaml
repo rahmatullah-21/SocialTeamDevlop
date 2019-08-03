@@ -3617,4 +3617,18 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyActivityManager">Activity Manager</system:String>
     <system:String x:Key="LangKeyActivitySettings">Activity Settings</system:String>
     <system:String x:Key="LangKeyNewsfeedActivity">Newsfeed Activity</system:String>
+    <system:String x:Key="LangKeyWatchRandomVideosFromNewsfeed">Watch Random Videos From Newsfeed</system:String>
+    <system:String x:Key="LangKeyLikeRandomPostsFromNewsfeed">Like Random Posts From Newsfeed</system:String>
+    <system:String x:Key="LangKeyShareRandomPostsFromNewsfeed">Share Random Posts From Newsfeed</system:String>
+
+    <system:String x:Key="LangKeyFanpageActivity">Fanpage Activity</system:String>
+    <system:String x:Key="LangKeyLikeRandomPostsFromFanpages">Like Random Posts From Fanpages</system:String>
+    <system:String x:Key="LangKeyShareRandomPostsFromFanpages">Share Random Posts From Fanpages</system:String>
+    <system:String x:Key="LangKeyCreateAccountManager">Create Account Manager</system:String>
+    <system:String x:Key="LangKeyDateOfBirth">Date Of Birth</system:String>
+    <system:String x:Key="LangKeyProfilePicture">Profile Picture</system:String>
+    <system:String x:Key="LangKeyCoverPicture">Cover Picture</system:String>
+    <system:String x:Key="LangKeyContactNo">Contact No</system:String>
+
+    <system:String x:Key="LangKeyCreateAccount">Create Account</system:String>
 </ResourceDictionary>
