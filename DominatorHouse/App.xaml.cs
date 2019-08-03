@@ -14,7 +14,7 @@ using System;
 using System.Threading;
 using System.Windows;
 using Unity;
-using Unity.Interception.ContainerIntegration;
+using Unity.Interception;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Socinator

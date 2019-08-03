@@ -18,6 +18,7 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
+using Unity.Injection;
 
 namespace DominatorHouseCore
 {
@@ -70,7 +71,7 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IDominatorScheduler, DominatorScheduler>();
             Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
 
-            Container.RegisterType<IDbOperations, DbOperations>();
+            Container.RegisterType<IDbOperations, DbOperations>(new InjectionConstructor(typeof(string), typeof(SocialNetworks), typeof(string)));
 
             Container.AddNewExtension<JobProcessUnityExtension>();
             Container.AddNewExtension<EntityCounterUnityExtension>();

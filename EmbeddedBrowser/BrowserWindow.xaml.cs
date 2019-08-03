@@ -1,10 +1,8 @@
 ﻿using CefSharp;
-using CommonServiceLocator;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
@@ -20,7 +18,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using EmbeddedBrowser.BrowserHelper;
-using Unity;
 using System.Text.RegularExpressions;
 using System.Text;
 using DominatorHouseCore.Enums.EmbeddedBrowser;
