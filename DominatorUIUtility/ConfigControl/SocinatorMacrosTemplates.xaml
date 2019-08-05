@@ -72,7 +72,7 @@
                     </GroupBox.Style>
                     <DataGrid ItemsSource="{Binding MacrosCollection}" GridLinesVisibility="All" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
                                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-                                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" >
+                                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
 
                         <DataGrid.Columns>
 
@@ -83,7 +83,7 @@
                                     <DataTemplate>
                                         <Button Background="White" Width="40" Height="25" 
                                                     VerticalAlignment="Top" Margin="10,0" 
-                                                    Command="{Binding ElementName=MacrosList,Path=DataContext.DeleteCommand}"
+                                                    Command="{Binding DataContext.DeleteCommand,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                                                     CommandParameter="{Binding}">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                 <Rectangle Width="12" Height="15" Fill="{DynamicResource AccentBaseColorBrush}">
