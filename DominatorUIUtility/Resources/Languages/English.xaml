@@ -3629,6 +3629,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyProfilePicture">Profile Picture</system:String>
     <system:String x:Key="LangKeyCoverPicture">Cover Picture</system:String>
     <system:String x:Key="LangKeyContactNo">Contact No</system:String>
+    <system:String x:Key="LangKeyUniversityName">University Name</system:String>
+    <system:String x:Key="LangKeyWorkplaceName">Workplace Name</system:String>
+
+    <system:String x:Key="LangKeyCurrentLocation">Current Location</system:String>
+    <system:String x:Key="LangKeyHomeTown">Home Town</system:String>
+    <system:String x:Key="LangKeyRelationship">Relationship</system:String>
 
     <system:String x:Key="LangKeyCreateAccount">Create Account</system:String>
 </ResourceDictionary>
