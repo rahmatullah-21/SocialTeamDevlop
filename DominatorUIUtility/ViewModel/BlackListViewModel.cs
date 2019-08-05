@@ -61,6 +61,8 @@ namespace DominatorUIUtility.ViewModel
 
         private bool IsUnCheckedFromUser { get; set; }
 
+        private bool UsersSearched { get; set; }
+
         private PrivateBlacklistUserModel _privateBlacklistUserModel = new PrivateBlacklistUserModel();
 
         public PrivateBlacklistUserModel PrivateBlacklistUserModel
@@ -269,6 +271,7 @@ namespace DominatorUIUtility.ViewModel
         public virtual void Refresh(object sender)
         {
             LstBlackListUsers.Clear();
+            UsersSearched = false;
             ThreadFactory.Instance.Start(() =>
             {
                 StopPreviousProcess();
@@ -295,6 +298,7 @@ namespace DominatorUIUtility.ViewModel
         {
             LstBlackListUsers.Clear();
             IsAllBlackListUserChecked = false;
+            UsersSearched = true;
             ThreadFactory.Instance.Start(() =>
             {
                 StopPreviousProcess();
@@ -353,7 +357,7 @@ namespace DominatorUIUtility.ViewModel
             }
             Task.Factory.StartNew(() =>
             {
-                if (IsAllBlackListUserChecked)
+                if (IsAllBlackListUserChecked && !UsersSearched)
                 {
                     if (IsAddingToDB) IsNeedToStop = true;
                     Application.Current.Dispatcher.Invoke(() =>
