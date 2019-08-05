@@ -56,15 +56,18 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             var socinatorIntellisenseModel = sender;
 
-            if (socinatorIntellisenseModel == null)
+            if (socinatorIntellisenseModel == null || string.IsNullOrEmpty(socinatorIntellisenseModel.InputMacro.Key))
                 return;
 
-            if (!string.IsNullOrEmpty(socinatorIntellisenseModel.InputMacro.Key))
+            if (MacrosCollection.Any(x => x.Key == socinatorIntellisenseModel.InputMacro.Key))
             {
-                MacrosCollection.Add(socinatorIntellisenseModel.InputMacro);
-                _genericFileManager.AddModule(socinatorIntellisenseModel.InputMacro, ConstantVariable.GetMacroDetails);
+                ToasterNotification.ShowWarning($"Macro key : {socinatorIntellisenseModel.InputMacro.Key} already present!");
+                return;
             }
 
+            MacrosCollection.Add(socinatorIntellisenseModel.InputMacro);
+            _genericFileManager.AddModule(socinatorIntellisenseModel.InputMacro, ConstantVariable.GetMacroDetails);
+            
             InputMacro = new SocinatorIntellisenseModel();
         }
 
