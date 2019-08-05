@@ -1844,6 +1844,9 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                if (Model.JobConfiguration.IsAdvanceSetting)
+                    return;
+
                 if (Model.JobConfiguration.SelectedItem == "Slow")
                 {
                     var slowSpeed = Model.SlowSpeed;
