@@ -35,6 +35,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.Extensions;
 using DominatorUIUtility.Views;
 using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
@@ -708,23 +709,17 @@ namespace DominatorUIUtility.ViewModel
                                     }
                                     catch (OperationCanceledException)
                                     {
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                     catch (AggregateException ae)
                                     {
-                                        foreach (var e in ae.InnerExceptions)
-                                        {
-                                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                                e.DebugLog("Cancellation requested before task completion!");
-                                            else
-                                                e.DebugLog(e.StackTrace + e.Message);
-                                        }
+                                        ae.HandleOperationCancellation();
 
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                     catch (Exception)
                                     {
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                 })
                                 .Start();
@@ -735,13 +730,7 @@ namespace DominatorUIUtility.ViewModel
                         }
                         catch (AggregateException ae)
                         {
-                            foreach (var e in ae.InnerExceptions)
-                            {
-                                if (e is TaskCanceledException || e is OperationCanceledException)
-                                    e.DebugLog("Cancellation requested before task completion!");
-                                else
-                                    e.DebugLog(e.StackTrace + e.Message);
-                            }
+                            ae.HandleOperationCancellation();
                         }
                         catch (Exception ex)
                         {

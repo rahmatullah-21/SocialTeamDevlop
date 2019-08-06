@@ -13,6 +13,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using Shell32;
 using System.Threading;
+using DominatorHouseCore.Extensions;
 
 namespace DominatorHouseCore.Utility
 {
@@ -330,13 +331,7 @@ namespace DominatorHouseCore.Utility
                     }
                     catch (AggregateException ae)
                     {
-                        foreach (var e in ae.InnerExceptions)
-                        {
-                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                throw new OperationCanceledException("Cancellation Requested!");
-                            else
-                                e.DebugLog(e.StackTrace + e.Message);
-                        }
+                        ae.HandleOperationCancellation();
                     }
                     catch (ArgumentNullException ex)
                     {
@@ -402,13 +397,7 @@ namespace DominatorHouseCore.Utility
                     }
                     catch (AggregateException ae)
                     {
-                        foreach (var e in ae.InnerExceptions)
-                        {
-                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                throw new OperationCanceledException("Cancellation Requested!");
-                            else
-                                e.DebugLog(e.StackTrace + e.Message);
-                        }
+                        ae.HandleOperationCancellation();
                     }
                     catch (Exception ex)
                     {
@@ -434,13 +423,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (ArgumentNullException ex)
             {
