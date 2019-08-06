@@ -65,6 +65,8 @@ namespace DominatorUIUtility.ViewModel
 
         private bool IsUnCheckedFromUser { get; set; }
 
+        private bool UsersSearched { get; set; }
+
         private WhitelistUserModel _whitelistUserModel = new WhitelistUserModel();
 
         public WhitelistUserModel WhitelistUserModel
@@ -262,6 +264,7 @@ namespace DominatorUIUtility.ViewModel
         public virtual void Refresh(object sender)
         {
             LstWhiteListUsers.Clear();
+            UsersSearched = false;
             ThreadFactory.Instance.Start(() =>
             {
                 StopPreviousProcess();
@@ -288,6 +291,7 @@ namespace DominatorUIUtility.ViewModel
         {
             IsAllWhiteListUserChecked = false;
             LstWhiteListUsers.Clear();
+            UsersSearched = true;
             ThreadFactory.Instance.Start(() =>
             {
                 StopPreviousProcess();
@@ -330,7 +334,7 @@ namespace DominatorUIUtility.ViewModel
 
             else
             {
-                if (IsAllWhiteListUserChecked)
+                if (IsAllWhiteListUserChecked && !UsersSearched)
                     IsUnCheckedFromUser = true;
                 IsAllWhiteListUserChecked = false;
 
@@ -347,7 +351,7 @@ namespace DominatorUIUtility.ViewModel
             }
             Task.Factory.StartNew(() =>
             {
-                if (IsAllWhiteListUserChecked)
+                if (IsAllWhiteListUserChecked && !UsersSearched)
                 {
                     if (IsAddingToDB) IsNeedToStop = true;
                     Application.Current.Dispatcher.Invoke(() =>

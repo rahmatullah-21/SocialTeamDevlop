@@ -341,7 +341,7 @@ namespace DominatorUIUtility.ViewModel
 
             else
             {
-                if (IsAllBlackListUserChecked)
+                if (IsAllBlackListUserChecked && !UsersSearched)
                     IsUnCheckedFromUser = true;
                 IsAllBlackListUserChecked = false;
 
