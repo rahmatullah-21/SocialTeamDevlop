@@ -397,6 +397,19 @@ namespace DominatorUIUtility.CustomControl
 
         protected virtual bool ValidateExtraProperty() => true;
 
+        protected bool ValidateSavedQueries()
+        {
+            // Check queries
+            if (Model.SavedQueries.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "Please add at least one query.",
+                    MessageDialogStyle.Affirmative);
+                return false;
+            }
+
+            return true;
+        }
+
         protected virtual bool ValidateQuery()
         {
             if (Model.SavedQueries.Count == 0)
