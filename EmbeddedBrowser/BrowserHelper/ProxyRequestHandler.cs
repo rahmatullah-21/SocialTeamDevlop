@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using CefSharp;
+using System.Collections.Generic;
 
 namespace EmbeddedBrowser.BrowserHelper
 {
@@ -12,8 +13,13 @@ namespace EmbeddedBrowser.BrowserHelper
 
         private readonly string userName;
 
+        public List<MemoryStreamResponseFilter> responseList = new List<MemoryStreamResponseFilter>();
 
-        public ProxyRequestHandler(string userName, string password, BrowserWindow embedBrowser)
+        public bool IsNeedResourceData { get; set; }
+
+
+        public ProxyRequestHandler(string userName, string password, BrowserWindow embedBrowser
+            , bool isNeedResourceData = false)
         {
             // get the proxy username
             this.userName = userName;
@@ -22,6 +28,8 @@ namespace EmbeddedBrowser.BrowserHelper
             this.password = password;
 
             this.embedBrowser = embedBrowser;
+
+            IsNeedResourceData = isNeedResourceData;
         }
 
 
@@ -97,7 +105,20 @@ namespace EmbeddedBrowser.BrowserHelper
         IResponseFilter IRequestHandler.GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser,
             IFrame frame, IRequest request, IResponse response)
         {
-            return null;
+            try
+            {
+                if (IsNeedResourceData)
+                {
+                    var dataFilter = new MemoryStreamResponseFilter();
+                    responseList.Add(dataFilter);
+                    return dataFilter;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return new MemoryStreamResponseFilter();
         }
 
         void IRequestHandler.OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame,
