@@ -1,3 +1,35 @@
+Version[1.0.0.63],[6th August 2019]
+New Features:-
+	Linkedin:
+		Broadcast Message ==> Added feature will show failed data report.
+		
+	Twitter:
+		Reposter ==> Added caption feature.
+
+Fixed:-
+	Social:
+		Blacklist/Whitelist ==> Fixed issue with delete search users.
+		Fixed issue with Macro(s) value.
+		Job Configuration ==> Fixed issue with job configuration.
+	
+	Instagram:
+		User Scraper ==> Fixed issue with report.
+		Account Manager ==> Fixed issue with OTP verification.
+		
+	Reddit:
+		Subscribe ==> Query type custom url ==> Issue fixed with subscribing quarantine communities...
+		
+	Facebook:
+		Broadcast Message ==> Other configurations => Fixed issue with selecting radio button.
+		
+	Linkedin:
+		Broadcast Message ==> Fixed issue with sending message to failed users.
+		
+	Twitter:
+		Repost ==> Fixed issue with repost video.
+		Report ==> Fixed issue with report.
+		Follow ==> Fixed issue with follow Unique Users from each account.
+
 Version[1.0.0.62],[31th July 2019]
 New Features:-
 	Instagram:
