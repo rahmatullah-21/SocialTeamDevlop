@@ -37,6 +37,8 @@ namespace EmbeddedBrowser
 
         private RequestHandlerCustom _requestHandlerCustom { get; set; }
 
+        private ProxyRequestHandler _proxyRequestHandler { get; set; }
+
         #region Properties
 
         private string TargetUrl { get; set; } = string.Empty;
@@ -69,6 +71,8 @@ namespace EmbeddedBrowser
 
         private bool _loginFailed { get; set; }
 
+        private bool _isNeedResourceData { get; set; }
+
         #endregion
 
         public BrowserWindow()
@@ -86,7 +90,7 @@ namespace EmbeddedBrowser
             DominatorAccountModel = dominatorAccountModel;
             TargetUrl = targetUrl;
             CustomUse = customUse;
-
+            _isNeedResourceData = isNeedResourceData;
             _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
 
             //SkipYoutubeAd = skipAd;
@@ -126,9 +130,13 @@ namespace EmbeddedBrowser
                     {
                         if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername) &&
                             !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword))
-                            Browser.RequestHandler = new ProxyRequestHandler(
+                        {
+                            _proxyRequestHandler = new ProxyRequestHandler(
                                 DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername,
-                                DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword, this);
+                                DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPassword, this, _isNeedResourceData);
+
+                            Browser.RequestHandler = _proxyRequestHandler;
+                        }
 
                         // get the proxyip from objDominatorAccountModel object
                         var proxyIp = DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp;
@@ -1149,7 +1157,8 @@ namespace EmbeddedBrowser
                     Browser.Load(url);
 
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
-                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
                 if (responseStream != null)
@@ -1166,7 +1175,10 @@ namespace EmbeddedBrowser
         //For deleting data present in responseList
         public void ClearResources()
         {
-            _requestHandlerCustom.responseList.Clear();
+            if (_proxyRequestHandler == null)
+                _requestHandlerCustom.responseList.Clear();
+            else
+                _proxyRequestHandler.responseList.Clear();
         }
 
         //For reddit json data
@@ -1175,7 +1187,8 @@ namespace EmbeddedBrowser
             var response = string.Empty;
             try
             {
-                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
 
@@ -1216,7 +1229,8 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10);
-                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject() :
+                    _proxyRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 if (responseStream != null)
@@ -1238,7 +1252,8 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10);
-                var lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStreamList = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 foreach (var responseStream in responseStreamList)
@@ -1319,7 +1334,8 @@ namespace EmbeddedBrowser
                 {
                     try
                     {
-                        lstResponseStream = _requestHandlerCustom.responseList.DeepCloneObject();
+                        lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject() :
+                            _proxyRequestHandler.responseList.DeepCloneObject();
                         isSuccess = true;
                     }
                     catch (Exception ex)
@@ -1434,11 +1450,21 @@ namespace EmbeddedBrowser
         }
 
 
-        public void SetResourceLoadInstance() =>
-            _requestHandlerCustom.IsNeedResourceData = true;
+        public void SetResourceLoadInstance()
+        {
+            if (_proxyRequestHandler == null)
+                _requestHandlerCustom.IsNeedResourceData = true;
+            else
+                _proxyRequestHandler.IsNeedResourceData = true;
+        }
 
-        public void ReSetResourceLoadInstance() =>
-            _requestHandlerCustom.IsNeedResourceData = false;
+        public void ReSetResourceLoadInstance()
+        {
+            if (_proxyRequestHandler == null)
+                _requestHandlerCustom.IsNeedResourceData = false;
+            else
+                _proxyRequestHandler.IsNeedResourceData = false;
+        }
 
 
         #endregion
