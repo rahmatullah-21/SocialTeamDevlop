@@ -104,7 +104,20 @@ namespace EmbeddedBrowser.BrowserHelper
         IResponseFilter IRequestHandler.GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser,
             IFrame frame, IRequest request, IResponse response)
         {
-            return null;
+            try
+            {
+                if (IsNeedResourceData)
+                {
+                    var dataFilter = new MemoryStreamResponseFilter();
+                    responseList.Add(dataFilter);
+                    return dataFilter;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return new MemoryStreamResponseFilter();
         }
 
         void IRequestHandler.OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame,
