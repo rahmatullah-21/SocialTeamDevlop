@@ -5,6 +5,7 @@ New Features:-
 		
 	Twitter:
 		Reposter ==> Added caption feature.
+		Message to new followers / Auto reply ==> Skip users who received message already.
 
 Fixed:-
 	Social:
