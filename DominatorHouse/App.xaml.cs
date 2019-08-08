@@ -6,6 +6,7 @@ using DominatorHouseCore;
 using DominatorUIUtility.Behaviours;
 using DominatorUIUtility.Module;
 using DominatorUIUtility.ViewModel.Startup;
+using FaceDominatorUI.Modules;
 using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -63,6 +64,7 @@ namespace Socinator
         {
             base.ConfigureModuleCatalog(moduleCatalog);
             moduleCatalog.AddModule<UiModule>();
+            moduleCatalog.AddModule<AddUpdateNewAccountModule>();
         }
         //protected override IModuleCatalog CreateModuleCatalog()
         //{
@@ -91,7 +93,7 @@ namespace Socinator
                 _mutex = new Mutex(true, "Socinator");
                 return false;
             }
-            return true;
+            return false;
         }
     }
 }
