@@ -1,10 +1,11 @@
 ﻿using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System;
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class CookieHelper:BindableBase
+    public class CookieHelper : BindableBase
     {
         [ProtoMember(3)]
         public string Domain { get; set; }
@@ -32,6 +33,18 @@ namespace DominatorHouseCore.Models
                 if (_value == value)
                     return;
                 SetProperty(ref _value, value);
+            }
+        }
+        private DateTime _Expires = new DateTime();
+        [ProtoMember(4)]
+        public DateTime Expires
+        {
+            get { return _Expires; }
+            set
+            {
+                if (_Expires == value)
+                    return;
+                SetProperty(ref _Expires, value);
             }
         }
     }
