@@ -255,7 +255,6 @@ namespace DominatorHouseCore.Utility
             new SocinatorIntellisenseModel() {Key="{Random:15-20}",Value =  "{Random:15-20}"},
             new SocinatorIntellisenseModel() {Key="{Random:10-15}",Value =  "{Random:10-15}"},
             new SocinatorIntellisenseModel() {Key="{Random:20+}",Value =  "{Random:20+}"},
-
         };
 
         public static string Separator = "<:>";
