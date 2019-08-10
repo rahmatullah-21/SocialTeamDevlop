@@ -1,14 +1,11 @@
 ﻿#region Namespaces
 using CommonServiceLocator;
-using DominatorHouse;
 using DominatorHouseCore;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.Module;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 using System.Windows;

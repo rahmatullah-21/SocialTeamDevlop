@@ -114,8 +114,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\pindominator-library\PinDominatorCore\bin\Release\CommonServiceLocator.dll</HintPath>
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -135,10 +134,6 @@
     <Reference Include="FluentScheduler, Version=5.3.0.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.WindowsInstaller">
-      <HintPath>..\DominatorHouse\obj\Debug\Interop.WindowsInstaller.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
@@ -147,7 +142,6 @@
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -157,10 +151,9 @@
     </Reference>
     <Reference Include="Prism, Version=7.2.0.1367, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.7.2.0.1367\lib\net45\Prism.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
+    <Reference Include="Prism.Wpf, Version=7.2.0.1367, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.2.0.1367\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.3.7.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.3.7\lib\net40\protobuf-net.dll</HintPath>
@@ -176,21 +169,15 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Prism.Wpf.7.2.0.1367\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -202,12 +189,10 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Abstractions.5.11.1\lib\net46\Unity.Abstractions.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Unity.5.11.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Container.5.11.1\lib\net46\Unity.Container.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Unity.5.11.1\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -384,6 +369,9 @@
     </Compile>
     <Compile Include="IoC\UtilityUnityExtension.cs" />
     <Compile Include="IoC\ISocialNetworkModule.cs" />
+    <Compile Include="ModuleSetting.xaml.cs">
+      <DependentUpon>ModuleSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Module\UiModule.cs" />
     <Compile Include="ViewModel\AccountCollectionViewModel.cs" />
     <Compile Include="ViewModel\AccountDetailsViewModel.cs" />
@@ -547,9 +535,6 @@
     <Compile Include="ViewModel\Startup\StartupBaseViewModel.cs" />
     <Compile Include="ViewModel\VerifyProxiesViewModel.cs" />
     <Compile Include="ViewModel\WhiteListViewModel.cs" />
-    <Compile Include="Views\AccountActivitySetting.xaml.cs">
-      <DependentUpon>AccountActivitySetting.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\AccountManager.xaml.cs">
       <DependentUpon>AccountManager.xaml</DependentUpon>
     </Compile>
@@ -588,6 +573,9 @@
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\ChannelScraper.xaml.cs">
       <DependentUpon>ChannelScraper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\Activity\Comment.xaml.cs">
+      <DependentUpon>Comment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\CommentScraper.xaml.cs">
       <DependentUpon>CommentScraper.xaml</DependentUpon>
@@ -660,9 +648,6 @@
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\Follow.xaml.cs">
       <DependentUpon>Follow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AccountSetting\Activity\Comment.xaml.cs">
-      <DependentUpon>Comment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\FollowBack.xaml.cs">
       <DependentUpon>FollowBack.xaml</DependentUpon>
@@ -845,7 +830,7 @@
       <DependentUpon>Unlike.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\UnSubscribe.xaml.cs">
-      <DependentUpon>UnSubscribe.xaml</DependentUpon>
+      <DependentUpon>Unsubscribe.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\Activity\Upvote.xaml.cs">
       <DependentUpon>Upvote.xaml</DependentUpon>
@@ -886,11 +871,11 @@
     <Compile Include="Views\AccountSetting\CustomControl\ActivityJobConfig.xaml.cs">
       <DependentUpon>ActivityJobConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AccountSetting\CustomControl\ActivitySettingWithoutButton.xaml.cs">
-      <DependentUpon>ActivitySettingWithoutButton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\AccountSetting\CustomControl\ActivitySetting.xaml.cs">
       <DependentUpon>ActivitySetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AccountSetting\CustomControl\ActivitySettingWithoutButton.xaml.cs">
+      <DependentUpon>ActivitySettingWithoutButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AccountSetting\CustomControl\ModuleHeader.xaml.cs">
       <DependentUpon>ModuleHeader.xaml</DependentUpon>
@@ -1365,6 +1350,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ModuleSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1378,10 +1367,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Languages\English.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ModuleSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1416,10 +1401,6 @@
     <Compile Include="CustomControl\WhitelistuserControl.xaml.cs">
       <DependentUpon>WhitelistuserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ModuleSetting.xaml.cs">
-      <DependentUpon>ModuleSetting.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="Styles\BaseStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1432,61 +1413,61 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AccountActivitySetting.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AccountManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\AccountModuleSetting.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\AcceptBoardInvitation.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\AcceptConnectionRequest.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\AnswerOnQuestions.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\AnswersScraper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\AutoReplyToNewMessage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\BlockFollower.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\BlockUser.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\BoardScraper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\BroadcastMessages.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\CancelSentRequest.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\ChannelScraper.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AccountSetting\Activity\Comment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\CommentScraper.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1497,8 +1478,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\CompanyScraper.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\ConnectionRequest.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1509,16 +1490,16 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Delete.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\DeleteComment.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\DeletePin.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\DeletePost.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1529,36 +1510,36 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Dislike.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\DownloadScraper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Downvote.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\DownvoteAnswers.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\DownvoteComment.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\DownvoteQuestions.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\EditComment.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\EditPin.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\EventCreator.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1569,8 +1550,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\ExportConnection.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\FanpageLiker.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1581,10 +1562,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Follow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AccountSetting\Activity\Comment.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1605,8 +1582,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\GroupMemberScraper.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\GroupScraper.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1621,8 +1598,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\IncommingFriendRequest.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\JobScraper.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1633,8 +1610,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Like.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\LikeComment.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1645,16 +1622,16 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\MarketPlaceScraper.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\MessageToFanpages.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\MessageToPlaces.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Mute.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1669,20 +1646,20 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\PlaceScraper.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Post.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\PostCommentor.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\PostLiker.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\PostLikerCommentor.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1693,8 +1670,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\ProfileEndorsement.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\ProfileScraper.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1705,32 +1682,32 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Reblog.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\RemoveConnections.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\RemoveVote.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\RemoveVoteComment.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Repin.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Reply.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\ReplyToComment.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\ReportAnswers.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1753,40 +1730,40 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SalesNavigatorCompanyScraper.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SalesNavigatorUserScraper.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SendBoardInvitation.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SendFriendRequest.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SendGreetingsToConnections.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SendGreetingsToFriends.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SendMessageToFollower.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SendMessageToNewConnection.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\SendMessageToNewFriends.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Share.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1797,8 +1774,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Try.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Tweet.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1809,12 +1786,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\TweetTo.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Unfollow.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Unfriend.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1828,25 +1805,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AccountSetting\Activity\UnSubscribe.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\AccountSetting\Activity\Unsubscribe.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\Upvote.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\UpvoteAnswers.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\UpvoteComment.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\UrlScraper.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\UserScraper.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1861,52 +1838,52 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\WatchPartyInviter.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\WebpageLikerCommentor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\WebPostLikeComment.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\WelcomeTweet.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\Activity\WithdrawConnectionRequest.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\CustomControl\ActivityJobConfig.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AccountSetting\CustomControl\ActivitySetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\CustomControl\ActivitySettingWithoutButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AccountSetting\CustomControl\ActivitySetting.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AccountSetting\CustomControl\ModuleHeader.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\CustomControl\NextPreviousButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\JobConfig.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AccountSetting\SelectActivity.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Publisher\AddPosts.xaml">
       <SubType>Designer</SubType>
@@ -2242,9 +2219,7 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SociNator.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="SociNator.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

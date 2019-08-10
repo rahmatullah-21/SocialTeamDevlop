@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
 using CommonServiceLocator;
 using DominatorHouse.AutoMapping;
-using DominatorHouse.Utilities.Facebook;
 using DominatorHouseCore;
 using DominatorUIUtility.Behaviours;
-using DominatorUIUtility.Module;
-using DominatorUIUtility.ViewModel.Startup;
-using Microsoft.Practices.Unity.Configuration;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
 using System;
 using System.Threading;
 using System.Windows;
+using Microsoft.Practices.Unity.Configuration;
 using Unity;
 using Unity.Interception;
 using MessageBox = System.Windows.MessageBox;
@@ -24,12 +21,16 @@ namespace Socinator
     /// </summary>
     public partial class App : PrismApplication
     {
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    //base.OnStartup(e);
+        //    var boostrapper = new Bootstrapper();
+        //    boostrapper.Run();
+        //}
         public void CheckAllforExpand(object sender, RoutedEventArgs e)
         {
             HeaderHelper.UpdateToggleButtonInCampaignMode?.Invoke();
             HeaderHelper.UpdateToggleButtonInAccountActivityMode?.Invoke();
-            HeaderHelper.UpdateToggleForNonQuery?.Invoke();
-            HeaderHelper.UpdateToggleForQuery?.Invoke();
         }
         protected override Window CreateShell()
         {
@@ -57,13 +58,8 @@ namespace Socinator
             container.AddNewExtension<Interception>();
             container.AddNewExtension<CoreUnityExtension>();
             container.LoadConfiguration();
-            StartupBaseViewModel.GetFaceBookActivity = (activityType) => new FacebookActivity().GetActivity(activityType);
         }
-        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
-        {
-            base.ConfigureModuleCatalog(moduleCatalog);
-            moduleCatalog.AddModule<UiModule>();
-        }
+
         //protected override IModuleCatalog CreateModuleCatalog()
         //{
         //    return new DirectoryModuleCatalog() { ModulePath = @".\Modules" };

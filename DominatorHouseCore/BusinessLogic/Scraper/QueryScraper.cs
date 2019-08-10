@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using DominatorHouseCore.Extensions;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -57,13 +58,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        throw new OperationCanceledException(@"Cancellation Requested !");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (Exception ex)
             {
@@ -101,13 +96,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     }
                     catch (AggregateException ae)
                     {
-                        foreach (var e in ae.InnerExceptions)
-                        {
-                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                throw new OperationCanceledException(@"Cancellation Requested !");
-                            else
-                                e.DebugLog(e.StackTrace + e.Message);
-                        }
+                        ae.HandleOperationCancellation();
                     }
                     catch (Exception ex)
                     {

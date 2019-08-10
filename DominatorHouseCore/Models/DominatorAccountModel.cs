@@ -295,7 +295,8 @@ namespace DominatorHouseCore.Models
                         {
                             Domain = cookieHelper.Domain,
                             Name = cookieHelper.Name,
-                            Value = cookieHelper.Value
+                            Value = cookieHelper.Value,
+                            Expires = cookieHelper.Expires,
                         });
                 }
 
@@ -307,7 +308,8 @@ namespace DominatorHouseCore.Models
                 {
                     Domain = cookie.Domain,
                     Name = cookie.Name,
-                    Value = cookie.Value
+                    Value = cookie.Value,
+                    Expires = cookie.Expires,
                 }).ToHashSet();
             }
         }

@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DominatorHouseCore.Extensions;
 using Unity;
 
 namespace DominatorUIUtility.ViewModel
@@ -359,13 +360,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 catch (AggregateException ae)
                 {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            e.DebugLog("Cancellation requested before task completion!");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
+                    ae.HandleOperationCancellation();
                 }
                 catch (Exception ex)
                 {
@@ -407,13 +402,7 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (Exception ex)
             {
