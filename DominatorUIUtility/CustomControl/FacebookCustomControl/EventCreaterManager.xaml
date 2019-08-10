@@ -93,6 +93,13 @@
 
                 <StackPanel Orientation="Vertical" Margin="5" Visibility="{Binding EventCreaterManagerModelCommand.IsPublicPostingVisibile,Converter={StaticResource BooleanToVisibilityConverter}}">
 
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="EventType" Width="100" TextAlignment="Left"/>
+                        <ComboBox Name="ListCategoryBox" VerticalAlignment="Top" Height="25" Width="270"                                   
+                              SelectedItem="{Binding EventCreaterManagerModelCommand.Category,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                        </ComboBox>
+                    </StackPanel>
+
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Post permissions" Width="100" />
                         <StackPanel>

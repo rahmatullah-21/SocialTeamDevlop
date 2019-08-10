@@ -22,6 +22,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
     /// </summary>
     public partial class EventCreaterManager : UserControl, INotifyPropertyChanged
     {
+        List<KeyValuePair<string, string>> ListKeyValuePair;
         public EventCreaterManager()
         {
             InitializeComponent();
@@ -32,6 +33,60 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                 Application.Current.FindResource("LangKeyCreatePrivateEvent")?.ToString(),
                 Application.Current.FindResource("LangKeyCreatePublicEvent")?.ToString()
             };
+
+            ListKeyValuePair = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("1116111648515721","Art"),
+                new KeyValuePair<string, string>("1284277608291920", "Causes"),
+                new KeyValuePair<string, string>("660032617536373", "Comedy"),
+                new KeyValuePair<string, string>("258647957895086", "Crafts"),
+                new KeyValuePair<string, string>("363764800677393", "Dance"),
+                new KeyValuePair<string, string>("412284995786529", "Drinks"),
+                new KeyValuePair<string, string>("392955781081975", "Film"),
+                new KeyValuePair<string, string>("1138994019544264", "Fitness"),
+                new KeyValuePair<string, string>("370585540007142", "Food"),
+                new KeyValuePair<string, string>("1219165261515884", "Gardening"),
+                new KeyValuePair<string, string>("1254988834549294", "Health"),
+                new KeyValuePair<string, string>("220618358412161", "Home"),
+                new KeyValuePair<string, string>("432347013823672", "Literature"),
+                new KeyValuePair<string, string>("1821948261404481", "Music"),
+                new KeyValuePair<string, string>("1915104302042536", "Networking"),
+                new KeyValuePair<string, string>("183019258855149", "Party"),
+                new KeyValuePair<string, string>("1763934757268181", "Religion"),
+                new KeyValuePair<string, string>("1759906074034918", "Shopping"),
+                new KeyValuePair<string, string>("607999416057365", "Sports"),
+                new KeyValuePair<string, string>("664694117046626", "Theatre"),
+                new KeyValuePair<string, string>("1712245629067288", "Wellness"),
+                new KeyValuePair<string, string>("359809011100389", "Others")
+            };
+
+            ListCategoryBox.ItemsSource = new List<string>
+            {
+                "Select Category",
+                "Art",
+                "Causes",
+                "Comedy",
+                "Crafts",
+                "Dance",
+                "Drinks",
+                "Film",
+                "Fitness",
+                "Food",
+                "Gardening",
+                "Health",
+                "Home",
+                "Literature",
+                "Music",
+                "Networking",
+                "Party",
+                "Religion",
+                "Shopping",
+                "Sports",
+                "Theatre",
+                "Wellness",
+                "Others"
+            };
+
         }
 
         public bool Isupdated { get; set; }
@@ -60,11 +115,19 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
         private void AddEventsExecute(object sender)
         {
+            EventCreaterManagerModelCommand.CategoryId = ListKeyValuePair.FirstOrDefault(x => x.Key == EventCreaterManagerModelCommand.Category).Value;
 
             if (string.IsNullOrEmpty(EventCreaterManagerModelCommand.EventName))
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
                     "Please Give A Proper Event Name !!");
+                return;
+            }
+
+            if(EventCreaterManagerModelCommand.Category== "Select Category")
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
+                    "Please Select Category Type !!");
                 return;
             }
 
@@ -97,6 +160,8 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                     if (x.Id == EventCreaterManagerModelCommand.Id)
                     {
                         x.EventName = EventCreaterManagerModelCommand.EventName;
+                        x.Category = EventCreaterManagerModelCommand.Category;
+                        x.CategoryId = EventCreaterManagerModelCommand.CategoryId;
                         x.EventDescription = EventCreaterManagerModelCommand.EventDescription;
                         x.EventStartDate = EventCreaterManagerModelCommand.EventStartDate;
                         x.EventEndDate = EventCreaterManagerModelCommand.EventEndDate;
@@ -136,7 +201,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register("CommandParameter", typeof(object), typeof(EventCreaterManager),
                 new PropertyMetadata(OnAvailableItemsChanged));
-
+        
         public object TypeSelectionChangedCommand
         {
             get { return GetValue(TypeSelectionChangedCommandProperty); }
@@ -147,7 +212,6 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
         public static readonly DependencyProperty TypeSelectionChangedCommandProperty =
             DependencyProperty.Register("TypeSelectionChangedCommand", typeof(object), typeof(EventCreaterManager),
                 new PropertyMetadata(OnAvailableItemsChanged));
-
 
         public EventCreaterManagerModel EventCreaterManagerModelCommand
         {
@@ -163,20 +227,6 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                     BindsTwoWayByDefault = true
                 });
 
-        //public FbMultiMediaModel FbMultiMediaModel
-        //{
-        //    get { return (FbMultiMediaModel)GetValue(FbMultiMediaModelProperty); }
-        //    set { SetValue(FbMultiMediaModelProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for FbMultiMediaModel.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty FbMultiMediaModelProperty =
-        //    DependencyProperty.Register("FbMultiMediaModel", typeof(FbMultiMediaModel),
-        //        typeof(EventCreaterManager), new FrameworkPropertyMetadata(OnAvailableItemsChanged)
-        //        {
-        //            BindsTwoWayByDefault = true
-        //        });
-
         public static void OnAvailableItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var newValue = e.NewValue;
@@ -189,39 +239,6 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        //private void btnPhotos_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        OpenFileDialog opf = new OpenFileDialog();
-        //        opf.Multiselect = true;
-        //        opf.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF | Video Files(*.dat; *.wmv; *.mp4;)|*.dat; *.wmv; *.mp4";
-        //        if (opf.ShowDialog().Value)
-        //        {
-        //            EventCreaterManagerModelCommand.MediaPath = opf.FileName;
-        //            EventCreaterManagerModelCommand.PhotoButtonVisibility = "Collapsed";
-        //            EventCreaterManagerModelCommand.PhotoDeleteVisibility = "Visible";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.DebugLog();
-        //    }
-        //}
-
-        //private void DeleteMedia_Click(object sender, RoutedEventArgs e)
-        //{
-        //    EventCreaterManagerModelCommand.MediaPath = "";
-        //    EventCreaterManagerModelCommand.PhotoButtonVisibility = "Visible";
-        //    EventCreaterManagerModelCommand.PhotoDeleteVisibility = "Collapsed";
-        //}
-
-        //private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    EventCreaterManagerModelCommand.MediaPath = "";
-        //    EventCreaterManagerModelCommand.FbMultiMediaModel.AddImageVisibility = "Visible";
-        //}
 
         public string TextLength { get; set; }
 
