@@ -51,6 +51,22 @@ namespace DominatorHouseCore.Models
 
             }
         }
+
+        private bool _browserAutomation;
+        public bool BrowserAutomation
+        {
+            get
+            {
+                return _browserAutomation;
+            }
+            set
+            {
+                if (_browserAutomation == value)
+                    return;
+                SetProperty(ref _browserAutomation, value);
+
+            }
+        }
         private ObservableCollection<ContentSelectGroup> _groups = new ObservableCollection<ContentSelectGroup>();
         public ObservableCollection<ContentSelectGroup> Groups
         {
