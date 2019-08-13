@@ -11,5 +11,12 @@ namespace DominatorHouseCore.Interfaces
 
         Task ScrapeAdsAsync(DominatorAccountModel accountModel, CancellationToken token,string jobid="");
     }
+
+    public interface ILCSScraperFactory
+    {
+        Task<bool> CheckStatusAsync(DominatorAccountModel accountModel, CancellationToken token);
+
+        Task ScrapeLcsAsync(DominatorAccountModel accountModel, CancellationToken token, string jobid = "");
+    }
 }
 
