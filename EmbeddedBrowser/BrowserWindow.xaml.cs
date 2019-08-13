@@ -302,6 +302,54 @@ namespace EmbeddedBrowser
             }
         }
 
+        public async Task BrowserSetCookie()
+        {
+            try
+            {
+                if (DominatorAccountModel.BrowserCookies.Count == 0)
+                    return;
+
+                var callBack = new TaskCompletionCallback();
+
+                foreach (var accCookie in DominatorAccountModel.BrowserCookies)
+                {
+                    var cook = (System.Net.Cookie)accCookie;
+
+                    var cefCookie = new CefSharp.Cookie
+                    {
+                        HttpOnly = cook.HttpOnly,
+                        Name = cook.Name,
+                        Value = cook.Value,
+                        Expires = cook.Expires,
+                        Domain = cook.Domain,
+                        Secure = cook.Secure,
+                        Path = cook.Path
+                    };
+
+                    var url = "";
+                    if (cefCookie.Domain.Contains("www."))
+                        url = "https://" + cefCookie.Domain.TrimStart('.');
+                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && cefCookie.Domain.Contains("pinterest"))
+                        url = "https://" + (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest") ? "www." : "") + cefCookie.Domain.TrimStart('.');
+                    else
+                        url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
+
+                    var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
+
+                    //if (!set) { /*Is cookie set ?*/ }
+                }
+
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && !CustomUse)
+                    Browser.Address = UrlBar.Text = SocialHomeUrls();
+
+                // Just to check that how many cookie was inserted
+                var cefInitialCookies = await BrowserCookies(callBack);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
 
         public async Task ClearCookies()
         {
@@ -343,6 +391,37 @@ namespace EmbeddedBrowser
                   .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                    .SaveToBinFile();
 
+                CustomLog("Browser login successful.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(ex.StackTrace);
+                return false;
+            }
+        }
+
+        public async Task<bool> BrowserSaveCookies()
+        {
+            if (_isLoggedIn) return false;
+
+            try
+            {
+                await Task.Delay(1000);
+
+                _isLoggedIn = true;
+                _loginFailed = false;
+
+                DominatorAccountModel.BrowserCookies = await BrowserCookiesIntoModel();
+
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
+
+                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                  .AddOrUpdateBrowserCookies(DominatorAccountModel.BrowserCookies)
+                   .SaveToBinFile();
+                DominatorAccountModel.IsUserLoggedIn = true;
                 CustomLog("Browser login successful.");
                 return true;
             }

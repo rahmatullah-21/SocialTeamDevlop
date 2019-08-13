@@ -480,6 +480,50 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
+        private HashSet<CookieHelper> _BrowserCookieHelperList = new HashSet<CookieHelper>();
+        [ProtoMember(29)]
+        public HashSet<CookieHelper> BrowserCookieHelperList
+        {
+            get { return _BrowserCookieHelperList; }
+            set
+            {
+                if (_BrowserCookieHelperList != null && _BrowserCookieHelperList == value)
+                    return;
+                SetProperty(ref _BrowserCookieHelperList, value);
+            }
+        }
+
+        [ProtoIgnore]
+        public CookieCollection BrowserCookies
+        {
+            get
+            {
+                var cookieCollection = new CookieCollection();
+
+                if (_BrowserCookieHelperList != null)
+                {
+                    foreach (var cookieHelper in _BrowserCookieHelperList)
+                        cookieCollection.Add(new Cookie()
+                        {
+                            Domain = cookieHelper.Domain,
+                            Name = cookieHelper.Name,
+                            Value = cookieHelper.Value
+                        });
+                }
+
+                return cookieCollection;
+            }
+            set
+            {
+                _BrowserCookieHelperList = value?.Cast<Cookie>().Select(cookie => new CookieHelper
+                {
+                    Domain = cookie.Domain,
+                    Name = cookie.Name,
+                    Value = cookie.Value
+                }).ToHashSet();
+            }
+        }
         public bool IsNeedToSchedule { get; set; } = true;
         public DominatorAccountModel Clone()
         {
