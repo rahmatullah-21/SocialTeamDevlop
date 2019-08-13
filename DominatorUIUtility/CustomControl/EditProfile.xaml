@@ -98,7 +98,7 @@
                      Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="80" Grid.Column="1" 
                      KeyDown="OnKeyDown" Text="{Binding EditProfileModel.Bio}"/>
         </Grid>
-        <CheckBox Name="ChkPrivateInfo" Margin="5" IsChecked="False" MinWidth="200" Grid.Row="5" Content="{DynamicResource LangKeyPrivateInformation}" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" />
+        <CheckBox Name="ChkPrivateInfo" Margin="5" IsChecked="True" MinWidth="200" Grid.Row="5" Content="{DynamicResource LangKeyPrivateInformation}" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" />
 
         <Grid Grid.Row="6"  Name="PrivateInfo" Margin="0,0,0,10" 
               Visibility="{Binding IsChecked,ElementName=ChkPrivateInfo,Converter={StaticResource BooleanToVisibilityConverter},Mode=TwoWay}">
