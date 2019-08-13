@@ -459,6 +459,7 @@
     <Compile Include="Enums\DHEnum\GrowthPeriod.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
     <Compile Include="Enums\EmbeddedBrowser\BrowserEnums.cs" />
+    <Compile Include="Enums\FdQuery\AdUpdationType.cs" />
     <Compile Include="Enums\FdQuery\FbEntityTypes.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
