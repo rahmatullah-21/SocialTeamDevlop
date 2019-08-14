@@ -623,7 +623,7 @@ namespace EmbeddedBrowser
             _accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
             _httpHelper = _accountScopeFactory[DominatorAccountModel.AccountId]
                 .Resolve<IHttpHelper>(DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-
+            
             _predicateDict = new Dictionary<Predicate<string>, Func<bool>>
             {
                 {
@@ -664,7 +664,7 @@ namespace EmbeddedBrowser
                     ManyAttemptsOnPhoneVerification
                 },
                 {
-                    pageData => pageData.Contains("Confirm your recovery email") ||
+                    pageData => pageData.Contains("Confirm your recovery email") || // Confirm your recovery emai
                                 pageData.Contains("Confirm your recovery phone number"),
                     ClickOptionConfirmRecovery
                 },
@@ -682,20 +682,20 @@ namespace EmbeddedBrowser
                 },
                 {
                     pageData => pageData.Contains("Get a verification code")
-                                && !pageData.Contains("Google will send a notification to your phone to verify that it's you"),
-                    NeedEmailVerification
+                                || pageData.Contains("Do you have your phone?")
+                                || (pageData.Contains("Google will send a verification code to")&& pageData.Contains("Standard rates apply")),
+                    NeedPhoneVerification
                 },
                 {
                     pageData => pageData.Contains("Get a verification code")
-                                || pageData.Contains("Do you have your phone?")
-                                || pageData.Contains("Google will send a notification to your phone to verify that it's you"),
-                    NeedPhoneVerification
+                                && !pageData.Contains("Google will send a notification to"),
+                    NeedEmailVerification
                 },
                 {
                     pageData => pageData.Contains("Type the text you hear or see")
                                 || pageData.Contains("Google couldn't verify this account belongs to you.")
-                                || pageData.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
-                                || pageData.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you."),
+                               /*|| pageData.Contains("This device isn't recognized. For your security, Google wants to make sure that it's really you.")
+                                || pageData.Contains("This device isn't recognised. For your security, Google wants to make sure that it's really you.") */,
                     NeedsVerification
                 },
                 {
@@ -906,10 +906,13 @@ namespace EmbeddedBrowser
             DominatorAccountModel.AccountBaseModel.Status = AccountStatus.TooManyAttemptsOnPhoneVerification;
             return true;
         }
-
+        
         private bool ClickOptionConfirmRecovery()
         {
-            BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5);
+            // BrowserAct(ActType.ClickByClass, "vdE7Oc", delayAfter: 2.5);
+            PressAnyKey(4, 200, winKeyCode: 9);
+            PressAnyKey(winKeyCode: 13);
+            Thread.Sleep(TimeSpan.FromSeconds(2.5));
             return false;
         }
 
