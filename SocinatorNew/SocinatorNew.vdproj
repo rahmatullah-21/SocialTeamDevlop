@@ -3466,12 +3466,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_240DF916002F05931B3D71D979689C35"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_AA2BD54EE71068FC1328D519DAABA2AD"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -8903,19 +8897,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{CCE7AD7A-1C85-4AA2-803D-738D5C939AA6}"
-        "PackageCode" = "8:{39AE6445-11D7-4611-A6FE-5FD013DF0230}"
+        "ProductCode" = "8:{85682A7C-A6AB-4A67-AE16-4829A74BBCCA}"
+        "PackageCode" = "8:{72A1FF3B-A2D4-42B3-A465-91DC0CE1E2BB}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.400"
+        "ProductVersion" = "8:1.0.402"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://socinator.com/contact-us/"
-        "Title" = "8:Socinator 1.0.0.400"
+        "Title" = "8:Socinator 1.0.0.402"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"

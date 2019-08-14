@@ -23,6 +23,5 @@ namespace Dominator.Tests.Utils
             Container.RegisterInstance<IDelayService>(DelayService);
             ServiceLocator.SetLocatorProvider(() => new UnityServiceLocator(Container));
         }
-
     }
 }

@@ -1,18 +1,23 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.Utility
 {
     public interface IWebService
     {
-        Task<byte[]> GetImageBytesFromUrl(string url);
+        byte[] GetImageBytesFromUrl(string url);
     }
 
     public sealed class WebService : IWebService
     {
-        public async Task<byte[]> GetImageBytesFromUrl(string url)
+        public byte[] GetImageBytesFromUrl(string url)
         {
-            return await new HttpClient().GetByteArrayAsync(url).ConfigureAwait(false);
+            using (var webClient = new WebClient())
+            {
+               return webClient.DownloadData(url);
+            }
         }
     }
 }
