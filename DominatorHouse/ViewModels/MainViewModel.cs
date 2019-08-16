@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -71,7 +72,7 @@ namespace DominatorHouse.ViewModels
             PerfCounterViewModel = perfCounterViewModel;
             AvailableNetworks = availableNetworks;
             _schedulerProxy = schedulerProxy;
-            Languages = new SelectableViewModel<string>(new[] { "English" });
+            Languages = new SelectableViewModel<string>(ServiceLocator.Current.GetInstance<IBinFileHelper>().LanguagesList());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;
@@ -103,7 +104,7 @@ namespace DominatorHouse.ViewModels
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
-
+        
         private void OnClosing(CancelEventArgs e)
         {
             try

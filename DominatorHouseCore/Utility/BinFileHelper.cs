@@ -52,6 +52,9 @@ namespace DominatorHouseCore.Utility
         List<T> GetFacebookEntity<T>() where T : class, new();
 
         void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class, new();
+
+        string[] LanguagesList();
+        void SetLanguages(string languages);
     }
 
     public class BinFileHelper : IBinFileHelper
@@ -632,6 +635,44 @@ namespace DominatorHouseCore.Utility
         public List<T> GetFacebookEntity<T>() where T : class, new()
         {
             return _protoBuffBase.DeserializeList<T>(ConstantVariable.GetFacebookDetailsConfigFile());
+        }
+
+        public string[] LanguagesList()
+        {
+            try
+            {
+                if (!File.Exists(ConstantVariable.GetLanguagesFile()))
+                {
+                    using (var sw = new StreamWriter(ConstantVariable.GetLanguagesFile(), false))
+                    {
+                        sw.WriteLine("English\r\nChinese");
+                        sw.Close();
+                    }
+                    return new string[] { "English", "Chinese" };
+                }
+
+                var sr = new StreamReader(ConstantVariable.GetLanguagesFile());
+                string str = sr.ReadToEnd().Trim();
+                sr.Close();
+                return System.Text.RegularExpressions.Regex.Split(str, "\r\n").ToArray();
+            }
+            catch (Exception ex)
+            {
+                ex.ErrorLog();
+            }
+            return new string[] { "English", "Chinese" };
+        }
+        public void SetLanguages(string languages)
+        {
+            try
+            {
+                using (var sw = new StreamWriter(ConstantVariable.GetLanguagesFile(), false))
+                {
+                    sw.WriteLine(languages);
+                }
+            }
+            catch
+            { }
         }
     }
 

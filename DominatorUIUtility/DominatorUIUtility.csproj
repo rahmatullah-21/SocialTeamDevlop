@@ -814,6 +814,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Languages\Chinese.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\UtilityControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

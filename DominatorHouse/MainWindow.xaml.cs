@@ -7,6 +7,9 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -96,6 +99,40 @@ namespace Socinator
             }
         }
 
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var selected = (sender as ComboBox).SelectedItem as string;
+                bool delFlag = false;
+                var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                switch (selected)
+                {
+                    case "English":
+                        {
+                            List<ResourceDictionary> res = Application.Current.Resources.MergedDictionaries.ToList();
+                            ResourceDictionary obj = res.Where(x => x.Source.OriginalString.ToString() == "/DominatorUIUtility;component/Resources/Languages/Chinese.xaml").FirstOrDefault();
+                            delFlag = Application.Current.Resources.MergedDictionaries.Remove(obj);
+                            if (delFlag)
+                                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/DominatorUIUtility;component/Resources/Languages/English.xaml", UriKind.RelativeOrAbsolute) });
+                            binFileHelper.SetLanguages("English\r\nChinese");
+                        }
+                        break;
+
+                    case "Chinese":
+                        {
+                            List<ResourceDictionary> res = Application.Current.Resources.MergedDictionaries.ToList();
+                            ResourceDictionary obj = res.Where(x => x.Source.OriginalString.ToString() == "/DominatorUIUtility;component/Resources/Languages/English.xaml").FirstOrDefault();
+                            delFlag = Application.Current.Resources.MergedDictionaries.Remove(obj);
+                            if (delFlag)
+                                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/DominatorUIUtility;component/Resources/Languages/Chinese.xaml", UriKind.RelativeOrAbsolute) });
+                            binFileHelper.SetLanguages("Chinese\r\nEnglish");
+                        }
+                        break;
+                }
+            }
+            catch (Exception ex) { }
+        }
 
     }
 }

@@ -302,7 +302,7 @@ namespace DominatorHouseCore.Utility
         public static string GetFacebookDetailsConfigFile() => GetOtherDir() + @"\FacebokDetails\FacebookEntity.bin";
         public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
-
+        public static string GetLanguagesFile() => GetOtherDir() + @"\Languages.txt";
         public static string SocialAccountManagerVideoLink => "https://www.youtube.com/playlist?list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE";
 
         public static string FbAccountManagerVideoLink => "https://www.youtube.com/watch?v=R-ZJTZ1_SJg&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2&t=0s";
