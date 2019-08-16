@@ -540,10 +540,10 @@ namespace EmbeddedBrowser
                     Thread.Sleep(1000);
                     if (last30Secs.AddSeconds(30) < DateTime.Now) return;
                 }
-
+               
                 if (!_htmlHasUserName)
                     _htmlHasUserName = /*_html.ToLower().Contains(DominatorAccountModel.UserName.ToLower()) ||*/ _html.Contains("\"LOGGED_IN\":true")
-                                                                                                          || (_pageText.Contains("Protect your account") && _html.ToLower().Contains(DominatorAccountModel.UserName.ToLower()));
+                                                                                                          || (_html.ToLower().Contains("https://myaccount.google.com/") /*(_pageText.Contains("Protect your account") */ &&_html.ToLower().Contains(DominatorAccountModel.UserName.ToLower()));
                 SetGoogleLangAsEng();
 
                 if (!_isLoggedIn && (_pageText.Contains("Verify your identity") || _pageText.Contains("\n\nEnter verification code\n\n") || _pageText.Contains("English (")) && !IsGoogleAccountLoginFailed())
