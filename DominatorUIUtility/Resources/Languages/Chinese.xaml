@@ -3522,9 +3522,17 @@
     <system:String x:Key="LangKeyScrapUserWhomWeMessaged">刮取我们发送消息的用户</system:String>
     <system:String x:Key="LangKeyTweetPostCaptionFormate">[用户名][原始邮稿][帐户用户名]拥有推文标题文本</system:String>
     <system:String x:Key="LangKeySendMessageToFollowers">向关注者/系统发送消息:字符串*</system:String>
-    
-    
-    <!--Missing Languages-->
    
-
+    <!--Added new missing Languages-->
+    <system:String x:Key="LangKeyPinCount">针数</system:String>
+    <system:String x:Key="LangKeyBoardCount">董事会计数</system:String>
+    <system:String x:Key="LangKeyFriendCount">朋友数</system:String>
+    <system:String x:Key="LangKeyGroupCount">小组计数</system:String>
+    <system:String x:Key="LangKeyPageCount">页数</system:String>
+    <system:String x:Key="LangKeyFeedCount">饲料计数</system:String>
+    <system:String x:Key="LangKeyConnectionCount">连接数</system:String>
+    <system:String x:Key="LangKeyLinkedinGroupCount">Linkedin群数</system:String>
+    <system:String x:Key="LangKeyInvitationsSentCount">邀请已发送计数</system:String>
+    <system:String x:Key="LangKeyTweetCount">推特计数</system:String>
+    
 </ResourceDictionary>
