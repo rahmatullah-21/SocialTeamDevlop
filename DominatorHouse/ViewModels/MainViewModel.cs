@@ -4,6 +4,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.GlobalRoutines;
 using DominatorHouseCore.BusinessLogic.Scheduler;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
@@ -30,6 +31,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DominatorHouse.ViewModels
 {
@@ -48,6 +50,8 @@ namespace DominatorHouse.ViewModels
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
 
         public AccessorStrategies Strategies { get; set; }
+
+        public ICommand SelectionChangedCommand { get; set; }
         string _fatalError { get; set; }
         private bool IsCancelFromLicenceValidationState { get; set; }
         public Dock TabDock
@@ -72,6 +76,7 @@ namespace DominatorHouse.ViewModels
             PerfCounterViewModel = perfCounterViewModel;
             AvailableNetworks = availableNetworks;
             _schedulerProxy = schedulerProxy;
+            //SelectionChangedCommand = new BaseCommand<object>((sender) => true, SelectionChangedExecute);
             Languages = new SelectableViewModel<string>(ServiceLocator.Current.GetInstance<IBinFileHelper>().LanguagesList());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
@@ -104,7 +109,42 @@ namespace DominatorHouse.ViewModels
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
-        
+
+        private void SelectionChangedExecute(object sender)
+        {
+            try
+            {
+                var selected = (sender as ComboBox).SelectedItem as string;
+                bool delFlag = false;
+                var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                switch (selected)
+                {
+                    case "English":
+                        {
+                            List<ResourceDictionary> res = Application.Current.Resources.MergedDictionaries.ToList();
+                            ResourceDictionary obj = res.Where(x => x.Source.OriginalString.ToString() == "/DominatorUIUtility;component/Resources/Languages/Chinese.xaml").FirstOrDefault();
+                            delFlag = Application.Current.Resources.MergedDictionaries.Remove(obj);
+                            if (delFlag)
+                                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/DominatorUIUtility;component/Resources/Languages/English.xaml", UriKind.RelativeOrAbsolute) });
+                            binFileHelper.SetLanguages("English\r\nChinese");
+                        }
+                        break;
+
+                    case "Chinese":
+                        {
+                            List<ResourceDictionary> res = Application.Current.Resources.MergedDictionaries.ToList();
+                            ResourceDictionary obj = res.Where(x => x.Source.OriginalString.ToString() == "/DominatorUIUtility;component/Resources/Languages/English.xaml").FirstOrDefault();
+                            delFlag = Application.Current.Resources.MergedDictionaries.Remove(obj);
+                            if (delFlag)
+                                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/DominatorUIUtility;component/Resources/Languages/Chinese.xaml", UriKind.RelativeOrAbsolute) });
+                            binFileHelper.SetLanguages("Chinese\r\nEnglish");
+                        }
+                        break;
+                }
+            }
+            catch (Exception ex) { }
+        }
+
         private void OnClosing(CancelEventArgs e)
         {
             try

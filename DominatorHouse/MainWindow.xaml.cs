@@ -98,14 +98,26 @@ namespace Socinator
 
             }
         }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        
+        private void LangCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
                 var selected = (sender as ComboBox).SelectedItem as string;
-                bool delFlag = false;
                 var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                var firstInFile = binFileHelper.LanguagesList()[0];
+
+                var dontRestart = selected == firstInFile;
+                  
+                if (!dontRestart && Dialog.ShowCustomDialog("Change Language",
+                    $"Change Language to \"{selected}\".To apply this setting you need to restart.\nDo you want to Restart?", "Yes", "No") != MessageDialogResult.Affirmative)
+                {
+                    LangCombo.SelectedValue = firstInFile;
+                    return;
+                }
+                
+                bool delFlag = false;
+                
                 switch (selected)
                 {
                     case "English":
@@ -130,9 +142,15 @@ namespace Socinator
                         }
                         break;
                 }
+                if(!dontRestart)
+                {
+                    Application.Current.Shutdown();
+                    Process.Start(Application.ResourceAssembly.Location);
+                    Process.GetCurrentProcess().Kill();
+                    Environment.Exit(0);
+                }
             }
             catch (Exception ex) { }
         }
-
     }
 }

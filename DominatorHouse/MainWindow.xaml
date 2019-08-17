@@ -17,6 +17,7 @@
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
         Name="SocinatorWindow" MinWidth="500" MinHeight="500"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         WindowState="Maximized" >
 
     <Window.Resources>
@@ -33,10 +34,16 @@
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-
+            <!--SelectionChanged="ComboBox_SelectionChanged"-->
             <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                       ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
-            <ComboBox DataContext="{Binding Languages}" SelectionChanged="ComboBox_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+            <ComboBox x:Name="LangCombo" DataContext="{Binding Languages}" SelectionChanged="LangCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}">
+                <!--<i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged" >
+                        <i:InvokeCommandAction Command="{Binding SelectionChangedCommand,ElementName=MainGrid}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>-->
+            </ComboBox>
 
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>

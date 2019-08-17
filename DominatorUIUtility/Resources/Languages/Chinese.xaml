@@ -2516,7 +2516,7 @@
     <system:String x:Key="LangKeyUseRealtimeResults">使用实时结果</system:String>
     <system:String x:Key="LangKeyUseSimplifiedMethodForFacebookSharePostsPostingThePagePostLinkInsteadOfShare">对 Facebook 分享帖子使用简化方法(发布主页帖子链接而不是分享)</system:String>
     <system:String x:Key="LangKeyUseSourceTypeFilter">使用源类型筛选器</system:String>
-    <system:String x:Key="LangKeyUseTabInsteadOfComma"></system:String>
+    <system:String x:Key="LangKeyUseTabInsteadOfComma">使用Tab而不是逗号（</system:String>
     <system:String x:Key="LangKeyUseThisFeatureToAddOrDeleteSingle/MultipleAccountsCheckTheActiveAndInactiveStatusUsingAccountChecker">使用此功能可以添加或删除单个/ 多个帐户。使用帐户检查器检查活动和非活动状态</system:String>
     <system:String x:Key="LangKeyUseThisModuleToFindPhotosOfYourCustomizeUsersListOrWithHashtagsAndSaveThemToYourComputer">"使用此模块可查找自定义用户列表或井号标记的照片">并将其保存到计算机。"</system:String>
     <system:String x:Key="LangKeyUseThisModuleToUploadLatestProfilePictureORPostNewPhotosFromMultipleAccountsOnInstagram">使用此模块可以上传最新的个人资料图片或发布 Instagram 上多个帐户的新照片。</system:String>
@@ -2658,7 +2658,7 @@
     <system:String x:Key="LangKeyYoutubeAccountsAtTheSameTime">同时Youtube帐户</system:String>
     <system:String x:Key="LangKeyToolTipForSync">单击以开始将帐户目标与当前数据库数据同步</system:String>
     <system:String x:Key="LangKeyFolderPathTemplate">[文件名][文件类型][文件作者][文件标题][文件主题][文件创建日期][文件评论][文件标签]</system:String>
-    <system:String x:Key="LangKeyRssFeedTemplate"></system:String>
+    <system:String x:Key="LangKeyRssFeedTemplate">[FeedTitle] [FeedDescription] [FeedUrl] [FeedPublishedDate]</system:String>
     <system:String x:Key="LangKeyEnableGlobalFindReplaceWaterMark">"社交媒体[#socialmedia文本删除]">您还可以使用通配符">例如[ant]测试将替换任何以蚂蚁结尾的单词与测试ant_test_test将替换任何以ant开头的单词">测试将替换任何包含ant的单词与测试"</system:String>
     <system:String x:Key="LangKeyAccountName">帐户名称</system:String>
     <system:String x:Key="LangKeyHostName">主机名称</system:String>
@@ -2670,8 +2670,8 @@
     <system:String x:Key="LangKeyVerify">验证</system:String>
     <system:String x:Key="LangKeyCookies">Cookies</system:String>
     <system:String x:Key="LangKeyAddNewCookies">添加新 Cookie</system:String>
-    <system:String x:Key="LangKeyMessageTextWaterMark? The text contain the following tokens: FULLNAME FIRSTNAME LASTNAME GROUPNAME  USERNAME MYUSERNAME MYNAME MYFIRSTNAME They are replaced with user info.">文本包含以下令牌: 全名，名， 名称 名称 用户名 我的名，我的名它们被替换为用户信息。</system:String>
-    <system:String x:Key="LangKeyReplyToMessagesThatContainSpecificWord? Reply to messages that contain specific word."></system:String>
+    <system:String x:Key="LangKeyMessageTextWaterMark">文本包含以下令牌: 全名，名， 名称 名称 用户名 我的名，我的名它们被替换为用户信息。</system:String>
+    <system:String x:Key="LangKeyReplyToMessagesThatContainSpecificWord">回复包含特定单词的邮件。</system:String>
     <system:String x:Key="LangKeyPostTitle">帖子标题</system:String>
     <system:String x:Key="LangKeySourceUrl">源Url</system:String>
     <system:String x:Key="LangKeyImportAccountDescription">格式: 键入 1。组名称:社交网络:用户名:密码:备用电子邮件(用于 YouTube)类型 2。组名称:社交网络:用户名:密码:代理地址:代理端口:备用电子邮件(用于 YouTube)类型 3。组名称:社交网络:用户名:密码:代理地址:代理端口:代理用户名:代理密码:备用电子邮件(用于 YouTube)</system:String>
@@ -2996,7 +2996,7 @@
     <system:String x:Key="LangKeyRefreshChat">刷新聊天</system:String>
     <system:String x:Key="LangKeyStartWarning">这些帐户已具有活动的配置设置:</system:String>
     <system:String x:Key="LangKeyEndWarning">"保存此设置将覆盖以前的设置">并从活动中删除此帐户"</system:String>
-    <system:String x:Key="LangKeyQuora"></system:String>
+    <system:String x:Key="LangKeyQuora">Quora</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllQuoraAccountsConfiguredInQuora">"在 Quora 中配置的所有 Quora 帐户中启用""关注不同用户""功能"</system:String>
     <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">启用跨 Socinator 中配置的所有LinkedIn帐户导出不同连接的 HTML</system:String>
     <system:String x:Key="LangKeyOnlyContactInfo">仅联系信息</system:String>
@@ -3522,5 +3522,9 @@
     <system:String x:Key="LangKeyScrapUserWhomWeMessaged">刮取我们发送消息的用户</system:String>
     <system:String x:Key="LangKeyTweetPostCaptionFormate">[用户名][原始邮稿][帐户用户名]拥有推文标题文本</system:String>
     <system:String x:Key="LangKeySendMessageToFollowers">向关注者/系统发送消息:字符串*</system:String>
+    
+    
+    <!--Missing Languages-->
+   
 
 </ResourceDictionary>
