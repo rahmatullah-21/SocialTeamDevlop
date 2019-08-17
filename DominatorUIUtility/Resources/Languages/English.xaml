@@ -3596,4 +3596,17 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyScrapUserWhomWeMessaged">Scrape users whom we messaged</system:String>
     <system:String x:Key="LangKeyTweetPostCaptionFormate">[USERNAME][ORIGINALPOSTCAPTION][ACCOUNTUSERNAME] Own Tweetcaption Text</system:String>
     <system:String x:Key="LangKeySendMessageToFollowers">Send Message To Followers</system:String>
+    
+    <!--Added new missing Languages-->
+    <system:String x:Key="LangKeyPinCount">Pin Count</system:String>
+    <system:String x:Key="LangKeyBoardCount">Boards Count</system:String>
+    <system:String x:Key="LangKeyFriendCount">Friend Count</system:String>
+    <system:String x:Key="LangKeyGroupCount">Group Count</system:String>
+    <system:String x:Key="LangKeyPageCount">Page Count</system:String>
+    <system:String x:Key="LangKeyFeedCount">Feed Count</system:String>
+    <system:String x:Key="LangKeyConnectionCount">Connection Count</system:String>
+    <system:String x:Key="LangKeyLinkedinGroupCount">Linkedin Group Count</system:String>
+    <system:String x:Key="LangKeyInvitationsSentCount">Invitations Sent Count</system:String>
+    <system:String x:Key="LangKeyTweetCount">Tweet Count</system:String>
+
 </ResourceDictionary>
