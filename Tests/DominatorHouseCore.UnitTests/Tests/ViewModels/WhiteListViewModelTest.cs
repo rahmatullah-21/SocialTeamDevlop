@@ -20,29 +20,12 @@ using System.Linq;
 
 namespace DominatorHouseCore.UnitTests.Tests.ViewModels
 {
-    [TestClass]
+    [TestClass, Microsoft.VisualStudio.TestTools.UnitTesting.Ignore("need to move integration tests to corresponding project")]
     public class WhiteListViewModelTest : UnityInitializationTests
     {
         WhiteListViewModel WhiteListViewModel;
         private IGlobalDatabaseConnection _globalDb;
 
-        [AssemblyInitialize]
-        public static void AssemblyInitialize(TestContext context)
-        {
-            var waitForApplicationRun = new TaskCompletionSource<bool>();
-            Task.Run(() =>
-            {
-                var application = new Application();
-                application.Startup += (s, e) => { waitForApplicationRun.SetResult(true); };
-                application.Run();
-            });
-            waitForApplicationRun.Task.Wait();
-        }
-        [AssemblyCleanup]
-        public static void AssemblyCleanup()
-        {
-            Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
-        }
         [TestInitialize]
         public override void SetUp()
         {
