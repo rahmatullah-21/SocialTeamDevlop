@@ -3637,4 +3637,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyRelationship">Relationship</system:String>
 
     <system:String x:Key="LangKeyCreateAccount">Create Account</system:String>
+
+    <system:String x:Key="LangKeyAddCoverPhoto">Add Cover Photo</system:String>
+    <system:String x:Key="LangKeyTypeEmailId">Type Email Id</system:String>
+    <system:String x:Key="LangKeyTypePhonenumber">Type Phone number</system:String>
+    <system:String x:Key="LangKeyTypeGender">Type Gender</system:String>
+    <system:String x:Key="LangKeyTypeDateOfBirth">Type Date Of Birth</system:String>
 </ResourceDictionary>
