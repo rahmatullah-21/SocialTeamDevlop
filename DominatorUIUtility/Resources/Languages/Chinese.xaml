@@ -3534,5 +3534,30 @@
     <system:String x:Key="LangKeyLinkedinGroupCount">Linkedin群数</system:String>
     <system:String x:Key="LangKeyInvitationsSentCount">邀请已发送计数</system:String>
     <system:String x:Key="LangKeyTweetCount">推特计数</system:String>
-    
+    <system:String x:Key="LangKeyFriendshipCount">友谊计数</system:String>
+    <system:String x:Key="LangKeyRequiredField">*必填项目</system:String>
+    <system:String x:Key="LangKeyInvalidAddress">无效地址</system:String>
+    <system:String x:Key="LangKeyInvalidDate">失效日期！</system:String>
+    <system:String x:Key="LangKeyInvalidPort">无效的端口</system:String>
+    <system:String x:Key="LangKeyInvalidIpAddress">无效的IP地址</system:String>
+    <system:String x:Key="LangKeyInvalidURL">无效的网址</system:String>
+    <system:String x:Key="LangKeyEnterTimeMoreThan">请输入超过的时间</system:String>
+    <system:String x:Key="LangKeyEnterTimeLessThan">请输入小于的时间</system:String>
+    <system:String x:Key="LangKeyEnterGroupName">输入组名称</system:String>
+    <system:String x:Key="LangKeyEnterAccountName">输入帐户名称</system:String>
+    <system:String x:Key="LangKeyEnterUserName">输入用户名</system:String>
+    <system:String x:Key="LangKeyEnterPassword">输入密码</system:String>
+    <system:String x:Key="LangKeyEnterEmailId">输入电子邮件ID</system:String>
+    <system:String x:Key="LangKeyEnterHostName">输入主机名</system:String>
+    <system:String x:Key="LangKeyEnterPort">进口</system:String>
+    <system:String x:Key="LangKeyEnterIpFormat">格式:{255.255.255.255}</system:String>
+    <system:String x:Key="LangKeyTypeProxyPort">输入代理端口</system:String>
+    <system:String x:Key="LangKeyTypeProxyUsername">键入代理用户名</system:String>
+    <system:String x:Key="LangKeyTypeProxyPassword">输入代理密码</system:String>
+    <system:String x:Key="LangKeyKey">键</system:String>
+    <system:String x:Key="LangKeyValue">值</system:String>
+    <system:String x:Key="LangKeyNotUpdatedYet">尚未更新</system:String>
+
+    <system:String x:Key="LangKeyOr">要么</system:String>
+    <system:String x:Key="LangKeyToken">代币</system:String>
 </ResourceDictionary>
