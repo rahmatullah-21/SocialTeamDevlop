@@ -3608,5 +3608,30 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyLinkedinGroupCount">Linkedin Group Count</system:String>
     <system:String x:Key="LangKeyInvitationsSentCount">Invitations Sent Count</system:String>
     <system:String x:Key="LangKeyTweetCount">Tweet Count</system:String>
+    <system:String x:Key="LangKeyFriendshipCount">Friendship Count</system:String>
+    <system:String x:Key="LangKeyRequiredField">*Required Field</system:String>
+    <system:String x:Key="LangKeyInvalidAddress">Invalid Address</system:String>
+    <system:String x:Key="LangKeyInvalidDate">Invalid date!</system:String>
+    <system:String x:Key="LangKeyInvalidPort">Invalid Port</system:String>
+    <system:String x:Key="LangKeyInvalidIpAddress">Invalid IP address</system:String>
+    <system:String x:Key="LangKeyInvalidURL">Invalid URL</system:String>
+    <system:String x:Key="LangKeyEnterTimeMoreThan">Please enter the time more than</system:String>
+    <system:String x:Key="LangKeyEnterTimeLessThan">Please enter the time less than</system:String>
+    <system:String x:Key="LangKeyEnterGroupName">Enter Group Name</system:String>
+    <system:String x:Key="LangKeyEnterAccountName">Enter Account Name</system:String>
+    <system:String x:Key="LangKeyEnterUserName">Type User Name</system:String>
+    <system:String x:Key="LangKeyEnterPassword">Enter Password</system:String>
+    <system:String x:Key="LangKeyEnterEmailId">Enter Email Id</system:String>
+    <system:String x:Key="LangKeyEnterHostName">Enter Host name</system:String>
+    <system:String x:Key="LangKeyEnterPort">Enter port</system:String>
+    <system:String x:Key="LangKeyEnterIpFormat">Format:{255.255.255.255}</system:String>
+    <system:String x:Key="LangKeyTypeProxyPort">Type Proxy Port</system:String>
+    <system:String x:Key="LangKeyTypeProxyUsername">Type Proxy User Name</system:String>
+    <system:String x:Key="LangKeyTypeProxyPassword">Type proxy password</system:String>
+    <system:String x:Key="LangKeyKey">Key</system:String>
+    <system:String x:Key="LangKeyValue">Value</system:String>
+    <system:String x:Key="LangKeyNotUpdatedYet">Not Updated Yet</system:String>
 
+    <system:String x:Key="LangKeyOr">or</system:String>
+    <system:String x:Key="LangKeyToken">Token</system:String>
 </ResourceDictionary>
