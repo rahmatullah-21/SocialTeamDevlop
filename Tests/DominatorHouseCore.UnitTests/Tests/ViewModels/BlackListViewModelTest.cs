@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace DominatorHouseCore.UnitTests.Tests.ViewModels
 {
-    [TestClass]
+    [TestClass, Microsoft.VisualStudio.TestTools.UnitTesting.Ignore("need to move integration tests to corresponding project")]
     public class BlackListViewModelTest : UnityInitializationTests
     {
         BlackListViewModel _blacklistViewModel;
@@ -27,8 +27,8 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
             _globalDb = Substitute.For<IGlobalDatabaseConnection>();
             Container.RegisterInstance(_globalDb);
             _blacklistViewModel = new BlackListViewModel();
-            var whiteListdb = new SQLiteConnection(@"C:\Users\GLB-259\AppData\Local\Socinator\Index\Global\DB\WhiteListedUser\Quora.db");
-            var blackListdb = new SQLiteConnection(@"C:\Users\GLB-259\AppData\Local\Socinator\Index\Global\DB\BlackListedUser\Quora.db");
+            var whiteListdb = new SQLiteConnection(@"Quora.db");
+            var blackListdb = new SQLiteConnection(@"Quora.db");
             _globalDb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.WhiteListedUser).ReturnsForAnyArgs(whiteListdb);
             _globalDb.GetSqlConnection(SocinatorInitialize.ActiveSocialNetwork, UserType.BlackListedUser).ReturnsForAnyArgs(blackListdb);
         }

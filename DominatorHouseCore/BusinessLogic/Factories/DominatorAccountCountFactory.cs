@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.Interfaces;
+using DominatorHouseCore.Utility;
 
 namespace DominatorHouseCore.BusinessLogic.Factories
 {
@@ -11,7 +12,7 @@ namespace DominatorHouseCore.BusinessLogic.Factories
 
         private DominatorAccountCountFactory() { }
 
-        public string HeaderColumn1Value { get; set; } = "Friendship Count";
+        public string HeaderColumn1Value { get; set; } = "LangKeyFriendshipCount".FromResourceDictionary();
         public bool HeaderColumn1Visiblity { get; set; } = true;
         public string HeaderColumn2Value { get; set; } = string.Empty;
         public bool HeaderColumn2Visiblity { get; set; } = false;

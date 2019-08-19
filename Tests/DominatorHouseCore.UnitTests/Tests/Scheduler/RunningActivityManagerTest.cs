@@ -56,7 +56,17 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             _jobProcessScopeFactory = Substitute.For<IJobProcessScopeFactory>();
             lstAccount = new List<DominatorAccountModel>
             {
-                new DominatorAccountModel() {AccountId="1bc" }
+                new DominatorAccountModel()
+                {
+                    AccountId = "1bc",
+                    ActivityManager = new JobActivityManager
+                    {
+                        LstModuleConfiguration = new List<ModuleConfiguration>
+                        {
+                            new ModuleConfiguration {ActivityType = ActivityType.Follow, IsEnabled = true}
+                        }
+                    }
+                }
             };
 
         }
@@ -67,7 +77,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             {
                 IsEnableParallelActivitiesChecked = true
             });
-            _runningActivityManager.Initialize(lstAccount);
+            var task = _runningActivityManager.Initialize(lstAccount);
+            task.Wait();
             _dominatorScheduler.Received(1).ScheduleEachActivity(lstAccount[0]);
             softwareFileManager.Received(1).GetSoftwareSettings();
         }
