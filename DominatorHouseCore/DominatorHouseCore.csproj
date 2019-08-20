@@ -264,6 +264,7 @@
     <Compile Include="Converters\SocialNetworkToVisualBrushConverter.cs" />
     <Compile Include="Converters\StringLengthToBooleanConverter.cs" />
     <Compile Include="Converters\StringPercentageTextConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\TwoListSynchronizer.cs" />
