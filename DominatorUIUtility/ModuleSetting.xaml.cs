@@ -18,6 +18,7 @@ namespace DominatorUIUtility
             InitializeComponent();
             _regionManager = regionManager;
             this.SetValue(RegionManager.RegionManagerProperty, regionManager);
+           
         }
         private static ModuleSetting _instance;
         public static ModuleSetting Instance
