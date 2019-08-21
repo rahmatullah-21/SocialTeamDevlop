@@ -3634,4 +3634,10 @@ Type 3. IP:Port
 
     <system:String x:Key="LangKeyOr">or</system:String>
     <system:String x:Key="LangKeyToken">Token</system:String>
+
+    <system:String x:Key="LangKeyChangeLanguage">Change Language</system:String>
+    <system:String x:Key="LangKeyConfirmToSetLanguage"  xml:space="preserve">Set Language Chinese. To apply this setting, you need to restart.
+    Do you want to Restart?</system:String>
+    <system:String x:Key="LangKeyYes">Yes</system:String>
+    <system:String x:Key="LangKeyNo">No</system:String>
 </ResourceDictionary>

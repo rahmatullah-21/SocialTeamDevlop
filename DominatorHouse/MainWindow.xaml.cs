@@ -109,8 +109,8 @@ namespace Socinator
 
                 var dontRestart = selected == firstInFile;
                   
-                if (!dontRestart && Dialog.ShowCustomDialog("Change Language",
-                    $"Change Language to \"{selected}\".To apply this setting you need to restart.\nDo you want to Restart?", "Yes", "No") != MessageDialogResult.Affirmative)
+                if (!dontRestart && Dialog.ShowCustomDialog("LangKeyChangeLanguage".FromResourceDictionary(),
+                    "LangKeyConfirmToSetLanguage".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) != MessageDialogResult.Affirmative)
                 {
                     LangCombo.SelectedValue = firstInFile;
                     return;

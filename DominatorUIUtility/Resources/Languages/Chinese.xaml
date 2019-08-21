@@ -3560,4 +3560,10 @@
 
     <system:String x:Key="LangKeyOr">要么</system:String>
     <system:String x:Key="LangKeyToken">代币</system:String>
+
+    <system:String x:Key="LangKeyChangeLanguage">改变语言</system:String>
+    <system:String x:Key="LangKeyConfirmToSetLanguage"  xml:space="preserve">设置语言中文。 要应用此设置，您需要重新启动。
+    你想重新开始吗？</system:String>
+    <system:String x:Key="LangKeyYes">是</system:String>
+    <system:String x:Key="LangKeyNo">没有</system:String>
 </ResourceDictionary>
