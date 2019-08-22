@@ -61,7 +61,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
             if (MacrosCollection.Any(x => x.Key == socinatorIntellisenseModel.InputMacro.Key))
             {
-                ToasterNotification.ShowWarning($"Macro key : {socinatorIntellisenseModel.InputMacro.Key} already present!");
+                ToasterNotification.ShowWarning($"{"LangKeyMacroKey".FromResourceDictionary()} : {socinatorIntellisenseModel.InputMacro.Key} {"LangKeyAlreadyPresent".FromResourceDictionary()}");
                 return;
             }
 
@@ -95,7 +95,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                 {
                     var isPresent = MacrosCollection.Any(x => x.Key == splitMacros[0]);
                     if (isPresent)
-                        GlobusLogHelper.log.Info($"Macro key : {splitMacros[0]} already present!");
+                        GlobusLogHelper.log.Info($"{"LangKeyMacroKey".FromResourceDictionary()} : {splitMacros[0]} {"LangKeyAlreadyPresent".FromResourceDictionary()}");
                     else
                         MacrosCollection.Add(new SocinatorIntellisenseModel { Key = splitMacros[0], Value = splitMacros[1] });
                 }

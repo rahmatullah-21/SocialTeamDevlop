@@ -50,7 +50,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeProperties()
         {
-            Title = "Create Destination";
+            Title = "LangKeyCreateDestination".FromResourceDictionary();
             IsAllDestinationSelected = false;
             EditDestinationId = string.Empty;
             IsSavedDestination = false;
@@ -1158,13 +1158,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
+                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} {"LangKeyRowsFound".FromResourceDictionary()}" : "LangKeyNoRowsFound".FromResourceDictionary();
                 });
             }
             else
             {
                 accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
+                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} {"LangKeyRowsFound".FromResourceDictionary()}" : "LangKeyNoRowsFound".FromResourceDictionary();
             }
         }
 
@@ -1602,7 +1602,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void EditDestination()
         {
-            Title = "Edit Destination";
+            Title = "LangKeyEditDestination".FromResourceDictionary();
 
             var saveDestination = SelectAccountDetailsModel.DeepCloneObject();
 
