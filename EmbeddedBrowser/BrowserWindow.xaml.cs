@@ -77,7 +77,7 @@ namespace EmbeddedBrowser
 
         public BrowserWindow()
         {
-            if(Cef.IsInitialized)
+            if(!Cef.IsInitialized)
             {
                 CefSettings settings = new CefSettings();
                 settings.CommandLineArgsDisabled = false;
