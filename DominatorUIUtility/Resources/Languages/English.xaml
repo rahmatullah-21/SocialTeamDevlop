@@ -3634,7 +3634,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNotUpdatedYet">Not Updated Yet</system:String>
     <system:String x:Key="LangKeyBlacklistUser">Blacklist User</system:String>
     <system:String x:Key="LangKeyWhitelistUser">Whitelist User</system:String>
-    <system:String x:Key="LangKeyAccountCustomControlDescription">You can add/delete single account,you can import/export multiple account</system:String>
+    <system:String x:Key="LangKeyAccountCustomControlDescription">You can add/delete the single account, you can import/export multiple accounts</system:String>
     <system:String x:Key="LangKeyLocalIp">Local Ip</system:String>
     <system:String x:Key="LangKeyTableView">Table View</system:String>
     <system:String x:Key="LangKeyTableViewDescription">You can check account growth</system:String>
@@ -3644,13 +3644,13 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySelectType">Select Type</system:String>
     <system:String x:Key="LangKeyAlreadyUpToDate">Already up to date</system:String>
     <system:String x:Key="LangKeyEditDestination">Edit Destination</system:String>
-    <system:String x:Key="LangKeyNoRowsFound">No row(s) found !</system:String>
-    <system:String x:Key="LangKeyRowsFound">row(s) found !</system:String>
+    <system:String x:Key="LangKeyNoRowsFound">No row(s) found!</system:String>
+    <system:String x:Key="LangKeyRowsFound">row(s) found!</system:String>
     <system:String x:Key="LangKeyShowAdvance">Show Advance</system:String>
     <system:String x:Key="LangKeyMaxThreadsToRun">Maximum number of threads to run</system:String>
     <system:String x:Key="LangKeyDefaultExportPath">Default Export Path</system:String>
-    <system:String x:Key="LangKeyWarningSelectDestination">Please select atleast one Destination.</system:String>
-    <system:String x:Key="LangKeyWarningSelectProperTimeToRun">Please select proper time to run!</system:String>
+    <system:String x:Key="LangKeyWarningSelectDestination">Please select at least one Destination.</system:String>
+    <system:String x:Key="LangKeyWarningSelectProperTimeToRun">Please select the proper time to run!</system:String>
     <system:String x:Key="LangKeyWarningAddPostToPendingDraft">Please add atleast one Post to pending/draft.</system:String>
     <system:String x:Key="LangKey_Save">_Save</system:String>
     <system:String x:Key="LangKeyAlreadyPresent">already present!</system:String>
@@ -3671,7 +3671,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySuccessfullyStopped">Successfully stopped</system:String>
     <system:String x:Key="LangKeySuccessfullyActivated">Successfully activated</system:String>
     <system:String x:Key="LangKeyPleaseSaveSettings">Please save your settings, before starting the activity.</system:String>
-    
+
     <system:String x:Key="LangKeyOr">or</system:String>
     <system:String x:Key="LangKeyToken">Token</system:String>
 
