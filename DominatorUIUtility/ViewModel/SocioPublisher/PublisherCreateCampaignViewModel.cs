@@ -69,7 +69,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var dialog = new Dialog();
 
             // Pass the UI object with Title of the Page
-            var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
+            var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "LangKeySelectDestinations".FromResourceDictionary());
             publisherCreateDestination.Margin = new Thickness(7);
             metroWindow.ShowDialog();
             if (publisherCreateDestination.PublisherCreateDestinationsViewModel.IsSavedDestination)
@@ -262,13 +262,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // Verify whether destination selected or not
             if (_publisherCreateCampaignModel.LstDestinationId.Count == 0)
             {
-                Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningSelectDestination".FromResourceDictionary());
                 return;
             }
             // Verify whether timer setted or not
             if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
             {
-                Dialog.ShowDialog("Warning", "Please select proper time to run!");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningSelectProperTimeToRun".FromResourceDictionary());
                 return;
             }
 
@@ -282,14 +282,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     //if no post is present in either pending or draft or published then show the message to add Post to pending/draft.
                     if (!(CampaignStatusModel.PendingCount != 0 || CampaignStatusModel.DraftCount != 0 || CampaignStatusModel.PublishedCount != 0))
                     {
-                        Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningAddPostToPendingDraft".FromResourceDictionary());
                         return;
                     }
                 }
                 //if campaign is new then no need to check if any post is available in campaign or not.show the warning message.
                 else if (ValidateCampaign())
                 {
-                    Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningAddPostToPendingDraft".FromResourceDictionary());
                     return;
                 }
             }
@@ -309,7 +309,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate >
                 PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate)
             {
-                Dialog.ShowDialog("Warning", "Please check campaign's start time, Should be less than end time!");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "Please check campaign's start time, Should be less than end time!");
                 return;
             }
             // If end date already expired, then mark as completed
@@ -920,7 +920,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var dialog = new Dialog();
 
             // Pass the UI object with Title of the Page
-            var metroWindow = dialog.GetMetroWindow(selectDestinations, "Select Destination");
+            var metroWindow = dialog.GetMetroWindow(selectDestinations, "LangKeySelectDestinations".FromResourceDictionary());
             var isCanceled = false;
 
             // Cancel button event

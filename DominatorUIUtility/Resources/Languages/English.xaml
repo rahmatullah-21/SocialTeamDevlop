@@ -2743,7 +2743,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyIsAreNotCorrect">Is/Are Not Correct</system:String>
     <system:String x:Key="LangKeyStoppedCurrentJobTo">Stopped Current Job To</system:String>
     <system:String x:Key="LangKeyAs">As</system:String>
-    <system:String x:Key="LangKeySuccessfullySaved">Successfully Saved</system:String>
+    <system:String x:Key="LangKeySuccessfullySaved">Successfully Saved !</system:String>
 
     <system:String x:Key="LangKeySuccessfullyUpdated">Successfully Updated.</system:String>
     <system:String x:Key="LangKeySuccessfullyPaused">Successfully Paused.</system:String>
@@ -3625,13 +3625,53 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEnterHostName">Enter Host name</system:String>
     <system:String x:Key="LangKeyEnterPort">Enter port</system:String>
     <system:String x:Key="LangKeyEnterIpFormat">Format:{255.255.255.255}</system:String>
+    <system:String x:Key="LangKeyTypeProxyIp">Type Proxy Ip</system:String>
     <system:String x:Key="LangKeyTypeProxyPort">Type Proxy Port</system:String>
     <system:String x:Key="LangKeyTypeProxyUsername">Type Proxy User Name</system:String>
     <system:String x:Key="LangKeyTypeProxyPassword">Type proxy password</system:String>
     <system:String x:Key="LangKeyKey">Key</system:String>
     <system:String x:Key="LangKeyValue">Value</system:String>
     <system:String x:Key="LangKeyNotUpdatedYet">Not Updated Yet</system:String>
-
+    <system:String x:Key="LangKeyBlacklistUser">Blacklist User</system:String>
+    <system:String x:Key="LangKeyWhitelistUser">Whitelist User</system:String>
+    <system:String x:Key="LangKeyAccountCustomControlDescription">You can add/delete the single account, you can import/export multiple accounts</system:String>
+    <system:String x:Key="LangKeyLocalIp">Local Ip</system:String>
+    <system:String x:Key="LangKeyTableView">Table View</system:String>
+    <system:String x:Key="LangKeyTableViewDescription">You can check account growth</system:String>
+    <system:String x:Key="LangKeyChartsView">Charts View (Beta)</system:String>
+    <system:String x:Key="LangKeyAccountGrowthCharts">Account Growth Charts</system:String>
+    <system:String x:Key="LangKeySelectPeriod">Select Period</system:String>
+    <system:String x:Key="LangKeySelectType">Select Type</system:String>
+    <system:String x:Key="LangKeyAlreadyUpToDate">Already up to date</system:String>
+    <system:String x:Key="LangKeyEditDestination">Edit Destination</system:String>
+    <system:String x:Key="LangKeyNoRowsFound">No row(s) found!</system:String>
+    <system:String x:Key="LangKeyRowsFound">row(s) found!</system:String>
+    <system:String x:Key="LangKeyShowAdvance">Show Advance</system:String>
+    <system:String x:Key="LangKeyMaxThreadsToRun">Maximum number of threads to run</system:String>
+    <system:String x:Key="LangKeyDefaultExportPath">Default Export Path</system:String>
+    <system:String x:Key="LangKeyWarningSelectDestination">Please select at least one Destination.</system:String>
+    <system:String x:Key="LangKeyWarningSelectProperTimeToRun">Please select the proper time to run!</system:String>
+    <system:String x:Key="LangKeyWarningAddPostToPendingDraft">Please add at least one Post to pending/draft.</system:String>
+    <system:String x:Key="LangKey_Save">_Save</system:String>
+    <system:String x:Key="LangKeyAlreadyPresent">already present!</system:String>
+    <system:String x:Key="LangKeyConfirmToOverrideAccountRunningWithAnotherCampaign"  xml:space="preserve">This account is already running with another campaign, saving this setting will override previous settings and remove this account from that campaign.
+    Are you sure you want to override previous settings?</system:String>
+    <system:String x:Key="LangKeyErrorCampaignNameShouldNotBeEmpty">Campaign name should not be empty. Please provide a name for Campaign.</system:String>
+    <system:String x:Key="LangKeyErrorCampaignWithSameNameAlreadyExists">Campaign with the same name already exists. Please change the name of Campaign.</system:String>
+    <system:String x:Key="LangKeyErrorSelectAtleastOneAccount">Please select at least one account.</system:String>
+    <system:String x:Key="LangKeyErrorAddAtLeastOneTimeRange">Please add at least one time range when to run and stop the activity.</system:String>
+    <system:String x:Key="LangKeyErrorAddAtLeastOneQuery.">Please add at least one query.</system:String>
+    <system:String x:Key="LangKeyThreadLimitReachedTo">Thread limit count reached to</system:String>
+    <system:String x:Key="LangKeyPendingStartsWhenRunnningStops">and the pending account will starts once the running account's process stopped.</system:String>
+    <system:String x:Key="LangKeyAccountSelected">Account Selected</system:String>
+    <system:String x:Key="LangKeyUpdatedSuccessfully">updated successfully</system:String>
+    <system:String x:Key="LangKeyAlert">Alert</system:String>
+    <system:String x:Key="LangKeyQueryAlreadyExist">Query already Exist !!</system:String>
+    <system:String x:Key="LangKeyErrorCampaignConfigurationIsPaused">This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.</system:String>
+    <system:String x:Key="LangKeySuccessfullyStopped">Successfully stopped</system:String>
+    <system:String x:Key="LangKeySuccessfullyActivated">Successfully activated</system:String>
+    <system:String x:Key="LangKeyPleaseSaveSettings">Please save your settings, before starting the activity.</system:String>
+    
     <system:String x:Key="LangKeyOr">or</system:String>
     <system:String x:Key="LangKeyToken">Token</system:String>
 

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorUIUtility.ViewModel.SocioPublisher;
+using DominatorHouseCore.Utility;
 
 namespace DominatorUIUtility.Views.SocioPublisher
 {
@@ -63,7 +64,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
             else
             {
-                PublisherCreateDestinationsViewModel.Title = "Create Destination";
+                PublisherCreateDestinationsViewModel.Title = "LangKeyCreateDestination".FromResourceDictionary();
                 PublisherCreateDestinationsViewModel = new PublisherCreateDestinationsViewModel();
                 CreateDestination.DataContext = PublisherCreateDestinationsViewModel;
             }

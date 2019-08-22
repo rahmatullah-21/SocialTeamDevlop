@@ -492,10 +492,10 @@
 
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
-                                            <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
+                                            <Setter TargetName="TextBlockName" Property="Text" Value="{DynamicResource LangKeyLocalIp}" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="{x:Null}">
-                                            <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
+                                            <Setter TargetName="TextBlockName" Property="Text" Value="{DynamicResource LangKeyLocalIp}" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
@@ -518,7 +518,7 @@
             <Controls:FlyoutsControl>
                 <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
-                    <local:HelpControl ModuleDescription="You can add/delete single account,you can import/export multiple account"
+                    <local:HelpControl ModuleDescription="{DynamicResource LangKeyAccountCustomControlDescription}"
                                                  VideoTutorial="{Binding SelectedNetworkViewModel.Selected, Converter={StaticResource SocialNetworkToLinkConverter}}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
                 </Controls:Flyout>

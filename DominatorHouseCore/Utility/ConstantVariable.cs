@@ -81,7 +81,7 @@ namespace DominatorHouseCore.Utility
         }
 
 
-       
+
 
         public const string CreateCampaign = "_Create Campaign";
 
@@ -115,17 +115,11 @@ namespace DominatorHouseCore.Utility
         }
 
         public static string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
-
-
+        
         public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
-
-
+        
         public const string UnGrouped = "Ungrouped";
-
-        public const string NotYetUpdate = "Not yet update";
-
-        public const string NotChecked = "Not Checked";
-
+        
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
 
         public static string GetDate() => DateTime.Now.ToString("ddMMyyyy");
@@ -187,7 +181,7 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherLinkedInSettingsFile() => GetOtherDir() + @"\LinkedIn.bin";
         #region Publisher
 
-        public static string FineStatusSync = "Already up to date";
+        public static string FineStatusSync = "LangKeyAlreadyUpToDate".FromResourceDictionary() /*"Already up to date"*/;
 
         public static string NeedUpdateStatusSync = "Click to Sync";
 
