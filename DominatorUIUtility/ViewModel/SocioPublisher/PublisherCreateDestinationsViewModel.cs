@@ -95,7 +95,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeProperties()
         {
-            Title = "Create Destination";
+            Title = "LangKeyCreateDestination".FromResourceDictionary();
             IsAllDestinationSelected = false;
             EditDestinationId = string.Empty;
             IsSavedDestination = false;
@@ -926,13 +926,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
+                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} {"LangKeyRowsFound".FromResourceDictionary()}" : "LangKeyNoRowsFound".FromResourceDictionary();
                 });
             }
             else
             {
                 accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
+                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} {"LangKeyRowsFound".FromResourceDictionary()}" : "LangKeyNoRowsFound".FromResourceDictionary();
             }
         }
 
@@ -1036,7 +1036,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (selectedAccountsCount == 0)
             {
-                Dialog.ShowDialog("Warning", "Please select accounts, You have selected only destinations !");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "Please select accounts, You have selected only destinations !");
                 return;
             }
 
@@ -1111,7 +1111,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateDestinationModel.CustomDestinations.Count == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "Warning", "Please select destination!");
+                        "LangKeyWarning".FromResourceDictionary(), "Please select destination!");
                     return;
                 }
 
@@ -1457,7 +1457,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void EditDestination()
         {
-            Title = "Edit Destination";
+            Title = "LangKeyEditDestination".FromResourceDictionary();
 
             InitializeDestinationList();
 
