@@ -77,6 +77,14 @@ namespace EmbeddedBrowser
 
         public BrowserWindow()
         {
+            if(Cef.IsInitialized)
+            {
+                CefSettings settings = new CefSettings();
+                settings.CommandLineArgsDisabled = false;
+                settings.CefCommandLineArgs.Add("--disable-webgl", "1");
+                Cef.Initialize(settings);
+            }
+           
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(() => GoToUrl());
@@ -92,7 +100,7 @@ namespace EmbeddedBrowser
             CustomUse = customUse;
             _isNeedResourceData = isNeedResourceData;
             _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
-
+          
             //SkipYoutubeAd = skipAd;
             browserLoginMessage = browserLoginMessageToDisplay;
 
@@ -100,7 +108,14 @@ namespace EmbeddedBrowser
             {
                 CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
-
+            Cef.UIThreadTaskFactory.StartNew(() =>
+            {
+                if (Browser.RequestContext.CanSetPreference("webrtc.ip_handling_policy"))
+                {
+                    var error = string.Empty;
+                    Browser.RequestContext.SetPreference("webrtc.ip_handling_policy", "disable_non_proxied_udp", out error);
+                }
+            });
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = _requestHandlerCustom;
 

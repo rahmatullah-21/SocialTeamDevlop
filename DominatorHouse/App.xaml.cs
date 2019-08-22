@@ -13,6 +13,7 @@ using Microsoft.Practices.Unity.Configuration;
 using Unity;
 using Unity.Interception;
 using MessageBox = System.Windows.MessageBox;
+using DominatorUIUtility.Module;
 
 namespace Socinator
 {
@@ -60,6 +61,11 @@ namespace Socinator
             container.LoadConfiguration();
         }
 
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            base.ConfigureModuleCatalog(moduleCatalog);
+            moduleCatalog.AddModule<UiModule>();
+        }
         //protected override IModuleCatalog CreateModuleCatalog()
         //{
         //    return new DirectoryModuleCatalog() { ModulePath = @".\Modules" };

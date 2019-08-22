@@ -313,14 +313,14 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-            var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-                async job =>
-                {
-                    await job.StartAdScarperAsync();
-                },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
+            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
 
-            await ScrapAdsProduceAsync(adScraperblock);
+            //await ScrapAdsProduceAsync(adScraperblock);
         }
 
 
@@ -384,10 +384,8 @@ namespace DominatorHouseCore.Settings
 
                 AdUpdationType currentUpdationType;
 
-                if ((DateTime.Now - postScraperConstants.LastLcsJobTime).TotalHours <= 3)
-                    currentUpdationType = AdUpdationType.Ads;
-                else
-                    currentUpdationType = AdUpdationType.Lcs;
+                currentUpdationType = AdUpdationType.Ads;
+                
 
                 var asyncAdScraperFactory =
                     ServiceLocator.Current.GetInstance<IAdScraperFactory>(currentUpdationType.ToString());
