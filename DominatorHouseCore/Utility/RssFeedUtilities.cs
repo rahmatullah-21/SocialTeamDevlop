@@ -15,6 +15,7 @@ using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Extensions;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Request;
+using DominatorHouseCore.Models.SocioPublisher.Settings;
 
 namespace DominatorHouseCore.Utility
 {
@@ -81,6 +82,8 @@ namespace DominatorHouseCore.Utility
                                  let link = RemoveCdata(node.Element("link").InnerText)
                                  let newLink = string.IsNullOrEmpty(link) ? Utilities.GetBetween(node.Element("link").OuterHtml, "href=\"", "\"") : link
                                  let pubDate = RemoveCdata(node.Element("published").InnerHtml)
+                                 let descriptionUrl = RemoveCdata(node.Element("description").InnerHtml)
+                                 let Imageurl = !descriptionUrl.Contains("src") ? "" : Utilities.GetBetween(descriptionUrl, "src=\"", "\"")
                                  where !postdetails.Contains(link)
                                  select new PublisherPostlistModel
                                  {
@@ -103,7 +106,14 @@ namespace DominatorHouseCore.Utility
                                      GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
                                      FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
                                      GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
-                                     TdPostSettings = postDetailsModel.PublisherPostSettings.TdPostSettings,
+                                     TdPostSettings = new TdPostSettings()
+                                     {
+                                         IsDeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings.IsDeletePostAfterHours,
+                                         IsMentionUser = postDetailsModel.PublisherPostSettings.TdPostSettings.IsMentionUser,
+                                         DeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings.DeletePostAfterHours,
+                                         MentionUserList = postDetailsModel.PublisherPostSettings.TdPostSettings.MentionUserList,
+                                         RssImageList = new List<string>() { Imageurl }
+                                     },
                                      LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
                                      TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
                                      RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
@@ -127,6 +137,8 @@ namespace DominatorHouseCore.Utility
                                  let description = RemoveCdata(node.Element("description").InnerText)
                                  let link = RemoveCdata(node.Element("link").NextSibling.InnerText)
                                  let pubDate = RemoveCdata(node.Element("pubdate").InnerHtml)
+                                 let descriptionUrl = RemoveCdata(node.Element("description").InnerHtml)
+                                 let Imageurl = !descriptionUrl.Contains("src") ? "" : Utilities.GetBetween(descriptionUrl, "src=\"", "\"")
                                  let url = RemoveCdata(node.Element("url")?.InnerHtml)
                                  where !postdetails.Contains(link)
                                  select new PublisherPostlistModel
@@ -150,7 +162,14 @@ namespace DominatorHouseCore.Utility
                                      GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
                                      FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
                                      GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
-                                     TdPostSettings = postDetailsModel.PublisherPostSettings.TdPostSettings,
+                                     TdPostSettings = new TdPostSettings()
+                                     {
+                                         IsDeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings.IsDeletePostAfterHours,
+                                         IsMentionUser = postDetailsModel.PublisherPostSettings.TdPostSettings.IsMentionUser,
+                                         DeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings.DeletePostAfterHours,
+                                         MentionUserList = postDetailsModel.PublisherPostSettings.TdPostSettings.MentionUserList,
+                                         RssImageList = new List<string>() { Imageurl }
+                                     },
                                      LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
                                      TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
                                      RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
