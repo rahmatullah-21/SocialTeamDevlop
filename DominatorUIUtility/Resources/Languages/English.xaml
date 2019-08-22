@@ -3671,7 +3671,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySuccessfullyStopped">Successfully stopped</system:String>
     <system:String x:Key="LangKeySuccessfullyActivated">Successfully activated</system:String>
     <system:String x:Key="LangKeyPleaseSaveSettings">Please save your settings, before starting the activity.</system:String>
-
+    <system:String x:Key="LangKeyCaptionSpintaxFormat">Format : (OwnTweetCaption 1|OwnTweetCaption 2|OwnTweetCaption 3|OwnTweetCaption 4) Note: add any number of Caption each separated by |</system:String>
+    
     <system:String x:Key="LangKeyOr">or</system:String>
     <system:String x:Key="LangKeyToken">Token</system:String>
 
