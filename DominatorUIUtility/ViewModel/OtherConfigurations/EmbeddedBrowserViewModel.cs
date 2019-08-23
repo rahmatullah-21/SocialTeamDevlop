@@ -28,7 +28,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         private void Save()
         {
             if (_otherConfigFileManager.SaveOtherConfig(EmbeddedBrowserModel))
-                Dialog.ShowDialog("Success", "Embedded Browser Settings sucessfully saved !!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyUrlBrowserSettingsSaved".FromResourceDictionary());
         }
     }
 }

@@ -262,7 +262,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             });
 
             if (selectedCampaigns.Count > 0)
-                GlobusLogHelper.log.Info("Campaign's status changed to pause!");
+                GlobusLogHelper.log.Info("LangKeyCampaignStatusChangedPause".FromResourceDictionary());
         }
 
 
@@ -283,7 +283,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             });
             // Validate whether campaign is active is possible
             if (selectedCampaigns.Count > 0)
-                GlobusLogHelper.log.Info("Campaign's status changed to active!");
+                GlobusLogHelper.log.Info("LangKeyCampaignStatusChangedActive".FromResourceDictionary());
         }
 
         private bool CopyCampaignIdCanExecute(object sender) => true;
@@ -296,7 +296,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var campaignDetails = sender as PublisherCampaignStatusModel;
                 // Copy to clipboard
                 Clipboard.SetText(campaignDetails.CampaignId);
-                ToasterNotification.ShowSuccess("Campaign Id copied");
+                ToasterNotification.ShowSuccess("LangKeyCampaignIdCopied".FromResourceDictionary());
             }
             else
             {
@@ -329,12 +329,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                     else
                     {
-                        Dialog.ShowDialog("Warning", "Please select path to export.");
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectPathToExport".FromResourceDictionary());
                     }
                 }
                 else
                 {
-                    Dialog.ShowDialog("Warning", "Please select atleast one campaign to export.");
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectCampaignToExport".FromResourceDictionary());
                 }
             }
         }
@@ -484,7 +484,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     if (campaignStatus.IsSelected)
                         clonedCampaignStatus.IsSelected = true;
 
-                    GlobusLogHelper.log.Info(campaignStatus.CampaignName + " Successfully duplicated.");
+                    GlobusLogHelper.log.Info(campaignStatus.CampaignName + $" {"LangKeySuccessfullyDuplicated".FromResourceDictionary()}");
 
                     // Update in default page
                     PublisherInitialize.GetInstance.AddCampaignDetails(clonedCampaignStatus);
@@ -766,7 +766,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 var campaign = (PublisherCampaignStatusModel)sender;
 
-                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it, cant recover back \nAre you sure ?", "Delete Anyways", "Don't delete");
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmOnIfDeletedCantRecoverBack".FromResourceDictionary(),
+                    "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -797,7 +798,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Delete the post list bin file for the campaign
                 _genericFileManager.DeleteBinFiles($"{ConstantVariable.GetPublisherCreatePostlistFolder()}\\{campaign.CampaignId}.bin");
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaign.CampaignName, "Publisher Campaign", $"{campaign.CampaignName} deleted Successfully!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaign.CampaignName, "Publisher Campaign", $"{campaign.CampaignName} {"LangKeyDeletedSuccessfully".FromResourceDictionary()}");
 
                 //update campaign list in managepost
                 campaignList.Remove(campaignList.FirstOrDefault(x => x.Id == campaign.CampaignId));
@@ -809,12 +810,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (publisherCampaignStatusModels.Count == 0)
                 {
-                    Dialog.ShowDialog("Alert", "Please select atleast one campaign !!");
+                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtleastOneCampaign".FromResourceDictionary());
                     return;
                 }
 
-                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete all selected campaign permanently \nAre you sure ?",
-                    "Delete Anyways", "Don't delete");
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign".FromResourceDictionary(),
+                    "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -849,7 +850,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Publisher Campaign", "Campaign deletion operation completed!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Publisher Campaign", "LangKeyCampaignDeletionCompleted".FromResourceDictionary());
 
             }
             if (ListPublisherCampaignStatusModels.Count == 0 ||

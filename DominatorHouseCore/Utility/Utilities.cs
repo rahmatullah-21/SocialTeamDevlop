@@ -168,7 +168,7 @@ namespace DominatorHouseCore.Utility
             {
                 Task.Factory.StartNew(async () =>
                 {
-                    ToasterNotification.ShowWarning($"Exporting started.Please don't open file untill exporting completed.");
+                    ToasterNotification.ShowWarning("LangKeyExportingStarted".FromResourceDictionary());
                     foreach (var item in csvData)
                     {
                         using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
@@ -176,7 +176,7 @@ namespace DominatorHouseCore.Utility
                             await streamWriter.WriteLineAsync(item);
                         }
                     }
-                    ToasterNotification.ShowSuccess($"Sucessfully Exported to {fileName} ");
+                    ToasterNotification.ShowSuccess($"{"LangKeySucessfullyExportedTo".FromResourceDictionary()} {fileName} ");
                 });
             }
             catch (Exception ex)
