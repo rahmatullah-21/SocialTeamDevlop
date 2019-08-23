@@ -3597,6 +3597,7 @@
     <system:String x:Key="LangKeySuccessfullyStopped">成功停了下来</system:String>
     <system:String x:Key="LangKeySuccessfullyActivated">成功激活</system:String>
     <system:String x:Key="LangKeyPleaseSaveSettings">在开始活动之前，请保存您的设置。</system:String>
+    <system:String x:Key="LangKeyCaptionSpintaxFormat">格式:( OwnTweetCaption 1 | OwnTweetCaption 2 | OwnTweetCaption 3 | OwnTweetCaption 4）注意：添加任意数量的标题，每个标题由|分隔</system:String>
 
     <system:String x:Key="LangKeyOr">要么</system:String>
     <system:String x:Key="LangKeyToken">代币</system:String>

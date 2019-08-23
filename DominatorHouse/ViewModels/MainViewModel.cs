@@ -542,10 +542,11 @@ namespace DominatorHouse.ViewModels
 
                 if (itemTemplate.Title ==
                     _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
-                        .LangKeyAccountsManager))
+                        .LangKeyAccountsManager) && AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType != string.Empty)
                 {
+                    /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, Else no neeed to changes UserControl if "Account Details" was opened. */
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
-                        AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
+                            AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
                 }
 
                 if (itemTemplate.Title ==
@@ -566,6 +567,14 @@ namespace DominatorHouse.ViewModels
             TabDock = Dock.Top;
             if (network == SocialNetworks.Social)
                 TabDock = Dock.Left;
+
+            // if "Account details" was opened in account manager, then discard all account details changes while switching network 
+            var isAccountDetailsOpened = AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType;
+            if(isAccountDetailsOpened == string.Empty)
+            {
+                ((AccountDetail)(AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl)).AccountDetailsViewModel.UpdateCurrentDominatorAccountModel();
+            }
+
             TabInitialize(network.Value);
         }
 

@@ -17,7 +17,7 @@ namespace DominatorUIUtility.ViewModel
             => ObjAccountManagerViewModel ?? (ObjAccountManagerViewModel = new AccountManagerViewModel());
 
         private UserControl _selectedUserControl;
-
+        public string LastControlType { get; set; }
         public UserControl SelectedUserControl
         {
             get
@@ -34,6 +34,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
+                LastControlType = controlType;
                 if (controlType == "AccountManager")
                 {
 

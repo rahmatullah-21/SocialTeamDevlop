@@ -423,7 +423,7 @@ namespace DominatorUIUtility.ViewModel
             // Back to AccountManager module
             var controlToSelect = AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social);
             AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl = controlToSelect;
-
+            AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType = "AccountManager";
         }
         private bool AddNewCookiesCanExecute(object arg) => true;
         private void AddNewCookiesExecute(object sender)
@@ -592,7 +592,7 @@ namespace DominatorUIUtility.ViewModel
             accountModel.CookieHelperList.ForEach(x => { OldDominatorAccountModel.CookieHelperList.Add(x); });
             OldDominatorAccountModel.AccountId = accountModel.AccountId;
         }
-        private void UpdateCurrentDominatorAccountModel()
+        public void UpdateCurrentDominatorAccountModel()
         {
             DominatorAccountModel.AccountBaseModel.UserName = OldDominatorAccountModel.AccountBaseModel.UserName;
             DominatorAccountModel.AccountBaseModel.Password = OldDominatorAccountModel.AccountBaseModel.Password;

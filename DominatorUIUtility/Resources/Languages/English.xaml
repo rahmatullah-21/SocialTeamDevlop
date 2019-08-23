@@ -3651,18 +3651,18 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyDefaultExportPath">Default Export Path</system:String>
     <system:String x:Key="LangKeyWarningSelectDestination">Please select at least one Destination.</system:String>
     <system:String x:Key="LangKeyWarningSelectProperTimeToRun">Please select the proper time to run!</system:String>
-    <system:String x:Key="LangKeyWarningAddPostToPendingDraft">Please add at least one Post to pending/draft.</system:String>
+    <system:String x:Key="LangKeyWarningAddPostToPendingDraft">Please add atleast one Post to pending/draft.</system:String>
     <system:String x:Key="LangKey_Save">_Save</system:String>
     <system:String x:Key="LangKeyAlreadyPresent">already present!</system:String>
-    <system:String x:Key="LangKeyConfirmToOverrideAccountRunningWithAnotherCampaign"  xml:space="preserve">This account is already running with another campaign, saving this setting will override previous settings and remove this account from that campaign.
+    <system:String x:Key="LangKeyConfirmToOverrideAccountRunningWithAnotherCampaign"  xml:space="preserve">This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.
     Are you sure you want to override previous settings?</system:String>
-    <system:String x:Key="LangKeyErrorCampaignNameShouldNotBeEmpty">Campaign name should not be empty. Please provide a name for Campaign.</system:String>
-    <system:String x:Key="LangKeyErrorCampaignWithSameNameAlreadyExists">Campaign with the same name already exists. Please change the name of Campaign.</system:String>
+    <system:String x:Key="LangKeyErrorCampaignNameShouldNotBeEmpty">Campaign name should not be empty. Please provide name for Campaign.</system:String>
+    <system:String x:Key="LangKeyErrorCampaignWithSameNameAlreadyExists">Campaign with same name already exists. Please change name of Campaign.</system:String>
     <system:String x:Key="LangKeyErrorSelectAtleastOneAccount">Please select at least one account.</system:String>
     <system:String x:Key="LangKeyErrorAddAtLeastOneTimeRange">Please add at least one time range when to run and stop the activity.</system:String>
     <system:String x:Key="LangKeyErrorAddAtLeastOneQuery.">Please add at least one query.</system:String>
     <system:String x:Key="LangKeyThreadLimitReachedTo">Thread limit count reached to</system:String>
-    <system:String x:Key="LangKeyPendingStartsWhenRunnningStops">and the pending account will starts once the running account's process stopped.</system:String>
+    <system:String x:Key="LangKeyPendingStartsWhenRunnningStops">and pending account will starts once the running account's process stopped.</system:String>
     <system:String x:Key="LangKeyAccountSelected">Account Selected</system:String>
     <system:String x:Key="LangKeyUpdatedSuccessfully">updated successfully</system:String>
     <system:String x:Key="LangKeyAlert">Alert</system:String>
@@ -3671,6 +3671,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySuccessfullyStopped">Successfully stopped</system:String>
     <system:String x:Key="LangKeySuccessfullyActivated">Successfully activated</system:String>
     <system:String x:Key="LangKeyPleaseSaveSettings">Please save your settings, before starting the activity.</system:String>
+    <system:String x:Key="LangKeyCaptionSpintaxFormat">Format : (OwnTweetCaption 1|OwnTweetCaption 2|OwnTweetCaption 3|OwnTweetCaption 4) Note: add any number of Caption each separated by |</system:String>
     
     <system:String x:Key="LangKeyOr">or</system:String>
     <system:String x:Key="LangKeyToken">Token</system:String>
