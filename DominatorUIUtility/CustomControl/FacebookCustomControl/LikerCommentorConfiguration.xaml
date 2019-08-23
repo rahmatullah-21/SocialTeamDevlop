@@ -22,7 +22,7 @@
                     <CheckBox Name="Like" Margin="5,5,0,5"  FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding LikerCommentorConfig.IsLikeFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
                             <CheckBox.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/DominatorUIUtility;component/Images/FacebookImages/Like.png" Height="30"/>
+                                    <Image Source="/DominatorUIUtility;component/Images/Like.png" Height="30"/>
                                     <TextBlock Name="TxtBlkLike" Text="{DynamicResource LangKeyLike}" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </CheckBox.Content>
@@ -30,7 +30,7 @@
                     <CheckBox Name="Love" Margin="25,5,0,5"  FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding LikerCommentorConfig.IsLoveFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
                             <CheckBox.Content>
                                 <StackPanel Orientation="Horizontal">
-                                <Image Source="/DominatorUIUtility;component/Images/FacebookImages/Love.png" Height="30"/>
+                                <Image Source="/DominatorUIUtility;component/Images/Love.png" Height="30"/>
                                     <TextBlock Name="TxtBlkLove" Text="{DynamicResource LangKeyLove}" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </CheckBox.Content>
@@ -38,7 +38,7 @@
                     <CheckBox Name="Haha" Margin="25,5,0,5"  FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding LikerCommentorConfig.IsHahaFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
                             <CheckBox.Content>
                                 <StackPanel Orientation="Horizontal">
-                                <Image Source="/DominatorUIUtility;component/Images/FacebookImages/Haha.png" Height="30"/>
+                                <Image Source="/DominatorUIUtility;component/Images/haha.png" Height="30"/>
                                     <TextBlock Name="TxtBlkHaha" Text="{DynamicResource LangKeyHaha}" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </CheckBox.Content>
@@ -46,7 +46,7 @@
                     <CheckBox Name="Wow" Margin="25,5,0,5" FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding LikerCommentorConfig.IsWowFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
                             <CheckBox.Content>
                                 <StackPanel Orientation="Horizontal">
-                                <Image Source="/DominatorUIUtility;component/Images/FacebookImages/wow.png" Height="30"/>
+                                <Image Source="/DominatorUIUtility;component/Images/wow.png" Height="30"/>
                                     <TextBlock Name="TxtBlkWow" Text="{DynamicResource LangKeyWow}" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </CheckBox.Content>
@@ -54,7 +54,7 @@
                     <CheckBox Name="Sad" Margin="25,5,0,5"  Foreground="Black"  IsChecked="{Binding LikerCommentorConfig.IsSadFilterChkd}" Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
                             <CheckBox.Content>
                                 <StackPanel Orientation="Horizontal">
-                                <Image Source="/DominatorUIUtility;component/Images/FacebookImages/sad.png" Height="30"/>
+                                <Image Source="/DominatorUIUtility;component/Images/sad.png" Height="30"/>
                                     <TextBlock Name="TxtBlkSad" Text="{DynamicResource LangKeySad}" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </CheckBox.Content>
@@ -62,7 +62,7 @@
                     <CheckBox Name="Angry" Margin="25,5,0,5" FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding UserFilter.GenderFilters.IsAngryFilterChkd}"  Checked="Liketype_checked" Unchecked="Liketype_Unchecked">
                             <CheckBox.Content>
                                 <StackPanel Orientation="Horizontal">
-                                <Image  Height="30" Source="/DominatorUIUtility;component/Images/FacebookImages/angry.png"/>
+                                <Image  Height="30" Source="/DominatorUIUtility;component/Images/angry.png"/>
                                     <TextBlock Name="TxtBlkAngry" Text="{DynamicResource LangKeyAngry}" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </CheckBox.Content>

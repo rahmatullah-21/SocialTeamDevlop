@@ -19,9 +19,9 @@ namespace DominatorUIUtility.Views.AccountSetting.Activity
     /// <summary>
     /// Interaction logic for CancelSentRequest.xaml
     /// </summary>
-    public partial class CancelSentRequest : UserControl
+    public partial class WithdrawSentRequest : UserControl
     {
-        public CancelSentRequest(ICancelSentRequestViewModel viewModel)
+        public WithdrawSentRequest(ICancelSentRequestViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel; 

@@ -34,7 +34,7 @@ namespace DominatorUIUtility.Module
             containerRegistry.RegisterForNavigation<BoardScraper>();
             containerRegistry.RegisterForNavigation<PinScraper>();
             containerRegistry.RegisterForNavigation<SendFriendRequest>();
-            containerRegistry.RegisterForNavigation<CancelSentRequest>();
+            containerRegistry.RegisterForNavigation<WithdrawSentRequest>();
             containerRegistry.RegisterForNavigation<Unfriend>();
             containerRegistry.RegisterForNavigation<GroupScraper>();
             containerRegistry.RegisterForNavigation<FanpageScraper>();

@@ -28,7 +28,7 @@ namespace DominatorHouseCore.Diagnostics
      
         public SocinatorAccountBuilder AddOrUpdateBrowserCookies(CookieCollection cookies)
         {
-            DominatorAccountModel.Cookies = cookies;
+            DominatorAccountModel.BrowserCookies = cookies;
             return this;
         }
         public SocinatorAccountBuilder AddOrUpdateBrowserSettings(bool isBrowerAutomationActive)
