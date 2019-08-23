@@ -401,7 +401,7 @@ namespace DominatorUIUtility.ViewModel
                 if (lstSelectedCampaign.Count() == 0)
                 {
                     AllCampStatus = !AllCampStatus;
-                    Dialog.ShowDialog("Warnning", "Please select atleast one campaign.");
+                    Dialog.ShowDialog("Warnning", "Please select at least one campaign.");
                     return;
                 }
                 try

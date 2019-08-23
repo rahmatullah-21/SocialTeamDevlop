@@ -23,7 +23,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         private void Save()
         {
             if (_genericFileManager.Overrride(LinkedInModel, ConstantVariable.GetOtherLinkedInSettingsFile()))
-                Dialog.ShowDialog("Success", "LinkedIn Configuration sucessfully saved !!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyLinkedInConfigurationSaved".FromResourceDictionary());
         }
     }
 }

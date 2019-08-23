@@ -150,7 +150,7 @@ namespace DominatorHouse.ViewModels
             try
             {
                 e.Cancel = true;
-                bool isClose = Dialog.ShowCustomDialog("Confirmation", "Are you sure to close Socinator?", "Yes", "No") == MessageDialogResult.Affirmative;
+                bool isClose = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmationToCloseSocinator".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
                 if (isClose)
                 {
                     DominatorHouseCore.Utility.Utilities.KillGecko();
@@ -233,7 +233,7 @@ namespace DominatorHouse.ViewModels
                     {
                         try
                         {
-                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License", settings);
+                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "LangKeyLicense".FromResourceDictionary(), settings);
                             if (string.IsNullOrEmpty(fatalError))
                             {
                                 Application.Current.MainWindow.Close();
@@ -259,7 +259,7 @@ namespace DominatorHouse.ViewModels
                 {
                     try
                     {
-                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "License");
+                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "Socinator", "LangKeyLicense".FromResourceDictionary());
                         if (await IsProcessFatalError(fatalError))
                             // ReSharper disable once RedundantJumpStatement
                             continue;
@@ -274,8 +274,8 @@ namespace DominatorHouse.ViewModels
 
         private async Task<bool> DiagnoseFatalError(string fatalError)
         {
-            var controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "Hang On! Checking your License status",
-                "this will take few moments...");
+            var controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "LangKeyCheckingLicense".FromResourceDictionary(),
+                "LangKeyTakeFewMoments".FromResourceDictionary());
             controller.SetIndeterminate();
             _fatalError = fatalError;
             var networks = await UtilityManager.LogIndividualNetworksExceptions(_fatalError);
@@ -319,7 +319,7 @@ namespace DominatorHouse.ViewModels
             }
             else
             {
-                if (DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "License", "Please validate Socinator !!", MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+                if (DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyLicense".FromResourceDictionary(), "LangKeyValidateSocinator".FromResourceDictionary(), MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                     return true;
                 else
                     Application.Current.MainWindow.Close();

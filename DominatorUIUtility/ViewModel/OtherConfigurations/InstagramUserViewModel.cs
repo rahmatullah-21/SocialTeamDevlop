@@ -28,7 +28,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         private void Save()
         {
             if (_genericFileManager.Overrride(InstagramUserModel, ConstantVariable.GetOtherInstagramSettingsFile()))
-                Dialog.ShowDialog("Success", "Instagram Configuration sucessfully saved !!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyInstaConfigurationSaved".FromResourceDictionary());
         }
     }
 }

@@ -352,7 +352,7 @@ namespace DominatorUIUtility.ViewModel
             var selectedUser = LstBlackListUsers.Where(x => x.IsBlackListUserChecked).ToList();
             if (selectedUser.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast one user");
+                Dialog.ShowDialog("LangKeyAlert", "LangKeySelectAtLeastOneUser".FromResourceDictionary());
                 return;
             }
             Task.Factory.StartNew(() =>
@@ -385,7 +385,7 @@ namespace DominatorUIUtility.ViewModel
             var selectedUsers = LstBlackListUsers?.Where(x => x.IsBlackListUserChecked);
             if (selectedUsers?.Count() == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast one user !!");
+                Dialog.ShowDialog("LangKeyAlert", "LangKeySelectAtLeastOneUser".FromResourceDictionary());
                 return;
             }
 
@@ -411,7 +411,7 @@ namespace DominatorUIUtility.ViewModel
                     Console.WriteLine(ex.StackTrace);
                 }
             });
-            Dialog.ShowDialog("Export BlackList user", $"BlackListed user Successfully exported to [ {filename} ]");
+            Dialog.ShowDialog("LangKeyExportBlackListUser".FromResourceDictionary(), $"{"LangKeyBlackListedUserSuccessfullyExportedTo".FromResourceDictionary()} [ {filename} ]");
         }
 
         private void ImportUser()

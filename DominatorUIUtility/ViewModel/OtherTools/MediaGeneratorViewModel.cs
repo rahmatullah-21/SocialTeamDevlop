@@ -34,7 +34,7 @@ namespace DominatorUIUtility.ViewModel.OtherTools
                     var data = filePaths as IEnumerable<object>;
                     if (!data.Any())
                     {
-                        ToasterNotification.ShowWarning("Please select atleast one path to copy.");
+                        ToasterNotification.ShowWarning("LangKeySelectAtLeastOnePathToCopy".FromResourceDictionary());
                         return;
                     }
                     data.ForEach(x =>
@@ -44,7 +44,7 @@ namespace DominatorUIUtility.ViewModel.OtherTools
                     });
                     filesPath.Remove(filesPath.Length - 1, 1);
                     Clipboard.SetData(DataFormats.Text, filesPath.ToString());
-                    ToasterNotification.ShowSuccess("Files Path copied");
+                    ToasterNotification.ShowSuccess("LangKeyFilesPathCopied".FromResourceDictionary());
                 }
                
             }

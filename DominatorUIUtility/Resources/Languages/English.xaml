@@ -3326,7 +3326,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAccountPerProxy">Account Per Proxy</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoCommentScraper">This Socinator feature helps to scrape Comments from Instagram.</system:String>
     <system:String x:Key="LangKeySavePostToProfile">Save Post(s) To profile</system:String>
-    <system:String x:Key="LangKeySelectGroup">Select Group</system:String>
+    <system:String x:Key="LangKeySelectGroup">Select Groups</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeComments">This Socinator feature helps to scrape comments from posts on Gplus. It allows to filter comments and posts and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">This Socinator feature helps to automate mentioning users on a tweet . It allows to search and filter posts with different query types and perform the tweet action on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">This Socinator feature helps to automate mentioning new followers as welcome tweet. It allows to search and filter posts with different query types and perform the welcome tweet action on configured time.</system:String>
@@ -3672,13 +3672,104 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySuccessfullyActivated">Successfully activated</system:String>
     <system:String x:Key="LangKeyPleaseSaveSettings">Please save your settings, before starting the activity.</system:String>
     <system:String x:Key="LangKeyCaptionSpintaxFormat">Format : (OwnTweetCaption 1|OwnTweetCaption 2|OwnTweetCaption 3|OwnTweetCaption 4) Note: add any number of Caption each separated by |</system:String>
-    
+    <system:String x:Key="LangKeyExportingStarted">Exporting started.Please don't open file untill exporting completed.</system:String>
+    <system:String x:Key="LangKeySucessfullyExportedTo">Sucessfully Exported to</system:String>
+    <system:String x:Key="LangKeyConfirmation">Confirmation</system:String>
+    <system:String x:Key="LangKeyConfirmationToCloseSocinator">Are you sure to close Socinator?</system:String>
+    <system:String x:Key="LangKeyCheckingLicense">Hang On! Checking your License status</system:String>
+    <system:String x:Key="LangKeyTakeFewMoments">this will take few moments...</system:String>
+    <system:String x:Key="LangKeyNetworkError">Network Error</system:String>
+    <system:String x:Key="LangKeyCheckInternet">Please check your Internet connection and try again !!</system:String>
+    <system:String x:Key="LangKeyTryAgain">Try Again</system:String>
+    <system:String x:Key="LangKeySomethingWentWrong">Oops! something went wrong</system:String>
+    <system:String x:Key="LangKeyLicense">License</system:String>
+    <system:String x:Key="LangKeyValidateSocinator">Please validate Socinator !!</system:String>
+    <system:String x:Key="LangKeyCaptchaSaved">Captcha Services sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeyImageCaptchaSaved">Image Captcha Services sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeyUrlShortnerSaved">Url Shortner Services sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeyUrlBrowserSettingsSaved">Embedded Browser Settings sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeyInstaConfigurationSaved !!">Instagram Configuration sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeyLinkedInConfigurationSaved !!">LinkedIn Configuration sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeyPinterestConfigurationSaved !!">Pinterest Configuration sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeyQuoraConfigurationSaved !!">Quora Configuration sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeyEnterValidFolderPath">Please enter valid folder Path.</system:String>
+    <system:String x:Key="LangKeyConfirmToRestartAfterSoftwareSettingSaved"  xml:space="preserve">Software Settings sucessfully saved.To apply this setting you need to restart.
+Do you want to Restart?</system:String>
+    <system:String x:Key="LangKeyRestartNow">Restart now</system:String>
+    <system:String x:Key="LangKeyRestartLater">Restart later</system:String>
+    <system:String x:Key="LangKeyYoutubeConfigurationSaved">Youtube Configuration sucessfully saved !!</system:String>
+    <system:String x:Key="LangKeySelectAtLeastOnePathToCopy">Please select at least one path to copy.</system:String>
+    <system:String x:Key="LangKeyFilesPathCopied">Files Path copied</system:String>
+    <system:String x:Key="LangKeyDestiationSelectedButAccountNot">Destiation is selected but Account is not selected</system:String>
+    <system:String x:Key="LangKeyCheckCampaignStartTime">Please check campaign's start time, Should be less than end time!</system:String>
+    <system:String x:Key="LangKeyCampaignSuccessfullyUpdated.">Campaign successfully updated.</system:String>
+    <system:String x:Key="LangKeyCampaignSuccessfullySaved">Campaign successfully saved.</system:String>
+    <system:String x:Key="LangKeyGroupUrl">Group Url</system:String>
+    <system:String x:Key="LangKeyUrl">Url</system:String>
+    <system:String x:Key="LangKeySelectPagesBoards">Select Pages/Boards</system:String>
+    <system:String x:Key="LangKeyPagesBoardsUrl">Pages/Boards Url</system:String>
+    <system:String x:Key="LangKeyPagesBoardsName">Pages/Boards Name</system:String>
+    <system:String x:Key="LangKeyPleaseSelectAccountsSelectedOnlyDestinations">Please select accounts, You have selected only destinations !</system:String>
+    <system:String x:Key="LangKeyPleaseSelectDestination">Please select destination!</system:String>
+    <system:String x:Key="LangKeyValidationFailed">Validation Failed!</system:String>
+    <system:String x:Key="LangKeyAddCustomDestination">Add Custom Destination</system:String>
+    <system:String x:Key="LangKeyPleaseEnterDestination">Please enter Destination and Destination URL.</system:String>
+    <system:String x:Key="LangKeyCampaignStatusChangedPause">Campaign's status changed to pause!</system:String>
+    <system:String x:Key="LangKeyCampaignStatusChangedActive">Campaign's status changed to active!</system:String>
+    <system:String x:Key="LangKeyCampaignIdCopied">Campaign Id copied</system:String>
+    <system:String x:Key="LangKeySelectPathToExport">Please select path to export.</system:String>
+    <system:String x:Key="LangKeySelectCampaignToExport">Please select atleast one campaign to export.</system:String>
+    <system:String x:Key="LangKeySuccessfullyDuplicated">Successfully duplicated.</system:String>
+    <system:String x:Key="LangKeyConfirmOnIfDeletedCantRecoverBack"  xml:space="preserve">If you delete it, cant recover back 
+ Are you sure ?</system:String>
+    <system:String x:Key="LangKeyDeleteAnyway">Delete Anyway</system:String>
+    <system:String x:Key="LangKeyDontDelete">Don't delete</system:String>
+    <system:String x:Key="LangKeyDeletedSuccessfully">deleted Successfully!</system:String>
+    <system:String x:Key="LangKeySelectAtleastOneCampaign">Please select at least one campaign !!</system:String>
+    <system:String x:Key="LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign"  xml:space="preserve">If you delete it will delete all selected campaign permanently 
+ Are you sure ?</system:String>
+    <system:String x:Key="LangKeyCampaignDeletionCompleted">Campaign deletion operation completed!</system:String>
+    <system:String x:Key="LangKeyFailedToSave">Failed to save</system:String>
+    <system:String x:Key="LangKeyAddAtleastOnePost">Add at least one post.</system:String>
+    <system:String x:Key="LangKeyDestinationNameAlreadyPresent">Destination name already present!</system:String>
+    <system:String x:Key="LangKeySelectPostToExport">Please select atleast one post to export.</system:String>
+    <system:String x:Key="LangKeyPublishedDetails">Published Details</system:String>
+    <system:String x:Key="LangKeyNoDetailsAvailable">No Details available.</system:String>
+    <system:String x:Key="LangKeyThereIsNoPostWithoutAnImage">There is no post without an image!</system:String>
+    <system:String x:Key="LangKeyConfirmToDeletePostsWithNoImage">Are you sure to delete post(s) with no images?</system:String>
+    <system:String x:Key="LangKeyPleaseSelectAtleastAPost">Please select atleast a post !!</system:String>
+    <system:String x:Key="LangKeyConfirmToDeleteAllSelectedPosts">Are you sure to delete all selected posts permanently?</system:String>
+    <system:String x:Key="LangKeyEditPost">Edit post</system:String>
+    <system:String x:Key="LangKeySelectPostBeforeEdit">Please select the post before edit!</system:String>
+    <system:String x:Key="LangKeyPostDetailsUploaded">Post details successfully uploaded.</system:String>
     <system:String x:Key="LangKeyOr">or</system:String>
     <system:String x:Key="LangKeyToken">Token</system:String>
-
+    <system:String x:Key="LangKeyFriendUrl">Friend Url</system:String>
+    <system:String x:Key="LangKeyFriendName">Friend Name</system:String>
     <system:String x:Key="LangKeyChangeLanguage">Change Language</system:String>
     <system:String x:Key="LangKeyConfirmToSetLanguage"  xml:space="preserve">Set Language Chinese. To apply this setting, you need to restart.
     Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyYes">Yes</system:String>
     <system:String x:Key="LangKeyNo">No</system:String>
+    <system:String x:Key="LangKeySavingAccountFailedUserOrPasswordEmpty">Saving Account failed because either user or password is empty</system:String>
+    <system:String x:Key="LangKeySavingAccountFailedProxyIpOrProxyPortEmptyButNotBoth">Saving Account failed because either ProxyIp or ProxyPort is empty but not both</system:String>
+    <system:String x:Key="LangKeySavingAccountFailedProxyUsernameOrProxyPasswordEmptyButNotBoth">Saving Account failed because either ProxyUsername or ProxyPassword is empty but not both</system:String>
+    <system:String x:Key="LangKeyPasswordChangedSuccessfully">Password changed successfully.</system:String>
+    <system:String x:Key="LangKeyFailedToChangePassword">Failed to change password.</system:String>
+    <system:String x:Key="LangKeySelectAtLeastOneUser">Please select at least one user !!</system:String>
+    <system:String x:Key="LangKeyExportBlackListUser">Export BlackList user</system:String>
+    <system:String x:Key="LangKeyBlackListedUserSuccessfullyExportedTo">BlackListed user Successfully exported to</system:String>
+    <system:String x:Key="LangKeyNoOfUniqueUserTagPerPost">No Of Unique User Per Post</system:String>
+    <system:String x:Key="LangKeyAnyonecanpost">Anyone can post</system:String>
+    <system:String x:Key="LangKeyPeoplecanaskquestionsaboutyoureventonMessenger">People can ask questions about your event on Messenger</system:String>
+    <system:String x:Key="LangKeyPostsandstoriesmustbeapprovedbyahostorco-host">Posts and stories must be approved by a host or co-host</system:String>
+    <system:String x:Key="LangKeyMessaging">Messaging</system:String>
+    <system:String x:Key="LangKeyPostapproval">Post approval</system:String>
+    <system:String x:Key="LangKeyPostpermissions">Post permissions</system:String>
+    <system:String x:Key="LangKeyEndTime">End Time</system:String>
+    <system:String x:Key="LangKeyUseFacebookSuggestedLocation">Use Facebook Suggested Location</system:String>
+    <system:String x:Key="LangKeyEventphotoorvideo">Event photo or video</system:String>
+    <system:String x:Key="LangKeyAddashortandclearname">Add a short and clear name</system:String>
+    <system:String x:Key="LangKeyIncludeaplaceoraddress">Include a place or address</system:String>
+    <system:String x:Key="LangKeyTellpeoplemoreabouttheevent">Tell people more about the event</system:String>
 </ResourceDictionary>

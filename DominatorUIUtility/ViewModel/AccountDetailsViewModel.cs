@@ -285,7 +285,7 @@ namespace DominatorUIUtility.ViewModel
                            string.IsNullOrEmpty(newAccountBaseModel.Password))
                 {
                     GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
-                        "Account", "Saving Account failed because either user or password is empty");
+                        "Account", "LangKeySavingAccountFailedUserOrPasswordEmpty".FromResourceDictionary());
                     return false;
                 }
 
@@ -296,7 +296,7 @@ namespace DominatorUIUtility.ViewModel
                         !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort)))
                 {
                     GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
-                      "Account", "Saving Account failed because either ProxyIp or ProxyPort is empty but not both");
+                      "Account", "LangKeySavingAccountFailedProxyIpOrProxyPortEmptyButNotBoth".FromResourceDictionary());
                     return false;
                 }
 
@@ -307,7 +307,7 @@ namespace DominatorUIUtility.ViewModel
                         !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword)))
                 {
                     GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
-                      "Account", "Saving Account failed because either ProxyUsername or ProxyPassword is empty but not both");
+                      "Account", "LangKeySavingAccountFailedProxyUsernameOrProxyPasswordEmptyButNotBoth".FromResourceDictionary());
                     return false;
                 }
 
@@ -629,21 +629,21 @@ namespace DominatorUIUtility.ViewModel
                     {
                         if (accountVerificationFactory.AutoVerifyByEmail(DominatorAccountModel,
                             DominatorAccountModel.Token).Result)
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
-                                "LangKeyResetPassword".FromResourceDictionary(), "Password changed successfully.");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "LangKeyPasswordChangedSuccessfully".FromResourceDictionary());
                         else
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
-                                "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "LangKeyFailedToChangePassword".FromResourceDictionary());
                     }
                     else
                     {
                         if (accountVerificationFactory.VerifyAccountAsync(DominatorAccountModel, VerificationType.Email,
                             DominatorAccountModel.Token).Result)
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
-                                "LangKeyResetPassword".FromResourceDictionary(), "Password changed successfully.");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "LangKeyPasswordChangedSuccessfully".FromResourceDictionary());
                         else
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, DominatorAccountModel.UserName,
-                                "LangKeyResetPassword".FromResourceDictionary(), "Failed to change password.");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.UserName,
+                                "LangKeyResetPassword".FromResourceDictionary(), "LangKeyFailedToChangePassword".FromResourceDictionary());
                     }
                     OldDominatorAccountModel = DominatorAccountModel;
 

@@ -309,7 +309,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate >
                 PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate)
             {
-                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "Please check campaign's start time, Should be less than end time!");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyCheckCampaignStartTime".FromResourceDictionary());
                 return;
             }
             // If end date already expired, then mark as completed
@@ -687,7 +687,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     if (_genericFileManager.UpdateModuleDetails(lstCampaign,
                         ConstantVariable.GetPublisherCampaignFile()))
-                        ToasterNotification.ShowSuccess("Campaign successfully updated.");
+                        ToasterNotification.ShowSuccess("LangKeyCampaignSuccessfullyUpdated".FromResourceDictionary());
 
                     // Stop Scheduled Activities
                     PublishScheduler.StopPublishingPosts(PublisherCreateCampaignModel.CampaignId);
@@ -699,7 +699,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 else
                 {
                     if (_genericFileManager.AddModule(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
-                        ToasterNotification.ShowSuccess("Campaign successfully saved.");
+                        ToasterNotification.ShowSuccess("LangKeyCampaignSuccessfullySaved".FromResourceDictionary());
 
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }

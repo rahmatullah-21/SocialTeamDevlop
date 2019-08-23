@@ -23,7 +23,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         private void Save()
         {
             if (_genericFileManager.Overrride(YoutubeModel, ConstantVariable.GetOtherYoutubeSettingsFile()))
-                Dialog.ShowDialog("Success", "Youtube Configuration sucessfully saved !!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyYoutubeConfigurationSaved".FromResourceDictionary());
         }
     }
 }

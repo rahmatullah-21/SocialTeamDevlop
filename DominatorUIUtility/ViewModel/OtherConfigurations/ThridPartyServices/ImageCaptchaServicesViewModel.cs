@@ -22,7 +22,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
         private void Save()
         {
             if (_genericFileManager.Save(ImageCaptchaServicesModel, ConstantVariable.GetImageCaptchaServicesFile()))
-                Dialog.ShowDialog("Success", "Image Captcha Services sucessfully saved !!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyImageCaptchaSaved".FromResourceDictionary());
         }
     }
 }

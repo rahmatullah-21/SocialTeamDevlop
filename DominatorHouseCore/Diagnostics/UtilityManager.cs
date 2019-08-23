@@ -23,7 +23,7 @@ namespace DominatorHouseCore.Diagnostics
     {
         public static async Task<HashSet<SocialNetworks>> ResolveExceptions(string inputString, string exemption, string fixtures, string exemptionType)
         {
-            var message = "Oops something went wrong";
+            var message = "LangKeySomethingWentWrong".FromResourceDictionary();
 
             try
             {
@@ -308,9 +308,9 @@ namespace DominatorHouseCore.Diagnostics
                     return SocinatorInitialize.AvailableNetworks;
 
                 var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Network Error",
-                    "Please check your Internet connection and try again !!"
-                    , MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Try Again", "Cancel"));
+                    "LangKeyNetworkError".FromResourceDictionary(),
+                    "LangKeyCheckInternet".FromResourceDictionary()
+                    , MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("LangKeyTryAgain".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary()));
                 if (dialogResult == MessageDialogResult.Affirmative)
                 {
                     return null;
