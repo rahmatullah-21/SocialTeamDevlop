@@ -499,6 +499,7 @@
     <Compile Include="Enums\RdQuery\CommunityQuery.cs" />
     <Compile Include="Enums\RdQuery\PostQuery.cs" />
     <Compile Include="Enums\RdQuery\UserQuery.cs" />
+    <Compile Include="Enums\RelationShipStatus.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />

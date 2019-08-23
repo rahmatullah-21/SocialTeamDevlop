@@ -13,11 +13,11 @@ namespace DominatorHouseCore.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            var visibility = string.IsNullOrEmpty(value?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+            var visibility = !string.IsNullOrEmpty(value?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
 
             if (IsInversed)
             {
-                visibility = string.IsNullOrEmpty(value?.ToString()) ? Visibility.Collapsed : Visibility.Visible;
+                visibility = string.IsNullOrEmpty(value?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
             }
 
             return visibility;
