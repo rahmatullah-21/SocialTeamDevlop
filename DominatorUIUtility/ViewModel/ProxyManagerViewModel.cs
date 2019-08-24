@@ -333,11 +333,11 @@ namespace DominatorUIUtility.ViewModel
                 #region Update Import Proxies Status in Logger
                 if (noOfExistingProxies > 0)
                 {
-                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {noOfExistingProxies} already existing proxie(s)");
+                    GlobusLogHelper.log.Info(SocialNetworks.Social + "\t"+ String.Format("LangKeySkippedExistingProxies".FromResourceDictionary(),noOfExistingProxies));
                 }
                 if (noOfProxyAdded > 0)
                 {
-                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Added {noOfProxyAdded} proxie(s).");
+                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t{"LangKeyAddedProxies".FromResourceDictionary()}");
                 }
                 if (parsingResult.InvalidProxies.Any())
                 {
@@ -352,7 +352,7 @@ namespace DominatorUIUtility.ViewModel
                         });
                     }
 
-                    GlobusLogHelper.log.Info(SocialNetworks.Social + $"\t Skipped {parsingResult.InvalidProxies.Count} proxie(s) as it does not match the import format. List of invalid proxies has been exported to {filename}");
+                    GlobusLogHelper.log.Info(SocialNetworks.Social + "\t"+ String.Format("LangKeySkippedProxiesAsItDoesntMatchImportFormat".FromResourceDictionary(), parsingResult.InvalidProxies.Count, filename));
                 }
                 #endregion
             });
@@ -417,11 +417,11 @@ namespace DominatorUIUtility.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        GlobusLogHelper.log.Error("Error in Export Proxies");
+                        GlobusLogHelper.log.Error("LangKeyErrorInExportProxies".FromResourceDictionary());
                     }
                 });
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Success", $"Successfully exported to {filename}");
+                    "LangKeySuccess".FromResourceDictionary(), String.Format("LangKeyExportedProxiesTo".FromResourceDictionary(),filename));
             }
             catch (Exception ex)
             {
@@ -477,7 +477,7 @@ namespace DominatorUIUtility.ViewModel
                     List<ProxyManagerModel> selectedProxies = LstProxyManagerModel.Where(proxy => proxy.IsProxySelected).ToList();
                     if (selectedProxies.Count == 0)
                     {
-                        Dialog.ShowDialog("Alert", "Please select atleast one Proxy.");
+                        Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtLeastOneProxy".FromResourceDictionary());
                         return;
                     }
 
@@ -491,8 +491,8 @@ namespace DominatorUIUtility.ViewModel
                                 Thread.Sleep(50);
 
                             });
-                            Dialog.ShowDialog("Success", $"{selectedProxies.Count} proxies successfully Deleted.");
-                            GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{selectedProxies.Count} proxies", "LangKeyProxy".FromResourceDictionary());
+                            Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), String.Format("LangKeyNProxiesDeleted".FromResourceDictionary(), selectedProxies.Count));
+                            GlobusLogHelper.log.Info(Log.Deleted, SocialNetworks.Social, $"{selectedProxies.Count} {"LangKeyProxies".FromResourceDictionary()}", "LangKeyProxy".FromResourceDictionary());
                         });
 
                         IsAllProxySelected = false;
@@ -508,8 +508,8 @@ namespace DominatorUIUtility.ViewModel
                     if (ShowWarningMessage() == MessageDialogResult.Affirmative)
                     {
                         RemoveProxy(sender);
-                        Application.Current.Dispatcher.Invoke(() => Dialog.ShowDialog("Success",
-                       $"{sender.AccountProxy.ProxyIp}:{sender.AccountProxy.ProxyPort} Successfully Deleted."));
+                        Application.Current.Dispatcher.Invoke(() => Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(),
+                       $"{sender.AccountProxy.ProxyIp}:{sender.AccountProxy.ProxyPort} {"LangKeySuccessfullyDeleted".FromResourceDictionary()}"));
                     }
                 }
                 IsShowByGroup = false;
@@ -524,7 +524,7 @@ namespace DominatorUIUtility.ViewModel
 
         private MessageDialogResult ShowWarningMessage()
         {
-            return Dialog.ShowCustomDialog("Warning", "Proxy(ies) will remove from all account associated with this proxy(ies)\nAre you sure ?", "Yes", "No");
+            return Dialog.ShowCustomDialog("LangKeyWarning".FromResourceDictionary(), "Proxy(ies) will remove from all account associated with this proxy(ies)\nAre you sure ?", "Yes", "No");
         }
 
         private void RemoveProxy(ProxyManagerModel selectedProxy)
