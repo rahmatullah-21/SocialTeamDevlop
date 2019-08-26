@@ -3609,7 +3609,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyJoinedGroups">Joined Groups</system:String>
     <system:String x:Key="LangKeyTweetPostCaptionFormate">[USERNAME][ORIGINALPOSTCAPTION][ACCOUNTUSERNAME] Own Tweetcaption Text
         </system:String>
-        <system:String x:Key="LangKeyScrapUserWhomWeMessaged">Scrape users whom we messaged</system:String>
-    
+    <system:String x:Key="LangKeyScrapUserWhomWeMessaged">Scrape users whom we messaged</system:String>
     <system:String x:Key="LangKeySendMessageToFollowers">Send Message To Followers</system:String>
+    <system:String x:Key="LangKeyNoOfUniqueUserTagPerPost">No Of Unique User Per Post</system:String>
 </ResourceDictionary>

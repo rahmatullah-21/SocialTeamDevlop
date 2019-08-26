@@ -82,6 +82,7 @@ namespace EmbeddedBrowser
                 CefSettings settings = new CefSettings();
                 settings.CommandLineArgsDisabled = false;
                 settings.CefCommandLineArgs.Add("--disable-webgl", "1");
+                settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
                 Cef.Initialize(settings);
             }
            
