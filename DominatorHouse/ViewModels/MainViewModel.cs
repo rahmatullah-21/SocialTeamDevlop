@@ -501,9 +501,13 @@ namespace DominatorHouse.ViewModels
 
                 if (itemTemplate.Title ==
                     _applicationResourceProvider.GetStringResource(ApplicationResourceProvider
-                        .LangKeyAccountsManager) && AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType != string.Empty)
+                        .LangKeyAccountsManager))
                 {
-                    /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, Else no neeed to changes UserControl if "Account Details" was opened. */
+                    var lastOne = AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType;
+                    /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, it won't let to change UserControl if "Account Details" was opened. */
+                    if (AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType == "AccountDetail")
+                        return;
+                    
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
                             AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
                 }
@@ -529,9 +533,10 @@ namespace DominatorHouse.ViewModels
 
             // if "Account details" was opened in account manager, then discard all account details changes while switching network 
             var isAccountDetailsOpened = AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType;
-            if(isAccountDetailsOpened == string.Empty)
+            if(isAccountDetailsOpened == "AccountDetail")
             {
                 ((AccountDetail)(AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl)).AccountDetailsViewModel.UpdateCurrentDominatorAccountModel();
+                 AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType = "AccountManager";
             }
 
             TabInitialize(network.Value);

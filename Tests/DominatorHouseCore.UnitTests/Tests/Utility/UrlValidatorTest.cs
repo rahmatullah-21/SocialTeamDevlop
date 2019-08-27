@@ -36,7 +36,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         public void should_return_Invalid_URL_if_input_is_null()
         {
             input = null;
-            var expected = new ValidationResult(false, "Invalid URL");
+            var expected = new ValidationResult(false, "LangKeyInvalidURL");
             var result = _urlValidator.Validate(input, CultureInfo.CurrentCulture);
             result.Should().Be(expected);
         }

@@ -43,8 +43,10 @@ namespace DominatorUIUtility.ViewModel
                     SelectedUserControl = accountCustomControl;
                 }
                 else
+                {
                     SelectedUserControl = new AccountDetail(dominatorAccountModel);
-
+                    LastControlType = "AccountDetail";
+                }
             }
             catch (Exception ex)
             {
