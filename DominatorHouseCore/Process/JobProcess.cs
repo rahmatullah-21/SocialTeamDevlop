@@ -282,7 +282,11 @@ namespace DominatorHouseCore.Process
         {
             lock (SyncJobProcess)
             {
-                if (!_runningJobsHolder.StartIfNotRunning(Id, this)) return Task.CompletedTask;
+                if (!DominatorAccountModel.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled && y.ActivityType == ActivityType))
+                    return Task.CompletedTask;
+
+                if (!_runningJobsHolder.StartIfNotRunning(Id, this))
+                    return Task.CompletedTask;
 
                 var task = ThreadFactory.Instance.Start(() =>
                   {
@@ -292,16 +296,25 @@ namespace DominatorHouseCore.Process
                       // Login and run scraper/poster from derived concrete classes
                       if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                       {
+
                           try
                           {
                               if (Login())
+                              {
+                                  OnLoggedIn();
                                   RunScrapper();
+                              }
                               else
                               {
-                                  JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                                  GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
-                                  StopIfAccountLoginFail();
-                                  //_dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                                  if (Login())
+                                      RunScrapper();
+                                  else
+                                  {
+                                      JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                                      GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
+                                      StopIfAccountLoginFail();
+                                      //_dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                                  }
                               }
                           }
                           catch (OperationCanceledException)
@@ -324,7 +337,7 @@ namespace DominatorHouseCore.Process
                           JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                           GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
                           StopIfAccountLoginFail();
-                         // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
+                          // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                       }
 
 
@@ -339,12 +352,19 @@ namespace DominatorHouseCore.Process
             }
         }
 
+        protected virtual void OnLoggedIn()
+        {
+        }
+
         private void StopIfAccountLoginFail()
         {
             var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var moduleConfiguration = jobActivityConfigurationManager[DominatorAccountModel.AccountId, ActivityType];
 
-            _dominatorScheduler.Stop(DominatorAccountModel.AccountId, moduleConfiguration.TemplateId);
+            //_dominatorScheduler.Stop(DominatorAccountModel.AccountId, moduleConfiguration.TemplateId);
+
+            if (_dominatorScheduler.Stop(DominatorAccountModel.AccountId, moduleConfiguration.TemplateId, true))
+                Stop();
         }
 
         public void Stop()
@@ -406,7 +426,7 @@ namespace DominatorHouseCore.Process
                     else
                         logInProcess.LoginWithBrowserMethod(DominatorAccountModel);
 
-                    
+
 
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 

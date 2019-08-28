@@ -1,4 +1,5 @@
-﻿using DominatorHouseCore.Models;
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models;
 
 namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
 {
@@ -13,6 +14,6 @@ namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
 
         void LoginWithAlternativeMethod(DominatorAccountModel dominatorAccountModel);
 
-        void LoginWithBrowserMethod(DominatorAccountModel dominatorAccountModel);
+        void LoginWithBrowserMethod(DominatorAccountModel dominatorAccountModel, VerificationType verificationType = 0);
     }
 }

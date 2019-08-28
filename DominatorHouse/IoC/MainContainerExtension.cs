@@ -20,7 +20,6 @@ namespace DominatorHouse.IoC
             Container.RegisterSingleton<IMainViewModel, MainViewModel>();
             Container.RegisterSingleton<IPerfCounterViewModel, PerfCounterViewModel>();
             Container.RegisterSingleton<IDominatorAutoActivityViewModel, DominatorAutoActivityViewModel>();
-
             Container.RegisterSingleton<IApplicationResourceProvider, ApplicationResourceProvider>();
 
             #region Startup ViewModel
@@ -140,7 +139,6 @@ namespace DominatorHouse.IoC
             Container.RegisterType<ICommunityScraperViewModel, CommunityScraperViewModel>();
             Container.RegisterType<IJobScraperViewModel, JobScraperViewModel>();
             #endregion
-
         }
     }
 }

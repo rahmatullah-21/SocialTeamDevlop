@@ -32,5 +32,7 @@ namespace DominatorHouseCore.Enums.GdQuery
         OwnFollowers,
         [Description("LangKeyOwnFollowings")]
         OwnFollowings,
+        [Description("LangKeyScrapUserWhomWeMessaged")]
+        ScrapeUsersToWhomWeMessaged,
     }
 }

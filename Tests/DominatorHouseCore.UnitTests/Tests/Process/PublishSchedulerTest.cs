@@ -17,7 +17,7 @@ using Unity;
 
 namespace DominatorHouseCore.UnitTests.Tests.Process
 {
-    [TestClass]
+    [TestClass, Ignore("rewrite static class for unit testing")]
     public class PublishSchedulerTest : UnityInitializationTests
     {
         string campaignId;

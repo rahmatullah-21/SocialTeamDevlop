@@ -1,3 +1,144 @@
+Version[1.0.0.63],[6th August 2019]
+New Features:-
+	Linkedin:
+		Broadcast Message ==> Added feature will show failed data report.
+		
+	Twitter:
+		Reposter ==> Added caption feature.
+		Message to new followers / Auto reply ==> Skip users who received message already.
+
+Fixed:-
+	Social:
+		Blacklist/Whitelist ==> Fixed issue with delete search users.
+		Fixed issue with Macro(s) value.
+		Job Configuration ==> Fixed issue with job configuration.
+	
+	Instagram:
+		User Scraper ==> Fixed issue with report.
+		Account Manager ==> Fixed issue with OTP verification.
+		
+	Reddit:
+		Subscribe ==> Query type custom url ==> Issue fixed with subscribing quarantine communities...
+		
+	Facebook:
+		Broadcast Message ==> Other configurations => Fixed issue with selecting radio button.
+		
+	Linkedin:
+		Broadcast Message ==> Fixed issue with sending message to failed users.
+		
+	Twitter:
+		Repost ==> Fixed issue with repost video.
+		Report ==> Fixed issue with report.
+		Follow ==> Fixed issue with follow Unique Users from each account.
+
+Version[1.0.0.62],[31th July 2019]
+New Features:-
+	Instagram:
+		InstaScraper ==> UserScrapper ==> Other Configuration => Required Data (Scrape User's Bio)
+		InstaScraper=>User scraper=>Query Type ==> Scrap users whom we messaged 
+
+Fixed:- 
+	Pinterest:
+		Account ==> Account Manager ==> Issue fixed with Updating following and Board count
+	
+	Reddit:
+		GrowFollower ==> Unfollower ==> Issue fixed with people unfollowed by Outside software
+
+	Youtube:
+		Engage ==> Comment ==> Fixed issues with query type of keywords
+
+	Facebook:
+		Fixed issues with post in page
+
+	Twitter:
+		Accounts ==> Fixed issue with login failed,proxy not working.
+		Follow ==> Unfollow ==> Reposter ==> Fixed issue with failed error message
+
+	Linkedin:
+		Grow Connection ==> Block User ==> Fixed issue with not blocking users
+		Grow Conenction ==> Connection request ==> salesnavigatorsearch url ==> Fixed issue with not sending conenction request
+
+Version[1.0.0.61],[19th July 2019]
+New Features:-
+	Facebook :
+		Facebook==>Engage==>Post comment==>Post comments from multiple pages at a Time.
+		
+Fixed:- 
+	Social :
+		Social publisher => Create  multiple post => Issue fixed with Not  uploading  photos  from url..
+		Fixed UI freezing issue while pausing campaign
+
+	Facebook :
+		Engage => Post like => Fixed issue with other configuraton setting.
+		Grow Friends => Send friend request => Post commenters => Fixed issue with send friend requests to post commenters.
+		Grow Friends => Send friend request => Group Members => Fixed issue with send friend requests to group members.
+	
+	Instagram :
+		Insta like/comment  => Comment  Issue fixed with Owned Liked  Post.
+
+	LinkedIn :
+		Grow Connection  => Withdraw Connection Request => Fixed issue with withdraw connection request
+		Grow Connection  => Other Configuration => Fixed issue with enable auto withdraw connection request when reaching xx to yy pending request.
+
+	Reddit :
+		Scrapper => Comment  scrapper => Issue  fixed  with Not  exporting one column  data to  excel  sheet..
+		
+	Pinterest :
+		Create board => Fixed issue with multiple board and with multiple description
+		Account manager => Fixed issue with updated board.
+		
+	Twitter :
+		Account activity => Unlike => Fixed issue with pause and active button
+		
+	Quora   :
+		Answer=> keywords => Fixed isue with query type of kewords 
+
+
+Version[1.0.0.60],[5th July 2019]
+New Features:-
+	Linkedin :
+		Profile Endorsement=>Endorsement criteria=>Conencted within x days and y hours
+		Connection => Export connection => Added checkbox to stop the campaign after complete the activit
+Fixed:- 
+	Social :
+		Job Configuration => Fixed issue with per hour limit.
+		Fixed issue with publishing on group.
+
+	Instagram :
+		Account Manager => Fixed issue with saving cookies.
+		Publisher => Own wall => Fixed issue with tag geo location name/location ID.
+
+	Facebook :
+		Engage =>post like => Fixed issue with other configuraton setting.
+
+	Reddit :
+		Issue Fixed  while publishing  multiple post.
+
+Version[1.0.0.59],[29th-June-19]
+New Features:-
+	Social:-
+		Adeed thread feature for account. 
+	Instagram:-
+		For all module => User filter => Added filter Must contain specific words in BIO.
+		Hashtag post(s)/Hashtag User's post(s) => Added filter based on top and recent post.
+		Grow Followers => Added feature for tracking Follow back result in report.
+
+Fixed:-
+	Instagram:-
+		Insta Scrape => User Scraper => Fixed issue with scrape unique users only for this campaign.
+		Insta Scrape => Comment Scraper => Fixed issue with comment scraper.
+		Instachat => Broadcast Message => Fixed issue with send message with image.
+	Facebook:-
+		Fixed issue with auto start group inviter campaign.
+		Grow friends => Fixed issues with send freind request to fanpage likers and group members.
+		Scrapper => Fanpage likers => Fixed issue with scrapping fanpage likers.
+		Fixed issue with  Send messages to fanpage.
+	Quora:-
+		Answer => Answer on Question => Fixed issue with query type keywords.
+	Pinterest:-
+		Account => Fixed issue in account status
+		Create => Fixed issue in creating board with multiple account
+
 Version[1.0.0.58],[18th-June-19]
 New Features:
 	Publisher:- 

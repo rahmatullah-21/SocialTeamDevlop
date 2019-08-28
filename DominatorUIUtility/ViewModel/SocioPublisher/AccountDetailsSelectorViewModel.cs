@@ -20,15 +20,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             TextSearchCommand = new BaseCommand<object>(TextSearchCanExecute, TextSearchExecute);
             OwnPageCheckedCommand = new BaseCommand<object>(OwnPageCheckedCanExecute, OwnPageCheckedExecute);
             LikedPageCheckedCommand = new BaseCommand<object>(LikedPageCheckedCanExecute, LikedPageCheckedExecute);
+            OwnGroupCheckedCommand = new BaseCommand<object>(OwnGroupCheckedCanExecute, OwnGroupCheckedExecute);
+            JoinedGroupCheckedCommand = new BaseCommand<object>(JoinedGroupCheckedCanExecute, JoinedGroupCheckedExecute);
         }
 
 
         public ICommand TextSearchCommand { get; set; }
         public ICommand OwnPageCheckedCommand { get; set; }
         public ICommand LikedPageCheckedCommand { get; set; }
+        public ICommand OwnGroupCheckedCommand { get; set; }
+        public ICommand JoinedGroupCheckedCommand { get; set; }
+
+
         private bool OwnPageCheckedCanExecute(object sender) => true;
 
         private bool LikedPageCheckedCanExecute(object sender) => true;
+
+        private bool OwnGroupCheckedCanExecute(object sender) => true;
+        private bool JoinedGroupCheckedCanExecute(object sender) => true;
 
         private void OwnPageCheckedExecute(object sender)
         {
@@ -123,6 +132,108 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             !objAccountDetailsSelectorModel.IsLikePage;
                 else
                     return false;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+        private void OwnGroupCheckedExecute(object sender)
+        {
+            AccountDetailsSelectorView.Filter += null;
+            if (IsOwnPageSelected)
+                AccountDetailsSelectorView.Filter += FilterByOwnGroupSelect;
+            else
+                AccountDetailsSelectorView.Filter += FilterByOwnGroupRemove;
+
+        }
+
+        private void JoinedGroupCheckedExecute(object sender)
+        {
+            AccountDetailsSelectorView.Filter += null;
+
+            if (IsLikedPageSelected)
+                AccountDetailsSelectorView.Filter += FilterByJoinedGroupSelected;
+            else
+                AccountDetailsSelectorView.Filter += FilterByJoinedGroupRemove;
+        }
+
+        private bool FilterByJoinedGroupRemove(object sender)
+        {
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+
+                if (IsOwnPageSelected)
+                    return objAccountDetailsSelectorModel != null &&
+                           objAccountDetailsSelectorModel.IsGroup &&
+                            !objAccountDetailsSelectorModel.IsJoinedGroup;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+
+        private bool FilterByOwnGroupSelect(object sender)
+        {
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+
+                if (!IsOwnPageSelected)
+                    return objAccountDetailsSelectorModel != null &&
+                       objAccountDetailsSelectorModel.IsGroup &&
+                        objAccountDetailsSelectorModel.IsOwnGroup;
+                else
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+        private bool FilterByOwnGroupRemove(object sender)
+        {
+
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+
+                if (IsLikedPageSelected)
+                    return objAccountDetailsSelectorModel != null &&
+                           objAccountDetailsSelectorModel.IsGroup &&
+                            !objAccountDetailsSelectorModel.IsOwnGroup;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+        private bool FilterByJoinedGroupSelected(object sender)
+        {
+            try
+            {
+                var objAccountDetailsSelectorModel = sender as AccountDetailsSelectorModel;
+
+                if (!IsLikedPageSelected)
+                    return objAccountDetailsSelectorModel != null &&
+                       objAccountDetailsSelectorModel.IsGroup &&
+                        objAccountDetailsSelectorModel.IsJoinedGroup;
+                else
+                    return true;
             }
             catch (Exception ex)
             {
@@ -421,6 +532,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 OnPropertyChanged(nameof(IsLikedPageSelected));
             }
         }
+
+
+        private bool _isGroupOptionVisible = true;
+
+        public bool IsGroupOptionVisible
+        {
+            get
+            {
+                return _isGroupOptionVisible;
+            }
+            set
+            {
+                if (_isGroupOptionVisible == value)
+                    return;
+                _isGroupOptionVisible = value;
+                OnPropertyChanged(nameof(_isGroupOptionVisible));
+            }
+        }
+
         public IEnumerable<KeyValuePair<string, string>> GetSelectedItems()
         {
             var selectedItems = new List<KeyValuePair<string, string>>();

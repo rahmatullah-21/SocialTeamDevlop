@@ -26,7 +26,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
         {
             value = 0;
             var result = _sut.Convert(value, value.GetType(), null, CultureInfo.CurrentUICulture);
-            result.Should().Be("Not Updated Yet");
+            result.Should().Be("LangKeyNotUpdatedYet");
         }
         [TestMethod]
         public void should_return_local_datetime_of_value_if_value_is_nonzero()

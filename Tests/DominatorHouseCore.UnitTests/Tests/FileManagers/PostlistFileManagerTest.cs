@@ -70,7 +70,6 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void should_throw_ArgumentOutOfRangeException_if_post_isnot_present()
         {
-           
             var postlist = new List<PublisherPostlistModel>()
             {
                 new PublisherPostlistModel() {CampaignId="123",PostId="1" },
@@ -80,7 +79,6 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
             _binFileHelper.GetPublisherPostListModels(_campaignId).ReturnsForAnyArgs(postlist);
             _binFileHelper.UpdateAllPostlists(_campaignId, postlist).ReturnsForAnyArgs(true);
             PostlistFileManager.UpdatePost(_campaignId, postToupdate);
-            
         }
 
     }

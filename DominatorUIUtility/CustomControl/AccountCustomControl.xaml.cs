@@ -49,18 +49,16 @@ namespace DominatorUIUtility.CustomControl
             if (_accountCustomInstance == null)
                 _accountCustomInstance = new AccountCustomControl();
 
-            ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync().ForEach(x =>
-            {
-                x.IsAccountManagerAccountSelected = false;
-            });
+            UncheckAll();
             return _accountCustomInstance;
         }
 
         public static AccountCustomControl GetAccountCustomControl(SocialNetworks socialNework)
         {
+            UncheckAll();
             return _accountCustomInstance ?? (_accountCustomInstance = new AccountCustomControl());
         }
-      
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -69,22 +67,14 @@ namespace DominatorUIUtility.CustomControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        //private void SelectActivity(object sender, RoutedEventArgs e)
-        //{
-        //    DominatorAccountModel dominatorAccountModel = ((FrameworkElement)sender).DataContext as DominatorAccountModel;
-        //    if (dominatorAccountModel != null)
-        //    {
-        //        Dialog dialog = new Dialog();
-        //        var window = dialog.GetMetroWindow(new SaveSetting(dominatorAccountModel.AccountBaseModel.AccountNetwork), "Startup");
-        //        //window.WindowStartupLocation = WindowStartupLocation.Manual;
-        //        //window.Top = 0;
-        //        //window.Left = 0;
-        //        //window.HorizontalContentAlignment = HorizontalAlignment.Center;
-        //        //window.VerticalContentAlignment = VerticalAlignment.Center;
-        //        //window.MinHeight = SystemParameters.PrimaryScreenHeight - 100;
-        //        //window.MinWidth = SystemParameters.PrimaryScreenWidth - 100;
-        //        window.ShowDialog();
-        //    }
-        //}
+        private static void UncheckAll()
+        {
+            ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync().ForEach(x =>
+            {
+                x.IsAccountManagerAccountSelected = false;
+            });
+        }
+
+
     }
 }

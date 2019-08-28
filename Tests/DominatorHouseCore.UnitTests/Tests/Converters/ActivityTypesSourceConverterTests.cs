@@ -34,8 +34,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
         {
             values = new object[] { LstActivityType, SocialNetworks.Quora };
             var result = (IEnumerable<ActivityType?>)_sut.Convert(values, values.GetType(), null, CultureInfo.CurrentUICulture);
-            //result count should be 16 because Quora contains 16 Activities
-            result.Should().NotBeEmpty().And.HaveCount(16);
+            //result count should be 16 because Quora contains 15 Activities
+            result.Should().NotBeEmpty().And.HaveCount(15);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]

@@ -8,7 +8,7 @@
     <ControlTemplate x:Key="ProxyManagerControlTemplate">
         <ControlTemplate.Resources>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <converters:AlternationIndexConverter x:Key="AlternationIndexConverter"/>
+            <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
             <ControlTemplate x:Key="ErrorTemplate">
                 <StackPanel Orientation="Vertical">
                     <AdornedElementPlaceholder x:Name="ErrorHolder" >
@@ -609,7 +609,7 @@
                                 <CheckBox IsChecked="{Binding IsProxySelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                           Margin="5,0,0,0" Content="{Binding AlternationIndex, 
                                           RelativeSource={RelativeSource AncestorType=DataGridRow},
-                                          Converter={StaticResource AlternationIndexConverter}}"
+                                          Converter={StaticResource IndexToRowNoConverter}}"
                                           Command="{Binding DataContext.SelectProxyCommand,
                                           RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
 

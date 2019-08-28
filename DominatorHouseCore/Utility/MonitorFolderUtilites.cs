@@ -13,6 +13,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using Shell32;
 using System.Threading;
+using DominatorHouseCore.Extensions;
 
 namespace DominatorHouseCore.Utility
 {
@@ -87,6 +88,8 @@ namespace DominatorHouseCore.Utility
 
                 // Get the campaigns Post details 
                 var campaignDetails = PostlistFileManager.GetAll(campaignId);
+
+                var postCount = maximumPostLimitToStore - campaignDetails.Count;
 
                 // Filter only monitor folder details
                 var monitorFolderFiles = campaignDetails
@@ -192,6 +195,7 @@ namespace DominatorHouseCore.Utility
                             RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
                             FdSellLocation = postDetailsModel.FdSellLocation,
                             FdSellPrice = postDetailsModel.FdSellPrice,
+                            IsSpinTax = postDetailsModel.IsSpinTax,
                             FdSellProductTitle = postDetailsModel.FdSellProductTitle,
                             IsFdSellPost = postDetailsModel.IsFdSellPost,
                             PublisherPostSettings = postDetailsModel.PublisherPostSettings
@@ -260,8 +264,12 @@ namespace DominatorHouseCore.Utility
                         #endregion
                         var existingFile = monitorFolderFiles.FirstOrDefault(f => f.MonitorFilePath == file);
                         if (existingFile == null)
-                            // Manipulate the post descriptions
-                            publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
+                        {
+                            if (publisherPostlistModel.IsSpinTax)
+                                publisherPostlistModel.PostDescription = SpinTexHelper.GetSpinText(postTemplate);
+                            else
+                                // Manipulate the post descriptions
+                                publisherPostlistModel.PostDescription = postTemplate.Replace("[FileName]", monitorFolderModel.FileName.Replace(ConstantVariable.VideoToImageConvertFileName, String.Empty))
                                 .Replace("[FileType]", monitorFolderModel.FileType)
                                 .Replace("[FileAuthor]", monitorFolderModel.FileAuthor)
                                 .Replace("[FileTitle]", monitorFolderModel.FileTitle)
@@ -269,8 +277,14 @@ namespace DominatorHouseCore.Utility
                                 .Replace("[FileCreationDate]", monitorFolderModel.FileCreationDate)
                                 .Replace("[FileComments]", monitorFolderModel.FileComment)
                                 .Replace("[FileTags]", monitorFolderModel.FileTags);
+                        }
                         else
-                            publisherPostlistModel.PostDescription = existingFile.PostDescription;
+                        {
+                            if (publisherPostlistModel.IsSpinTax)
+                                publisherPostlistModel.PostDescription = SpinTexHelper.GetSpinText(existingFile.PostDescription);
+                            else
+                                publisherPostlistModel.PostDescription = existingFile.PostDescription;
+                        }
                         if (campaignDetails.Count > 0)
                         {
                             var post = campaignDetails.FirstOrDefault(x =>
@@ -287,6 +301,29 @@ namespace DominatorHouseCore.Utility
                         {
                             postlists.Add(publisherPostlistModel);
                         }
+
+                        campaignDetails = PostlistFileManager.GetAll(campaignId);
+
+                        // Get the available post counts
+                        postCount = maximumPostLimitToStore - campaignDetails.Count;
+
+                        if (postCount > 0)
+                        {
+                            // Take need to posts from postlist 
+                            var neededPostLists = postlists.ToList();
+                            neededPostLists.RemoveAll(x => campaignDetails.Any(y => y.PostId == x.PostId));
+                            neededPostLists = neededPostLists.Take(postCount).ToList();
+                            if (neededPostLists.Count > 0)
+                            {
+                                PostlistFileManager.AddRange(campaignId, neededPostLists);
+
+                                // Update the current post count
+                                publisherInitialize.UpdatePostCounts(campaignId);
+                            }
+
+                        }
+                        else
+                            break;
                     }
                     catch (OperationCanceledException)
                     {
@@ -294,13 +331,7 @@ namespace DominatorHouseCore.Utility
                     }
                     catch (AggregateException ae)
                     {
-                        foreach (var e in ae.InnerExceptions)
-                        {
-                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                throw new OperationCanceledException("Cancellation Requested!");
-                            else
-                                e.DebugLog(e.StackTrace + e.Message);
-                        }
+                        ae.HandleOperationCancellation();
                     }
                     catch (ArgumentNullException ex)
                     {
@@ -341,6 +372,22 @@ namespace DominatorHouseCore.Utility
                         // Check whether Cancellation Requested or not
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
+
+                        campaignDetails = PostlistFileManager.GetAll(campaignId);
+
+                        // Get the available post counts
+                        postCount = maximumPostLimitToStore - campaignDetails.Count;
+
+                        if (postCount > 0)
+                        {
+                            // Take need to posts from postlist 
+                            var neededPostLists = duplicatedPostlist.Take(postCount).ToList();
+                            PostlistFileManager.AddRange(campaignId, neededPostLists);
+
+                            // Update the current post count
+                            publisherInitialize.UpdatePostCounts(campaignId);
+                        }
+
                         // Add the current post to post list
                         postlists.AddRange(duplicatedPostlist);
                     }
@@ -350,13 +397,7 @@ namespace DominatorHouseCore.Utility
                     }
                     catch (AggregateException ae)
                     {
-                        foreach (var e in ae.InnerExceptions)
-                        {
-                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                throw new OperationCanceledException("Cancellation Requested!");
-                            else
-                                e.DebugLog(e.StackTrace + e.Message);
-                        }
+                        ae.HandleOperationCancellation();
                     }
                     catch (Exception ex)
                     {
@@ -368,18 +409,9 @@ namespace DominatorHouseCore.Utility
                 campaignDetails = PostlistFileManager.GetAll(campaignId);
 
                 // Get the available post counts
-                var postCount = maximumPostLimitToStore - campaignDetails.Count;
+                postCount = maximumPostLimitToStore - campaignDetails.Count;
 
-                if (postCount > 0)
-                {
-                    // Take need to posts from postlist 
-                    var neededPostLists = postlists.Take(postCount).ToList();
-                    PostlistFileManager.AddRange(campaignId, neededPostLists);
-
-                    // Update the current post count
-                    publisherInitialize.UpdatePostCounts(campaignId);
-                }
-                else
+                if (postCount <= 0)
                 {
                     // Inform the maximum post has reached via Toaster notification
                     ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
@@ -391,13 +423,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (ArgumentNullException ex)
             {

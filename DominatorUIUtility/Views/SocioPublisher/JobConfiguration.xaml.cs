@@ -19,7 +19,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
     /// </summary>
     public partial class JobConfiguration : UserControl
     {
-        private JobConfiguration()
+        public JobConfiguration()
         {
             InitializeComponent();
             MainGrid.DataContext = this;

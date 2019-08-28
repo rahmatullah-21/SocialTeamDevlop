@@ -26,7 +26,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         public void should_Ram_size_be_7882_in_MB()
         {
             var result = _perfCounterService.LoadedMemoryDescrption;
-            result.Should().Be("7882 MB");
+            result.Should().NotBe("0 MB");
         }
     }
 }

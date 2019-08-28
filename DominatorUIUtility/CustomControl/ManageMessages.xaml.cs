@@ -44,7 +44,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
 
         private void EditMessage_OnClick(object sender, RoutedEventArgs e)
@@ -52,9 +51,11 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
+                if (currentItem == null)
+                    return;
                 var editMessage = new MessagesControl
                 {
-                    btnAddMessagesToList = {Content = "Update Message"},
+                    btnAddMessagesToList = { Content = "Update Message" },
                     Messages = new ManageMessagesModel
                     {
                         MessagesText = currentItem.MessagesText,
@@ -68,21 +69,20 @@ namespace DominatorUIUtility.CustomControl
                 {
                     x.IsContentSelected = editMessage.Messages.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType);
                 });
-               
 
                 editMessage.MainGrid.Margin = new Thickness(20);
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(editMessage, "Edit Message");
-                window.ShowDialog();
                 window.Closed += (s, evnt) =>
                 {
-                     if (editMessage.Isupdated)
-                     {
-                         var indexToUpdate = LstManageMessagesModel.IndexOf(currentItem);
-                         LstManageMessagesModel[indexToUpdate] = editMessage.Messages;
-                     }
+                    if (editMessage.Isupdated)
+                    {
+                        var indexToUpdate = LstManageMessagesModel.IndexOf(currentItem);
+                        LstManageMessagesModel[indexToUpdate] = editMessage.Messages;
+                    }
                     currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
                 };
+                window.ShowDialog();
             }
             catch (Exception ex)
             {

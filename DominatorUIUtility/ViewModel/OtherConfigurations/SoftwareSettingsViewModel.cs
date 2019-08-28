@@ -41,7 +41,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                 if (!string.IsNullOrEmpty(SoftwareSettingsModel.ExportPath) && Directory.Exists(SoftwareSettingsModel.ExportPath))
                     SaveSetting();
                 else
-                    Dialog.ShowDialog("Error", "Please enter valid folder Path.");
+                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyEnterValidFolderPath".FromResourceDictionary());
             }
             else
             {
@@ -55,8 +55,9 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             if (_softwareSettings.Save())
             {
-                var result = Dialog.ShowCustomDialog("Success",
-                    "Software Settings sucessfully saved.To apply this setting you need to restart.\nDo you want to Restart?", "Restart now", "Restart later");
+                var result = Dialog.ShowCustomDialog("LangKeySuccess".FromResourceDictionary(),
+                    "LangKeyConfirmToRestartAfterSoftwareSettingSaved".FromResourceDictionary(),
+                    "LangKeyRestartNow".FromResourceDictionary(), "LangKeyRestartLater".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
                     Application.Current.Shutdown();

@@ -18,7 +18,6 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-
         }
         public ObservableCollection<ManageMessagesModel> LstManageMessagesModel
         {
@@ -45,7 +44,6 @@ namespace DominatorUIUtility.CustomControl
             {
                 ex.DebugLog();
             }
-
         }
 
         private void EditMessage_OnClick(object sender, RoutedEventArgs e)
@@ -54,7 +52,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
                 if (currentItem == null)
-                    throw new ArgumentNullException(nameof(currentItem));
+                    return;
 
                 var editMessage = new MessageMediaControl
                 {
@@ -70,7 +68,6 @@ namespace DominatorUIUtility.CustomControl
                     LstManageMessagesModel = LstManageMessagesModel
                 };
 
-
                 editMessage.Messages.LstQueries.ToList().ForEach(x =>
                 {
                     x.IsContentSelected = editMessage.Messages.SelectedQuery.Any(y => y.Content.QueryValue == x.Content.QueryValue && y.Content.QueryType == x.Content.QueryType);
@@ -79,8 +76,6 @@ namespace DominatorUIUtility.CustomControl
                 editMessage.MainGrid.Margin = new Thickness(20);
                 Dialog dialog = new Dialog();
                 Window window = dialog.GetMetroWindow(editMessage, "Edit Message");
-                window.ShowDialog();
-
                 window.Closed += (s, evnt) =>
                 {
                     if (editMessage.Isupdated)
@@ -90,6 +85,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                     currentItem.LstQueries.Select(query => query.IsContentSelected = false).ToList();
                 };
+                window.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -102,7 +98,5 @@ namespace DominatorUIUtility.CustomControl
             var currentItem = ((FrameworkElement)sender).DataContext as ManageMessagesModel;
             LstManageMessagesModel.Remove(currentItem);
         }
-
-     
     }
 }

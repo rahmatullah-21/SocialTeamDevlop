@@ -102,7 +102,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             LstCustomDestination.Add(publisherCustomDestinationModel.InputDestination);
                     }
                     else
-                        Dialog.ShowDialog("Error", "Please enter Destination and Destination URL.");
+                        Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyPleaseEnterDestination".FromResourceDictionary());
 
                 }
 

@@ -60,7 +60,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
             var objDialog = new Dialog();
 
-            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "Select Account Details");
+            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "LangKeySelectAccountDetails".FromResourceDictionary());
 
             selectAccountDetailsControl.BtnSave.Click += (senders, events) =>
             {
@@ -88,7 +88,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         }
                         else if (model.AccountFriendsPair.Any(y => y.Key == x.AccountId))
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "Destiation is selected but Account is not selected");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "LangKeyDestiationSelectedButAccountNot".FromResourceDictionary());
                         }
 
                     });
@@ -158,7 +158,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
             var objDialog = new Dialog();
 
-            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "Select Account Details");
+            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "LangKeySelectAccountDetails".FromResourceDictionary());
 
             selectAccountDetailsControl.BtnSave.Click += (senders, events) =>
             {
@@ -186,7 +186,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         }
                         else if (model.AccountFriendsPair.Any(y => y.Key == x.AccountId))
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "Destiation is selected but Account is not selected");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "LangKeyDestiationSelectedButAccountNot".FromResourceDictionary());
                         }
 
                     });
@@ -224,7 +224,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
             var objDialog = new Dialog();
 
-            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "Select Account Details");
+            var window = objDialog.GetMetroWindow(selectAccountDetailsControl, "LangKeySelectAccountDetails".FromResourceDictionary());
 
             selectAccountDetailsControl.BtnSave.Click += (senders, events) =>
             {
@@ -252,7 +252,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                         }
                         else if (model.AccountPagesBoardsPair.Any(y => y.Key == x.AccountId))
                         {
-                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "Destiation is selected but Account is not selected");
+                            GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Facebook, x.AccountName, "", "LangKeyDestiationSelectedButAccountNot".FromResourceDictionary());
                         }
 
                     });

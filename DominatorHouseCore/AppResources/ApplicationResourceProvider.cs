@@ -19,7 +19,7 @@ namespace DominatorHouseCore.AppResources
         {
             try
             {
-                return Application.Current.FindResource(resourceKey)?.ToString();
+                return Application.Current?.FindResource(resourceKey)?.ToString();
             }
             catch (ResourceReferenceKeyNotFoundException e)
             {

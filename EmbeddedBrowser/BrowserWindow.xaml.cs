@@ -64,6 +64,7 @@ namespace EmbeddedBrowser
                 OnPropertyChanged(nameof(DominatorAccountModel));
             }
         }
+        public bool browserLoginMessage { get; set; } = true;
 
         public bool IsLoaded { get; set; }
 
@@ -75,6 +76,15 @@ namespace EmbeddedBrowser
 
         public BrowserWindow()
         {
+            if (!Cef.IsInitialized)
+            {
+                CefSettings settings = new CefSettings();
+                settings.CommandLineArgsDisabled = false;
+                settings.CefCommandLineArgs.Add("--disable-webgl", "1");
+                settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
+                Cef.Initialize(settings);
+            }
+
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(() => GoToUrl());
@@ -87,10 +97,22 @@ namespace EmbeddedBrowser
             DominatorAccountModel = dominatorAccountModel;
             TargetUrl = targetUrl;
             CustomUse = customUse;
+
             _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
+
+
             Browser.RequestContext = new RequestContext(new RequestContextSettings
             {
                 CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
+            });
+
+            Cef.UIThreadTaskFactory.StartNew(() =>
+            {
+                if (Browser.RequestContext.CanSetPreference("webrtc.ip_handling_policy"))
+                {
+                    var error = string.Empty;
+                    Browser.RequestContext.SetPreference("webrtc.ip_handling_policy", "disable_non_proxied_udp", out error);
+                }
             });
 
             Browser.MenuHandler = new MenuHandler();
@@ -764,7 +786,9 @@ namespace EmbeddedBrowser
                 Thread.Sleep(TimeSpan.FromSeconds(delayAfter));
         }
 
+    
 
+       
         public async Task MouseClickAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
               MouseClickType mouseClickType = MouseClickType.Left)
         {
@@ -1231,9 +1255,10 @@ namespace EmbeddedBrowser
             return responseList;
         }
 
+
         //To check reddit json data 
         private bool GetPaginatoinDataFromByte(byte[] data, string startSearchText, bool isContains = false,
-            string endString = "")
+           string endString = "")
         {
             try
             {
@@ -1247,6 +1272,22 @@ namespace EmbeddedBrowser
                     return true;
                 else
                     return false;
+
+                _loginFailed = false;
+
+                DominatorAccountModel.Cookies = BrowserCookiesIntoModel().Result;
+                DominatorAccountModel.IsUserLoggedIn = true;
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
+
+                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                  .AddOrUpdateCookies(DominatorAccountModel.Cookies)
+                   .SaveToBinFile();
+
+                if (browserLoginMessage)
+                    CustomLog("Browser login successful.");
+                return true;
             }
             catch (Exception ex)
             {
@@ -1254,6 +1295,7 @@ namespace EmbeddedBrowser
             }
             return false;
         }
+
 
 
         //Get json data list for pagination(for pinterest)
@@ -1310,6 +1352,8 @@ namespace EmbeddedBrowser
                 urlNow = Browser.Address;
             return urlNow;
         }
+
+
         public KeyValuePair<int, int> GetEndXAndY(AttributeType attributeType = AttributeType.Id, string elementName = "")
         {
             KeyValuePair<int, int> xAndY = new KeyValuePair<int, int>();
@@ -1379,6 +1423,13 @@ namespace EmbeddedBrowser
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
         }
+        public JavascriptResponse EvaluateScript(string script, int delayInSec = 2)
+        {
+            var resp = Browser.EvaluateScriptAsync(script).Result;
+            Thread.Sleep(TimeSpan.FromSeconds(delayInSec));
+            return resp;
+        }
+
 
 
         public void SetResourceLoadInstance() =>
@@ -1390,6 +1441,7 @@ namespace EmbeddedBrowser
 
         #endregion
 
+     
     }
 }
 
