@@ -11,7 +11,7 @@ namespace DominatorHouseCore.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString() == "0" ? "Not Updated Yet" : System.Convert.ToInt32(value).EpochToDateTimeLocal().ToString("dd MMM yyyy HH:mm:ss tt");
+            return value.ToString() == "0" ? "LangKeyNotUpdatedYet".FromResourceDictionary() : System.Convert.ToInt32(value).EpochToDateTimeLocal().ToString("dd MMM yyyy HH:mm:ss tt");
         }
 
         [ExcludeFromCodeCoverage]

@@ -37,7 +37,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             if (postDetails.Count > 0)
             {
                 postDetails.ForEach(x => ScrapePostModel.LstScrapedPostDetails.Add(x.Trim()));
-                ToasterNotification.ShowSuccess("Post details successfully uploaded.");
+                ToasterNotification.ShowSuccess("LangKeyPostDetailsUploaded".FromResourceDictionary());
             }
         }
     }

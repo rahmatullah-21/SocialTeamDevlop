@@ -219,9 +219,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Warning message
                 var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Confirmation", "If you delete it, cant recover back \nAre you sure ?",
+                    "LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmOnIfDeletedCantRecoverBack".FromResourceDictionary(),
                     MessageDialogStyle.AffirmativeAndNegative,
-                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                    Dialog.SetMetroDialogButton("LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary()));
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -241,16 +241,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // check void selections
                 if (publisherManageDestinationModel.Count == 0)
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                        "Please select atleast one destinations !!");
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyAlert".FromResourceDictionary(),
+                        "LangKeyWarningSelectDestination".FromResourceDictionary());
                     return;
                 }
 
                 // Warning message
                 var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Confirmation", "If you delete it will delete all selected destination permanently \nAre you sure ?",
+                    "LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmOnIfDeletedWillDeleteAllSelectedCampaign".FromResourceDictionary(),
                     MessageDialogStyle.AffirmativeAndNegative,
-                    Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+                    Dialog.SetMetroDialogButton("LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary()));
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -300,7 +300,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             if (ListPublisherManageDestinationModels.Any(x => x.DestinationName == publisherManageDestinationModel.DestinationName))
             {
-                GlobusLogHelper.log.Info("Destination name already present!");
+                GlobusLogHelper.log.Info("LangKeyDestinationNameAlreadyPresent".FromResourceDictionary());
                 return false;
             }
             try

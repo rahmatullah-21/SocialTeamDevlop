@@ -2,6 +2,7 @@
 using DominatorHouseCore.Interfaces.SocioPublisher;
 using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Models.SocioPublisher.Settings
 {
@@ -13,6 +14,7 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
         private int _deletePostAfterHours;
         private bool _isMentionUser;
         private string _mentionUserList;
+        private List<string> _rssImageList;
 
         [ProtoMember(1)]
         public bool IsDeletePostAfterHours
@@ -75,6 +77,22 @@ namespace DominatorHouseCore.Models.SocioPublisher.Settings
                     return;
                 
                 SetProperty(ref _mentionUserList, value);
+            }
+        }
+
+        [ProtoMember(5)]
+        public List<string> RssImageList
+        {
+            get
+            {
+                return _rssImageList;
+            }
+            set
+            {
+                if (_rssImageList == value)
+                    return;
+
+                SetProperty(ref _rssImageList, value);
             }
         }
     }

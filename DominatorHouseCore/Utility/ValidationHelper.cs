@@ -24,13 +24,13 @@ namespace DominatorHouseCore.Utility
                     case "UserName":
                         if (string.IsNullOrEmpty(data))
                         {
-                            return new ValidationResult(false, "*Required Field");
+                            return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         }
                         break;
                     case "Password":
                         if (string.IsNullOrEmpty(data))
                         {
-                            return new ValidationResult(false, "*Required Field");
+                            return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         }
                         break;
                     case "ProxyAddress":
@@ -39,7 +39,7 @@ namespace DominatorHouseCore.Utility
                             ProxyAddress = data;
                             if (!Proxy.IsValidProxyIp(data))
                             {
-                                return new ValidationResult(false, "Invalid Address");
+                                return new ValidationResult(false, "LangKeyInvalidAddress".FromResourceDictionary());
                             }
                         }
                         break;
@@ -49,7 +49,7 @@ namespace DominatorHouseCore.Utility
                         // ReSharper disable once ConstantConditionalAccessQualifier
                             if (!string.IsNullOrEmpty(data) && !Proxy.IsValidProxyPort(data))
                             {
-                                return new ValidationResult(false, "Invalid Port");
+                                return new ValidationResult(false, "LangKeyInvalidPort".FromResourceDictionary());
                             }
                        // }
                         
@@ -57,25 +57,25 @@ namespace DominatorHouseCore.Utility
                     case "EmailUsername":
                         if (string.IsNullOrEmpty(data))
                         {
-                            return new ValidationResult(false, "*Required Field");
+                            return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         }
                         break;
                     case "EmailPassword":
                         if (string.IsNullOrEmpty(data))
                         {
-                            return new ValidationResult(false, "*Required Field");
+                            return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         }
                         break;
                     case "HostKey":
                         if (string.IsNullOrEmpty(data))
                         {
-                            return new ValidationResult(false, "*Required Field");
+                            return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         }
                         break;
                     case "EmailPort":
                         if (string.IsNullOrEmpty(data))
                         {
-                            return new ValidationResult(false, "*Required Field");
+                            return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         }
                         break;
 
@@ -88,7 +88,7 @@ namespace DominatorHouseCore.Utility
                         var dateTime = (DateTime)value;
                         if (dateTime < DateTime.Today)
                         {                          
-                            return new ValidationResult(false, "Invalid date!");
+                            return new ValidationResult(false, "LangKeyInvalidDate".FromResourceDictionary());
                         }
                     }
                 }
@@ -115,21 +115,21 @@ namespace DominatorHouseCore.Utility
                     case "ProxyAddress":
                         if (string.IsNullOrEmpty(data))
                         {
-                            return new ValidationResult(false, "*Required Field");
+                            return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         }
                         else
                         {
                             ProxyAddress = data;
                             if (!Proxy.IsValidProxyIp(data))
                             {
-                                return new ValidationResult(false, "Invalid Address");
+                                return new ValidationResult(false, "LangKeyInvalidAddress".FromResourceDictionary());
                             }
                         }
                         break;
                     case "ProxyPort":
                         if (string.IsNullOrEmpty(data))
                         {
-                            return new ValidationResult(false, "*Required Field");
+                            return new ValidationResult(false, "LangKeyRequiredField".FromResourceDictionary());
                         }
                         else if (!string.IsNullOrEmpty(ProxyAddress))
                         {
@@ -140,7 +140,7 @@ namespace DominatorHouseCore.Utility
 
                             if (!Proxy.IsValidProxyPort(data))
                             {
-                                return new ValidationResult(false, "Invalid Port");
+                                return new ValidationResult(false, "LangKeyInvalidPort".FromResourceDictionary());
                             }
                         }
                         break;
@@ -162,13 +162,13 @@ namespace DominatorHouseCore.Utility
             {
                 var proxy = (value as MultiBindingExpression).BindingGroup.Items[1] as Proxy;
                 if (!Proxy.IsValidProxy(proxy.ProxyIp, proxy.ProxyPort))
-                    return new ValidationResult(false, "Invalid IP address");
+                    return new ValidationResult(false, "LangKeyInvalidIpAddress".FromResourceDictionary());
 
 
             }
             catch (Exception)
             {
-                return new ValidationResult(false, "Invalid IP address");
+                return new ValidationResult(false, "LangKeyInvalidIpAddress".FromResourceDictionary());
             }
 
             return new ValidationResult(true, null);
@@ -188,7 +188,7 @@ namespace DominatorHouseCore.Utility
             }
             catch (Exception)
             {
-                return new ValidationResult(false, "Invalid URL");
+                return new ValidationResult(false, "LangKeyInvalidURL".FromResourceDictionary());
             }
 
             return new ValidationResult(true, string.Empty);
@@ -209,7 +209,7 @@ namespace DominatorHouseCore.Utility
 
                 if (TimeSpan.Compare(time, Min) == -1 )
                 {
-                    return new ValidationResult(false, "Please enter the time more then " + Min + ".");
+                    return new ValidationResult(false, $"{"LangKeyEnterTimeMoreThan".FromResourceDictionary()} {Min}.");
                 }
                 else
                 {
@@ -235,7 +235,7 @@ namespace DominatorHouseCore.Utility
 
             if (TimeSpan.Compare(time, Max) == 1)
             {
-                return new ValidationResult(false, "Please enter the time less then " + Max + ".");
+                return new ValidationResult(false, $"{"LangKeyEnterTimeLessThan".FromResourceDictionary()} {Max}.");
             }
             else
             {

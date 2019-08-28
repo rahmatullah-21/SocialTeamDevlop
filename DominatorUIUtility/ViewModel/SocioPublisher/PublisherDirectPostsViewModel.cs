@@ -253,10 +253,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
 
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", "LangKeyPostSaved".FromResourceDictionary() + $" to {status} list");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign",  $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
                 }
                 else
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"Failed to save to {status} list. Add atleast one post.");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyFailedToSave".FromResourceDictionary()} to {status} list. {"LangKeyAddAtleastOnePost".FromResourceDictionary()}");
 
                 _multipostWindow?.Close();
                 _multipostWindow = null;
@@ -297,7 +297,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var dialog = new Dialog();
 
                 // Pass the object with Title
-                _multipostWindow = dialog.GetMetroWindow(publisherMultiplePost, "Multiple Post");
+                _multipostWindow = dialog.GetMetroWindow(publisherMultiplePost, "LangKeyMultiplePost".FromResourceDictionary());
                 _multipostWindow.Closing += (s, e) =>
                 {
                     e.Cancel = true;

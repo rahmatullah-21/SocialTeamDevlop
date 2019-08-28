@@ -23,7 +23,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         {
             input = "";
             _proxyValidationHelper.Sender = "txtProxyAddress";
-            var expected= new ValidationResult(false, "*Required Field");
+            var expected= new ValidationResult(false, "LangKeyRequiredField");
             var result= _proxyValidationHelper.Validate(input, CultureInfo.CurrentCulture);
             result.Should().Be(expected);
         }
@@ -32,7 +32,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         {
             input = "myproxy";
             _proxyValidationHelper.Sender = "txtProxyAddress";
-            var expected = new ValidationResult(false, "Invalid Address");
+            var expected = new ValidationResult(false, "LangKeyInvalidAddress");
             var result = _proxyValidationHelper.Validate(input, CultureInfo.CurrentCulture);
             result.Should().Be(expected);
         }
@@ -50,7 +50,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         {
             input = "";
             _proxyValidationHelper.Sender = "txtProxyPort";
-            var expected = new ValidationResult(false, "*Required Field");
+            var expected = new ValidationResult(false, "LangKeyRequiredField");
             var result = _proxyValidationHelper.Validate(input, CultureInfo.CurrentCulture);
             result.Should().Be(expected);
         }

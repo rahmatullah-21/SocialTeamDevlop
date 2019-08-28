@@ -22,7 +22,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         private void Save()
         {
             if (_genericFileManager.Overrride(QuoraModel, ConstantVariable.GetOtherQuoraSettingsFile()))
-                Dialog.ShowDialog("Success", "Quora Configuration sucessfully saved !!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyQuoraConfigurationSaved".FromResourceDictionary());
         }
     }
 }

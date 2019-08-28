@@ -314,10 +314,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (selectedPublisherPostlist.Count == 0)
                 {
-                    Dialog.ShowDialog("Alert", "There is no post without an image!");
+                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeyThereIsNoPostWithoutAnImage".FromResourceDictionary());
                     return;
                 }
-                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "Are you sure to delete post(s) with no images?", "Delete Anyways", "Don't delete");
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeletePostsWithNoImage".FromResourceDictionary(), "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
 
                 if (dialogResult != MessageDialogResult.Affirmative)
@@ -355,10 +355,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (selectedPublisherPostlist.Count == 0)
                 {
-                    Dialog.ShowDialog("Alert", "Please select atleast a post !!");
+                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeyPleaseSelectAtleastAPost".FromResourceDictionary());
                     return;
                 }
-                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "Are you sure to delete all selected posts permanently?", "Delete Anyways", "Don't delete");
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeleteAllSelectedPosts".FromResourceDictionary(), "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -392,7 +392,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var campaign = (PublisherPostlistModel)sender;
 
             var dialogResult = Dialog.ShowCustomDialog(
-                "Confirmation", "If you delete it, cant recover back \nAre you sure ?", "Delete Anyways", "Don't delete");
+                "LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmOnIfDeletedCantRecoverBack".FromResourceDictionary(), "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
@@ -437,14 +437,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (selectedPost.Count == 0)
             {
-                GlobusLogHelper.log.Info("Please select the post before edit!");
+                GlobusLogHelper.log.Info("LangKeySelectPostBeforeEdit".FromResourceDictionary());
                 return;
             }
 
             var dialog = new Dialog();
             // Pass to UI with selected posts
             var publisherUpdateMultiPost = new PublisherUpdateMultiPost(selectedPost);
-            var window = dialog.GetMetroWindow(publisherUpdateMultiPost, "Edit post");
+            var window = dialog.GetMetroWindow(publisherUpdateMultiPost, "LangKeyEditPost".FromResourceDictionary());
             window.ShowDialog();
         }
 
@@ -463,7 +463,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var dialog = new Dialog();
                     // Pass the selected posts to edit UI
                     var publisherEditPost = new PublisherEditPost(currentPost, PublisherPostlist);
-                    var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
+                    var window = dialog.GetMetroWindow(publisherEditPost, "LangKeyEditPost".FromResourceDictionary());
                     window.ShowDialog();
                 }
                 catch (Exception ex)

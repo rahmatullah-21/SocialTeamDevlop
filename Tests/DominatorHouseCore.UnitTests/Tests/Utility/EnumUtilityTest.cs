@@ -42,7 +42,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         public void should_return_list_of_description_of_given_enum()
         {
             var result = EnumUtility.GetListOfDescription<ActivityType>();
-            result.Should().NotBeEmpty().And.HaveCount(108);
+            result.Should().NotBeEmpty().And.HaveCount(110);
         }
        
     }

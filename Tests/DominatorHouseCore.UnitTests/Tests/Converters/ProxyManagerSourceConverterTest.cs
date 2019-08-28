@@ -42,7 +42,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
                                     true,
                                     true,
                                     "group",
-                                    "filter"
+                                    "filter",
+                                    false
                                 };
             
             IEnumerable<ProxyManagerModel> result =(IEnumerable<ProxyManagerModel>)_sut.Convert(value, null, null, CultureInfo.CurrentUICulture);
@@ -70,7 +71,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
                                     true,
                                     true,
                                     "group",
-                                    "proxy"
+                                    "proxy",
+                                    false
                                 };
 
             IEnumerable<ProxyManagerModel> result = (IEnumerable<ProxyManagerModel>)_sut.Convert(value, null, null, CultureInfo.CurrentUICulture);
@@ -98,7 +100,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
                                     true,
                                     true,
                                     "group",
-                                    "proxy"
+                                    "proxy",
+                                    false
                                 };
 
             IEnumerable<ProxyManagerModel> result = (IEnumerable<ProxyManagerModel>)_sut.Convert(value, null, null, CultureInfo.CurrentUICulture);
@@ -126,7 +129,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
                                     false,
                                     false,
                                     "group",
-                                    ""
+                                    "",
+                                    false
                                 };
 
             IEnumerable<ProxyManagerModel> result = (IEnumerable<ProxyManagerModel>)_sut.Convert(value, null, null, CultureInfo.CurrentUICulture);

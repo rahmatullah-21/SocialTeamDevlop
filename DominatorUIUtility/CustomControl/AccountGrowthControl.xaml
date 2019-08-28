@@ -40,7 +40,7 @@
     </UserControl.Resources>
     <Grid Name="MainGrid">
         <TabControl ItemContainerStyle="{StaticResource TabItemStyle}">
-            <TabItem Header="Table View">
+            <TabItem Header="{DynamicResource LangKeyTableView}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
@@ -193,7 +193,7 @@
                         <Controls:FlyoutsControl>
                             <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
-                                <local:HelpControl ModuleDescription="You can check account growth"
+                                <local:HelpControl ModuleDescription="{DynamicResource LangKeyTableViewDescription}"
                                                  VideoTutorial="{Binding VideoTutorialLink}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
                             </Controls:Flyout>
@@ -201,7 +201,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Charts View (Beta)" >
+            <TabItem Header="{DynamicResource LangKeyChartsView}" >
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
@@ -223,14 +223,14 @@
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
                                Foreground="White" Margin="5,0,0,0"
-                               Content="Account Growth Charts" />
+                               Content="{DynamicResource LangKeyAccountGrowthCharts}" />
                         </StackPanel>
 
 
                         <Grid Grid.Column="1" Background="{DynamicResource AccentColorBrush}">
 
                             <StackPanel  Background="{DynamicResource AccentColorBrush}" Orientation="Horizontal"  VerticalAlignment="Center" Margin="0,0,10,0">
-                                <Label   VerticalAlignment="Top"  Foreground="White" Content="Select Account" HorizontalAlignment="Right" Height="25"/>
+                                <Label   VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeySelectAccount}" HorizontalAlignment="Right" Height="25"/>
 
                                 <ComboBox Width="200" VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                                SelectedIndex="0" DisplayMemberPath="UserName" 
@@ -249,13 +249,13 @@
                                 </ComboBox>
 
 
-                                <Label  VerticalAlignment="Top"  Foreground="White" Content="Select Period"  HorizontalAlignment="Right" Height="25"/>
+                                <Label  VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeySelectPeriod}"  HorizontalAlignment="Right" Height="25"/>
 
                                 <ComboBox Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"   
                                           DataContext="{Binding GrowthChartPeriods}"
                                           ItemsSource="{Binding ItemsCollection}"
                                           SelectedIndex="0" SelectedItem="{Binding Selected}"/>
-                                <Label VerticalAlignment="Top"  Foreground="White" Content="Select Type"  HorizontalAlignment="Right" Height="25"/>
+                                <Label VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeySelectType}"  HorizontalAlignment="Right" Height="25"/>
 
                                 <ComboBox  Width="100"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"  
                                            DataContext="{Binding GrowthChartTypes}"

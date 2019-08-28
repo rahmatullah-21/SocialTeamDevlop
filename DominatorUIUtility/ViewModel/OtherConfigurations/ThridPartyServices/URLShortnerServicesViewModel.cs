@@ -28,8 +28,8 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
                 ConstantVariable.BitlyLogin = UrlShortnerServicesModel.Login;
                 ConstantVariable.BitlyApiKey = UrlShortnerServicesModel.ApiKey;
 
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                    "Url Shortner Services sucessfully saved !!");
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeySuccess".FromResourceDictionary(),
+                    "LangKeyUrlShortnerSaved".FromResourceDictionary());
             }
         }
     }
