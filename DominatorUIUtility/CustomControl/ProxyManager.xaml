@@ -244,6 +244,23 @@
                         </Button.Content>
                     </Button>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button  Height="30"  x:Name="btnRefresh" Margin="10,5" 
+                             Command="{Binding RefreshProxyCommand}" 
+                             Foreground="White" Background="{DynamicResource AccentBaseColorBrush}"
+                             Visibility="{Binding RefreshEnable}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle  Width="16" Height="15" Fill="White" VerticalAlignment="Center">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}"></VisualBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text="{DynamicResource LangKeyRefresh}" Margin="5,0"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
             </StackPanel>
 
         </StackPanel>

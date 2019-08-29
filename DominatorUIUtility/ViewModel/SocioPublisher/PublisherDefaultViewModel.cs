@@ -196,19 +196,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void PublishNowSelectedCampaignExecute(object sender)
         {
-            // Get all selected campaigns
-            var selectedCampaigns = GetSelectedCampaigns();
-            // Call to publish now options
-            selectedCampaigns.ForEach(x =>
+            ThreadFactory.Instance.Start(() =>
             {
-                PublishScheduler.SchedulePublishNowByCampaign(x.CampaignId);
-                //PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
-                UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
-                // Set the default settings
-                InitializeDefaultCampaignStatus();
+                // Get all selected campaigns
+                var selectedCampaigns = GetSelectedCampaigns();
+                // Call to publish now options
+                selectedCampaigns.ForEach(x =>
+                {
+                    PublishScheduler.SchedulePublishNowByCampaign(x.CampaignId);
+                    //PublisherInitialize.GetInstance.UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
+                    UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
+                    // Set the default settings
+                    InitializeDefaultCampaignStatus();
 
+                });
             });
-
         }
 
         public void UpdateCampaignStatus(string campaignId, PublisherCampaignStatus status)
