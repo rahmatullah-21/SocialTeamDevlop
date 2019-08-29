@@ -1026,15 +1026,20 @@ namespace EmbeddedBrowser
 
         public int lastCurrentCount = -1;
 
-        public async Task ExpandAllSeeMore()
+        public async Task ExpandAllSeeMore(string className = "see_more_link_inner")
         {
-            var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, "see_more_link_inner",
+            var postCount = int.Parse(await GetElementValueAsync(ActType.GetLength, AttributeType.ClassName, className,
                 ValueTypes.OuterHtml));
-
-            while (postCount-- > 0)
+            if (postCount > 0)
             {
-                await BrowserActAsync(ActType.Click, AttributeType.ClassName, "see_more_link_inner", delayAfter: 0.25, index: postCount);
+                while (postCount-- > 0)
+                {
+                    await BrowserActAsync(ActType.Click, AttributeType.ClassName, className, delayAfter: 0.25, index: postCount);
+                }
+
+                await Task.Delay(2000);
             }
+               
         }
 
         public async Task<Dictionary<int, string>> ExpandAllAdViewOptions(int postCount, int lastCount, int lastCurrentAdCount = 0)
