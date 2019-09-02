@@ -130,7 +130,12 @@
                                 </TextBox.Style>
                             </TextBox>
                         </StackPanel>
-
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5" Text="{DynamicResource LangKeyRunQueries}"/>
+                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyTopToBottom}" IsChecked="{Binding RunQueriesTopToBottom}"/>
+                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyBottomToTop}" IsChecked="{Binding RunQueriesBottomToTop}"/>
+                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyRandomly}" IsChecked="{Binding RunQueriesRandomly}"/>
+                        </StackPanel>
                     </StackPanel>
 
                 </StackPanel>

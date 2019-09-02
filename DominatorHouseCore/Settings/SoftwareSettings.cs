@@ -63,6 +63,7 @@ namespace DominatorHouseCore.Settings
             {
                 Settings = _softwareSettingsFileManager.GetSoftwareSettings();
             }
+            
             //OtherInitializers();
             if (_fileSystemProvider.Exists(ConstantVariable.GetURLShortnerServicesFile()))
             {
@@ -82,6 +83,8 @@ namespace DominatorHouseCore.Settings
                     IsEnableAdvancedUserMode = true,
                     IsStopAutoSynchronizeAccount = true
                 };
+                if (!(Settings.RunQueriesRandomly || Settings.RunQueriesBottomToTop || Settings.RunQueriesTopToBottom))
+                    Settings.RunQueriesRandomly = true;
 
                 _softwareSettingsFileManager.SaveSoftwareSettings(Settings);
 
