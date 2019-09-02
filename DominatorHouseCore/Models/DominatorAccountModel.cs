@@ -504,12 +504,33 @@ namespace DominatorHouseCore.Models
                 if (_BrowserCookieHelperList != null)
                 {
                     foreach (var cookieHelper in _BrowserCookieHelperList)
-                        cookieCollection.Add(new Cookie()
+                    {
+                        if (cookieHelper.Name.Contains("csrftoken") || cookieHelper.Name.Contains("ds_user_id") || cookieHelper.Name.Contains("mid"))
                         {
-                            Domain = cookieHelper.Domain,
-                            Name = cookieHelper.Name,
-                            Value = cookieHelper.Value
-                        });
+                            cookieCollection.Add(new Cookie()
+                            {
+                                Domain = cookieHelper.Domain,
+                                Name = cookieHelper.Name,
+                                Value = cookieHelper.Value,
+                                Secure = cookieHelper.Secure,
+                                HttpOnly = false
+                            });
+                        }
+                        else
+                        {
+                            cookieCollection.Add(new Cookie()
+                            {
+
+                                Domain = cookieHelper.Domain,
+                                Name = cookieHelper.Name,
+                                Value = cookieHelper.Value,
+                                Secure = cookieHelper.Secure,
+                                HttpOnly = true
+                            });
+                        }
+
+                    }
+
                 }
 
                 return cookieCollection;
@@ -518,9 +539,12 @@ namespace DominatorHouseCore.Models
             {
                 _BrowserCookieHelperList = value?.Cast<Cookie>().Select(cookie => new CookieHelper
                 {
+
                     Domain = cookie.Domain,
                     Name = cookie.Name,
-                    Value = cookie.Value
+                    Value = cookie.Value,
+                    Secure = cookie.Secure,
+                    HttpOnly = true
                 }).ToHashSet();
             }
         }

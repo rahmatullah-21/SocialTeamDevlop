@@ -21,6 +21,7 @@ using EmbeddedBrowser.BrowserHelper;
 using System.Text.RegularExpressions;
 using System.Text;
 using DominatorHouseCore.Enums.EmbeddedBrowser;
+using CefSharp.Wpf;
 
 namespace EmbeddedBrowser
 {
@@ -301,7 +302,7 @@ namespace EmbeddedBrowser
                     else
                         url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
-                    var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
+                    var set = Browser.RequestContext.GetCookieManager(callBack).SetCookie(url, cefCookie);
 
                     //if (!set) { /*Is cookie set ?*/ }
                 }
@@ -350,7 +351,7 @@ namespace EmbeddedBrowser
                     else
                         url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
-                    var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
+                    var set = Browser.RequestContext.GetCookieManager(callBack).SetCookie(url, cefCookie);
 
                     //if (!set) { /*Is cookie set ?*/ }
                 }
@@ -373,7 +374,7 @@ namespace EmbeddedBrowser
             {
                 var callBack = new TaskCompletionCallback();
 
-                var set = Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookiesAsync("", "");
+                var set = Browser.RequestContext.GetCookieManager(callBack).DeleteCookiesAsync("", "");
 
                 Refresh();
 
@@ -483,7 +484,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<List<CefSharp.Cookie>> BrowserCookies(TaskCompletionCallback callBack = null) => await Browser.RequestContext.GetDefaultCookieManager(callBack ?? new TaskCompletionCallback())
+        public async Task<List<CefSharp.Cookie>> BrowserCookies(TaskCompletionCallback callBack = null) => await Browser.RequestContext.GetCookieManager(callBack ?? new TaskCompletionCallback())
                 .VisitAllCookiesAsync();
 
         #endregion
@@ -1252,8 +1253,8 @@ namespace EmbeddedBrowser
                     Browser.Load(url);
 
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
                 if (responseStream != null)
@@ -1271,9 +1272,9 @@ namespace EmbeddedBrowser
         public void ClearResources()
         {
             if (_proxyRequestHandler == null)
-                _requestHandlerCustom.responseList.Clear();
+                _requestHandlerCustom.resourceRequestHandler.responseList.Clear();
             else
-                _proxyRequestHandler.responseList.Clear();
+                _proxyRequestHandler.resourceRequestHandler.responseList.Clear();
         }
 
         //For reddit json data
@@ -1282,8 +1283,8 @@ namespace EmbeddedBrowser
             var response = string.Empty;
             try
             {
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
 
@@ -1324,8 +1325,8 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10);
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject() :
-                    _proxyRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject() :
+                    _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 if (responseStream != null)
@@ -1347,8 +1348,8 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10);
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStreamList = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 foreach (var responseStream in responseStreamList)
@@ -1429,8 +1430,8 @@ namespace EmbeddedBrowser
                 {
                     try
                     {
-                        lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject() :
-                            _proxyRequestHandler.responseList.DeepCloneObject();
+                        lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject() :
+                            _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                         isSuccess = true;
                     }
                     catch (Exception ex)

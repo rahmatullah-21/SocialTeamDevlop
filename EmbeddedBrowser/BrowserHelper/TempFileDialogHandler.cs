@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using System.Collections.Generic;
+using System;
 
 namespace EmbeddedBrowser.BrowserHelper
 {
@@ -18,7 +19,8 @@ namespace EmbeddedBrowser.BrowserHelper
             _path = filePath;
             _pathList = pathList;
         }
-        public bool OnFileDialog(IWebBrowser browserControl, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, int selectedAcceptFilter, IFileDialogCallback callback)
+
+        public bool OnFileDialog(IWebBrowser chromiumWebBrowser, IBrowser browser, CefFileDialogMode mode, CefFileDialogFlags flags, string title, string defaultFilePath, List<string> acceptFilters, int selectedAcceptFilter, IFileDialogCallback callback)
         {
             if (_pathList != null && _pathList.Count > 0)
                 callback.Continue(selectedAcceptFilter, _pathList);

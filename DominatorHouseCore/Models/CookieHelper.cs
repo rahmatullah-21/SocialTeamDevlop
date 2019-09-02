@@ -7,8 +7,7 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class CookieHelper : BindableBase
     {
-        [ProtoMember(3)]
-        public string Domain { get; set; }
+       
 
         private string _name = string.Empty;
         [ProtoMember(1)]
@@ -35,6 +34,11 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _value, value);
             }
         }
+
+        [ProtoMember(3)]
+        public string Domain { get; set; }
+
+
         private DateTime _Expires = new DateTime();
         [ProtoMember(4)]
         public DateTime Expires
@@ -45,6 +49,32 @@ namespace DominatorHouseCore.Models
                 if (_Expires == value)
                     return;
                 SetProperty(ref _Expires, value);
+            }
+        }
+
+        private bool _HttpOnly = false;
+        [ProtoMember(5)]
+        public bool HttpOnly
+        {
+            get { return _HttpOnly; }
+            set
+            {
+                if (_HttpOnly == value)
+                    return;
+                SetProperty(ref _HttpOnly, value);
+            }
+        }
+
+        private bool _Secure = false;
+        [ProtoMember(6)]
+        public bool Secure
+        {
+            get { return _Secure; }
+            set
+            {
+                if (_Secure == value)
+                    return;
+                SetProperty(ref _Secure, value);
             }
         }
     }
