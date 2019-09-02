@@ -3920,5 +3920,6 @@ Are you sure?</system:String>
     <system:String x:Key="LangKeyNoFriendsToTag">No Friends Available To Tag!</system:String>
     <system:String x:Key="LangKeyTaggedFriendsForPost">Successfully Tagged {0} Friends For Post!</system:String>
     <system:String x:Key="LangKeyWebException">Web exception</system:String>
+    <system:String x:Key="LangKeyCommunityUrl">Community Url</system:String>
 
 </ResourceDictionary>
