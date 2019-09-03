@@ -27,7 +27,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             IsNonQuery = true;
 
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.CancelSentRequest });
+            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.WithdrawSentRequest });
 
             NextCommand = new DelegateCommand(ValidateCancelSentRequest);
             PreviousCommand = new DelegateCommand(NavigatePrevious);

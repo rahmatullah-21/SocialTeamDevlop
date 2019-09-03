@@ -84,7 +84,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
 
             _proxyFileManager.EditAllProxy(newProxy);
 
-            _binFileHelper.UpdateAllProxy(Arg.Any<List<ProxyManagerModel>>()).Should().Be(true);
+            _binFileHelper.Received(1).UpdateAllProxy(Arg.Any<List<ProxyManagerModel>>());
 
         }
 

@@ -56,15 +56,18 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         {
             var socinatorIntellisenseModel = sender;
 
-            if (socinatorIntellisenseModel == null)
+            if (socinatorIntellisenseModel == null || string.IsNullOrEmpty(socinatorIntellisenseModel.InputMacro.Key))
                 return;
 
-            if (!string.IsNullOrEmpty(socinatorIntellisenseModel.InputMacro.Key))
+            if (MacrosCollection.Any(x => x.Key == socinatorIntellisenseModel.InputMacro.Key))
             {
-                MacrosCollection.Add(socinatorIntellisenseModel.InputMacro);
-                _genericFileManager.AddModule(socinatorIntellisenseModel.InputMacro, ConstantVariable.GetMacroDetails);
+                ToasterNotification.ShowWarning($"{"LangKeyMacroKey".FromResourceDictionary()} : {socinatorIntellisenseModel.InputMacro.Key} {"LangKeyAlreadyPresent".FromResourceDictionary()}");
+                return;
             }
 
+            MacrosCollection.Add(socinatorIntellisenseModel.InputMacro);
+            _genericFileManager.AddModule(socinatorIntellisenseModel.InputMacro, ConstantVariable.GetMacroDetails);
+            
             InputMacro = new SocinatorIntellisenseModel();
         }
 
@@ -92,7 +95,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
                 {
                     var isPresent = MacrosCollection.Any(x => x.Key == splitMacros[0]);
                     if (isPresent)
-                        GlobusLogHelper.log.Info($"Macro key : {splitMacros[0]} already present!");
+                        GlobusLogHelper.log.Info($"{"LangKeyMacroKey".FromResourceDictionary()} : {splitMacros[0]} {"LangKeyAlreadyPresent".FromResourceDictionary()}");
                     else
                         MacrosCollection.Add(new SocinatorIntellisenseModel { Key = splitMacros[0], Value = splitMacros[1] });
                 }

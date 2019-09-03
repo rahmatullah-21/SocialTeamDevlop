@@ -80,7 +80,7 @@ namespace DominatorHouseCore.Enums
         SendFriendRequest = 24,
 
         [Description("Facebook")]
-        CancelSentRequest = 25,
+        WithdrawSentRequest = 25,
 
         [Description("Facebook")]
         Unfriend = 26,
@@ -136,7 +136,7 @@ namespace DominatorHouseCore.Enums
         //[Description("Gplus")]
         //Unjoin = 44,
 
-        [Description("Facebook")]
+       // [Description("Facebook")]
         PostLikerCommentor = 45,
 
         [Description("Facebook")]
@@ -157,7 +157,7 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube,Reddit")]
         Subscribe = 51,
 
-        [Description("Facebook,LinkedIn")]
+        [Description("LinkedIn")]
         Share = 52,
 
         //[Description("Youtube")]
@@ -309,7 +309,7 @@ namespace DominatorHouseCore.Enums
         SendMessageToNewFriends = 105,
         [Description("Facebook")]
         WatchPartyInviter = 106,
-        [Description("Facebook")]
+       // [Description("Facebook")]
         MarketPlaceScraper = 107,
         [Description("Facebook")]
         SendGreetingsToFriends = 108,

@@ -2,23 +2,33 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Net;
+using Dominator.Tests.Utils;
+using DominatorHouseCore.Utility;
+using NSubstitute;
+using Unity;
 
 namespace DominatorHouseCore.UnitTests.Tests.Models
 {
     [TestClass]
-    public class ProxyTest
+    public class ProxyTest : UnityInitializationTests
     {
-        Proxy _proxy;
+        private Proxy _proxy;
+        private IWebService _webService;
         [TestInitialize]
-        public void SetUp()
+        public override void SetUp()
         {
+            base.SetUp();
             _proxy = new Proxy();
+            _webService = Substitute.For<IWebService>();
+            Container.RegisterInstance<IWebService>(_webService);
         }
         [TestMethod]
         public void should_return_false_if_proxy_is_not_working()
         {
             _proxy.ProxyIp = "1.9.0.8";
             _proxy.ProxyPort = "12";
+            _webService.CheckProxy(Arg.Any<Uri>(), Arg.Any<WebProxy>()).Returns(false);
             var result = _proxy.CheckProxy();
             result.Should().BeFalse();
         }
@@ -27,6 +37,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Models
         {
             _proxy.ProxyIp = "104.144.108.118";
             _proxy.ProxyPort = "3128";
+            _webService.CheckProxy(Arg.Any<Uri>(), Arg.Any<WebProxy>()).Returns(true);
             var result = _proxy.CheckProxy();
             result.Should().BeTrue();
         }

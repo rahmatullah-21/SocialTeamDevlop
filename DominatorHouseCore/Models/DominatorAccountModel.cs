@@ -295,7 +295,8 @@ namespace DominatorHouseCore.Models
                         {
                             Domain = cookieHelper.Domain,
                             Name = cookieHelper.Name,
-                            Value = cookieHelper.Value
+                            Value = cookieHelper.Value,
+                            Expires = cookieHelper.Expires,
                         });
                 }
 
@@ -307,7 +308,8 @@ namespace DominatorHouseCore.Models
                 {
                     Domain = cookie.Domain,
                     Name = cookie.Name,
-                    Value = cookie.Value
+                    Value = cookie.Value,
+                    Expires = cookie.Expires,
                 }).ToHashSet();
             }
         }
@@ -478,6 +480,74 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
+        private HashSet<CookieHelper> _BrowserCookieHelperList = new HashSet<CookieHelper>();
+        [ProtoMember(29)]
+        public HashSet<CookieHelper> BrowserCookieHelperList
+        {
+            get { return _BrowserCookieHelperList; }
+            set
+            {
+                if (_BrowserCookieHelperList != null && _BrowserCookieHelperList == value)
+                    return;
+                SetProperty(ref _BrowserCookieHelperList, value);
+            }
+        }
+
+        [ProtoIgnore]
+        public CookieCollection BrowserCookies
+        {
+            get
+            {
+                var cookieCollection = new CookieCollection();
+
+                if (_BrowserCookieHelperList != null)
+                {
+                    foreach (var cookieHelper in _BrowserCookieHelperList)
+                    {
+                        if (cookieHelper.Name.Contains("csrftoken") || cookieHelper.Name.Contains("ds_user_id") || cookieHelper.Name.Contains("mid"))
+                        {
+                            cookieCollection.Add(new Cookie()
+                            {
+                                Domain = cookieHelper.Domain,
+                                Name = cookieHelper.Name,
+                                Value = cookieHelper.Value,
+                                Secure = cookieHelper.Secure,
+                                HttpOnly = false
+                            });
+                        }
+                        else
+                        {
+                            cookieCollection.Add(new Cookie()
+                            {
+
+                                Domain = cookieHelper.Domain,
+                                Name = cookieHelper.Name,
+                                Value = cookieHelper.Value,
+                                Secure = cookieHelper.Secure,
+                                HttpOnly = true
+                            });
+                        }
+
+                    }
+
+                }
+
+                return cookieCollection;
+            }
+            set
+            {
+                _BrowserCookieHelperList = value?.Cast<Cookie>().Select(cookie => new CookieHelper
+                {
+
+                    Domain = cookie.Domain,
+                    Name = cookie.Name,
+                    Value = cookie.Value,
+                    Secure = cookie.Secure,
+                    HttpOnly = true
+                }).ToHashSet();
+            }
+        }
         public bool IsNeedToSchedule { get; set; } = true;
         public DominatorAccountModel Clone()
         {

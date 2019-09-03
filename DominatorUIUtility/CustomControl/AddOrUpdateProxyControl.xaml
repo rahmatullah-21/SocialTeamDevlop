@@ -56,7 +56,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource LangKeyProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                     controls:TextBoxHelper.Watermark="Type Proxy IP..." Width="230" FontSize="13" Margin="5" 
+                     controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyIp}" Width="230" FontSize="13" Margin="5" 
                      FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
                         KeyDown="OnKeyDown" Text="{Binding AccountProxy.ProxyIp}">
                 <!--<TextBox.Text>
@@ -75,7 +75,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                     controls:TextBoxHelper.Watermark="Type Proxy Port..." Width="230" KeyDown="OnKeyDown"
+                     controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyPort}" Width="230" KeyDown="OnKeyDown"
                      FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center" 
                      Height="30" Grid.Column="1" >
                 <TextBox.Text>
@@ -96,7 +96,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource LangKeyProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Name="txtProxyUserName" Text="{Binding AccountProxy.ProxyUsername}" 
-                     controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230" 
+                     controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyUsername}" Width="230" 
                      FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" KeyDown="OnKeyDown"
                      VerticalAlignment="Center"  Height="30" Grid.Column="1" IsEnabled="{Binding IsEnabled,ElementName=btnSave}"/>
         </Grid>
@@ -108,7 +108,7 @@
             <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource LangKeyProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <PasswordBox Name="txtProxyPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
                          Style="{StaticResource  MetroButtonRevealedPasswordBox}" KeyDown="OnKeyDown"
-                         controls:TextBoxHelper.Watermark="Enter proxy password" 
+                         controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyPassword}" 
                          Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
                          Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
                          Grid.ColumnSpan="2" IsEnabled="{Binding IsEnabled,ElementName=btnSave}">

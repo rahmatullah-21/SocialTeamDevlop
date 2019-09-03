@@ -20,7 +20,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Blacklist User" Foreground="White"  FontSize="30" FontWeight="SemiBold"/>
+                    <TextBlock Text="{DynamicResource LangKeyBlacklistUser}" Foreground="White"  FontSize="25" FontWeight="SemiBold"/>
                     <Grid Grid.Column="1" HorizontalAlignment="Right">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
@@ -78,7 +78,7 @@
                         <ColumnDefinition Width="1.2*"/>
                     </Grid.ColumnDefinitions>
                     <Label  Content="{DynamicResource LangKeyBlacklistedUsers}" Foreground="White"
-                                VerticalAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
+                                VerticalAlignment="Center" FontSize="25" FontWeight="SemiBold"/>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" >
                         <CheckBox Name="SelectAll" Foreground="White" IsChecked="{Binding IsAllBlackListUserChecked}"

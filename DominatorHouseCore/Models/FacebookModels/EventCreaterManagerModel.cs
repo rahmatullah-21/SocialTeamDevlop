@@ -54,18 +54,31 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
-        //private string _mediaPath;
-        //public string MediaPath
-        //{
-        //    get
-        //    { return _mediaPath; }
-        //    set
-        //    {
-        //        if (value == _mediaPath)
-        //            return;
-        //        SetProperty(ref _mediaPath, value);
-        //    }
-        //}
+        private string _category= "Select Category";
+        public string Category
+        {
+            get
+            { return _category; }
+            set
+            {
+                if (value == _category)
+                    return;
+                SetProperty(ref _category, value);
+            }
+        }
+
+        private string _categoryId;
+        public string CategoryId
+        {
+            get
+            { return _categoryId; }
+            set
+            {
+                if (value == _categoryId)
+                    return;
+                SetProperty(ref _categoryId, value);
+            }
+        }
 
         private string _eventName = string.Empty;
         public string EventName

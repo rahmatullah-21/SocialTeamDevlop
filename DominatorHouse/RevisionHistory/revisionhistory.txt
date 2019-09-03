@@ -1,3 +1,63 @@
+Version[1.0.0.63],[6th August 2019]
+New Features:-
+	Linkedin:
+		Broadcast Message ==> Added feature will show failed data report.
+		
+	Twitter:
+		Reposter ==> Added caption feature.
+		Message to new followers / Auto reply ==> Skip users who received message already.
+
+Fixed:-
+	Social:
+		Blacklist/Whitelist ==> Fixed issue with delete search users.
+		Fixed issue with Macro(s) value.
+		Job Configuration ==> Fixed issue with job configuration.
+	
+	Instagram:
+		User Scraper ==> Fixed issue with report.
+		Account Manager ==> Fixed issue with OTP verification.
+		
+	Reddit:
+		Subscribe ==> Query type custom url ==> Issue fixed with subscribing quarantine communities...
+		
+	Facebook:
+		Broadcast Message ==> Other configurations => Fixed issue with selecting radio button.
+		
+	Linkedin:
+		Broadcast Message ==> Fixed issue with sending message to failed users.
+		
+	Twitter:
+		Repost ==> Fixed issue with repost video.
+		Report ==> Fixed issue with report.
+		Follow ==> Fixed issue with follow Unique Users from each account.
+
+Version[1.0.0.62],[31th July 2019]
+New Features:-
+	Instagram:
+		InstaScraper ==> UserScrapper ==> Other Configuration => Required Data (Scrape User's Bio)
+		InstaScraper=>User scraper=>Query Type ==> Scrap users whom we messaged 
+
+Fixed:- 
+	Pinterest:
+		Account ==> Account Manager ==> Issue fixed with Updating following and Board count
+	
+	Reddit:
+		GrowFollower ==> Unfollower ==> Issue fixed with people unfollowed by Outside software
+
+	Youtube:
+		Engage ==> Comment ==> Fixed issues with query type of keywords
+
+	Facebook:
+		Fixed issues with post in page
+
+	Twitter:
+		Accounts ==> Fixed issue with login failed,proxy not working.
+		Follow ==> Unfollow ==> Reposter ==> Fixed issue with failed error message
+
+	Linkedin:
+		Grow Connection ==> Block User ==> Fixed issue with not blocking users
+		Grow Conenction ==> Connection request ==> salesnavigatorsearch url ==> Fixed issue with not sending conenction request
+
 Version[1.0.0.61],[19th July 2019]
 New Features:-
 	Facebook :

@@ -23,7 +23,7 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
         private void Save()
         {
             if (_genericFileManager.Overrride(PinterestOtherConfigModel, ConstantVariable.GetOtherPinterestSettingsFile()))
-                Dialog.ShowDialog("Success", "Pinterest Configuration sucessfully saved !!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyPinterestConfigurationSaved".FromResourceDictionary());
         }
     }
    

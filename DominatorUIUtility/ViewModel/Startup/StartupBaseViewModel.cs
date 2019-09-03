@@ -32,6 +32,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             IsNonQuery = false;
             regionManager = region;
             AddQueryCommand = new DelegateCommand<dynamic>(AddQuery);
+            regionManager.RequestNavigate("StartupRegion", "SelectActivity");
         }
 
         #region Commands

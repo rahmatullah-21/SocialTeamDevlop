@@ -10,6 +10,8 @@ using DominatorHouseCore.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
+using DominatorHouseCore.Settings;
 using Unity;
 
 namespace DominatorHouseCore.UnitTests.Tests.Scheduler
@@ -27,6 +29,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
         private IJobCountersManager _jobCountersManager;
         private IJobActivityConfigurationManager _jobActivityConfigurationManager;
         private IRunningJobsHolder _runningJobsHolder;
+        private ISoftwareSettings _softwareSettings;
 
 
         [TestInitialize]
@@ -40,12 +43,14 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             _jobCountersManager = Substitute.For<IJobCountersManager>();
             _jobActivityConfigurationManager = Substitute.For<IJobActivityConfigurationManager>();
             _runningJobsHolder = Substitute.For<IRunningJobsHolder>();
-
-            _jobProcessScopeFactory = Substitute.For<IJobProcessScopeFactory>();
-            _sut = new DominatorScheduler(_runningActivityManager, _schedulerProxy, _jobLimitsHolder, _jobProcessScopeFactory, _accountsCacheService, _jobCountersManager, _jobActivityConfigurationManager, _runningJobsHolder);
+            _softwareSettings = Substitute.For<ISoftwareSettings>();
 
             _jobProcessFactory = Substitute.For<IJobProcessFactory>();
+            _jobProcessScopeFactory = Substitute.For<IJobProcessScopeFactory>();
             Container.RegisterInstance<IJobProcessFactory>(SocialNetworks.Twitter.ToString(), _jobProcessFactory);
+            Container.RegisterInstance<ISoftwareSettings>(_softwareSettings);
+            _sut = new DominatorScheduler(_runningActivityManager, _schedulerProxy, _jobLimitsHolder, _jobProcessScopeFactory, _accountsCacheService, _jobCountersManager, _jobActivityConfigurationManager, _runningJobsHolder);
+
             _jobProcessScopeFactory.GetScope(Arg.Any<DominatorAccountModel>(), Arg.Any<ActivityType>(),
                 Arg.Any<string>(), Arg.Any<TimingRange>(), Arg.Any<SocialNetworks>())
                 .Returns(Container);
@@ -62,6 +67,13 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
                 {
                     UserName = "UserName",
                     AccountNetwork = SocialNetworks.Twitter
+                },
+                ActivityManager = new JobActivityManager
+                {
+                    LstModuleConfiguration = new List<ModuleConfiguration>
+                    {
+                        new ModuleConfiguration {ActivityType = ActivityType.Follow, IsEnabled = true}
+                    }
                 }
             };
             var template = "template";
@@ -95,6 +107,13 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
                 {
                     UserName = "UserName",
                     AccountNetwork = SocialNetworks.Twitter
+                },
+                ActivityManager = new JobActivityManager
+                {
+                    LstModuleConfiguration = new List<ModuleConfiguration>
+                    {
+                        new ModuleConfiguration {ActivityType = ActivityType.Follow, IsEnabled = true}
+                    }
                 }
             };
             var template = "template";
@@ -116,7 +135,7 @@ namespace DominatorHouseCore.UnitTests.Tests.Scheduler
             jp.DidNotReceive().StartProcessAsync();
         }
 
-        [TestMethod, Ignore("need to be understoond and probably re-engineered")]
+        [TestMethod, Ignore("need to be understood and probably re-engineered")]
         public void should_stop_running_activity()
         {
             // arrange

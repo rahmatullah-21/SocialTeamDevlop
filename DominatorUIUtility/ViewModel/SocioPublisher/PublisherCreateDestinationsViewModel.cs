@@ -95,7 +95,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeProperties()
         {
-            Title = "Create Destination";
+            Title = "LangKeyCreateDestination".FromResourceDictionary();
             IsAllDestinationSelected = false;
             EditDestinationId = string.Empty;
             IsSavedDestination = false;
@@ -118,7 +118,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand OpenContextMenuCommand { get; set; }
 
         public ICommand SelectionCommand { get; set; }
-
+        
         public ICommand GetSingleAccountPagesOrBoardsCommand { get; set; }
 
         public ICommand SaveDestinationCommand { get; set; }
@@ -252,6 +252,25 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         }
 
 
+
+        private bool _isAllWallsSelected;
+        public bool IsAllWallsSelected
+        {
+            get
+            {
+                return _isAllWallsSelected;
+            }
+            set
+            {
+                if (_isAllWallsSelected == value)
+                    return;
+                SetProperty(ref _isAllWallsSelected, value);
+                SelectAllWalls(_isAllWallsSelected);
+                //_isUncheckedFromList = false;
+            }
+        }
+
+
         private List<string> _needToUpdateAccounts = new List<string>();
 
 
@@ -346,9 +365,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = "Select Groups",
-                    DetailsUrlHeader = "Group Url",
-                    DetailsNameHeader = "Group Name",
+                    Title = "LangKeySelectGroups".FromResourceDictionary(),
+                    DetailsUrlHeader = "LangKeyGroupUrl".FromResourceDictionary(),
+                    DetailsNameHeader = "LangKeyGroupName".FromResourceDictionary(),
                     AlreadySelectedList = alreadySelectedGroups
                 }
             };
@@ -356,7 +375,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var dialog = new Dialog();
 
             // display the dialog window
-            var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Groups");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, "LangKeySelectGroups".FromResourceDictionary());
 
             accountDetailsSelector.btnSave.Click += (senderDetails, events) =>
             {
@@ -465,16 +484,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Find whether page or board, its vary based on each network
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = $"Select {accountsDetailsSelector.DisplayAsPageOrBoards}",
-                    DetailsUrlHeader = $"{accountsDetailsSelector.DisplayAsPageOrBoards} Url",
-                    DetailsNameHeader = $"{accountsDetailsSelector.DisplayAsPageOrBoards} Name",
+                    Title = $"{"LangKeySelect".FromResourceDictionary()} {accountsDetailsSelector.DisplayAsPageOrBoards}",
+                    DetailsUrlHeader = $"{accountsDetailsSelector.DisplayAsPageOrBoards} {"LangKeyUrl".FromResourceDictionary()}",
+                    DetailsNameHeader = $"{accountsDetailsSelector.DisplayAsPageOrBoards} {"LangKeyName".FromResourceDictionary()}",
                     AlreadySelectedList = alreadySelectedPages
                 }
             };
 
             var dialog = new Dialog();
 
-            var window = dialog.GetMetroWindow(accountDetailsSelector, $"Select {accountsDetailsSelector.DisplayAsPageOrBoards}");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, $"{"LangKeySelect".FromResourceDictionary()} {accountsDetailsSelector.DisplayAsPageOrBoards}");
 
             // Defining the save buttons click events
             accountDetailsSelector.btnSave.Click += (senderDetails, events) =>
@@ -606,7 +625,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     break;
             }
         }
-
+        
         private bool _isUncheckedFromList { get; set; }
         #endregion
 
@@ -621,6 +640,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                x.IsAccountSelected = isChecked;
                return x;
            }).ToList();
+        }
+
+        public void SelectAllWalls(bool isChecked)
+        {
+        //    if (_isUncheckedFromList)
+        //        return;
+            PublisherCreateDestinationModel.ListSelectDestination.Where(y => y.IsAccountSelected).Select(x =>
+             {
+                 x.PublishonOwnWall = isChecked;
+                 return x;
+             }).ToList();
         }
 
         private bool SelectAccountDetailsCanExecute(object sender) => true;
@@ -667,9 +697,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = "Select Groups",
-                    DetailsUrlHeader = "Group Url",
-                    DetailsNameHeader = "Group Name",
+                    Title = "LangKeySelectGroups".FromResourceDictionary(),
+                    DetailsUrlHeader = "LangKeyGroupUrl".FromResourceDictionary(),
+                    DetailsNameHeader = "LangKeyGroupName".FromResourceDictionary(),
                     AlreadySelectedList = alreadySelectedGroups
                 }
             };
@@ -780,9 +810,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = "Select Pages/Boards",
-                    DetailsUrlHeader = "Pages/Boards Url",
-                    DetailsNameHeader = "Pages/Boards Name",
+                    Title = "LangKeySelectPagesBoards".FromResourceDictionary(),
+                    DetailsUrlHeader = "LangKeyPagesBoardsUrl".FromResourceDictionary(),
+                    DetailsNameHeader = "LangKeyPagesBoardsName".FromResourceDictionary(),
                     AlreadySelectedList = alreadySelectedPages
                 }
             };
@@ -896,13 +926,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
+                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} {"LangKeyRowsFound".FromResourceDictionary()}" : "LangKeyNoRowsFound".FromResourceDictionary();
                 });
             }
             else
             {
                 accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
+                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} {"LangKeyRowsFound".FromResourceDictionary()}" : "LangKeyNoRowsFound".FromResourceDictionary();
             }
         }
 
@@ -1006,7 +1036,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (selectedAccountsCount == 0)
             {
-                Dialog.ShowDialog("Warning", "Please select accounts, You have selected only destinations !");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyPleaseSelectAccountsSelectedOnlyDestinations".FromResourceDictionary());
                 return;
             }
 
@@ -1081,7 +1111,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateDestinationModel.CustomDestinations.Count == 0)
                 {
                     DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                        "Warning", "Please select destination!");
+                        "LangKeyWarning".FromResourceDictionary(), "LangKeyPleaseSelectDestination".FromResourceDictionary());
                     return;
                 }
 
@@ -1129,7 +1159,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             else
             {
-                GlobusLogHelper.log.Info("Validation Failed!");
+                GlobusLogHelper.log.Info("LangKeyValidationFailed".FromResourceDictionary());
             }
         }
 
@@ -1375,7 +1405,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var publisherAddCustomDestination = PublisherAddCustomDestination.GetPublisherAddCustomDestination(alreadySavedCustomDestination);
             var dialog = new Dialog();
-            var window = dialog.GetMetroWindow(publisherAddCustomDestination, "Add Custom Destination");
+            var window = dialog.GetMetroWindow(publisherAddCustomDestination, "LangKeyAddCustomDestination".FromResourceDictionary());
 
             publisherAddCustomDestination.ButtonSave.Click += (senders, args) =>
             {
@@ -1427,7 +1457,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void EditDestination()
         {
-            Title = "Edit Destination";
+            Title = "LangKeyEditDestination".FromResourceDictionary();
 
             InitializeDestinationList();
 

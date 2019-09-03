@@ -10,7 +10,6 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.Config;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.ProxyServerManagment;
 using DominatorHouseCore.Settings;
@@ -39,7 +38,6 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<IGenericFileManager, GenericFileManager>();
             Container.RegisterSingleton<IAccountsFileManager, AccountsFileManager>();
             Container.RegisterSingleton<IOtherConfigFileManager, OtherConfigFileManager>();
-            Container.RegisterSingleton<IBrowserAutomationModel, BrowserAutomationModel>();
             Container.RegisterSingleton<IFBFileManager, FBFileManager>();
 
             Container.RegisterSingleton<IAccountGrowthPropertiesProvider, AccountGrowthPropertiesProvider>();
@@ -72,6 +70,8 @@ namespace DominatorHouseCore
             Container.RegisterSingleton<ISchedulerProxy, SchedulerProxy>();
 
             Container.RegisterType<IDbOperations, DbOperations>(new InjectionConstructor(typeof(string), typeof(SocialNetworks), typeof(string)));
+
+            
 
             Container.AddNewExtension<JobProcessUnityExtension>();
             Container.AddNewExtension<EntityCounterUnityExtension>();

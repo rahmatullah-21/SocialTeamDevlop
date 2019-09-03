@@ -21,6 +21,7 @@ using EmbeddedBrowser.BrowserHelper;
 using System.Text.RegularExpressions;
 using System.Text;
 using DominatorHouseCore.Enums.EmbeddedBrowser;
+using CefSharp.Wpf;
 
 namespace EmbeddedBrowser
 {
@@ -77,6 +78,15 @@ namespace EmbeddedBrowser
 
         public BrowserWindow()
         {
+            if(!Cef.IsInitialized)
+            {
+                CefSettings settings = new CefSettings();
+                settings.CommandLineArgsDisabled = false;
+                settings.CefCommandLineArgs.Add("--disable-webgl", "1");
+                settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
+                Cef.Initialize(settings);
+            }
+           
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(() => GoToUrl());
@@ -92,7 +102,7 @@ namespace EmbeddedBrowser
             CustomUse = customUse;
             _isNeedResourceData = isNeedResourceData;
             _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
-
+          
             //SkipYoutubeAd = skipAd;
             browserLoginMessage = browserLoginMessageToDisplay;
 
@@ -100,7 +110,14 @@ namespace EmbeddedBrowser
             {
                 CachePath = ""//$"{ConstantVariable.GetCachePathDirectory()}\\{DominatorAccountModel.AccountId}"
             });
-
+            Cef.UIThreadTaskFactory.StartNew(() =>
+            {
+                if (Browser.RequestContext.CanSetPreference("webrtc.ip_handling_policy"))
+                {
+                    var error = string.Empty;
+                    Browser.RequestContext.SetPreference("webrtc.ip_handling_policy", "disable_non_proxied_udp", out error);
+                }
+            });
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = _requestHandlerCustom;
 
@@ -285,7 +302,7 @@ namespace EmbeddedBrowser
                     else
                         url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
-                    var set = Browser.RequestContext.GetDefaultCookieManager(callBack).SetCookie(url, cefCookie);
+                    var set = Browser.RequestContext.GetCookieManager(callBack).SetCookie(url, cefCookie);
 
                     //if (!set) { /*Is cookie set ?*/ }
                 }
@@ -302,6 +319,54 @@ namespace EmbeddedBrowser
             }
         }
 
+        public async Task BrowserSetCookie()
+        {
+            try
+            {
+                if (DominatorAccountModel.BrowserCookies.Count == 0)
+                    return;
+
+                var callBack = new TaskCompletionCallback();
+
+                foreach (var accCookie in DominatorAccountModel.BrowserCookies)
+                {
+                    var cook = (System.Net.Cookie)accCookie;
+
+                    var cefCookie = new CefSharp.Cookie
+                    {
+                        HttpOnly = cook.HttpOnly,
+                        Name = cook.Name,
+                        Value = cook.Value,
+                        Expires = cook.Expires,
+                        Domain = cook.Domain,
+                        Secure = cook.Secure,
+                        Path = cook.Path
+                    };
+
+                    var url = "";
+                    if (cefCookie.Domain.Contains("www."))
+                        url = "https://" + cefCookie.Domain.TrimStart('.');
+                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && cefCookie.Domain.Contains("pinterest"))
+                        url = "https://" + (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest") ? "www." : "") + cefCookie.Domain.TrimStart('.');
+                    else
+                        url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
+
+                    var set = Browser.RequestContext.GetCookieManager(callBack).SetCookie(url, cefCookie);
+
+                    //if (!set) { /*Is cookie set ?*/ }
+                }
+
+                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && !CustomUse)
+                    Browser.Address = UrlBar.Text = SocialHomeUrls();
+
+                // Just to check that how many cookie was inserted
+                var cefInitialCookies = await BrowserCookies(callBack);
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
 
         public async Task ClearCookies()
         {
@@ -309,7 +374,7 @@ namespace EmbeddedBrowser
             {
                 var callBack = new TaskCompletionCallback();
 
-                var set = Browser.RequestContext.GetDefaultCookieManager(callBack).DeleteCookiesAsync("", "");
+                var set = Browser.RequestContext.GetCookieManager(callBack).DeleteCookiesAsync("", "");
 
                 Refresh();
 
@@ -343,6 +408,37 @@ namespace EmbeddedBrowser
                   .AddOrUpdateCookies(DominatorAccountModel.Cookies)
                    .SaveToBinFile();
 
+                CustomLog("Browser login successful.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog(ex.StackTrace);
+                return false;
+            }
+        }
+
+        public async Task<bool> BrowserSaveCookies()
+        {
+            if (_isLoggedIn) return false;
+
+            try
+            {
+                await Task.Delay(1000);
+
+                _isLoggedIn = true;
+                _loginFailed = false;
+
+                DominatorAccountModel.BrowserCookies = await BrowserCookiesIntoModel();
+
+                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
+
+                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
+                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
+                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
+                  .AddOrUpdateBrowserCookies(DominatorAccountModel.BrowserCookies)
+                   .SaveToBinFile();
+                DominatorAccountModel.IsUserLoggedIn = true;
                 CustomLog("Browser login successful.");
                 return true;
             }
@@ -388,7 +484,7 @@ namespace EmbeddedBrowser
             }
         }
 
-        public async Task<List<CefSharp.Cookie>> BrowserCookies(TaskCompletionCallback callBack = null) => await Browser.RequestContext.GetDefaultCookieManager(callBack ?? new TaskCompletionCallback())
+        public async Task<List<CefSharp.Cookie>> BrowserCookies(TaskCompletionCallback callBack = null) => await Browser.RequestContext.GetCookieManager(callBack ?? new TaskCompletionCallback())
                 .VisitAllCookiesAsync();
 
         #endregion
@@ -1157,8 +1253,8 @@ namespace EmbeddedBrowser
                     Browser.Load(url);
 
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
                 if (responseStream != null)
@@ -1176,9 +1272,9 @@ namespace EmbeddedBrowser
         public void ClearResources()
         {
             if (_proxyRequestHandler == null)
-                _requestHandlerCustom.responseList.Clear();
+                _requestHandlerCustom.resourceRequestHandler.responseList.Clear();
             else
-                _proxyRequestHandler.responseList.Clear();
+                _proxyRequestHandler.resourceRequestHandler.responseList.Clear();
         }
 
         //For reddit json data
@@ -1187,8 +1283,8 @@ namespace EmbeddedBrowser
             var response = string.Empty;
             try
             {
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetStringFromByte(x.Data, startSearchText, startEndText));
 
@@ -1229,8 +1325,8 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10);
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject() :
-                    _proxyRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject() :
+                    _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStream = lstResponseStream.FirstOrDefault(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 if (responseStream != null)
@@ -1252,8 +1348,8 @@ namespace EmbeddedBrowser
             try
             {
                 await Task.Delay(10);
-                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject()
-                    : _proxyRequestHandler.responseList.DeepCloneObject();
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject()
+                    : _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                 lstResponseStream.RemoveAll(x => x.Data == null);
                 var responseStreamList = lstResponseStream.Where(x => x.Data.Count() > 0 && GetPaginatoinDataFromByte(x.Data, startSearchText, isContains, endString));
                 foreach (var responseStream in responseStreamList)
@@ -1334,8 +1430,8 @@ namespace EmbeddedBrowser
                 {
                     try
                     {
-                        lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.responseList.DeepCloneObject() :
-                            _proxyRequestHandler.responseList.DeepCloneObject();
+                        lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.responseList.DeepCloneObject() :
+                            _proxyRequestHandler.resourceRequestHandler.responseList.DeepCloneObject();
                         isSuccess = true;
                     }
                     catch (Exception ex)

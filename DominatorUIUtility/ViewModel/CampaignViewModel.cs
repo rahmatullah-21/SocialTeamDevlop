@@ -296,11 +296,11 @@ namespace DominatorUIUtility.ViewModel
                             reportControl.ReportModel.LstCurrentQueries, campName);
                         if (reportDetails.Count == 0)
                         {
-                            Dialog.ShowDialog("Report", "Reports for " + campName.CampaignName + " Campaign not available");
+                            Dialog.ShowDialog("LangKeyReport".FromResourceDictionary(), $"{"LangKeyReportForCampaign".FromResourceDictionary()} { campName.CampaignName} {"LangKeyIsNotAvailable".FromResourceDictionary()}");
                             return;
                         }
 
-                        Window win = objDialog.GetMetroWindow(reportControl, "Reports");
+                        Window win = objDialog.GetMetroWindow(reportControl, "LangKeyReport".FromResourceDictionary());
                         win.Owner = Application.Current.MainWindow;
                         win.WindowStartupLocation = WindowStartupLocation.Manual;
                         win.Top = 0;
@@ -364,7 +364,7 @@ namespace DominatorUIUtility.ViewModel
 
                     if (reportDetails.Count == 0)
                     {
-                        Dialog.ShowDialog("Report", "Reports for " + campaign.CampaignName + " Campaign not available");
+                        Dialog.ShowDialog("LangKeyReport".FromResourceDictionary(), $"{"LangKeyReportForCampaign".FromResourceDictionary()} { campaign.CampaignName} {"LangKeyIsNotAvailable".FromResourceDictionary()}");
                         return;
                     }
 
@@ -401,7 +401,7 @@ namespace DominatorUIUtility.ViewModel
                 if (lstSelectedCampaign.Count() == 0)
                 {
                     AllCampStatus = !AllCampStatus;
-                    Dialog.ShowDialog("Warnning", "Please select atleast one campaign.");
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectAtleastOneCampaign".FromResourceDictionary());
                     return;
                 }
                 try
@@ -429,7 +429,7 @@ namespace DominatorUIUtility.ViewModel
                             if (campignHavingAccount.Count() == 0)
                             {
                                 AllCampStatus = !AllCampStatus;
-                                GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", "Campaign Activation", "Campaigns not having any account.");
+                                GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", "LangKeyCampaignActivation".FromResourceDictionary(), "LangKeyCampaignHaveNoAccount".FromResourceDictionary());
                                 return;
                             }
                             campignHavingAccount.ForEach(camp =>
@@ -460,7 +460,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         if (selectedCampaign.Status == "Paused")
                             return;
-                        GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "Status Change Failed", $"Account is not present in {selectedCampaign.CampaignName}");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, selectedCampaign.SocialNetworks, selectedCampaign.CampaignName, "LangKeyStatusChangeFailed".FromResourceDictionary(), $"{"LangKeyAccountIsntPresentIn".FromResourceDictionary()} {selectedCampaign.CampaignName}");
                         selectedCampaign.Status = "Paused";
                         return;
                     }
@@ -524,8 +524,8 @@ namespace DominatorUIUtility.ViewModel
                 try
                 {
                     CampaignDetails campaign = sender as CampaignDetails;
-                    var dialogResult = Dialog.ShowCustomDialog("Confirmation",
-                        "If you delete it will delete [ " + campaign.CampaignName + " ] Campaign permanently from campaign\nAre you sure ?", "Delete Anyways", "Don't delete");
+                    var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(),
+                        $"[ {campaign.CampaignName} ] {"LangKeyConfirmToDeleteCampaign".FromResourceDictionary()}", "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
                     if (dialogResult != MessageDialogResult.Affirmative)
                         return;
                     var selectedAccount = campaign.SelectedAccountList;
@@ -556,12 +556,12 @@ namespace DominatorUIUtility.ViewModel
                     List<CampaignDetails> campaign = LstCampaignDetails.Where(x => x.IsCampaignChecked).ToList();
                     if (campaign?.Count == 0)
                     {
-                        Dialog.ShowDialog("Warning", "To delete Campaign please select atleast one Campaign !");
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningSelectCampaignToDelete");
                         return;
                     }
 
-                    var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete from Campaign permanently\nAre you sure You want to delete selected Campaign ?",
-                       "Delete Anyway", "Cancel");
+                    var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeleteSelectedCampaign".FromResourceDictionary(),
+                       "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                     if (dialogResult != MessageDialogResult.Affirmative)
                         return;
                     var allAccounts = _accountsFileManager.GetAll(SocinatorInitialize.ActiveSocialNetwork);
@@ -583,7 +583,7 @@ namespace DominatorUIUtility.ViewModel
                               _dataBaseHandler.DeleteDatabase(campaign.Select(acct => acct.CampaignId), DatabaseType.CampaignType);
                               Uncheck();
                           });
-                        GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, "[ " + campaign.Count + " ] Campaigns");
+                        GlobusLogHelper.log.Info(Log.CampaignDeleted, SocinatorInitialize.ActiveSocialNetwork, $"[ {campaign.Count} ] {"LangKeyCampaigns".FromResourceDictionary()}");
                     });
 
                 }
@@ -617,7 +617,7 @@ namespace DominatorUIUtility.ViewModel
                 if (!string.IsNullOrEmpty(campName.CampaignId))
                 {
                     Clipboard.SetText(campName.CampaignId);
-                    ToasterNotification.ShowSuccess("CampaignId copied");
+                    ToasterNotification.ShowSuccess("LangKeyCampaignIdCopied".FromResourceDictionary());
                 }
             }
             catch (Exception ex)

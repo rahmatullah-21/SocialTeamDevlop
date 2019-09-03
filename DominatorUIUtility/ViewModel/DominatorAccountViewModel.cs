@@ -35,6 +35,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.Extensions;
 using DominatorUIUtility.Views;
 using BindableBase = Prism.Mvvm.BindableBase;
 using DominatorUIUtility.ViewModel.Startup;
@@ -310,7 +311,7 @@ namespace DominatorUIUtility.ViewModel
                     if (LstDominatorAccountModel.Count + 1 >=
                         SocinatorInitialize.MaximumAccountCount)
                     {
-                        GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                        GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                     }
 
                     ThreadFactory.Instance.Start(() =>
@@ -364,7 +365,7 @@ namespace DominatorUIUtility.ViewModel
                 if (loadedAccountlist.Count + LstDominatorAccountModel.Count >
                     SocinatorInitialize.MaximumAccountCount)
                 {
-                    GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                    GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                 }
 
                 try
@@ -543,10 +544,10 @@ namespace DominatorUIUtility.ViewModel
                         }
                         else
                         {
-                            warn(string.Format("The account {0} cannot be imported because {1} is not available.",
+                            warn(string.Format("LangKeyTheAccountCantBeImportedNetworkNotAvailable".FromResourceDictionary(),
                                 objDominatorAccountBaseModel,
                                 objDominatorAccountBaseModel.AccountNetwork));
-                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork + "\tThe account {0} cannot be imported because {1} is not available.",
+                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork + "\t"+ "LangKeyTheAccountCantBeImportedNetworkNotAvailable".FromResourceDictionary(),
                                 objDominatorAccountBaseModel.UserName,
                                 objDominatorAccountBaseModel.AccountNetwork);
                         }
@@ -747,23 +748,17 @@ namespace DominatorUIUtility.ViewModel
                                     }
                                     catch (OperationCanceledException)
                                     {
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                     catch (AggregateException ae)
                                     {
-                                        foreach (var e in ae.InnerExceptions)
-                                        {
-                                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                                e.DebugLog("Cancellation requested before task completion!");
-                                            else
-                                                e.DebugLog(e.StackTrace + e.Message);
-                                        }
+                                        ae.HandleOperationCancellation();
 
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                     catch (Exception)
                                     {
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                 })
                                 .Start();
@@ -774,13 +769,7 @@ namespace DominatorUIUtility.ViewModel
                         }
                         catch (AggregateException ae)
                         {
-                            foreach (var e in ae.InnerExceptions)
-                            {
-                                if (e is TaskCanceledException || e is OperationCanceledException)
-                                    e.DebugLog("Cancellation requested before task completion!");
-                                else
-                                    e.DebugLog(e.StackTrace + e.Message);
-                            }
+                            ae.HandleOperationCancellation();
                         }
                         catch (Exception ex)
                         {
@@ -1164,10 +1153,10 @@ namespace DominatorUIUtility.ViewModel
 
                 if (selectAccounts.Count == 0)
                 {
-                    Dialog.ShowDialog("Alert", "Please select atleast one account !!");
+                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
                     return;
                 }
-                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", "Delete Anyways", "Don't delete");
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeleteSelectedAccounts".FromResourceDictionary(), "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
@@ -1283,7 +1272,7 @@ namespace DominatorUIUtility.ViewModel
 
             if (selectedAccount == null)
                 return;
-            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeleteSelectedAccounts".FromResourceDictionary(), MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary()));
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
             DeleteAccounts(new[] { selectedAccount });
@@ -1298,7 +1287,7 @@ namespace DominatorUIUtility.ViewModel
             var selectedAccounts = GetSelectedAccount();
             if (selectedAccounts.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast one account !!");
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
                 return;
             }
 
@@ -1346,7 +1335,7 @@ namespace DominatorUIUtility.ViewModel
                     Console.WriteLine(ex.StackTrace);
                 }
             });
-            Dialog.ShowDialog("Export Accounts", $"Accounts Successfully exported to [ {filename} ]");
+            Dialog.ShowDialog("LangKeyExportAccounts".FromResourceDictionary(), String.Format("LangKeyAccountsSuccessfullyExportedTo".FromResourceDictionary(), filename));
         }
 
         #endregion
@@ -1505,7 +1494,7 @@ namespace DominatorUIUtility.ViewModel
                             {
                                 if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
                                 {
-                                    GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                                    GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                                     break;
                                 }
                                 if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
@@ -1624,7 +1613,7 @@ namespace DominatorUIUtility.ViewModel
 
             if (selectedAccount.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select account to update !!");
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAccountsToUpdate".FromResourceDictionary());
                 return;
             }
             var updateMenuItem = sender as string;
@@ -1938,7 +1927,7 @@ namespace DominatorUIUtility.ViewModel
             var lstcred = FileUtilities.FileBrowseAndReader();
             if (lstcred.Count != 0)
             {
-                ToasterNotification.ShowInfomation("Credentials imported successfully.\nStart updating...");
+                ToasterNotification.ShowInfomation("LangKeyCredentialsImportedStartingUpdate".FromResourceDictionary());
                 var isAnyAccountUpdated = false;
                 foreach (var cred in lstcred)
                 {
@@ -1965,10 +1954,10 @@ namespace DominatorUIUtility.ViewModel
                 if (isAnyAccountUpdated)
                 {
                     _accountsFileManager.UpdateAccounts(LstDominatorAccountModel);
-                    ToasterNotification.ShowSuccess("Credentials successfully updated.");
+                    ToasterNotification.ShowSuccess("LangKeyUpdatedCredentials".FromResourceDictionary());
                 }
                 else
-                    ToasterNotification.ShowInfomation("No account found to update credentials or format is wrong.");
+                    ToasterNotification.ShowInfomation("LangKeyNoAccountToUpdatecCredentialsOrFormatWrong".FromResourceDictionary());
             }
         }
 
@@ -2096,7 +2085,7 @@ namespace DominatorUIUtility.ViewModel
             if (!string.IsNullOrEmpty(account.AccountId))
             {
                 Clipboard.SetText(account.AccountId);
-                ToasterNotification.ShowSuccess("AccountId copied");
+                ToasterNotification.ShowSuccess("LangKeyAccountIdCopied".FromResourceDictionary());
             }
 
         }

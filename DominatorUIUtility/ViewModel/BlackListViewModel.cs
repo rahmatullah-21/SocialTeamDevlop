@@ -61,6 +61,8 @@ namespace DominatorUIUtility.ViewModel
 
         private bool IsUnCheckedFromUser { get; set; }
 
+        private bool UsersSearched { get; set; }
+
         private PrivateBlacklistUserModel _privateBlacklistUserModel = new PrivateBlacklistUserModel();
 
         public PrivateBlacklistUserModel PrivateBlacklistUserModel
@@ -112,6 +114,7 @@ namespace DominatorUIUtility.ViewModel
                     IsUnCheckedFromUser = false;
             }
         }
+
         private string _blacklistUser = string.Empty;
         bool IsNeedToStop;
         bool IsAddingToDB;
@@ -201,7 +204,7 @@ namespace DominatorUIUtility.ViewModel
         {
             if (string.IsNullOrEmpty(BlacklistUser.Trim()))
             {
-                GlobusLogHelper.log.Info("Error:- Please enter an username to add to the Blacklist.");
+                GlobusLogHelper.log.Info("LangKeyErrorEnterUsernameToBlacklist".FromResourceDictionary());
                 return;
             }
 
@@ -243,7 +246,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,
                                 userName, UserType.BlackListedUser,
-                                $"{userName} already added to Blacklist/Whitelist. Click on refresh button to view updated list.");
+                                $"{userName} {"LangKeyAlreadyAddedToBlacklistWhitelist".FromResourceDictionary()}");
                         }
                     }
                 }
@@ -258,7 +261,7 @@ namespace DominatorUIUtility.ViewModel
 
             if (_blackListUser.Count > 0)
                 ToasterNotification.ShowSuccess(
-                    $"Successfully added {_blackListUser.Count} distinct user{(_blackListUser.Count > 1 ? "s" : "")}. Click on refresh button to view updated list");
+                    $"Successfully added {_blackListUser.Count} distinct user{(_blackListUser.Count > 1 ? "s" : "")}. {"LangKeyClickRefreshToViewUpdatedList".FromResourceDictionary()}");
         }
 
         private void ClearUser(object sender)
@@ -269,6 +272,7 @@ namespace DominatorUIUtility.ViewModel
         public virtual void Refresh(object sender)
         {
             LstBlackListUsers.Clear();
+            UsersSearched = false;
             ThreadFactory.Instance.Start(() =>
             {
                 StopPreviousProcess();
@@ -295,6 +299,7 @@ namespace DominatorUIUtility.ViewModel
         {
             LstBlackListUsers.Clear();
             IsAllBlackListUserChecked = false;
+            UsersSearched = true;
             ThreadFactory.Instance.Start(() =>
             {
                 StopPreviousProcess();
@@ -337,7 +342,7 @@ namespace DominatorUIUtility.ViewModel
 
             else
             {
-                if (IsAllBlackListUserChecked)
+                if (IsAllBlackListUserChecked && !UsersSearched)
                     IsUnCheckedFromUser = true;
                 IsAllBlackListUserChecked = false;
 
@@ -348,12 +353,12 @@ namespace DominatorUIUtility.ViewModel
             var selectedUser = LstBlackListUsers.Where(x => x.IsBlackListUserChecked).ToList();
             if (selectedUser.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast one user");
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtLeastOneUser".FromResourceDictionary());
                 return;
             }
             Task.Factory.StartNew(() =>
             {
-                if (IsAllBlackListUserChecked)
+                if (IsAllBlackListUserChecked && !UsersSearched)
                 {
                     if (IsAddingToDB) IsNeedToStop = true;
                     Application.Current.Dispatcher.Invoke(() =>
@@ -381,7 +386,7 @@ namespace DominatorUIUtility.ViewModel
             var selectedUsers = LstBlackListUsers?.Where(x => x.IsBlackListUserChecked);
             if (selectedUsers?.Count() == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast one user !!");
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtLeastOneUser".FromResourceDictionary());
                 return;
             }
 
@@ -407,7 +412,7 @@ namespace DominatorUIUtility.ViewModel
                     Console.WriteLine(ex.StackTrace);
                 }
             });
-            Dialog.ShowDialog("Export BlackList user", $"BlackListed user Successfully exported to [ {filename} ]");
+            Dialog.ShowDialog("LangKeyExportBlackListUser".FromResourceDictionary(), $"{"LangKeyBlackListedUserSuccessfullyExportedTo".FromResourceDictionary()} [ {filename} ]");
         }
 
         private void ImportUser()
