@@ -316,14 +316,14 @@ namespace DominatorHouseCore.Settings
 
         public async Task ScheduleAdsScraping()
         {
-            //var adScraperblock = new ActionBlock<ScrapAdsDetails>(
-            //    async job =>
-            //    {
-            //        await job.StartAdScarperAsync();
-            //    },
-            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            var adScraperblock = new ActionBlock<ScrapAdsDetails>(
+                async job =>
+                {
+                    await job.StartAdScarperAsync();
+                },
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-            //await ScrapAdsProduceAsync(adScraperblock);
+            await ScrapAdsProduceAsync(adScraperblock);
         }
 
 
@@ -411,7 +411,7 @@ namespace DominatorHouseCore.Settings
 
                     var jobId = Guid.NewGuid().ToString();
 
-                    JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer); },
+                    JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account); },
                             s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
 
                 }
