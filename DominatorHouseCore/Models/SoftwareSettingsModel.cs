@@ -677,6 +677,31 @@ namespace DominatorHouseCore.Models
             get { return _maxThreadCount; }
             set { SetProperty(ref _maxThreadCount, value); }
         }
+        
+        private bool _runQueriesTopToBottom;
+        [ProtoMember(47)]
+        public bool RunQueriesTopToBottom
+        {
+            get { return _runQueriesTopToBottom; }
+            set { SetProperty(ref _runQueriesTopToBottom, value); }
+        }
+
+        private bool _runQueriesBottomToTop;
+        [ProtoMember(48)]
+        public bool RunQueriesBottomToTop
+        {
+            get { return _runQueriesBottomToTop; }
+            set { SetProperty(ref _runQueriesBottomToTop, value); }
+        }
+
+        private bool _runQueriesRandomly;
+        [ProtoMember(49)]
+        public bool RunQueriesRandomly
+        {
+            get { return _runQueriesRandomly; }
+            set
+            {SetProperty(ref _runQueriesRandomly, value);}
+        }
 
         
     }

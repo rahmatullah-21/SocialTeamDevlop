@@ -89,19 +89,15 @@
                             <TextBlock Margin="5" Text="{DynamicResource LangKeyNumberOfAccountsToSynchronizeSimultaneously}"/>
                             <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding SimultaneousAccountUpdateCount}"/>
                         </StackPanel>
-
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAdvancedUserMode}"
                               IsChecked="{Binding IsEnableAdvancedUserMode}"/>
-                        
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyDoNotAutoLoginAccountsWhileAddingToSoftware}"
                               IsChecked="{Binding IsDoNotAutoLoginAccountsWhileAddingToSoftware}"/>
-
                         <StackPanel Orientation="Horizontal">
                             <CheckBox Margin="5" Content="{DynamicResource LangKeyMaxThreadsToRun}"
                               IsChecked="{Binding IsThreadLimitChecked}"/>
                             <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding MaxThreadCount}"/>
                         </StackPanel>
-
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <CheckBox Content="{DynamicResource LangKeyDefaultExportPath}" Name="IsDefaultPath" IsChecked="{Binding IsDefaultExportPathSelected}"/>
                             <TextBox Text="{Binding ExportPath,Mode=TwoWay}"  Margin="5"
@@ -134,8 +130,12 @@
                                 </TextBox.Style>
                             </TextBox>
                         </StackPanel>
-
-
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5" Text="{DynamicResource LangKeyRunQueries}"/>
+                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyTopToBottom}" IsChecked="{Binding RunQueriesTopToBottom}"/>
+                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyBottomToTop}" IsChecked="{Binding RunQueriesBottomToTop}"/>
+                            <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyRandomly}" IsChecked="{Binding RunQueriesRandomly}"/>
+                        </StackPanel>
                     </StackPanel>
 
                 </StackPanel>
