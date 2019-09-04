@@ -1440,7 +1440,7 @@ namespace DominatorHouseCore.Process
                          var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
 
                          // If start time is greater than current time
-                         if (startTime > DateTime.Now)
+                         // if (startTime > DateTime.Now) // Commented for Fixing bug EW-I563
                          {
                              // Generate job name
                              var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDateTime()}";
@@ -1451,16 +1451,16 @@ namespace DominatorHouseCore.Process
                              // Add job manager
                              JobManager.AddJob(() =>
                                   {
-                                      if (ValidateCampaignsTime(campaign))
+                                      if (ValidateCampaignsTime(campaign) && !(startTime > DateTime.Now))
                                           // Call the start publishing
                                           StartPublishingPosts(campaign);
                                       else
                                       {
-                                          DateTime nextTime = (campaign.StartDate ?? startTime).AddMinutes(1);
+                                          DateTime nextTime = startTime > DateTime.Now ? startTime : (campaign.StartDate ?? startTime).AddDays(1);
                                           JobManager.AddJob(() =>
                                           {
-                                              // Call the start publishing
-                                              SchedulePublisher(campaign);
+                                                  // Call the start publishing
+                                                  SchedulePublisher(campaign);
                                           }, x => x.WithName(addJobName).ToRunOnceAt(nextTime));
                                       }
                                   }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
