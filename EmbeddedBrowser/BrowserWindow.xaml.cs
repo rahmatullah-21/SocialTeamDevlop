@@ -996,44 +996,56 @@ namespace EmbeddedBrowser
             string attributeValue, ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int clickIndex = 0
             , string value = "")
         {
-            if (delayBefore > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
-
             JavascriptResponse jsResponse = null;
-
-            var z = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}";
-
-            if (Browser.IsDisposed) return "";
-            switch (actType)
+            try
             {
-                case ActType.GetValue:
-                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{valueType.GetDescriptionAttr()}");
-                    break;
+                if (delayBefore > 0)
+                    await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
-                case ActType.GetLength:
-                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').length");
-                    break;
+              
 
-                case ActType.GetLengthByQuery:
-                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]').length").Result?.Result?.ToString() ?? "0";
+                var z = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}";
 
-                case ActType.GetLengthByCustomQuery:
-                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').{value}.length");
-                    break;
+                if (Browser.IsDisposed) return "";
 
-                case ActType.GetAttribute:
-                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].getAttribute('{valueType.GetDescriptionAttr()}')");
-                    break;
+                if (!Browser.CanExecuteJavascriptInMainFrame)
+                    return "";
 
-                case ActType.CustomActByQueryType:
-                    jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
-                    break;
-                case ActType.CustomActType:
-                    jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}.{valueType.GetDescriptionAttr()}");
-                    break;
-                default:
-                    jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}");
-                    break;
+                switch (actType)
+                {
+                    case ActType.GetValue:
+                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{valueType.GetDescriptionAttr()}");
+                        break;
+
+                    case ActType.GetLength:
+                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').length");
+                        break;
+
+                    case ActType.GetLengthByQuery:
+                        return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]').length").Result?.Result?.ToString() ?? "0";
+
+                    case ActType.GetLengthByCustomQuery:
+                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').{value}.length");
+                        break;
+
+                    case ActType.GetAttribute:
+                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].getAttribute('{valueType.GetDescriptionAttr()}')");
+                        break;
+
+                    case ActType.CustomActByQueryType:
+                        jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{value}");
+                        break;
+                    case ActType.CustomActType:
+                        jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}.{valueType.GetDescriptionAttr()}");
+                        break;
+                    default:
+                        jsResponse = await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]')[{clickIndex}].{valueType.GetDescriptionAttr()}");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                
             }
 
             return jsResponse.Success ? jsResponse.Result?.ToString() : "";
@@ -1051,6 +1063,9 @@ namespace EmbeddedBrowser
             var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length";
             
             if (Browser.IsDisposed) return "";
+
+            if (!Browser.CanExecuteJavascriptInMainFrame)
+                return "";
 
             switch (actType)
             {
