@@ -1001,9 +1001,7 @@ namespace EmbeddedBrowser
             {
                 if (delayBefore > 0)
                     await Task.Delay(TimeSpan.FromSeconds(delayBefore));
-
-              
-
+                
                 var z = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}";
 
                 if (Browser.IsDisposed) return "";
@@ -1564,17 +1562,17 @@ namespace EmbeddedBrowser
         public void SetResourceLoadInstance()
         {
             if (_proxyRequestHandler == null)
-                _requestHandlerCustom.IsNeedResourceData = true;
+                _requestHandlerCustom.resourceRequestHandler.IsNeedResourceData = true;
             else
-                _proxyRequestHandler.IsNeedResourceData = true;
+                _proxyRequestHandler.resourceRequestHandler.IsNeedResourceData = true;
         }
 
         public void ReSetResourceLoadInstance()
         {
             if (_proxyRequestHandler == null)
-                _requestHandlerCustom.IsNeedResourceData = false;
+                _requestHandlerCustom.resourceRequestHandler.IsNeedResourceData = false;
             else
-                _proxyRequestHandler.IsNeedResourceData = false;
+                _proxyRequestHandler.resourceRequestHandler.IsNeedResourceData = false;
         }
 
 
