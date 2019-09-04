@@ -3925,4 +3925,7 @@ Are you sure?</system:String>
     <system:String x:Key="LangKeyRandomly">Randomly</system:String>
     <system:String x:Key="LangKeyBottomToTop">Bottom To Top</system:String>
     <system:String x:Key="LangKeyTopToBottom">Top To Bottom</system:String>
+    <system:String x:Key="LangKeyMessageDownloadMSVCPlusPlus">Download Microsoft Visual C++</system:String>
+    <system:String x:Key="LangKeyDownloadMSVCPlusPlus">*Please download and install latest "Microsoft Visual C++" to run Embedded Browser. If you skip, EmbeddedBrowser won't run.</system:String>
+
 </ResourceDictionary>

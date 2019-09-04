@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Management;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -102,6 +103,34 @@ namespace DominatorHouse.ViewModels
             };
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
+        }
+
+        void CheckMSVCPlusPlusInstalled()
+        {
+            try
+            {
+                ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
+                
+                foreach (ManagementObject mo in mos.Get())
+                {
+                    if(mo["Name"].ToString().StartsWith("Microsoft Visual C++"))
+                    {
+                        var version = Convert.ToInt32(mo["Version"].ToString().Substring(0,2)); 
+                        if(version >= 14)
+                            return;
+                    }
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if(Dialog.ShowCustomDialog("LangKeyMessageDownloadMSVCPlusPlus".FromResourceDictionary(), "LangKeyDownloadMSVCPlusPlus".FromResourceDictionary(), "LangKeyDownload".FromResourceDictionary(), "LangKeySkip".FromResourceDictionary()) == MessageDialogResult.Affirmative)
+                        Process.Start("https://aka.ms/vs/16/release/vc_redist.x86.exe");
+                });
+            }
+            catch(Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private void OnClosing(CancelEventArgs e)
@@ -293,6 +322,7 @@ namespace DominatorHouse.ViewModels
             {
                 Task.Factory.StartNew(() =>
                  {
+                     CheckMSVCPlusPlusInstalled();
                      FeatureFlags.UpdateFeatures();
                      var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();
                      foreach (var socialNetworkModule in modules.Where(a => SocinatorInitialize.IsNetworkAvailable(a.Network)))
