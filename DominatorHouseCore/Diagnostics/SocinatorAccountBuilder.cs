@@ -25,6 +25,17 @@ namespace DominatorHouseCore.Diagnostics
             DominatorAccountModel.Cookies = cookies;
             return this;
         }
+     
+        public SocinatorAccountBuilder AddOrUpdateBrowserCookies(CookieCollection cookies)
+        {
+            DominatorAccountModel.BrowserCookies = cookies;
+            return this;
+        }
+        public SocinatorAccountBuilder AddOrUpdateBrowserSettings(bool isBrowerAutomationActive)
+        {
+            DominatorAccountModel.IsRunProcessThroughBrowser = isBrowerAutomationActive;
+            return this;
+        }
 
         public SocinatorAccountBuilder AddOrUpdateDominatorAccountBase(DominatorAccountBaseModel accountBaseModel)
         {

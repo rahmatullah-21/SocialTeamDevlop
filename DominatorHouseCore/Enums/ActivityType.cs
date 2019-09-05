@@ -19,15 +19,17 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube,Reddit")]
         Comment = 5,
 
-        [Description("Instagram")]
+        //,Instagram,Reddit
+       // [Description("Twitter")]
         DeleteComment = 6,
+    
 
-        [Description("Instagram")]
+        //[Description("Instagram")]
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
-        [Description("Twitter")]
-        Repost = 8,
+       // [Description("Twitter")]
+       // Repost = 8,
 
         [Description("Instagram")]
         DeletePost = 9,
@@ -53,13 +55,13 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         AnswersScraper = 16,
 
-        [Description("Quora")]
-        VoteAnswers = 17,
+        //[Description("Quora")]
+        //VoteAnswers = 17,
 
         [Description("Quora")]
         DownvoteAnswers = 18,
 
-        [Description("Quora")]
+        //[Description("Quora")]
         ReportQuestions = 19,
 
         [Description("Quora")]
@@ -78,7 +80,7 @@ namespace DominatorHouseCore.Enums
         SendFriendRequest = 24,
 
         [Description("Facebook")]
-        CancelSentRequest = 25,
+        WithdrawSentRequest = 25,
 
         [Description("Facebook")]
         Unfriend = 26,
@@ -110,8 +112,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         EventInviter = 36,
 
-        [Description("Facebook")]
-        GroupCreator = 37,
+        //[Description("Facebook")]
+        //GroupCreator = 37,
 
         [Description("Facebook")]
         EventCreator = 38,
@@ -128,19 +130,19 @@ namespace DominatorHouseCore.Enums
         [Description("Quora")]
         UpvoteAnswers = 42,
 
-        [Description("Gplus")]
-        Join = 43,
+        //[Description("Gplus")]
+        //Join = 43,
 
-        [Description("Gplus")]
-        Unjoin = 44,
+        //[Description("Gplus")]
+        //Unjoin = 44,
 
-        [Description("Facebook")]
+       // [Description("Facebook")]
         PostLikerCommentor = 45,
 
         [Description("Facebook")]
         FanpageLiker = 46,
 
-        [Description("Facebook")]
+        //[Description("Facebook")]
         WebpageLikerCommentor = 47,
 
         [Description("Twitter")]
@@ -155,13 +157,13 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube,Reddit")]
         Subscribe = 51,
 
-        [Description("Facebook,LinkedIn")]
+        [Description("LinkedIn")]
         Share = 52,
 
         //[Description("Youtube")]
         //LikeComments = 53,
 
-        [Description("Reddit")]
+        [Description("Reddit,Youtube")]
         UnSubscribe = 54,
 
         [Description("Youtube")]
@@ -187,8 +189,8 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter")]
         Mute = 62,
 
-        [Description("Gplus")]
-        CommunityScraper = 63,
+        //[Description("Gplus")]
+       // CommunityScraper = 63,
 
         [Description("LinkedIn")]
         JobScraper = 64,
@@ -196,8 +198,8 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         CompanyScraper = 65,
 
-        [Description("LinkedIn")]
-        GroupMemberScraper = 66,
+        //[Description("LinkedIn")]
+        //GroupMemberScraper = 66,
 
         [Description("LinkedIn")]
         SalesNavigatorUserScraper = 67,
@@ -205,13 +207,13 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube,Reddit")]
         ChannelScraper = 68,
 
-        [Description("Youtube")]
+       // [Description("Youtube")]
         Unsubscribe = 69,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
         BroadcastMessages = 70,
 
-        [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
+        [Description("Instagram,Twitter,Pinterest,Quora")]
         SendMessageToFollower = 71,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora")]
@@ -250,10 +252,10 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         SendGreetingsToConnections = 83,
 
-        [Description("Twitter,Reddit")]
+        [Description("Reddit")]
         Reply = 84,
 
-        [Description("Reddit,Twitter")]
+        [Description("Twitter")]
         Delete = 85,
 
         [Description("Facebook")]
@@ -307,11 +309,11 @@ namespace DominatorHouseCore.Enums
         SendMessageToNewFriends = 105,
         [Description("Facebook")]
         WatchPartyInviter = 106,
-        [Description("Facebook")]
+       // [Description("Facebook")]
         MarketPlaceScraper = 107,
         [Description("Facebook")]
         SendGreetingsToFriends = 108,
-        [Description("Facebook")]
+        //[Description("Facebook")]
         WebPostLikeComment = 109,
         [Description("Pinterest")]
         EditPin = 110,

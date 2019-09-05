@@ -297,6 +297,8 @@ namespace DominatorHouseCore.Models
                             Name = cookieHelper.Name,
                             Value = cookieHelper.Value,
                             Expires = cookieHelper.Expires,
+                            HttpOnly = cookieHelper.HttpOnly,
+                            Secure=cookieHelper.Secure
                         });
                 }
 
@@ -310,6 +312,8 @@ namespace DominatorHouseCore.Models
                     Name = cookie.Name,
                     Value = cookie.Value,
                     Expires = cookie.Expires,
+                    HttpOnly = cookie.HttpOnly,
+                    Secure = cookie.Secure
                 }).ToHashSet();
             }
         }
@@ -333,6 +337,7 @@ namespace DominatorHouseCore.Models
         {
             CancellationSource.Cancel();
         }
+
         private string _varificationCode = string.Empty;
 
         public string VarificationCode
@@ -412,6 +417,8 @@ namespace DominatorHouseCore.Models
             }
         }
 
+
+
         private string _resetPasswordLink = string.Empty;
 
         public string ResetPasswordLink
@@ -443,6 +450,7 @@ namespace DominatorHouseCore.Models
 
         public string two_factor_identifier { get; set; } = string.Empty;
         public string ChallengeUrl { get; set; } = string.Empty;
+
         private bool _isManualVerify;
         public bool IsManualVerify
         {
@@ -456,6 +464,92 @@ namespace DominatorHouseCore.Models
                     IsAutoVerifyByEmail = false;
                 SetProperty(ref _isManualVerify, value);
                
+            }
+        }
+
+        private bool _isRunProcessThroughBrowser;
+        [ProtoMember(28)]
+        public bool IsRunProcessThroughBrowser
+        {
+            get
+            {
+                return _isRunProcessThroughBrowser;
+            }
+            set
+            {
+
+                if (_isRunProcessThroughBrowser == value)
+                    return;
+                SetProperty(ref _isRunProcessThroughBrowser, value);
+            }
+        }
+
+
+        private HashSet<CookieHelper> _BrowserCookieHelperList = new HashSet<CookieHelper>();
+        [ProtoMember(29)]
+        public HashSet<CookieHelper> BrowserCookieHelperList
+        {
+            get { return _BrowserCookieHelperList; }
+            set
+            {
+                if (_BrowserCookieHelperList != null && _BrowserCookieHelperList == value)
+                    return;
+                SetProperty(ref _BrowserCookieHelperList, value);
+            }
+        }
+
+        [ProtoIgnore]
+        public CookieCollection BrowserCookies
+        {
+            get
+            {
+                var cookieCollection = new CookieCollection();
+
+                if (_BrowserCookieHelperList != null)
+                {
+                    foreach (var cookieHelper in _BrowserCookieHelperList)
+                    {
+                        if (cookieHelper.Name.Contains("csrftoken") || cookieHelper.Name.Contains("ds_user_id") || cookieHelper.Name.Contains("mid"))
+                        {
+                            cookieCollection.Add(new Cookie()
+                            {
+                                Domain = cookieHelper.Domain,
+                                Name = cookieHelper.Name,
+                                Value = cookieHelper.Value,
+                                Secure = cookieHelper.Secure,
+                                HttpOnly = false
+                            });
+                        }
+                        else
+                        {
+                            cookieCollection.Add(new Cookie()
+                            {
+
+                                Domain = cookieHelper.Domain,
+                                Name = cookieHelper.Name,
+                                Value = cookieHelper.Value,
+                                Secure = cookieHelper.Secure,
+                                HttpOnly = true
+                            });
+                        }
+
+                    }
+
+                }
+
+                return cookieCollection;
+            }
+            set
+            {
+                _BrowserCookieHelperList = value?.Cast<Cookie>().Select(cookie => new CookieHelper
+                {
+
+                    Domain = cookie.Domain,
+                    Name = cookie.Name,
+                    Value = cookie.Value,
+                    Secure = cookie.Secure,
+                    HttpOnly = true
+                }).ToHashSet();
             }
         }
         public bool IsNeedToSchedule { get; set; } = true;

@@ -59,7 +59,8 @@ namespace DominatorUIUtility.CustomControl
                     ObjAccountViewModel.LstSelectAccount.Add(new SelectAccountModel
                     {
                         UserName = x.UserName,
-                        GroupName = x.AccountBaseModel.AccountGroup.Content
+                        GroupName = x.AccountBaseModel.AccountGroup.Content,
+                        BrowserAutomation = x.IsRunProcessThroughBrowser
                     });
                     if (ObjAccountViewModel.SelectAccountModel.Groups.Any(group => group.Content == x.AccountBaseModel.AccountGroup.Content) == false)
                         ObjAccountViewModel.SelectAccountModel.Groups.Add(

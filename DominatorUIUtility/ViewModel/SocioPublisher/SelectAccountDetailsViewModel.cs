@@ -1070,6 +1070,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
             };
 
+
             var dialog = new Dialog();
 
             var window = dialog.GetMetroWindow(accountDetailsSelector, "LangKeyFriendsSelect".FromResourceDictionary());

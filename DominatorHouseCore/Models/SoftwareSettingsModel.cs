@@ -1,11 +1,17 @@
-﻿using DominatorHouseCore.Utility;
+﻿using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.Utility;
 using ProtoBuf;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
     public class SoftwareSettingsModel : BindableBase
     {
+
+       
         private bool _isRunDHAtStartUpChecked;
         [ProtoMember(1)]
         public bool IsRunDHAtStartUpChecked
@@ -619,14 +625,24 @@ namespace DominatorHouseCore.Models
         [ProtoMember(41)]
         public bool IsStopAutoSynchronizeAccount
         {
-            get { return _isStopAutoSynchronizeAccount; }
-            set { SetProperty(ref _isStopAutoSynchronizeAccount, value); }
+            get
+            {
+                return _isStopAutoSynchronizeAccount;
+            }
+            set
+            {
+                SetProperty(ref _isStopAutoSynchronizeAccount, value);
+            }
         }
+
         private bool _isDefaultExportPathSelected;
         [ProtoMember(42)]
         public bool IsDefaultExportPathSelected
         {
-            get { return _isDefaultExportPathSelected; }
+            get
+            {
+                return _isDefaultExportPathSelected;
+            }
             set
             {
                 SetProperty(ref _isDefaultExportPathSelected, value);
@@ -637,8 +653,14 @@ namespace DominatorHouseCore.Models
         [ProtoMember(43)]
         public string ExportPath
         {
-            get { return _exportPath; }
-            set { SetProperty(ref _exportPath, value); }
+            get
+            {
+                return _exportPath;
+            }
+            set
+            {
+                SetProperty(ref _exportPath, value);
+            }
         }
         private bool _isThreadLimitChecked;
         [ProtoMember(45)]
@@ -655,6 +677,32 @@ namespace DominatorHouseCore.Models
             get { return _maxThreadCount; }
             set { SetProperty(ref _maxThreadCount, value); }
         }
+        
+        private bool _runQueriesTopToBottom;
+        [ProtoMember(47)]
+        public bool RunQueriesTopToBottom
+        {
+            get { return _runQueriesTopToBottom; }
+            set { SetProperty(ref _runQueriesTopToBottom, value); }
+        }
 
+        private bool _runQueriesBottomToTop;
+        [ProtoMember(48)]
+        public bool RunQueriesBottomToTop
+        {
+            get { return _runQueriesBottomToTop; }
+            set { SetProperty(ref _runQueriesBottomToTop, value); }
+        }
+
+        private bool _runQueriesRandomly;
+        [ProtoMember(49)]
+        public bool RunQueriesRandomly
+        {
+            get { return _runQueriesRandomly; }
+            set
+            {SetProperty(ref _runQueriesRandomly, value);}
+        }
+
+        
     }
 }

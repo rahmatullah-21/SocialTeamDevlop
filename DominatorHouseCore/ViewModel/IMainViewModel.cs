@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using System;
-using System.Windows.Input;
 
 namespace DominatorHouseCore.ViewModel
 {

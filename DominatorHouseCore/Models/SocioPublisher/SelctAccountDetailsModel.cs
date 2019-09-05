@@ -548,6 +548,79 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(CustomDestinations));
             }
         }
+
+
+        public SelectAccountDetailsModel GetGroupInviterDetails(SelectAccountDetailsModel model)
+        {
+            SelectAccountDetailsModel updatedModel = new SelectAccountDetailsModel();
+
+            List<Tuple<string, string, string>> listGroupInviterDetails = new List<Tuple<string, string, string>>();
+            foreach (KeyValuePair<string, string> accountGroup in model.AccountGroupPair)
+            {
+                var accountFriendPair = model.AccountFriendsPair;
+                var friendList = accountFriendPair.Where(x => x.Key == accountGroup.Key).Select(y => y.Value).ToList();
+                var customList = model.CustomDestinations;
+
+                List<string> accountCustomDestination = customList
+                    .Where(x => x.Key == accountGroup.Key && x.Value.DestinationType == "Friend")
+                    .Select(x => x.Value.DestinationValue).ToList();
+                friendList.ForEach(x =>
+                {
+                    Tuple<string, string, string> groupInviterDetail =
+                            new Tuple<string, string, string>(accountGroup.Key, accountGroup.Value, x);
+
+                    listGroupInviterDetails.Add(groupInviterDetail);
+                });
+
+                accountCustomDestination.ForEach(x =>
+                {
+                    Tuple<string, string, string> customGroupInviterDetail =
+                        new Tuple<string, string, string>(accountGroup.Key, accountGroup.Value, x);
+
+                    listGroupInviterDetails.Add(customGroupInviterDetail);
+                });
+            }
+
+            updatedModel.GroupInviterDetails = listGroupInviterDetails;
+
+            return updatedModel;
+        }
+
+
+        public SelectAccountDetailsModel GetPageInviterDetails(SelectAccountDetailsModel model)
+        {
+            SelectAccountDetailsModel updatedModel = new SelectAccountDetailsModel();
+
+            List<Tuple<string, string, string>> listPageInviterDetails = new List<Tuple<string, string, string>>();
+            foreach (KeyValuePair<string, string> accountPage in
+                model.AccountPagesBoardsPair)
+            {
+                var accountFriendPair = model.AccountFriendsPair;
+                var friendList = accountFriendPair.Where(x => x.Key == accountPage.Key).Select(y => y.Value).ToList();
+                friendList.ForEach(x =>
+                {
+                    Tuple<string, string, string> pageInviterDetail =
+                        new Tuple<string, string, string>(accountPage.Key, accountPage.Value, x);
+
+                    listPageInviterDetails.Add(pageInviterDetail);
+                });
+                var customList = model.CustomDestinations;
+                List<string> accountCustomDestination = customList
+                    .Where(x => x.Key == accountPage.Key && x.Value.DestinationType == "Friend")
+                    .Select(x => x.Value.DestinationValue).ToList();
+                accountCustomDestination.ForEach(x =>
+                {
+                    Tuple<string, string, string> customGroupInviterDetail =
+                        new Tuple<string, string, string>(accountPage.Key, accountPage.Value, x);
+
+                    listPageInviterDetails.Add(customGroupInviterDetail);
+                });
+            }
+
+            updatedModel.PageInviterDetails = listPageInviterDetails;
+
+            return updatedModel;
+        }
     }
 
 

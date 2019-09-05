@@ -10,6 +10,6 @@ namespace DominatorHouseCore.Interfaces
         Task<bool> CheckStatusAsync(DominatorAccountModel accountModel, CancellationToken token);
 
         Task ScrapeAdsAsync(DominatorAccountModel accountModel, CancellationToken token,string jobid="");
-    }
+    }   
 }
 

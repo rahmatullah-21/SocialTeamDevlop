@@ -916,6 +916,23 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
             }
         }
 
+        private bool _isPostAsStoryPost;
+
+        [ProtoMember(56)]
+        public bool IsPostAsStoryPost
+        {
+            get
+            {
+                return _isPostAsStoryPost;
+            }
+            set
+            {
+                if (_isPostAsStoryPost == value)
+                    return;
+                SetProperty(ref _isPostAsStoryPost, value);
+            }
+        }
+
 
         public FacebookModel Clone()
         {
@@ -923,4 +940,5 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
     }
 
+    
 }

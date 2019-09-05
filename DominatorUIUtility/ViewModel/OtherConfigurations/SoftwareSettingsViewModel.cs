@@ -14,8 +14,11 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
     public class SoftwareSettingsViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {
         private readonly ISoftwareSettings _softwareSettings;
+
         public SoftwareSettingsModel SoftwareSettingsModel { get; }
+
         public DelegateCommand SaveCmd { get; }
+
         public DelegateCommand ExportCommand { get; }
 
         public SoftwareSettingsViewModel(ISoftwareSettings softwareSettings) : base("LangKeySoftwareSettings", "SoftwareSettingsControlTemplate")

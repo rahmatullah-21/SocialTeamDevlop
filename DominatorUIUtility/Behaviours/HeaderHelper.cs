@@ -37,6 +37,14 @@ namespace DominatorUIUtility.Behaviours
                 expander.IsExpanded = IsExpanded;
 
         }
+        public static void ExpandCollapseAllExpanderForActivity(object sender, bool IsExpanded)
+        {
+            var currentcontrol = (FrameworkElement)sender;
+
+            foreach (Expander expander in FindVisualChildren<Expander>(currentcontrol as UserControl))
+                expander.IsExpanded = IsExpanded;
+
+        }
         public static bool IsAllExpanderCollapseOrNot(object sender)
         {
             var allExpander = FindVisualChildren<Expander>(sender as UserControl);
@@ -45,5 +53,7 @@ namespace DominatorUIUtility.Behaviours
         }
         public static Action UpdateToggleButtonInCampaignMode;
         public static Action UpdateToggleButtonInAccountActivityMode;
+        public static Action UpdateToggleForQuery;
+        public static Action UpdateToggleForNonQuery;
     }
 }

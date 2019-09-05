@@ -198,7 +198,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             ThreadFactory.Instance.Start(() =>
             {
-                // Get all selected campaigns
+
                 var selectedCampaigns = GetSelectedCampaigns();
                 // Call to publish now options
                 selectedCampaigns.ForEach(x =>
@@ -211,6 +211,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 });
             });
+            // Get all selected campaigns
+            
         }
 
         public void UpdateCampaignStatus(string campaignId, PublisherCampaignStatus status)
@@ -536,13 +538,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
 
 
-                    file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
-                    var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if (googlePlusModel != null)
-                    {
-                        googlePlusModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        _genericFileManager.AddModule(googlePlusModel, file);
-                    }
+                    //file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
+                    //var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    //if (googlePlusModel != null)
+                    //{
+                    //    googlePlusModel.CampaignId = clonedCampaignStatus.CampaignId;
+                    //    _genericFileManager.AddModule(googlePlusModel, file);
+                    //}
 
 
                     file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);

@@ -388,7 +388,7 @@
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                            <!--<DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
                                                         <Rectangle Fill="#FF0000" Width="20" Height="20">
@@ -398,7 +398,7 @@
                                                         </Rectangle>
                                                     </Setter.Value>
                                                 </Setter>
-                                            </DataTrigger>
+                                            </DataTrigger>-->
                                             <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>

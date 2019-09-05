@@ -73,11 +73,18 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             Debug.Assert(_jobProcess.SavedQueries.Count > 0);
             int totalQueries = _jobProcess.SavedQueries.Count;
             int usedQueries = 0;
-            _jobProcess.SavedQueries.Shuffle();
+            var listQueries = new List<QueryInfo>(_jobProcess.SavedQueries);
+
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            if (softwareSettings.RunQueriesRandomly)
+                listQueries.Shuffle();
+            else if (softwareSettings.RunQueriesBottomToTop)
+                listQueries.Reverse();
 
             try
             {
-                foreach (var query in _jobProcess.SavedQueries)
+                foreach (var query in listQueries)
                 {
                     try
                     {

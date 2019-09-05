@@ -60,10 +60,10 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
             var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
                 .PublisherCreateCampaignViewModel
                 .PublisherCreateCampaignModel.CampaignId;
-            var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus))
-                .FirstOrDefault(x => x.CampaignId == campaignId);
-            GooglePlusViewModel.GooglePlusModel = googlePlusModel ?? (new GooglePlusModel());
+            //var googlePlusModel = _genericFileManager.GetModuleDetails<GooglePlusModel>
+            //        (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus))
+            //    .FirstOrDefault(x => x.CampaignId == campaignId);
+            //GooglePlusViewModel.GooglePlusModel = googlePlusModel ?? (new GooglePlusModel());
         }
     }
 }

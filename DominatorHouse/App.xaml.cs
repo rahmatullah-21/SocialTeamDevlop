@@ -13,6 +13,9 @@ using Microsoft.Practices.Unity.Configuration;
 using Unity;
 using Unity.Interception;
 using MessageBox = System.Windows.MessageBox;
+using DominatorUIUtility.Module;
+using DominatorUIUtility.ViewModel.Startup;
+using DominatorHouse.Utilities.Facebook;
 
 namespace Socinator
 {
@@ -58,8 +61,14 @@ namespace Socinator
             container.AddNewExtension<Interception>();
             container.AddNewExtension<CoreUnityExtension>();
             container.LoadConfiguration();
+            StartupBaseViewModel.GetFaceBookActivity = (activityType) => new FacebookActivity().GetActivity(activityType);
         }
 
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            base.ConfigureModuleCatalog(moduleCatalog);
+            moduleCatalog.AddModule<UiModule>();
+        }
         //protected override IModuleCatalog CreateModuleCatalog()
         //{
         //    return new DirectoryModuleCatalog() { ModulePath = @".\Modules" };

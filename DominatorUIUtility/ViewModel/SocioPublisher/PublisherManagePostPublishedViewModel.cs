@@ -297,7 +297,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var currentPost = (PublishedPostDetailsModel)sender;
             var dominatorAccountModel = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync()
                 .FirstOrDefault(x => x.AccountId == currentPost.AccountId);
-            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link, false);
+            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link, true);
             browserWindow.SetCookie();
             browserWindow.Show();
         }

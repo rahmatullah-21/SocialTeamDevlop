@@ -34,9 +34,10 @@ namespace DominatorHouseCore.Utility
         [ProtoMember(5)]
         public string PhoneId { get;  set; }
 
+        //public string Useragent =>
+        //    string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)AndroidVersion, (object)AndroidRelease, (object)Dpi, (object)Resolution, (object)ManufacturerBrand, (object)Model, (object)Device, (object)Cpu, (object)ConstantVariable.UseragentLocale+ "; 155374104");//125398471
         public string Useragent =>
-            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)AndroidVersion, (object)AndroidRelease, (object)Dpi, (object)Resolution, (object)ManufacturerBrand, (object)Model, (object)Device, (object)Cpu, (object)ConstantVariable.UseragentLocale+ "; 155374104");//125398471
-
+            string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)AndroidVersion, (object)AndroidRelease, (object)Dpi, (object)Resolution, (object)ManufacturerBrand, (object)Model, (object)Device, (object)Cpu, (object)ConstantVariable.UseragentLocale + "; 168361627");//125398471//155374104
         //"Instagram 10.33.0 Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})"
         //"Instagram 6.21.2 Android 23/6.0.1; 640dpi; 1440x2560; ZTE; ZTE A2017U; ailsa_ii; qcom;en_US";
         //Instagram 37.0.0.5.97 Android (23/6.0.1; 480dpi; 1080x1920; Samsung;a8hplte;SM-A800IZ; qcom; en_US)

@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
+
 namespace DominatorUIUtility.CustomControl
 {
     /// <summary>
@@ -35,6 +36,7 @@ namespace DominatorUIUtility.CustomControl
 
         private AccountCustomControl()
         {
+            _accountCustomInstance = this;
             _dominatorAccountViewModel = (DominatorAccountViewModel)ServiceLocator.Current.GetInstance<IDominatorAccountViewModel>();
             InitializeComponent();
             AccountModule.DataContext = DominatorAccountViewModel;
@@ -64,6 +66,7 @@ namespace DominatorUIUtility.CustomControl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         private static void UncheckAll()
         {
             ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync().ForEach(x =>
