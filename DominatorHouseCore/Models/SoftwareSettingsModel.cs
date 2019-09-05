@@ -702,7 +702,5 @@ namespace DominatorHouseCore.Models
             set
             {SetProperty(ref _runQueriesRandomly, value);}
         }
-
-        
     }
 }

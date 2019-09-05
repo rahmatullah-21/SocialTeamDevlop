@@ -107,30 +107,33 @@ namespace DominatorHouse.ViewModels
 
         void CheckMSVCPlusPlusInstalled()
         {
-            try
+            Task.Factory.StartNew(() =>
             {
-                ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
-                
-                foreach (ManagementObject mo in mos.Get())
+                try
                 {
-                    if(mo["Name"].ToString().StartsWith("Microsoft Visual C++"))
+                    ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Product WHERE Name LIKE '%Microsoft Visual C++%'");
+                    var mosGet = mos.Get();
+                    foreach (ManagementObject mo in mosGet)
                     {
-                        var version = Convert.ToInt32(mo["Version"].ToString().Substring(0,2)); 
-                        if(version >= 14)
-                            return;
+                        if (mo["Name"].ToString().StartsWith("Microsoft Visual C++"))
+                        {
+                            var version = Convert.ToInt32(mo["Version"].ToString().Substring(0, 2));
+                            if (version >= 14)
+                                return;
+                        }
                     }
-                }
 
-                Application.Current.Dispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        if (Dialog.ShowCustomDialog("LangKeyMessageDownloadMSVCPlusPlus".FromResourceDictionary(), "LangKeyDownloadMSVCPlusPlus".FromResourceDictionary(), "LangKeyDownload".FromResourceDictionary(), "LangKeySkip".FromResourceDictionary()) == MessageDialogResult.Affirmative)
+                            Process.Start("https://aka.ms/vs/16/release/vc_redist.x86.exe");
+                    });
+                }
+                catch (Exception ex)
                 {
-                    if(Dialog.ShowCustomDialog("LangKeyMessageDownloadMSVCPlusPlus".FromResourceDictionary(), "LangKeyDownloadMSVCPlusPlus".FromResourceDictionary(), "LangKeyDownload".FromResourceDictionary(), "LangKeySkip".FromResourceDictionary()) == MessageDialogResult.Affirmative)
-                        Process.Start("https://aka.ms/vs/16/release/vc_redist.x86.exe");
-                });
-            }
-            catch(Exception ex)
-            {
-                ex.DebugLog();
-            }
+                    ex.DebugLog();
+                }
+            });
         }
 
         private void OnClosing(CancelEventArgs e)
@@ -164,8 +167,6 @@ namespace DominatorHouse.ViewModels
 
                 if (networks.Count <= 1)
                 {
-
-
                     if (!Application.Current.Dispatcher.CheckAccess())
                     {
                         Application.Current.Dispatcher.Invoke(() =>
