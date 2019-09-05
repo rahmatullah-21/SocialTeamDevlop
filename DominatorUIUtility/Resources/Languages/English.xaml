@@ -3641,7 +3641,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyAddCoverPhoto">Add Cover Photo</system:String>
     <system:String x:Key="LangKeyTypeEmailId">Type Email Id</system:String>
     <system:String x:Key="LangKeyTypePhonenumber">Type Phone number</system:String>
-    <system:String x:Key="LangKeyTypeGender">Type Gender</system:String>
+    <system:String x:Key="LangKeyEnterGender">Enter Gender</system:String>
     <system:String x:Key="LangKeyTypeDateOfBirth">Type Date Of Birth</system:String>
     <system:String x:Key="LangKeyWentTo">Went To</system:String>
     <system:String x:Key="LangKeyWorksAt">Works At</system:String>
