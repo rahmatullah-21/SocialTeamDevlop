@@ -14,6 +14,7 @@ using System.Linq;
 using DominatorHouseCore.Utility;
 using System.Collections.Generic;
 using DominatorHouseCore.Models.FacebookModels;
+using DominatorHouseCore.Enums.FdQuery;
 
 namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 {
@@ -30,8 +31,8 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
             AddEventCommand = new BaseCommand<object>((sender) => true, AddEventsExecute);
             ListComboBox.ItemsSource = new List<string>
             {
-                Application.Current.FindResource("LangKeyCreatePrivateEvent")?.ToString(),
-                Application.Current.FindResource("LangKeyCreatePublicEvent")?.ToString()
+                EventType.CreatePrivateEvent.ToString(),
+                EventType.CreatePublicEvent.ToString()
             };
 
             ListKeyValuePair = new List<KeyValuePair<string, string>>()
@@ -120,14 +121,14 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
             if (string.IsNullOrEmpty(EventCreaterManagerModelCommand.EventName))
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please Give A Proper Event Name !!");
+                    $"{"LangKeyGiveAProperEventName".FromResourceDictionary()}");
                 return;
             }
 
-            if(EventCreaterManagerModelCommand.Category== "Select Category")
+            if (EventCreaterManagerModelCommand.Category == "Select Category")
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please Select Category Type !!");
+                    "LangKeySelectCategory".FromResourceDictionary());
                 return;
             }
 
@@ -135,21 +136,21 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                 || EventCreaterManagerModelCommand.EventEndDate < DateTime.Now)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please Give A Proper Event Start And End Date !!");
+                    "LangKeyGiveStartAndEndDate".FromResourceDictionary());
                 return;
             }
 
             if (EventCreaterManagerModelCommand.EventStartDate > EventCreaterManagerModelCommand.EventEndDate)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "End Date Should not be less then Start Date!!");
+                    "LangKeyEndDateShouldNotBeLessThanStartDate".FromResourceDictionary());
                 return;
             }
 
             if (EventCreaterManagerModelCommand.EventStartDate.AddDays(13) < EventCreaterManagerModelCommand.EventEndDate)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "The Event Will Be Of Within 14 Days !!");
+                    "LangKeyEventWillBeOfDay".FromResourceDictionary());
                 return;
             }
 
@@ -201,7 +202,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register("CommandParameter", typeof(object), typeof(EventCreaterManager),
                 new PropertyMetadata(OnAvailableItemsChanged));
-        
+
         public object TypeSelectionChangedCommand
         {
             get { return GetValue(TypeSelectionChangedCommandProperty); }
