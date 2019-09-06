@@ -3927,5 +3927,8 @@ Are you sure?</system:String>
     <system:String x:Key="LangKeyTopToBottom">Top To Bottom</system:String>
     <system:String x:Key="LangKeyMessageDownloadMSVCPlusPlus">Download Microsoft Visual C++</system:String>
     <system:String x:Key="LangKeyDownloadMSVCPlusPlus">*Please download and install latest "Microsoft Visual C++" to run Embedded Browser. If you skip, EmbeddedBrowser won't run.</system:String>
-
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerUser">Maximum Number of post to be like per user</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerUser">Maximum Number of post to be comment per user</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeSharePerUser">Maximum Number of post to be share per user</system:String>
+    
 </ResourceDictionary>

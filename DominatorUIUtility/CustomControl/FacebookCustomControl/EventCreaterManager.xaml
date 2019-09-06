@@ -20,7 +20,7 @@
             <StackPanel Margin="20" HorizontalAlignment="Center" >
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="EventType" Width="100" TextAlignment="Left"/>
+                    <TextBlock Text="{DynamicResource LangKeyEventType}" Width="100" TextAlignment="Left"/>
 
                     <ComboBox Name="ListComboBox" VerticalAlignment="Top" Height="25" Width="270"                                   
                               SelectedItem="{Binding EventCreaterManagerModelCommand.EventType,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
@@ -35,46 +35,46 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Event photo or video" Width="100" TextWrapping="Wrap" VerticalAlignment="Top" />
+                    <TextBlock Text="{DynamicResource LangKeyEventphotoorvideo}" Width="100" TextWrapping="Wrap" VerticalAlignment="Top" />
 
                     <customControl1:FbMultiMediaControl MediaHeight="200" ActivityType="{DynamicResource LangKeyEventCreater}"
                         FbMultiMediaModel="{Binding EventCreaterManagerModelCommand.FbMultiMediaModel}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="Event name" Width="100" TextWrapping="Wrap" TextAlignment="Left" />
+                    <TextBlock Text="{DynamicResource LangKeyEventName}" Width="100" TextWrapping="Wrap" TextAlignment="Left" />
 
-                    <TextBox Name="TextBoxEvent" control:TextBoxHelper.Watermark="Add a short and clear name" Width="230" Height="30" MaxLength="64" 
+                    <TextBox Name="TextBoxEvent" control:TextBoxHelper.Watermark="{DynamicResource LangKeyAddashortandclearname}" Width="230" Height="30" MaxLength="64" 
                          Text="{Binding EventCreaterManagerModelCommand.EventName}" TextChanged="TextBoxBase_OnTextChanged">
                     </TextBox>
                     <Label Content="{Binding EventCreaterManagerModelCommand.TextLength}" Width="40"></Label>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="2">
-                    <CheckBox Content="Use Facebook Suggested Location" Margin="100,0,0,0" IsChecked="{Binding EventCreaterManagerModelCommand.IsSelectLocation}"/>
+                    <CheckBox Content="{DynamicResource LangKeyUseFacebookSuggestedLocation}" Margin="100,0,0,0" IsChecked="{Binding EventCreaterManagerModelCommand.IsSelectLocation}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="Location" Width="100" TextAlignment="Left"/>
-                    <TextBox control:TextBoxHelper.Watermark="Include a place or address" Width="270" Height="30" 
+                    <TextBlock Text="{DynamicResource LangKeyLocation}" Width="100" TextAlignment="Left"/>
+                    <TextBox control:TextBoxHelper.Watermark="{DynamicResource LangKeyIncludeaplaceoraddress}" Width="270" Height="30" 
                          Text="{Binding EventCreaterManagerModelCommand.EventLocation}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="Description" Width="100" />
+                    <TextBlock Text="{DynamicResource LangKeyDescription}" Width="100" />
                     <TextBox AcceptsReturn="True" TextWrapping="Wrap" Height="100" Width="270" 
-                         control:TextBoxHelper.Watermark="Tell people more about the event" Text="{Binding EventCreaterManagerModelCommand.EventDescription}" />
+                         control:TextBoxHelper.Watermark="{DynamicResource LangKeyTellpeoplemoreabouttheevent}" Text="{Binding EventCreaterManagerModelCommand.EventDescription}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="Start Time" Width="100" />
+                    <TextBlock Text="{DynamicResource LangKeyStartTime}" Width="100" />
                     <control:DateTimePicker VerticalAlignment="Center"
                                         Margin="5" IsClockVisible="False"
                                         SelectedDate="{Binding EventCreaterManagerModelCommand.EventStartDate}" Width="185" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="End Time" Width="100" />
+                    <TextBlock Text="{DynamicResource LangKeyEndTime}" Width="100" />
                     <control:DateTimePicker VerticalAlignment="Center"
                                         Margin="5" IsClockVisible="False" 
                                         SelectedDate="{Binding EventCreaterManagerModelCommand.EventEndDate}" Width="185"/>
@@ -101,23 +101,23 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Post permissions" Width="100" />
+                        <TextBlock Text="{DynamicResource LangKeyPostpermissions}" Width="100" />
                         <StackPanel>
-                            <RadioButton Margin="5" Content="Anyone can post" IsChecked="{Binding EventCreaterManagerModelCommand.IsAnyOneCanPostForAllPost}" />
+                            <RadioButton Margin="5" Content="{DynamicResource LangKeyAnyonecanpost}" IsChecked="{Binding EventCreaterManagerModelCommand.IsAnyOneCanPostForAllPost}" />
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Post approval" Width="100" />
+                        <TextBlock Text="{DynamicResource LangKeyPostapproval}" Width="100" />
                         <StackPanel>
-                            <CheckBox Content="Posts and stories must be approved by a host or co-host" IsChecked="{Binding EventCreaterManagerModelCommand.IsPostMustApproved}" />
+                            <CheckBox Content="{DynamicResource LangKeyPostsandstoriesmustbeapprovedbyahostorco-host}" IsChecked="{Binding EventCreaterManagerModelCommand.IsPostMustApproved}" />
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <TextBlock Text="Messaging" Width="100" />
+                        <TextBlock Text="{DynamicResource LangKeyMessaging}" Width="100" />
                         <StackPanel>
-                            <CheckBox Content="People can ask questions about your event on Messenger" IsChecked="{Binding EventCreaterManagerModelCommand.IsQuesOnMessanger}" />
+                            <CheckBox Content="{DynamicResource LangKeyPeoplecanaskquestionsaboutyoureventonMessenger}" IsChecked="{Binding EventCreaterManagerModelCommand.IsQuesOnMessanger}" />
                         </StackPanel>
                     </StackPanel>
 

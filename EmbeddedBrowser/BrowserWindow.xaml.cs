@@ -1392,6 +1392,7 @@ namespace EmbeddedBrowser
         {
             try
             {
+                //for (;;);{__ar:
                 string searchText = Encoding.UTF8.GetString(data);
                 if (isContains && searchText.Contains(startSearchText))
                     return true;
@@ -1403,21 +1404,7 @@ namespace EmbeddedBrowser
                 else
                     return false;
 
-                _loginFailed = false;
-
-                DominatorAccountModel.Cookies = BrowserCookiesIntoModel().Result;
-                DominatorAccountModel.IsUserLoggedIn = true;
-                DominatorAccountModel.AccountBaseModel.Status = AccountStatus.Success;
-
-                new SocinatorAccountBuilder(DominatorAccountModel.AccountBaseModel.AccountId)
-                  .AddOrUpdateDominatorAccountBase(DominatorAccountModel.AccountBaseModel)
-                  .AddOrUpdateLoginStatus(DominatorAccountModel.IsUserLoggedIn)
-                  .AddOrUpdateCookies(DominatorAccountModel.Cookies)
-                   .SaveToBinFile();
-
-                if (browserLoginMessage)
-                    CustomLog("Browser login successful.");
-                return true;
+               
             }
             catch (Exception ex)
             {

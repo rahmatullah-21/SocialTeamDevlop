@@ -1448,21 +1448,35 @@ namespace DominatorHouseCore.Process
                              // Add into scheduled lsit
                              PublisherScheduledList.Add(addJobName);
 
+                             if (startTime < DateTime.Now)
+                                 startTime = DateTime.Now;
+
                              // Add job manager
                              JobManager.AddJob(() =>
                                   {
-                                      if (ValidateCampaignsTime(campaign) && !(startTime > DateTime.Now))
-                                          // Call the start publishing
-                                          StartPublishingPosts(campaign);
+                                      var scheduleTime = startTime;
+                                      if (ValidateCampaignsTime(campaign))
+                                      {
+                                          if (!(startTime > DateTime.Now.AddMinutes(1)))
+                                          { // Call the start publishing
+                                              StartPublishingPosts(campaign);
+                                              return;
+                                          }
+                                          scheduleTime = DateTime.Now.AddSeconds((startTime - DateTime.Now).TotalSeconds);
+                                      }
                                       else
                                       {
-                                          DateTime nextTime = startTime > DateTime.Now ? startTime : (campaign.StartDate ?? startTime).AddDays(1);
-                                          JobManager.AddJob(() =>
-                                          {
-                                                  // Call the start publishing
-                                                  SchedulePublisher(campaign);
-                                          }, x => x.WithName(addJobName).ToRunOnceAt(nextTime));
+                                          if ((campaign.EndDate != null && campaign.EndDate < DateTime.Now) || campaign.StartDate ==null)
+                                              return;
+                                          scheduleTime = DateTime.Now.AddSeconds(((campaign.StartDate??DateTime.Now) - DateTime.Now).TotalSeconds);
                                       }
+
+                                      JobManager.AddJob(() =>
+                                      {
+                                              // Call the start publishing
+                                              SchedulePublisher(campaign);
+                                      }, x => x.WithName(addJobName).ToRunOnceAt(scheduleTime));
+
                                   }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
                              // Get the advanced settings details of an campaigns
