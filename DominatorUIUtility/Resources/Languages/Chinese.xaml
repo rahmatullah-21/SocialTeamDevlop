@@ -3505,6 +3505,10 @@
     <system:String x:Key="LangKeyPaginationsBeforeSendItToPerformActivity">在发送它到执行活动之前。</system:String>
     <system:String x:Key="LangKeyChangeHashOfImage">更改图像井号标签</system:String>
     <system:String x:Key="LangKeyMentionUserInStoryPost">在故事帖子中提及用户</system:String>
+    <system:String x:Key="LangKeyBrowserAutomation">浏览器自动化</system:String>
+    <system:String x:Key="LangKeySelectAccountForBrowserAutomation">选择帐户浏览器自动化</system:String>
+    <system:String x:Key="LangKeyRunProcessThroughBrowser">通过浏览器运行流程</system:String>
+    <system:String x:Key="LangKeyRunAllActivityThroughHttp">通过HTTP运行所有活动</system:String>
     <system:String x:Key="LangKeyFollowRate">关注率</system:String>
     <system:String x:Key="LangKeyFollowedCount">关注计数</system:String>
     <system:String x:Key="LangKeyFollowBackCount">反向关注计数</system:String>
@@ -3836,5 +3840,8 @@
     <system:String x:Key="LangKeyTopToBottom">从上到下</system:String>
     <system:String x:Key="LangKeyMessageDownloadMSVCPlusPlus">下载Microsoft Visual C ++</system:String>
     <system:String x:Key="LangKeyDownloadMSVCPlusPlus">*请下载并安装最新的“Microsoft Visual C ++”以运行嵌入式浏览器。 如果跳过，嵌入式浏览器将无法运行。</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerUser">最大每个用户的帖子数量</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerUser">每个用户最多要发表评论的帖子数</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeSharePerUser">最大每个用户的帖子数</system:String>
 
 </ResourceDictionary>
