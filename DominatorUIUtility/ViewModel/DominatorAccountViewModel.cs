@@ -1813,16 +1813,19 @@ namespace DominatorUIUtility.ViewModel
                   "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
+                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram))
+                    {
+                        Dialog.ShowDialog("Note", "Instagram accounts won't work with Browser-Automation feature, Please try with Http setting.");
+                    }
                     LstDominatorAccountModel.ForEach(x =>
                     {
-                        if (x.IsAccountManagerAccountSelected)
+                        if (x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram)
                         {
                             x.IsRunProcessThroughBrowser = true;
                             new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
                            .AddOrUpdateBrowserSettings(true)
                            .SaveToBinFile();
                         }
-
                     });
 
                     StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
@@ -1844,8 +1847,7 @@ namespace DominatorUIUtility.ViewModel
                         });
 
                         IsProgressActive = false;
-
-
+                        
                     });
                 }
             }
@@ -1867,14 +1869,13 @@ namespace DominatorUIUtility.ViewModel
                 {
                     LstDominatorAccountModel.ForEach(x =>
                     {
-                        if (x.IsAccountManagerAccountSelected)
+                        if (x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram)
                         {
                             x.IsRunProcessThroughBrowser = false;
                             new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
                                .AddOrUpdateBrowserSettings(false)
                                .SaveToBinFile();
                         }
-
                     });
 
                     StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);

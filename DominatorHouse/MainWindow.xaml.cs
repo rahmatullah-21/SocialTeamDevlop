@@ -56,7 +56,7 @@ namespace Socinator
             {
                 var dialog = new Dialog();
 
-                var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
+                var activityLogWindow = dialog.GetMetroWindow(Logger, "LangKeyActivityLog".FromResourceDictionary());
 
                 IsClickedFromMainWindow = false;
                 activityLogWindow.Closing += (senders, events) =>
