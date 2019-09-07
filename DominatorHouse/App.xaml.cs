@@ -16,6 +16,7 @@ using MessageBox = System.Windows.MessageBox;
 using DominatorUIUtility.Module;
 using DominatorUIUtility.ViewModel.Startup;
 using DominatorHouse.Utilities.Facebook;
+using DominatorHouseCore.Utility;
 
 namespace Socinator
 {
@@ -54,7 +55,7 @@ namespace Socinator
         {
             if (IsAlreadyRunning())
             {
-                MessageBox.Show("Socinator already running.", "Warnning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("LangKeySocinatorAlreadyRunning".FromResourceDictionary(), "LangKeyWarning".FromResourceDictionary(), MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);
             }
             var container = containerRegistry.GetContainer();

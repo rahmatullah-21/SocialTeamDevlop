@@ -231,7 +231,7 @@ namespace DominatorHouseCore.Utility
                 else
                 {
                     // Inform the maximum post has reached via Toaster notification
-                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+                    ToasterNotification.ShowInfomation(String.Format("LangKeyPostlistReachedToMax".FromResourceDictionary(),campaignName,maximumPostLimitToStore));
 
                 }
                 #endregion

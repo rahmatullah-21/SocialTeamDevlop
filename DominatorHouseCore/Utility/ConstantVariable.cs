@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-
 namespace DominatorHouseCore.Utility
 {
     public static class ConstantVariable
@@ -14,7 +13,7 @@ namespace DominatorHouseCore.Utility
         public static string UseragentLocale { get; } = "en_US";
 
         // public static string IgVersion { get; } = "40.33.0";
-        public static string IgVersion { get; } = "107.0.0.27.121";//"94.0.0.22.116";
+        public static string IgVersion { get; } = "107.0.0.27.121 ";//"94.0.0.22.116";
 
         public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
 
@@ -85,8 +84,7 @@ namespace DominatorHouseCore.Utility
         public static string UpdateCampaign = "LangKey_UpdateCampaign".FromResourceDictionary();
 
         public static string NoAccountSelected = "LangKeyNoAccountSelected".FromResourceDictionary();
-
-
+        
         public static string GetIndexAccountDir()
         {
             string dir = GetPlatformBaseDirectory() + @"\Index\AC";
@@ -112,11 +110,11 @@ namespace DominatorHouseCore.Utility
         }
 
         public static string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
-        
+
         public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
-        
+
         public const string UnGrouped = "Ungrouped";
-        
+
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
 
         public static string GetDate() => DateTime.Now.ToString("ddMMyyyy");
@@ -246,6 +244,7 @@ namespace DominatorHouseCore.Utility
             new SocinatorIntellisenseModel() {Key="{Random:15-20}",Value =  "{Random:15-20}"},
             new SocinatorIntellisenseModel() {Key="{Random:10-15}",Value =  "{Random:10-15}"},
             new SocinatorIntellisenseModel() {Key="{Random:20+}",Value =  "{Random:20+}"},
+
         };
 
         public static string Separator = "<:>";

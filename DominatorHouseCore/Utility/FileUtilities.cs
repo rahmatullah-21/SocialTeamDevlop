@@ -58,7 +58,7 @@ namespace DominatorHouseCore.Utility
                 }
                 catch (Exception ex)
                 {
-                    Dialog.ShowDialog("Warning", ex.Message + " Please close the file and retry.");
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), ex.Message + $" {"LangKeyCloseFileRetry".FromResourceDictionary()}");
                     Console.WriteLine(ex.StackTrace);
                 }
             }

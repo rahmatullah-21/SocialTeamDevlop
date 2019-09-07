@@ -163,7 +163,7 @@ namespace DominatorHouseCore.Utility
                                 if (!isNoUniqueTitleToasterNotified)
                                 {
                                     isNoUniqueTitleToasterNotified = true;
-                                    ToasterNotification.ShowInfomation($"No More unique titles are present in {campaignName}!");
+                                    ToasterNotification.ShowInfomation(String.Format("LangKeyNoUniqueTitlesAvailableInCampaign",campaignName));
                                 }
                                 postTitle = string.Empty;
                             }
@@ -414,7 +414,7 @@ namespace DominatorHouseCore.Utility
                 if (postCount <= 0)
                 {
                     // Inform the maximum post has reached via Toaster notification
-                    ToasterNotification.ShowInfomation($"Maximum Postlist Reached: {campaignName} already have {maximumPostLimitToStore}+ posts in postlist!");
+                    ToasterNotification.ShowInfomation(String.Format("LangKeyPostlistReachedToMax".FromResourceDictionary(), campaignName, maximumPostLimitToStore));
                 }
             }
             catch (OperationCanceledException ex)

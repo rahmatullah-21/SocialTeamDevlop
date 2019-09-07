@@ -41,7 +41,7 @@ namespace Socinator
                 SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
-                    GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
+                    GlobusLogHelper.log.Info(String.Format("LangKeyWelcomeToApplication".FromResourceDictionary(), ConstantVariable.ApplicationName));
                 };
             }
             catch (Exception ex)
