@@ -194,7 +194,7 @@ namespace DominatorUIUtility.ViewModel
         {
             if (string.IsNullOrEmpty(WhitelistUser.Trim()))
             {
-                GlobusLogHelper.log.Info("Error:- Please enter a username to add to the Whitelist.");
+                GlobusLogHelper.log.Info("LangKeyErrorEnterUsernameToWhitelist".FromResourceDictionary());
                 return;
             }
 
@@ -235,7 +235,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork,
                                 userName, UserType.WhiteListedUser,
-                                $"{userName} already added to Whitelist/Blacklist. Click on refresh button to view updated list.");
+                                $"{userName} {"LangKeyAlreadyAddedToBlacklistWhitelist".FromResourceDictionary()}");
                         }
                     }
                 }
@@ -250,11 +250,10 @@ namespace DominatorUIUtility.ViewModel
 
             if (_whiteListUser.Count > 0)
                 ToasterNotification.ShowSuccess(
-                    $"Successfully added {_whiteListUser.Count} distinct user{(_whiteListUser.Count > 1 ? "s" : "")}. Click on refresh button to view updated list");
+                    $"Successfully added {_whiteListUser.Count} distinct user{(_whiteListUser.Count > 1 ? "s" : "")}. {"LangKeyClickRefreshToViewUpdatedList".FromResourceDictionary()}");
             else
                 if (_whiteListUser.Count > 0)
-                ToasterNotification.ShowError(
-                    $"No distinct users found!");
+                ToasterNotification.ShowError("LangKeyNoDistinctUsersFound".FromResourceDictionary());
         }
 
         private void ClearUser(object sender)
@@ -346,7 +345,7 @@ namespace DominatorUIUtility.ViewModel
             var selectedUser = LstWhiteListUsers.Where(x => x.IsWhiteListUserChecked).ToList();
             if (selectedUser.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast one user");
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtLeastOneUser".FromResourceDictionary());
                 return;
             }
             Task.Factory.StartNew(() =>
@@ -379,7 +378,7 @@ namespace DominatorUIUtility.ViewModel
             var selectedUsers = LstWhiteListUsers?.Where(x => x.IsWhiteListUserChecked);
             if (selectedUsers?.Count() == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast one user !!");
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAtLeastOneUser".FromResourceDictionary());
                 return;
             }
 
@@ -405,7 +404,7 @@ namespace DominatorUIUtility.ViewModel
                     Console.WriteLine(ex.StackTrace);
                 }
             });
-            Dialog.ShowDialog("Export WhiteList user", $"WhiteListed user Successfully exported to [ {filename} ]");
+            Dialog.ShowDialog("LangKeyExportWhiteListUser".FromResourceDictionary(), String.Format("LangKeyWhiteListedUserSuccessfullyExportedTo".FromResourceDictionary(), filename));
         }
 
         private void ImportUser()

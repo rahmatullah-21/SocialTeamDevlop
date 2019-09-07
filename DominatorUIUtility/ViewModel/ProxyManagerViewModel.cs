@@ -535,7 +535,7 @@ namespace DominatorUIUtility.ViewModel
 
         private MessageDialogResult ShowWarningMessage()
         {
-            return Dialog.ShowCustomDialog("LangKeyWarning".FromResourceDictionary(), "Proxy(ies) will remove from all account associated with this proxy(ies)\nAre you sure ?", "Yes", "No");
+            return Dialog.ShowCustomDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyProxyWillbeRemovedFromAccount".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary());
         }
 
         private void RemoveProxy(ProxyManagerModel selectedProxy)
@@ -603,8 +603,8 @@ namespace DominatorUIUtility.ViewModel
             var oldProxy = _proxyFileManager.GetProxyById(currentProxy.AccountProxy.ProxyId);
             if (!Proxy.IsValidProxy(currentProxy.AccountProxy.ProxyIp, currentProxy.AccountProxy.ProxyPort))
             {
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                    "Please enter valid proxy.");
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyWarning".FromResourceDictionary(),
+                    "LangKeyPleaseEnterValidProxy".FromResourceDictionary());
                 return;
             }
 
@@ -615,8 +615,8 @@ namespace DominatorUIUtility.ViewModel
                 {
                     if (proxy.AccountProxy.ProxyName == currentProxy.AccountProxy.ProxyName)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                            $"Proxy with name {currentProxy.AccountProxy.ProxyName} is already Exist.");
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyWarning".FromResourceDictionary(),
+                        String.Format("LangKeyThisProxyAlreadyExist".FromResourceDictionary(), currentProxy.AccountProxy.ProxyName));
                         currentProxy.AccountProxy.ProxyName = oldProxy.AccountProxy.ProxyName;
                         isAvailable = true;
                     }
@@ -624,8 +624,8 @@ namespace DominatorUIUtility.ViewModel
                     else if (proxy.AccountProxy.ProxyIp == currentProxy.AccountProxy.ProxyIp &&
                         proxy.AccountProxy.ProxyPort == currentProxy.AccountProxy.ProxyPort)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
-                            $"Proxy with Ip {currentProxy.AccountProxy.ProxyIp} port {currentProxy.AccountProxy.ProxyPort} is already Exist.");
+                        DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyWarning".FromResourceDictionary(),
+                            String.Format("LangKeyProxyWithIpPortAlreadyExist".FromResourceDictionary(), currentProxy.AccountProxy.ProxyIp, currentProxy.AccountProxy.ProxyPort));
                         currentProxy.AccountProxy = oldProxy.AccountProxy;
                         isAvailable = true;
                         // ReSharper disable once RedundantJumpStatement
@@ -656,8 +656,8 @@ namespace DominatorUIUtility.ViewModel
                 var accountToUpdate = _accountsFileManager.GetAccount(acc.UserName, acc.AccountBaseModel.AccountNetwork);
                 UpdateAccountsProxy(accountToUpdate);
             });
-            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Success",
-                $"{oldProxy.AccountProxy.ProxyIp}:{oldProxy.AccountProxy.ProxyPort} Successfully updated.");
+            DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeySuccess".FromResourceDictionary(),
+                String.Format("LangKeyIpPortUpdated".FromResourceDictionary(), oldProxy.AccountProxy.ProxyIp, oldProxy.AccountProxy.ProxyPort));
 
         }
 

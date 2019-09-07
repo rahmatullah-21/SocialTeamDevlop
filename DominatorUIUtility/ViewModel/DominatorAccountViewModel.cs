@@ -1809,8 +1809,8 @@ namespace DominatorUIUtility.ViewModel
         {
             if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
             {
-                var result = Dialog.ShowCustomDialog("Actvating Browser Automation",
-                  "This will result in stopping all activity through HTTP and starting activity by Browser. \nDo you want to Continue?", "Continue", "Cancel");
+                var result = Dialog.ShowCustomDialog("LangKeyActivatingBrowserAutomation".FromResourceDictionary(),
+                  "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
                     LstDominatorAccountModel.ForEach(x =>
@@ -1848,13 +1848,10 @@ namespace DominatorUIUtility.ViewModel
 
                     });
                 }
-
-                
-
             }
             else
             {
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Browser Automation", "No account selecetd. Please select atleast one account!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
             }
         }
 
@@ -1864,8 +1861,8 @@ namespace DominatorUIUtility.ViewModel
         {
             if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
             {
-                var result = Dialog.ShowCustomDialog("Deactvating Browser Automation",
-                      "This will result in stopping all activity through Browser and starting activity by HTTP. \nDo you want to Continue?", "Continue", "Cancel");
+                var result = Dialog.ShowCustomDialog("LangKeyDeactivatingBrowserAutomation".FromResourceDictionary(),
+                      "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
                     LstDominatorAccountModel.ForEach(x =>
@@ -1886,7 +1883,7 @@ namespace DominatorUIUtility.ViewModel
 
                     Task.Factory.StartNew(() =>
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), $"Please wait for 10 secs!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(),10));
 
                         IsProgressActive = true;
 
@@ -1904,7 +1901,7 @@ namespace DominatorUIUtility.ViewModel
             }
             else
             {
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Browser Automation", "No account selecetd. Please select atleast one account!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
             }
 
 

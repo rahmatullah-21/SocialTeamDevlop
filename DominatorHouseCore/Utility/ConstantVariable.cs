@@ -79,15 +79,12 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
+        
+        public static string CreateCampaign = "LangKey_CreateCampaign".FromResourceDictionary();
 
+        public static string UpdateCampaign = "LangKey_UpdateCampaign".FromResourceDictionary();
 
-
-
-        public const string CreateCampaign = "_Create Campaign";
-
-        public const string UpdateCampaign = "_Update Campaign";
-
-        public const string NoAccountSelected = "No Account Selected";
+        public static string NoAccountSelected = "LangKeyNoAccountSelected".FromResourceDictionary();
 
 
         public static string GetIndexAccountDir()

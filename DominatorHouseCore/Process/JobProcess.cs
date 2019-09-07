@@ -306,7 +306,7 @@ namespace DominatorHouseCore.Process
                               else
                               {
                                   JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                                  GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
+                                  GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, String.Format("LangKeyDidNotGetProccessedDueToFailedLogin".FromResourceDictionary(), DominatorAccountModel.AccountBaseModel.Status));
                                   StopIfAccountLoginFail();
                               }
                           }
@@ -388,7 +388,7 @@ namespace DominatorHouseCore.Process
             {
                 if (string.IsNullOrEmpty(CampaignId) && string.IsNullOrEmpty(TemplateId))
                 {
-                    GlobusLogHelper.log.Info($"Campign Id not set for {ActivityType} - {TemplateId}");
+                    GlobusLogHelper.log.Info(String.Format("LangKeyCampaignIdNotSetFor".FromResourceDictionary(), ActivityType, TemplateId));
                     return false;
                 }
 

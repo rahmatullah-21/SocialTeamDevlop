@@ -181,7 +181,7 @@ namespace DominatorUIUtility.ViewModel.Startup
                         }
                         if (SavedQueries.Any(x => x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
                         {
-                            Dialog.ShowDialog("Warning", "Query already exist.");
+                            Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyQueryAlreadyExist".FromResourceDictionary());
                             return;
                         }
                         SavedQueries.Add(currentQuery);
@@ -189,13 +189,13 @@ namespace DominatorUIUtility.ViewModel.Startup
                     }
 
                     if (!IsQueryOfCurrentModule)
-                        GlobusLogHelper.log.Info(Log.CustomMessage, network, viewModel.SelectAccount.UserName, _activityType, $"Query can't add because it may not related to {network}  {_activityType} module.");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, network, viewModel.SelectAccount.UserName, _activityType, String.Format("LangKeyQueryCantBeAdded".FromResourceDictionary(), network, _activityType));
                 }
                 else
                 {
                     if (string.IsNullOrEmpty(actvity.QueryControl.CurrentQuery.QueryValue))
                     {
-                        Dialog.ShowDialog("Warning", "Please type some Query.");
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyTypeSomeQuery".FromResourceDictionary());
                         return;
                     }
                     actvity.QueryControl.CurrentQuery.QueryTypeDisplayName = actvity.QueryControl.CurrentQuery.QueryType;
@@ -206,7 +206,7 @@ namespace DominatorUIUtility.ViewModel.Startup
                     currentQuery.QueryPriority = SavedQueries.Count + 1;
                     if (SavedQueries.Any(x => x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
                     {
-                        Dialog.ShowDialog("Warning", "Query already exist.");
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyQueryAlreadyExist".FromResourceDictionary());
                         return;
                     }
                     currentQuery.Index = SavedQueries.Count + 1;
@@ -253,7 +253,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         {
             if (JobConfiguration.RunningTime.All(time => time.Timings.Count == 0))
             {
-                Dialog.ShowDialog("Error", "Please add at least one time range when to run and stop the activity.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyAddATimeRangeToRunStopActivity".FromResourceDictionary());
                 return false;
             }
             return true;
@@ -262,7 +262,7 @@ namespace DominatorUIUtility.ViewModel.Startup
         {
             if (SavedQueries.Count == 0)
             {
-                Dialog.ShowDialog("Error", "Please add at least one query.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorAddAtLeastOneQuery".FromResourceDictionary());
                 return false;
             }
             return true;

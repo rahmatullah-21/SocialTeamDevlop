@@ -3930,5 +3930,51 @@ Are you sure?</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerUser">Maximum Number of post to be like per user</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerUser">Maximum Number of post to be comment per user</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeSharePerUser">Maximum Number of post to be share per user</system:String>
-    
+    <system:String x:Key="LangKey_CreateCampaign">_Create Campaign</system:String>
+    <system:String x:Key="LangKey_UpdateCampaign">_Update Campaign</system:String>
+    <system:String x:Key="LangKeyNoAccountSelected">No Account Selected</system:String>
+    <system:String x:Key="LangKeyActivitySpeed">Activity Speed</system:String>
+    <system:String x:Key="LangKeySuperfastNotRecommended">*** Superfast not recommended for New or Real accounts</system:String>
+    <system:String x:Key="LangKeyAverageDailyActivities">Average Daily Activities: </system:String>
+    <system:String x:Key="LangKeySelectSpeed">Select speed</system:String>
+    <system:String x:Key="LangKeyFavoriteTime">Favorite Time</system:String>
+    <system:String x:Key="LangKeyEnterFavoriteTime">Enter Favorite time</system:String>
+    <system:String x:Key="LangKeyFavoriteTimeWithNameExistWannaOverride" xml:space="preserve">Favorite Time with name {0} already exist.
+ Do you want to override ?</system:String>
+    <system:String x:Key="LangKeyFavoriteTimeShountBeEmpty" xml:space="preserve">Favorite Time should not be empty.
+ Please type some name.</system:String>
+    <system:String x:Key="LangKeyOk">Ok</system:String>
+    <system:String x:Key="LangKeyCreateFavorite">Create Favorite</system:String>
+    <system:String x:Key="LangKeyActivatingBrowserAutomation">Activating Browser Automation</system:String>
+    <system:String x:Key="LangKeyStartActivityByBrowserStopByHttp" xml:space="preserve">This will result in stopping all activity through HTTP and starting activity by Browser.
+ Do you want to continue?</system:String>
+    <system:String x:Key="LangKeyDeactivatingBrowserAutomation">Deactivating Browser Automation</system:String>
+    <system:String x:Key="LangKeyStartActivityByHttpStopByBrowser" xml:space="preserve">This will result in stopping all activity through Browser and starting activity by HTTP.
+ Do you want to continue?</system:String>
+    <system:String x:Key="LangKeyWaitForNSecs">Please wait for {0} secs!</system:String>
+    <system:String x:Key="LangKeyProxyWillbeRemovedFromAccount" xml:space="preserve">Proxy will be removed from all accounts associated with.
+ Are you sure?</system:String>
+    <system:String x:Key="LangKeyPleaseEnterValidProxy">Please enter a valid proxy.</system:String>
+    <system:String x:Key="LangKeyThisProxyAlreadyExist">Proxy with name {0} already exist.</system:String>
+    <system:String x:Key="LangKeyProxyWithIpPortAlreadyExist">Proxy with Ip {0}, port {1} already exist.</system:String>
+    <system:String x:Key="LangKeyIpPortUpdated">{0}:{1} successfully updated.</system:String>
+    <system:String x:Key="LangKeyErrorEnterUsernameToWhitelist">Error:- Please enter a username to add to the Whitelist.</system:String>
+    <system:String x:Key="LangKeyNoDistinctUsersFound">No distinct users found!</system:String>
+    <system:String x:Key="LangKeyExportWhiteListUser">Export WhiteList user</system:String>
+    <system:String x:Key="LangKeyWhiteListedUserSuccessfullyExportedTo">WhiteListed user successfully exported to [ {0} ]</system:String>
+    <system:String x:Key="LangKeySelectAtleastOneActivity">Please select at least one activity.</system:String>
+    <system:String x:Key="LangKeyQueryCantBeAdded">Query can't be added because it may not be related to {0}  {1} module.</system:String>
+    <system:String x:Key="LangKeyTypeSomeQuery">Please type some query.</system:String>
+    <system:String x:Key="LangKeyAddATimeRangeToRunStopActivity">Please add at least one time range when to run and stop the activity.</system:String>
+    <system:String x:Key="LangKeyMessageCopied">Message copied</system:String>
+    <system:String x:Key="LangKeyAsksForSelectingAndOverwritingAccounts">{0} account(s) already set up to run {1} activity. Would you like to overwrite settings of those accounts?
+ {2}"</system:String>
+    <system:String x:Key="LangKeyErrorActivityIsntConfiguredProperlyForAccount">Error:- {0} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed and clicked on save button.</system:String>
+    <system:String x:Key="LangKeyFatalErrorMessage" xml:space="preserve">NOTE: While you may be able to continue, restarting {0} is advisable.
+Do you want to continue running {0}?</system:String>
+    <system:String x:Key="LangKeyPostSuccessfullySaved">Post successfully saved</system:String>
+    <system:String x:Key="LangKeyEnterURLInInputFieldToVerifyProxy">Please enter some URL in the input field, which will be used to verify the proxy.</system:String>
+    <system:String x:Key="LangKeyDidNotGetProccessedDueToFailedLogin">did not get processed as account failed to login [{0}]</system:String>
+    <system:String x:Key="LangKeyCampaignIdNotSetFor">Campaign Id is not set for {0} - {1}</system:String>
+    <system:String x:Key="LangKeySpecificUserPostUrl">Specific User Post Url</system:String>
 </ResourceDictionary>
