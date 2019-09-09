@@ -88,16 +88,45 @@ namespace Socinator
         private Mutex _mutex;
         bool IsAlreadyRunning()
         {
+            return CheckByProcess();
+            //try   // commented this code temporarily as it was not working properly
+            //{
+            //    Mutex.OpenExisting("Socinator");
+            //}
+            //catch
+            //{
+            //    _mutex = new Mutex(true, "Socinator");
+            //    return false;
+            //}
+            //return true;
+        }
+
+        bool CheckByProcess()
+        {
             try
             {
-                Mutex.OpenExisting("Socinator");
+                var existed = false;
+                var itemCount = 0;
+
+                foreach (var item in System.Diagnostics.Process.GetProcesses())
+                {
+                    try
+                    {
+                        if (item.ProcessName != "Socinator")
+                            continue;
+                        itemCount++;
+                        if (itemCount <= 1) continue;
+                        existed = true;
+                        break;
+                    }
+                    catch
+                    { /* ignored*/ }
+                }
+                
+                return existed;
             }
             catch
-            {
-                _mutex = new Mutex(true, "Socinator");
-                return false;
-            }
-            return true;
+            { return false; }
         }
     }
 }
