@@ -1,4 +1,5 @@
 ﻿using DominatorHouseCore.LogHelper;
+using DominatorHouseCore.Utility;
 using System;
 using System.Windows;
 
@@ -10,13 +11,13 @@ namespace DominatorHouseCore.Diagnostics
         {
             string message = string.Format(format, args);
             GlobusLogHelper.log.Warn(message);
-            MessageBox.Show(message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+            MessageBox.Show(message, "LangKeyWarning".FromResourceDictionary(), MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
         }
 
         public static void Warning(string message)
         {
             GlobusLogHelper.log.Warn(message);
-            MessageBox.Show(message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+            MessageBox.Show(message, "LangKeyWarning".FromResourceDictionary(), MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
         }
 
         public static void Error(string format, params object[] args)
@@ -67,8 +68,7 @@ namespace DominatorHouseCore.Diagnostics
             
             GlobusLogHelper.log.Error(message);
             var appName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
-            message += "\r\n\r\n" + $"NOTE: While you may be able to continue, restarting {appName} is advisable.\r\n\r\n" +
-                       $"Do you want to continue running {appName}?";
+            message += "\r\n\r\n" + String.Format("LangKeyFatalErrorMessage".FromResourceDictionary(), appName);
             GlobusLogHelper.log.Error("Fatal Exit...");
             GlobusLogHelper.log.Error(message);
 

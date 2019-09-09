@@ -183,7 +183,7 @@ namespace DominatorHouseCore.ViewModel
             if (Selected != null)
             {
                 Clipboard.SetText(Selected.Message);
-                ToasterNotification.ShowSuccess("Message copied");
+                ToasterNotification.ShowSuccess("LangKeyMessageCopied".FromResourceDictionary());
             }
         }
     }

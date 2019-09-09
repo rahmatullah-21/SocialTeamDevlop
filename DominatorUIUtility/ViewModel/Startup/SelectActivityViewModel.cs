@@ -59,7 +59,7 @@ namespace DominatorUIUtility.ViewModel.Startup
             var allSelectedActivity = SelectActivityModel.LstNetworkActivityType.Where(x => x.IsActivity).ToList();
             if (allSelectedActivity.Count() == 0)
             {
-                Dialog.ShowDialog("Error", "Please select atleast one activity.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeySelectAtleastOneActivity".FromResourceDictionary());
                 return;
             }
             NavigationList = new List<string>();

@@ -7,8 +7,6 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class CookieHelper : BindableBase
     {
-       
-
         private string _name = string.Empty;
         [ProtoMember(1)]
         public string Name
@@ -65,7 +63,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _Secure = false;
+        private bool _Secure = true;
         [ProtoMember(6)]
         public bool Secure
         {

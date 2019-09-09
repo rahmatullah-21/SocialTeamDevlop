@@ -297,8 +297,8 @@ namespace DominatorHouseCore.Models
                             Name = cookieHelper.Name,
                             Value = cookieHelper.Value,
                             Expires = cookieHelper.Expires,
-                            HttpOnly = cookieHelper.HttpOnly,
-                            Secure=cookieHelper.Secure
+                            HttpOnly = false,
+                            Secure = true,
                         });
                 }
 
@@ -312,8 +312,8 @@ namespace DominatorHouseCore.Models
                     Name = cookie.Name,
                     Value = cookie.Value,
                     Expires = cookie.Expires,
-                    HttpOnly = cookie.HttpOnly,
-                    Secure = cookie.Secure
+                    HttpOnly = false,
+                    Secure = true
                 }).ToHashSet();
             }
         }
@@ -463,7 +463,7 @@ namespace DominatorHouseCore.Models
                 if (value)
                     IsAutoVerifyByEmail = false;
                 SetProperty(ref _isManualVerify, value);
-               
+
             }
         }
 
@@ -516,7 +516,7 @@ namespace DominatorHouseCore.Models
                                 Domain = cookieHelper.Domain,
                                 Name = cookieHelper.Name,
                                 Value = cookieHelper.Value,
-                                Secure = cookieHelper.Secure,
+                                Secure = true,
                                 HttpOnly = false
                             });
                         }
@@ -528,8 +528,8 @@ namespace DominatorHouseCore.Models
                                 Domain = cookieHelper.Domain,
                                 Name = cookieHelper.Name,
                                 Value = cookieHelper.Value,
-                                Secure = cookieHelper.Secure,
-                                HttpOnly = true
+                                Secure = true,
+                                HttpOnly = false
                             });
                         }
 
@@ -547,8 +547,8 @@ namespace DominatorHouseCore.Models
                     Domain = cookie.Domain,
                     Name = cookie.Name,
                     Value = cookie.Value,
-                    Secure = cookie.Secure,
-                    HttpOnly = true
+                    Secure = true,
+                    HttpOnly = false
                 }).ToHashSet();
             }
         }

@@ -16,6 +16,7 @@ using MessageBox = System.Windows.MessageBox;
 using DominatorUIUtility.Module;
 using DominatorUIUtility.ViewModel.Startup;
 using DominatorHouse.Utilities.Facebook;
+using DominatorHouseCore.Utility;
 
 namespace Socinator
 {
@@ -54,7 +55,7 @@ namespace Socinator
         {
             if (IsAlreadyRunning())
             {
-                MessageBox.Show("Socinator already running.", "Warnning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("LangKeySocinatorAlreadyRunning".FromResourceDictionary(), "LangKeyWarning".FromResourceDictionary(), MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);
             }
             var container = containerRegistry.GetContainer();
@@ -87,16 +88,45 @@ namespace Socinator
         private Mutex _mutex;
         bool IsAlreadyRunning()
         {
+            return CheckByProcess();
+            //try   // commented this code temporarily as it was not working properly
+            //{
+            //    Mutex.OpenExisting("Socinator");
+            //}
+            //catch
+            //{
+            //    _mutex = new Mutex(true, "Socinator");
+            //    return false;
+            //}
+            //return true;
+        }
+
+        bool CheckByProcess()
+        {
             try
             {
-                Mutex.OpenExisting("Socinator");
+                var existed = false;
+                var itemCount = 0;
+
+                foreach (var item in System.Diagnostics.Process.GetProcesses())
+                {
+                    try
+                    {
+                        if (item.ProcessName != "Socinator")
+                            continue;
+                        itemCount++;
+                        if (itemCount <= 1) continue;
+                        existed = true;
+                        break;
+                    }
+                    catch
+                    { /* ignored*/ }
+                }
+                
+                return existed;
             }
             catch
-            {
-                _mutex = new Mutex(true, "Socinator");
-                return false;
-            }
-            return true;
+            { return false; }
         }
     }
 }

@@ -640,8 +640,8 @@ namespace DominatorHouse.ViewModels
             {
                 TabDock = Dock.Left;
 
-                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Fatal Error",
-                    $"Please purchase access of {network} automation features!");
+                DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyFatalError".FromResourceDictionary(),
+                    String.Format("LangKeyPurchaseAccessOfNetwork".FromResourceDictionary(),network));
                 ex.DebugLog();
             }
         }

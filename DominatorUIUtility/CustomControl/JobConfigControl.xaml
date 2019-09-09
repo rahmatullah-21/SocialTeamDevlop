@@ -100,11 +100,11 @@
                                 </Style>
                             </Rectangle.Style>
                         </Rectangle>
-                        <Label Content="Activity Speed" FontWeight="Bold" FontSize="20"/>
+                        <Label Content="{DynamicResource LangKeyActivitySpeed}"  FontWeight="Bold" FontSize="20"/>
                     </StackPanel>
-                    <Label Content="*** Superfast not recommended for New or Real accounts" HorizontalAlignment="Center" Foreground="Red"></Label>
+                    <Label Content="{DynamicResource LangKeySuperfastNotRecommended}" HorizontalAlignment="Center" Foreground="Red"></Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Label Content="Average Daily Activities: " FontSize="14" FontWeight="SemiBold"  HorizontalAlignment="Center"/>
+                        <Label Content="{DynamicResource LangKeyAverageDailyActivities}" FontSize="14" FontWeight="SemiBold"  HorizontalAlignment="Center"/>
                         <Label  FontSize="14" FontWeight="SemiBold"  HorizontalAlignment="Center">
                             <Label.Content>
                                 <MultiBinding Converter="{StaticResource AverageConverter}">
@@ -115,7 +115,7 @@
                         </Label>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-                        <Label Content="Select speed" FontWeight="SemiBold" FontSize="15"/>
+                        <Label Content="{DynamicResource LangKeySelectSpeed}" FontWeight="SemiBold" FontSize="15"/>
                         <ComboBox ItemsSource="{Binding JobConfiguration.Speeds}" Width="150" SelectedItem="{Binding JobConfiguration.SelectedItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                                   SelectionChanged="Selector_OnSelectionChanged"  Name="Speed" SelectedIndex="0"/>
                     </StackPanel>
@@ -248,7 +248,7 @@
                                 </DataTemplate>
                             </controls:DropDownButton.ItemTemplate>
                         </controls:DropDownButton>
-                        <Button Content="Create Favorite" Background="{DynamicResource AccentBaseColorBrush}" 
+                        <Button Content="{Binding LangKeyCreateFavorite}" Background="{DynamicResource AccentBaseColorBrush}" 
                                 Height="30" Foreground="White" Name="BtnCreateFavorite" Click="BtnCreateFavorite_OnClick"/>
                     </StackPanel>
                 </StackPanel>

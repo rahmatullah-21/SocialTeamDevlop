@@ -174,9 +174,8 @@ namespace DominatorHouseCore.BusinessLogic.GlobalRoutines
 
             // Asks for select and overwriting through UI
             string accs = string.Join(", ", selectedAccountsWithRunningActivity.Select(a => a.UserName));
-            string msg = $"{selectedAccountsWithRunningActivity.Count} account(s) already set up to run {activityType} activity." +
-                          $"Would you like to overwrite settings of those accounts?\r\n{accs}";
-
+            string msg = String.Format("LangKeyAsksForSelectingAndOverwritingAccounts".FromResourceDictionary(), selectedAccountsWithRunningActivity.Count);
+                  
             if (ConfirmDialog(msg))
                 return true;
 
