@@ -70,36 +70,36 @@
                           BorderBrush="White"
                           ToolTip="{DynamicResource LangKeySelectTheCampaignToFilterForView}" 
                           behaviours:SelectionChangedBehaviour.Command="{Binding CampaignTypeSelectionChange}"/>
-
                 </StackPanel>
 
             </Grid>
-            <ListView Grid.Row="1" x:Name="list" ItemsSource="{Binding CampaignCollection,IsAsync=True}"
+            <StackPanel Orientation="Horizontal" Grid.Row="1" >
+                <ListView x:Name="list" Width="auto" ItemsSource="{Binding CampaignCollection,IsAsync=True}"
                       VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                       VirtualizingPanel.IsContainerVirtualizable="True"
                       ItemContainerStyle="{StaticResource ListViewItems}" Foreground="{DynamicResource AccentBaseColorBrush}"
                       AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
-                <ListView.Resources>
-                    <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                    </Style>
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
 
-                    <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
+                        <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
 
-                </ListView.Resources>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.View>
-                    <GridView>
-                        <GridView.Columns>
-                            <GridViewColumn Width="100">
-                                <CheckBox x:Name="AllCampaign" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsCampaignChecked}" 
+                    </ListView.Resources>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Width="100">
+                                    <CheckBox x:Name="AllCampaign" IsChecked="{Binding IsAllCampaignChecked}" Content=" #"/>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsCampaignChecked}" 
                                                   x:Name="ChkSingleCampaign"
                                                   Margin="5,0,0,0"  Content="{Binding (ItemsControl.AlternationIndex),
                                                   RelativeSource={RelativeSource AncestorType=ListViewItem},
@@ -107,140 +107,156 @@
                                                   Foreground="{DynamicResource AccentBaseColorBrush}"
                                                   Command="{Binding DataContext.SelectionCommand,
                                                   RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource LangKeyCampaignName}" DisplayMemberBinding="{Binding CampaignName}"/>
-                            <GridViewColumn Header="{DynamicResource LangKeyModuleName}" DisplayMemberBinding="{Binding SubModule}"/>
-                            <GridViewColumn Header="{DynamicResource LangKeyStatus}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource LangKeyPaused}" 
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource LangKeyCampaignName}" DisplayMemberBinding="{Binding CampaignName}"/>
+                                <GridViewColumn Header="{DynamicResource LangKeyModuleName}" DisplayMemberBinding="{Binding SubModule}"/>
+                                <GridViewColumn Header="{DynamicResource LangKeyStatus}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <controls:ToggleSwitch OnLabel="{DynamicResource LangKeyActive}" OffLabel="{DynamicResource LangKeyPaused}" 
                                                                FontSize="12" Foreground="{DynamicResource AccentBaseColorBrush}" Name="campaignStatus"
                                                                SwitchForeground="{DynamicResource AccentBaseColorBrush}"
                                                                IsChecked="{Binding DataContext.Status,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}},
                                             Converter={StaticResource StringToBooleanConverter},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
-                                            <interactivity:Interaction.Triggers>
-                                                <interactivity:EventTrigger EventName="Click">
-                                                    <interactivity:InvokeCommandAction Command="{Binding DataContext.StatusChangeCommand,
+                                                <interactivity:Interaction.Triggers>
+                                                    <interactivity:EventTrigger EventName="Click">
+                                                        <interactivity:InvokeCommandAction Command="{Binding DataContext.StatusChangeCommand,
                                                         RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding ElementName=campaignStatus}"/>
-                                                </interactivity:EventTrigger>
-                                            </interactivity:Interaction.Triggers>
-                                            <controls:ToggleSwitch.Style>
-                                                <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedAccountList.Count}" Value="0">
-                                                            <Setter Property="OffSwitchBrush" Value="#FA8072"/>
-                                                            <Setter Property="OnSwitchBrush" Value="#FA8072"/>
-                                                            <Setter Property="ToolTip" Value="*Account not present"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </controls:ToggleSwitch.Style>
-                                        </controls:ToggleSwitch>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource LangKeyAction}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Margin="4" >
-                                            <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                                    </interactivity:EventTrigger>
+                                                </interactivity:Interaction.Triggers>
+                                                <controls:ToggleSwitch.Style>
+                                                    <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedAccountList.Count}" Value="0">
+                                                                <Setter Property="OffSwitchBrush" Value="#FA8072"/>
+                                                                <Setter Property="OnSwitchBrush" Value="#FA8072"/>
+                                                                <Setter Property="ToolTip" Value="*Account not present"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </controls:ToggleSwitch.Style>
+                                            </controls:ToggleSwitch>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource LangKeyAction}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="4" >
+                                                <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
                                                     VerticalAlignment="Top" Margin="10,0,0,0"  Command="{Binding DataContext.SettingCommand,
                                                     RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                                     CommandParameter="{Binding ElementName=BtnCampaignSetting}" >
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </StackPanel>
-                                                <Button.ContextMenu>
-                                                    <ContextMenu >
-                                                        <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center" Name="EditCampaign"
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </StackPanel>
+                                                    <Button.ContextMenu>
+                                                        <ContextMenu >
+                                                            <MenuItem Header="{DynamicResource LangKeyEdit}" Height="30"  VerticalContentAlignment="Center" Name="EditCampaign"
                                                                   Command="{Binding Data.EditCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
-                                                            <MenuItem.Icon>
-                                                                <Rectangle Width="20" Height="20" Fill="Black">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
-                                                        <MenuItem Header="{DynamicResource LangKeyDuplicateCampaign}" Height="30" x:Name="DuplicateCampaign"  
+                                                                <MenuItem.Icon>
+                                                                    <Rectangle Width="20" Height="20" Fill="Black">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <MenuItem Header="{DynamicResource LangKeyDuplicateCampaign}" Height="30" x:Name="DuplicateCampaign"  
                                                                   VerticalContentAlignment="Center" 
                                                                   Command="{Binding Data.DuplicateCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
-                                                            <MenuItem.Icon>
-                                                                <Rectangle Fill="Black" Width="17" Height="16">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_page_duplicate}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
-                                                        <Separator />
-                                                        <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" x:Name="DeleteSingleCampaign" 
+                                                                <MenuItem.Icon>
+                                                                    <Rectangle Fill="Black" Width="17" Height="16">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_page_duplicate}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <Separator />
+                                                            <MenuItem Header="{DynamicResource LangKeyDelete}" Height="30" x:Name="DeleteSingleCampaign" 
                                                                   VerticalContentAlignment="Center" 
                                                                   Command="{Binding Data.DeleteCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
-                                                            <MenuItem.Icon>
-                                                                <Rectangle Width="15" Height="20" Fill="Black">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
-                                                        <Separator />
-                                                        <MenuItem Header="{DynamicResource LangKeyReport}" VerticalContentAlignment="Center"
+                                                                <MenuItem.Icon>
+                                                                    <Rectangle Width="15" Height="20" Fill="Black">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <Separator />
+                                                            <MenuItem Header="{DynamicResource LangKeyReport}" VerticalContentAlignment="Center"
                                                                   Height="30" x:Name="CampaignReports"
                                                                   Command="{Binding Data.ReportCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
-                                                            <MenuItem.Icon>
-                                                                <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
-                                                        <MenuItem Header="{DynamicResource LangKeyExportReport}" VerticalContentAlignment="Center"
+                                                                <MenuItem.Icon>
+                                                                    <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <MenuItem Header="{DynamicResource LangKeyExportReport}" VerticalContentAlignment="Center"
                                                                   Height="30" 
                                                                   Command="{Binding Data.ExportReportCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
-                                                            <MenuItem.Icon>
-                                                                <Rectangle Fill="Black" Width="17" Height="16">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_inbox_out}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
-                                                        <Separator />
-                                                        <MenuItem Header="{DynamicResource LangKeyCopyCampaignId}" VerticalContentAlignment="Center"
+                                                                <MenuItem.Icon>
+                                                                    <Rectangle Fill="Black" Width="17" Height="16">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_inbox_out}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <Separator />
+                                                            <MenuItem Header="{DynamicResource LangKeyCopyCampaignId}" VerticalContentAlignment="Center"
                                                                   Height="30" 
                                                                   Command="{Binding Data.CopyCampaignIdCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
-                                                            <MenuItem.Icon>
-                                                                <Rectangle Fill="Black" Width="17" Height="16">
-                                                                    <Rectangle.OpacityMask>
-                                                                        <VisualBrush Visual="{StaticResource appbar_page_copy}" Stretch="Fill" />
-                                                                    </Rectangle.OpacityMask>
-                                                                </Rectangle>
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
-                                                    </ContextMenu>
-                                                </Button.ContextMenu>
+                                                                <MenuItem.Icon>
+                                                                    <Rectangle Fill="Black" Width="17" Height="16">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Visual="{StaticResource appbar_page_copy}" Stretch="Fill" />
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <Separator />
+                                                            <MenuItem Header="{DynamicResource LangKeySelectedAccounts}" VerticalContentAlignment="Center"
+                                                                  Height="30" x:Name="AccountsUsed"
+                                                                  Command="{Binding Data.SelectedAccountsCommand, Source={StaticResource ContextMenuBinding}}"
+                                                                  CommandParameter="{Binding}">
+                                                                <MenuItem.Icon>
+                                                                    <Image Source="/DominatorUIUtility;component/Images/groupupdate.png"  />
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                        </ContextMenu>
+                                                    </Button.ContextMenu>
 
-                                            </Button>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView.Columns>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <controls:FlyoutsControl Margin="1">
+                    <controls:Flyout Name="SelectedAccountFlyout" Background="LightSteelBlue" IsOpen="{Binding SelectedAccountsFlyoutVisibility}" Header="{Binding SelectedAccountListCampaign}" Position="Right">
+                        <ListBox FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding SelectedAccountList}" />
+                    </controls:Flyout>
+                </controls:FlyoutsControl>
+            </StackPanel>
         </Grid>
+        
     </Border>
 
 </UserControl>

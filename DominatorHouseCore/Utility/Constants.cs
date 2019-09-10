@@ -11,8 +11,8 @@ namespace DominatorHouseCore.Utility
 
         public static string ApplicationName => "Socinator";
 
-        public static string ContentTypeDefault => "application/x-www-form-urlencoded;";// charset=UTF-8
-        
+        public static string ContentTypeDefault => "application/x-www-form-urlencoded;";
+
         public static int FloodWait => 60000;
 
         public static string IG_SIG_KEY
