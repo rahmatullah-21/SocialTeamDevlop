@@ -4000,4 +4000,14 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyPurchaseAccessOfNetwork">Please purchase access of {0} automation features!</system:String>
     <system:String x:Key="LangKeyConfigureYourSettings">Please configure your {0} settings, before starting the activity. Make sure you have added enough queries and have clicked on SAVE button</system:String>
     <system:String x:Key="LangKeySelectedAccounts">Selected Accounts</system:String>
+    <system:String x:Key="EmptyExemptionErrorMessage">Empty or invalid license key submitted, Please check your license key and enter again.</system:String>
+    <system:String x:Key="ExemptionNotFoundErrorMessage">Oops, we are unable to find key you have entered, please recheck once at your end or contact support.</system:String>
+    <system:String x:Key="ExemptionDisabledErrorMessage">Your License key has been disabled, please contact support for more information.</system:String>
+    <system:String x:Key="ExemptionExpiredErrorMessage">Your license key has got expired, please renew your subscription or contact support.</system:String>
+    <system:String x:Key="InvalidInputErrorMessage">Your entered license key is invalid, please check your license key and enter again.</system:String>
+    <system:String x:Key="MoreLimitsErrorMessage">You have already reached the maximum allowed activations for this license key, please buy more license or deactivate your previous activation.</system:String>
+    <system:String x:Key="NoMoreAllowedErrorMessage">Sorry, but we are unable to reactivate your license key, please contact support.</system:String>
+    <system:String x:Key="UnknownErrorMessage">Sorry, some unknown error occured, please contact support.</system:String>
+    <system:String x:Key="LangKeyLicenseError">License Error</system:String>
+    
 </ResourceDictionary>
