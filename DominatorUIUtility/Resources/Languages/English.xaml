@@ -3999,4 +3999,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyFatalError">Fatal Error</system:String>
     <system:String x:Key="LangKeyPurchaseAccessOfNetwork">Please purchase access of {0} automation features!</system:String>
     <system:String x:Key="LangKeyConfigureYourSettings">Please configure your {0} settings, before starting the activity. Make sure you have added enough queries and have clicked on SAVE button</system:String>
+    <system:String x:Key="LangKeySelectedAccounts">Selected Accounts</system:String>
 </ResourceDictionary>

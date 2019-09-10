@@ -25,6 +25,7 @@ namespace DominatorHouseCore.Utility
         [ProtoMember(2)]
         public string DeviceId { get; set; }
 
+
         [ProtoMember(3)]
         public string Manufacturer { get; private set; }
 
@@ -33,10 +34,7 @@ namespace DominatorHouseCore.Utility
 
         [ProtoMember(5)]
         public string PhoneId { get; set; }
-        public string Id { get; set; }
-        public string AttributionId { get; set; }
-        public string GoogleId { get; set; }
-        public string FamilyId { get; set; }
+
         public string Useragent =>
             string.Format(ConstantVariable.UseragentCommonFormat, (object)ConstantVariable.IgVersion, (object)AndroidVersion, (object)AndroidRelease, (object)Dpi, (object)Resolution, (object)ManufacturerBrand, (object)Model, (object)Device, (object)Cpu, (object)ConstantVariable.UseragentLocale + "; 168361627");//125398471//155374104
 
@@ -70,6 +68,14 @@ namespace DominatorHouseCore.Utility
 
         [ProtoMember(13)]
         public string Guid { get; set; }
+        [ProtoMember(14)]
+        public string Id { get; set; }
+        [ProtoMember(15)]
+        public string AttributionId { get; set; }
+        [ProtoMember(16)]
+        public string GoogleId { get; set; }
+        [ProtoMember(17)]
+        public string FamilyId { get; set; }
 
         public void GenerateDetails()
         {
