@@ -3913,5 +3913,14 @@
     <system:String x:Key="LangKeyPurchaseAccessOfNetwork">请购买{0}自动化功能的访问权限！</system:String>
     <system:String x:Key="LangKeyConfigureYourSettings">在开始活动之前，请配置您的{0}设置。 确保添加了足够的查询并单击了“保存”按钮</system:String>
     <system:String x:Key="LangKeySelectedAccounts">选定的帐户</system:String>
+    <system:String x:Key="EmptyExemptionErrorMessage">提交了空的或无效的许可证密钥，请检查您的许可证密钥并再次输入。</system:String>
+    <system:String x:Key="ExemptionNotFoundErrorMessage">糟糕，我们无法找到您输入的密钥，请在您最后重新检查一次或联系支持部门。</system:String>
+    <system:String x:Key="ExemptionDisabledErrorMessage">您的许可证密钥已被禁用，请与支持部门联系以获取更多信息。</system:String>
+    <system:String x:Key="ExemptionExpiredErrorMessage">您的许可密钥已过期，请续订您的订阅或联系支持。</system:String>
+    <system:String x:Key="InvalidInputErrorMessage">您输入的许可证密钥无效，请检查您的许可证密钥并再次输入。</system:String>
+    <system:String x:Key="MoreLimitsErrorMessage">您已经达到此许可证密钥的最大允许激活次数，请购买更多许可证或停用之前的激活。</system:String>
+    <system:String x:Key="NoMoreAllowedErrorMessage">抱歉，我们无法重新激活您的许可密钥，请与支持小组联系。</system:String>
+    <system:String x:Key="UnknownErrorMessage">抱歉，发生了一些未知错误，请联系支持部门。</system:String>
+    <system:String x:Key="LangKeyLicenseError">许可证错误</system:String>
     
 </ResourceDictionary>
