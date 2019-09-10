@@ -3843,5 +3843,75 @@
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerUser">最大每个用户的帖子数量</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerUser">每个用户最多要发表评论的帖子数</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeSharePerUser">最大每个用户的帖子数</system:String>
-
+    <system:String x:Key="LangKey_CreateCampaign">_创建活动</system:String>
+    <system:String x:Key="LangKey_UpdateCampaign">_更新活动</system:String>
+    <system:String x:Key="LangKeyNoAccountSelected">没有选择帐户</system:String>
+    <system:String x:Key="LangKeyActivitySpeed">活动速度</system:String>
+    <system:String x:Key="LangKeySuperfastNotRecommended">***不建议在新账户或真实账户使用超高速</system:String>
+    <system:String x:Key="LangKeyAverageDailyActivities">平均每日活动：</system:String>
+    <system:String x:Key="LangKeySelectSpeed">选择速度</system:String>
+    <system:String x:Key="LangKeyFavoriteTime">最喜欢的时间</system:String>
+    <system:String x:Key="LangKeyEnterFavoriteTime">输入收藏时间</system:String>
+    <system:String x:Key="LangKeyFavoriteTimeWithNameExistWannaOverride" xml:space="preserve">名称为{0}的收藏时间已存在。
+ 你想覆盖吗？</system:String>
+    <system:String x:Key="LangKeyFavoriteTimeShountBeEmpty" xml:space="preserve">最喜欢的时间不应该是空的。
+ 请输入任何名称。</system:String>
+    <system:String x:Key="LangKeyOk">好</system:String>
+    <system:String x:Key="LangKeyCreateFavorite">创建收藏夹</system:String>
+    <system:String x:Key="LangKeyActivatingBrowserAutomation">激活浏览器自动化</system:String>
+    <system:String x:Key="LangKeyStartActivityByBrowserStopByHttp" xml:space="preserve">这将导致通过HTTP停止所有活动并通过浏览器启动活动。
+ 你想继续吗？</system:String>
+    <system:String x:Key="LangKeyDeactivatingBrowserAutomation">停用浏览器自动化</system:String>
+    <system:String x:Key="LangKeyStartActivityByHttpStopByBrowser" xml:space="preserve">这将导致通过浏览器停止所有活动并通过HTTP启动活动。
+ 你想继续吗？</system:String>
+    <system:String x:Key="LangKeyWaitForNSecs">请等待{0}秒！</system:String>
+    <system:String x:Key="LangKeyProxyWillbeRemovedFromAccount" xml:space="preserve">代理将从与之关联的所有帐户中删除。
+ 你确定吗？</system:String>
+    <system:String x:Key="LangKeyPleaseEnterValidProxy">请输入有效的代理。</system:String>
+    <system:String x:Key="LangKeyThisProxyAlreadyExist">名称为{0}的代理已存在。</system:String>
+    <system:String x:Key="LangKeyProxyWithIpPortAlreadyExist">Ip {0}端口{1}的代理已存在。</system:String>
+    <system:String x:Key="LangKeyIpPortUpdated">{0}：{1}已成功更新。</system:String>
+    <system:String x:Key="LangKeyErrorEnterUsernameToWhitelist">错误： - 请输入要添加到白名单的用户名。</system:String>
+    <system:String x:Key="LangKeyNoDistinctUsersFound">找不到明确的用户！</system:String>
+    <system:String x:Key="LangKeyExportWhiteListUser">导出白名单用户</system:String>
+    <system:String x:Key="LangKeyWhiteListedUserSuccessfullyExportedTo">白名单用户已成功导出到[{0}]</system:String>
+    <system:String x:Key="LangKeySelectAtleastOneActivity">请至少选择一项活动。</system:String>
+    <system:String x:Key="LangKeyQueryCantBeAdded">无法添加查询，因为它可能与{0} {1}模块无关。</system:String>
+    <system:String x:Key="LangKeyTypeSomeQuery">请输入任何查询。</system:String>
+    <system:String x:Key="LangKeyAddATimeRangeToRunStopActivity">请至少添加一个时间范围来运行和停止活动。</system:String>
+    <system:String x:Key="LangKeyMessageCopied">邮件已复制</system:String>
+    <system:String x:Key="LangKeyAsksForSelectingAndOverwritingAccounts" xml:space="preserve">{0}帐户已设置为运行{1}活动。 您要覆盖这些帐户的设置吗？
+ {2}"</system:String>
+    <system:String x:Key="LangKeyErrorActivityIsntConfiguredProperlyForAccount">错误： - 此帐户未正确配置{0}活动。 请确保在必须执行活动并单击保存按钮时添加了足够的查询和更新时间。</system:String>
+    <system:String x:Key="LangKeyFatalErrorMessage" xml:space="preserve">注意：虽然您可以继续，但建议您重新启动{0}。
+要继续运行{0}吗？</system:String>
+    <system:String x:Key="LangKeyPostSuccessfullySaved">发布成功保存</system:String>
+    <system:String x:Key="LangKeyEnterURLInInputFieldToVerifyProxy">请在输入字段中输入一些URL，用于验证代理。</system:String>
+    <system:String x:Key="LangKeyDidNotGetProccessedDueToFailedLogin">没有得到处理，因为帐户登录失败[{0}]</system:String>
+    <system:String x:Key="LangKeyCampaignIdNotSetFor">广告系列ID未设置为{0}  -  {1}</system:String>
+    <system:String x:Key="LangKeySpecificUserPost">特定用户的帖子</system:String>
+    <system:String x:Key="LangKeyAccountInfo">帐户信息</system:String>
+    <system:String x:Key="LangKeyCampaignPaused">广告系列：{0}已成功暂停。</system:String>
+    <system:String x:Key="LangKeyLoginSuccess">登录成功</system:String>
+    <system:String x:Key="LangKeyNoPermissionToRunNetworkPurchaseIt">您无权运行网络{0}，请购买！</system:String>
+    <system:String x:Key="LangKeyPostNotRegisterWithAnyCampaign">当前帖子未在任何广告系列中注册！</system:String>
+    <system:String x:Key="LangKeyPostCampaignExpired">目前帖子的广告系列已过期！</system:String>
+    <system:String x:Key="LangKeyCampaignHasZeroAsMaxPublishingCount">{0}作为最大发布计数为零！</system:String>
+    <system:String x:Key="LangKeyNDestinationsDeletedFromCampaign">{1}目的地中的{0}已从{2}中删除。</system:String>
+    <system:String x:Key="LangKeyNoUniqueDestinationsPresent">没有更多独特的目的地！</system:String>
+    <system:String x:Key="LangKeyNoUniquePostsAvailableForCampaign">没有更多针对广告系列{0}的独特帖子！</system:String>
+    <system:String x:Key="LangKeyCampaignHasNPendingPosts">{0}有{1}个待审批帖子！</system:String>
+    <system:String x:Key="LangKeyPendingPostsLesserThanRequiredRandDestinationCount">挂起的帖子数量少于所需的随机目标数量！</system:String>
+    <system:String x:Key="LangKeyCampaignHasNExpiredPosts">{0}有{1}个过期帖子！</system:String>
+    <system:String x:Key="LangKeyPostAlreadyPublishedOnTheAccount">当前帖子已在帐号{0}的目的地 -  {1} [{2}]上发布</system:String>
+    <system:String x:Key="LangKeyCloseFileRetry">请关闭该文件并重试。</system:String>
+    <system:String x:Key="LangKeyNoUniqueTitlesAvailableInCampaign">{0}中没有更多独特的标题！</system:String>
+    <system:String x:Key="LangKeyPostlistReachedToMax">邮件列表达到最大值：{0}帖子列表中已有{1}个帖子！</system:String>
+    <system:String x:Key="LangKeySocinatorAlreadyRunning">Socinator已经在运行。</system:String>
+    <system:String x:Key="LangKeyWelcomeToApplication">欢迎来到{0}！</system:String>
+    <system:String x:Key="LangKeyFatalError">致命错误</system:String>
+    <system:String x:Key="LangKeyPurchaseAccessOfNetwork">请购买{0}自动化功能的访问权限！</system:String>
+    <system:String x:Key="LangKeyConfigureYourSettings">在开始活动之前，请配置您的{0}设置。 确保添加了足够的查询并单击了“保存”按钮</system:String>
+    <system:String x:Key="LangKeySelectedAccounts">选定的帐户</system:String>
+    
 </ResourceDictionary>
