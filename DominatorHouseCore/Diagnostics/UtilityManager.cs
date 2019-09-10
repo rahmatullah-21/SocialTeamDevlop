@@ -61,25 +61,25 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 if (inputString == ConfigurationManager.AppSettings["EmptyExemption"])
-                    message = ConfigurationManager.AppSettings["EmptyExemptionErrorMessage"];
+                    message = "EmptyExemptionErrorMessage".FromResourceDictionary();
 
                 else if (inputString == ConfigurationManager.AppSettings["ExemptionNotFound"])
-                    message = ConfigurationManager.AppSettings["ExemptionNotFoundErrorMessage"];
+                    message = "ExemptionNotFoundErrorMessage".FromResourceDictionary();
 
                 else if (inputString == ConfigurationManager.AppSettings["ExemptionDisabled"])
-                    message = ConfigurationManager.AppSettings["ExemptionDisabledErrorMessage"];
+                    message = "ExemptionDisabledErrorMessage".FromResourceDictionary();
 
                 else if (inputString == ConfigurationManager.AppSettings["ExemptionExpired"] || inputString == ConfigurationManager.AppSettings["FatalExcemptionExpired"] || inputString == ConfigurationManager.AppSettings["Fluent"])
-                    message = ConfigurationManager.AppSettings["ExemptionExpiredErrorMessage"];
+                    message = "ExemptionExpiredErrorMessage".FromResourceDictionary();
 
                 else if (inputString == ConfigurationManager.AppSettings["InvalidInput"])
-                    message = ConfigurationManager.AppSettings["InvalidInputErrorMessage"];
+                    message = "InvalidInputErrorMessage".FromResourceDictionary();
 
                 else if (inputString == ConfigurationManager.AppSettings["MoreLimits"] || inputString == ConfigurationManager.AppSettings["Invalid"])
-                    message = ConfigurationManager.AppSettings["MoreLimitsErrorMessage"];
+                    message = "MoreLimitsErrorMessage".FromResourceDictionary();
 
                 else if (inputString == ConfigurationManager.AppSettings["NoMoreAllowed"])
-                    message = ConfigurationManager.AppSettings["NoMoreAllowedErrorMessage"];
+                    message = "NoMoreAllowedErrorMessage".FromResourceDictionary();
 
                 else if (inputString == ConfigurationManager.AppSettings["Matched"] && exemptionType == "Other")
                 {
@@ -107,7 +107,7 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 else if (inputString == ConfigurationManager.AppSettings["Unknown"])
-                    message = ConfigurationManager.AppSettings["UnknownErrorMessage"];
+                    message = "UnknownErrorMessage".FromResourceDictionary();
 
             }
             catch (Exception ex)
@@ -140,7 +140,7 @@ namespace DominatorHouseCore.Diagnostics
                     //dialogWindow.ShowDialog();
                     //Thread.Sleep(10 * 1000);
                     //dialogWindow.Close();
-                    Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
+                    Dialog.ShowDialog("LangKeyLicenseError".FromResourceDictionary(), message);
                     return new HashSet<SocialNetworks>();
                 });
             }
@@ -158,7 +158,7 @@ namespace DominatorHouseCore.Diagnostics
                 //Thread.Sleep(10 * 1000);
                 //dialogWindow.Close();
                 //return new HashSet<SocialNetworks>();
-                Dialog.ShowDialog(ConfigurationManager.AppSettings["Title"], message);
+                Dialog.ShowDialog("LangKeyLicenseError".FromResourceDictionary(), message);
                 return new HashSet<SocialNetworks>();
             }
 
