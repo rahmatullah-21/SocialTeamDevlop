@@ -73,8 +73,8 @@
                 </StackPanel>
 
             </Grid>
-            <StackPanel Orientation="Horizontal" Grid.Row="1" >
-                <ListView x:Name="list" Width="auto" ItemsSource="{Binding CampaignCollection,IsAsync=True}"
+
+            <ListView x:Name="list" Grid.Row="1"  Width="Auto" ItemsSource="{Binding CampaignCollection,IsAsync=True}"
                       VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                       VirtualizingPanel.IsContainerVirtualizable="True"
                       ItemContainerStyle="{StaticResource ListViewItems}" Foreground="{DynamicResource AccentBaseColorBrush}"
@@ -249,12 +249,12 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <controls:FlyoutsControl Margin="1">
+            <controls:FlyoutsControl Grid.Row="1">
                     <controls:Flyout Name="SelectedAccountFlyout" Background="LightSteelBlue" IsOpen="{Binding SelectedAccountsFlyoutVisibility}" Header="{Binding SelectedAccountListCampaign}" Position="Right">
                         <ListBox FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding SelectedAccountList}" />
                     </controls:Flyout>
                 </controls:FlyoutsControl>
-            </StackPanel>
+            
         </Grid>
         
     </Border>

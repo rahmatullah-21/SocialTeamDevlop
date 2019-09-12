@@ -4011,4 +4011,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyLicenseError">License Error</system:String>
     <system:String x:Key="LangKeyNote">Note</system:String>
     <system:String x:Key="LangIGWontRunWithBrowserAutoTryWithHttp">Instagram accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
+    <system:String x:Key="LangKeyPostPerAccount">Post Per Account</system:String>
 </ResourceDictionary>

@@ -252,6 +252,55 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateCampaignModel.SharePostModel.IsShareFdPagePost ||
                     PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList);
         }
+
+        void CheckRSSFeedDuplicates(List<PublisherPostlistModel> campaignDetails)
+        {
+            try
+            {
+                var lastCount = campaignDetails.Count(x=> x.PostQueuedStatus == PostQueuedStatus.Pending);
+                if (lastCount == 0)
+                    return;
+                var nonExisting = campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost && x.PostQueuedStatus == PostQueuedStatus.Pending && !PublisherCreateCampaignModel.LstFeedUrl.Any(y => y.FeedUrl == x.ShareUrl)).ToList();
+                foreach(var x in nonExisting)
+                {
+                    var removeThem = campaignDetails.FirstOrDefault(y => y.PostSource == PostSource.RssFeedPost && y.PostQueuedStatus == PostQueuedStatus.Pending && y.ShareUrl == x.ShareUrl && y.PostDescription == x.PostDescription);
+                    if (removeThem != null)
+                    {
+                        var index = campaignDetails.IndexOf(removeThem);
+                        campaignDetails.RemoveAt(index);
+                    }
+                }
+
+                var tempToRemoveDupli = new List<PublisherPostlistModel>();
+                tempToRemoveDupli.AddRange(campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost && x.PostQueuedStatus == PostQueuedStatus.Pending).ToList());
+                foreach(var x in tempToRemoveDupli)
+                {
+                    var removeThem = campaignDetails.Where(y => y.PostSource == PostSource.RssFeedPost && y.PostQueuedStatus == PostQueuedStatus.Pending && y.ShareUrl == x.ShareUrl && y.PostDescription == x.PostDescription).ToList();
+                    if (removeThem.Count() > 1)
+                    {
+                        removeThem.Remove(removeThem.Last());
+                        foreach(var y in removeThem)
+                        {
+                            var removeIt = campaignDetails.FirstOrDefault(z => z.PostSource == PostSource.RssFeedPost && z.PostQueuedStatus == PostQueuedStatus.Pending && z.ShareUrl == y.ShareUrl && z.PostDescription == y.PostDescription);
+                            if (removeIt != null)
+                            {
+                                var index = campaignDetails.IndexOf(removeIt);
+                                campaignDetails.RemoveAt(index);
+                            }
+                        }
+                    }
+                }
+
+                if (lastCount != campaignDetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending))
+                    CommonServiceLocator.ServiceLocator.Current.GetInstance<IBinFileHelper>().UpdateAllPostlists(PublisherCreateCampaignModel.CampaignId, campaignDetails);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
         private bool SaveCanExecute(object sender) => true;
 
         private void SaveExecute(object sender)
@@ -341,6 +390,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Collect all Campaign saved posts 
                 var campaignDetails = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId);
+
+                CheckRSSFeedDuplicates(campaignDetails);
+
+                CampaignStatusModel.PendingCount = campaignDetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
 
                 // Gather post Ids
                 var postIdlist = campaignDetails.Select(x => x.PostId).ToList();
