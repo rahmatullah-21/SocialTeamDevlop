@@ -854,12 +854,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProtectedCommon\ProtectedCommon.csproj">
-      <Project>{060fca33-80bf-4658-b094-17760addc001}</Project>
-      <Name>ProtectedCommon</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
