@@ -25,7 +25,7 @@ namespace DominatorHouseCore.Utility
 
         public static bool UseSystemProxy { get; } = true;
 
-        public static string ApplicationName { get; } = "Socinator";
+        public static string ApplicationName { get; } =/* "Socinator";*/"LangKeySocinator".FromResourceDictionary();
 
         public static string BitlyApiKey { get; set; } = string.Empty;
 

@@ -1813,41 +1813,41 @@ namespace DominatorUIUtility.ViewModel
                   "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
+                    var accountsToProcess = LstDominatorAccountModel.Where(x=> x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
+
                     if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram))
                     {
-                        Dialog.ShowDialog("Note", "Instagram accounts won't work with Browser-Automation feature, Please try with Http setting.");
+                        Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
+                        if (accountsToProcess.Count() == 0)
+                            return;
                     }
-                    LstDominatorAccountModel.ForEach(x =>
+
+                    accountsToProcess.ForEach(x =>
                     {
-                        if (x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram)
-                        {
-                            x.IsRunProcessThroughBrowser = true;
-                            new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                           .AddOrUpdateBrowserSettings(true)
-                           .SaveToBinFile();
-                        }
+                        x.IsRunProcessThroughBrowser = true;
+                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                       .AddOrUpdateBrowserSettings(true)
+                       .SaveToBinFile();
                     });
 
-                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
+                    StopAllActivity(accountsToProcess.ToList(), true);
 
-                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
-
-
+                    StopProcess(accountsToProcess.ToList());
+                    
                     Task.Factory.StartNew(() =>
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), $"Please wait for 10 secs!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(),10));
 
                         IsProgressActive = true;
 
-                        Thread.Sleep(10000);
+                        Thread.Sleep(TimeSpan.FromSeconds(10));
 
-                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
+                        accountsToProcess.ForEach(x =>
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });
 
                         IsProgressActive = false;
-                        
                     });
                 }
             }
@@ -1867,20 +1867,20 @@ namespace DominatorUIUtility.ViewModel
                       "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    LstDominatorAccountModel.ForEach(x =>
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
+                    if (accountsToProcess.Count() == 0)
+                        return;
+                    accountsToProcess.ForEach(x =>
                     {
-                        if (x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram)
-                        {
-                            x.IsRunProcessThroughBrowser = false;
-                            new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                               .AddOrUpdateBrowserSettings(false)
-                               .SaveToBinFile();
-                        }
+                        x.IsRunProcessThroughBrowser = false;
+                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                           .AddOrUpdateBrowserSettings(false)
+                           .SaveToBinFile();
                     });
 
-                    StopAllActivity(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList(), true);
+                    StopAllActivity(accountsToProcess.ToList(), true);
 
-                    StopProcess(LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList());
+                    StopProcess(accountsToProcess.ToList());
 
                     Task.Factory.StartNew(() =>
                     {
@@ -1890,7 +1890,7 @@ namespace DominatorUIUtility.ViewModel
 
                         Thread.Sleep(10000);
 
-                        LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().ForEach(x =>
+                        accountsToProcess.ForEach(x =>
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });

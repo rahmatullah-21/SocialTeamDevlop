@@ -248,7 +248,7 @@
                                 </DataTemplate>
                             </controls:DropDownButton.ItemTemplate>
                         </controls:DropDownButton>
-                        <Button Content="{Binding LangKeyCreateFavorite}" Background="{DynamicResource AccentBaseColorBrush}" 
+                        <Button Content="{DynamicResource LangKeyCreateFavorite}" Background="{DynamicResource AccentBaseColorBrush}" 
                                 Height="30" Foreground="White" Name="BtnCreateFavorite" Click="BtnCreateFavorite_OnClick"/>
                     </StackPanel>
                 </StackPanel>

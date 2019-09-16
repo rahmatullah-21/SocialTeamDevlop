@@ -644,7 +644,7 @@
     <system:String x:Key="LangKeyEnableCampaignSourceurlToAssignUrlsToPinterestPosts">启用活动源 URL 以将 Url 分配给Pinterest 帖子</system:String>
     <system:String x:Key="LangKeyEnableCommentDifferentUsersAcrossAllInstagramAccountsConfiguredInInstagram">在 Instagram 中配置的所有 Instagram 帐户中启用评论不同用户</system:String>
     <system:String x:Key="LangKeyEnableCommentDifferentUsersAcrossAllPinterestAccountsConfiguredInPinterest">在Pinterest中配置的所有Pinterest帐户中启用评论不同用户</system:String>
-    <system:String x:Key="LangKeyEnableContactDifferentUserAcrossAllAccountsConfiguredInSocinator">在 Socinator 中配置的所有帐户中启用联系不同用户</system:String>
+    <system:String x:Key="LangKeyEnableContactDifferentUserAcrossAllAccountsConfiguredInSocinator">在 Tunto Socianator 中配置的所有帐户中启用联系不同用户</system:String>
     <system:String x:Key="LangKeyEnableCustomTokens">启用自定义令牌</system:String>
     <system:String x:Key="LangKeyEnableDelayForBulkProfileEdit">启用批量主页编辑的延迟。</system:String>
     <system:String x:Key="LangKeyEnableDifferentUsersPostsAcrossAllInstagramAccountsWithSameTagName">启用具有相同标记名称的所有 Instagram 帐户的不同用户/帖子</system:String>
@@ -662,7 +662,7 @@
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllPinterestAccounts">"启用跨所有Pinterest帐户的""关注不同用户""功能"</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllPinterestAccountsConfiguredInPinterest">在Pinterest配置的所有帐户中启动关注不同用户</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllTumblrAccounts">在所有 Tumblr 帐户中启用关注不同用户</system:String>
-    <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllTwitterAccountsConfiguredInSocinator">"在 Socinator 中配置的所有 Twitter 帐户上启用""关注不同用户""功能"</system:String>
+    <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllTwitterAccountsConfiguredInSocinator">"在 Socianator 中配置的所有 Twitter 帐户上启用""关注不同用户""功能"</system:String>
     <system:String x:Key="LangKeyEnableGlobalFindAndReplaceForPostTextAppliesToAllCampaigns">"启用""全局查找""和""替换""帖子文本(适用于所有活动)"</system:String>
     <system:String x:Key="LangKeyEnableGlobalNightMode">启用全球晚间模式</system:String>
     <system:String x:Key="LangKeyEnableGoogleCommunityCategorySelection">启用 Google+ 社区类别选择</system:String>
@@ -1891,7 +1891,7 @@
     <system:String x:Key="LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied">在同一帐户上同时运行不同的活动(隐含的风险)</system:String>
     <system:String x:Key="LangKeyRunNow">立即运行</system:String>
     <system:String x:Key="LangKeyRunOnSelectedDays">在选定日期运行</system:String>
-    <system:String x:Key="LangKeyRunSocinatorAtSystemStartup">在系统启动时运行Socianator</system:String>
+    <system:String x:Key="LangKeyRunSocinatorAtSystemStartup">在系统启动时运行Tunto Socianator</system:String>
     <system:String x:Key="LangKeyRunTimers">运行计时器</system:String>
     <system:String x:Key="LangKeyRunWithMultipleBatches">多个批次运行</system:String>
     <system:String x:Key="LangKeySNo">S.No</system:String>
@@ -2139,7 +2139,7 @@
     <system:String x:Key="LangKeySleepBetween">睡眠之间</system:String>
     <system:String x:Key="LangKeySocialNetwork">社交网络</system:String>
     <system:String x:Key="LangKeySocialProfiles">社交个人主页</system:String>
-    <system:String x:Key="LangKeySocinator">Socinator</system:String>
+    <system:String x:Key="LangKeySocinator">Tunto Socianator</system:String>
     <system:String x:Key="LangKeySociopublisher">Sociopublisher</system:String>
     <system:String x:Key="LangKeySoftwareSettings">软件设置</system:String>
     <system:String x:Key="LangKeySomeonesFollowers">某人的粉丝</system:String>
@@ -2982,7 +2982,7 @@
     <system:String x:Key="LangKeyCopyCampaignId">复制活动的 ID</system:String>
     <system:String x:Key="LangKeyExportCampaignId">导出活动 ID</system:String>
     <system:String x:Key="LangKeySettingToolTip">单击以配置各个帖子设置</system:String>
-    <system:String x:Key="LangKeySocinatorPublisherCampaign">Socinator Publisher 活动</system:String>
+    <system:String x:Key="LangKeySocinatorPublisherCampaign">Tunto Socianator Publisher 活动</system:String>
     <system:String x:Key="LangKeySkipPrivateCommunity">跳过私人社区</system:String>
     <system:String x:Key="LangKeySkipPublicCommunity">跳过公共社区</system:String>
     <system:String x:Key="LangKeyGrowthColumn1">好友/粉丝/连接/分数</system:String>
@@ -2998,7 +2998,7 @@
     <system:String x:Key="LangKeyEndWarning">"保存此设置将覆盖以前的设置">并从活动中删除此帐户"</system:String>
     <system:String x:Key="LangKeyQuora">Quora</system:String>
     <system:String x:Key="LangKeyEnableFollowDifferentUsersAcrossAllQuoraAccountsConfiguredInQuora">"在 Quora 中配置的所有 Quora 帐户中启用""关注不同用户""功能"</system:String>
-    <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">启用跨 Socinator 中配置的所有LinkedIn帐户导出不同连接的 HTML</system:String>
+    <system:String x:Key="LangKeyEnableExportingHTMLOfDifferentConnectionsAcrossAllLinkedInAccountsConfiguredInSocinator">启用跨 Socianator 中配置的所有LinkedIn帐户导出不同连接的 HTML</system:String>
     <system:String x:Key="LangKeyOnlyContactInfo">仅联系信息</system:String>
     <system:String x:Key="LangKeyNumberOfConnectionsToExportPerDay">每天导出的联系数</system:String>
     <system:String x:Key="LangKeyNumberOfConnectionsToExportPerHour">每小时导出的联系数</system:String>
@@ -3139,7 +3139,7 @@
     <system:String x:Key="LangKeyManageContent">管理内容</system:String>
     <system:String x:Key="LangKeyMessageTextFormat">格式: &lt;FULLNAME &gt;</system:String>
     <system:String x:Key="LangKeyReinviteInMessanger">在Messenger重新邀请每一个没有点赞页面的人</system:String>
-    <system:String x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">启用Socinator 中配置的所有LinkedIn帐户向不同用户发送连接请求</system:String>
+    <system:String x:Key="LangKeyEnableSendConnectionRequestToDifferentUsersAcrossAllLinkedInAccountsConfiguredInSocinator">启用Tunto Socianator 中配置的所有LinkedIn帐户向不同用户发送连接请求</system:String>
     <system:String x:Key="LangKeyInviteForEventUrl">活动 Url 的邀请</system:String>
     <system:String x:Key="LangKeyAfterSentRequestAction">发送请求操作后</system:String>
     <system:String x:Key="LangKeyAutoVerifyByEmail">通过电子邮件自动验证</system:String>
@@ -3221,7 +3221,7 @@
     <system:String x:Key="LangKeyEnableAutoUnfollow">启用自动取消关注</system:String>
     <system:String x:Key="LangKeySavePagination">保存分页</system:String>
     <system:String x:Key="LangKeyLikeOnSpecificComment">点赞关于帖子的具体评论</system:String>
-    <system:String x:Key="LangKeyPostAsSamePage">"以同一页面发布(例如 Ex:- 使用""Socinator""帐户在""Socinator""页面上发布)"</system:String>
+    <system:String x:Key="LangKeyPostAsSamePage">"以同一页面发布(例如 Ex:- 使用""Tunto Socianator""帐户在""Tunto Socianator""页面上发布)"</system:String>
     <system:String x:Key="LangKeySendGreetingsToFriends">向好友发送问候</system:String>
     <system:String x:Key="LangKeyTodaysBirthdays">今天的生日</system:String>
     <system:String x:Key="LangKeyUpcomingBirthdays">即将到来的生日</system:String>
@@ -3254,13 +3254,13 @@
     <system:String x:Key="LangKeyPrevious">&lt;&lt;上一个</system:String>
     <system:String x:Key="LangKeyFinish">完成</system:String>
     <system:String x:Key="LangKeyAccountPerProxy">每个代理的帐户</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoCommentScraper">"此""Socinator""功能有助于刮取来自 Instagram 的评论。"</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoCommentScraper">"此""Tunto Socianator""功能有助于刮取来自 Instagram 的评论。"</system:String>
     <system:String x:Key="LangKeySavePostToProfile">保存帖子到个人主页</system:String>
     <system:String x:Key="LangKeySelectGroup">选择组</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeComments">"此 Socinator 功能有助于从 Gplus 上的帖子中刮取评论。它允许筛选评论和帖子">并在配置的时间刮取它们"</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">"此 Socinator 功能有助于自动在推特上提及用户。它允许搜索和筛选具有不同查询类型的帖子">并在配置的时间执行推文操作"</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">"此 Socinator 功能有助于自动提及新关注者作为欢迎推文。它允许搜索和筛选具有不同查询类型的帖子">并在配置的时间执行受欢迎的推文操作。"</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">"此""Socinator""功能有助于自动执行Twitter 上的取消点赞。它允许搜索和筛选具有不同查询类型的帖子">并在配置的时间执行取消点赞操作"</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeComments">"此 Tunto Socianator 功能有助于从 Gplus 上的帖子中刮取评论。它允许筛选评论和帖子">并在配置的时间刮取它们"</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">"此 Tunto Socianator 功能有助于自动在推特上提及用户。它允许搜索和筛选具有不同查询类型的帖子">并在配置的时间执行推文操作"</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">"此 Tunto Socianator 功能有助于自动提及新关注者作为欢迎推文。它允许搜索和筛选具有不同查询类型的帖子">并在配置的时间执行受欢迎的推文操作。"</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">"此""Tunto Socianator""功能有助于自动执行Twitter 上的取消点赞。它允许搜索和筛选具有不同查询类型的帖子">并在配置的时间执行取消点赞操作"</system:String>
     <system:String x:Key="LangKeyConnectedWithin">内部连接</system:String>
     <system:String x:Key="LangKeyProfileScraperCampaigns">个人主页刮取活动</system:String>
     <system:String x:Key="LangKeyPublisherCampaigns">发布活动</system:String>
@@ -3605,7 +3605,7 @@
     <system:String x:Key="LangKeyExportingStarted">导出已开始。 导出完成之前请不要打开文件。</system:String>
     <system:String x:Key="LangKeySucessfullyExportedTo">成功导出到</system:String>
     <system:String x:Key="LangKeyConfirmation">确认</system:String>
-    <system:String x:Key="LangKeyConfirmationToCloseSocinator">你确定关闭Socinator吗？</system:String>
+    <system:String x:Key="LangKeyConfirmationToCloseSocinator">你确定关闭Tunto Socianator吗？</system:String>
     <system:String x:Key="LangKeyCheckingLicense">不挂断！ 检查许可证状态</system:String>
     <system:String x:Key="LangKeyTakeFewMoments">这需要一些时间......</system:String>
     <system:String x:Key="LangKeyNetworkError">网络错误</system:String>
@@ -3613,7 +3613,7 @@
     <system:String x:Key="LangKeyTryAgain">再试一次</system:String>
     <system:String x:Key="LangKeySomethingWentWrong">哎呀！ 有些不对劲</system:String>
     <system:String x:Key="LangKeyLicense">执照</system:String>
-    <system:String x:Key="LangKeyValidateSocinator">请验证Socinator !!</system:String>
+    <system:String x:Key="LangKeyValidateSocinator">请验证Tunto Socianator !!</system:String>
     <system:String x:Key="LangKeyCaptchaSaved">Captcha服务成功保存!!</system:String>
     <system:String x:Key="LangKeyImageCaptchaSaved">Image Captcha服务成功保存!!</system:String>
     <system:String x:Key="LangKeyUrlShortnerSaved">Url Shortener服务成功保存!!</system:String>
@@ -3907,7 +3907,7 @@
     <system:String x:Key="LangKeyCloseFileRetry">请关闭该文件并重试。</system:String>
     <system:String x:Key="LangKeyNoUniqueTitlesAvailableInCampaign">{0}中没有更多独特的标题！</system:String>
     <system:String x:Key="LangKeyPostlistReachedToMax">邮件列表达到最大值：{0}帖子列表中已有{1}个帖子！</system:String>
-    <system:String x:Key="LangKeySocinatorAlreadyRunning">Socinator已经在运行。</system:String>
+    <system:String x:Key="LangKeySocinatorAlreadyRunning">Tunto Socianator已经在运行。</system:String>
     <system:String x:Key="LangKeyWelcomeToApplication">欢迎来到{0}！</system:String>
     <system:String x:Key="LangKeyFatalError">致命错误</system:String>
     <system:String x:Key="LangKeyPurchaseAccessOfNetwork">请购买{0}自动化功能的访问权限！</system:String>
@@ -3922,5 +3922,9 @@
     <system:String x:Key="NoMoreAllowedErrorMessage">抱歉，我们无法重新激活您的许可密钥，请与支持小组联系。</system:String>
     <system:String x:Key="UnknownErrorMessage">抱歉，发生了一些未知错误，请联系支持部门。</system:String>
     <system:String x:Key="LangKeyLicenseError">许可证错误</system:String>
-    
+    <system:String x:Key="LangKeyNote">注意</system:String>
+    <system:String x:Key="LangIGWontRunWithBrowserAutoTryWithHttp">Instagram帐户无法使用浏览器自动化功能，请尝试使用Http设置。</system:String>
+    <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">使用特定查询发布每个帐户</system:String>
+    <system:String x:Key="LangKeyFriendsBasicDetails">朋友基本细节</system:String>
+
 </ResourceDictionary>

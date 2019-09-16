@@ -1,3 +1,39 @@
+Version[1.0.0.64],[10th September 2019]
+New Features:-
+	Social:
+		Query Type ==> * Now we can priories queries based on top to bottom. Get this setting in Other Configuration.
+					   * For all social networks except Instagram, now we can run campaigns in Browser based.
+					   
+	Reddit:
+		Voter ==> we can upvote Specific User's Post. 
+		Voter ==> we can upvote Specific community URL.
+		
+	Twitter:
+		Reposter ==> We can customize caption with original post caption.
+		
+	Instagram:
+		Like ==> Like user's recent post.
+		Reposter ==> Tag Users ==> Now we can tag number of users as per given count.
+		
+	Linkedin:
+		Account activity =>  Added feature to delete repoprts.
+		Messenger => Broadcast Messages  => Added feature to skip users already received message from software.
+		Engage => Add feature to like,comment and share  post per user.
+		
+Fixed:-
+	Publisher:
+		Fixed issue with scheduling time.
+		Fixed issue with hashtag and location ID for Instagram.
+
+	Instagram:
+		Fixed issue with action block.
+		
+	Reddit:
+		Account Manager=>Fixed issue in account login
+		
+	Linkedin:
+		Engage => Fixed issue with like and share the company page.	
+		
 Version[1.0.0.63],[6th August 2019]
 New Features:-
 	Linkedin:

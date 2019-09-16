@@ -18,7 +18,7 @@ namespace DominatorHouseCore.DatabaseHandler.RdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
         public string PrimaryColor { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        [Unique]
+        //[Unique]
         public string CommunityId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
         public bool IsQuarantined { get; set; }
