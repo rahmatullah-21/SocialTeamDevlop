@@ -17,7 +17,16 @@ namespace DominatorHouseCore.Utility
     {
         public static string Base64Decode(this string base64EncodedData)
         {
-            return Encoding.UTF8.GetString(Convert.FromBase64String(base64EncodedData));
+            try
+            {
+                return Encoding.UTF8.GetString(Convert.FromBase64String(base64EncodedData));
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+            return string.Empty;
         }
 
         public static string Base64Encode(this string plainText)
