@@ -33,7 +33,7 @@ namespace DominatorUIUtility.ConfigControl
         private void BtnSave_OnClick(object sender, RoutedEventArgs e)
         {
             if (fbFilemanager.SaveFacebookConfig(ConfigFacebookModel))
-                Dialog.ShowDialog("Success", "Facebook Configuration sucessfully saved !!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeyFacebookConfigurationSaved".FromResourceDictionary());
         }
     }
 }
