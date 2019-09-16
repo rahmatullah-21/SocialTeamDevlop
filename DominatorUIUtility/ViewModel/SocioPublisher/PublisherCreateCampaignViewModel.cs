@@ -392,8 +392,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 var campaignDetails = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId);
 
                 CheckRSSFeedDuplicates(campaignDetails);
-
-                CampaignStatusModel.PendingCount = campaignDetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
+                if (CampaignStatusModel != null)
+                    CampaignStatusModel.PendingCount = campaignDetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
 
                 // Gather post Ids
                 var postIdlist = campaignDetails.Select(x => x.PostId).ToList();
