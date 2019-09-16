@@ -1627,7 +1627,7 @@ namespace DominatorUIUtility.CustomControl
                             if (IsQueryExistWithoutDialog(currentQuery, Model.SavedQueries))
                             {
                                 queryValuIndex.Add(_queryControl.QueryCollection.IndexOf(query));
-                                return;
+                                continue;
                             }
 
                             Model.SavedQueries.Add(currentQuery);

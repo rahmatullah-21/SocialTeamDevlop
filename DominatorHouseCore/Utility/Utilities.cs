@@ -177,7 +177,7 @@ namespace DominatorHouseCore.Utility
 
      
 
-        public static void ExportReportsNew(List<Tuple<string, string, string[]>> commentList)
+        public static void ExportReportsNew(List<Tuple<string, string, List<string>>> commentList)
         {
             commentList.ForEach(x =>
             {
