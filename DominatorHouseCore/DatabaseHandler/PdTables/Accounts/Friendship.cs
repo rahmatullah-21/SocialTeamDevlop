@@ -70,7 +70,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
-        [Unique]
+        //[Unique]
         public string Username
         { get; set; }
 

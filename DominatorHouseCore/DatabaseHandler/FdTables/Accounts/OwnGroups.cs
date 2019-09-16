@@ -17,7 +17,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        [Unique]
+        //[Unique]
         public string GroupId { get; set; }
 
 

@@ -21,7 +21,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Contains Url Of the Group
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 3)]
-        [Unique]
+       // [Unique]
         public string GroupUrl
         { get; set; }
 

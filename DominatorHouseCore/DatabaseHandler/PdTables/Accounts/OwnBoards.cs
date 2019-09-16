@@ -18,7 +18,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Accounts
         public int PinsCount { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 4)]
-        [Unique]
+        //[Unique]
         public string BoardUrl { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
