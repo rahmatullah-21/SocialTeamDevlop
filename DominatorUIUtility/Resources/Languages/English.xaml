@@ -4014,4 +4014,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">post per account with specific query</system:String>
     <system:String x:Key="LangKeyFriendsBasicDetails">Friends Basic Details</system:String>
     <system:String x:Key="LangKeyFacebookConfigurationSaved">Facebook Configuration successfully saved !!</system:String>
+    <system:String x:Key="LangKeyValidate">Validate</system:String>
 </ResourceDictionary>
