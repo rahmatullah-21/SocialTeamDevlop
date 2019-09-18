@@ -91,7 +91,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _contactSupportLink; }
             set { SetProperty(ref _contactSupportLink, value); }
         }
-        private string _knowledgeBaseLink = "https://help.socinator.com/support/solutions/folders/42000095344";
+        private string _knowledgeBaseLink = "";//"https://help.socinator.com/support/solutions/folders/42000095344";
 
         public string KnowledgeBaseLink
         {

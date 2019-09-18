@@ -1446,7 +1446,7 @@ namespace DominatorHouseCore.Process
                              PublisherScheduledList.Add(addJobName);
 
                              if (startTime < DateTime.Now)
-                                 startTime = DateTime.Now;
+                                 startTime = startTime.AddDays(1);
 
                              // Add job manager
                              JobManager.AddJob(() =>

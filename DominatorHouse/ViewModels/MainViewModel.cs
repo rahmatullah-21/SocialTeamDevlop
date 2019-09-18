@@ -256,7 +256,7 @@ namespace DominatorHouse.ViewModels
                     var settings = new MetroDialogSettings()
                     {
                         DefaultText = string.IsNullOrEmpty(key.FatalErrorMessage) ? "" : key.FatalErrorMessage,
-                        AffirmativeButtonText = "Validate"
+                        AffirmativeButtonText = "LangKeyValidate".FromResourceDictionary()
                     };
                     while (true)
                     {
