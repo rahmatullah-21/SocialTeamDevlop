@@ -103,5 +103,22 @@ namespace DominatorHouseCore.FileManagers
 
             _binFileHelper.UpdateGlobalInteractedDetails(globalInteractedDatas, networks);
         }
+
+        public List<string> GetInteractedData(SocialNetworks networks, ActivityType activityType)
+        {
+            lock (_networkLocks[networks])
+            {
+                List<string> lstOfUser = new List<string>();
+                var collections = _globalInteractedCollections[networks].Value;
+
+                if (collections.ContainsKey(activityType))
+                {
+                    collections[activityType].InteractedData.ForEach(x => lstOfUser.Add(x.Key.ToString()));
+                }
+                return lstOfUser;
+            }
+        }
+
+
     }
 }
