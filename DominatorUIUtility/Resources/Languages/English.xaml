@@ -4015,4 +4015,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyFriendsBasicDetails">Friends Basic Details</system:String>
     <system:String x:Key="LangKeyFacebookConfigurationSaved">Facebook Configuration successfully saved !!</system:String>
     <system:String x:Key="LangKeyValidate">Validate</system:String>
+    <system:String x:Key="LangKeyRepinOnePin">Repin one pin</system:String>
+    <system:String x:Key="LangKeyTimesInOneBoard">Times in one board</system:String>
 </ResourceDictionary>
