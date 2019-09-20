@@ -1,3 +1,59 @@
+Version[1.0.0.65],[20th September 2019]
+New Features:-
+	Facebook:
+		Scraper ==> Profile Scrapper ==> Added feature to scrap Friends Basic Details.
+	
+	Reddit:
+		Upvote/Downvote ==> Added feature upvote/downvote each users post as per given count.
+	
+	Pinterest:
+		Pin messaneger ==> Manage message ==> Add Multiple separated New Line
+		Pin reposter ==> Other Configuration ==> Repin pin one time in one Board
+		
+Fixed:-
+	Social:
+		Facebook ==> Fixed issue with posting in pages, groups, walls.
+		Sociopublisher ==> Create Campaign ==> Fixed issue with Save Button.
+		Account Manager ==> Import multiple Accounts ==> Fixed issue with Crashing while importing accounts from xls file.
+		Blacklist/whitelist ==> Fixed issue with delete added users . 
+
+	Facebook:
+		Grow Friends==>Send Friend Request==> Fixed issue with sending friend requests to post commentors.
+		Broadcast messages==>Send Greetings To Friends==> Fixed issue with sending greetings.
+
+	Tumblr:
+		Unfollow ==> create campaign ==> fixed issue with save button.
+		Scraper ==> comment scraper ==> keywords ==> Fixed issue  with  query type of keywords.  
+		Scraper ==> comment scraper ==>  hashtag ==> Fixed issue with  query type of HashTag.
+
+	Pinterest:
+		Grow follower ==> Issue fixed in someone's followers.
+		Create board ==> Create board issue got fixed.
+		Publisher ==> Fixed issue in publishing url in Advance Url. 
+		Account Manager  ==> Fixed issue in set new password.
+		Pin messenger=> FIxed issue in auto reply to new followers
+
+	Instagram:
+		Reposter ==> Fixed issue with posting duplicate post.
+		Unfollow ==> Fixed issue with unfollow users who don't follow back
+		Post Scraper ==> Fixed issue with post filter blacklisted/whitelisted words.
+		Hashtag ==> Fixed issue with showing No more data for certain hashtags.
+		User Scraper ==> Fxed issue with pause scraper campaign.
+
+	Linkedin:
+		Grow Connection ==> Fixed issue with sending connection request using sale Navigator Search URL.
+		Grow Connection ==> Withdraw Connection Request ==> Fixed issue with withdraw connection request.
+		Grow Connection ==> Fixed issue with sending connection request with invitation message.
+		Grow Connection ==> Fixed issue with skipe Blacklisted Users.
+
+	Twitter:
+		Twitter ==> Poster ==> Delete ==> Random tweet >> delete random 
+		Tweet ==> Fixed issue with logger showing failed to tweet.
+
+	Quora:
+		Account manager ==> Fixed Issue with showing following count.
+
+
 Version[1.0.0.64],[10th September 2019]
 New Features:-
 	Social:
