@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore;
+using DominatorHouseCore.Command;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
@@ -31,6 +32,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         public Visibility MessagesVisibility { get; set; } = Visibility.Visible;
         public Visibility LinkedInElementsVisibility { get; set; } = Visibility.Collapsed;
         public bool IsLinkedIn { get; set; }
+        public bool IsFacebook { get; set; }
+        public ICommand CheckedChangedCommand { get; set; }
         public AutoReplyToNewMessageViewModel(IRegionManager region) : base(region)
         {
 
@@ -46,12 +49,15 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 MessagesVisibility = Visibility.Collapsed;
             if (LinkedInElementsVisibility == Visibility.Visible)
                 IsLinkedIn = true;
+            if (FacebookElementsVisibility == Visibility.Visible)
+                IsFacebook = true;
 
             NextCommand = new DelegateCommand(AutoReplyToNewMessageValidation);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);
             AddMessagesCommand = new DelegateCommand<object>(AddMessages);
             InputSaveCommand = new DelegateCommand<object>(SaveInput);
+            CheckedChangedCommand = new BaseCommand<object>((sender) => true, CheckedChangedExecute);
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfMessagesPerJob".FromResourceDictionary(),
@@ -61,6 +67,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 IncreaseActivityDisplayName = "LangKeyMaxMessagesPerDay".FromResourceDictionary(),
                 RunningTime = RunningTimes.DayWiseRunningTimes,
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
+            };
+
+            AutoReplyOptionModel = new AutoReplyOptionModel
+            {
+                BySoftwareDisplayName = "LangKeyReplyToNewPendingMessagesReplyToMessageRequests".FromResourceDictionary(),
+                OutsideSoftwareDisplayName = "LangKeyReplyToConnectedPeopleReplyToThePeopleWhoAreConnectedInMessanger".FromResourceDictionary()
             };
         }
         public ICommand AddMessagesCommand { get; set; }
@@ -460,5 +472,45 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             NavigateNext();
         }
+
+        private void CheckedChangedExecute(object obj)
+        {
+            if (AutoReplyOptionModel.IsMessageRequestChecked && ManageMessagesModel.LstQueries.All(x => x.Content.QueryType != "Reply to Message Requests"))
+                AddMessagesToModel("Reply to Message Requests", string.Empty);
+            else if (!AutoReplyOptionModel.IsMessageRequestChecked)
+                RemoveMessagesToModel("Reply to Message Requests", string.Empty);
+
+            if (AutoReplyOptionModel.IsFriendsMessageChecked && ManageMessagesModel.LstQueries.All(x => x.Content.QueryType != "Reply to Connected Friends"))
+                AddMessagesToModel("Reply to Connected Friends", string.Empty);
+            else if (!AutoReplyOptionModel.IsFriendsMessageChecked)
+                RemoveMessagesToModel("Reply to Connected Friends", string.Empty);
+
+            if (AutoReplyOptionModel.IsReplyToPageMessagesChecked && ManageMessagesModel.LstQueries.All(x => x.Content.QueryType != "Reply To Page Messages"))
+                AddMessagesToModel("Reply To Page Messages", string.Empty);
+            else if (!AutoReplyOptionModel.IsReplyToPageMessagesChecked)
+                RemoveMessagesToModel("Reply To Page Messages", string.Empty);
+
+            if (!AutoReplyOptionModel.IsReplyToPageMessagesChecked)
+                AutoReplyOptionModel.OwnPages = string.Empty;
+        }
+        public void AddMessagesToModel(string queryType, string queryValue)
+        {
+            ManageMessagesModel.LstQueries.Add(new QueryContent { Content = new QueryInfo() { QueryType = queryType } });
+        }
+        public void RemoveMessagesToModel(string queryType, string queryValue)
+        {
+            var queryToDelete = ManageMessagesModel.LstQueries.FirstOrDefault(x => x.Content.QueryType == queryType);
+            ManageMessagesModel.LstQueries.Remove(queryToDelete);
+            ManageMessagesModel.LstQueries.Remove(queryToDelete);
+            foreach (var message in LstDisplayManageMessageModel.ToList())
+            {
+                var query = message.SelectedQuery.FirstOrDefault(x => queryToDelete != null && x.Content.Id == queryToDelete.Content.Id);
+                message.SelectedQuery.Remove(query);
+                if (message.SelectedQuery.Count == 0)
+                    LstDisplayManageMessageModel.Remove(message);
+            }
+        }
+
+
     }
 }
