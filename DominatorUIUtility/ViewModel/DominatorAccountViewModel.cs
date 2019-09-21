@@ -39,7 +39,9 @@ using DominatorHouseCore.Extensions;
 using DominatorUIUtility.Views;
 using BindableBase = Prism.Mvvm.BindableBase;
 using DominatorUIUtility.ViewModel.Startup;
+using MahApps.Metro.Controls;
 using Unity;
+using System.Windows.Controls.Primitives;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -81,6 +83,38 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        private double _height;
+
+        public double Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                if (_height == value)
+                    return;
+                SetProperty(ref _height, value);
+            }
+        }
+
+        private MenuHandlerModel _menuHandlerModel;
+
+        public MenuHandlerModel MenuHandlerModel
+        {
+            get
+            {
+                return _menuHandlerModel;
+            }
+            set
+            {
+                if (_menuHandlerModel == value)
+                    return;
+                SetProperty(ref _menuHandlerModel, value);
+            }
+        }
+
         private readonly object _syncLoadAccounts = new object();
 
         #region Property
@@ -98,7 +132,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _knowledgeBaseLink; }
             set { SetProperty(ref _knowledgeBaseLink, value); }
         }
-       
+
 
 
         private bool _isOpenHelpControl;
@@ -150,6 +184,13 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SettingWizardCommand { get; }
         public ICommand ActivateBrowserAutomationCommand { get; }
         public ICommand DeActivateBrowserAutomationCommand { get; }
+        public ICommand ImportButtonSizeChangedCommand { get; }
+        public ICommand SelectButtonSizeChangedCommand { get; }
+        public ICommand UpdateButtonSizeChangedCommand { get; }
+        public ICommand ExportButtonSizeChangedCommand { get; }
+        public ICommand DeleteButtonSizeChangedCommand { get; }
+        public ICommand BrowserButtonSizeChangedCommand { get; }
+        public ICommand InfoButtonSizeChnagedCommand { get; }
 
         #endregion
 
@@ -167,7 +208,7 @@ namespace DominatorUIUtility.ViewModel
             LstDominatorAccountModel = accountCollectionViewModel;
             _dataBaseHandler = dataBaseHandler;
             _proxyFileManager = proxyFileManager;
-
+            MenuHandlerModel = new MenuHandlerModel();
 
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, AccountCollectionViewModel.SyncObject);
 
@@ -212,6 +253,21 @@ namespace DominatorUIUtility.ViewModel
 
             DeActivateBrowserAutomationCommand = new BaseCommand<object>(DeActivateBrowserAutomationCommandCanExecute, DeActivateBrowserAutomationCommandExecute);
 
+            ImportButtonSizeChangedCommand = new BaseCommand<object>(ImportButtonSizeChangedCommandCanExecute, ImportButtonSizeChangedCommandExecute);
+
+            SelectButtonSizeChangedCommand = new BaseCommand<object>(SelectButtonSizeChangedCommandCanExecute, SelectButtonSizeChangedCommandExecute);
+
+            UpdateButtonSizeChangedCommand = new BaseCommand<object>(UpdateButtonSizeChangedCommandCanExecute, UpdateButtonSizeChangedCommandExecute);
+
+            ExportButtonSizeChangedCommand = new BaseCommand<object>(ExportButtonSizeChangedCommandCanExecute, ExportButtonSizeChangedCommandExecute);
+
+            DeleteButtonSizeChangedCommand = new BaseCommand<object>(DeleteButtonSizeChangedCommandCanExecute, DeleteButtonSizeChangedCommandExecute);
+
+            BrowserButtonSizeChangedCommand = new BaseCommand<object>(BrowserButtonSizeChangedCommandCanExecute, BrowserButtonSizeChangedCommandExecute);
+
+            InfoButtonSizeChnagedCommand = new BaseCommand<object>(InfoButtonSizeChnagedCommandCanExecute, InfoButtonSizeChnagedCommandExecute);
+
+           
             #region Context Menu Command
 
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
@@ -234,6 +290,139 @@ namespace DominatorUIUtility.ViewModel
             #endregion
 
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+        }
+
+       
+
+        private void InfoButtonSizeChnagedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsInfoVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsInfoVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool InfoButtonSizeChnagedCommandCanExecute(object arg)
+        => true;
+
+        private void BrowserButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((DropDownButton)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsBrowserAutomationVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsBrowserAutomationVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private void ChangeMenuHandlerStatus()
+        {
+            if (MenuHandlerModel.IsBrowserAutomationVisible || MenuHandlerModel.IsDeleteAccountVisible
+                 || MenuHandlerModel.IsExportAccountVisible || MenuHandlerModel.IsImportMultipleAccountsVisible
+                 || MenuHandlerModel.IsInfoVisible || MenuHandlerModel.IsSelectAccountsVisible || MenuHandlerModel.IsUpdateAccountVisible)
+            {
+                MenuHandlerModel.IsMenuHandlerVisible = true;
+            }
+            else
+                MenuHandlerModel.IsMenuHandlerVisible = false;
+        }
+
+        private bool BrowserButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private bool DeleteButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void DeleteButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsDeleteAccountVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsDeleteAccountVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool ExportButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void ExportButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsExportAccountVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsExportAccountVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool UpdateButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void UpdateButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((DropDownButton)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsUpdateAccountVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsUpdateAccountVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool SelectButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void SelectButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((DropDownButton)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsSelectAccountsVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsSelectAccountsVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool ImportButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void ImportButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsImportMultipleAccountsVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsImportMultipleAccountsVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
         }
 
         private void CustomSetting(DominatorAccountModel account)
@@ -547,7 +736,7 @@ namespace DominatorUIUtility.ViewModel
                             warn(string.Format("LangKeyTheAccountCantBeImportedNetworkNotAvailable".FromResourceDictionary(),
                                 objDominatorAccountBaseModel,
                                 objDominatorAccountBaseModel.AccountNetwork));
-                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork + "\t"+ "LangKeyTheAccountCantBeImportedNetworkNotAvailable".FromResourceDictionary(),
+                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork + "\t" + "LangKeyTheAccountCantBeImportedNetworkNotAvailable".FromResourceDictionary(),
                                 objDominatorAccountBaseModel.UserName,
                                 objDominatorAccountBaseModel.AccountNetwork);
                         }
@@ -1813,7 +2002,7 @@ namespace DominatorUIUtility.ViewModel
                   "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    var accountsToProcess = LstDominatorAccountModel.Where(x=> x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
 
                     if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram))
                     {
@@ -1833,10 +2022,10 @@ namespace DominatorUIUtility.ViewModel
                     StopAllActivity(accountsToProcess.ToList(), true);
 
                     StopProcess(accountsToProcess.ToList());
-                    
+
                     Task.Factory.StartNew(() =>
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(),10));
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10));
 
                         IsProgressActive = true;
 
@@ -1884,7 +2073,7 @@ namespace DominatorUIUtility.ViewModel
 
                     Task.Factory.StartNew(() =>
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(),10));
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10));
 
                         IsProgressActive = true;
 
@@ -1894,7 +2083,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             x.CancellationSource = new CancellationTokenSource();
                         });
-                        
+
                         IsProgressActive = false;
                     });
 
