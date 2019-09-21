@@ -1562,6 +1562,20 @@ namespace EmbeddedBrowser
                 _proxyRequestHandler.resourceRequestHandler.IsNeedResourceData = false;
         }
 
+        public List<KeyValuePair<string, MemoryStreamResponseFilter>> TwitterJsonResponse()
+        {
+            var response = string.Empty;
+            try
+            {
+                var lstResponseStream = _proxyRequestHandler == null ? _requestHandlerCustom.resourceRequestHandler.TwitterresponseList.DeepCloneObject() :
+                       _proxyRequestHandler.resourceRequestHandler.TwitterresponseList.DeepCloneObject();
+                return lstResponseStream;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         #endregion
 

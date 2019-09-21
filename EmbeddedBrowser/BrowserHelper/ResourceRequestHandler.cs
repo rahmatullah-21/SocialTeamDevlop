@@ -14,6 +14,8 @@ namespace EmbeddedBrowser.BrowserHelper
 
         public List<MemoryStreamResponseFilter> responseList = new List<MemoryStreamResponseFilter>();
 
+        public List<KeyValuePair<string, MemoryStreamResponseFilter>> TwitterresponseList = new List<KeyValuePair<string, MemoryStreamResponseFilter>>();
+
         public bool IsNeedResourceData { get; set; }
 
         public ResourceRequestHandler(BrowserWindow embedBrowser
@@ -48,6 +50,7 @@ namespace EmbeddedBrowser.BrowserHelper
                 {
                     var dataFilter = new MemoryStreamResponseFilter();
                     responseList.Add(dataFilter);
+                    TwitterresponseList.Add(new KeyValuePair<string, MemoryStreamResponseFilter>(request.Url, dataFilter));
                     return dataFilter;
                 }
             }

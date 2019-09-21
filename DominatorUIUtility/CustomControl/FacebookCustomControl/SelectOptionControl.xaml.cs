@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 using MahApps.Metro.Controls.Dialogs;
+using System;
 
 namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 {
@@ -329,7 +330,8 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
 
             if (!string.IsNullOrEmpty(InputText))
             {
-                LstSelectedInput = Regex.Split(InputText, "\r\n").ToList();
+                LstSelectedInput = Regex.Split(InputText,"\r\n").Where(x => !String.IsNullOrWhiteSpace(x.Trim())).Select(y => y.Trim()).Distinct().ToList();
+                //LstSelectedInput = Regex.Split(InputText, "\r\n").ToList();
             }
             else
             {

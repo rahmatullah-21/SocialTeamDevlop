@@ -96,5 +96,20 @@ namespace DominatorHouseCore.FileManagers
 
             _binFileHelper.UpdateCampaignInteractedDetails(campaignInteractedData, networks);
         }
+
+        public List<string> GetCampaignInteractedData(SocialNetworks networks, string campaignId)
+        {
+            List<string> lstData = new List<string>();
+            lock (_networkLocks[networks])
+            {
+                var collections = _campaignInteractedCollections[networks].Value;
+
+                if (collections.ContainsKey(campaignId))
+                {
+                    collections[campaignId].InteractedData.ForEach(x => lstData.Add(x.Key));
+                }
+            }
+            return lstData;
+        }
     }
 }
