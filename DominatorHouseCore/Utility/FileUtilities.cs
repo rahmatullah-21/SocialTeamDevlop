@@ -331,6 +331,20 @@ namespace DominatorHouseCore.Utility
                 return csvSplitList;
             }
         }
+        
+        public static void Copy(string fileToCopy, string destinationFileName)
+        {
+            try
+            {
+                if (File.Exists(fileToCopy) && !File.Exists(destinationFileName))
+                {
+                    File.Copy(fileToCopy, destinationFileName);
+                }
+            }
+            catch (Exception ex)
+            { }
+        }
+
 
     }
 }

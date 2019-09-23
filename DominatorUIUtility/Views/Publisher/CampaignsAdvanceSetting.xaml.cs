@@ -95,27 +95,27 @@ namespace DominatorUIUtility.Views.Publisher
 
             #region Tumblr
 
-            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Tumblr))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = FindResource("LangKeyTumblr").ToString(),
-                    Content = new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
-                });
-            }
+            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Tumblr))
+            //{
+            //    tabItems.Add(new TabItemTemplates
+            //    {
+            //        Title = FindResource("LangKeyTumblr").ToString(),
+            //        Content = new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
+            //    });
+            //}
 
             #endregion
 
             #region Reddit
 
-            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Reddit))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = FindResource("LangKeyReddit").ToString(),
-                    Content = new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
-                });
-            }
+            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Reddit))
+            //{
+            //    tabItems.Add(new TabItemTemplates
+            //    {
+            //        Title = FindResource("LangKeyReddit").ToString(),
+            //        Content = new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
+            //    });
+            //}
 
             #endregion
 

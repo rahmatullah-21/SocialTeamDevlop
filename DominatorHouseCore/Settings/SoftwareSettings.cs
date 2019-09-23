@@ -140,7 +140,11 @@ namespace DominatorHouseCore.Settings
         private void CheckSocinatorIcon()
         {
             if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
-                Utilities.DownloadSocinatorIcon();
+            {
+                FileUtilities.Copy(ConstantVariable.MyAppFolderPath+ @"\"+$"{"LangKeySocinator".FromResourceDictionary()}Icon.png", ConstantVariable.GetSocinatorIcon());
+                if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
+                    Utilities.DownloadSocinatorIcon();
+            }
         }
 
         #region Producer Consumer Solution for Account Update

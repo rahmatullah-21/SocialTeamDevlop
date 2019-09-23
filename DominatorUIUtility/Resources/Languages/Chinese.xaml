@@ -1823,7 +1823,7 @@
     <system:String x:Key="LangKeyRemoveSourceIfFollowBackRatioIsLowerThan">删除….源如果点赞比率低于</system:String>
     <system:String x:Key="LangKeyRemoveTagsFromPostTextAsTheyAreAddedInTheTagsSectionOnTumblr">"从帖子文本中删除标签(在 Tumblr 上的""标记""部分中添加标记"</system:String>
     <system:String x:Key="LangKeyRemoveThe">从 Facebook 主页分享中删除通过选项。</system:String>
-    <system:String x:Key="LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview">"在 Facebook/Google Plus/LinkedIn/Plicent 显示预览后">从帖子中删除链接。"</system:String>
+    <system:String x:Key="LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview">"在 Facebook/Linkedin/Pinterest 显示预览后">从帖子中删除链接。"</system:String>
     <system:String x:Key="LangKeyRemoveUserFromListAfterHeIsTagged">标签后从列表中删除用户</system:String>
     <system:String x:Key="LangKeyRepin">Repin</system:String>
     <system:String x:Key="LangKeyRepinFilter">Repin 过滤</system:String>

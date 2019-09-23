@@ -9,7 +9,8 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="AutoReplyToNewMessage"/>
@@ -17,6 +18,7 @@
     </i:Interaction.Triggers>
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter IsInversed="True" x:Key="LinkedInVisiblity"/>
+        <converter:BooleanToVisibilityConverter IsInversed="True" x:Key="FacebookVisibility"/>
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -34,7 +36,7 @@
             <StackPanel>
                 <Expander  Header="{DynamicResource LangKeyMessageFilter}" Margin="5,5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel>
-                        <StackPanel>
+                        <StackPanel Visibility="{Binding IsFacebook,Converter={StaticResource FacebookVisibility}}">
                             <RadioButton Content="{DynamicResource LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount}"
                                          VerticalAlignment="Center" Margin="5" Visibility="{Binding IsLinkedIn,Converter={StaticResource LinkedInVisiblity}}"
                                          IsChecked="{Binding IsReplyToPendingMessagesChecked}"/>
@@ -60,17 +62,17 @@
 
                         </StackPanel>
                         <StackPanel Visibility="{Binding FacebookElementsVisibility}">
+                            <customControl1:AutoReplyOptionControl  x:Name="AutoReplyCustomControl" AutoReplyOptionModel="{Binding AutoReplyOptionModel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CheckedChangedCommand="{Binding CheckedChangedCommand}" CommandParameter="{Binding AutoReplyCustomControl}" />
+                            <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainsSpecificWord}"
+                                  VerticalAlignment="Center" Margin="5"
+                                  IsChecked="{Binding IsReplyToMessagesThatContainSpecificWordChecked}"/>
 
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal" >
-                                    <CheckBox Margin="5" Content="{DynamicResource LangKeyMessageShouldHaveBeenSentBefore}" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
-                                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.DaysBefore}" FontWeight="SemiBold" Foreground="Black" Minimum="0" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}" />
-                                    <Label Content="{DynamicResource LangKeyDays}" Foreground="Black" />
-                                    <Label Content="{DynamicResource LangKeyAnd}" Margin="0,0,5,0" Foreground="Black" />
-                                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.HoursBefore}" Foreground="Black" Minimum="0" Maximum="23" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
-                                    <Label Content="{DynamicResource LangKeyHours}" Foreground="Black" />
-                                </StackPanel>
-                            </StackPanel>
+                            <customControl:InputBoxControl x:Name="TextBoxSpecificWord"
+                                WaterMarkText ="{DynamicResource LangKeySeparateTheWordsUsingCommaEGHiHello}"
+                                SaveCommand="{Binding InputSaveCommand}"
+                                InputText="{Binding SpecificWord}"
+                                Visibility="{Binding IsReplyToMessagesThatContainSpecificWordChecked,
+                                Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </StackPanel>
                     </StackPanel>
                 </Expander>

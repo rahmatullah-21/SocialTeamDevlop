@@ -151,21 +151,21 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     #region Tumblr
 
-                    var oldTumblrModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TumblrModel;
-                    var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
-                    newTumblrModel =
-                        ObjectComparer.CompareAndGetChangedObject(oldTumblrModel,
-                            newTumblrModel);
-                    if (newTumblrModel != null)
-                    {
-                        newTumblrModel.CampaignId = campaignId;
-                        var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
-                        var lstTumblrModels = _genericFileManager.GetModuleDetails<TumblrModel>(file);
-                        var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                        ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Tumblr, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                    //var oldTumblrModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TumblrModel;
+                    //var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
+                    //newTumblrModel =
+                    //    ObjectComparer.CompareAndGetChangedObject(oldTumblrModel,
+                    //        newTumblrModel);
+                    //if (newTumblrModel != null)
+                    //{
+                    //    newTumblrModel.CampaignId = campaignId;
+                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
+                    //    var lstTumblrModels = _genericFileManager.GetModuleDetails<TumblrModel>(file);
+                    //    var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Tumblr, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
 
-                    }
+                    //}
 
                     #endregion
 
@@ -190,20 +190,20 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     #region Reddit
 
-                    var oldRedditModel = ObjCampaignsAdvanceSetting.AdvanceSetting.RedditModel;
-                    var newRedditModel = Reddit.GetSingeltonRedditObject().RedditViewModel.RedditModel;
-                    newRedditModel = ObjectComparer.CompareAndGetChangedObject(oldRedditModel, newRedditModel);
+                    //var oldRedditModel = ObjCampaignsAdvanceSetting.AdvanceSetting.RedditModel;
+                    //var newRedditModel = Reddit.GetSingeltonRedditObject().RedditViewModel.RedditModel;
+                    //newRedditModel = ObjectComparer.CompareAndGetChangedObject(oldRedditModel, newRedditModel);
 
-                    if (newRedditModel != null)
-                    {
-                        newRedditModel.CampaignId = campaignId;
-                        var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
-                        var lstRedditModels = _genericFileManager.GetModuleDetails<RedditModel>(file);
-                        var moduleToUpdate = lstRedditModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                        ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newRedditModel, lstRedditModels, file, SocialNetworks.Reddit);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Reddit, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                    //if (newRedditModel != null)
+                    //{
+                    //    newRedditModel.CampaignId = campaignId;
+                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
+                    //    var lstRedditModels = _genericFileManager.GetModuleDetails<RedditModel>(file);
+                    //    var moduleToUpdate = lstRedditModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newRedditModel, lstRedditModels, file, SocialNetworks.Reddit);
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Reddit, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
 
-                    }
+                    //}
 
                     #endregion
                     
