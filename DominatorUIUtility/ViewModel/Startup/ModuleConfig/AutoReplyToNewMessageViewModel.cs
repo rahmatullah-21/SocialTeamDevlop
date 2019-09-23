@@ -100,33 +100,38 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
                 int count = ManageMessagesModel.LstQueries.Count;
 
-                while (count > 1)
-                {
-                    var Content = ManageMessagesModel.LstQueries[count - 1].Content;
 
-                    if (Content.QueryValue != "All" && (Content.QueryValue != "LangKeyReplyToAllMessages"?.FromResourceDictionary() &&
-                        Content.QueryValue != "LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount".FromResourceDictionary()))
+                if (FacebookElementsVisibility != Visibility.Visible)
+                {
+                    while (count > 1)
                     {
-                       
-                        ManageMessagesModel.LstQueries.RemoveAt(count - 1);
+                        var Content = ManageMessagesModel.LstQueries[count - 1].Content;
+
+                        if (Content.QueryValue != "All" && (Content.QueryValue != "LangKeyReplyToAllMessages"?.FromResourceDictionary() &&
+                            Content.QueryValue != "LangKeyReplyToNewPendingMessagesReplyOnlyMessageSentByUsersThatDontFollowYourAccount".FromResourceDictionary()))
+                        {
+
+                            ManageMessagesModel.LstQueries.RemoveAt(count - 1);
+                        }
+                        count--;
                     }
-                    count--;
+
+                    lstSpecificWords.ForEach(x =>
+                    {
+                        if (ManageMessagesModel.LstQueries.All(y => y.Content.QueryValue != x))
+                        {
+                            ManageMessagesModel.LstQueries.Add(new QueryContent
+                            {
+                                Content = new QueryInfo
+                                {
+                                    QueryValue = x
+                                }
+
+                            });
+                        }
+                    });
                 }
 
-                lstSpecificWords.ForEach(x =>
-                {
-                    if (ManageMessagesModel.LstQueries.All(y => y.Content.QueryValue != x))
-                    {
-                        ManageMessagesModel.LstQueries.Add(new QueryContent
-                        {
-                            Content = new QueryInfo
-                            {
-                                QueryValue = x
-                            }
-
-                        });
-                    }
-                });
 
                 GlobusLogHelper.log.Info($"{lstSpecificWords.Count} specific word{(lstSpecificWords.Count > 1 ? "s" : "")} saved and added to query sucessfully!");
             }
@@ -443,17 +448,20 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Dialog.ShowDialog("Error", "Please add atleast on keyword");
                 return;
             }
-            if (!IsReplyToPendingMessages﻿﻿Checked && !IsReplyToAllMessagesChecked)
+            if (FacebookElementsVisibility == Visibility.Visible
+               && !AutoReplyOptionModel.IsMessageRequestChecked && !AutoReplyOptionModel.IsFriendsMessageChecked)
             {
-                if (FacebookElementsVisibility == Visibility.Visible
-                    && !AutoReplyOptionModel.IsFriendsMessageChecked)
-                {
-                    Dialog.ShowDialog("Error", "Please Check atleast One mesaage type");
-                    return;
-                }
                 Dialog.ShowDialog("Error", "Please Check atleast One mesaage type");
                 return;
             }
+
+            if (FacebookElementsVisibility != Visibility.Visible
+                && !IsReplyToPendingMessages﻿﻿Checked && !IsReplyToAllMessagesChecked)
+            {
+                Dialog.ShowDialog("Error", "Please Check atleast One mesaage type");
+                return;
+            }
+
             var account = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount;
 
             if (account.AccountBaseModel.AccountNetwork != SocialNetworks.Quora)

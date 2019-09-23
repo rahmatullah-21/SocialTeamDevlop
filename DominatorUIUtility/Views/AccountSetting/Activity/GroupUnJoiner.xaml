@@ -27,8 +27,12 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel Orientation="Vertical" Grid.Row="1">
-                <customControl1:UnfriendOptionsControl UnfriendOptionModel="{Binding UnfriendOptionModel}" />
-                <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}" />
+                <Expander Header="{DynamicResource LangKeyGroupUnjoiner}" Margin="5,5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
+                    <customControl1:UnfriendOptionsControl UnfriendOptionModel="{Binding UnfriendOptionModel}" />
+                </Expander>
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" >
+                    <actcustom:ActivityJobConfig  JobConfiguration="{Binding JobConfiguration}" />
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

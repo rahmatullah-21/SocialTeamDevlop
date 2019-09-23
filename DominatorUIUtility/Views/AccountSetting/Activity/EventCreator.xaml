@@ -28,18 +28,26 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <Expander Header="{DynamicResource LangKeyEventCreater}" Margin="5,5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
 
-                    <customControl1:EventCreaterManager x:Name="EventCreaterManager"
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+
+                        <customControl1:EventCreaterManager x:Name="EventCreaterManager"
                                                         EventCreaterManagerModelCommand="{Binding EventCreaterManagerModel,UpdateSourceTrigger=PropertyChanged}"
                                                         AddEventCommand="{Binding AddEventCommand}" CommandParameter="{Binding ElementName=EventCreaterManager}" 
                                                         TypeSelectionChangedCommand="{Binding TypeSelectionChangedCommand}"/>
 
-                </StackPanel>
-                <customControl1:ManageEventDetails 
-                    LstManageEventModel="{Binding LstManageEventModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="{DynamicResource LangKeyEventCreater}" Margin="5,5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
 
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                        <customControl1:ManageEventDetails 
+                    LstManageEventModel="{Binding LstManageEventModel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                    </Expander>
+                
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" >
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

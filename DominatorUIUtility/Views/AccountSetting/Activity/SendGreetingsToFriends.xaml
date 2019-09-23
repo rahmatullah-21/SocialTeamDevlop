@@ -26,34 +26,37 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel Orientation="Vertical" Grid.Row="1" >
-                <StackPanel Orientation="Vertical">
+                <Expander Header="{DynamicResource LangKeySendGreetingsToFriends}" Margin="5,5"
+                          IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource LangKeyGreetingOptions}" Margin="4,10,4,10" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
-                        <StackPanel Orientation="Vertical" >
-                            <RadioButton Margin="30,10" Content="{DynamicResource LangKeyBirthdayGreeting}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding IsSendBirthDayGreetings}" />
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource LangKeyGreetingOptions}" Margin="4,10,4,10" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                            <StackPanel Orientation="Vertical" >
+                                <RadioButton Margin="30,10" Content="{DynamicResource LangKeyBirthdayGreeting}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding IsSendBirthDayGreetings}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource LangKeySourceFilter}" Margin="4,10,4,5" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,15,5">
+                                <CheckBox Name="ChckAgeFilter" Margin="5,5,5,0"  FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding IsFilterByAge}" />
+                                <TextBlock Margin="10,5,15,5" Text="{DynamicResource LangKeyUserAgeShouldBeBetween}" FontWeight="SemiBold" Foreground="Black" FontSize="13" />
+                                <controls:NumericUpDown Value="{Binding UserAge.StartValue}" FontWeight="SemiBold" Foreground="Black" Minimum="0"/>
+                                <Label Content="{DynamicResource LangKeyTo}" FontWeight="SemiBold" Foreground="Black" />
+                                <controls:NumericUpDown Value="{Binding UserAge.EndValue}"  FontWeight="SemiBold" Foreground="Black" Minimum="0" />
+                                <Label Content="{DynamicResource LangKeyYears}" FontWeight="SemiBold" Foreground="Black" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,15,15">
+                                <CheckBox Name="ChckDaysFilter" Margin="5,5,5,0" FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding IsFilterByDays}" />
+                                <TextBlock Margin="10,5,15,5" Text="{DynamicResource LangKeyBirthdayShouldHaveBeenBetween}" FontWeight="SemiBold" Foreground="Black" FontSize="13" />
+                                <controls:NumericUpDown Value="{Binding DaysBefore.StartValue}" FontWeight="SemiBold" Foreground="Black" Minimum="0"/>
+                                <Label Content="{DynamicResource LangKeyTo}" FontWeight="SemiBold" Foreground="Black" />
+                                <controls:NumericUpDown Value="{Binding DaysBefore.EndValue}"  FontWeight="SemiBold" Foreground="Black" Minimum="0" />
+                                <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource LangKeySourceFilter}" Margin="4,10,4,5" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,10,15,5">
-                            <CheckBox Name="ChckAgeFilter" Margin="5,5,5,0"  FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding IsFilterByAge}" />
-                            <TextBlock Margin="10,5,15,5" Text="{DynamicResource LangKeyUserAgeShouldBeBetween}" FontWeight="SemiBold" Foreground="Black" FontSize="13" />
-                            <controls:NumericUpDown Value="{Binding UserAge.StartValue}" FontWeight="SemiBold" Foreground="Black" Minimum="0"/>
-                            <Label Content="{DynamicResource LangKeyTo}" FontWeight="SemiBold" Foreground="Black" />
-                            <controls:NumericUpDown Value="{Binding UserAge.EndValue}"  FontWeight="SemiBold" Foreground="Black" Minimum="0" />
-                            <Label Content="{DynamicResource LangKeyYears}" FontWeight="SemiBold" Foreground="Black" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,10,15,15">
-                            <CheckBox Name="ChckDaysFilter" Margin="5,5,5,0" FontWeight="SemiBold" Foreground="Black"  IsChecked="{Binding IsFilterByDays}" />
-                            <TextBlock Margin="10,5,15,5" Text="{DynamicResource LangKeyBirthdayShouldHaveBeenBetween}" FontWeight="SemiBold" Foreground="Black" FontSize="13" />
-                            <controls:NumericUpDown Value="{Binding DaysBefore.StartValue}" FontWeight="SemiBold" Foreground="Black" Minimum="0"/>
-                            <Label Content="{DynamicResource LangKeyTo}" FontWeight="SemiBold" Foreground="Black" />
-                            <controls:NumericUpDown Value="{Binding DaysBefore.EndValue}"  FontWeight="SemiBold" Foreground="Black" Minimum="0" />
-                            <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
-                        </StackPanel>
-                    </StackPanel>
-                </StackPanel>
-
+                </Expander>
+                
                 <Expander Header="{DynamicResource LangKeyManageMessages}" Margin="5,5"
                           IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
@@ -69,7 +72,9 @@
                         </StackPanel>
                     </StackPanel>
                 </Expander>
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" >
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

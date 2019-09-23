@@ -28,32 +28,38 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-                <TextBlock Text="{DynamicResource LangKeyInviteBy}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="12"/>
+                
+                <Expander Header="{DynamicResource LangKeyPageInviter}" Margin="5,5" IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
+                    <StackPanel Orientation="Vertical" >
+                        <TextBlock Text="{DynamicResource LangKeyInviteBy}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="12"/>
 
-                <StackPanel Orientation="Vertical" >
+                        <StackPanel Orientation="Vertical" >
 
-                    <RadioButton Name="ChckPostUrl" GroupName="Category" Content="{DynamicResource LangKeyInvitePagePostLikers}"  Width="300" Margin="10,5" FontSize="13" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Left" IsChecked="{Binding InviterDetailsModel.IsPostUrl}"/>
+                            <RadioButton Name="ChckPostUrl" GroupName="Category" Content="{DynamicResource LangKeyInvitePagePostLikers}"  Width="300" Margin="10,5" FontSize="13" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Left" IsChecked="{Binding InviterDetailsModel.IsPostUrl}"/>
 
-                    <StackPanel Orientation="Vertical"  Margin="30,5" Visibility="{Binding InviterDetailsModel.IsPostUrl,Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <RadioButton Margin="0,4,0,4" GroupName="PagePostOptions" Name="ChkboxRandomPost"  Foreground="Black" FontWeight="SemiBold"   Content="Random Post(s)" IsChecked="{Binding InviterDetailsModel.IsRandomPosts}"   />
-                        <RadioButton GroupName="PagePostOptions"  Name="ChkboxSpecificPost"  Foreground="Black" Margin="0,4,0,4"  FontWeight="SemiBold" Content="Specific Post" IsChecked="{Binding InviterDetailsModel.IsSpecificPosts}" />
-                        <customControl1:SelectOptionControl ToolTip="{DynamicResource LangKeyCustomPostUrl}" x:Name="BtnPostUrl" SelectedInputOption="{DynamicResource LangKeySelectPages}"
+                            <StackPanel Orientation="Vertical"  Margin="30,5" Visibility="{Binding InviterDetailsModel.IsPostUrl,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <RadioButton Margin="0,4,0,4" GroupName="PagePostOptions" Name="ChkboxRandomPost"  Foreground="Black" FontWeight="SemiBold"   Content="Random Post(s)" IsChecked="{Binding InviterDetailsModel.IsRandomPosts}"   />
+                                <RadioButton GroupName="PagePostOptions"  Name="ChkboxSpecificPost"  Foreground="Black" Margin="0,4,0,4"  FontWeight="SemiBold" Content="Specific Post" IsChecked="{Binding InviterDetailsModel.IsSpecificPosts}" />
+                                <customControl1:SelectOptionControl ToolTip="{DynamicResource LangKeyCustomPostUrl}" x:Name="BtnPostUrl" SelectedInputOption="{DynamicResource LangKeySelectPages}"
                                                                LstSelectedInput="{Binding InviterDetailsModel.ListPostUrl}"
                                                                                 InputText="{Binding InviterDetailsModel.PostUrlText}" IsSelectButtonVisible="False"                                                                                                                          
                                                                SelectedOptionDisplayName="{DynamicResource LangKeySelectPages}" Visibility="{Binding InviterDetailsModel.IsSpecificPosts,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="26,0" HorizontalAlignment="Left" />
-                    </StackPanel>
+                            </StackPanel>
 
-                </StackPanel>
-                <StackPanel Orientation="Vertical"  >
-                    <RadioButton Name="ChckProfileUrl" GroupName="Category" Content="{DynamicResource LangKeyProfileUrlS}"  Width="140" Margin="10,5" FontSize="13" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Left" IsChecked="{Binding InviterDetailsModel.IsProfileUrl}"/>
-                </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"  >
+                            <RadioButton Name="ChckProfileUrl" GroupName="Category" Content="{DynamicResource LangKeyProfileUrlS}"  Width="140" Margin="10,5" FontSize="13" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Left" IsChecked="{Binding InviterDetailsModel.IsProfileUrl}"/>
+                        </StackPanel>
 
-                <customControl1:InviterOptionsControl IsReinviteOptionNeeded="True" ToolTip="{DynamicResource LangKeyInviteProfileUrlOpt}" InviterOptionsModel="{Binding InviterOptionsModel}" 
+                        <customControl1:InviterOptionsControl IsReinviteOptionNeeded="True" ToolTip="{DynamicResource LangKeyInviteProfileUrlOpt}" InviterOptionsModel="{Binding InviterOptionsModel}" 
                                                       Visibility="{Binding InviterDetailsModel.IsProfileUrl,Converter={StaticResource BooleanToVisibilityConverter}}" IsInviteInMessageVisible="True"/>
 
-                <RadioButton Content="{DynamicResource LangKeySelectAccountDetails}" IsChecked="{Binding IsSelctDetails}" Checked="SelectAccountDetails_Click"/>
-
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                        <RadioButton Content="{DynamicResource LangKeySelectAccountDetails}" IsChecked="{Binding IsSelctDetails}" Checked="SelectAccountDetails_Click"/>
+                    </StackPanel>
+                </Expander>
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" >
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >
