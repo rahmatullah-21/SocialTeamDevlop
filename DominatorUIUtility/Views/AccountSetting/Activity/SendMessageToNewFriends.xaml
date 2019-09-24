@@ -28,16 +28,19 @@
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" >
             <StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{DynamicResource LangKeySourceFilter}" Margin="4,10,4,10" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,15,30">
-                        <TextBlock Margin="10,5,15,5" Text="{DynamicResource LangKeyFriendsShouldHaveBeenAddedBefore}" FontWeight="SemiBold" Foreground="Black" FontSize="13" />
-                        <controls:NumericUpDown Value="{Binding DaysBefore.StartValue}" FontWeight="SemiBold" Foreground="Black" Minimum="0" />
-                        <Label Content="{DynamicResource LangKeyTo}" FontWeight="SemiBold" Foreground="Black" />
-                        <controls:NumericUpDown Value="{Binding DaysBefore.EndValue}"  FontWeight="SemiBold" Foreground="Black" Minimum="0"/>
-                        <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
+                <Expander Header="{DynamicResource LangKeySendMessageToNewFriends}" Margin="5,5"
+                          IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource LangKeySourceFilter}" Margin="4,10,4,10" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,5,15,30">
+                            <TextBlock Margin="10,5,15,5" Text="{DynamicResource LangKeyFriendsShouldHaveBeenAddedBefore}" FontWeight="SemiBold" Foreground="Black" FontSize="13" />
+                            <controls:NumericUpDown Value="{Binding DaysBefore.StartValue}" FontWeight="SemiBold" Foreground="Black" Minimum="0" />
+                            <Label Content="{DynamicResource LangKeyTo}" FontWeight="SemiBold" Foreground="Black" />
+                            <controls:NumericUpDown Value="{Binding DaysBefore.EndValue}"  FontWeight="SemiBold" Foreground="Black" Minimum="0"/>
+                            <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </Expander>
                 <Expander Header="{DynamicResource LangKeyManageMessages}" Margin="5,5"
                           IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
@@ -56,8 +59,10 @@
                         </StackPanel>
                     </StackPanel>
                 </Expander>
-
-                <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                
+                <Expander IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}" Header="{DynamicResource LangKeyJobConfiguration}" Margin="5" >
+                    <actcustom:ActivityJobConfig JobConfiguration="{Binding JobConfiguration}"/>
+                </Expander>
             </StackPanel>
         </ScrollViewer>
         <DockPanel Grid.Row="2" >

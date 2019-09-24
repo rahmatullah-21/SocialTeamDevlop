@@ -64,13 +64,13 @@
                         <StackPanel Visibility="{Binding FacebookElementsVisibility}">
                             <customControl1:AutoReplyOptionControl  x:Name="AutoReplyCustomControl" AutoReplyOptionModel="{Binding AutoReplyOptionModel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CheckedChangedCommand="{Binding CheckedChangedCommand}" CommandParameter="{Binding AutoReplyCustomControl}" />
                             <CheckBox Content="{DynamicResource LangKeyReplyToMessagesThatContainsSpecificWord}"
-                                  VerticalAlignment="Center" Margin="5"
-                                  IsChecked="{Binding IsReplyToMessagesThatContainSpecificWordChecked}"/>
+                                  VerticalAlignment="Center" Margin="30,5"
+                                  IsChecked="{Binding IsReplyToMessagesThatContainSpecificWordChecked}" FontWeight="SemiBold" Foreground="Black" />
 
                             <customControl:InputBoxControl x:Name="TextBoxSpecificWord"
                                 WaterMarkText ="{DynamicResource LangKeySeparateTheWordsUsingCommaEGHiHello}"
                                 SaveCommand="{Binding InputSaveCommand}"
-                                InputText="{Binding SpecificWord}"
+                                InputText="{Binding SpecificWord}" Margin="30,5"
                                 Visibility="{Binding IsReplyToMessagesThatContainSpecificWordChecked,
                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </StackPanel>
