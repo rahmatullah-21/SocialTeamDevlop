@@ -408,17 +408,28 @@ namespace DominatorHouseCore.Settings
 
                     var checkResult = await asyncAdScraperFactory.CheckStatusAsync(account, cancellationTokenSource.Token);
 
-                    if (!checkResult)
-                        return;
-
-                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                    await asyncAdScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token);
-
                     var jobId = Guid.NewGuid().ToString();
 
-                    JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account); },
-                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1.5)));
+                    if (checkResult)
+                    {
+                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                        await asyncAdScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token);
+                        
+                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account); },
+                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1.5)));
+
+                    }
+                    else
+                    {
+                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account); },
+                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(30)));
+
+                        return;
+                    }
+                        
+                   
+                   
 
                 }
                 catch (OperationCanceledException ex)
