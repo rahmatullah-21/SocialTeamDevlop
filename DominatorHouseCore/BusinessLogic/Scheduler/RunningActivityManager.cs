@@ -63,7 +63,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
             var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
             var moduleConfiguration = jobActivityConfigurationManager[accountModel.AccountId].Where(x => x.IsEnabled)
-                .OrderBy(PickNextActivity)
+                .OrderByDescending(PickNextActivity)
                 .FirstOrDefault();
             if (moduleConfiguration == null) return;
             //Check if any job process is already scheduled before to run after this activity.
@@ -105,14 +105,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             int score = 0; //start from zero
             if (arg.IsEnabled) score += 50;
-
-            var nextTime = DateTimeUtilities.GetNextStartTime(arg, ReachedLimitType.Job);
-            TimeSpan differenceMinutes = nextTime.Subtract(DateTime.Now);
+            TimeSpan differenceMinutes = DateTime.Now.Subtract(arg.NextRun);
             score += 1 * (int)differenceMinutes.TotalMinutes;
-
-            //TimeSpan differenceMinutes = DateTime.Now.Subtract(arg.NextRun);
-            //score += 1 * (int)differenceMinutes.TotalMinutes;
-
             return score;
         }
 

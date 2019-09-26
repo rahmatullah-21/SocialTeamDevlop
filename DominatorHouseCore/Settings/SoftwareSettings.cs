@@ -418,7 +418,7 @@ namespace DominatorHouseCore.Settings
                     var jobId = Guid.NewGuid().ToString();
 
                     JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account); },
-                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(3)));
+                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1.5)));
 
                 }
                 catch (OperationCanceledException ex)
