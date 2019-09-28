@@ -10,8 +10,6 @@ namespace DominatorHouseCore.Models
     [ProtoContract]
     public class SoftwareSettingsModel : BindableBase
     {
-
-       
         private bool _isRunDHAtStartUpChecked;
         [ProtoMember(1)]
         public bool IsRunDHAtStartUpChecked
@@ -701,6 +699,20 @@ namespace DominatorHouseCore.Models
             get { return _runQueriesRandomly; }
             set
             {SetProperty(ref _runQueriesRandomly, value);}
+        }
+
+        private bool _stopIfNoMoreData;
+        [ProtoMember(50)]
+        public bool StopIfNoMoreData
+        {
+            get
+            {
+                return _stopIfNoMoreData;
+            }
+            set
+            {
+                SetProperty(ref _stopIfNoMoreData, value);
+            }
         }
     }
 }

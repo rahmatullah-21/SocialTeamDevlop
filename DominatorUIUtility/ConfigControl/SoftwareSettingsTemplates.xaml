@@ -136,6 +136,8 @@
                             <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyBottomToTop}" IsChecked="{Binding RunQueriesBottomToTop}"/>
                             <RadioButton Margin="5" GroupName="RunQueryGroup" Content="{DynamicResource LangKeyRandomly}" IsChecked="{Binding RunQueriesRandomly}"/>
                         </StackPanel>
+                        <CheckBox Margin="5" Content="{DynamicResource LangKeyStopIfNoMoreData}"
+                              IsChecked="{Binding StopIfNoMoreData}"/>
                     </StackPanel>
 
                 </StackPanel>

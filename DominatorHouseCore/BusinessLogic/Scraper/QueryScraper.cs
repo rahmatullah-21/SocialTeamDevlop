@@ -139,7 +139,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         private void UpdateScheduleIfRequire()
         {
-            if (_jobProcess.DominatorAccountModel.IsNeedToSchedule)
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            
+            if (_jobProcess.DominatorAccountModel.IsNeedToSchedule && !softwareSettings.StopIfNoMoreData)
                 UpdateScheduleIfNoMoreData();
             else
             {

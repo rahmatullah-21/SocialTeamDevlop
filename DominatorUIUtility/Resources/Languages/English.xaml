@@ -4017,4 +4017,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyValidate">Validate</system:String>
     <system:String x:Key="LangKeyRepinOnePin">Repin one pin</system:String>
     <system:String x:Key="LangKeyTimesInOneBoard">Times in one board</system:String>
+    <system:String x:Key="LangKeyStopIfNoMoreData">Don't schedule account to process activity if no more data found</system:String>
 </ResourceDictionary>
