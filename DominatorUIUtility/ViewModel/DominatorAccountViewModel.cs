@@ -692,7 +692,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             AccountGroup =
                         {
-                            Content = groupname ?? ConstantVariable.UnGrouped
+                            Content = groupname ?? ConstantVariable.UnGrouped()
                         },
                             UserName = username,
                             Password = password,
@@ -788,7 +788,7 @@ namespace DominatorUIUtility.ViewModel
 
             objDominatorAccountBaseModel.AccountGroup.Content =
                 string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content)
-                    ? ConstantVariable.UnGrouped
+                    ? ConstantVariable.UnGrouped()
                     : objDominatorAccountBaseModel.AccountGroup.Content;
 
             //Initialize the given account to account model
@@ -797,7 +797,7 @@ namespace DominatorUIUtility.ViewModel
                 AccountGroup =
                 {
                     Content = string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content)
-                        ? ConstantVariable.UnGrouped
+                        ? ConstantVariable.UnGrouped()
                         : objDominatorAccountBaseModel.AccountGroup.Content
                 },
                 UserName = objDominatorAccountBaseModel.UserName,

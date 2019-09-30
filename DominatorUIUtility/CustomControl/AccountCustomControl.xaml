@@ -657,38 +657,38 @@
                         <viewModel:BindingData x:Key="ContextMenuBinding" Data="{Binding}" />
 
                         <ContextMenu x:Key="ItemContextMenu">
-                            <MenuItem Header="Details" CommandParameter="{Binding}"
+                            <MenuItem Header="{DynamicResource LangKeyDetails}" CommandParameter="{Binding}"
                                   Command="{Binding Data.ProfileDetailsCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{StaticResource DetailsIcon}"/>
-                            <MenuItem Header="Delete Profile" CommandParameter="{Binding}"
+                            <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{StaticResource DeleteIcon}"/>
-                            <MenuItem Header="Browser Login"  Icon="{StaticResource BrowseLoginIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="Go to Tools"  Icon="{StaticResource GoToToolsIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{StaticResource GoToToolsIcon}"
                                   CommandParameter="{Binding}"
                                   Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
                                   Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
-                            <MenuItem Header="Check Account Status" Icon="{StaticResource CheckStatusIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{StaticResource CheckStatusIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="Update Friendship"  Icon="{StaticResource UpdateFriendshipIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{StaticResource UpdateFriendshipIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="Edit Insta Profile" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
+                            <MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
                                   Icon="{StaticResource InstEditIcon}" 
                                   Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
                                   CommandParameter="{Binding}" />
-                            <MenuItem Header="Edit Twitter Profile" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
+                            <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
                                   Icon="{StaticResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
                                   Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="Copy Account Id"  Icon="{StaticResource CopyAccountIdIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{StaticResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                            <MenuItem  Height="30"  Header="Custom Setting" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}">
-                                <MenuItem Header="Setting Wizard" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
+                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}">
+                                <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
                                 <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>-->
@@ -850,10 +850,10 @@
 
                                         <DataTemplate.Triggers>
                                             <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="">
-                                                <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
+                                                <Setter TargetName="TextBlockName" Property="Text" Value="{DynamicResource LangKeyLocalIP}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding AccountBaseModel.AccountProxy.ProxyIp}" Value="{x:Null}">
-                                                <Setter TargetName="TextBlockName" Property="Text" Value="Local Ip" />
+                                                <Setter TargetName="TextBlockName" Property="Text" Value="{DynamicResource LangKeyLocalIP}" />
                                             </DataTrigger>
                                         </DataTemplate.Triggers>
                                     </DataTemplate>

@@ -24,4 +24,14 @@ namespace DominatorHouseCore.Enums.DHEnum
         AllTime
     }
 
+    public enum GrowthChartType
+    {
+        [Description("LangKeyGain")]
+        Gain = 1,
+        [Description("LangKeyTotal")]
+        Total = 2,
+        [Description("LangKeyBoth")]
+        Both = 3
+    }
+
 }

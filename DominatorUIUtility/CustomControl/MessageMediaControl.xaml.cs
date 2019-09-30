@@ -128,7 +128,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 OpenFileDialog opf = new OpenFileDialog();
-                opf.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
+                opf.Filter = "Image Files |*.jpg;*.jpeg;*.png;*.gif";//"Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF";
                 if (opf.ShowDialog().Value)
                 {
                     Messages.MediaPath = opf.FileName;

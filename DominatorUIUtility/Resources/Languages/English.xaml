@@ -4018,4 +4018,47 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyRepinOnePin">Repin one pin</system:String>
     <system:String x:Key="LangKeyTimesInOneBoard">Times in one board</system:String>
     <system:String x:Key="LangKeyStopIfNoMoreData">Don't schedule account to process activity if no more data found</system:String>
+    <system:String x:Key="LangKeyChinese">Chinese</system:String>
+
+    <system:String x:Key="LangKeyDeleteProfile">Delete Profile</system:String>
+    <system:String x:Key="LangKeyBrowserLogin">Browser Login</system:String>
+    <system:String x:Key="LangKeyGoToTools">Go to Tools</system:String>
+    <system:String x:Key="LangKeyUpdateFriendship">Update Friendship</system:String>
+    <system:String x:Key="LangKeyEditInstaProfile">Edit Insta Profile</system:String>
+    <system:String x:Key="LangKeyEditTwitterProfile">Edit Twitter Profile</system:String>
+    <system:String x:Key="LangKeyCopyAccountId">Copy Account Id</system:String>
+    <system:String x:Key="LangKeyCustomSetting">Custom Setting</system:String>
+    <system:String x:Key="LangKeySettingWizard">Setting Wizard</system:String>
+    <system:String x:Key="LangKeyInActive">InActive</system:String>
+    <system:String x:Key="LangKeyUngrouped">Ungrouped</system:String>
+    <system:String x:Key="LangKeyLocalIP">Local IP</system:String>
+
+    <system:String x:Key="LangKeyNoPeriod">No Period</system:String>
+    <system:String x:Key="LangKeyDaily">Daily</system:String>
+    <system:String x:Key="LangKeyWeekly">Weekly</system:String>
+    <system:String x:Key="LangKeyMonthly">Monthly</system:String>
+    <system:String x:Key="LangKeyLifeTime">LifeTime</system:String>
+
+    <system:String x:Key="LangKeyPastDay">Past Day</system:String>
+    <system:String x:Key="LangKeyPastWeek">Past Week</system:String>
+    <system:String x:Key="LangKeyPast30Days">Past 30 Days</system:String>
+    <system:String x:Key="LangKeyPast3Months">Past 3 Months</system:String>
+    <system:String x:Key="LangKeyPast6Months">Past 6 Months</system:String>
+    <system:String x:Key="LangKeyAllTime">All Time</system:String>
+
+    <system:String x:Key="LangKeyGain">Gain</system:String>
+    <system:String x:Key="LangKeyTotal">Total</system:String>
+
+    <system:String x:Key="LangKeyScore">Score</system:String>
+    <system:String x:Key="LangKeyPostKarma">Post Karma</system:String>
+    <system:String x:Key="LangKeyCommentKarma">Comment Karma</system:String>
+    <system:String x:Key="LangKeyUploads">Uploads</system:String>
+    <system:String x:Key="LangKeyInvitation">Invitation</system:String>
+
+    <system:String x:Key="LangKeySlow">Slow</system:String>
+    <system:String x:Key="LangKeyMedium">Medium</system:String>
+    <system:String x:Key="LangKeyFast">Fast</system:String>
+    <system:String x:Key="LangKeySuperfast">Superfast</system:String>
+
+    <system:String x:Key="StartAfterAction">Started After Action Methods For {0}</system:String>
 </ResourceDictionary>

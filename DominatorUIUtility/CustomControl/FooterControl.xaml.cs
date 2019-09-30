@@ -184,7 +184,7 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
-                if (CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
+                if (CampaignManager.Equals(ConstantVariable.CreateCampaign(), StringComparison.CurrentCultureIgnoreCase))
                 {
                     CreateCampaignChangedEventHandler();
                 }

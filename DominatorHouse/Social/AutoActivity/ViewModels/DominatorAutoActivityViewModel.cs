@@ -214,6 +214,11 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                             {
                                 try
                                 {
+                                    var titleData = x.GetDescriptionAttr().Split(',');
+
+                                    var activityTitle = titleData.LastOrDefault().Contains("LangKey") ?
+                                           titleData.LastOrDefault().FromResourceDictionary() : x.ToString();
+                                    
                                     // get the activity details                    
                                     var activityData =
                                         jobActivityConfigurationManager[account.AccountId, x];
@@ -226,6 +231,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                             {
                                                 Status = activityData.IsEnabled,
                                                 Title = x,
+                                                ActivityTitle = activityTitle,
                                                 AccountId = account.AccountId
                                             });
                                     }
@@ -237,6 +243,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                             {
                                                 Status = false,
                                                 Title = x,
+                                                ActivityTitle = activityTitle,
                                                 AccountId = account.AccountId
                                             });
                                     }

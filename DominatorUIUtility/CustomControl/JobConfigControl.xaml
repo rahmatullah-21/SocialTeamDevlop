@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              mc:Ignorable="d" Loaded="JobConfigControl_Loaded"
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
     <UserControl.Resources>
@@ -117,7 +118,32 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
                         <Label Content="{DynamicResource LangKeySelectSpeed}" FontWeight="SemiBold" FontSize="15"/>
                         <ComboBox ItemsSource="{Binding JobConfiguration.Speeds}" Width="150" SelectedItem="{Binding JobConfiguration.SelectedItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                  SelectionChanged="Selector_OnSelectionChanged"  Name="Speed" SelectedIndex="0"/>
+                                  SelectionChanged="Selector_OnSelectionChanged"  Name="Speed" SelectedIndex="0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock >
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding}" Value="Slow">
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeySlow}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding}" Value="Medium">
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyMedium}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding}" Value="Fast">
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeyFast}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding}" Value="Superfast">
+                                                        <Setter Property="Text" Value="{DynamicResource LangKeySuperfast}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </StackPanel>
                 </StackPanel>
             </Border>

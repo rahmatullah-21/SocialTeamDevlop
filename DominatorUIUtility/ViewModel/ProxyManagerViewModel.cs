@@ -321,7 +321,7 @@ namespace DominatorUIUtility.ViewModel
                         }
 
                         if (string.IsNullOrEmpty(givenProxy.AccountProxy.ProxyGroup))
-                            givenProxy.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped;
+                            givenProxy.AccountProxy.ProxyGroup = ConstantVariable.UnGrouped();
 
                         if (string.IsNullOrEmpty(givenProxy.AccountProxy.ProxyName))
                             givenProxy.AccountProxy.ProxyName = "Proxy " + LstProxyManagerModel.Count + 1;

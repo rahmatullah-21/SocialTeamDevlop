@@ -17,13 +17,6 @@ using System.Windows.Data;
 
 namespace DominatorUIUtility.ViewModel
 {
-    public enum GrowthChartType
-    {
-        Gain = 1,
-        Total = 2,
-        Both = 3
-    }
-
     public interface IAccountGrowthControlViewModel
     {
 
@@ -222,7 +215,7 @@ namespace DominatorUIUtility.ViewModel
             {
                 SeriesCollection.Add(new LineSeries
                 {
-                    Title = $"{property} {type}",
+                    Title = $"{property} {type.GetDescriptionAttr().FromResourceDictionary()}",
                     Values = GetGrowthValueList(GrowthList, property, type)
                 });
             }

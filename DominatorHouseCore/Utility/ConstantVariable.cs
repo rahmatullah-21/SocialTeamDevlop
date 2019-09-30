@@ -79,11 +79,11 @@ namespace DominatorHouseCore.Utility
             return dir;
         }
         
-        public static string CreateCampaign = "LangKey_CreateCampaign".FromResourceDictionary();
+        public static string CreateCampaign() => "LangKey_CreateCampaign".FromResourceDictionary();
 
-        public static string UpdateCampaign = "LangKey_UpdateCampaign".FromResourceDictionary();
+        public static string UpdateCampaign() => "LangKey_UpdateCampaign".FromResourceDictionary();
 
-        public static string NoAccountSelected = "LangKeyNoAccountSelected".FromResourceDictionary();
+        public static string NoAccountSelected() => "LangKeyNoAccountSelected".FromResourceDictionary();
         
         public static string GetIndexAccountDir()
         {
@@ -113,7 +113,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
 
-        public const string UnGrouped = "Ungrouped";
+        public static string UnGrouped() => "Ungrouped".FromResourceDictionary();
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
 

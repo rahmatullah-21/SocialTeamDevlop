@@ -545,7 +545,7 @@ namespace DominatorUIUtility.ViewModel
                                               Split('[')[0] + $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
 
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
-                    .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign);
+                    .ViewCampaigns(campName.CampaignId, ConstantVariable.CreateCampaign());
             }
             catch (Exception ex)
             {
@@ -560,7 +560,7 @@ namespace DominatorUIUtility.ViewModel
                 CampaignDetails campName = sender as CampaignDetails;
 
                 SocinatorInitialize.GetSocialLibrary(campName.SocialNetworks).GetNetworkCoreFactory().ViewCampaigns
-                    .ViewCampaigns(campName.CampaignId, ConstantVariable.UpdateCampaign);
+                    .ViewCampaigns(campName.CampaignId, ConstantVariable.UpdateCampaign());
             }
             catch (Exception ex)
             {

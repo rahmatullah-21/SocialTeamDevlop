@@ -7,6 +7,7 @@
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums.DHEnum;assembly=DominatorHouseCore"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              Name="AccountModule"
              mc:Ignorable="d">
@@ -71,6 +72,33 @@
 
                                     <ComboBox  DataContext="{Binding GrowthPeriods}" ItemsSource="{Binding ItemsCollection}" Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"                                       
                                       SelectedIndex="0" SelectedItem="{Binding Selected}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock >
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthPeriod.NoPeriod}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyNoPeriod}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthPeriod.Daily}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyDaily}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthPeriod.Weekly}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyWeekly}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthPeriod.Monthly}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyMonthly}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthPeriod.LifeTime}">
+                                                                    <Setter Property="Text" Value="{DynamicResource LangKeyLifeTime}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
                                     </ComboBox>
                                 </StackPanel>
 
@@ -102,7 +130,7 @@
                                                                 <Setter Property="Content">
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
-                                                                           <Rectangle.OpacityMask>
+                                                                            <Rectangle.OpacityMask>
                                                                                 <VisualBrush Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
                                                                             </Rectangle.OpacityMask>
                                                                         </Rectangle>
@@ -125,7 +153,7 @@
                                             <DataTemplate>
                                                 <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue1}"/> 
+                                                        <Label Name="oldfollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding DisplayColumnValue1}"/>
                                                         <UserControl DataContext="{Binding DisplayColumnValue6, Converter={StaticResource objNegationConvertor}}" Style="{StaticResource ArrowCellStyle}"/>
                                                         <Label Name="newFollowerCountLabel" HorizontalContentAlignment="Left" Margin="10,0,10,0" Content="{Binding Path=DisplayColumnValue6, Converter={StaticResource objPositiveValueConvertor}}"/>
                                                     </StackPanel>
@@ -254,13 +282,66 @@
                                 <ComboBox Width="200"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"   
                                           DataContext="{Binding GrowthChartPeriods}"
                                           ItemsSource="{Binding ItemsCollection}"
-                                          SelectedIndex="0" SelectedItem="{Binding Selected}"/>
+                                          SelectedIndex="0" SelectedItem="{Binding Selected}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock >
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartPeriod.PastDay}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyPastDay}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartPeriod.PastWeek}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyPastWeek}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartPeriod.Past30Days}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyPast30Days}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartPeriod.Past3Months}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyPast3Months}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartPeriod.Past6Months}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyPast6Months}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartPeriod.AllTime}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyAllTime}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
                                 <Label VerticalAlignment="Top"  Foreground="White" Content="{DynamicResource LangKeySelectType}"  HorizontalAlignment="Right" Height="25"/>
 
                                 <ComboBox  Width="100"  VerticalAlignment="Top" Margin="6,0,0,0" Height="25"  
                                            DataContext="{Binding GrowthChartTypes}"
                                            ItemsSource="{Binding ItemsCollection}"
-                                           SelectedItem="{Binding Selected}"/>
+                                           SelectedItem="{Binding Selected}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock >
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartType.Gain}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyGain}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartType.Total}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyTotal}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding}" Value="{x:Static enums:GrowthChartType.Both}">
+                                                                <Setter Property="Text" Value="{DynamicResource LangKeyBoth}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
 
                             </StackPanel>
 
@@ -299,7 +380,6 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            
         </TabControl>
     </Grid>
 </UserControl>

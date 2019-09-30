@@ -104,7 +104,7 @@ namespace DominatorUIUtility.CustomControl
         {
             var control = sender as FooterControl;
 
-            if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
+            if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign(), StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
                 UpdateCampaign();
@@ -255,7 +255,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region IFooterControl
 
-        private string _selectedAccountCount = ConstantVariable.NoAccountSelected;
+        private string _selectedAccountCount = ConstantVariable.NoAccountSelected();
 
         public string SelectedAccountCount
         {
@@ -270,7 +270,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        private string _campaignButtonContent = ConstantVariable.CreateCampaign;
+        private string _campaignButtonContent = ConstantVariable.CreateCampaign();
         public string CampaignButtonContent
         {
             get
@@ -363,7 +363,7 @@ namespace DominatorUIUtility.CustomControl
                 return true;
             }
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-            if (_footerControl.CampaignManager == ConstantVariable.CreateCampaign && campaignFileManager.Any(x => x.CampaignName == CampaignName))
+            if (_footerControl.CampaignManager == ConstantVariable.CreateCampaign() && campaignFileManager.Any(x => x.CampaignName == CampaignName))
             {
                 Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorCampaignWithSameNameAlreadyExists".FromResourceDictionary());
                 return true;
@@ -430,9 +430,9 @@ namespace DominatorUIUtility.CustomControl
 
             CancelEditVisibility = Visibility.Collapsed;
 
-            _footerControl.CampaignManager = ConstantVariable.CreateCampaign;
+            _footerControl.CampaignManager = ConstantVariable.CreateCampaign();
 
-            SelectedAccountCount = ConstantVariable.NoAccountSelected;
+            SelectedAccountCount = ConstantVariable.NoAccountSelected();
 
             ObjViewModel = new TViewModel();
 
@@ -775,7 +775,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                     else
                     {
-                        SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        SelectedAccountCount = ConstantVariable.NoAccountSelected();
                         _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
@@ -807,7 +807,7 @@ namespace DominatorUIUtility.CustomControl
             }
             else
             {
-                SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                SelectedAccountCount = ConstantVariable.NoAccountSelected();
                 _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
             }
         }
@@ -1680,7 +1680,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                     else
                     {
-                        SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        SelectedAccountCount = ConstantVariable.NoAccountSelected();
                         _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
