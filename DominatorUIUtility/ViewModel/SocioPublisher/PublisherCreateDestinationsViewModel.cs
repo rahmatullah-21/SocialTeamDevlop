@@ -974,12 +974,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 publisherCreateDestinationSelectModel.GroupSelectorText =
                     GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + publisherCreateDestinationSelectModel.TotalGroups
-                        : "NA";
+                        : "LangKeyNA".FromResourceDictionary();
 
                 publisherCreateDestinationSelectModel.PagesOrBoardsSelectorText =
                     BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + publisherCreateDestinationSelectModel.TotalPagesOrBoards
-                        : "NA";
+                        : "LangKeyNA".FromResourceDictionary();
 
                 if (SocinatorInitialize.IsNetworkAvailable(x.AccountBaseModel.AccountNetwork))
                 {
@@ -1354,12 +1354,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         publisherCreateDestinationSelectModel.GroupSelectorText =
                             GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                                 ? "0" + "/" + publisherCreateDestinationSelectModel.TotalGroups
-                                : "NA";
+                                : "LangKeyNA".FromResourceDictionary();
 
                         publisherCreateDestinationSelectModel.PagesOrBoardsSelectorText =
                             BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                                 ? "0" + "/" + publisherCreateDestinationSelectModel.TotalPagesOrBoards
-                                : "NA";
+                                : "LangKeyNA".FromResourceDictionary();
                         if (SocinatorInitialize.IsNetworkAvailable(x.AccountBaseModel.AccountNetwork))
                         {
                             PublisherCreateDestinationModel.ListSelectDestination.Add(

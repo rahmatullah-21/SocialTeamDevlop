@@ -4060,5 +4060,24 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyFast">Fast</system:String>
     <system:String x:Key="LangKeySuperfast">Superfast</system:String>
 
-    <system:String x:Key="StartAfterAction">Started After Action Methods For {0}</system:String>
+    <system:String x:Key="LangKeyStartAfterAction">Started After Action Methods For {0}</system:String>
+
+    <system:String x:Key="LangKeyNoMorePostAvailable">No more posts are available for</system:String>
+    <system:String x:Key="LangKeyChannel">Channel</system:String>
+    <system:String x:Key="LangKeySelectAnything">Select {0}</system:String>
+    <system:String x:Key="LangKeyAnyUrl">{0} Url</system:String>
+    <system:String x:Key="LangKeyAnyName">{0} Name</system:String>
+    <system:String x:Key="LangKeyNA">NA</system:String>
+    <system:String x:Key="LangKeyEmpty">Empty</system:String>
+
+    <system:String x:Key="LangKeySelectFavoriteTime">Select favorite time</system:String>
+
+    <system:String x:Key="LangKeyBoardSetting">Board Setting</system:String>
+    <system:String x:Key="LangKey">Board Name</system:String>
+    <system:String x:Key="LangKeyAddBoardsToList">Add Boards To The List</system:String>
+    <system:String x:Key="LangKeySendBoardInvitationSetting">Send Board Invitation Setting</system:String>
+    <system:String x:Key="LangKeyBoardCollaboratorsSetting">Board Collaborators Setting</system:String>
+    <system:String x:Key="LangKeyAddBoardCollaboratorsToList">Add Board Collaborators To The List</system:String>
+    <system:String x:Key="LangBoardCollaboratorsList">Board Collaborators List</system:String>
+    <system:String x:Key="LangClear﻿﻿﻿﻿All">Clear﻿﻿﻿﻿ All</system:String>
 </ResourceDictionary>

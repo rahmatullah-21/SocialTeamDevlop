@@ -124,7 +124,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private bool _IsHeaderNeeded = true;
 
-        private string _InviteForPagesText = "Invite for Pages";
+        private string _InviteForPagesText = "LangKeyInviteForPages".FromResourceDictionary();
 
         public bool GroupMenuVisible
         {
@@ -567,16 +567,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // Find whether page or board, its vary based on each network
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = $"Select {accountsDetailsSelector.DisplayAsPageOrBoards}",
-                    DetailsUrlHeader = $"{accountsDetailsSelector.DisplayAsPageOrBoards} Url",
-                    DetailsNameHeader = $"{accountsDetailsSelector.DisplayAsPageOrBoards} Name",
+                    Title = string.Format("LangKeySelectAnything".FromResourceDictionary(),accountsDetailsSelector.DisplayAsPageOrBoards ),
+                    DetailsUrlHeader = String.Format("LangKeyAnyUrl".FromResourceDictionary(),accountsDetailsSelector.DisplayAsPageOrBoards),
+                    DetailsNameHeader = String.Format("LangKeyAnyName".FromResourceDictionary(),accountsDetailsSelector.DisplayAsPageOrBoards),
                     AlreadySelectedList = alreadySelectedPages
                 }
             };
 
             var dialog = new Dialog();
 
-            var window = dialog.GetMetroWindow(accountDetailsSelector, $"Select {accountsDetailsSelector.DisplayAsPageOrBoards}");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, string.Format("LangKeySelectAnything".FromResourceDictionary(), accountsDetailsSelector.DisplayAsPageOrBoards));
 
             // Defining the save buttons click events
             accountDetailsSelector.btnSave.Click += (senderDetails, events) =>
@@ -1214,17 +1214,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 allAccountDetailsSelectModel.GroupSelectorText =
                     GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + allAccountDetailsSelectModel.TotalGroups
-                        : "NA";
+                        : "LangKeyNA".FromResourceDictionary();
 
                 allAccountDetailsSelectModel.PagesOrBoardsSelectorText =
                     BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + allAccountDetailsSelectModel.TotalPagesOrBoards
-                        : "NA";
+                        : "LangKeyNA".FromResourceDictionary();
 
                 allAccountDetailsSelectModel.FriendsSelectorText =
                     FriendsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + allAccountDetailsSelectModel.TotalFriends
-                        : "NA";
+                        : "LangKeyNA".FromResourceDictionary();
 
                 if (x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
                 {
@@ -1497,12 +1497,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         allAccountDetailsSelectModel.GroupSelectorText =
                             GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                                 ? "0" + "/" + allAccountDetailsSelectModel.TotalGroups
-                                : "NA";
+                                : "LangKeyNA".FromResourceDictionary();
 
                         allAccountDetailsSelectModel.PagesOrBoardsSelectorText =
                             BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                                 ? "0" + "/" + allAccountDetailsSelectModel.TotalPagesOrBoards
-                                : "NA";
+                                : "LangKeyNA".FromResourceDictionary();
                         if (x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
                         {
                             SelectAccountDetailsModel.ListSelectDestination.Add(

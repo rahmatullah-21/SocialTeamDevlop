@@ -21,23 +21,23 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{DynamicResource AccentColorBrush}" Margin="5">
-            <actcustom:ModuleHeader Heading="Send Board Invitation Setting" x:Name="header"
+            <actcustom:ModuleHeader Heading="{DynamicResource LangKeySendBoardInvitationSetting}" x:Name="header"
                                     View="{Binding ElementName=ActivityControl}"/>
         </DockPanel>
               <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
                 <TabControl Name="BoardCollaboratorTab" SelectedIndex="{Binding CurrentBoardCollaborator.SelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
-                    <TabItem Header="Board Collaborators Setting" FontWeight="Bold">
+                    <TabItem Header="{DynamicResource LangKeyBoardCollaboratorsSetting}" FontWeight="Bold">
                         <Grid>
 
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
                                 <StackPanel Orientation="Horizontal" Margin="30,10,0,0">
-                                    <Label VerticalAlignment="Top" Width="200" Content="Board Url" HorizontalAlignment="Left" Height="25"/>
+                                    <Label VerticalAlignment="Top" Width="200" Content="{DynamicResource LangKeyBoardUrl}" HorizontalAlignment="Left" Height="25"/>
                                     <TextBox x:Name="TxtBoardUrl" Width="200" TextWrapping="Wrap" Text="{Binding CurrentBoardCollaborator.BoardUrl,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top"  Height="25" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal"  Margin="30,10,0,0">
-                                    <Label VerticalAlignment="Top" Width="200" Content="Email" HorizontalAlignment="Left" Height="25"/>
+                                    <Label VerticalAlignment="Top" Width="200" Content="{DynamicResource LangKeyEmail}" HorizontalAlignment="Left" Height="25"/>
                                     <TextBox x:Name="TxtEmail" Width="200" Text="{Binding CurrentBoardCollaborator.Email,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" VerticalAlignment="Top"  Height="25" />
                                 </StackPanel>
 
@@ -45,7 +45,7 @@
 
                                     <Button Name="BtnImportQuery"  Style="{StaticResource ButtonStyle}" 
                                             Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="25"
-                                            VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="Import From csv/txt file" 
+                                            VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="{DynamicResource LangKeyImportFromCsvTxt}" 
                                             Command="{Binding ImportFromCsvCommand}" CommandParameter="{Binding CommandParameter}">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
@@ -58,7 +58,7 @@
 
                                     <Button x:Name="BtnAddToList" Style="{StaticResource ButtonStyle}" 
                                             Background="{DynamicResource AccentBaseColorBrush}" Width="100" Height="25"
-                                            VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="Add Board Collaborators To The List"                                    
+                                            VerticalAlignment="Top" Margin="10,0,0,0" ToolTip="{DynamicResource LangKeyAddBoardCollaboratorsToList}"                                    
                                 Command="{Binding AddBoardCollaboratorCommand}" CommandParameter="{Binding CommandParameter}">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
@@ -73,7 +73,7 @@
 
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Board Collaborators List">
+                    <TabItem Header="{DynamicResource LangBoardCollaboratorsList}">
                         <Grid>
                             <GroupBox  FontWeight="Bold" BorderThickness="1" Header="{DynamicResource LangKeyBoardCollaboratorsList}" Foreground="white">
 

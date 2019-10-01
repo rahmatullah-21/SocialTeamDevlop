@@ -37,7 +37,7 @@
                 </StackPanel>
                     <dragablz:TabablzControl x:Name="InitialTabablzControl" SelectionChanged="TabSelectionChange"
                                              Style="{DynamicResource TabablzControlStyle}" Margin="0,5,0,0" >
-                        <TabItem Header="Info" Name="InfoTab" IsSelected="True" >
+                    <TabItem Header="{DynamicResource LangKeyInfo}" Name="InfoTab" IsSelected="True" >
                             <views:LogList Logs="{Binding Logs}" 
                                            NetworkFilter="{Binding SelectedNetwork}" 
                                            ActivityTypeFilter="{Binding ActivityTypes.Selected}" 
@@ -45,7 +45,7 @@
                                            SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"
                                            SyncObject="{Binding SyncObject, Mode=OneTime}"/>
                         </TabItem>
-                        <TabItem Header="Error" Name="ErrorTab" >
+                    <TabItem Header="{DynamicResource LangKeyError}" Name="ErrorTab" >
                             <views:LogList Logs="{Binding Logs}" 
                                            NetworkFilter="{Binding SelectedNetwork}" 
                                            ActivityTypeFilter="{Binding ActivityTypes.Selected}" 

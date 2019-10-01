@@ -351,7 +351,7 @@
         /// 2 = destination type
         /// 3 = destination Value
         /// </summary>
-        public static string NoPost { get; set; } = "{0}\t {1}\t No more post are available for {2}[{3}].";
+        public static string NoPost { get; set; } = "{0}\t {1}\t "+ "LangkeyNoMorePostAvailable".FromResourceDictionary() + " {2}[{3}].";
 
         /// <summary>
         /// 0 = Account's SocialNetwork
