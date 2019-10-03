@@ -31,6 +31,10 @@
                     <RadioButton Margin="5" Content="{DynamicResource LangCampaignWise}" IsChecked="{Binding IsCampainWiseUnique}"/>
                     <RadioButton Margin="5" Content="{DynamicResource LangAccountWise}"  IsChecked="{Binding IsAccountWiseUnique}"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
+                    <Label Margin="5" Content="{DynamicResource LangKeyStopQueryIfFailedTillN}"/>
+                    <controls:NumericUpDown Minimum="1" Maximum="500"  Value="{Binding StopRunQueryIfNActivityFailed}"/>
+                </StackPanel>
 
                 <!-- Old Config (Implement it later) -->
                 <!--<StackPanel Margin="10" x:Name="MainGrid">
