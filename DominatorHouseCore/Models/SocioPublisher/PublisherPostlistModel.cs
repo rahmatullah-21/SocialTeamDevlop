@@ -728,7 +728,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             try
             {
-                Thread.Sleep(10);
                 // Check whether media list contains items or not
                 IsPostListPresent = MediaList.Count > 0;
 

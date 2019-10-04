@@ -126,9 +126,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 SelectedCampaignDetails = CampaignList[0];
 
         }
-
-
-
+        
         private bool NavigationCanExecute(object sender) => true;
 
         private void NavigationExecute(object sender)
@@ -137,9 +135,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             switch (module)
             {
                 case "Back":
-                    PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
-                        = PublisherDefaultPage.Instance();
-                    break;
+                    {
+                        // stop processes by cancellationToken if any process running  
+                        PostLoadingCancellation();
+                        // call the default Publisher Homepage
+                        PublisherHome.Instance.PublisherHomeViewModel.PublisherHomeModel.SelectedUserControl
+                          = PublisherDefaultPage.Instance();
+                    } break;
             }
         }
 

@@ -514,7 +514,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             // Call to clear already binding posts
             ClearPostlists();
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             // Assign Cancellation Token
             TokenSource = tokenSource;
 
@@ -547,20 +547,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 Task.Factory.StartNew(() =>
                  {
-                     pendingActions = ImmutableQueue<Action>.Empty;
-                     // Add the posts to queue, so that process will run in different work
-                     foreach (var post in postItems)
+                     try
                      {
-                         TokenSource.Token.ThrowIfCancellationRequested();
-                         AddPostItems(post);
-                         Thread.Sleep(2);
+                         pendingActions = ImmutableQueue<Action>.Empty;
+                         // Add the posts to queue, so that process will run in different work
+                         foreach (var post in postItems)
+                         {
+                             TokenSource.Token.ThrowIfCancellationRequested();
+                             AddPostItems(post);
+                             Thread.Sleep(2);
+                         }
                      }
-
+                     catch (OperationCanceledException ex)
+                     {
+                         IsProgressRingActive = false;
+                     }
                  }, TokenSource.Token);
 
             }
             catch (OperationCanceledException ex)
             {
+                IsProgressRingActive = false;
                 ex.DebugLog("Cancellation Requested!");
             }
             catch (Exception ex)
@@ -603,6 +610,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+                        TokenSource.Token.ThrowIfCancellationRequested();
+                       
                         // Update post items status
                         postItems.InitializePostData();
 
@@ -629,8 +638,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         if (PublisherPostlist.Count == PostCount)
                             IsProgressRingActive = false;
-                        Thread.Sleep(10);
-                    });
+                       // Thread.Sleep(10);
+                    },System.Windows.Threading.DispatcherPriority.Background, TokenSource.Token);
                 }
                 else
                 {
@@ -645,11 +654,11 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     if (PublisherPostlist.Count == PostCount)
                         IsProgressRingActive = false;
-                    Thread.Sleep(10);
                 }
             }
             catch (OperationCanceledException ex)
             {
+                IsProgressRingActive = false;
                 ex.DebugLog("Cancellation Requested!");
             }
             catch (AggregateException ae)
