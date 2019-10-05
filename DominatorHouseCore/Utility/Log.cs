@@ -26,14 +26,14 @@
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// </summary>
-        public static string SuccessfulLogin { get; set; } = "{0}\t {1}\t Login Success \t " + "LangKeyLoginSuccessful".FromResourceDictionary() + ".\t" + CodeConstants.LoginSuccessful;
+        public static string SuccessfulLogin { get; set; } = "{0}\t {1}\t "+ "LangKeyLoginSuccess".FromResourceDictionary() + " \t " + "LangKeyLoginSuccessful".FromResourceDictionary() + ".\t" + CodeConstants.LoginSuccessful;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = Account's Username
         /// 2 = ActivityType
         /// </summary>
-        public static string LoginFailed { get; set; } = "{0}\t {1}\t Login Failed \t " + "LangKeyLoginFailedWithError".FromResourceDictionary() + " {2}.\t" + CodeConstants.LoginFailed;
+        public static string LoginFailed { get; set; } = "{0}\t {1}\t "+ "LangKeyLoginFailed".FromResourceDictionary() + " \t " + "LangKeyLoginFailedWithError".FromResourceDictionary() + " {2}.\t" + CodeConstants.LoginFailed;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -60,7 +60,7 @@
         /// </summary>
         public static string ActivityFailed { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyFailedTo".FromResourceDictionary() + " {2} " + "LangKeyWithError".FromResourceDictionary() + " {3}\t" + CodeConstants.ActivityFailed;
 
-        public static string ImportFailed { get; set; } = "{0}\t {1}\t Import \t " + "LangKeyFailedBecauseOf".FromResourceDictionary() + " {2} " + "LangKeyIsAreNotCorrect".FromResourceDictionary() + "\t" + CodeConstants.ImportFailed;
+        public static string ImportFailed { get; set; } = "{0}\t {1}\t "+ "LangKeyImport".FromResourceDictionary() + " \t " + "LangKeyFailedBecauseOf".FromResourceDictionary() + " {2} " + "LangKeyIsAreNotCorrect".FromResourceDictionary() + "\t" + CodeConstants.ImportFailed;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -74,19 +74,19 @@
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
         /// </summary>
-        public static string CampaignDeleted { get; set; } = "{0}\t {1}\t Campaign\t " + "LangKeySuccessfullyDeleted".FromResourceDictionary() + "\t" + CodeConstants.CampaignDeleted;
+        public static string CampaignDeleted { get; set; } = "{0}\t {1}\t "+ "LangKeyCampaign".FromResourceDictionary() + "\t " + "LangKeySuccessfullyDeleted".FromResourceDictionary() + "\t" + CodeConstants.CampaignDeleted;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
         /// </summary>
-        public static string CampaignPaused { get; set; } = "{0}\t {1}\t Campaign\t " + "LangKeySuccessfullyPaused".FromResourceDictionary() + "\t" + CodeConstants.CampaignPaused;
+        public static string CampaignPaused { get; set; } = "{0}\t {1}\t " + "LangKeyCampaign".FromResourceDictionary() + "\t " + "LangKeySuccessfullyPaused".FromResourceDictionary() + "\t" + CodeConstants.CampaignPaused;
 
         /// <summary>
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
         /// </summary>
-        public static string ActivatedCampaign { get; set; } = "{0}\t {1}\t Campaign \t " + "LangKeyActivatedSuccessfully".FromResourceDictionary() + "\t" + CodeConstants.ActivatedCampaign;
+        public static string ActivatedCampaign { get; set; } = "{0}\t {1}\t "+ "LangKeyCampaign".FromResourceDictionary() + " \t " + "LangKeyActivatedSuccessfully".FromResourceDictionary() + "\t" + CodeConstants.ActivatedCampaign;
 
 
         public static string UpdatingDetails { get; set; } = "{0}\t {1}\t {2}\t " + "LangKeyStarted".FromResourceDictionary() + " {2}" + "LangKeySynchronization".FromResourceDictionary() + "\t" + CodeConstants.UpdatingDetails;
@@ -107,7 +107,7 @@
         /// 0 = account.SocialNetwork
         /// 1 = account.Username
         /// </summary>
-        public static string AccountEdited { get; set; } = "{0}\t {1}\t Account Info\t " + "LangKeyDetailsUpdatedSuccessfully".FromResourceDictionary() + "\t" + CodeConstants.AccountEdited;
+        public static string AccountEdited { get; set; } = "{0}\t {1}\t "+ "LangKeyAccountInfo".FromResourceDictionary() + "\t " + "LangKeyDetailsUpdatedSuccessfully".FromResourceDictionary() + "\t" + CodeConstants.AccountEdited;
 
         /// <summary>
         /// 0 = account.SocialNetwork
@@ -343,7 +343,7 @@
         /// 0 = Account's SocialNetwork
         /// 1 = CampaignName
         /// </summary>
-        public static string PublisherCampaignPaused { get; set; } = "Campaign : {0} successfully paused.";
+        public static string PublisherCampaignPaused { get; set; } = "LangKeyCampaignPaused".FromResourceDictionary();
 
         /// <summary>
         /// 0 = Account's SocialNetwork
@@ -351,7 +351,7 @@
         /// 2 = destination type
         /// 3 = destination Value
         /// </summary>
-        public static string NoPost { get; set; } = "{0}\t {1}\t No more post are available for {2}[{3}].";
+        public static string NoPost { get; set; } = "{0}\t {1}\t "+ "LangkeyNoMorePostAvailable".FromResourceDictionary() + " {2}[{3}].";
 
         /// <summary>
         /// 0 = Account's SocialNetwork

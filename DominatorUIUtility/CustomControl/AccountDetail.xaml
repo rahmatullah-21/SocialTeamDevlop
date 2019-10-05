@@ -124,14 +124,14 @@
 
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyGroupName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding DominatorAccountModel.AccountBaseModel.AccountGroup.Content}"  controls:TextBoxHelper.Watermark="Enter Group Name" Width="230"
+                    <TextBox Text="{Binding DominatorAccountModel.AccountBaseModel.AccountGroup.Content}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterGroupName}" Width="230"
                              FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
                              KeyDown="OnKeyDown"/>
                 </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyAccountName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <TextBox Name="TxtAccountName" Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="Enter Account Name" Width="230"
+                    <TextBox Name="TxtAccountName" Text="{Binding DominatorAccountModel.AccountBaseModel.UserFullName}"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterAccountName}" Width="230"
                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30"
                              KeyDown="OnKeyDown"/>
                 </StackPanel>
@@ -139,7 +139,7 @@
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyEmailIdUsername}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                     controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13" KeyDown="OnKeyDown"
+                     controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterUserName}" Width="230" FontSize="13" KeyDown="OnKeyDown"
                      FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
                      VerticalAlignment="Center"  Height="30" >
                         <TextBox.Text>
@@ -156,7 +156,7 @@
                     <TextBlock Name="txtblockPassword" Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <PasswordBox Name="txtPassword"  passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
                          Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                         controls:TextBoxHelper.Watermark="Enter Password" 
+                         controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterPassword}" 
                          Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black" VerticalAlignment="Center"  Height="30" >
                         <passwordHelper:PasswordBoxHelper.Password>
                             <Binding Path="DominatorAccountModel.AccountBaseModel.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
@@ -187,9 +187,9 @@
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
+                                <!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
                                     <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
+                                </DataTrigger>-->
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
@@ -206,9 +206,9 @@
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
+                                <!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
                                     <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
+                                </DataTrigger>-->
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
@@ -533,7 +533,7 @@
                     <StackPanel Visibility="{Binding DominatorAccountModel.IsAutoVerifyByEmail,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel  Orientation="Horizontal" >
                             <TextBlock Text="{DynamicResource LangKeyEmailID}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                            <TextBox controls:TextBoxHelper.Watermark="Enter Email Id" Width="230" Name="TxtEmailUsername"
+                            <TextBox controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterEmailId}" Width="230" Name="TxtEmailUsername"
                                      Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                      FontSize="13" FontWeight="SemiBold"  Margin="5,0,5,0" Foreground="Black" VerticalAlignment="Center" 
                                      Height="30" KeyDown="OnKeyDown">
@@ -551,7 +551,7 @@
                             <TextBlock  Text="{DynamicResource LangKeyPassword}" Width="120" FontSize="13"  Margin="5,0,5,0" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                             <PasswordBox Name="TxtEmailPassword" passwordHelper:PasswordBoxHelper.Attach="True" KeyDown="OnKeyDown"
                                          Style="{StaticResource MetroButtonRevealedPasswordBox}"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                                         controls:TextBoxHelper.Watermark="Enter Password" Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" 
+                                         controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterPassword}" Width="230" FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" 
                                          Foreground="Black" VerticalAlignment="Center"  Height="30" >
                                 <passwordHelper:PasswordBoxHelper.Password>
                                     <Binding Path="DominatorAccountModel.MailCredentials.Password" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
@@ -566,7 +566,7 @@
 
                         <StackPanel  Orientation="Horizontal" >
                             <TextBlock Text="{DynamicResource LangKeyHostName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                            <TextBox  controls:TextBoxHelper.Watermark="Enter Host name" Width="230" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
+                            <TextBox  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterHostName}" Width="230" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
                                       FontSize="13" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
                                       VerticalAlignment="Center"  Height="30" KeyDown="OnKeyDown" Name="TxtHostKey">
                                 <TextBox.Text>
@@ -582,7 +582,7 @@
                         <StackPanel  Orientation="Horizontal" >
                             <TextBlock Text="{DynamicResource LangKeyPort}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                             <TextBox  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                                      controls:TextBoxHelper.Watermark="Enter port" Width="230" FontSize="13"
+                                      controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterPort}" Width="230" FontSize="13"
                                       KeyDown="OnKeyDown" FontWeight="SemiBold"  Margin="5,5,5,0" Foreground="Black"
                                       VerticalAlignment="Center"  Height="30" Name="TxtEmailPort">
                                 <TextBox.Text>
@@ -623,7 +623,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Name="txtblockProxyAddress" Text="{DynamicResource LangKeyProxyAddress}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                             <TextBox Name="txtProxyAddress" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" 
-                                     KeyDown="OnKeyDown" controls:TextBoxHelper.Watermark="Format:{255.255.255.255}" Width="230" 
+                                     KeyDown="OnKeyDown" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyEnterIpFormat}" Width="230" 
                                      FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" 
                                      Height="30" Grid.Column="1" Text="{Binding DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp}"/>
                         </Grid>
@@ -634,7 +634,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Name="txtblockProxyPort" Text="{DynamicResource LangKeyProxyPort}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                             <TextBox Name="txtProxyPort"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  KeyDown="OnKeyDown"
-                                     controls:TextBoxHelper.Watermark="Type Proxy Port" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" 
+                                     controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyPort}" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" 
                                      Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
                                 <TextBox.Text>
                                     <Binding Path="DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort" UpdateSourceTrigger="PropertyChanged">
@@ -652,7 +652,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Name="txtblockProxyUserName" Text="{DynamicResource LangKeyProxyUsername}" Width="120" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                             <TextBox Name="txtProxyUserName" Text="{Binding DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyUsername}"
-                         controls:TextBoxHelper.Watermark="Type Proxy User Name" Width="230"
+                         controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyUsername}" Width="230"
                          FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black"
                          VerticalAlignment="Center"  Height="30" Grid.Column="1"  KeyDown="OnKeyDown">
                                 <TextBox.Style>
@@ -682,7 +682,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Name="txtblockProxyPassword" Text="{DynamicResource LangKeyProxyPassword}" Width="120" FontSize="13" Margin="5,11" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                             <PasswordBox Name="txtProxyPassword"  passwordHelper:PasswordBoxHelper.Attach="True"
-                             controls:TextBoxHelper.Watermark="Type proxy password"  KeyDown="OnKeyDown"
+                             controls:TextBoxHelper.Watermark="{DynamicResource LangKeyTypeProxyPassword}"  KeyDown="OnKeyDown"
                              Width="230" FontSize="13" FontWeight="SemiBold" Margin="5,5,4.693,5"
                              Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"
                              Grid.ColumnSpan="2">
@@ -725,14 +725,14 @@
                       AutoGenerateColumns="False" CanUserAddRows="True" Name="Cookies">
 
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Key" Width="*">
+                                    <DataGridTemplateColumn Header="{DynamicResource LangKeyKey}" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Value" Width="*">
+                                    <DataGridTemplateColumn Header="{DynamicResource LangKeyValue}" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>

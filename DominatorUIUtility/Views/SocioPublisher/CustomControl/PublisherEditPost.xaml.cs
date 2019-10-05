@@ -52,7 +52,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
 
                 var readdCount = PostlistModel.PublisherPostSettings.GeneralPostSettings.ReaddCount -
                                  postDetails.PublisherPostSettings.GeneralPostSettings.ReaddCount;
-
+                System.Threading.Thread.Sleep(10);
                 PostlistModel.InitializePostData();
 
                 if (PostlistModel.PublisherPostSettings.GeneralPostSettings.IsReaddCount && readdCount > 0)

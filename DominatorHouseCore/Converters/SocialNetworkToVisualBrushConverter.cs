@@ -30,8 +30,8 @@ namespace DominatorHouseCore.Converters
                         return Application.Current?.FindResource("appbar_social_reddit");
                     case SocialNetworks.Quora:
                         return Application.Current?.FindResource("Quora");
-                    case SocialNetworks.Gplus:
-                        return Application.Current?.FindResource("appbar_googleplus");
+                    //case SocialNetworks.Gplus:
+                    //    return Application.Current?.FindResource("appbar_googleplus");
                     case SocialNetworks.Youtube:
                         return Application.Current?.FindResource("appbar_youtube");
                     case SocialNetworks.Tumblr:

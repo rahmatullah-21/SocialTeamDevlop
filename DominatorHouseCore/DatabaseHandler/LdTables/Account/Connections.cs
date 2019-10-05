@@ -43,7 +43,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// Contains ProfileUrl Of the Connection
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
-        [Unique]
+        //[Unique]
         public string ProfileUrl
         { get; set; }
 

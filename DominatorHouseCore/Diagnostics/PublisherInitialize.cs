@@ -101,9 +101,10 @@ namespace DominatorHouseCore.Diagnostics
                     if (campaigns.JobConfigurations.CampaignEndDate != null &&
                             DateTime.Now < campaigns.JobConfigurations.CampaignEndDate)
                     {
-                        publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
-                            ? campaigns.CampaignStatus
-                            : PublisherCampaignStatus.Completed;
+                        // Commented for Fixing bug EW-I563
+                        //publisherCampaignStatus = DateTime.Now < campaigns.JobConfigurations.CampaignEndDate
+                        //    ? campaigns.CampaignStatus
+                        //    : PublisherCampaignStatus.Completed;
                     }
                     List<TimeSpan> specificRunningTime = null;
                     if (campaigns.JobConfigurations.IsDelayPostChecked)
@@ -153,9 +154,9 @@ namespace DominatorHouseCore.Diagnostics
                         // Update post counts
                         GetPostStatus(publisherCampaignStatusModel);
 
-                        // Update campaign status to complete
-                        if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
-                            UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
+                        // Update campaign status to complete   // Commented for Fixing bug EW-I563
+                        //if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
+                        //    UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);
                     }
                 });
                 Thread.Sleep(2);

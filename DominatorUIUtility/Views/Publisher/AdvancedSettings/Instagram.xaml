@@ -62,7 +62,7 @@
                                  IsChecked="{Binding InstagramModel.IsGeoLocationName}"/>
                     <RadioButton Name="RadioButtonForLocationId" Margin="10,2"  GroupName="GeoLocation" Content="{DynamicResource LangKeyPostUsingGeoLocationWithLocationId}"   
                                  IsChecked="{Binding InstagramModel.IsGeoLocationId}"/>
-                    <TextBox VerticalAlignment="Center"  Text="{Binding InstagramModel.GeoLocation}" IsEnabled="{Binding InstagramModel.IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="15,2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
+                    <TextBox VerticalAlignment="Center" AcceptsReturn="True"  Text="{Binding InstagramModel.GeoLocation}" IsEnabled="{Binding InstagramModel.IsGeoLocation}" HorizontalAlignment="Left" Name="TextBoxGeoLocation" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyAddGeoLocation}" Margin="15,2" TextWrapping="Wrap" Height="60" Width="404"></TextBox>
                 </StackPanel>
                 
                 

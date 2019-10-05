@@ -58,7 +58,7 @@ namespace DominatorHouseCore.Utility
                 }
                 catch (Exception ex)
                 {
-                    Dialog.ShowDialog("Warning", ex.Message + " Please close the file and retry.");
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), ex.Message + $" {"LangKeyCloseFileRetry".FromResourceDictionary()}");
                     Console.WriteLine(ex.StackTrace);
                 }
             }
@@ -331,6 +331,20 @@ namespace DominatorHouseCore.Utility
                 return csvSplitList;
             }
         }
+        
+        public static void Copy(string fileToCopy, string destinationFileName)
+        {
+            try
+            {
+                if (File.Exists(fileToCopy) && !File.Exists(destinationFileName))
+                {
+                    File.Copy(fileToCopy, destinationFileName);
+                }
+            }
+            catch (Exception ex)
+            { }
+        }
+
 
     }
 }

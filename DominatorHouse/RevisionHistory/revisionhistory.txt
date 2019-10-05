@@ -1,3 +1,171 @@
+Version[1.0.0.67],[4th October 2019]
+New Features:-
+	Social:
+		campaign will be completed whenever query types have no more data.
+		
+Fixed:- 
+	Social:
+		Publisher ==> Fixed issue with publishing high resolution images.
+		Publisher ==> Fixed issue with publishing post link for Pinterest.
+		Fixed issue with publisher campaign crashing.
+
+	Instagram:
+		Instachat ==> Broadcast Meaage ==> Fixed issue with sending broadcast message. 
+		Grow Follower ==> Fixed issue with showing No more data found for certain filter.
+		Grow Follower ==> Fixed issue with location ID.
+
+	Pinterest:
+		Publisher ==> Fixed issue with hashtag.
+		Pin Poster ==> Repin ==> Fixed issue with repin.
+
+	Facebook:
+		Engage ==> an page liker ==> stom page url ==> Fixed issue with custom page url.
+		Broadcast Message ==> Own Friends ==> Fixed issue with sending messages to own friends.
+		Scraper ==> Fanpage scraper ==> Fixed issue with fanpage like counts showing in report.
+		Grow friend s==> Send Friend Request ==> Fixed issue with send friend requests to group members.
+		Broadcast Message ==> Send greetings to friends ==> tag option not working.
+		fixed Hanging issue on running campaigns using BrowserAutomation
+
+	Linkedin:
+		Grow Connection ==> Connection ==> Fixed issue with showing different search result.
+		Sales Navigator Scraper ==> Fixed issue with Pagination.
+
+	Twitter:
+		Poster ==> Tweet To ==> Query type==>User's who liked tweet ==> Fixed issue with Logger showing no more data.
+		Poster ==> Scraper ==> Tweet scrape ==> Query type ==> Location tweet ==> Fixed issue with Logger showing no more data.
+		Poster ==> Reposter ==> Query type ==> Location tweet ==> Fixed issue with Logger showing no more data.
+
+	Youtube:
+		Login ==> Login issue fixed on phone verfication and on alternate email verification
+
+
+Version[1.0.0.66],[27th September 2019]
+New Features:-
+	Instagram:
+		Account =>  added feature edit Username
+		
+Fixed:-
+	
+	Social:
+        Fixed issue with campaign schedule.
+		
+	Facebook:
+		Sociopublisher ==> Fixed issue with posting in wall with showing correct info in lactivity log.
+		Social 
+		Grow friends ==> Send Friend Request ==> Fixed issue with send friend requests to group members.
+		Grow Friends ==> Send friend request ==> Fixed issue with sending friend requests to page post likers.
+		Grow friends ==> Unfriend ==> Fixed issue with showing activity details in report.
+		
+	Instagram:
+		Grow Follower ==> Unfollow ==> Fixed issue with unfollow.
+		Instaposter ==> reposter ==> Fixed issue with reposter.
+
+	YouTube:
+		Engage ==> Comment ==> Fixed issue of "No more data" while commenting
+		Comment ==> Fixed issue in comment
+		Comment ==> Fixed issue in date
+
+	Twitter:
+		Poster ==> Reposter ==> Keywords ==> Fixed issue with  query of keywords.
+
+
+
+Version[1.0.0.64],[10th September 2019]
+New Features:-
+	Social:
+		Query Type ==> * Now we can priories queries based on top to bottom. Get this setting in Other Configuration.
+					   * For all social networks except Instagram, now we can run campaigns in Browser based.
+					   
+	Reddit:
+		Voter ==> we can upvote Specific User's Post. 
+		Voter ==> we can upvote Specific community URL.
+		
+	Twitter:
+		Reposter ==> We can customize caption with original post caption.
+		
+	Instagram:
+		Like ==> Like user's recent post.
+		Reposter ==> Tag Users ==> Now we can tag number of users as per given count.
+		
+	Linkedin:
+		Account activity =>  Added feature to delete repoprts.
+		Messenger => Broadcast Messages  => Added feature to skip users already received message from software.
+		Engage => Add feature to like,comment and share  post per user.
+		
+Fixed:-
+	Publisher:
+		Fixed issue with scheduling time.
+		Fixed issue with hashtag and location ID for Instagram.
+
+	Instagram:
+		Fixed issue with action block.
+		
+	Reddit:
+		Account Manager=>Fixed issue in account login
+		
+	Linkedin:
+		Engage => Fixed issue with like and share the company page.	
+		
+Version[1.0.0.63],[6th August 2019]
+New Features:-
+	Linkedin:
+		Broadcast Message ==> Added feature will show failed data report.
+		
+	Twitter:
+		Reposter ==> Added caption feature.
+		Message to new followers / Auto reply ==> Skip users who received message already.
+
+Fixed:-
+	Social:
+		Blacklist/Whitelist ==> Fixed issue with delete search users.
+		Fixed issue with Macro(s) value.
+		Job Configuration ==> Fixed issue with job configuration.
+	
+	Instagram:
+		User Scraper ==> Fixed issue with report.
+		Account Manager ==> Fixed issue with OTP verification.
+		
+	Reddit:
+		Subscribe ==> Query type custom url ==> Issue fixed with subscribing quarantine communities...
+		
+	Facebook:
+		Broadcast Message ==> Other configurations => Fixed issue with selecting radio button.
+		
+	Linkedin:
+		Broadcast Message ==> Fixed issue with sending message to failed users.
+		
+	Twitter:
+		Repost ==> Fixed issue with repost video.
+		Report ==> Fixed issue with report.
+		Follow ==> Fixed issue with follow Unique Users from each account.
+
+Version[1.0.0.62],[31th July 2019]
+New Features:-
+	Instagram:
+		InstaScraper ==> UserScrapper ==> Other Configuration => Required Data (Scrape User's Bio)
+		InstaScraper=>User scraper=>Query Type ==> Scrap users whom we messaged 
+
+Fixed:- 
+	Pinterest:
+		Account ==> Account Manager ==> Issue fixed with Updating following and Board count
+	
+	Reddit:
+		GrowFollower ==> Unfollower ==> Issue fixed with people unfollowed by Outside software
+
+	Youtube:
+		Engage ==> Comment ==> Fixed issues with query type of keywords
+
+	Facebook:
+		Fixed issues with post in page
+
+	Twitter:
+		Accounts ==> Fixed issue with login failed,proxy not working.
+		Follow ==> Unfollow ==> Reposter ==> Fixed issue with failed error message
+
+	Linkedin:
+		Grow Connection ==> Block User ==> Fixed issue with not blocking users
+		Grow Conenction ==> Connection request ==> salesnavigatorsearch url ==> Fixed issue with not sending conenction request
+
 Version[1.0.0.61],[19th July 2019]
 New Features:-
 	Facebook :

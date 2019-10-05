@@ -23,7 +23,7 @@
                 </Button>
                 <Button Name="BtnRefereshBlacklistsText" Visibility="{Binding RefreshVisiblity}" Foreground="White" Background="{DynamicResource AccentBaseColorBrush}" HorizontalAlignment="Right"  Height="25" Width="35" VerticalAlignment="Center"
                         Command="{Binding ClearCommand}" CommandParameter="{Binding CommandParameter}" Click="BtnRefereshBlacklistsText_OnClick" >
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="Clear﻿﻿﻿﻿ All">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" ToolTip="{DynamicResource LangClear﻿﻿﻿﻿All}">
                         <Rectangle Width="13" Height="15" Fill="White"  HorizontalAlignment="Center">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clean}" />

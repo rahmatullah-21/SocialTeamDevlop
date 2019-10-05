@@ -74,7 +74,7 @@ namespace DominatorHouseCore.FileManagers
             {
                 if (string.IsNullOrEmpty(url))
                 {
-                    GlobusLogHelper.log.Info("Please enter some URL in the input field, which will be used to verify the proxy.");
+                    GlobusLogHelper.log.Info("LangKeyEnterURLInInputFieldToVerifyProxy".FromResourceDictionary());
                     return;
                 }
                 var request = (HttpWebRequest)WebRequest.Create(new Uri(url));

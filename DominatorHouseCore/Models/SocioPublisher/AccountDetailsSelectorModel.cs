@@ -115,6 +115,59 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        private bool _isGroup;
+
+        public bool IsGroup
+        {
+            get
+            {
+                return _isGroup;
+            }
+            set
+            {
+                if (_isGroup == value)
+                    return;
+                _isGroup = value;
+                OnPropertyChanged(nameof(IsGroup));
+            }
+        }
+
+        private bool _isOwnGroup;
+
+        public bool IsOwnGroup
+        {
+            get
+            {
+                return _isOwnGroup;
+            }
+            set
+            {
+                if (_isOwnGroup == value)
+                    return;
+                _isOwnGroup = value;
+                OnPropertyChanged(nameof(IsOwnGroup));
+            }
+        }
+
+
+
+        private bool _isJoinedGroup;
+
+        public bool IsJoinedGroup
+        {
+            get
+            {
+                return _isJoinedGroup;
+            }
+            set
+            {
+                if (_isJoinedGroup == value)
+                    return;
+                _isJoinedGroup = value;
+                OnPropertyChanged(nameof(IsJoinedGroup));
+            }
+        }
+
         public SocialNetworks Network { get; set; }
     }
 }

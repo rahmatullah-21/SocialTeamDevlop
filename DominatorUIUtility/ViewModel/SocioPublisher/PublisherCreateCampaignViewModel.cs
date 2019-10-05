@@ -69,7 +69,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var dialog = new Dialog();
 
             // Pass the UI object with Title of the Page
-            var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "Select Destination");
+            var metroWindow = dialog.GetMetroWindow(publisherCreateDestination, "LangKeySelectDestinations".FromResourceDictionary());
             publisherCreateDestination.Margin = new Thickness(7);
             metroWindow.ShowDialog();
             if (publisherCreateDestination.PublisherCreateDestinationsViewModel.IsSavedDestination)
@@ -252,6 +252,55 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateCampaignModel.SharePostModel.IsShareFdPagePost ||
                     PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList);
         }
+
+        void CheckRSSFeedDuplicates(List<PublisherPostlistModel> campaignDetails)
+        {
+            try
+            {
+                var lastCount = campaignDetails.Count(x=> x.PostQueuedStatus == PostQueuedStatus.Pending);
+                if (lastCount == 0)
+                    return;
+                var nonExisting = campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost && x.PostQueuedStatus == PostQueuedStatus.Pending && !PublisherCreateCampaignModel.LstFeedUrl.Any(y => y.FeedUrl == x.ShareUrl)).ToList();
+                foreach(var x in nonExisting)
+                {
+                    var removeThem = campaignDetails.FirstOrDefault(y => y.PostSource == PostSource.RssFeedPost && y.PostQueuedStatus == PostQueuedStatus.Pending && y.ShareUrl == x.ShareUrl && y.PostDescription == x.PostDescription);
+                    if (removeThem != null)
+                    {
+                        var index = campaignDetails.IndexOf(removeThem);
+                        campaignDetails.RemoveAt(index);
+                    }
+                }
+
+                var tempToRemoveDupli = new List<PublisherPostlistModel>();
+                tempToRemoveDupli.AddRange(campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost && x.PostQueuedStatus == PostQueuedStatus.Pending).ToList());
+                foreach(var x in tempToRemoveDupli)
+                {
+                    var removeThem = campaignDetails.Where(y => y.PostSource == PostSource.RssFeedPost && y.PostQueuedStatus == PostQueuedStatus.Pending && y.ShareUrl == x.ShareUrl && y.PostDescription == x.PostDescription).ToList();
+                    if (removeThem.Count() > 1)
+                    {
+                        removeThem.Remove(removeThem.Last());
+                        foreach(var y in removeThem)
+                        {
+                            var removeIt = campaignDetails.FirstOrDefault(z => z.PostSource == PostSource.RssFeedPost && z.PostQueuedStatus == PostQueuedStatus.Pending && z.ShareUrl == y.ShareUrl && z.PostDescription == y.PostDescription);
+                            if (removeIt != null)
+                            {
+                                var index = campaignDetails.IndexOf(removeIt);
+                                campaignDetails.RemoveAt(index);
+                            }
+                        }
+                    }
+                }
+
+                if (lastCount != campaignDetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending))
+                    CommonServiceLocator.ServiceLocator.Current.GetInstance<IBinFileHelper>().UpdateAllPostlists(PublisherCreateCampaignModel.CampaignId, campaignDetails);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
         private bool SaveCanExecute(object sender) => true;
 
         private void SaveExecute(object sender)
@@ -262,13 +311,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // Verify whether destination selected or not
             if (_publisherCreateCampaignModel.LstDestinationId.Count == 0)
             {
-                Dialog.ShowDialog("Warning", "Please select atleast one Destination.");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningSelectDestination".FromResourceDictionary());
                 return;
             }
             // Verify whether timer setted or not
             if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
             {
-                Dialog.ShowDialog("Warning", "Please select proper time to run!");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningSelectProperTimeToRun".FromResourceDictionary());
                 return;
             }
 
@@ -282,14 +331,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     //if no post is present in either pending or draft or published then show the message to add Post to pending/draft.
                     if (!(CampaignStatusModel.PendingCount != 0 || CampaignStatusModel.DraftCount != 0 || CampaignStatusModel.PublishedCount != 0))
                     {
-                        Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningAddPostToPendingDraft".FromResourceDictionary());
                         return;
                     }
                 }
                 //if campaign is new then no need to check if any post is available in campaign or not.show the warning message.
                 else if (ValidateCampaign())
                 {
-                    Dialog.ShowDialog("Warning", "Please add atleast one Post to pending/draft.");
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningAddPostToPendingDraft".FromResourceDictionary());
                     return;
                 }
             }
@@ -309,7 +358,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherCreateCampaignModel.JobConfigurations.CampaignStartDate >
                 PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate)
             {
-                Dialog.ShowDialog("Warning", "Please check campaign's start time, Should be less than end time!");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyCheckCampaignStartTime".FromResourceDictionary());
                 return;
             }
             // If end date already expired, then mark as completed
@@ -341,6 +390,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 // Collect all Campaign saved posts 
                 var campaignDetails = PostlistFileManager.GetAll(PublisherCreateCampaignModel.CampaignId);
+
+                CheckRSSFeedDuplicates(campaignDetails);
+                if (CampaignStatusModel != null)
+                    CampaignStatusModel.PendingCount = campaignDetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
 
                 // Gather post Ids
                 var postIdlist = campaignDetails.Select(x => x.PostId).ToList();
@@ -687,7 +740,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     if (_genericFileManager.UpdateModuleDetails(lstCampaign,
                         ConstantVariable.GetPublisherCampaignFile()))
-                        ToasterNotification.ShowSuccess("Campaign successfully updated.");
+                        ToasterNotification.ShowSuccess("LangKeyCampaignSuccessfullyUpdated".FromResourceDictionary());
 
                     // Stop Scheduled Activities
                     PublishScheduler.StopPublishingPosts(PublisherCreateCampaignModel.CampaignId);
@@ -699,7 +752,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 else
                 {
                     if (_genericFileManager.AddModule(PublisherCreateCampaignModel, ConstantVariable.GetPublisherCampaignFile()))
-                        ToasterNotification.ShowSuccess("Campaign successfully saved.");
+                        ToasterNotification.ShowSuccess("LangKeyCampaignSuccessfullySaved".FromResourceDictionary());
 
                     CampaignList.Add(PublisherCreateCampaignModel.CampaignName);
                 }
@@ -920,7 +973,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var dialog = new Dialog();
 
             // Pass the UI object with Title of the Page
-            var metroWindow = dialog.GetMetroWindow(selectDestinations, "Select Destination");
+            var metroWindow = dialog.GetMetroWindow(selectDestinations, "LangKeySelectDestinations".FromResourceDictionary());
             var isCanceled = false;
 
             // Cancel button event

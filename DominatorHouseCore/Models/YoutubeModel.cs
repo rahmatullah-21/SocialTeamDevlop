@@ -51,5 +51,19 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _isAccountWiseUnique, value);
             }
         }
+
+        private int _StopRunQueryIfNActivityFailed = 20;
+        [ProtoMember(4)]
+        public int StopRunQueryIfNActivityFailed
+        {
+            get
+            {
+                return _StopRunQueryIfNActivityFailed;
+            }
+            set
+            {
+                SetProperty(ref _StopRunQueryIfNActivityFailed, value);
+            }
+        }
     }
 }

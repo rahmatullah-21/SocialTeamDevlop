@@ -81,7 +81,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock  Text="{DynamicResource LangKeyBrowser}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock  Text="{DynamicResource LangKeyWebsite}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Name="txtWebSite" Text="{Binding EditProfileModel.ExternalUrl}"
                      controls:TextBoxHelper.Watermark="Type Website" Width="230" FontSize="13" FontWeight="SemiBold" 
                      Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" 

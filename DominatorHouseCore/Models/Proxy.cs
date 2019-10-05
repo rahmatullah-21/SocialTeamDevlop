@@ -3,6 +3,7 @@ using ProtoBuf;
 using System;
 using System.Net;
 using System.Text.RegularExpressions;
+using CommonServiceLocator;
 
 namespace DominatorHouseCore.Models
 {
@@ -145,24 +146,14 @@ namespace DominatorHouseCore.Models
         }
         public bool CheckProxy()
         {
+            var webService = ServiceLocator.Current.GetInstance<IWebService>();
             if (ProxyIp == null || ProxyPort == null)
                 throw new ArgumentException("Need to set proxies first");
-            try
-            {
-                var webClientExtended = new WebClientExtended();
-                var webProxy1 = new WebProxy(GetProxy(), true);
-                if (HasCredentials)
-                    webProxy1.Credentials = new NetworkCredential(ProxyUsername, ProxyPassword);
-                var webProxy2 = webProxy1;
-                webClientExtended.Proxy = webProxy2;
-                var address = "http://google.com/";
-                webClientExtended.DownloadString(address);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+
+            var webProxy = new WebProxy(GetProxy(), true);
+            if (HasCredentials)
+                webProxy.Credentials = new NetworkCredential(ProxyUsername, ProxyPassword);
+            return webService.CheckProxy(new Uri("http://google.com/"), webProxy);
         }
         public static bool IsValidProxy(string ip, string port)
         {
@@ -182,29 +173,6 @@ namespace DominatorHouseCore.Models
         } 
 
         #endregion
-
-        private class WebClientExtended : WebClient
-        {
-            protected override WebRequest GetWebRequest(Uri uri)
-            {
-                var webRequest = (HttpWebRequest)base.GetWebRequest(uri);
-                if (webRequest == null)
-                    throw new ArgumentException();
-                int num1 = 5000;
-                webRequest.Timeout = num1;
-                int num2 = 0;
-                webRequest.KeepAlive = num2 != 0;
-                webRequest.ServicePoint.SetTcpKeepAlive(false, 1000, 5000);
-                return webRequest;
-            }
-        }
-
-
-        //[return: TupleElementNames(new string[] { "username", "password" })]
-        //public ValueTuple<string, string> GetCredentials()
-        //{
-        //    return new ValueTuple<string, string>(this.Pusername, this.Ppassword);
-        //}
 
     }
 }

@@ -50,7 +50,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void InitializeProperties()
         {
-            Title = "Create Destination";
+            Title = "LangKeyCreateDestination".FromResourceDictionary();
             IsAllDestinationSelected = false;
             EditDestinationId = string.Empty;
             IsSavedDestination = false;
@@ -124,7 +124,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private bool _IsHeaderNeeded = true;
 
-        private string _InviteForPagesText = "Invite for Pages";
+        private string _InviteForPagesText = "LangKeyInviteForPages".FromResourceDictionary();
 
         public bool GroupMenuVisible
         {
@@ -424,13 +424,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             // Get the initial selector details and also passing the action for getting the group details
             var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountGroupsDetails,
-                allAccountDetailsSelectModel)
+                allAccountDetailsSelectModel, "Group")
             {
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = "Select Groups",
-                    DetailsUrlHeader = "Group Url",
-                    DetailsNameHeader = "Group Name",
+                    Title = "LangKeySelectGroup".FromResourceDictionary(),
+                    DetailsUrlHeader = "LangKeyGroupUrl".FromResourceDictionary(),
+                    DetailsNameHeader = "LangKeyGroupName".FromResourceDictionary(),
                     AlreadySelectedList = alreadySelectedGroups
                 }
             };
@@ -438,7 +438,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var dialog = new Dialog();
 
             // display the dialog window
-            var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Groups");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, "LangKeySelectGroup".FromResourceDictionary());
 
             accountDetailsSelector.btnSave.Click += (senderDetails, events) =>
             {
@@ -562,21 +562,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             // Pass the fetching activity functions as action to UI
             var accountDetailsSelector = new AccountDetailsSelector(UpdateSingleAccountPagesDetails,
-                allAccountDetailsSelectModel, IsFanpage)
+                allAccountDetailsSelectModel, "Page")
             {
                 // Find whether page or board, its vary based on each network
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = $"Select {accountsDetailsSelector.DisplayAsPageOrBoards}",
-                    DetailsUrlHeader = $"{accountsDetailsSelector.DisplayAsPageOrBoards} Url",
-                    DetailsNameHeader = $"{accountsDetailsSelector.DisplayAsPageOrBoards} Name",
+                    Title = string.Format("LangKeySelectAnything".FromResourceDictionary(),accountsDetailsSelector.DisplayAsPageOrBoards ),
+                    DetailsUrlHeader = String.Format("LangKeyAnyUrl".FromResourceDictionary(),accountsDetailsSelector.DisplayAsPageOrBoards),
+                    DetailsNameHeader = String.Format("LangKeyAnyName".FromResourceDictionary(),accountsDetailsSelector.DisplayAsPageOrBoards),
                     AlreadySelectedList = alreadySelectedPages
                 }
             };
 
             var dialog = new Dialog();
 
-            var window = dialog.GetMetroWindow(accountDetailsSelector, $"Select {accountsDetailsSelector.DisplayAsPageOrBoards}");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, string.Format("LangKeySelectAnything".FromResourceDictionary(), accountsDetailsSelector.DisplayAsPageOrBoards));
 
             // Defining the save buttons click events
             accountDetailsSelector.btnSave.Click += (senderDetails, events) =>
@@ -674,9 +674,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = "Select Friends",
-                    DetailsUrlHeader = "Friend Url",
-                    DetailsNameHeader = "Friend Name",
+                    Title = "LangKeyFriendsSelect".FromResourceDictionary(),
+                    DetailsUrlHeader = "LangKeyFriendUrl".FromResourceDictionary(),
+                    DetailsNameHeader = "LangKeyFriendName".FromResourceDictionary(),
                     AlreadySelectedList = alreadySelectedFriends
                 }
             };
@@ -684,7 +684,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var dialog = new Dialog();
 
             // display the dialog window
-            var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Friends");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, "LangKeyFriendsSelect".FromResourceDictionary());
 
             accountDetailsSelector.btnSave.Click += (senderDetails, events) =>
             {
@@ -860,20 +860,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var alreadySelectedGroups = valuePairs.Select(x => x.Value).ToList();
 
-            var accountDetailsSelector = new AccountDetailsSelector(UpdateAllGroupsDetails)
+            var accountDetailsSelector = new AccountDetailsSelector(UpdateAllGroupsDetails, "Group")
             {
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = "Select Groups",
-                    DetailsUrlHeader = "Group Url",
-                    DetailsNameHeader = "Group Name",
+                    Title = "LangKeySelectGroup".FromResourceDictionary(),
+                    DetailsUrlHeader = "LangKeyGroupUrl".FromResourceDictionary(),
+                    DetailsNameHeader = "LangKeyGroupName".FromResourceDictionary(),
                     AlreadySelectedList = alreadySelectedGroups
                 }
             };
 
             var dialog = new Dialog();
 
-            var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Groups");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, "LangKeySelectGroup".FromResourceDictionary());
 
             accountDetailsSelector.btnSave.Click += (sender, events) =>
             {
@@ -957,20 +957,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var alreadySelectedPages = valuePairs.Select(x => x.Value).ToList();
 
-            var accountDetailsSelector = new AccountDetailsSelector(UpdatePagesDetails, true)
+            var accountDetailsSelector = new AccountDetailsSelector(UpdatePagesDetails, "Page")
             {
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = "Select Pages/Boards",
-                    DetailsUrlHeader = "Pages/Boards Url",
-                    DetailsNameHeader = "Pages/Boards Name",
+                    Title = "LangKeySelectPagesBoards".FromResourceDictionary(),
+                    DetailsUrlHeader = "LangKeyPagesBoardsUrl".FromResourceDictionary(),
+                    DetailsNameHeader = "LangKeyPagesBoardsName".FromResourceDictionary(),
                     AlreadySelectedList = alreadySelectedPages
                 }
             };
 
             var dialog = new Dialog();
 
-            var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Pages/Boards");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, "LangKeySelectPagesBoards".FromResourceDictionary());
 
             accountDetailsSelector.btnSave.Click += (sender, events) =>
             {
@@ -1063,16 +1063,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 AccountDetailsSelectorViewModel =
                 {
-                    Title = "Select Friends",
-                    DetailsUrlHeader = "Friend Url",
-                    DetailsNameHeader = "Friend Name",
+                    Title =  "LangKeyFriendsSelect".FromResourceDictionary(),
+                    DetailsUrlHeader = "LangKeyFriendUrl".FromResourceDictionary(),
+                    DetailsNameHeader = "LangKeyFriendName".FromResourceDictionary(),
                     AlreadySelectedList = alreadySelectedFriends
                 }
             };
 
+
             var dialog = new Dialog();
 
-            var window = dialog.GetMetroWindow(accountDetailsSelector, "Select Friends");
+            var window = dialog.GetMetroWindow(accountDetailsSelector, "LangKeyFriendsSelect".FromResourceDictionary());
 
             accountDetailsSelector.btnSave.Click += (sender, events) =>
             {
@@ -1158,13 +1159,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
+                    accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} {"LangKeyRowsFound".FromResourceDictionary()}" : "LangKeyNoRowsFound".FromResourceDictionary();
                 });
             }
             else
             {
                 accountDetailsSelector.AccountDetailsSelectorViewModel.IsProgressRingActive = false;
-                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} row(s) found !" : "No row(s) found !";
+                accountDetailsSelector.AccountDetailsSelectorViewModel.StatusText = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count > 0 ? $"{accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count} {"LangKeyRowsFound".FromResourceDictionary()}" : "LangKeyNoRowsFound".FromResourceDictionary();
             }
         }
 
@@ -1213,17 +1214,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 allAccountDetailsSelectModel.GroupSelectorText =
                     GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + allAccountDetailsSelectModel.TotalGroups
-                        : "NA";
+                        : "LangKeyNA".FromResourceDictionary();
 
                 allAccountDetailsSelectModel.PagesOrBoardsSelectorText =
                     BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + allAccountDetailsSelectModel.TotalPagesOrBoards
-                        : "NA";
+                        : "LangKeyNA".FromResourceDictionary();
 
                 allAccountDetailsSelectModel.FriendsSelectorText =
                     FriendsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                         ? "0" + "/" + allAccountDetailsSelectModel.TotalFriends
-                        : "NA";
+                        : "LangKeyNA".FromResourceDictionary();
 
                 if (x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
                 {
@@ -1312,7 +1313,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             if (selectedAccountsCount == 0)
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Warning", "Please select accounts, You have selected only destinations !");
+                    "LangKeyWarning".FromResourceDictionary(), "LangKeyPleaseSelectAccountsSelectedOnlyDestinations".FromResourceDictionary());
                 return;
             }
 
@@ -1361,7 +1362,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 )
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow,
-                    "Warning", "Please select destination!");
+                    "LangKeyWarning".FromResourceDictionary(), "LangKeyPleaseSelectDestination".FromResourceDictionary());
                 return;
             }
 
@@ -1496,12 +1497,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         allAccountDetailsSelectModel.GroupSelectorText =
                             GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                                 ? "0" + "/" + allAccountDetailsSelectModel.TotalGroups
-                                : "NA";
+                                : "LangKeyNA".FromResourceDictionary();
 
                         allAccountDetailsSelectModel.PagesOrBoardsSelectorText =
                             BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                                 ? "0" + "/" + allAccountDetailsSelectModel.TotalPagesOrBoards
-                                : "NA";
+                                : "LangKeyNA".FromResourceDictionary();
                         if (x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
                         {
                             SelectAccountDetailsModel.ListSelectDestination.Add(
@@ -1550,7 +1551,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             publisherAddCustomDestination.PublisherCustomDestinationViewModel.InputDestination.DestinationType =
                 FbEntityTypes.Friend.ToString();
             var dialog = new Dialog();
-            var window = dialog.GetMetroWindow(publisherAddCustomDestination, "Add Custom Destination");
+            var window = dialog.GetMetroWindow(publisherAddCustomDestination, "LangKeyAddCustomDestination".FromResourceDictionary());
 
             publisherAddCustomDestination.ButtonSave.Click += (senders, args) =>
             {
@@ -1602,7 +1603,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public void EditDestination()
         {
-            Title = "Edit Destination";
+            Title = "LangKeyEditDestination".FromResourceDictionary();
 
             var saveDestination = SelectAccountDetailsModel.DeepCloneObject();
 

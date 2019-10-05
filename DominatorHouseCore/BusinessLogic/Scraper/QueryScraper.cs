@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using DominatorHouseCore.Extensions;
 
 namespace DominatorHouseCore.BusinessLogic.Scraper
 {
@@ -57,13 +58,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        throw new OperationCanceledException(@"Cancellation Requested !");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (Exception ex)
             {
@@ -78,11 +73,18 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
             Debug.Assert(_jobProcess.SavedQueries.Count > 0);
             int totalQueries = _jobProcess.SavedQueries.Count;
             int usedQueries = 0;
-            _jobProcess.SavedQueries.Shuffle();
+            var listQueries = new List<QueryInfo>(_jobProcess.SavedQueries);
+
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            if (softwareSettings.RunQueriesRandomly)
+                listQueries.Shuffle();
+            else if (softwareSettings.RunQueriesBottomToTop)
+                listQueries.Reverse();
 
             try
             {
-                foreach (var query in _jobProcess.SavedQueries)
+                foreach (var query in listQueries)
                 {
                     try
                     {
@@ -101,13 +103,7 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     }
                     catch (AggregateException ae)
                     {
-                        foreach (var e in ae.InnerExceptions)
-                        {
-                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                throw new OperationCanceledException(@"Cancellation Requested !");
-                            else
-                                e.DebugLog(e.StackTrace + e.Message);
-                        }
+                        ae.HandleOperationCancellation();
                     }
                     catch (Exception ex)
                     {
@@ -143,7 +139,10 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
 
         private void UpdateScheduleIfRequire()
         {
-            if (_jobProcess.DominatorAccountModel.IsNeedToSchedule)
+            var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+            var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
+            
+            if (_jobProcess.DominatorAccountModel.IsNeedToSchedule && !softwareSettings.StopIfNoMoreData)
                 UpdateScheduleIfNoMoreData();
             else
             {

@@ -14,7 +14,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        [Unique]
+        //[Unique]
         public string FriendId { get; set; }
 
 

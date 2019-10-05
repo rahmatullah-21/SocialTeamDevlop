@@ -31,8 +31,8 @@ namespace DominatorHouseCore.Converters
                         return Brushes.OrangeRed;
                     //case SocialNetworks.Quora:
                     //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#28A745"));
-                    case SocialNetworks.Gplus:
-                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
+                    //case SocialNetworks.Gplus:
+                    //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
                     case SocialNetworks.Youtube:
                         return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
                     case SocialNetworks.Tumblr:

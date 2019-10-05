@@ -22,7 +22,7 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
         public void LoadedMemory_should_7882_mb_and_LogViewHeight_shold_3_star()
         {
             var PerfCounterViewModel = Container.Resolve<PerfCounterViewModel>();
-            PerfCounterViewModel.LoadedMemory.Should().Be("7882 MB");
+            PerfCounterViewModel.LoadedMemory.Should().NotBe("0 MB");
             PerfCounterViewModel.LogViewHeight.Should().Be(new GridLength(3, GridUnitType.Star));
             PerfCounterViewModel.ShowHideLogCmd.Should().NotBeNull();
         }

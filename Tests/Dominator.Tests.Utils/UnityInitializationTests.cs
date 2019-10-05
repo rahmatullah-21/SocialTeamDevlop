@@ -1,4 +1,5 @@
 ﻿using CommonServiceLocator;
+using DominatorHouse.ThreadUtils;
 using DominatorHouseCore.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -11,14 +12,16 @@ namespace Dominator.Tests.Utils
     public class UnityInitializationTests
     {
         protected IUnityContainer Container;
+        protected IDelayService DelayService;
 
         [TestInitialize]
         public virtual void SetUp()
         {
+            DelayService = Substitute.For<IDelayService>();
             Container = new UnityContainer();
             Container.RegisterInstance<IDateProvider>(Substitute.For<IDateProvider>());
+            Container.RegisterInstance<IDelayService>(DelayService);
             ServiceLocator.SetLocatorProvider(() => new UnityServiceLocator(Container));
         }
-
     }
 }

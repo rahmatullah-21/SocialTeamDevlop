@@ -23,7 +23,7 @@ namespace DominatorHouse
             AccessorStrategies strategies)
         {
             return _unityContainer.Resolve<INetworkCollectionFactory>(Network.ToString(),
-                new ParameterOverrides { { "strategies", strategies } });
+                new ParameterOverride("strategies", strategies));
         }
 
 

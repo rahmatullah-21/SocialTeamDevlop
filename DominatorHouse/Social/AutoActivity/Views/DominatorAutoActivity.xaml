@@ -142,7 +142,7 @@
                                                                         </i:EventTrigger>
                                                                     </i:Interaction.Triggers>
                                                                 </mah:ToggleSwitch>
-                                                                <TextBlock Foreground="{DynamicResource AccentBaseColorBrush}" Text="{Binding Title}" TextTrimming="CharacterEllipsis"
+                                                                <TextBlock Foreground="{DynamicResource AccentBaseColorBrush}" Text="{Binding ActivityTitle}" TextTrimming="CharacterEllipsis"
                                                                            HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Margin="3" />
                                                             </StackPanel>
                                                         </Border>

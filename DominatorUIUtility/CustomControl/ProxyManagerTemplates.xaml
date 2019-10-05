@@ -8,7 +8,7 @@
     <ControlTemplate x:Key="ProxyManagerControlTemplate">
         <ControlTemplate.Resources>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <converters:AlternationIndexConverter x:Key="AlternationIndexConverter"/>
+            <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
             <ControlTemplate x:Key="ErrorTemplate">
                 <StackPanel Orientation="Vertical">
                     <AdornedElementPlaceholder x:Name="ErrorHolder" >
@@ -360,7 +360,7 @@
                                                         </Setter.Value>
                                                     </Setter>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                                <!--<DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
                                                     <Setter Property="Content" >
                                                         <Setter.Value>
                                                             <Rectangle Fill="#FF0000" Width="20" Height="20">
@@ -370,7 +370,7 @@
                                                             </Rectangle>
                                                         </Setter.Value>
                                                     </Setter>
-                                                </DataTrigger>
+                                                </DataTrigger>-->
                                                 <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
                                                     <Setter Property="Content" >
                                                         <Setter.Value>
@@ -528,7 +528,7 @@
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
+                                            <!--<DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
                                                         <Rectangle Fill="#FF0000" Width="20" Height="20">
@@ -538,7 +538,7 @@
                                                         </Rectangle>
                                                     </Setter.Value>
                                                 </Setter>
-                                            </DataTrigger>
+                                            </DataTrigger>-->
                                             <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
@@ -609,7 +609,7 @@
                                 <CheckBox IsChecked="{Binding IsProxySelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                           Margin="5,0,0,0" Content="{Binding AlternationIndex, 
                                           RelativeSource={RelativeSource AncestorType=DataGridRow},
-                                          Converter={StaticResource AlternationIndexConverter}}"
+                                          Converter={StaticResource IndexToRowNoConverter}}"
                                           Command="{Binding DataContext.SelectProxyCommand,
                                           RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
 

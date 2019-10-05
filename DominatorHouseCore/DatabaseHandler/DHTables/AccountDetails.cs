@@ -51,7 +51,5 @@ namespace DominatorHouseCore.DatabaseHandler.DHTables
         public int? DisplayColumnValue3 { get;  set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public int? DisplayColumnValue4 { get; set; }
-
-
     }
 }

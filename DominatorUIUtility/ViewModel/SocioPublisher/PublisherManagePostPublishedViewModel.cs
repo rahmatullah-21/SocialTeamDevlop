@@ -123,7 +123,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             else
             {
-                Dialog.ShowDialog("Warning", "Please select atleast one post to export.");
+                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectPostToExport".FromResourceDictionary());
             }
         }
 
@@ -144,12 +144,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     var dialog = new Dialog();
                     var publishedPostDetails = new PublishedPostDetails(currentData);
-                    var window = dialog.GetMetroWindow(publishedPostDetails, "Published Details");
+                    var window = dialog.GetMetroWindow(publishedPostDetails, "LangKeyPublishedDetails".FromResourceDictionary());
                     window.ShowDialog();
                 }
                 else
                 {
-                    Dialog.ShowDialog("Published Details", "No Details available.");
+                    Dialog.ShowDialog("LangKeyPublishedDetails".FromResourceDictionary(), "LangKeyNoDetailsAvailable".FromResourceDictionary());
                 }
             }
             catch (Exception ex)
@@ -205,7 +205,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     }
                     else
                     {
-                        Dialog.ShowDialog("Warning", "Please select path to export.");
+                        Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectPathToExport".FromResourceDictionary());
                     }
                 }
 
@@ -238,7 +238,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 else
                 {
-                    Dialog.ShowDialog("Warning", "Please select path to export.");
+                    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeySelectPathToExport".FromResourceDictionary());
                 }
             }
             catch (Exception ex)
@@ -297,7 +297,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var currentPost = (PublishedPostDetailsModel)sender;
             var dominatorAccountModel = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync()
                 .FirstOrDefault(x => x.AccountId == currentPost.AccountId);
-            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link, false);
+            BrowserWindow browserWindow = new BrowserWindow(dominatorAccountModel, currentPost.Link, true);
             browserWindow.SetCookie();
             browserWindow.Show();
         }

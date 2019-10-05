@@ -26,33 +26,29 @@ namespace Socinator
     public partial class MainWindow : IMainWindow
     {
         private bool IsClickedFromMainWindow { get; set; } = true;
-
-
+        IMainViewModel mainViewModel;
         public MainWindow()
         {
             try
             {
                 DialogParticipation.SetRegister(this, this);
-
+                Application.Current.MainWindow = this;
                 InitializeComponent();
 
                 SocinatorInitialize.LogInitializer(this);
 
-                var mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
+                mainViewModel = ServiceLocator.Current.GetInstance<IMainViewModel>();
                 SocinatorWindow.DataContext = mainViewModel;
                 Loaded += (o, e) =>
                 {
-                    GlobusLogHelper.log.Info($"Welcome to {ConstantVariable.ApplicationName}!");
+                    GlobusLogHelper.log.Info(String.Format("LangKeyWelcomeToApplication".FromResourceDictionary(), ConstantVariable.ApplicationName));
                 };
-
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
         }
-
-
         private void InitialTabablzControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             statusbar.IsEnabled = false;
@@ -60,7 +56,7 @@ namespace Socinator
             {
                 var dialog = new Dialog();
 
-                var activityLogWindow = dialog.GetMetroWindow(Logger, "Activity Log");
+                var activityLogWindow = dialog.GetMetroWindow(Logger, "LangKeyActivityLog".FromResourceDictionary());
 
                 IsClickedFromMainWindow = false;
                 activityLogWindow.Closing += (senders, events) =>
@@ -95,7 +91,5 @@ namespace Socinator
 
             }
         }
-
-
     }
 }

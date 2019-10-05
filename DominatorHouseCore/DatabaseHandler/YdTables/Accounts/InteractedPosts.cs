@@ -73,6 +73,12 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public int ViewingCountPerAccount { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
+        public string InteractedChannelUsername { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
+        public string CommenterChannelId { get; set; }
+
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);

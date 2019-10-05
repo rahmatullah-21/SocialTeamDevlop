@@ -13,36 +13,37 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 {
     public interface IRunningActivityManager
     {
-        void Initialize(IEnumerable<DominatorAccountModel> accountDetails);
+        Task Initialize(IEnumerable<DominatorAccountModel> accountDetails);
         void StartNextRound(DominatorAccountModel accountModel);
         void ScheduleIfAccountGotSucess(DominatorAccountModel account);
 
     }
     public class RunningActivityManager : IRunningActivityManager
     {
-        public void Initialize(IEnumerable<DominatorAccountModel> accountDetails)
+        public Task Initialize(IEnumerable<DominatorAccountModel> accountDetails)
         {
 
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var softwareSettings = softwareSettingsFileManager.GetSoftwareSettings();
-            var enabledAccount = accountDetails.Where(x => x.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled));
+            var enabledAccount =
+                accountDetails.Where(x => x.ActivityManager.LstModuleConfiguration.Any(y => y.IsEnabled));
             if (enabledAccount.Count() > 0)
                 if (softwareSettings?.IsEnableParallelActivitiesChecked ?? false)
                 {
-                    Task.Factory.StartNew(() =>
-                     {
-                         var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                         // everything is allowed
-                         foreach (var account in enabledAccount)
-                         {
-                             dominatorScheduler?.ScheduleEachActivity(account);
-                             Task.Delay(2);
-                         }
-                     });
+                    return Task.Factory.StartNew(() =>
+                    {
+                        var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                        // everything is allowed
+                        foreach (var account in enabledAccount)
+                        {
+                            dominatorScheduler?.ScheduleEachActivity(account);
+                            Task.Delay(2);
+                        }
+                    });
                 }
                 else
                 {
-                    Task.Factory.StartNew(() =>
+                    return Task.Factory.StartNew(() =>
                     {
                         // be picky - only one per account (choose wisely)
                         foreach (var account in enabledAccount)
@@ -53,6 +54,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     });
                 }
 
+            return Task.CompletedTask;
         }
 
         public void StartNextRound(DominatorAccountModel accountModel)
@@ -98,6 +100,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     StartNextRound(account);
 
         }
+
         private int PickNextActivity(ModuleConfiguration arg)
         {
             int score = 0; //start from zero
@@ -106,5 +109,15 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             score += 1 * (int)differenceMinutes.TotalMinutes;
             return score;
         }
+
+        // Old one
+        //private int PickNextActivity(ModuleConfiguration arg)
+        //{
+        //    int score = 0; //start from zero
+        //    if (arg.IsEnabled) score += 50;
+        //    TimeSpan differenceMinutes = DateTime.Now.Subtract(arg.NextRun);
+        //    score += 1 * (int)differenceMinutes.TotalMinutes;
+        //    return score;
+        //}
     }
 }

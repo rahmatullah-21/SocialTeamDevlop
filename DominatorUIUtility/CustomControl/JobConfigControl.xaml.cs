@@ -189,13 +189,13 @@ namespace DominatorUIUtility.CustomControl
 
         private void BtnCreateFavorite_OnClick(object sender, RoutedEventArgs e)
         {
-            string favoriteTimeName = "Favorite Time";
+            string favoriteTimeName = "LangKeyFavoriteTime".FromResourceDictionary();
             while (true)
             {
                 try
                 {
 
-                    favoriteTimeName = Dialog.GetInputDialog("Favorite Time", "Enter Favorite time", favoriteTimeName, "Save", "Cancel");
+                    favoriteTimeName = Dialog.GetInputDialog("LangKeyFavoriteTime".FromResourceDictionary(), "LangKeyEnterFavoriteTime".FromResourceDictionary(), favoriteTimeName, "LangKeySave".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                     if (!string.IsNullOrEmpty(favoriteTimeName?.Trim()))
                     {
                         if (!LstFavoriteTime.Any(x => x.FavoriteTimeName == favoriteTimeName))
@@ -212,7 +212,7 @@ namespace DominatorUIUtility.CustomControl
                         }
                         else
                         {
-                            var result = Dialog.ShowCustomDialog("Warning", $"Favorite Time with name {favoriteTimeName} already exist.\nDo you want to override ?", "Yes", "No");
+                            var result = Dialog.ShowCustomDialog("LangKeyWarning".FromResourceDictionary(),String.Format("LangKeyFavoriteTimeWithNameExistWannaOverride".FromResourceDictionary(), favoriteTimeName), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary());
                             if (result == MessageDialogResult.Affirmative)
                             {
                                 var oldLstFavoriteTime = LstFavoriteTime.FirstOrDefault(x => x.FavoriteTimeName == favoriteTimeName);
@@ -220,14 +220,13 @@ namespace DominatorUIUtility.CustomControl
                                 _genericFileManager.UpdateModuleDetails(LstFavoriteTime.ToList(), ConstantVariable.GetFavoriteTimeFile());
                                 break;
                             }
-
                         }
                     }
                     else if (favoriteTimeName == null)
                         break;
                     else
                     {
-                        var result = Dialog.ShowCustomDialog("Error", "Favorite Time should not empty.\nPlease type some name.", "Ok", "Cancel");
+                        var result = Dialog.ShowCustomDialog("LangKeyError".FromResourceDictionary(), "LangKeyFavoriteTimeShountBeEmpty".FromResourceDictionary(), "LangKeyOk".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                         if (result == MessageDialogResult.Affirmative)
                             continue;
                         break;

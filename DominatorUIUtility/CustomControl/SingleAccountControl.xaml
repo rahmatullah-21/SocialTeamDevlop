@@ -77,7 +77,7 @@
             </PasswordBox>
         </Grid>
         <Grid  Grid.Row="4">
-            <CheckBox Content="Show Advance" HorizontalAlignment="Left" Name="ShowAdvance" IsChecked="{Binding ShowAdvancedSettings}" Width="120" FontWeight="SemiBold" Margin="6,0,0,5" />
+            <CheckBox Content="{DynamicResource LangKeyShowAdvance}" HorizontalAlignment="Left" Name="ShowAdvance" IsChecked="{Binding ShowAdvancedSettings}" Width="120" FontWeight="SemiBold" Margin="6,0,0,5" />
         </Grid>
         <Grid Grid.Row="5" Visibility="{Binding AdvancedOptions}" Name="AdvanceOption" Margin="0,0,0,10" >
             <Grid.RowDefinitions>

@@ -75,6 +75,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
@@ -85,6 +88,9 @@
     <Reference Include="CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.7.1.0\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="DominatorHouse.ThreadUtils, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DominatorHouse.ThreadUtils.1.0.0.4\lib\net46\DominatorHouse.ThreadUtils.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -106,9 +112,8 @@
       <HintPath>..\packages\HtmlAgilityPack.1.8.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -130,14 +135,14 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
+    <Reference Include="Prism, Version=7.2.0.1367, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.2.0.1367\lib\net45\Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    <Reference Include="Prism.Unity.Wpf, Version=7.2.0.1367, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.7.2.0.1367\lib\net45\Prism.Unity.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
+    <Reference Include="Prism.Wpf, Version=7.2.0.1367, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.2.0.1367\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.3.7.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.3.7\lib\net40\protobuf-net.dll</HintPath>
@@ -151,6 +156,9 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -158,14 +166,16 @@
       <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.9.0\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.3\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Prism.Wpf.7.2.0.1367\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -182,32 +192,14 @@
       <HintPath>..\packages\ToastNotifications.Messages.2.3.1\lib\net40\ToastNotifications.Messages.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.5.11.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Configuration, Version=5.2.5.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Configuration.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.11.1\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Interception, Version=5.5.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Interception.5.5.5\lib\net46\Unity.Interception.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Unity.Interception.Configuration, Version=5.1.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Interception.Configuration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Unity.RegistrationByConvention, Version=2.1.9.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.RegistrationByConvention.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Unity.Interception, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.5.11.1\lib\net46\Unity.Interception.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WPFFolderBrowser, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -232,6 +224,7 @@
     <Compile Include="Command\BaseCommand.cs" />
     <Compile Include="Converters\AccountsFilterConverter.cs" />
     <Compile Include="Converters\AverageConverter.cs" />
+    <Compile Include="Converters\BooleanToAutomationStatusConverter.cs" />
     <Compile Include="Converters\BooleanToStringSelectConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
@@ -465,6 +458,9 @@
     <Compile Include="Enums\DHEnum\GrowthChartPeriod.cs" />
     <Compile Include="Enums\DHEnum\GrowthPeriod.cs" />
     <Compile Include="Enums\DHEnum\UserType.cs" />
+    <Compile Include="Enums\EmbeddedBrowser\BrowserEnums.cs" />
+    <Compile Include="Enums\FdQuery\AdUpdationType.cs" />
+    <Compile Include="Enums\FdQuery\EventType.cs" />
     <Compile Include="Enums\FdQuery\FbEntityTypes.cs" />
     <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
@@ -472,6 +468,9 @@
     <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
     <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
     <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
+    <Compile Include="Enums\FdQuery\PlaceQueryParameters.cs" />
+    <Compile Include="Enums\FdQuery\PostOptions.cs" />
+    <Compile Include="Enums\FdQuery\ReactionType.cs" />
     <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
     <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
     <Compile Include="Enums\GpDQuery\GplusCommunitiesQueries.cs" />
@@ -479,10 +478,12 @@
     <Compile Include="Enums\GpDQuery\GplusUsersQueries.cs" />
     <Compile Include="Enums\LdQuery\LDEngageQueryParameters.cs" />
     <Compile Include="Enums\LdQuery\LDMessengerQueryParameters.cs" />
+    <Compile Include="Enums\LoginType.cs" />
     <Compile Include="Enums\PdQuery\PDPinQueries.cs" />
     <Compile Include="Enums\PdQuery\PDUsersQueries.cs" />
     <Compile Include="Enums\QdQuery\BroadcastMessageQuery.cs" />
     <Compile Include="Enums\QdQuery\FollowerQuery.cs" />
+    <Compile Include="Enums\QueryType.cs" />
     <Compile Include="Enums\RdQuery\CommunityQuery.cs" />
     <Compile Include="Enums\RdQuery\PostQuery.cs" />
     <Compile Include="Enums\RdQuery\UserQuery.cs" />
@@ -491,8 +492,10 @@
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrBroadcastMessageQuery.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
+    <Compile Include="Enums\UserType.cs" />
     <Compile Include="Enums\VerificationType.cs" />
     <Compile Include="Enums\YdQuery\YdScraperParameters.cs" />
+    <Compile Include="Extensions\AggregateExceptionExtensions.cs" />
     <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
     <Compile Include="FileManagers\AccountsCacheService.cs" />
     <Compile Include="FileManagers\CampaignInteractionDetails.cs" />
@@ -509,6 +512,7 @@
     <Compile Include="Interfaces\ChatFactory.cs" />
     <Compile Include="Interfaces\ColumnSpecificationAdapter.cs" />
     <Compile Include="Interfaces\IAdScraperFactory.cs" />
+    <Compile Include="Interfaces\IBrowserManager.cs" />
     <Compile Include="Interfaces\ICampaignInteractionDetails.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Interfaces\IComments.cs" />
@@ -569,10 +573,23 @@
     <Compile Include="Interfaces\SocioPublisher\IGeneralPostSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\IRedditSettings.cs" />
     <Compile Include="Interfaces\SocioPublisher\ITdScrapePosts.cs" />
+    <Compile Include="Interfaces\StartUp\INetwork.cs" />
+    <Compile Include="Interfaces\StartUp\IStartupJobConfiguration.cs" />
+    <Compile Include="Interfaces\StartUp\IStartUpSearchQuery.cs" />
     <Compile Include="Models\AccessorStrategies.cs" />
     <Compile Include="Models\AccountWiseReportModel.cs" />
     <Compile Include="Models\AddPostModel.cs" />
     <Compile Include="Models\AutoReplyMessegeModel.cs" />
+    <Compile Include="Models\FacebookModels\EventCreaterManagerModel.cs" />
+    <Compile Include="Models\FacebookModels\FbMultiMediaModel.cs" />
+    <Compile Include="Models\FacebookModels\InviterDetails.cs" />
+    <Compile Include="Models\FacebookModels\InviterOptions.cs" />
+    <Compile Include="Models\FacebookModels\LikerCommentorConfigModel.cs" />
+    <Compile Include="Models\FacebookModels\ManageCustomCommentsModel.cs" />
+    <Compile Include="Models\FacebookModels\ManageFriends.cs" />
+    <Compile Include="Models\FacebookModels\MultiMediaValueModel.cs" />
+    <Compile Include="Models\FacebookModels\PostLikeCommentorModel.cs" />
+    <Compile Include="Models\FacebookModels\UnfriendOption.cs" />
     <Compile Include="Models\IModuleSetting.cs" />
     <Compile Include="Models\BlacklistUserModel.cs" />
     <Compile Include="Models\CampaignDetails.cs" />
@@ -584,6 +601,8 @@
     <Compile Include="Models\GlobalInteractionDataModel.cs" />
     <Compile Include="Models\JobActivityConfigurationManager.cs" />
     <Compile Include="Models\LoggerModel.cs" />
+    <Compile Include="Models\MenuHandlerModel.cs" />
+    <Compile Include="Models\NetworkActivitySetting\SaveSettingModel.cs" />
     <Compile Include="Models\PinterestOtherConfigModel.cs" />
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
     <Compile Include="Models\PrivateWhitelistUserModel.cs" />
@@ -630,6 +649,38 @@
     <Compile Include="Settings\SoftwareSettings.cs" />
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
+    <Compile Include="StartupActivity\BaseActivity.cs" />
+    <Compile Include="StartupActivity\Instagram\InstagramActivity.cs" />
+    <Compile Include="StartupActivity\Instagram\InstagramPostActivity.cs" />
+    <Compile Include="StartupActivity\Instagram\InstagramUserActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinConnectionActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinEngageActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinGroupActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinMessageActivity.cs" />
+    <Compile Include="StartupActivity\Linkedin\LinkedinScraperActivity.cs" />
+    <Compile Include="StartupActivity\Pinterest\PinterestActivity.cs" />
+    <Compile Include="StartupActivity\Pinterest\PinterestPinActivity.cs" />
+    <Compile Include="StartupActivity\Pinterest\PinterestUserActivity.cs" />
+    <Compile Include="StartupActivity\Quora\QuoraActivity.cs" />
+    <Compile Include="StartupActivity\Quora\QuoraAnswerActivity.cs" />
+    <Compile Include="StartupActivity\Quora\QuoraBroadcastMessagesActivity.cs" />
+    <Compile Include="StartupActivity\Quora\QuoraFollowActivity.cs" />
+    <Compile Include="StartupActivity\Quora\QuoraQuestionActivity.cs" />
+    <Compile Include="StartupActivity\Quora\QuoraUserActivity.cs" />
+    <Compile Include="StartupActivity\Reddit\RedditActivity.cs" />
+    <Compile Include="StartupActivity\Reddit\RedditCommunityActivity.cs" />
+    <Compile Include="StartupActivity\Reddit\RedditPostActivity.cs" />
+    <Compile Include="StartupActivity\Reddit\RedditUserActivity.cs" />
+    <Compile Include="StartupActivity\Tumblr\TumblrActivity.cs" />
+    <Compile Include="StartupActivity\Tumblr\TumblrBroadcastMessageActivity.cs" />
+    <Compile Include="StartupActivity\Tumblr\TumblrPostActivity.cs" />
+    <Compile Include="StartupActivity\Tumblr\TumblrUserActivity.cs" />
+    <Compile Include="StartupActivity\Twitter\TwitterActivity.cs" />
+    <Compile Include="StartupActivity\Twitter\TwitterTweetActivity.cs" />
+    <Compile Include="StartupActivity\Twitter\TwitterUserActivity.cs" />
+    <Compile Include="StartupActivity\Youtube\YoutubeActivity.cs" />
+    <Compile Include="StartupActivity\Youtube\YoutubeChannelActivity.cs" />
     <Compile Include="UIExtensions\CollectionViewSourceExtensions.cs" />
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
@@ -641,6 +692,7 @@
     <Compile Include="Utility\FileSystemProvider.cs" />
     <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
+    <Compile Include="Utility\MapperProvider.cs" />
     <Compile Include="Utility\MonitorFolderUtilites.cs" />
     <Compile Include="Models\SocioPublisher\PostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherMonitorFolderModel.cs" />
@@ -671,7 +723,6 @@
     <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
-    <Compile Include="Utility\ThreadUtility.cs" />
     <Compile Include="Utility\ToasterNotification.cs" />
     <Compile Include="Utility\WebService.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />

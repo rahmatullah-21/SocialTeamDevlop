@@ -98,5 +98,7 @@ namespace DominatorHouseCore.DatabaseHandler.PdTables.Campaigns
         public string PublishedDate { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string PinTitle { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public string GeneratedPinId { get; set; }
     }
 }

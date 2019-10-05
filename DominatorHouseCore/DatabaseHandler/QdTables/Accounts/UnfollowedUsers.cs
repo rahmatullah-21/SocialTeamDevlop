@@ -40,7 +40,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
-        [Unique]
+        //[Unique]
         public string UnfollowedUsername
         { get; set; }
 

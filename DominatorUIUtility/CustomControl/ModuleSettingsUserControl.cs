@@ -98,14 +98,13 @@ namespace DominatorUIUtility.CustomControl
                     _accountGrowthModeHeader.IsExpanded = false;
                 else _accountGrowthModeHeader.IsExpanded = true;
             }
-
         }
 
         private void CreateOrUpdateCampaign(object sender)
         {
             var control = sender as FooterControl;
 
-            if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign, StringComparison.CurrentCultureIgnoreCase))
+            if (control.CampaignManager.Equals(ConstantVariable.CreateCampaign(), StringComparison.CurrentCultureIgnoreCase))
                 CreateCampaign();
             else
                 UpdateCampaign();
@@ -256,7 +255,7 @@ namespace DominatorUIUtility.CustomControl
 
         #region IFooterControl
 
-        private string _selectedAccountCount = ConstantVariable.NoAccountSelected;
+        private string _selectedAccountCount = ConstantVariable.NoAccountSelected();
 
         public string SelectedAccountCount
         {
@@ -271,7 +270,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        private string _campaignButtonContent = ConstantVariable.CreateCampaign;
+        private string _campaignButtonContent = ConstantVariable.CreateCampaign();
         public string CampaignButtonContent
         {
             get
@@ -360,13 +359,13 @@ namespace DominatorUIUtility.CustomControl
         {
             if (string.IsNullOrEmpty(CampaignName))
             {
-                Dialog.ShowDialog("Error", "Campaign name should not be empty. Please provide name for Campaign.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorCampaignNameShouldNotBeEmpty".FromResourceDictionary());
                 return true;
             }
             var campaignFileManager = ServiceLocator.Current.GetInstance<ICampaignsFileManager>();
-            if (_footerControl.CampaignManager == ConstantVariable.CreateCampaign && campaignFileManager.Any(x => x.CampaignName == CampaignName))
+            if (_footerControl.CampaignManager == ConstantVariable.CreateCampaign() && campaignFileManager.Any(x => x.CampaignName == CampaignName))
             {
-                Dialog.ShowDialog("Error", "Campaign with same name already exists. Please change name of Campaign.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorCampaignWithSameNameAlreadyExists".FromResourceDictionary());
                 return true;
             }
             return false;
@@ -375,7 +374,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (_footerControl.list_SelectedAccounts.Count == 0)
             {
-                Dialog.ShowDialog("Error", "Please select at least one account.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
                 return false;
             }
             //Check Query
@@ -389,7 +388,7 @@ namespace DominatorUIUtility.CustomControl
         {
             if (((IEnumerable<RunningTimes>)Model.JobConfiguration.RunningTime).All(rt => rt.Timings.Count == 0))
             {
-                Dialog.ShowDialog("Error", "Please add at least one time range when to run and stop the activity.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorAddAtLeastOneTimeRange".FromResourceDictionary());
                 return false;
             }
             return true;
@@ -397,11 +396,24 @@ namespace DominatorUIUtility.CustomControl
 
         protected virtual bool ValidateExtraProperty() => true;
 
+        protected bool ValidateSavedQueries()
+        {
+            // Check queries
+            if (Model.SavedQueries.Count == 0)
+            {
+                DialogCoordinator.Instance.ShowModalMessageExternal(this, "LangKeyError".FromResourceDictionary(), "LangKeyErrorAddAtLeastOneQuery".FromResourceDictionary(),
+                    MessageDialogStyle.Affirmative);
+                return false;
+            }
+
+            return true;
+        }
+
         protected virtual bool ValidateQuery()
         {
             if (Model.SavedQueries.Count == 0)
             {
-                Dialog.ShowDialog("Error", "Please add at least one query.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorAddAtLeastOneQuery".FromResourceDictionary());
                 return false;
             }
             return true;
@@ -418,9 +430,9 @@ namespace DominatorUIUtility.CustomControl
 
             CancelEditVisibility = Visibility.Collapsed;
 
-            _footerControl.CampaignManager = ConstantVariable.CreateCampaign;
+            _footerControl.CampaignManager = ConstantVariable.CreateCampaign();
 
-            SelectedAccountCount = ConstantVariable.NoAccountSelected;
+            SelectedAccountCount = ConstantVariable.NoAccountSelected();
 
             ObjViewModel = new TViewModel();
 
@@ -432,7 +444,10 @@ namespace DominatorUIUtility.CustomControl
 
             CampaignName = $"{SocialNetwork} {_activityType.ToString()} [{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]";
             if (_queryControl != null)
+            {
                 _queryControl.ActivityType = _activityType;
+                _queryControl.Network = SocialNetwork.ToString();
+            }
             UpdateJobConfigurationSetting();
         }
 
@@ -516,7 +531,7 @@ namespace DominatorUIUtility.CustomControl
                         if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !islogged)
                         {
                             var maxThreadCount = softwareSettings.Settings.MaxThreadCount;
-                            GlobusLogHelper.log.Info($"Thread limit count {maxThreadCount} reached and pending account will starts once the running account's process stopped.");
+                            GlobusLogHelper.log.Info($"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
                             islogged = true;
                         }
                     }
@@ -580,7 +595,7 @@ namespace DominatorUIUtility.CustomControl
                 }
             });
 
-            var warningWindow = new Dialog().GetMetroWindowWithOutClose(objErrorModelControl, "Warning");
+            var warningWindow = new Dialog().GetMetroWindowWithOutClose(objErrorModelControl, "LangKeyWarning".FromResourceDictionary());
             #endregion
 
             #region Warning windows save button event
@@ -647,7 +662,7 @@ namespace DominatorUIUtility.CustomControl
             if (objErrorModelControl.Accounts.Count != 0)
                 warningWindow.ShowDialog();
 
-            SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+            SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + $" {"LangKeyAccountSelected".FromResourceDictionary()}";
             if (needToCancel || _footerControl.list_SelectedAccounts.Count == 0)
             {
                 return false;
@@ -747,7 +762,7 @@ namespace DominatorUIUtility.CustomControl
 
                 var objDialog = new Dialog();
 
-                var window = objDialog.GetMetroWindow(objSelectAccountControl, "Select Account");
+                var window = objDialog.GetMetroWindow(objSelectAccountControl, "LangKeySelectAccount".FromResourceDictionary());
 
                 objSelectAccountControl.btnSave.Click += (senders, Events) =>
                 {
@@ -755,12 +770,12 @@ namespace DominatorUIUtility.CustomControl
                     if (selectedAccount.Count > 0)
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
-                        SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                        SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + $" {"LangKeyAccountSelected".FromResourceDictionary()}";
                         GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _footerControl.list_SelectedAccounts.Count, CampaignName);
                     }
                     else
                     {
-                        SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        SelectedAccountCount = ConstantVariable.NoAccountSelected();
                         _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
@@ -787,12 +802,12 @@ namespace DominatorUIUtility.CustomControl
             if (listOfSelectedAccounts.Count > 0)
             {
                 _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
-                SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + $" {"LangKeyAccountSelected".FromResourceDictionary()}";
                 GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, "", _footerControl.list_SelectedAccounts.Count, _activityType);
             }
             else
             {
-                SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                SelectedAccountCount = ConstantVariable.NoAccountSelected();
                 _footerControl.list_SelectedAccounts = listOfSelectedAccounts;
             }
         }
@@ -935,7 +950,7 @@ namespace DominatorUIUtility.CustomControl
             // Update Account Detail
             var accountDetails = _accountsFileManager.GetAll(SocialNetwork);
             if (UpdateSelectedAccountDetails(accountDetails, _footerControl.list_SelectedAccounts, Model.JobConfiguration))
-                ToasterNotification.ShowSuccess($"Campaign:- {CampaignName } updated successfully");
+                ToasterNotification.ShowSuccess($"{"LangKeyCampaign".FromResourceDictionary()}:- {CampaignName } {"LangKeyUpdatedSuccessfully".FromResourceDictionary()}");
 
             SetDataContext();
 
@@ -947,7 +962,7 @@ namespace DominatorUIUtility.CustomControl
                 if (DominatorScheduler._lockWithThreadLimit?.CurrentCount == 0 && !islogged)
                 {
                     var maxThreadCount = softwareSettings.Settings.MaxThreadCount;
-                    GlobusLogHelper.log.Info($"Thread limit count {maxThreadCount} reached and pending account will starts once the running account's process stopped.");
+                    GlobusLogHelper.log.Info($"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
                     islogged = true;
                 }
             }
@@ -1000,7 +1015,7 @@ namespace DominatorUIUtility.CustomControl
                     }
                 });
 
-                var warningWindow = new Dialog().GetMetroWindowWithOutClose(objErrorModelControl, "Warning");
+                var warningWindow = new Dialog().GetMetroWindowWithOutClose(objErrorModelControl, "LangKeyWarning".FromResourceDictionary());
 
                 #endregion
 
@@ -1096,7 +1111,7 @@ namespace DominatorUIUtility.CustomControl
                 #endregion
             }
             #endregion
-            SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+            SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + $" {"LangKeyAccountSelected".FromResourceDictionary()}";
             if (_footerControl.list_SelectedAccounts.Count == 0 || needToCancel) return false;
             return isProcessSuccessful;
         }
@@ -1335,8 +1350,8 @@ namespace DominatorUIUtility.CustomControl
                 if (queryToSave.Any(x =>
                         x.QueryType == currentQuery.QueryType && x.QueryValue == currentQuery.QueryValue))
                 {
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Alert",
-                        "Query already Exist !!");
+                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyAlert".FromResourceDictionary(),
+                        "LangKeyQueryAlreadyExist".FromResourceDictionary());
                     return true;
                 }
             }
@@ -1370,7 +1385,6 @@ namespace DominatorUIUtility.CustomControl
 
         protected bool ChangeAccountsModuleStatus(bool isStart, string selectedAccount, SocialNetworks socialNetworks)
         {
-
             try
             {
                 var accountModel = _accountsFileManager.GetAccount(selectedAccount, socialNetworks);
@@ -1382,7 +1396,7 @@ namespace DominatorUIUtility.CustomControl
 
                     if (isStart)
                     {
-                        Dialog.ShowDialog("Error", "Please save your settings, before starting the activity.");
+                        Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyPleaseSaveSettings".FromResourceDictionary());
                         return false;
                     }
                 }
@@ -1395,7 +1409,7 @@ namespace DominatorUIUtility.CustomControl
                         ?.Status;
                     if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
                     {
-                        DialogCoordinator.Instance.ShowModalMessageExternal(this, "Error", "This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                        DialogCoordinator.Instance.ShowModalMessageExternal(this, "LangKeyError".FromResourceDictionary(), "LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
                         moduleConfiguration.IsEnabled = false;
                         return false;
                     }
@@ -1412,11 +1426,11 @@ namespace DominatorUIUtility.CustomControl
                 {
                     _dominatorScheduler.StopActivity(accountModel, _activityType.ToString(),
                         moduleConfiguration.TemplateId, moduleConfiguration.IsEnabled);
-                    ToasterNotification.ShowSuccess("Successfully stopped");
+                    ToasterNotification.ShowSuccess("LangKeySuccessfullyStopped".FromResourceDictionary());
                 }
                 else
                 {
-                    ToasterNotification.ShowSuccess("Successfully activated");
+                    ToasterNotification.ShowSuccess("LangKeySuccessfullyActivated".FromResourceDictionary());
                     _dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
                 }
                 return moduleConfiguration.IsEnabled;
@@ -1497,9 +1511,9 @@ namespace DominatorUIUtility.CustomControl
             {
                 if (moduleConfiguration.IsTemplateMadeByCampaignMode)
                 {
-                    var dialogResult = Dialog.ShowCustomDialog("Warning",
-                                "This account is already running with another campaign,saving this settings will override previous settings and remove this account from that campaign.\nAre you sure you want to override previous settings ?",
-                                "Yes", "No");
+                    var dialogResult = Dialog.ShowCustomDialog("LangKeyWarning".FromResourceDictionary(),
+                                "LangKeyConfirmToOverrideAccountRunningWithAnotherCampaign".FromResourceDictionary(),
+                                "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary());
                     if (dialogResult == MessageDialogResult.Negative)
                         return;
                 }
@@ -1516,7 +1530,7 @@ namespace DominatorUIUtility.CustomControl
                 // update the running time
                 UpdateRunningTime(Model.JobConfiguration, accountModel);
                 //_dominatorScheduler.ScheduleNextActivity(accountModel, _activityType);
-                ToasterNotification.ShowSuccess("Successfully Saved !!!");
+                ToasterNotification.ShowSuccess("LangKeySuccessfullySaved".FromResourceDictionary());
                 #endregion
             }
             else
@@ -1551,7 +1565,7 @@ namespace DominatorUIUtility.CustomControl
                 _jobActivityConfigurationManager.AddOrUpdate(accountModel.AccountBaseModel.AccountId, _activityType, moduleConfiguration);
                 _accountsCacheService.UpsertAccounts(accountModel);
 
-                Dialog.ShowDialog("Success", "Successfully Saved !!!");
+                Dialog.ShowDialog("LangKeySuccess".FromResourceDictionary(), "LangKeySuccessfullySaved".FromResourceDictionary());
                 #endregion
 
             }
@@ -1653,7 +1667,7 @@ namespace DominatorUIUtility.CustomControl
 
                 var objDialog = new Dialog();
 
-                var window = objDialog.GetMetroWindow(objSelectAccountControl, "Select Account");
+                var window = objDialog.GetMetroWindow(objSelectAccountControl, "LangKeySelectAccount".FromResourceDictionary());
 
                 objSelectAccountControl.btnSave.Click += (senders, Events) =>
                 {
@@ -1661,12 +1675,12 @@ namespace DominatorUIUtility.CustomControl
                     if (selectedAccount.Count > 0)
                     {
                         _footerControl.list_SelectedAccounts = objSelectAccountControl.GetSelectedAccount().ToList();
-                        SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + " Account Selected";
+                        SelectedAccountCount = _footerControl.list_SelectedAccounts.Count + $" {"LangKeyAccountSelected".FromResourceDictionary()}";
                         GlobusLogHelper.log.Info(Log.SelectedAccount, SocinatorInitialize.ActiveSocialNetwork, CampaignName, _footerControl.list_SelectedAccounts.Count, CampaignName);
                     }
                     else
                     {
-                        SelectedAccountCount = ConstantVariable.NoAccountSelected;
+                        SelectedAccountCount = ConstantVariable.NoAccountSelected();
                         _footerControl.list_SelectedAccounts = selectedAccount.ToList();
                     }
                     window.Close();
@@ -1831,8 +1845,10 @@ namespace DominatorUIUtility.CustomControl
                 _mainGrid.DataContext = ObjViewModel;
                 _accountGrowthModeHeader.DataContext = this;
                 if (_queryControl != null)
+                {
                     _queryControl.ActivityType = _activityType;
-
+                    _queryControl.Network = SocialNetwork.ToString();
+                }
                 UpdateJobConfigurationSetting();
             }
             catch (Exception ex)
@@ -1844,6 +1860,9 @@ namespace DominatorUIUtility.CustomControl
         {
             try
             {
+                if (Model.JobConfiguration.IsAdvanceSetting)
+                    return;
+
                 if (Model.JobConfiguration.SelectedItem == "Slow")
                 {
                     var slowSpeed = Model.SlowSpeed;

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-
 namespace DominatorHouseCore.Utility
 {
     public static class ConstantVariable
@@ -14,7 +13,7 @@ namespace DominatorHouseCore.Utility
         public static string UseragentLocale { get; } = "en_US";
 
         // public static string IgVersion { get; } = "40.33.0";
-        public static string IgVersion { get; } = "94.0.0.22.116";
+        public static string IgVersion { get; } = "107.0.0.27.121 ";//"94.0.0.22.116";
 
         public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
 
@@ -26,7 +25,7 @@ namespace DominatorHouseCore.Utility
 
         public static bool UseSystemProxy { get; } = true;
 
-        public static string ApplicationName { get; } = "Socinator";
+        public static string ApplicationName { get; } =/* "Socinator";*/"LangKeySocinator".FromResourceDictionary();
 
         public static string BitlyApiKey { get; set; } = string.Empty;
 
@@ -79,17 +78,13 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
+        
+        public static string CreateCampaign() => "LangKey_CreateCampaign".FromResourceDictionary();
 
+        public static string UpdateCampaign() => "LangKey_UpdateCampaign".FromResourceDictionary();
 
-       
-
-        public const string CreateCampaign = "_Create Campaign";
-
-        public const string UpdateCampaign = "_Update Campaign";
-
-        public const string NoAccountSelected = "No Account Selected";
-
-
+        public static string NoAccountSelected() => "LangKeyNoAccountSelected".FromResourceDictionary();
+        
         public static string GetIndexAccountDir()
         {
             string dir = GetPlatformBaseDirectory() + @"\Index\AC";
@@ -116,15 +111,9 @@ namespace DominatorHouseCore.Utility
 
         public static string GetIndexCampaignFile() => GetIndexCampaignDir() + @"\CampaignDetails.bin";
 
-
         public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
 
-
-        public const string UnGrouped = "Ungrouped";
-
-        public const string NotYetUpdate = "Not yet update";
-
-        public const string NotChecked = "Not Checked";
+        public static string UnGrouped() => "Ungrouped".FromResourceDictionary();
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
 
@@ -168,8 +157,10 @@ namespace DominatorHouseCore.Utility
         public static string GetDownloadedMediaFolderPath =>
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+        public static string MyAppFolderPath => Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        
         public static string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
-        public static string GetSocinatorIcon() => GetOtherDir() + @"SocinatorIcon.png";
+        public static string GetSocinatorIcon() => GetOtherDir() + @"\"+$"{"LangKeySocinator".FromResourceDictionary()}Icon.png";
         public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
         public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";
@@ -187,7 +178,7 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherLinkedInSettingsFile() => GetOtherDir() + @"\LinkedIn.bin";
         #region Publisher
 
-        public static string FineStatusSync = "Already up to date";
+        public static string FineStatusSync = "LangKeyAlreadyUpToDate".FromResourceDictionary() /*"Already up to date"*/;
 
         public static string NeedUpdateStatusSync = "Click to Sync";
 
@@ -231,6 +222,14 @@ namespace DominatorHouseCore.Utility
         public static string GetOtherTumblrSettingsFile() => GetOtherDir() + @"\Tumblr.bin";
         public static string GetOtherTwitterSettingsFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetOtherYoutubeSettingsFile() => GetOtherDir() + @"\Youtube.bin";
+
+        public static string GetModuleConfigPath(string network)
+        {
+            string dir = $"{ GetConfigurationDir()}\\{network}";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir + "\\Config.bin";
+
+        }
 
         #endregion
 
@@ -303,6 +302,10 @@ namespace DominatorHouseCore.Utility
         public static string GetTwitterConfigFile() => GetOtherDir() + @"\Twitter.bin";
         public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
 
+
+        public static string PageInviterNote =>
+            "Hi, I'm inviting you to like my Page because I thought that you might be interested in supporting it.";
+
         public static string SocialAccountManagerVideoLink => "https://www.youtube.com/playlist?list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE";
 
         public static string FbAccountManagerVideoLink => "https://www.youtube.com/watch?v=R-ZJTZ1_SJg&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=2&t=0s";
@@ -322,9 +325,6 @@ namespace DominatorHouseCore.Utility
         public static string PdAccountManagerVideoLink => "https://www.youtube.com/watch?v=RK2nzfJRudc&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=8";
 
         public static string YtAccountManagerVideoLink => "https://www.youtube.com/watch?v=SWj2OdU_7Ts&list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE&index=9";
-
-       
-
 
     }
 

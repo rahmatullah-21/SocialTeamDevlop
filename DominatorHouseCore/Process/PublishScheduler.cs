@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DominatorHouseCore.Extensions;
 
 namespace DominatorHouseCore.Process
 {
@@ -360,7 +361,7 @@ namespace DominatorHouseCore.Process
                 // Check any destinations has been deleted
                 if (deletedDestinationCount > 0)
                     GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
-                        $"{deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} Destination has been deleted from {campaignStatusModel.CampaignName}");
+                      String.Format("LangKeyNDestinationsDeletedFromCampaign".FromResourceDictionary(), deletedDestinationCount, publisherPostFetchModel?.SelectedDestinations.Count, campaignStatusModel.CampaignName));
 
                 ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinations;
 
@@ -372,7 +373,7 @@ namespace DominatorHouseCore.Process
                     if (campaignStatusModel.TotalRandomDestination == 0)
                     {
                         GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
-                            $"{campaignStatusModel.CampaignName} has zero as maximum publishing count!");
+                           String.Format("LangKeyCampaignHasZeroAsMaxPublishingCount".FromResourceDictionary(), campaignStatusModel.CampaignName));
                         return;
                     }
 
@@ -403,7 +404,7 @@ namespace DominatorHouseCore.Process
                     if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
                     {
                         GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
-                            $"You don't have a permission to run with {accountsNetwork} network, please purchase !");
+                            String.Format("LangKeyNoPermissionToRunNetworkPurchaseIt".FromResourceDictionary(),accountsNetwork));
                         continue;
                     }
 
@@ -454,13 +455,7 @@ namespace DominatorHouseCore.Process
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (Exception ex)
             {
@@ -482,7 +477,7 @@ namespace DominatorHouseCore.Process
 
                 if (campaignStatusModel == null)
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "Current post isn't register with any campaign!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPostNotRegisterWithAnyCampaign".FromResourceDictionary());
                     return;
                 }
 
@@ -491,7 +486,7 @@ namespace DominatorHouseCore.Process
 
                 if (!isStart)
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "Current post's campaign expired!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPostCampaignExpired".FromResourceDictionary());
                     return;
                 }
 
@@ -578,7 +573,7 @@ namespace DominatorHouseCore.Process
                 // Check any destinations has been deleted
                 if (deletedDestinationCount > 0)
                     GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
-                        $"{deletedDestinationCount} out of {publisherPostFetchModel?.SelectedDestinations.Count} Destination has been deleted from {campaignStatusModel.CampaignName}");
+                       String.Format("LangKeyNDestinationsDeletedFromCampaign".FromResourceDictionary(), deletedDestinationCount, publisherPostFetchModel?.SelectedDestinations.Count, campaignStatusModel.CampaignName));
 
                 var destinations = UpdatePostDetails(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, allDestination, post, allDestinaionGuid);
 
@@ -594,7 +589,7 @@ namespace DominatorHouseCore.Process
                     // Check whether current accounts network present or not
                     if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), $"You don't have a permission to run with {accountsNetwork} network, please purchase !");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoPermissionToRunNetworkPurchaseIt".FromResourceDictionary(), accountsNetwork));
                         continue;
                     }
 
@@ -622,13 +617,7 @@ namespace DominatorHouseCore.Process
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (Exception ex)
             {
@@ -772,7 +761,7 @@ namespace DominatorHouseCore.Process
         {
             if (givenDestinations.Count == 0)
             {
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "No more unique destinations are present!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyNoUniqueDestinationsPresent".FromResourceDictionary());
                 return new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
             }
 
@@ -788,7 +777,7 @@ namespace DominatorHouseCore.Process
                 // Checking, If no more post available
                 if (!pendingPostList.Any())
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), $"No more unique post are available for campaign {campaignName}!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(),campaignName));
                     return null;
                 }
 
@@ -803,8 +792,7 @@ namespace DominatorHouseCore.Process
                     // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
                     if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
                         generalSettingsModel.TriggerNotificationCount > 0)
-                        ToasterNotification.ShowInfomation(
-                            $"{campaignName} has {pendingPostList.Count} pending post!");
+                        ToasterNotification.ShowInfomation(String.Format("LangKeyCampaignHasNPendingPosts".FromResourceDictionary(), campaignName, pendingPostList.Count));
                 }
 
                 // Check whether needs to shuffle postlist order
@@ -814,7 +802,7 @@ namespace DominatorHouseCore.Process
 
                 // Validate whether all destinations contains posts or not
                 if (pendingPostList.Count < postsDestinations.Count)
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required random destination count!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPendingPostsLesserThanRequiredRandDestinationCount".FromResourceDictionary());
 
                 #region Assigning the Posts to Destinations
 
@@ -863,7 +851,7 @@ namespace DominatorHouseCore.Process
 
                 if (givenDestinations.Count == 0)
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "No more unique destinations are present!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyNoUniqueDestinationsPresent".FromResourceDictionary());
                     return new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
                 }
 
@@ -896,10 +884,9 @@ namespace DominatorHouseCore.Process
                     {
                         if (expiredPostCount > 0)
                         {
-                            ToasterNotification.ShowInfomation(
-                                $"{campaignName} has {expiredPostCount} expired post!");
+                            ToasterNotification.ShowInfomation(String.Format("LangKeyCampaignHasNExpiredPosts".FromResourceDictionary(), campaignName, expiredPostCount));
                         }
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), $"No more unique post are available for campaign {campaignName}!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(),campaignName));
                         return null;
                     }
 
@@ -914,8 +901,7 @@ namespace DominatorHouseCore.Process
                         // If user needs to notify when postlists going lesser than specified post, then trigger a notifications
                         if (pendingPostList.Count < generalSettingsModel.TriggerNotificationCount &&
                             generalSettingsModel.TriggerNotificationCount > 0)
-                            ToasterNotification.ShowInfomation(
-                                $"{campaignName} has {pendingPostList.Count} pending post!");
+                            ToasterNotification.ShowInfomation(String.Format("LangKeyCampaignHasNPendingPosts".FromResourceDictionary(), campaignName, pendingPostList.Count));
                     }
 
                     // Check whether needs to shuffle postlist order
@@ -924,7 +910,7 @@ namespace DominatorHouseCore.Process
 
                     // Validate whether all destinations contains posts or not
                     if (pendingPostList.Count < postsDestinations.Count)
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "Pending postlist counts are lesser than required  random destination count!");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPendingPostsLesserThanRequiredRandDestinationCount".FromResourceDictionary());
 
                     #region Assigning the Posts to Destinations
 
@@ -1001,7 +987,7 @@ namespace DominatorHouseCore.Process
                     if (post.LstPublishedPostDetailsModels.Any(x =>
                         x.DestinationUrl == currentDestinationUrl && destinationDetails.AccountId == x.AccountId))
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), $"Current posts has already published on account {destinationDetails.AccountName}'s destination - {destinationDetails.DestinationType}[{destinationDetails.DestinationUrl}]");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyPostAlreadyPublishedOnTheAccount".FromResourceDictionary(), destinationDetails.AccountName, destinationDetails.DestinationType, destinationDetails.DestinationUrl));
                         return;
                     }
 
@@ -1095,7 +1081,7 @@ namespace DominatorHouseCore.Process
                     if (post.LstPublishedPostDetailsModels.Any(x =>
                         x.DestinationUrl == currentDestinationUrl && destinationDetails.AccountId == x.AccountId))
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), $"Current posts has already published on account {destinationDetails.AccountName}'s destination - {destinationDetails.DestinationType}[{destinationDetails.DestinationUrl}]");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyPostAlreadyPublishedOnTheAccount".FromResourceDictionary(), destinationDetails.AccountName, destinationDetails.DestinationType, destinationDetails.DestinationUrl));
                         return;
                     }
 
@@ -1346,8 +1332,8 @@ namespace DominatorHouseCore.Process
                     campaignDetails.ForEach(campaign =>
                         {
                             // Validate the start and end time of the campaign
-                            if (!ValidateCampaignsTime(campaign))
-                                return;
+                            //if (!ValidateCampaignsTime(campaign))
+                            //    return;
 
                             // Is Rotate day has been selected
                             if (campaign.IsRotateDayChecked)
@@ -1384,7 +1370,7 @@ namespace DominatorHouseCore.Process
             var specificCampaign = campaignDetails.FirstOrDefault(x => x.CampaignId == campaignId);
 
             // Validate the start and end time of the campaign
-            if (specificCampaign != null && ValidateCampaignsTime(specificCampaign))
+            if (specificCampaign != null/* && ValidateCampaignsTime(specificCampaign)*/)
             {
                 if (specificCampaign.IsRotateDayChecked)
                     // Call to start publishing
@@ -1451,7 +1437,7 @@ namespace DominatorHouseCore.Process
                          var startTime = DateTime.Today.Add(new TimeSpan(runningTime.Hours, runningTime.Minutes, runningTime.Seconds));
 
                          // If start time is greater than current time
-                         if (startTime > DateTime.Now)
+                         // if (startTime > DateTime.Now) // Commented for Fixing bug EW-I563
                          {
                              // Generate job name
                              var addJobName = $"{campaign.CampaignId}-{ConstantVariable.GetDateTime()}";
@@ -1459,11 +1445,35 @@ namespace DominatorHouseCore.Process
                              // Add into scheduled lsit
                              PublisherScheduledList.Add(addJobName);
 
+                             if (startTime < DateTime.Now)
+                                 startTime = startTime.AddDays(1);
+
                              // Add job manager
                              JobManager.AddJob(() =>
                                   {
-                                      // Call the start publishing
-                                      StartPublishingPosts(campaign);
+                                      var scheduleTime = startTime;
+                                      if (ValidateCampaignsTime(campaign))
+                                      {
+                                          if (!(startTime > DateTime.Now.AddMinutes(1)))
+                                          { // Call the start publishing
+                                              StartPublishingPosts(campaign);
+                                              return;
+                                          }
+                                          scheduleTime = DateTime.Now.AddSeconds((startTime - DateTime.Now).TotalSeconds);
+                                      }
+                                      else
+                                      {
+                                          if ((campaign.EndDate != null && campaign.EndDate < DateTime.Now) || campaign.StartDate ==null)
+                                              return;
+                                          scheduleTime = DateTime.Now.AddSeconds(((campaign.StartDate??DateTime.Now) - DateTime.Now).TotalSeconds);
+                                      }
+
+                                      JobManager.AddJob(() =>
+                                      {
+                                              // Call the start publishing
+                                              SchedulePublisher(campaign);
+                                      }, x => x.WithName(addJobName).ToRunOnceAt(scheduleTime));
+
                                   }, s => s.WithName(addJobName).ToRunOnceAt(startTime));
 
                              // Get the advanced settings details of an campaigns

@@ -21,6 +21,12 @@ namespace DominatorHouseCore.Models.Config
             set { SetProperty(ref _password, value); }
         }
 
-
+        private string _token;
+        [ProtoMember(3)]
+        public string Token
+        {
+            get { return _token; }
+            set { SetProperty(ref _token, value); }
+        }
     }
 }

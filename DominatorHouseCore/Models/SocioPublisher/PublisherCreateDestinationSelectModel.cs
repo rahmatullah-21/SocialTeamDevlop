@@ -72,7 +72,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public bool IsPagesOrBoardsAvailable { get; set; }
 
 
-        private string _groupSelectorText = "NA";
+        private string _groupSelectorText = "LangKeyNA".FromResourceDictionary();
         [ProtoMember(7)]
         public string GroupSelectorText
         {
@@ -90,7 +90,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private string _pagesOrBoardsSelectorText = "NA";
+        private string _pagesOrBoardsSelectorText = "LangKeyNA".FromResourceDictionary();
         [ProtoMember(8)]
         public string PagesOrBoardsSelectorText
         {
@@ -271,14 +271,14 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         public void UpdateGroupText() =>
-            GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "NA";
+            GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "LangKeyNA".FromResourceDictionary();
 
         public void UpdatePagesOrBoardsText() =>
-            PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "NA";
+            PagesOrBoardsSelectorText = IsPagesOrBoardsAvailable ? SelectedPagesOrBoards + "/" + TotalPagesOrBoards : "LangKeyNA".FromResourceDictionary();
 
 
         public void UpdateFriendsText() =>
-            PagesOrBoardsSelectorText = IsFriendsAvailable ? SelectedFriends + "/" + TotalFriends : "NA";
+            PagesOrBoardsSelectorText = IsFriendsAvailable ? SelectedFriends + "/" + TotalFriends : "LangKeyNA".FromResourceDictionary();
 
 
 
@@ -286,7 +286,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public bool IsFriendsAvailable { get; set; }
 
 
-        private string _friendsSelectorText = "NA";
+        private string _friendsSelectorText = "LangKeyNA".FromResourceDictionary();
         [ProtoMember(17)]
         public string FriendsSelectorText
         {

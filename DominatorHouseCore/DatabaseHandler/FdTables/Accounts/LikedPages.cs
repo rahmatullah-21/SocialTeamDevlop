@@ -17,7 +17,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 2)]
-        [Unique]
+        //[Unique]
         public string PageId { get; set; }
 
 
@@ -50,7 +50,7 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         /// 
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 7)]
-        [Unique]
+        //[Unique]
         public string CoverPicUrl { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 8)]

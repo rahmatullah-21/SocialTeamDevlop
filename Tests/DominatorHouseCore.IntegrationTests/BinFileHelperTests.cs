@@ -13,8 +13,7 @@ namespace DominatorHouseCore.IntegrationTests
     public class BinFileHelperTests : IntegrationTests<IBinFileHelper>
     {
         private ILockFileConfigProvider _lockFileConfigProvider;
-
-
+        
         protected override void OverrideDependencies(IUnityContainer container)
         {
             _lockFileConfigProvider = Substitute.For<ILockFileConfigProvider>();

@@ -96,7 +96,8 @@ namespace DominatorHouseCore.Utility
                 Title = title,
                 BorderThickness = new Thickness(0),
                 GlowBrush = Brushes.Black,
-                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon()))
+                Icon = new BitmapImage(new Uri(ConstantVariable.GetSocinatorIcon())),
+                Margin = new Thickness(10)
             };
 
             try

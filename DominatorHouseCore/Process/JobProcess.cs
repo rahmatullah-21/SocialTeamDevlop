@@ -53,6 +53,7 @@ namespace DominatorHouseCore.Process
         private readonly IQueryScraperFactory _queryScraperFactory;
         private readonly IHttpHelper _httpHelper;
         private readonly IDominatorScheduler _dominatorScheduler;
+        protected readonly ISoftwareSettingsFileManager _softwareSettingsFileManager;
         public CampaignDetails CampaignDetails { get; }
 
 
@@ -72,6 +73,7 @@ namespace DominatorHouseCore.Process
             _runningJobsHolder = ServiceLocator.Current.GetInstance<IRunningJobsHolder>();
             _jobCountersManager = ServiceLocator.Current.GetInstance<IJobCountersManager>();
             _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+            _softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             TemplateId = processScopeModel.TemplateId;
             ActivityType = processScopeModel.ActivityType;
             SocialNetworks = processScopeModel.Network;
@@ -294,26 +296,34 @@ namespace DominatorHouseCore.Process
                       // Login and run scraper/poster from derived concrete classes
                       if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                       {
-                          if (Login())
+                          try
                           {
-                              OnLoggedIn();
-                              RunScrapper();
+                              if (Login())
+                              {
+                                  OnLoggedIn();
+                                  RunScrapper();
+                              }
+                              else
+                              {
+                                  JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                                  GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, String.Format("LangKeyDidNotGetProccessedDueToFailedLogin".FromResourceDictionary(), DominatorAccountModel.AccountBaseModel.Status));
+                                  StopIfAccountLoginFail();
+                              }
                           }
-                          else
+                          catch (OperationCanceledException)
                           {
-                              JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                              GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, $"did not get processed as account failed to login [{DominatorAccountModel.AccountBaseModel.Status}]");
-                              // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
-                              StopIfAccountLoginFail();
+                              throw new OperationCanceledException();
                           }
-
+                          finally
+                          {
+                              CloseAutomationBrowser();
+                          }
                       }
                       else
                       {
                           JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                           GlobusLogHelper.log.Info(Log.CustomMessage, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, "Account was not logged in successfully last time, Please check Accoount Status first to get your activities processed");
                           StopIfAccountLoginFail();
-                          // _dominatorScheduler.ScheduleNextActivity(DominatorAccountModel, ActivityType);
                       }
 
 
@@ -378,7 +388,7 @@ namespace DominatorHouseCore.Process
             {
                 if (string.IsNullOrEmpty(CampaignId) && string.IsNullOrEmpty(TemplateId))
                 {
-                    GlobusLogHelper.log.Info($"Campign Id not set for {ActivityType} - {TemplateId}");
+                    GlobusLogHelper.log.Info(String.Format("LangKeyCampaignIdNotSetFor".FromResourceDictionary(), ActivityType, TemplateId));
                     return false;
                 }
 
@@ -392,10 +402,12 @@ namespace DominatorHouseCore.Process
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
-                    logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+                    if (!DominatorAccountModel.IsRunProcessThroughBrowser)
+                        logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+                    else
+                        logInProcess.LoginWithBrowserMethod(DominatorAccountModel);
 
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
                 }
 
                 if (DominatorAccountModel.IsUserLoggedIn)
@@ -421,7 +433,7 @@ namespace DominatorHouseCore.Process
             }
         }
 
-        #endregion      // task routines: start, stop, iscancelled
+        #endregion   
 
 
         #region Delay methods
@@ -438,8 +450,7 @@ namespace DominatorHouseCore.Process
 
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
             GlobusLogHelper.log.Info(Log.DelayBetweenActivity, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType, seconds);
-
-            Thread.Sleep(seconds * 1000);
+            Task.Delay(seconds * 1000, JobCancellationTokenSource.Token).Wait();
             JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
         }
@@ -464,6 +475,10 @@ namespace DominatorHouseCore.Process
         protected void IncrementCounters()
         {
             _jobCountersManager.InitOrIncrement(Id);
+        }
+        protected virtual bool CloseAutomationBrowser()
+        {
+            return true;
         }
     }
 }

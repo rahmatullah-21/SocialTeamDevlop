@@ -29,6 +29,8 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
             // act
             foreach (var socialNetwork in allEnumValues)
             {
+                if (socialNetwork.ToString() == SocialNetworks.Gplus.ToString())
+                    continue;
                 var val = _sut.Convert(socialNetwork, typeof(SocialNetworks), new object(),
                     CultureInfo.CurrentUICulture);
             }

@@ -58,6 +58,12 @@ namespace DominatorUIUtility.ViewModel
                 _activityTitle = Regex.Replace(Title.ToString(), "(\\B[A-Z])", " $1");
                 return _activityTitle;
             }
+            set
+            {
+                if (_activityTitle == value)
+                    return;
+                SetProperty(ref _activityTitle, value);
+            }
 
         }
 

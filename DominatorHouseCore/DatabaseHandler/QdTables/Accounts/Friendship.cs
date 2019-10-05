@@ -73,7 +73,7 @@ namespace DominatorHouseCore.DatabaseHandler.QdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        [Unique]
+        //[Unique]
         public string Username
         { get; set; }
 

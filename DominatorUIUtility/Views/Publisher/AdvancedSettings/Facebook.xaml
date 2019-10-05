@@ -47,6 +47,7 @@
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsRemoveLinkPreview}"/>
                 <CheckBox Content="{DynamicResource LangKeySkipImageUploadForPostsWithLinksInside}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsSkipImageUpload}"/>
+                <CheckBox Name="CheckBoxPostasPartStory" Margin="5" IsChecked="{Binding FacebookModel.IsPostAsStoryPost}" Content="{DynamicResource LangKeyPostAsPartOfYourStoryInsteadOfOnWall}" />
                 <CheckBox Content="{DynamicResource LangKeyEnableAutomaticHashtags}"
                           VerticalAlignment="Center" Margin="5" IsChecked="{Binding FacebookModel.IsEnableAutomaticHashTags}"/>
                 <StackPanel Visibility="{Binding FacebookModel.IsEnableAutomaticHashTags,Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -252,6 +253,7 @@
                     <CheckBox Content="{DynamicResource LangKeySellPostsLocation}" VerticalAlignment="Center" Margin="5"/>
                     <TextBox Width="200" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyLosAngelesCalifornia}"/>
                 </StackPanel>-->
+                
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource LangKeyPublishOnBetween}" VerticalAlignment="Center" Margin="5"/>
                     <controls:NumericUpDown Minimum="0" VerticalAlignment="Center" 

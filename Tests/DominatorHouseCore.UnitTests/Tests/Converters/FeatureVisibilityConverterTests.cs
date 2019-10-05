@@ -44,11 +44,12 @@ namespace DominatorHouseCore.UnitTests.Tests.Converters
             result.Should().Be(Visibility.Collapsed);
         }
         [TestMethod]
-        [ExpectedException(typeof(InvalidCastException))]
         public void should_return_Collapsed_if_input_is_not_integer_nor_any_network()
         {
             value = "abc";
             var result = _sut.Convert(value, value.GetType(), null, CultureInfo.CurrentUICulture);
+
+            result.Should().Be(Visibility.Collapsed);
         }
     }
 }

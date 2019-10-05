@@ -57,5 +57,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
         /// </summary>
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 9)]
         public DateTime InteractionDatetime { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
+        public string Status { get; set; }
     }
 }

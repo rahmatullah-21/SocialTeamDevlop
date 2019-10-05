@@ -120,7 +120,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 if (_lockWithThreadLimit?.CurrentCount == 0 && !islogged)
                 {
                     islogged = true;
-                    GlobusLogHelper.log.Info($"Thread limit count {maxThreadCount} reached and pending account will starts once the running account's process stopped.");
+                    GlobusLogHelper.log.Info($"{"LangKeyThreadLimitReachedTo".FromResourceDictionary()} {maxThreadCount} {"LangKeyPendingStartsWhenRunnningStops".FromResourceDictionary()}");
                 }
                 _lockWithThreadLimit?.Wait();
             }
@@ -279,8 +279,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                             ?.Status;
                         if (campaignStatus == "Paused" && moduleConfiguration.IsEnabled)
                         {
-                            Dialog.ShowDialog("Error",
-                                "This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                            Dialog.ShowDialog("LangKeyError".FromResourceDictionary(),
+                                "LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
                             return false;
                         }
                     }
@@ -409,8 +409,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             {
                 ChangeAccountsRunningStatus(false, dominatorAccount.AccountId, activityType);
                 GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork,
-                    dominatorAccount.UserName,
-                    $"Error:- {activityType} activity is not configured properly for this account. Please make sure you have added enough queries and updated time when activity has to be performed and clicked on save button.");
+                    dominatorAccount.UserName, String.Format("LangKeyErrorActivityIsntConfiguredProperlyForAccount".FromResourceDictionary(), activityType));
             }
             catch (Exception ex)
             {

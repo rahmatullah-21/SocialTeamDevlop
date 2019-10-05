@@ -131,5 +131,55 @@ namespace DominatorHouseCore.Utility
             return text;
 
         }
+
+        /// <summary>
+        /// Get inner text from single node by atteribute
+        /// </summary>
+        /// <param name="pageSource"></param>
+        /// <param name="tagName"></param>
+        /// <param name="attributeName"></param>
+        /// <param name="attributeValue"></param>
+        /// <returns></returns>
+        public static string GetInnerTextFromSingleNode(string pageSource, string tagName, string attributeName, string attributeValue)
+        {
+            var text = string.Empty;
+            try
+            {
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(pageSource);
+                text = htmlDoc.DocumentNode.SelectSingleNode($"//{tagName}[@{attributeName}='{attributeValue}']").InnerText;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return text;
+        }
+
+
+        /// <summary>
+        /// Get inner text from single node by atteribute and index
+        /// </summary>
+        /// <param name="pageSource"></param>
+        /// <param name="tagName"></param>
+        /// <param name="attributeName"></param>
+        /// <param name="attributeValue"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static string GetInnerTextWithNodeIndex(string pageSource, string tagName, string attributeName, string attributeValue, int index)
+        {
+            var text = string.Empty;
+            try
+            {
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(pageSource);
+                text = htmlDoc.DocumentNode.SelectNodes($"//{tagName}[@{attributeName}='{attributeValue}']")[index].InnerText;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return text;
+        }
     }
 }

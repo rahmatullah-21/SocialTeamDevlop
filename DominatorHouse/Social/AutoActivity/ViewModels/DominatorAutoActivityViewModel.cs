@@ -134,7 +134,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             var campaignStatus = campaignFileManager.FirstOrDefault(x => x.TemplateId == currentAccountActivity?.TemplateId)?.Status;
             if (campaignStatus == "Paused" && currentDataContext.Status)
             {
-                Dialog.ShowDialog("Error", "This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.");
+                Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeyErrorCampaignConfigurationIsPaused".FromResourceDictionary());
                 currentDataContext.Status = false;
                 return;
             }
@@ -147,7 +147,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
             {
                 try
                 {
-                    Dialog.ShowDialog("Error", $"Please configure your {currentDataContext.Title} settings, before starting the activity. Make sure you have added enough queries and have clicked on SAVE button");
+                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), String.Format("LangKeyConfigureYourSettings".FromResourceDictionary(), currentDataContext.Title));
                     currentDataContext.Status = false;
                 }
                 catch (Exception ex)
@@ -214,6 +214,11 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                             {
                                 try
                                 {
+                                    var titleData = x.GetDescriptionAttr().Split(',');
+
+                                    var activityTitle = titleData.LastOrDefault().Contains("LangKey") ?
+                                           titleData.LastOrDefault().FromResourceDictionary() : x.ToString();
+                                    
                                     // get the activity details                    
                                     var activityData =
                                         jobActivityConfigurationManager[account.AccountId, x];
@@ -226,6 +231,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                             {
                                                 Status = activityData.IsEnabled,
                                                 Title = x,
+                                                ActivityTitle = activityTitle,
                                                 AccountId = account.AccountId
                                             });
                                     }
@@ -237,6 +243,7 @@ namespace DominatorHouse.Social.AutoActivity.ViewModels
                                             {
                                                 Status = false,
                                                 Title = x,
+                                                ActivityTitle = activityTitle,
                                                 AccountId = account.AccountId
                                             });
                                     }

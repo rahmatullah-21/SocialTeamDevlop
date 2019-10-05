@@ -76,5 +76,11 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         public string MyChannelPageId { get; set; }
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public int ViewingCountPerAccount { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
+        public string InteractedChannelUsername { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
+        public string CommenterChannelId { get; set; }
     }
 }

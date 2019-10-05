@@ -35,9 +35,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.Extensions;
 using DominatorUIUtility.Views;
-using EmbeddedBrowser;
 using BindableBase = Prism.Mvvm.BindableBase;
+using DominatorUIUtility.ViewModel.Startup;
+using MahApps.Metro.Controls;
+using Unity;
+using System.Windows.Controls.Primitives;
 
 namespace DominatorUIUtility.ViewModel
 {
@@ -54,6 +58,8 @@ namespace DominatorUIUtility.ViewModel
         private readonly IAccountsFileManager _accountsFileManager;
         private readonly IDataBaseHandler _dataBaseHandler;
         private readonly IProxyFileManager _proxyFileManager;
+
+        private bool _IsProgressActive = false;
         public IAccountCollectionViewModel LstDominatorAccountModel { get; }
 
         public ObservableCollection<ContentSelectGroup> Groups { get; }
@@ -62,6 +68,52 @@ namespace DominatorUIUtility.ViewModel
         private ImmutableQueue<Action> _pendingActions = ImmutableQueue<Action>.Empty;
 
         private bool _allAccountsQueued;
+
+        public bool IsProgressActive
+        {
+            get
+            {
+                return _IsProgressActive;
+            }
+            set
+            {
+                if (_IsProgressActive == value)
+                    return;
+                SetProperty(ref _IsProgressActive, value);
+            }
+        }
+
+        private double _height;
+
+        public double Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                if (_height == value)
+                    return;
+                SetProperty(ref _height, value);
+            }
+        }
+
+        private MenuHandlerModel _menuHandlerModel;
+
+        public MenuHandlerModel MenuHandlerModel
+        {
+            get
+            {
+                return _menuHandlerModel;
+            }
+            set
+            {
+                if (_menuHandlerModel == value)
+                    return;
+                SetProperty(ref _menuHandlerModel, value);
+            }
+        }
 
         private readonly object _syncLoadAccounts = new object();
 
@@ -80,7 +132,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _knowledgeBaseLink; }
             set { SetProperty(ref _knowledgeBaseLink, value); }
         }
-       
+
 
 
         private bool _isOpenHelpControl;
@@ -98,7 +150,6 @@ namespace DominatorUIUtility.ViewModel
 
         #endregion
 
-
         private ObservableCollection<GridViewColumn> _visibleColumns;
 
         public ObservableCollection<GridViewColumn> VisibleColumns
@@ -106,6 +157,7 @@ namespace DominatorUIUtility.ViewModel
             get { return _visibleColumns; }
             set { SetProperty(ref _visibleColumns, value); }
         }
+        IMainViewModel _mainViewModel;
 
         #region Command 
 
@@ -129,13 +181,23 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateFriendshipCommand { get; }
         public ICommand EditNetworkProfileCommand { get; }
         public ICommand CopyAccountIdCommand { get; }
-
+        public ICommand SettingWizardCommand { get; }
+        public ICommand ActivateBrowserAutomationCommand { get; }
+        public ICommand DeActivateBrowserAutomationCommand { get; }
+        public ICommand ImportButtonSizeChangedCommand { get; }
+        public ICommand SelectButtonSizeChangedCommand { get; }
+        public ICommand UpdateButtonSizeChangedCommand { get; }
+        public ICommand ExportButtonSizeChangedCommand { get; }
+        public ICommand DeleteButtonSizeChangedCommand { get; }
+        public ICommand BrowserButtonSizeChangedCommand { get; }
+        public ICommand InfoButtonSizeChnagedCommand { get; }
 
         #endregion
 
 
         public DominatorAccountViewModel(IMainViewModel mainViewModel, ISelectedNetworkViewModel selectedNetworkViewModel, IProxyManagerViewModel proxyManagerViewModel, ISoftwareSettings softwareSettings, IAccountsFileManager accountsFileManager, IAccountCollectionViewModel accountCollectionViewModel, IDataBaseHandler dataBaseHandler, IProxyFileManager proxyFileManager)
         {
+            _mainViewModel = mainViewModel;
             SelectedNetworkViewModel = selectedNetworkViewModel;
             _proxyManagerViewModel = proxyManagerViewModel;
             _softwareSettings = softwareSettings;
@@ -146,6 +208,7 @@ namespace DominatorUIUtility.ViewModel
             LstDominatorAccountModel = accountCollectionViewModel;
             _dataBaseHandler = dataBaseHandler;
             _proxyFileManager = proxyFileManager;
+            MenuHandlerModel = new MenuHandlerModel();
 
             BindingOperations.EnableCollectionSynchronization(LstDominatorAccountModel, AccountCollectionViewModel.SyncObject);
 
@@ -186,6 +249,25 @@ namespace DominatorUIUtility.ViewModel
 
             UpdateUserCradCommand = new BaseCommand<object>((sender) => true, UpdateUserCradExecute);
 
+            ActivateBrowserAutomationCommand = new BaseCommand<object>(ActivateBrowserAutomationCanExecute, ActivateBrowserAutomationExecute);
+
+            DeActivateBrowserAutomationCommand = new BaseCommand<object>(DeActivateBrowserAutomationCommandCanExecute, DeActivateBrowserAutomationCommandExecute);
+
+            ImportButtonSizeChangedCommand = new BaseCommand<object>(ImportButtonSizeChangedCommandCanExecute, ImportButtonSizeChangedCommandExecute);
+
+            SelectButtonSizeChangedCommand = new BaseCommand<object>(SelectButtonSizeChangedCommandCanExecute, SelectButtonSizeChangedCommandExecute);
+
+            UpdateButtonSizeChangedCommand = new BaseCommand<object>(UpdateButtonSizeChangedCommandCanExecute, UpdateButtonSizeChangedCommandExecute);
+
+            ExportButtonSizeChangedCommand = new BaseCommand<object>(ExportButtonSizeChangedCommandCanExecute, ExportButtonSizeChangedCommandExecute);
+
+            DeleteButtonSizeChangedCommand = new BaseCommand<object>(DeleteButtonSizeChangedCommandCanExecute, DeleteButtonSizeChangedCommandExecute);
+
+            BrowserButtonSizeChangedCommand = new BaseCommand<object>(BrowserButtonSizeChangedCommandCanExecute, BrowserButtonSizeChangedCommandExecute);
+
+            InfoButtonSizeChnagedCommand = new BaseCommand<object>(InfoButtonSizeChnagedCommandCanExecute, InfoButtonSizeChnagedCommandExecute);
+
+           
             #region Context Menu Command
 
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
@@ -201,7 +283,154 @@ namespace DominatorUIUtility.ViewModel
 
             #endregion
 
+            #region Custom Setting Command
+
+            SettingWizardCommand = new DelegateCommand<DominatorAccountModel>(CustomSetting);
+
+            #endregion
+
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+        }
+
+       
+
+        private void InfoButtonSizeChnagedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsInfoVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsInfoVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool InfoButtonSizeChnagedCommandCanExecute(object arg)
+        => true;
+
+        private void BrowserButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((DropDownButton)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsBrowserAutomationVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsBrowserAutomationVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private void ChangeMenuHandlerStatus()
+        {
+            if (MenuHandlerModel.IsBrowserAutomationVisible || MenuHandlerModel.IsDeleteAccountVisible
+                 || MenuHandlerModel.IsExportAccountVisible || MenuHandlerModel.IsImportMultipleAccountsVisible
+                 || MenuHandlerModel.IsInfoVisible || MenuHandlerModel.IsSelectAccountsVisible || MenuHandlerModel.IsUpdateAccountVisible)
+            {
+                MenuHandlerModel.IsMenuHandlerVisible = true;
+            }
+            else
+                MenuHandlerModel.IsMenuHandlerVisible = false;
+        }
+
+        private bool BrowserButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private bool DeleteButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void DeleteButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsDeleteAccountVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsDeleteAccountVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool ExportButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void ExportButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsExportAccountVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsExportAccountVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool UpdateButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void UpdateButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((DropDownButton)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsUpdateAccountVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsUpdateAccountVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool SelectButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void SelectButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((DropDownButton)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsSelectAccountsVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsSelectAccountsVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private bool ImportButtonSizeChangedCommandCanExecute(object arg)
+        => true;
+
+        private void ImportButtonSizeChangedCommandExecute(object Sender)
+        {
+            if (((Button)Sender).ActualHeight == 40)
+            {
+                MenuHandlerModel.IsImportMultipleAccountsVisible = false;
+            }
+            else
+            {
+                MenuHandlerModel.IsImportMultipleAccountsVisible = true;
+            }
+
+            ChangeMenuHandlerStatus();
+        }
+
+        private void CustomSetting(DominatorAccountModel account)
+        {
+            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
+            viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
+            viewModel.SelectAccount = account;
+            ModuleSetting.Instance.Show();
         }
 
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)
@@ -271,7 +500,7 @@ namespace DominatorUIUtility.ViewModel
                     if (LstDominatorAccountModel.Count + 1 >=
                         SocinatorInitialize.MaximumAccountCount)
                     {
-                        GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                        GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                     }
 
                     ThreadFactory.Instance.Start(() =>
@@ -325,7 +554,7 @@ namespace DominatorUIUtility.ViewModel
                 if (loadedAccountlist.Count + LstDominatorAccountModel.Count >
                     SocinatorInitialize.MaximumAccountCount)
                 {
-                    GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                    GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                 }
 
                 try
@@ -463,7 +692,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             AccountGroup =
                         {
-                            Content = groupname ?? ConstantVariable.UnGrouped
+                            Content = groupname ?? ConstantVariable.UnGrouped()
                         },
                             UserName = username,
                             Password = password,
@@ -504,10 +733,10 @@ namespace DominatorUIUtility.ViewModel
                         }
                         else
                         {
-                            warn(string.Format("The account {0} cannot be imported because {1} is not available.",
+                            warn(string.Format("LangKeyTheAccountCantBeImportedNetworkNotAvailable".FromResourceDictionary(),
                                 objDominatorAccountBaseModel,
                                 objDominatorAccountBaseModel.AccountNetwork));
-                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork + "\tThe account {0} cannot be imported because {1} is not available.",
+                            GlobusLogHelper.log.Info(SocinatorInitialize.ActiveSocialNetwork + "\t" + "LangKeyTheAccountCantBeImportedNetworkNotAvailable".FromResourceDictionary(),
                                 objDominatorAccountBaseModel.UserName,
                                 objDominatorAccountBaseModel.AccountNetwork);
                         }
@@ -559,7 +788,7 @@ namespace DominatorUIUtility.ViewModel
 
             objDominatorAccountBaseModel.AccountGroup.Content =
                 string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content)
-                    ? ConstantVariable.UnGrouped
+                    ? ConstantVariable.UnGrouped()
                     : objDominatorAccountBaseModel.AccountGroup.Content;
 
             //Initialize the given account to account model
@@ -568,7 +797,7 @@ namespace DominatorUIUtility.ViewModel
                 AccountGroup =
                 {
                     Content = string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountGroup.Content)
-                        ? ConstantVariable.UnGrouped
+                        ? ConstantVariable.UnGrouped()
                         : objDominatorAccountBaseModel.AccountGroup.Content
                 },
                 UserName = objDominatorAccountBaseModel.UserName,
@@ -708,23 +937,17 @@ namespace DominatorUIUtility.ViewModel
                                     }
                                     catch (OperationCanceledException)
                                     {
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                     catch (AggregateException ae)
                                     {
-                                        foreach (var e in ae.InnerExceptions)
-                                        {
-                                            if (e is TaskCanceledException || e is OperationCanceledException)
-                                                e.DebugLog("Cancellation requested before task completion!");
-                                            else
-                                                e.DebugLog(e.StackTrace + e.Message);
-                                        }
+                                        ae.HandleOperationCancellation();
 
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                     catch (Exception)
                                     {
-                                        return new Task(() => { });
+                                        return Task.CompletedTask;
                                     }
                                 })
                                 .Start();
@@ -735,13 +958,7 @@ namespace DominatorUIUtility.ViewModel
                         }
                         catch (AggregateException ae)
                         {
-                            foreach (var e in ae.InnerExceptions)
-                            {
-                                if (e is TaskCanceledException || e is OperationCanceledException)
-                                    e.DebugLog("Cancellation requested before task completion!");
-                                else
-                                    e.DebugLog(e.StackTrace + e.Message);
-                            }
+                            ae.HandleOperationCancellation();
                         }
                         catch (Exception ex)
                         {
@@ -1125,10 +1342,10 @@ namespace DominatorUIUtility.ViewModel
 
                 if (selectAccounts.Count == 0)
                 {
-                    Dialog.ShowDialog("Alert", "Please select atleast one account !!");
+                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
                     return;
                 }
-                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", "Delete Anyways", "Don't delete");
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeleteSelectedAccounts".FromResourceDictionary(), "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
 
@@ -1244,7 +1461,7 @@ namespace DominatorUIUtility.ViewModel
 
             if (selectedAccount == null)
                 return;
-            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Confirmation", "If you delete it will delete all selected account permanently \nAre you sure ?", MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("Delete Anyways", "Don't delete"));
+            var dialogResult = DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeleteSelectedAccounts".FromResourceDictionary(), MessageDialogStyle.AffirmativeAndNegative, Dialog.SetMetroDialogButton("LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary()));
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
             DeleteAccounts(new[] { selectedAccount });
@@ -1259,7 +1476,7 @@ namespace DominatorUIUtility.ViewModel
             var selectedAccounts = GetSelectedAccount();
             if (selectedAccounts.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select atleast one account !!");
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
                 return;
             }
 
@@ -1307,7 +1524,7 @@ namespace DominatorUIUtility.ViewModel
                     Console.WriteLine(ex.StackTrace);
                 }
             });
-            Dialog.ShowDialog("Export Accounts", $"Accounts Successfully exported to [ {filename} ]");
+            Dialog.ShowDialog("LangKeyExportAccounts".FromResourceDictionary(), String.Format("LangKeyAccountsSuccessfullyExportedTo".FromResourceDictionary(), filename));
         }
 
         #endregion
@@ -1466,7 +1683,7 @@ namespace DominatorUIUtility.ViewModel
                             {
                                 if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
                                 {
-                                    GlobusLogHelper.log.Info("You have already added maximum account as per your plan");
+                                    GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
                                     break;
                                 }
                                 if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
@@ -1585,7 +1802,7 @@ namespace DominatorUIUtility.ViewModel
 
             if (selectedAccount.Count == 0)
             {
-                Dialog.ShowDialog("Alert", "Please select account to update !!");
+                Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeySelectAccountsToUpdate".FromResourceDictionary());
                 return;
             }
             var updateMenuItem = sender as string;
@@ -1723,7 +1940,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts)
+        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts, bool isNeedToSchedule = false)
         {
 
             ThreadFactory.Instance.Start(() =>
@@ -1737,7 +1954,7 @@ namespace DominatorUIUtility.ViewModel
                         if (x.IsEnabled)
                         {
                             x.IsEnabled = false;
-                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, false);
+                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, isNeedToSchedule);
                         }
                     });
 
@@ -1774,6 +1991,112 @@ namespace DominatorUIUtility.ViewModel
         private bool UpdateAccountDetailsCanExecute(object sender) => true;
         #endregion
 
+
+        private bool ActivateBrowserAutomationCanExecute(object sender) => true;
+
+        private void ActivateBrowserAutomationExecute(object sender)
+        {
+            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
+            {
+                var result = Dialog.ShowCustomDialog("LangKeyActivatingBrowserAutomation".FromResourceDictionary(),
+                  "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
+
+                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram))
+                    {
+                        Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
+                        if (accountsToProcess.Count() == 0)
+                            return;
+                    }
+
+                    accountsToProcess.ForEach(x =>
+                    {
+                        x.IsRunProcessThroughBrowser = true;
+                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                       .AddOrUpdateBrowserSettings(true)
+                       .SaveToBinFile();
+                    });
+
+                    StopAllActivity(accountsToProcess.ToList(), true);
+
+                    StopProcess(accountsToProcess.ToList());
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10));
+
+                        IsProgressActive = true;
+
+                        Thread.Sleep(TimeSpan.FromSeconds(10));
+
+                        accountsToProcess.ForEach(x =>
+                        {
+                            x.CancellationSource = new CancellationTokenSource();
+                        });
+
+                        IsProgressActive = false;
+                    });
+                }
+            }
+            else
+            {
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+            }
+        }
+
+        private bool DeActivateBrowserAutomationCommandCanExecute(object sender) => true;
+
+        private void DeActivateBrowserAutomationCommandExecute(object sender)
+        {
+            if (LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected).ToList().Count > 0)
+            {
+                var result = Dialog.ShowCustomDialog("LangKeyDeactivatingBrowserAutomation".FromResourceDictionary(),
+                      "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
+                    if (accountsToProcess.Count() == 0)
+                        return;
+                    accountsToProcess.ForEach(x =>
+                    {
+                        x.IsRunProcessThroughBrowser = false;
+                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
+                           .AddOrUpdateBrowserSettings(false)
+                           .SaveToBinFile();
+                    });
+
+                    StopAllActivity(accountsToProcess.ToList(), true);
+
+                    StopProcess(accountsToProcess.ToList());
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10));
+
+                        IsProgressActive = true;
+
+                        Thread.Sleep(10000);
+
+                        accountsToProcess.ForEach(x =>
+                        {
+                            x.CancellationSource = new CancellationTokenSource();
+                        });
+
+                        IsProgressActive = false;
+                    });
+
+                }
+            }
+            else
+            {
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
+            }
+
+
+        }
+
         private void UpdateGroupDetailsExecute()
         {
             lock (_syncLoadAccounts)
@@ -1791,7 +2114,7 @@ namespace DominatorUIUtility.ViewModel
             var lstcred = FileUtilities.FileBrowseAndReader();
             if (lstcred.Count != 0)
             {
-                ToasterNotification.ShowInfomation("Credentials imported successfully.\nStart updating...");
+                ToasterNotification.ShowInfomation("LangKeyCredentialsImportedStartingUpdate".FromResourceDictionary());
                 var isAnyAccountUpdated = false;
                 foreach (var cred in lstcred)
                 {
@@ -1818,20 +2141,25 @@ namespace DominatorUIUtility.ViewModel
                 if (isAnyAccountUpdated)
                 {
                     _accountsFileManager.UpdateAccounts(LstDominatorAccountModel);
-                    ToasterNotification.ShowSuccess("Credentials successfully updated.");
+                    ToasterNotification.ShowSuccess("LangKeyUpdatedCredentials".FromResourceDictionary());
                 }
                 else
-                    ToasterNotification.ShowInfomation("No account found to update credentials or format is wrong.");
+                    ToasterNotification.ShowInfomation("LangKeyNoAccountToUpdatecCredentialsOrFormatWrong".FromResourceDictionary());
             }
         }
 
-        public async void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
+        public void AccountBrowserLogin(DominatorAccountModel dominatorAccountModel)
         {
             try
             {
-                var browserWindow = new BrowserWindow(dominatorAccountModel);
-                await browserWindow.SetCookie();
-                browserWindow.Show();
+                Task.Factory.StartNew(() =>
+                {
+                    var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
+
+                    var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
+
+                    browserManager.BrowserLogin(dominatorAccountModel, LoginType.BrowserLogin);
+                });
             }
             catch (Exception ex)
             {
@@ -1861,7 +2189,7 @@ namespace DominatorUIUtility.ViewModel
                 ex.DebugLog();
             }
         }
-       
+
         public void AccountUpdate(DominatorAccountModel dominatorAccountModel)
         {
             try
@@ -1944,7 +2272,7 @@ namespace DominatorUIUtility.ViewModel
             if (!string.IsNullOrEmpty(account.AccountId))
             {
                 Clipboard.SetText(account.AccountId);
-                ToasterNotification.ShowSuccess("AccountId copied");
+                ToasterNotification.ShowSuccess("LangKeyAccountIdCopied".FromResourceDictionary());
             }
 
         }

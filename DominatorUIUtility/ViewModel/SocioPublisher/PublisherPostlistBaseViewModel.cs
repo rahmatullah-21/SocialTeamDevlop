@@ -26,6 +26,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using DominatorHouseCore.Extensions;
 using PublisherEditPost = DominatorUIUtility.Views.SocioPublisher.CustomControl.PublisherEditPost;
 
 namespace DominatorUIUtility.ViewModel.SocioPublisher
@@ -313,10 +314,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (selectedPublisherPostlist.Count == 0)
                 {
-                    Dialog.ShowDialog("Alert", "There is no post without an image!");
+                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeyThereIsNoPostWithoutAnImage".FromResourceDictionary());
                     return;
                 }
-                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "Are you sure to delete post(s) with no images?", "Delete Anyways", "Don't delete");
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeletePostsWithNoImage".FromResourceDictionary(), "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
 
                 if (dialogResult != MessageDialogResult.Affirmative)
@@ -354,10 +355,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 if (selectedPublisherPostlist.Count == 0)
                 {
-                    Dialog.ShowDialog("Alert", "Please select atleast a post !!");
+                    Dialog.ShowDialog("LangKeyAlert".FromResourceDictionary(), "LangKeyPleaseSelectAtleastAPost".FromResourceDictionary());
                     return;
                 }
-                var dialogResult = Dialog.ShowCustomDialog("Confirmation", "Are you sure to delete all selected posts permanently?", "Delete Anyways", "Don't delete");
+                var dialogResult = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmToDeleteAllSelectedPosts".FromResourceDictionary(), "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
                 if (dialogResult != MessageDialogResult.Affirmative)
                     return;
@@ -391,7 +392,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             var campaign = (PublisherPostlistModel)sender;
 
             var dialogResult = Dialog.ShowCustomDialog(
-                "Confirmation", "If you delete it, cant recover back \nAre you sure ?", "Delete Anyways", "Don't delete");
+                "LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmOnIfDeletedCantRecoverBack".FromResourceDictionary(), "LangKeyDeleteAnyway".FromResourceDictionary(), "LangKeyDontDelete".FromResourceDictionary());
 
             if (dialogResult != MessageDialogResult.Affirmative)
                 return;
@@ -436,14 +437,14 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             if (selectedPost.Count == 0)
             {
-                GlobusLogHelper.log.Info("Please select the post before edit!");
+                GlobusLogHelper.log.Info("LangKeySelectPostBeforeEdit".FromResourceDictionary());
                 return;
             }
 
             var dialog = new Dialog();
             // Pass to UI with selected posts
             var publisherUpdateMultiPost = new PublisherUpdateMultiPost(selectedPost);
-            var window = dialog.GetMetroWindow(publisherUpdateMultiPost, "Edit post");
+            var window = dialog.GetMetroWindow(publisherUpdateMultiPost, "LangKeyEditPost".FromResourceDictionary());
             window.ShowDialog();
         }
 
@@ -462,7 +463,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     var dialog = new Dialog();
                     // Pass the selected posts to edit UI
                     var publisherEditPost = new PublisherEditPost(currentPost, PublisherPostlist);
-                    var window = dialog.GetMetroWindow(publisherEditPost, "Edit Post");
+                    var window = dialog.GetMetroWindow(publisherEditPost, "LangKeyEditPost".FromResourceDictionary());
                     window.ShowDialog();
                 }
                 catch (Exception ex)
@@ -513,7 +514,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             // Call to clear already binding posts
             ClearPostlists();
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             // Assign Cancellation Token
             TokenSource = tokenSource;
 
@@ -546,20 +547,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 Task.Factory.StartNew(() =>
                  {
-                     pendingActions = ImmutableQueue<Action>.Empty;
-                     // Add the posts to queue, so that process will run in different work
-                     foreach (var post in postItems)
+                     try
                      {
-                         TokenSource.Token.ThrowIfCancellationRequested();
-                         AddPostItems(post);
-                         Thread.Sleep(2);
+                         pendingActions = ImmutableQueue<Action>.Empty;
+                         // Add the posts to queue, so that process will run in different work
+                         foreach (var post in postItems)
+                         {
+                             TokenSource.Token.ThrowIfCancellationRequested();
+                             AddPostItems(post);
+                             Thread.Sleep(2);
+                         }
                      }
-
+                     catch (OperationCanceledException ex)
+                     {
+                         IsProgressRingActive = false;
+                     }
                  }, TokenSource.Token);
 
             }
             catch (OperationCanceledException ex)
             {
+                IsProgressRingActive = false;
                 ex.DebugLog("Cancellation Requested!");
             }
             catch (Exception ex)
@@ -602,6 +610,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
+                        TokenSource.Token.ThrowIfCancellationRequested();
+                       
                         // Update post items status
                         postItems.InitializePostData();
 
@@ -628,8 +638,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         if (PublisherPostlist.Count == PostCount)
                             IsProgressRingActive = false;
-                        Thread.Sleep(10);
-                    });
+                       // Thread.Sleep(10);
+                    },System.Windows.Threading.DispatcherPriority.Background, TokenSource.Token);
                 }
                 else
                 {
@@ -644,22 +654,16 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     if (PublisherPostlist.Count == PostCount)
                         IsProgressRingActive = false;
-                    Thread.Sleep(10);
                 }
             }
             catch (OperationCanceledException ex)
             {
+                IsProgressRingActive = false;
                 ex.DebugLog("Cancellation Requested!");
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (Exception ex)
             {
@@ -798,13 +802,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
                 catch (AggregateException ae)
                 {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (e is TaskCanceledException || e is OperationCanceledException)
-                            e.DebugLog("Cancellation requested before task completion!");
-                        else
-                            e.DebugLog(e.StackTrace + e.Message);
-                    }
+                    ae.HandleOperationCancellation();
                 }
                 catch (Exception ex)
                 {
@@ -835,13 +833,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             }
             catch (AggregateException ae)
             {
-                foreach (var e in ae.InnerExceptions)
-                {
-                    if (e is TaskCanceledException || e is OperationCanceledException)
-                        e.DebugLog("Cancellation requested before task completion!");
-                    else
-                        e.DebugLog(e.StackTrace + e.Message);
-                }
+                ae.HandleOperationCancellation();
             }
             catch (Exception ex)
             {

@@ -18,7 +18,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         public void should_return_all_quora_activity()
         {
             var result = EnumUtility.GetEnums("Quora");
-            result.Count.Should().Be(15);
+            result.Count.Should().Be(13);
         }
         [TestMethod]
         public void should_return_empty_if_string_is_not_socialnetwork()
@@ -42,7 +42,7 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         public void should_return_list_of_description_of_given_enum()
         {
             var result = EnumUtility.GetListOfDescription<ActivityType>();
-            result.Should().NotBeEmpty().And.HaveCount(108);
+            result.Should().NotBeEmpty().And.HaveCount(103);
         }
        
     }

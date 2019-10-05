@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Interfaces
 {
@@ -10,5 +11,7 @@ namespace DominatorHouseCore.Interfaces
         void AddInteractedData(SocialNetworks networks, ActivityType activityType, string interactedData);
 
         void RemoveIfExist(SocialNetworks networks, ActivityType activityType, string interactedData);
+
+        List<string> GetInteractedData(SocialNetworks networks, ActivityType activityType);
     }
 }

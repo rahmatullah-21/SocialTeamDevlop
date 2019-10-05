@@ -26,7 +26,7 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        [Unique]
+        //[Unique]
         public string UserId
         { get; set; }
 
