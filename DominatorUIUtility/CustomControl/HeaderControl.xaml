@@ -43,7 +43,7 @@
                 </Button.Content>
             </Button>
 
-            <Button Background="Transparent" Command="{Binding InfoCommand}">
+            <!--<Button Background="Transparent" Command="{Binding InfoCommand}">
                 <Button.Content>
                     <Rectangle Width="25" Height="25" Fill="White" 
                        x:Name="Info" Margin="10,0" ToolTip="{DynamicResource LangKeyInfo}">
@@ -52,7 +52,7 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button.Content>
-            </Button>
+            </Button>-->
 
         </StackPanel>
     </Grid>

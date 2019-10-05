@@ -554,7 +554,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private int _simultaneousAccountUpdate = 5;
+        private int _simultaneousAccountUpdate = 10;
         private bool _isEnableParallelActivitiesChecked;
 
         [ProtoMember(37)]
@@ -619,7 +619,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isStopAutoSynchronizeAccount;
+        private bool _isStopAutoSynchronizeAccount = true;
         [ProtoMember(41)]
         public bool IsStopAutoSynchronizeAccount
         {
@@ -668,7 +668,7 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _isThreadLimitChecked, value); }
         }
 
-        private int _maxThreadCount;
+        private int _maxThreadCount = 25;
         [ProtoMember(46)]
         public int MaxThreadCount
         {
@@ -701,7 +701,7 @@ namespace DominatorHouseCore.Models
             {SetProperty(ref _runQueriesRandomly, value);}
         }
 
-        private bool _stopIfNoMoreData;
+        private bool _stopIfNoMoreData = true;
         [ProtoMember(50)]
         public bool StopIfNoMoreData
         {

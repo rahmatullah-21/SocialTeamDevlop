@@ -10,7 +10,7 @@
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
+        Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} Bot}"
         BorderThickness="1" Icon="SociNator.ico"
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
@@ -34,9 +34,9 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
 
-            <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+            <!--<ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
                       ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
-            <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+            <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>-->
 
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>

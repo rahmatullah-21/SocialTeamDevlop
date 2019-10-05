@@ -86,7 +86,7 @@ namespace DominatorHouseCore.Settings
             {
                 Settings = new SoftwareSettingsModel
                 {
-                    IsEnableAdvancedUserMode = true,
+                    IsEnableAdvancedUserMode = false,
                     IsStopAutoSynchronizeAccount = true
                 };
                 if (!(Settings.RunQueriesRandomly || Settings.RunQueriesBottomToTop || Settings.RunQueriesTopToBottom))

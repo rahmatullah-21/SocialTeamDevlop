@@ -515,7 +515,7 @@
                                         </Rectangle>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
+                                <!--<MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                     <MenuItem.Icon>
                                         <Rectangle Width="13" Height="15" Fill="RoyalBlue">
                                             <Rectangle.OpacityMask>
@@ -523,7 +523,7 @@
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
                                     </MenuItem.Icon>
-                                </MenuItem>
+                                </MenuItem>-->
                             </Controls:DropDownButton.Items>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SizeChanged" >
@@ -573,7 +573,7 @@
                             </i:Interaction.Triggers>
                         </Button>
 
-                        <Controls:DropDownButton Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
+                        <!--<Controls:DropDownButton Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
                             <Controls:DropDownButton.Content>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal">
@@ -614,11 +614,11 @@
                                     <i:InvokeCommandAction Command="{Binding BrowserButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnBrowserAutomation}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </Controls:DropDownButton>
+                        </Controls:DropDownButton>-->
 
 
 
-                        <Button  Background="Transparent" Cursor="Hand"  Margin="10,0,15,0" BorderBrush="Transparent" BorderThickness="0" ToolTip="{DynamicResource LangKeyInfo}"  Name="btnInfo" Command="{Binding InfoCommand}" >
+                        <!--<Button  Background="Transparent" Cursor="Hand"  Margin="10,0,15,0" BorderBrush="Transparent" BorderThickness="0" ToolTip="{DynamicResource LangKeyInfo}"  Name="btnInfo" Command="{Binding InfoCommand}" >
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
@@ -638,7 +638,7 @@
                                     <i:InvokeCommandAction Command="{Binding InfoButtonSizeChnagedCommand}" CommandParameter="{Binding ElementName=btnInfo}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </Button>
+                        </Button>-->
                     </WrapPanel>
                 </Grid>
 
@@ -663,36 +663,36 @@
                             <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{StaticResource DeleteIcon}"/>
-                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}"
+                            <!--<MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}"
                                   CommandParameter="{Binding}"
-                                  Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{StaticResource GoToToolsIcon}"
+                                  Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />-->
+                            <!--<MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{StaticResource GoToToolsIcon}"
                                   CommandParameter="{Binding}"
                                   Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
-                                  Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                  Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>-->
                             <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{StaticResource CheckStatusIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{StaticResource UpdateFriendshipIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
+                            <!--<MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
                                   Icon="{StaticResource InstEditIcon}" 
                                   Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
-                                  CommandParameter="{Binding}" />
-                            <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
+                                  CommandParameter="{Binding}" />-->
+                            <!--<MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
                                   Icon="{StaticResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
-                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
+                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />-->
                             <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{StaticResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}">
+                            <!--<MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}">
                                 <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
-                                <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                --><!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>
-                            <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>-->
-                            </MenuItem>
+                            <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>--><!--
+                            </MenuItem>-->
                         </ContextMenu>
                     </ListView.Resources>
 
@@ -862,7 +862,7 @@
 
                             </GridViewColumn>
 
-                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+                            <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>-->
 
                             <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
                                 <GridViewColumn.CellTemplate>
