@@ -27,7 +27,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1">
             <StackPanel>
                 <TabControl Name="BoardsTab" SelectedIndex="{Binding CurrentBoard.SelectedIndex,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
-                    <TabItem Header="Board Setting" FontWeight="Bold">
+                    <TabItem Header="{DynamicResource LangKeyBoardList}" FontWeight="Bold">
                         <Grid>
 
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">

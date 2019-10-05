@@ -4118,4 +4118,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyPinSetting">Pin Setting</system:String>
     <system:String x:Key="LangKeyAddPinsToList">Add pins To The List</system:String>
     <system:String x:Key="LangKeyPinList">Pin List</system:String>
+    <system:String x:Key="LangKeyPinPoster">Pin Poster</system:String>
+    <system:String x:Key="LangKeyBoardList">Board list</system:String>
 </ResourceDictionary>

@@ -34,6 +34,9 @@ Fixed:-
 		Poster ==> Scraper ==> Tweet scrape ==> Query type ==> Location tweet ==> Fixed issue with Logger showing no more data.
 		Poster ==> Reposter ==> Query type ==> Location tweet ==> Fixed issue with Logger showing no more data.
 
+	Youtube:
+		Login ==> Login issue fixed on phone verfication and on alternate email verification
+
 
 Version[1.0.0.66],[27th September 2019]
 New Features:-
