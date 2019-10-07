@@ -34,6 +34,8 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyActionBlock")]
         ActionBlocked,
         [Description("LangKeyDisableAccount")] DisableAccount,
-        [Description("LangKeyInvalidSecurityCode")] InvalidSecurityCode
+        [Description("LangKeyInvalidSecurityCode")] InvalidSecurityCode,
+        [Description("LangKeyTooManyAttemptWithSameNumber")]
+        TooManyAttemptsWithTheSamePhoneNumber
     }
 }

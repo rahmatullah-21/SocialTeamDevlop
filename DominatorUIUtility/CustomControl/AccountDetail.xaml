@@ -302,6 +302,10 @@
                                         <Setter Property="Content" Value="{DynamicResource LangKeyInvalidSecurityCode}" />
                                         <Setter Property="Foreground" Value="Red" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TooManyAttemptsWithTheSamePhoneNumber}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyTooManyAttemptWithSameNumber}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>

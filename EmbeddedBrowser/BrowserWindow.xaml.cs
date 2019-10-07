@@ -1020,7 +1020,7 @@ namespace EmbeddedBrowser
                         break;
 
                     case ActType.GetLengthByQuery:
-                        return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]').length").Result?.Result?.ToString() ?? "0";
+                        return (await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{attributeType.GetDescriptionAttr()}=\"{attributeValue}\"]').length"))?.Result?.ToString() ?? "0";
 
                     case ActType.GetLengthByCustomQuery:
                         jsResponse = await Browser.EvaluateScriptAsync($"document.getElementsBy{attributeType}('{attributeValue}').{value}.length");
@@ -1068,24 +1068,24 @@ namespace EmbeddedBrowser
             switch (actType)
             {
                 case ActType.GetValue:
-                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
+                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}"))?.Result?.ToString() ?? "";
 
                 case ActType.GetLength:
-                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "0";
+                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length"))?.Result?.ToString() ?? "0";
 
                 case ActType.GetLengthByQuery:
-                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length").Result?.Result?.ToString() ?? "0";
+                    return (await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}').length"))?.Result?.ToString() ?? "0";
 
                 case ActType.GetLengthByCustomQuery:
-                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length").Result?.Result?.ToString() ?? "0";
+                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length"))?.Result?.ToString() ?? "0";
 
                 case ActType.GetAttribute:
-                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')").Result?.Result?.ToString() ?? "";
+                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].getAttribute('{valueType.GetDescriptionAttr()}')"))?.Result?.ToString() ?? "";
 
                 case ActType.ActByQuery:
-                    return Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
+                    return (await Browser.EvaluateScriptAsync($"document.querySelectorAll('[{parentAttributeType.GetDescriptionAttr()}=\"{parentAttributeValue}\"]')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}"))?.Result?.ToString() ?? "";
                 default:
-                    return Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}").Result?.Result?.ToString() ?? "";
+                    return (await Browser.EvaluateScriptAsync($"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]')[{childIndex}].{ valueType.GetDescriptionAttr()}"))?.Result?.ToString() ?? "";
             }
         }
 

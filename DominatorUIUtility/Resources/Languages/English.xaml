@@ -4154,4 +4154,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyMediaUrl">Media Url</system:String>
     <system:String x:Key="LanKeyOtherMediaUrl">Other Media Url</system:String>
     <system:String x:Key="LangKeyNavigationUrl">Navigation Url</system:String>
+    <system:String x:Key="LangKeySwitchKeywordAfter">Switch keyword after</system:String>
+    <system:String x:Key="LangKeyStoryViewer">Story Viewer</system:String>
+    <system:String x:Key="LangKeyTooManyAttemptWithSameNumber">Too many attempts with the same PhoneNumber,Please use another number</system:String>
 </ResourceDictionary>
