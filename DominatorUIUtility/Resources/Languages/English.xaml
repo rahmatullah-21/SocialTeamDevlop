@@ -1675,7 +1675,7 @@
     <system:String x:Key="LangKeyPostAsPartOfYourStoryInsteadOfOnWall">Post As Part Of Your Story Instead Of On Wall</system:String>
     <system:String x:Key="LangKeyPostBetween">Post Between</system:String>
     <system:String x:Key="LangKeyPostCaption">Post Caption</system:String>
-    <system:String x:Key="LangKeyPostCommentors">Post Commentors</system:String>
+    <system:String x:Key="LangKeyPostCommentors">Post Commenters</system:String>
     <system:String x:Key="LangKeyPostConfiguration">Post Configuration</system:String>
     <system:String x:Key="LangKeyPostDescription">Post Description</system:String>
     <system:String x:Key="LangKeyPostFilters">Post Filters</system:String>

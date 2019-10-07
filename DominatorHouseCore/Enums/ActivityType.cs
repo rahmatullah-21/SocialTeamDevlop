@@ -97,10 +97,10 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Gplus,Youtube,Instagram,Tumblr")]
         PostScraper = 30,
 
-        [Description("Facebook,LinkedIn")]
+        [Description("Facebook,LinkedIn,LangKeyGroupJoiner")]
         GroupJoiner = 31,
 
-        [Description("Facebook,LinkedIn")]
+        [Description("Facebook,LinkedIn,LangKeyGroupUnjoiner")]
         GroupUnJoiner = 32,
 
         [Description("Facebook")]
@@ -284,10 +284,10 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn")]
         ExportConnection = 94,
 
-        [Description("Facebook")]
+        [Description("Facebook,LangKeyPostLikers")]
         PostLiker = 95,
 
-        [Description("Facebook")]
+        [Description("Facebook,LangKeyPostComment")]
         PostCommentor = 96,
         [Description("Reddit")]
         RemoveVoteComment = 97,
