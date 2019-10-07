@@ -8,27 +8,27 @@ namespace DominatorHouseCore.Enums.TdQuery
         Keywords = 1,
         [Description("LangKeyHashtags")]
         Hashtags = 2,
-        [Description("LangKeyLocationUsers")]
-        LocationUsers = 3,
-        [Description("LangKeyNearMyLocation")]
-        NearMyLocation = 4,
-        [Description("LangKeyCustomUsersList")]
-        CustomUsersList = 5,
+        //[Description("LangKeyLocationUsers")]
+        //LocationUsers = 3,
+        //[Description("LangKeyNearMyLocation")]
+        //NearMyLocation = 4,
+        //[Description("LangKeyCustomUsersList")]
+        //CustomUsersList = 5,
         [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers = 6,
         [Description("LangKeySomeonesFollowings")]
         SomeonesFollowings = 7,
-        [Description("LangKeyFollowersOfSomeonesFollowings")]
-        FollowersOfFollowings = 8,
-        [Description("LangKeyFollowersOfSomeonesFollowers")]
-        FollowersOfFollowers = 9,
-        [Description("LangKeyUsersWhoLikedTweet")]
-        UsersWhoLikedOnTweet = 10,
-        [Description("LangKeyUsersWhoCommentedOnTweet")]
-        UsersWhoCommentedOnTweet = 11,
-        [Description("LangKeyUsersWhoRetweetedTweet")]
-        UsersWhoRetweetedTweet = 12,
-        [Description("LangKeySocinatorUserScraperCampaign")]
-        UserScraperCampaign = 13,
+        //[Description("LangKeyFollowersOfSomeonesFollowings")]
+        //FollowersOfFollowings = 8,
+        //[Description("LangKeyFollowersOfSomeonesFollowers")]
+        //FollowersOfFollowers = 9,
+        //[Description("LangKeyUsersWhoLikedTweet")]
+        //UsersWhoLikedOnTweet = 10,
+        //[Description("LangKeyUsersWhoCommentedOnTweet")]
+        //UsersWhoCommentedOnTweet = 11,
+        //[Description("LangKeyUsersWhoRetweetedTweet")]
+        //UsersWhoRetweetedTweet = 12,
+        //[Description("LangKeySocinatorUserScraperCampaign")]
+        //UserScraperCampaign = 13,
     }
 }
