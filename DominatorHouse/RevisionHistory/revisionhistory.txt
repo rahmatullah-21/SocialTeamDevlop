@@ -24,6 +24,7 @@ Fixed:-
 		Scraper ==> Fanpage scraper ==> Fixed issue with fanpage like counts showing in report.
 		Grow friend s==> Send Friend Request ==> Fixed issue with send friend requests to group members.
 		Broadcast Message ==> Send greetings to friends ==> tag option not working.
+		fixed Hanging issue on running campaigns using BrowserAutomation
 
 	Linkedin:
 		Grow Connection ==> Connection ==> Fixed issue with showing different search result.
