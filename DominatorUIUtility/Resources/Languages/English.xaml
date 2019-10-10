@@ -3905,7 +3905,7 @@ Are you sure?</system:String>
     <system:String x:Key="LangKeyNotAFriend">{0} Is Not A Friend"</system:String>
     <system:String x:Key="LangKeyAlreadyFriend">{0} Is Already Added To Friend List</system:String>
     <system:String x:Key="LangKeyVerifyingUser">Verifying User {0}</system:String>
-    <system:String x:Key="LagKeyNoMoreLikersForPost">$"No More Likers Available For Post Url {0}"</system:String>
+    <system:String x:Key="LagKeyNoMoreLikersForPost">"No More Likers Available For Post Url {0}"</system:String>
     <system:String x:Key="LangKeyAlreadySentInvitationToNumber">Already Sent Page Invitation To Total {0} users!</system:String>
     <system:String x:Key="LangKeyAlreadySentMessage">Already sent Message To User With Profile Url {0} !</system:String>
     <system:String x:Key="LangKeySearchingFor">Searching for {0} {1}</system:String>
