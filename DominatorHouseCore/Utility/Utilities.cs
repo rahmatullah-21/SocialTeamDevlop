@@ -394,5 +394,30 @@ namespace DominatorHouseCore.Utility
                 x.QueryTypeDisplayName = x.QueryType;
             });
         }
+
+        public static T GetActivityModel<T>(this string activitySettings, dynamic lastModel,bool isNonQuery = false)
+        {
+            dynamic getModel = JsonConvert.DeserializeObject<T>(activitySettings);
+
+            if ("LangKeySocinator".FromResourceDictionary() == "Tunto Socianator")
+            {
+                try
+                {
+                    Utilities.CopyJobConfigWith(getModel.JobConfiguration, lastModel.JobConfiguration);
+
+                    if (!isNonQuery)
+                    {
+                        var listOldQuery = getModel.ListQueryType;
+                        getModel.ListQueryType = lastModel.ListQueryType;
+
+                        Utilities.ModifySavedQueries(getModel.SavedQueries, getModel.ListQueryType, listOldQuery); 
+                    }
+                }
+                catch (Exception ex)
+                { ex.DebugLog(); }
+
+            }
+            return getModel;
+        }
     }
 }
