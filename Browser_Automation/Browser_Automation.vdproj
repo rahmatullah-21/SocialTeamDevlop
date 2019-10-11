@@ -1113,6 +1113,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_627664CDE9A35728A73A856CC2E71142"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_652F0FA7A918D11F561668CF0A74FFF4"
         "OwnerKey" = "8:_B0A65A590B204EA2852F6D327D6687BD"
         "MsmSig" = "8:_UNDEFINED"
@@ -3406,6 +3412,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_627664CDE9A35728A73A856CC2E71142"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B0A65A590B204EA2852F6D327D6687BD"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -5600,6 +5612,37 @@
                     }
                 }
             "SourcePath" = "8:System.Runtime.InteropServices.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_81909391E19642359036E4F65A4611EE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_627664CDE9A35728A73A856CC2E71142"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_627664CDE9A35728A73A856CC2E71142"
+                    {
+                    "Name" = "8:System.Net.Http.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_81909391E19642359036E4F65A4611EE"
@@ -8648,19 +8691,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
-        "ProductCode" = "8:{A94E6621-89EB-4CC8-ACDA-0EF1A1512A63}"
-        "PackageCode" = "8:{4C9FE48F-DA3D-4460-9262-0E9832F5238A}"
+        "ProductCode" = "8:{F7898252-A8FB-4178-9949-F7C689DAF532}"
+        "PackageCode" = "8:{EFEC1DE2-3C84-4016-B532-83410C221C74}"
         "UpgradeCode" = "8:{707A1088-D87F-4B9F-97DE-963ABB8B24CE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.84"
+        "ProductVersion" = "8:1.0.85"
         "Manufacturer" = "8:Socinator"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Browser_Automation_1.0.0.84"
+        "Title" = "8:Browser_Automation_1.0.0.85"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Socinator"
         "Keywords" = "8:"

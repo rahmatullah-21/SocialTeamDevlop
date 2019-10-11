@@ -258,7 +258,7 @@
     <system:String x:Key="LangKeyBroadcastMessages">Broadcast Messages</system:String>
     <system:String x:Key="LangKeyBroadcastMessagesToSingleOrMultipleUsersUsingThisFeature">Broadcast Messages To Single Or Multiple Users Using This Feature.</system:String>
     <system:String x:Key="LangKeyBroadcastMesseges">Broadcast Messeges</system:String>
-    <system:String x:Key="LangKeyBrodcastMessage">Brodcast Message</system:String>
+    <system:String x:Key="LangKeyBrodcastMessage">Broadcast Message</system:String>
     <system:String x:Key="LangKeyBrowseEmbedded">Browse Embedded</system:String>
     <system:String x:Key="LangKeyBrowse">Browse...</system:String>
     <system:String x:Key="LangKeyBump">Bump</system:String>
@@ -4222,4 +4222,36 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyGettingLikedTweet">Getting liked tweet of user {0}</system:String>
     <system:String x:Key="LangKeyFilterByMutualFriendsCount">Filter By Mutual Friends Count</system:String>
     <system:String x:Key="LangKeySelectMutualFriendsCountFilter">Please select Select Mutual Friends Count Filter</system:String>
+
+    <system:String x:Key="LangKeyBoardDetails">Board Details</system:String>
+    <system:String x:Key="LangKeyFollowerDetails">Follower Details</system:String>
+    <system:String x:Key="LangKeyFollowingDetails">Following Details</system:String>
+    <system:String x:Key="LangKeyAutoEmailVerificationStartedMessage">Auto email verification process has been started. Please wait...</system:String>
+    <system:String x:Key="LangKeyFailedToResetMessage">Failed to reset mail with error => {0}</system:String>
+    <system:String x:Key="LangKeyResetPasswordLinkSendingProcessStarted">Reset password link sending process has been started. Please wait...</system:String>
+    <system:String x:Key="LangKeyResetPasswordLinkSentSuccessfulMessage">Reset password link sent successfullSuccessfully Added {0} To private blacklisty</system:String>
+    <system:String x:Key="LangKeyResetPasswordLinkFailed">Reset password link failed with error => {0}</system:String>
+    <system:String x:Key="LangKeyMentionQueryTypeWithCommentMessage">Please mention query type with the comment</system:String>
+    <system:String x:Key="LangKeyStartedAfterSomeAction">Started After {0} Action functionality</system:String>
+    <system:String x:Key="LangKeyDelayBeforeSomeProcessMessage">Delay of {0} seconds for before activity : {1}</system:String>
+    <system:String x:Key="LangKeyFollowedPinOwnerSuccessMessage">Successfully Followed pin owner : {0}</system:String>
+    <system:String x:Key="LangKeyFollowProcess">Follow Process</system:String>
+    <system:String x:Key="LangKeyCommentProcess">Comment Process</system:String>
+    <system:String x:Key="LangKeyLikeCommentProcess">Like Comment Process</system:String>
+    <system:String x:Key="LangKeyStartedSomeActivityPostAfterSomeAction">Started {0} activity as post After {1} Action</system:String>
+    <system:String x:Key="LangKeySuccessfullyCommentedPin">Successfully commented on pin {0}</system:String>
+    <system:String x:Key="LangKeyLikeComment">Like Comment</system:String>
+    <system:String x:Key="LangKeySuccesfullyLikedCommentPin">Successfully Liked comment on pin {0}</system:String>
+    <system:String x:Key="LangKeyFollowMetAutoEnableConfigForUnfollowMessage">Follow activity has met your Auto Enable configuration for unfollow, but you do not have Unfollow configuration saved. Please save the unfollow configuration manually, to restart the Follow/Unfollow activity from this account</system:String>
+    <system:String x:Key="LangKeyStartedAfterFollow">Started After Follow Action</system:String>
+    <system:String x:Key="LangKeySuccessfullyCommentedWithSomeNameAndPin">Successfully commented on {0}'s pin {1}</system:String>
+    <system:String x:Key="LangKeySuccessfullyTriedWithSomeNameAndPin">Successfully tried on {0}'s pin {1}</system:String>
+    <system:String x:Key="LangKeyTryProcess">Try Process</system:String>
+    <system:String x:Key="LangKeyWithBoard">with board => {0}</system:String>
+    <system:String x:Key="LangKeyStartedAfterRepin">Started After Repin Action</system:String>
+    <system:String x:Key="LangKeyUserNotExistMessage">this user doesn't exist please check manually</system:String>
+    <system:String x:Key="LangKeySuccessfullyTriedPin">Successfully tried pin {0}</system:String>
+    <system:String x:Key="LangKeySuccessfullyAddedToSomething">Successfully Added {0} To {1}</system:String>
+
+    <system:String x:Key="LangKeyBlockUnfollow">Unfollow using Block and Unblock way</system:String>
 </ResourceDictionary>
