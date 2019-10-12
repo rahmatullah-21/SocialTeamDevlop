@@ -113,7 +113,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetTemplatesFile() => GetConfigurationDir() + "\\Template.bin";
 
-        public static string UnGrouped() => "Ungrouped".FromResourceDictionary();
+        public static string UnGrouped() => "LangKeyUngrouped".FromResourceDictionary();
 
         public static string DateasFileName { get; set; } = DateTime.Now.ToString("ddMMyyyyHmmss");
 
