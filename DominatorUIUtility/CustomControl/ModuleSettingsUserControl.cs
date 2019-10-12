@@ -1704,6 +1704,8 @@ namespace DominatorUIUtility.CustomControl
                 if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue.Trim()) && _queryControl.QueryCollection.Count == 0)
                     return;
 
+                var enumsList = queryParameterType.GetEnumNames(); // getting current Queries enum names list
+                
                 if (_queryControl.CurrentQuery.QueryValue.Contains(","))
                 {
                     _queryControl.QueryCollection.Clear();
@@ -1745,6 +1747,7 @@ namespace DominatorUIUtility.CustomControl
                             return;
                         }
 
+                        SetQueryTypeEnumName(enumsList, currentQuery);
                         Model.SavedQueries.Add(currentQuery);
                         currentQuery.Index = Model.SavedQueries.IndexOf(currentQuery) + 1;
                     });
@@ -1775,6 +1778,7 @@ namespace DominatorUIUtility.CustomControl
 
                     if (IsQueryExist(currentQuery, Model.SavedQueries)) return;
 
+                    SetQueryTypeEnumName(enumsList, currentQuery);
                     Model.SavedQueries.Add(currentQuery);
                     currentQuery.Index = Model.SavedQueries.IndexOf(currentQuery) + 1;
                     _queryControl.CurrentQuery.QueryValue = string.Empty;
@@ -1788,6 +1792,20 @@ namespace DominatorUIUtility.CustomControl
                 ex.DebugLog();
             }
         }
+
+        void SetQueryTypeEnumName(string[] enumsList, QueryInfo currentQuery)
+        {
+            try
+            {
+                var queryNameIndex = this.Model.ListQueryType.IndexOf(currentQuery.QueryType);
+                currentQuery.QueryTypeEnum = enumsList[queryNameIndex];
+            }
+            catch(Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
         public void CustomFilter()
         {
             try
