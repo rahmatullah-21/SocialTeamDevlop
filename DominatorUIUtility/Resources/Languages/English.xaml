@@ -4220,4 +4220,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyReachedMaximumTweetScrape">Reached maximum Tweet to scrape per user.</system:String>
     <system:String x:Key="LangKeyNoMoreUpdatedTweetsAvailableBefore">No more updated tweets available before  {0} day(s).</system:String>
     <system:String x:Key="LangKeyGettingLikedTweet">Getting liked tweet of user {0}</system:String>
+    <system:String x:Key="LangKeyFilterByMutualFriendsCount">Filter By Mutual Friends Count</system:String>
+    <system:String x:Key="LangKeySelectMutualFriendsCountFilter">Please select Select Mutual Friends Count Filter</system:String>
 </ResourceDictionary>
