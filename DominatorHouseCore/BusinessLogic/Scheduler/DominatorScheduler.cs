@@ -24,7 +24,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         Task RunActivity(DominatorAccountModel account, string templateId, TimingRange currentJobTimeRange,
            string module);
         bool Stop(string accountName, string templateId, bool isStopIfAccountLoginFail = false);
-        void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart);
+        void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart, bool isTimelimitReached = false);
         bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime);
         bool ChangeAccountsRunningStatus(bool isStart, string accountId, ActivityType activityType);
         bool EnableDisableModules(ActivityType stopActivity, ActivityType startActivity, string accountId);
@@ -170,7 +170,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 ex.DebugLog();
             }
         }
-        public void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart)
+        public void StopActivity(DominatorAccountModel account, string module, string templateId, bool needRestart
+           , bool isTimelimitReached = false)
         {
             lock (RunStopActivityLocker)
             {
@@ -183,6 +184,10 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                         _jobActivityConfigurationManager[account.AccountId].FirstOrDefault(x => x.ActivityType.ToString() == module);
                     if (moduleConfiguration != null)
                     {
+                        if (isTimelimitReached)
+                        {
+                            moduleConfiguration.NextRun = DateTimeUtilities.GetNextStartTime(moduleConfiguration);
+                        }
                         moduleConfiguration.IsEnabled = needRestart;
                         _jobActivityConfigurationManager.AddOrUpdate(account.AccountId, moduleConfiguration.ActivityType, moduleConfiguration);
                         _accountsCacheService.UpsertAccounts(account);
@@ -221,6 +226,8 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 }
             }
         }
+
+
 
         public bool CompareRunningTime(List<RunningTimes> firstRunningTime, List<RunningTimes> secondRunningTime)
         {
@@ -473,7 +480,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
 
             _schedulerProxy.AddJob(() =>
             {
-                StopActivity(dominatorAccount, timing.Module, templateId, true);
+                StopActivity(dominatorAccount, timing.Module, templateId, true, true);
             }, s => s.ToRunOnceAt(stopTime));
 
         }
