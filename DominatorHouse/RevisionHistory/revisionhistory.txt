@@ -1,3 +1,30 @@
+Version[1.0.0.68],[15th October 2019]
+New Features:-
+	Instagram:
+		StoryView ==> Now, you can view other's story.
+		Unfollow ==> Unfollow using Block and Unlock way.
+	
+Fixed:- 
+	Twitter:
+		Poster==>Reposter==>Querytype==>custom tweet list==>Fixed issue with failed to repost.
+		Poster==>Delete ==> Delete Tweets==> Fixed issue with failed e withinto delete tweets.
+		Poster==>Delete ==> undo ReTweets==>Fixed issue with Logger showing no more data.
+		Poster==>Delete==>Delete comments==>Delete random comments==>Fixed issue with logger is showing failed to delete comment.
+
+	Linkedin:
+		Messenger==>Broadcast Message==>Query Type==>By software/Outside Software==>Fixed issue with faield to send broadcast message.
+		Scraper==>user scraper==>joined Group URL==> Fixed issue with failed to User Scraper.
+		Scraper==>user scraper(Keyword)==>Fixed issue with failed to user scraper.
+		Group==>Group joiner is not working==> Fixed issue with failed to group joiner.
+
+	Facebook:
+		Broadcast messages==>Broadcast Message==>Post Commenters==> fixed issue with sending messages to post commentor.
+		Broadcast Messages==>Auto Reply to messages==>Fixed issue with create campaign.
+
+	Instagram:
+		Unfollow==>Now you can remove followers
+		Insta poster==>Reposter ==>Fixed  issue  with some  user  filters
+		
 Version[1.0.0.67],[4th October 2019]
 New Features:-
 	Social:

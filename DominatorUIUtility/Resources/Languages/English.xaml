@@ -3510,7 +3510,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyImportUsers">Import Users</system:String>
     <system:String x:Key="LangKeyExportUsers">Export Users</system:String>
     <system:String x:Key="LangKeyManageEventCreater">Manage Event Create</system:String>
-    <system:String x:Key="LangKeyEventCreater">Event Creater</system:String>
+    <system:String x:Key="LangKeyEventCreater">Event Creator</system:String>
     <system:String x:Key="LangKeyCreatePrivateEvent">Create Private Event</system:String>
     <system:String x:Key="LangKeyCreatePublicEvent">Create Public Event</system:String>
     <system:String x:Key="LangKeyGuestCanInviteFriends">Guests can invite friends</system:String>
@@ -3523,7 +3523,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEventList">Events List</system:String>
     <system:String x:Key="LangKeyAddEventToList">Add Event To List</system:String>
     <system:String x:Key="LangKeyEventType">Event Type</system:String>
-    <system:String x:Key="LangKeyFacebookCreater">Fb Creaters</system:String>
+    <system:String x:Key="LangKeyFacebookCreater">Fb Creators</system:String>
     <system:String x:Key="LangKeyUploadPostDetails">Upload Post Details</system:String>
     <system:String x:Key="LangKeyUseOriginalPostDetails">Use Original Post Details</system:String>
     <system:String x:Key="LangKeyUseOwnPostDetails">Use Own Post Details</system:String>
@@ -4254,4 +4254,14 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeySuccessfullyAddedToSomething">Successfully Added {0} To {1}</system:String>
 
     <system:String x:Key="LangKeyBlockUnfollow">Unfollow using Block and Unblock way</system:String>
+
+    <system:String x:Key="LangKeyUnfollowUserByRemoveWay">Unfollow followers (Remove followers)</system:String>
+    <system:String x:Key="LangKeyUnfollowUserInDifferntWay">Unfollow user in different way</system:String>
+    <system:String x:Key="LangKeyUnfollowFollwing">Unfollow following users</system:String>
+    <system:String x:Key="LangKeyRemoveAllUsers">Remove all users</system:String>
+    <system:String x:Key="LangKeyNumberOfviewerPerDay">Number Of Viewer Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfviewerPerHour">Number Of Viewer Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfviewerPerJob">Number Of Viewer Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfviewerPerWeek">Number Of Viewer Per Week</system:String>
+    <system:String x:Key="LangKeyMaxviewerPerDay">Max Viewer Per Day</system:String>
 </ResourceDictionary>
