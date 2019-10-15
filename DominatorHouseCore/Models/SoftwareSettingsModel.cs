@@ -668,7 +668,7 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _isThreadLimitChecked, value); }
         }
 
-        private int _maxThreadCount;
+        private int _maxThreadCount = 1;
         [ProtoMember(46)]
         public int MaxThreadCount
         {
