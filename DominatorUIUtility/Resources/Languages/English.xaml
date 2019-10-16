@@ -4264,4 +4264,88 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyNumberOfviewerPerJob">Number Of Viewer Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfviewerPerWeek">Number Of Viewer Per Week</system:String>
     <system:String x:Key="LangKeyMaxviewerPerDay">Max Viewer Per Day</system:String>
+
+    <system:String x:Key="LangKeyYouAreRequiredToHaveAtLeastOneLetterOrNumberInABoardName">You are required to have at least one letter or number in a board name</system:String>
+    <system:String x:Key="LangKeyBoardsAreReadyToAdd">Boards are ready to add !!</system:String>
+    <system:String x:Key="LangKeyBoardsSucessfullyUploaded">Boards sucessfully uploaded !!</system:String>
+    <system:String x:Key="LangKeyYouDidNotUploadAnyBoard">You did not upload any board !!</system:String>
+    <system:String x:Key="LangKeyThereIsErrorInUploadingBoards">There is error in uploading boards !!</system:String>
+    <system:String x:Key="LangSpecificAccountIsNotPresent">Account => {0} isn't present.</system:String>
+    <system:String x:Key="LangKeyBoardCollaboratorsAreReadyToAdd">Board Collaborators are ready to add !!</system:String>
+    <system:String x:Key="LangKeyBoardCollaboratorsSucessfullyUploaded">Board Collaborators sucessfully uploaded !!</system:String>
+    <system:String x:Key="LangKeyYouDidNotUploadAnyBoardCollaborators">You did not upload any Board Collaborators !!</system:String>
+    <system:String x:Key="LangKeyThereIsErrorInUploadingBoardCollaborators">There is error in uploading Board Collaborators !!</system:String>
+    <system:String x:Key="LangKeyCommentsSavedSuccessfully">Comments saved successfully</system:String>
+    <system:String x:Key="LangKeyPleaseUploadPhoto">Please upload photo</system:String>
+    <system:String x:Key="LangKeyNotesSavedSuccessfully">Notes saved successfully</system:String>
+    <system:String x:Key="LangKeyDataSavedSuccessfully">Data saved successfully</system:String>
+    <system:String x:Key="LangKeyPleaseTypeSomeMessage">Please type some message !!</system:String>
+    <system:String x:Key="LangKeySuccessfullyUploaded">Successfully uploaded</system:String>
+    <system:String x:Key="LangKeyMessagesSavedSuccessfully">Messages saved successfully</system:String>
+    <system:String x:Key="LangKeyAlreadyCreatedBoard">Already created board => {0}</system:String>
+    <system:String x:Key="LangKeyWaitForSomeTimeWhileScrappingMessage">Please wait for some time while scrapping data to perform Activity => {0}</system:String>
+    <system:String x:Key="LangKeyCheckSomeUrlSeemsIncorrect">Please check {0} url seems incorrect</system:String>
+    <system:String x:Key="LangKeyUser">User</system:String>
+    <system:String x:Key="LangKeySelectAtleastOneBoardToRepinForQuery">Please select atleast one board to Repin for query => {0}.</system:String>
+    <system:String x:Key="LangKeyPinHasReachedLimitTimesWithBoard">Pin {0} has reached limit => {1} times with board => {2}</system:String>
+    <system:String x:Key="LangKeyAlreadyInteractedPinWithBoard">already interacted pin {0} with board => {1}</system:String>
+    <system:String x:Key="LangKeyPinHasReachedLimitBoardsFromAPin">Pin {0} has reached limit => {1} boards from a pin</system:String>
+    <system:String x:Key="LangKeySelectAnotherBoardOrUploadNewPinsToRepin">Please select another board or upload new pins to repin</system:String>
+    <system:String x:Key="LangKeySkipedAlreadyInteractedPin">Skiped already interacted pin => {0}</system:String>
+    <system:String x:Key="LangKeySearchingForPinsToDelete">Searching for pins to delete</system:String>
+    <system:String x:Key="LangKeySelectAtleastOneBoard">Please select atleast one board</system:String>
+    <system:String x:Key="LangKeyNoPinsFoundInBoardToDelete">No pins found in board => {0} to delete.</system:String>
+    <system:String x:Key="LangKeySearchingForNewMessagesToReply">Searching for new messages to reply</system:String>
+    <system:String x:Key="LangKeyProcessCompletedNoUsersFoundToReply">Process completed : No users found to reply</system:String>
+    <system:String x:Key="LangKeyYouAreAlreadyFollowingThisUser">You are already following this user => {0}</system:String>
+    <system:String x:Key="LangKeyYouAreNotFollowingThisUser">You are not following this user => {0}</system:String>
+    <system:String x:Key="LangKeyFilterAppliedOnUsersDoNotFollowBack">filter applied on source type => "users who do not follow back" on user => {0} (is following you)</system:String>
+    <system:String x:Key="LangKeyFilterAppliedOnUsersFollowBack">filter applied on source type => "users who follow back" on user => {0} (is not following you)</system:String>
+    <system:String x:Key="LangKeySearchingForPeopleToFollowBack">Searching for people to follow back</system:String>
+    <system:String x:Key="LangKeySearchingForMessagesFromNewFollowers">Searching for messages from new followers to reply</system:String>
+    <system:String x:Key="LangKeySearchingForPeopleFollowedBySoftware">Searching for people followed by software to unfollow</system:String>
+    <system:String x:Key="LangKeySearchingForPeopleFollowedOutsideSoftware">Searching for people followed outside software to unfollow</system:String>
+    <system:String x:Key="LangKeyNoUsersFoundToUnfollowBySoftware">No Users found to Unfollow by Software</system:String>
+    <system:String x:Key="LangKeyCustomUserListEmptyForSpecificAccountAndModule">[Account: {0} ] => Custom user list is empty (Module => {1})</system:String>
+    <system:String x:Key="LangKeyFilteringUser">Filtering user => {0}</system:String>
+    <system:String x:Key="LangKeyFilteringPin">Filtering pin => {0}</system:String>
+    <system:String x:Key="LangKeySkipedGlobalBlacklistedUsers">Skiped {0} Global Blacklisted users</system:String>
+    <system:String x:Key="LangKeySkipedPinsOfGlobalBlacklistedUsers">Skiped {0} pins of Global Blacklisted users</system:String>
+    <system:String x:Key="LangKeySkipedPrivateBlacklistedUsers">Skiped {0} Private Blacklisted users</system:String>
+    <system:String x:Key="LangKeySkipedPinsOfPrivateBlacklistedUsers">Skiped {0} pins of Private Blacklisted users</system:String>
+    <system:String x:Key="LangKeySkipedAlreadyInteractedUsers">Skiped => {0} already interacted users</system:String>
+    <system:String x:Key="LangKeySkipedAlreadyUnfollowedUsers">Skiped => {0} already unfollowed users</system:String>
+    <system:String x:Key="LangKeyAccountBlockedResetPassword">The account is blocked please reset password</system:String>
+    <system:String x:Key="LangKeyEmailOrPasswordIncorrect">The email or password you entered is incorrect</system:String>
+    <system:String x:Key="LangKeyBlockActionsBecauseOfSuspiciousActivity">Sorry! We've had to block actions (logins) from your area because of suspicious activity. Please try again later.</system:String>
+
+    <system:String x:Key="LangKeyRecatchaChallenge">reCAPTCHA challenge</system:String>
+    <system:String x:Key="LangKeyVerifyEmail">Verify Email</system:String>
+    <system:String x:Key="LangKeyUserSuccessfullyAddedToBlackList">{0} Successfully Added to {1}</system:String>
+    <system:String x:Key="LangKeyUserAlreadyAddedToBlackList">{0} Already Added to {1}</system:String>
+    <system:String x:Key="LangKeyCommentTextMoreThanSomeAndReduceToSomeCharacter">{0} text is more than {1} character.Software will reduce it to {2}  character.</system:String>
+    <system:String x:Key="LangKeyPasswordChangeRequired">Password Change Required</system:String>
+    <system:String x:Key="LangKeyIncorrectTryAgain">Incorrect. Please try again.</system:String>
+    <system:String x:Key="LangKeyNotFoundValidUserNamePassworImageTyperz">Not found valid userName and password for ImageTyperz.</system:String>
+    <system:String x:Key="LangKeyTimeOut">Time Out</system:String>
+    <system:String x:Key="LangKeyExceptionImageTimeOutWhileInProgress">Got Exception 'IMAGE_TIMED_OUT' while running function in_progress, Breaking the progress loop now</system:String>
+    <system:String x:Key="LangKeyCouldNotGetCaptchaId">could not get captchaIdGotFromImageTyperz</system:String>
+    <system:String x:Key="LangKeyExceededBioContentMaxLength">Exceeded the Bio Content Max length of '{0}'</system:String>
+    <system:String x:Key="LangKeyUnableToChangeBioContent">Unable to Changed the Bio Content.</system:String>
+    <system:String x:Key="LangKeyCannotTweetMoreThanFourImages">Can not tweet more than four photos at a time. Removing extra photos</system:String>
+    <system:String x:Key="LangKeyRemoveAccountAlreadyPresent">Please remove this account it may already been present.</system:String>
+    <system:String x:Key="LangKeyDetectedUnusualActivityAccountLocked">We have detected unusual activity on your account,For your security, your account has been locked</system:String>
+    <system:String x:Key="LangKeyUsernamePasswordNotMatch">The username and password you entered did not match</system:String>
+    <system:String x:Key="LangKeyPleaseUpdateCheckAccountStatus">Please Update Profile from 'Check Account Status'.</system:String>
+    <system:String x:Key="LangKeyUserNotAbleToLogin">User not able to logged in</system:String>
+    <system:String x:Key="LangKeyUpdatedBio">Updated Bio.</system:String>
+    <system:String x:Key="LangKeyUpdatedUsername">Updated username.</system:String>
+    <system:String x:Key="LangKeyAlreadyTakenSomething">Already taken {0}</system:String>
+    <system:String x:Key="LangKeyUpdatedProfilePic">updated Profile Pic.</system:String>
+    <system:String x:Key="LangKeyUpdatedEmail">updated Email.</system:String>
+    <system:String x:Key="LangKeyUpdatedWebsite">updated website.</system:String>
+    <system:String x:Key="LangKeyUnableToUpdatedWebsite">Unable to update website url.</system:String>
+    <system:String x:Key="LangKeyUpdatedPhoneNumber">Updated phone Number</system:String>
+    <system:String x:Key="LangKeyUpdatedFullName">Updated Full Name</system:String>
+    <system:String x:Key="LangKeyUpdatedGender">Updated gender</system:String> "
 </ResourceDictionary>
