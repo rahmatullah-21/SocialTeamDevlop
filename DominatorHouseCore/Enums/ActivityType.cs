@@ -330,6 +330,8 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         PlaceScraper = 116,
         [Description("Reddit")]
-        EditComment = 117
+        EditComment = 117,
+        [Description("Instagram")]
+        StoryViewer = 118
     }
 }

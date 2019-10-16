@@ -125,7 +125,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                 return;
             }
 
-            if (EventCreaterManagerModelCommand.Category == "Select Category")
+            if (EventCreaterManagerModelCommand.EventType == "CreatePublicEvent" && EventCreaterManagerModelCommand.Category == "Select Category")
             {
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Warning",
                     "LangKeySelectCategory".FromResourceDictionary());
@@ -168,7 +168,7 @@ namespace DominatorUIUtility.CustomControl.FacebookCustomControl
                         x.EventEndDate = EventCreaterManagerModelCommand.EventEndDate;
                         x.EventLocation = EventCreaterManagerModelCommand.EventLocation;
                         x.EventType = EventCreaterManagerModelCommand.EventType;
-                        x.MediaPath = EventCreaterManagerModelCommand.FbMultiMediaModel.MediaPaths.FirstOrDefault().MediaPath;
+                        x.MediaPath = EventCreaterManagerModelCommand.FbMultiMediaModel.MediaPaths.Count > 0 ? EventCreaterManagerModelCommand.FbMultiMediaModel.MediaPaths.FirstOrDefault().MediaPath : null;
                         x.FbMultiMediaModel.MediaPaths = EventCreaterManagerModelCommand.FbMultiMediaModel.MediaPaths;
                         x.IsAnyOneCanPostForAllPost = EventCreaterManagerModelCommand.IsAnyOneCanPostForAllPost;
                         x.IsGuestCanInviteFriends = EventCreaterManagerModelCommand.IsGuestCanInviteFriends;

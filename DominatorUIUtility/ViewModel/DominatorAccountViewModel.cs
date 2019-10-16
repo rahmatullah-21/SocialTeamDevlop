@@ -914,6 +914,8 @@ namespace DominatorUIUtility.ViewModel
                     var accountFactory = SocinatorInitialize.GetSocialLibrary(objDominatorAccountBaseModel.AccountNetwork)
                         .GetNetworkCoreFactory().AccountUpdateFactory;
 
+                    dominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+                    
                     if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
                     {
                         // this account supports async modules
@@ -1877,6 +1879,7 @@ namespace DominatorUIUtility.ViewModel
 
                             account.Token.ThrowIfCancellationRequested();
 
+                            account.AccountBaseModel.Status = AccountStatus.TryingToLogin;
                             var checkResult = await asyncAccount.CheckStatusAsync(account, account.Token);
 
                             if (checkResult)
@@ -1925,6 +1928,8 @@ namespace DominatorUIUtility.ViewModel
                 {
                     var checkAccount = new Task(async () =>
                     {
+                        var lastStatus = account.AccountBaseModel.Status;
+                        account.AccountBaseModel.Status = AccountStatus.TryingToLogin;
                         await asyncAccount.CheckStatusAsync(account, account.Token);
 
                         if (account.AccountBaseModel.Status == AccountStatus.Success)
@@ -1934,6 +1939,8 @@ namespace DominatorUIUtility.ViewModel
                             //To update proxy status
                             UpdateProxyStatus(account.AccountBaseModel);
                         }
+                        else if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                            account.AccountBaseModel.Status = lastStatus;
                     }, account.Token);
                     checkAccount.Start();
                 }
@@ -2171,17 +2178,30 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
+                if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                {
+                    GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccountModel.AccountBaseModel.AccountNetwork, dominatorAccountModel.AccountBaseModel.UserName,
+                           "LangKeyLogin".FromResourceDictionary(), "LangKeyAlreadyCheckingLoginSoWait".FromResourceDictionary());
+                    return;
+                }
+
                 ThreadFactory.Instance.Start(() =>
                 {
                     var accountUpdateFactory = SocinatorInitialize
                         .GetSocialLibrary(dominatorAccountModel.AccountBaseModel.AccountNetwork)
                         .GetNetworkCoreFactory().AccountUpdateFactory;
+
+                    var lastStatus = dominatorAccountModel.AccountBaseModel.Status;
+                    dominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
+
                     accountUpdateFactory.CheckStatus(dominatorAccountModel);
                     if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success)
                     {
                         var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
                         runningActivityManager.ScheduleIfAccountGotSucess(dominatorAccountModel);
                     }
+                    else if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                        dominatorAccountModel.AccountBaseModel.Status = lastStatus;
                 });
             }
             catch (Exception ex)

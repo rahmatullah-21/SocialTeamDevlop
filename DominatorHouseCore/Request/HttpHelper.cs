@@ -729,7 +729,7 @@ namespace DominatorHouseCore.Request
             request.Host = "api.socinator.com";
             request.ContentType = "application/json";
             request.Accept = "application/json";
-            request.Timeout = 120000;
+            request.Timeout = 180000;
             var postDataBytes = Encoding.UTF8.GetBytes(postData);
 
             request.ContentLength = postDataBytes.Length;

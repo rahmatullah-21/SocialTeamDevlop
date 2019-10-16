@@ -218,6 +218,25 @@ namespace DominatorHouseCore.Models
             }
         }
 
+        private string _queryTypeEnum;
+        /// <summary>
+        /// It holds the QueryType Enum Name 
+        /// </summary>
+        [ProtoMember(9)]
+        public string QueryTypeEnum
+        {
+            get
+            {
+                return _queryTypeEnum;
+            }
+            set
+            {
+                if (_queryTypeEnum == value)
+                    return;
+                SetProperty(ref _queryTypeEnum, value);
+            }
+        }
+
 
         /// <summary>
         /// 

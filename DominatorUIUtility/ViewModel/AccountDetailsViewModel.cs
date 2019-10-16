@@ -198,6 +198,12 @@ namespace DominatorUIUtility.ViewModel
         private bool SaveCanExecute(object arg) => true;
         private void SaveExecute(object sender)
         {
+            if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+            {
+                Dialog.ShowDialog("LangKeyLogin".FromResourceDictionary(), "LangKeyAlreadyCheckingLoginSoWait".FromResourceDictionary());
+                return;
+            }
+
             DominatorAccountModel.CookieHelperList?.ToList().ForEach(cookie =>
             {
                 if (string.IsNullOrEmpty(cookie.Name) || string.IsNullOrEmpty(cookie.Value))
@@ -208,8 +214,7 @@ namespace DominatorUIUtility.ViewModel
                 return;
 
             #region Checking status
-
-
+            
             Task.Factory.StartNew(async () =>
             {
                 try
@@ -285,7 +290,7 @@ namespace DominatorUIUtility.ViewModel
                            string.IsNullOrEmpty(newAccountBaseModel.Password))
                 {
                     GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
-                        "Account", "LangKeySavingAccountFailedUserOrPasswordEmpty".FromResourceDictionary());
+                        "LangKeyAccount".FromResourceDictionary(), "LangKeySavingAccountFailedUserOrPasswordEmpty".FromResourceDictionary());
                     return false;
                 }
 
@@ -296,7 +301,7 @@ namespace DominatorUIUtility.ViewModel
                         !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPort)))
                 {
                     GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
-                      "Account", "LangKeySavingAccountFailedProxyIpOrProxyPortEmptyButNotBoth".FromResourceDictionary());
+                      "LangKeyAccount".FromResourceDictionary(), "LangKeySavingAccountFailedProxyIpOrProxyPortEmptyButNotBoth".FromResourceDictionary());
                     return false;
                 }
 
@@ -307,7 +312,7 @@ namespace DominatorUIUtility.ViewModel
                         !string.IsNullOrEmpty(newAccountBaseModel.AccountProxy.ProxyPassword)))
                 {
                     GlobusLogHelper.log.Info(Log.CustomMessage, newAccountBaseModel.AccountNetwork, newAccountBaseModel.UserName,
-                      "Account", "LangKeySavingAccountFailedProxyUsernameOrProxyPasswordEmptyButNotBoth".FromResourceDictionary());
+                      "LangKeyAccount".FromResourceDictionary(), "LangKeySavingAccountFailedProxyUsernameOrProxyPasswordEmptyButNotBoth".FromResourceDictionary());
                     return false;
                 }
 

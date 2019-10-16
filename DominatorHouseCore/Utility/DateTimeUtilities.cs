@@ -347,6 +347,58 @@ namespace DominatorHouseCore.Utility
             return nextStartTime;
         }
 
+        /// <summary>
+        /// Get Next Start time for stop time reached
+        /// </summary>
+        /// <param name="moduleConfiguration"></param>
+        /// <returns></returns>
+        public static DateTime GetNextStartTime(ModuleConfiguration moduleConfiguration)
+        {
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            var nextStartTime = dateProvider.Now();
+            var nextRunningDate = DateTime.Now.Date;
+
+            try
+            {
+                var currentDayTimings = moduleConfiguration.LstRunningTimes.Where(x => x.DayOfWeek == nextStartTime.DayOfWeek)
+                        .FirstOrDefault().Timings;
+
+                var nextRunningTimeForToday = currentDayTimings.FirstOrDefault(x => x.StartTime >= nextStartTime.TimeOfDay);
+
+                var nextDayRunTimes = moduleConfiguration.LstRunningTimes.FirstOrDefault(x => x.DayOfWeek > nextStartTime.DayOfWeek && x.Timings.Count > 0) ??
+                    moduleConfiguration.LstRunningTimes.FirstOrDefault(x => x.DayOfWeek < nextStartTime.DayOfWeek && x.Timings.Count > 0);
+
+                if (nextRunningTimeForToday != null)
+                    nextStartTime = nextRunningDate.Add(nextRunningTimeForToday.StartTime);
+                else if (nextDayRunTimes != null)
+                {
+                    nextStartTime = GetNextWeekday(nextRunningDate, nextDayRunTimes.DayOfWeek).Add(nextDayRunTimes.Timings.FirstOrDefault().StartTime);
+                }
+                else if (nextDayRunTimes == null && nextRunningTimeForToday == null)
+                {
+                    nextStartTime = GetNextWeekday(nextRunningDate.AddDays(1), nextRunningDate.DayOfWeek).Add(currentDayTimings.FirstOrDefault().StartTime);
+                }
+
+            }
+            catch(ArgumentException ex)
+            {
+                ex.DebugLog();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            
+            return nextStartTime;
+        }
+
+
+        public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+        {
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            return start.AddDays(daysToAdd);
+        }
+
         public static TimeSpan GetRandomTime(TimeSpan start, TimeSpan end, Random random)
         {
             try

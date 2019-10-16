@@ -132,9 +132,9 @@
                     </GroupBox.Header>
 
                     <DataGrid x:Name="SearchQueries" Width="auto" Background="White" AutoGenerateColumns="False"  CanUserAddRows="false"
-                                  ItemsSource="{Binding ListQueryInfo}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" HorizontalAlignment="Stretch"
-                                  AlternationCount="{Binding ListQueryInfo.Count}" HorizontalScrollBarVisibility="Auto"
-                                  EnableColumnVirtualization="False" EnableRowVirtualization="False">
+                                  ItemsSource="{Binding ListQueryInfo,IsAsync=True}" CanUserDeleteRows="False"  MaxHeight="150" MinHeight="150" HorizontalAlignment="Stretch"
+                                  AlternationCount="{Binding ListQueryInfo.Count}" HorizontalScrollBarVisibility="Auto" VirtualizingPanel.IsVirtualizing="True"
+                                  EnableColumnVirtualization="False" EnableRowVirtualization="True" VirtualizingPanel.VirtualizationMode="Recycling">
 
                         <DataGrid.Columns>
                             <DataGridTemplateColumn >
@@ -148,7 +148,8 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <CheckBox IsChecked="{Binding IsQuerySelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="9,0"
-                                                      Content="{Binding  Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource DataGridRowToIndexConverter}}" Click="OnQuerySelect"/>
+                                                      Content="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource DataGridRowToIndexConverter}}" Click="OnQuerySelect"/>
+                                        <!--Index-->
 
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

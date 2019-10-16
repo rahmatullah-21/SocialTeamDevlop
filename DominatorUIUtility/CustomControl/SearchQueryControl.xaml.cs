@@ -203,16 +203,16 @@ namespace DominatorUIUtility.CustomControl
 
                 if (QueryCollection.Count != 0)
                 {
-                    Dialog.ShowDialog("Info", "Queries are ready to add !!");
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "Query sucessfully uploaded !!");
+                    Dialog.ShowDialog("LangKeyInfo".FromResourceDictionary(), "LangKeyQueriesReadyToAdd".FromResourceDictionary());
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "LangKeyQueriesUploaded".FromResourceDictionary());
                 }
                 else
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "You did not upload any query !!");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "LangKeyNoQueryUploaded".FromResourceDictionary());
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "There is error in uploading query !!");
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocinatorInitialize.ActiveSocialNetwork, "", ActivityType, "LangKeyErrorOccuredWhileQueryUploading".FromResourceDictionary());
             }
 
             GetQueryClickEventHandler();
@@ -504,7 +504,7 @@ namespace DominatorUIUtility.CustomControl
             {
                 if (!ListQueryInfo.Any(x => x.IsQuerySelected))
                 {
-                    Dialog.ShowDialog("Error", "Please select atleast one query.");
+                    Dialog.ShowDialog("LangKeyError".FromResourceDictionary(), "LangKeySelectAtleastOneQuery".FromResourceDictionary());
                     return;
                 }
                // var network = SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social ? SocinatorInitialize.AccountModeActiveSocialNetwork : SocinatorInitialize.ActiveSocialNetwork;
@@ -526,7 +526,7 @@ namespace DominatorUIUtility.CustomControl
                                 streamWriter.WriteLine(Network + "," + ActivityType.ToString() + "," + x.QueryType + "," + x.QueryValue);
                             }
                         });
-                        ToasterNotification.ShowSuccess("Query successfully exported.");
+                        ToasterNotification.ShowSuccess("LangKeyQueriesUploaded".FromResourceDictionary());
                     }
 
                 }

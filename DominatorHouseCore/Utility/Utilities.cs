@@ -375,5 +375,49 @@ namespace DominatorHouseCore.Utility
         {
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(instance));
         }
+
+        public static void CopyJobConfigWith(this Models.JobConfiguration jobConfig, Models.JobConfiguration oldJobConfig)
+        {
+            jobConfig.ActivitiesPerJobDisplayName = oldJobConfig.ActivitiesPerJobDisplayName;
+            jobConfig.ActivitiesPerHourDisplayName = oldJobConfig.ActivitiesPerHourDisplayName;
+            jobConfig.ActivitiesPerDayDisplayName = oldJobConfig.ActivitiesPerDayDisplayName;
+            jobConfig.ActivitiesPerWeekDisplayName = oldJobConfig.ActivitiesPerWeekDisplayName;
+            jobConfig.IncreaseActivityDisplayName = oldJobConfig.IncreaseActivityDisplayName;
+        }
+
+        public static void ModifySavedQueries(this System.Collections.ObjectModel.ObservableCollection<Models.QueryInfo> savedQuery, List<string> listQueryTypes, List<string> oldlistQueryTypes)
+        {
+            savedQuery.ForEach(x =>
+            {
+                var queryNameIndex = oldlistQueryTypes.IndexOf(x.QueryType);
+                x.QueryType = listQueryTypes[queryNameIndex];
+                x.QueryTypeDisplayName = x.QueryType;
+            });
+        }
+
+        public static T GetActivityModel<T>(this string activitySettings, dynamic lastModel,bool isNonQuery = false)
+        {
+            dynamic getModel = JsonConvert.DeserializeObject<T>(activitySettings);
+
+            if ("LangKeySocinator".FromResourceDictionary() == "Tunto Socianator")
+            {
+                try
+                {
+                    Utilities.CopyJobConfigWith(getModel.JobConfiguration, lastModel.JobConfiguration);
+
+                    if (!isNonQuery)
+                    {
+                        var listOldQuery = getModel.ListQueryType;
+                        getModel.ListQueryType = lastModel.ListQueryType;
+
+                        Utilities.ModifySavedQueries(getModel.SavedQueries, getModel.ListQueryType, listOldQuery); 
+                    }
+                }
+                catch (Exception ex)
+                { ex.DebugLog(); }
+
+            }
+            return getModel;
+        }
     }
 }
