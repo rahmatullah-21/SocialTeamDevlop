@@ -4247,7 +4247,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeySuccessfullyCommentedWithSomeNameAndPin">Successfully commented on {0}'s pin {1}</system:String>
     <system:String x:Key="LangKeySuccessfullyTriedWithSomeNameAndPin">Successfully tried on {0}'s pin {1}</system:String>
     <system:String x:Key="LangKeyTryProcess">Try Process</system:String>
-    <system:String x:Key="LangKeyWithBoard">with board => {0}</system:String>
+    <system:String x:Key="LangKeyWithBoard"> with board => {0}</system:String>
     <system:String x:Key="LangKeyStartedAfterRepin">Started After Repin Action</system:String>
     <system:String x:Key="LangKeyUserNotExistMessage">this user doesn't exist please check manually</system:String>
     <system:String x:Key="LangKeySuccessfullyTriedPin">Successfully tried pin {0}</system:String>
@@ -4347,5 +4347,12 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyUnableToUpdatedWebsite">Unable to update website url.</system:String>
     <system:String x:Key="LangKeyUpdatedPhoneNumber">Updated phone Number</system:String>
     <system:String x:Key="LangKeyUpdatedFullName">Updated Full Name</system:String>
-    <system:String x:Key="LangKeyUpdatedGender">Updated gender</system:String> "
+    <system:String x:Key="LangKeyUpdatedGender">Updated gender</system:String>
+
+    <system:String x:Key="LangKeyAlreadyCheckingLoginSoWait">The account is already checking for login. Please wait and then do the action.</system:String>
+    <system:String x:Key="LangKeyQueriesReadyToAdd">Queries are ready to add !!</system:String>
+    <system:String x:Key="LangKeyNoQueryUploaded">You did not upload any query !!</system:String>
+    <system:String x:Key="LangKeyQueriesUploaded">Queries are sucessfully uploaded !!</system:String>
+    <system:String x:Key="LangKeyErrorOccuredWhileQueryUploading">An error occured while uploading queries !!</system:String>
+    <system:String x:Key="LangKeySelectAtleastOneQuery">Please select at least one query.</system:String>
 </ResourceDictionary>

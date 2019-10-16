@@ -291,6 +291,7 @@ namespace DominatorHouseCore.Settings
                 {
                     cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
+                    account.AccountBaseModel.Status = AccountStatus.TryingToLogin;
                     var checkResult = await asyncAccount.CheckStatusAsync(account, cancellationTokenSource.Token);
 
                     if (!checkResult)
