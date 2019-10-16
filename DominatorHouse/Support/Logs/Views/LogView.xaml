@@ -16,7 +16,7 @@
     <UserControl.Template>
         <ControlTemplate>
             <Grid DataContext="{Binding ViewModel, RelativeSource={RelativeSource TemplatedParent}}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Top" 
+                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Top" 
                             Margin="0,0,15,0">
 
                     <Label Content="{DynamicResource LangKeyFilterByNetwork}" FontWeight="SemiBold"/>
@@ -34,7 +34,7 @@
                             </ComboBox.ItemsSource>
                         </ComboBox>
                  </StackPanel>
-                </StackPanel>
+                </StackPanel>-->
                     <dragablz:TabablzControl x:Name="InitialTabablzControl" SelectionChanged="TabSelectionChange"
                                              Style="{DynamicResource TabablzControlStyle}" Margin="0,5,0,0" >
                     <TabItem Header="{DynamicResource LangKeyInfo}" Name="InfoTab" IsSelected="True" >

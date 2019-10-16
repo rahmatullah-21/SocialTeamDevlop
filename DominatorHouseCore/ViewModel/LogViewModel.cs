@@ -163,7 +163,7 @@ namespace DominatorHouseCore.ViewModel
                     }
                     : new LoggerModel
                     {
-                        Network = SocialNetworks.Social.ToString(),
+                        Network = SocialNetworks.Twitter.ToString(),
                         DateTime = DateTime.Now,
                         Message = message,
                         LogType = logLevel.ToString()

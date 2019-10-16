@@ -539,7 +539,7 @@ namespace DominatorHouse.ViewModels
                         return;
                     
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
-                            AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
+                            AccountCustomControl.GetAccountCustomControl(SocialNetworks.Twitter, Strategies);
                 }
 
                 if (itemTemplate.Title ==

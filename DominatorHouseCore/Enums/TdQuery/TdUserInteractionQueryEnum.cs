@@ -12,8 +12,8 @@ namespace DominatorHouseCore.Enums.TdQuery
         //LocationUsers = 3,
         //[Description("LangKeyNearMyLocation")]
         //NearMyLocation = 4,
-        //[Description("LangKeyCustomUsersList")]
-        //CustomUsersList = 5,
+       // [Description("LangKeyCustomUsersList")]
+      //  CustomUsersList = 5,
         [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers = 6,
         [Description("LangKeySomeonesFollowings")]

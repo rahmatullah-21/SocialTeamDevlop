@@ -87,7 +87,7 @@
                             <!--<GridViewColumn  Header="{DynamicResource LangKeySNo}" DisplayMemberBinding="{Binding RowNo}" />-->
                             <GridViewColumn   Header="{DynamicResource LangKeyAccounts}" DisplayMemberBinding="{Binding UserName}" />
                             <GridViewColumn   Header="{DynamicResource LangKeyGroupName}" DisplayMemberBinding="{Binding GroupName}"/>
-                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding BrowserAutomation, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+                            <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding BrowserAutomation, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>

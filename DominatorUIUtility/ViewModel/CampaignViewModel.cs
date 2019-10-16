@@ -100,11 +100,15 @@ namespace DominatorUIUtility.ViewModel
         public void SetActivityTypes()
         {
             CampaignModel.ActivityType.Add("All");
-
+        
             foreach (var name in Enum.GetNames(typeof(ActivityType)))
             {
-                if (EnumDescriptionConverter.GetDescription((ActivityType)Enum.Parse(typeof(ActivityType), name)).Contains(SocialNetworks.ToString()))
-                    CampaignModel.ActivityType.Add(name);
+                var excludes = new string[] { "Follow", "Unfollow", "Like", "Retweet", "TweetScraper" };
+                if (excludes.Contains(name))
+                {
+                    if (EnumDescriptionConverter.GetDescription((ActivityType)Enum.Parse(typeof(ActivityType), name)).Contains(SocialNetworks.ToString()))
+                        CampaignModel.ActivityType.Add(name);
+                }
             }
         }
 
@@ -171,7 +175,7 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private List<string> _selectedAccountList =new List<string>();
+        private List<string> _selectedAccountList = new List<string>();
 
         public List<string> SelectedAccountList
         {
@@ -464,7 +468,7 @@ namespace DominatorUIUtility.ViewModel
                         if (!AllCampStatus)
                         {
                             var campignNotHavingAccount = lstSelectedCampaign.Where(x => x.Status == "Active");
-                            if(campignNotHavingAccount.Count()==0)
+                            if (campignNotHavingAccount.Count() == 0)
                             {
                                 AllCampStatus = true;
                                 return;

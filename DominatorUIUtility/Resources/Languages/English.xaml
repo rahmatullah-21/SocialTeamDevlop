@@ -2113,6 +2113,7 @@
     <system:String x:Key="LangKeyShrinkAll">Shrink All</system:String>
     <system:String x:Key="LangKeySkip">Skip</system:String>
     <system:String x:Key="LangKeySkipAlreadyLikedTweets">Skip Already Liked Tweets</system:String>
+    <system:String x:Key="LangKeySkipTweetsMediaLinks">Skip Media Links From Tweets</system:String>
     <system:String x:Key="LangKeySkipAlreadyRetweetedTweets">Skip Already Retweeted Tweets</system:String>
     <system:String x:Key="LangKeySkipBlacklistedUsers">Skip Blacklisted Users</system:String>
     <system:String x:Key="LangKeySkipBlacklistedUsersPosts">Skip Blacklisted Users Posts</system:String>
@@ -3692,7 +3693,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyExportingStarted">Exporting started. Please don't open the file until exporting completed.</system:String>
     <system:String x:Key="LangKeySucessfullyExportedTo">Sucessfully exported to</system:String>
     <system:String x:Key="LangKeyConfirmation">Confirmation</system:String>
-    <system:String x:Key="LangKeyConfirmationToCloseSocinator">Are you sure to close Socinator?</system:String>
+    <system:String x:Key="LangKeyConfirmationToCloseSocinator">Are you sure to close  Twitter Bot?</system:String>
     <system:String x:Key="LangKeyCheckingLicense">Hang On! Checking your License status</system:String>
     <system:String x:Key="LangKeyTakeFewMoments">this will take a few moments...</system:String>
     <system:String x:Key="LangKeyNetworkError">Network Error</system:String>
