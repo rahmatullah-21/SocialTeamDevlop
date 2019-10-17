@@ -75,7 +75,7 @@ namespace DominatorHouseCore.Request
         /// </summary>
         public bool IsMultiPart { get; set; }
 
-
+        public bool IsMultiPartForBroadCast { get; set; }
         /// <summary>
         /// AddHeader is used to add the header key and values to <see cref="RequestParameters.Headers"/>
         /// </summary>
@@ -352,6 +352,38 @@ namespace DominatorHouseCore.Request
                 return memoryStream.ToArray();
             }
         }
+        
+        public virtual byte[] CreateMultipartBodyForBroadCastMessage(string jsonString)
+        {
+            var jobject = JObject.Parse(jsonString);
+            var multipartBoundary = GenerateMultipartBoundary();
+
+            var strMultipartBoundary = $"--{multipartBoundary}";
+
+            var stringBuilder = new StringBuilder();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                // stringBuilder.AppendLine(strMultipartBoundary);
+                foreach (KeyValuePair<string, JToken> keyValuePair in jobject)
+                {
+                    stringBuilder.AppendLine(strMultipartBoundary);
+                    stringBuilder.AppendLine($"Content-Type: text/plain; charset=utf-8");
+                    stringBuilder.AppendLine($"Content-Disposition: form-data; name=\"{keyValuePair.Key as object}\"");
+                    stringBuilder.AppendLine();
+                    stringBuilder.AppendLine(keyValuePair.Value.ToString());
+                }
+                var bytess = Encoding.UTF8.GetBytes(stringBuilder.ToString());
+                memoryStream.Write(bytess, 0, bytess.Length);
+                byte[] bytes1 = Encoding.UTF8.GetBytes(strMultipartBoundary);
+                memoryStream.Write(bytes1, 0, bytes1.Length);
+
+                //AddHeader("Content-Type", $"multipart/form-data; boundary={multipartBoundary}");
+                ContentType = $"multipart/form-data; boundary={multipartBoundary}";
+                return memoryStream.ToArray();
+            }
+        }
+
 
         /// <summary>
         /// To generate the multi part post data for media files and rest of the post data are generated from given Jsonstring 

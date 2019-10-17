@@ -4358,4 +4358,25 @@ Do you want to continue running {0}?</system:String>
 
     <system:String x:Key="LangKeyCantPerformTheActionBecauseOfTheMatchedUserFilters">Can't perform the action because of the matched User Filters</system:String>
     <system:String x:Key="LangKeyDetailedInfoNeedsToBeSetToBeAbleToUseThisFilter">DetailedInfo needs to be set to be able to use this filter</system:String>
+
+    <system:String x:Key="LangKeyUserInfo">User Info</system:String>
+    <system:String x:Key="LangKeyThereMightBeServerError">There might be Server error</system:String>
+    <system:String x:Key="LangKeyTryingToPostOnBoard">Trying to post on board => {0}</system:String>
+    <system:String x:Key="LangKeySuccessfullyPostedPinIdOnBoard">Successfully posted pin id => {0} on board => {1}</system:String>
+    <system:String x:Key="LangKeyFailedToPostPinOnBoard">failed to post pin on board => {0}</system:String>
+    <system:String x:Key="LangKeyfailedToPostPinOnBoardWithError">failed to post pin on board => {0} with error => {1}</system:String>
+    <system:String x:Key="LangKeyTryingToPost">Trying to post</system:String>
+    <system:String x:Key="LangKeySuccessfullyPostedPinId">Successfully posted pin id => {0}</system:String>
+    <system:String x:Key="LangKeyThisPinNotHasTryOption">this pin doesn't has try option</system:String>
+    <system:String x:Key="LangKeyBoardCouldNotBeSavedTryDifferentBoardName">Board could not be saved. Try a different board name (you've already got one like this).</system:String>
+    <system:String x:Key="LangKeySolvingCaptcha">Solving Captcha...</system:String>
+    <system:String x:Key="LangKeyProvideImageTyperzTokenForCaptcha">Please provide image typerz token for solving captcha</system:String>
+    <system:String x:Key="LangKeyUnableToConnectToTheRemoteServer">Unable to connect to the remote server</system:String>
+    <system:String x:Key="LangKeyAuthenticationFailureIPIsNotAuthorized">Authentication failure, your IP is not authorized to access this proxy.</system:String>
+    <system:String x:Key="LangKeyEnsureThisIPIsSetInAuthorizedIPList">Please ensure this IP is set in your Authorized IP list.</system:String>
+    <system:String x:Key="LangKeyProxyAuthenticationRequired">Proxy Authentication Required</system:String>
+    <system:String x:Key="LangKeyAccessControlConfigurationPreventsRequestAllowedAtThisTime">Access control configuration prevents your request from being allowed at this time. Please contact your service provider if you feel this is incorrect.</system:String>
+    <system:String x:Key="LangKeyServerEncounteredAnInternalError">The server encountered an internal error or misconfiguration and was unable to complete your request</system:String>
+    <system:String x:Key="LangKeyERRFORWARDINGDENIED">ERR_FORWARDING_DENIED</system:String>
+    <system:String x:Key="LangKeyERRACCESSDENIED">ERR_ACCESS_DENIED</system:String>
 </ResourceDictionary>
