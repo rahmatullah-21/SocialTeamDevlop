@@ -4355,4 +4355,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyQueriesUploaded">Queries are sucessfully uploaded !!</system:String>
     <system:String x:Key="LangKeyErrorOccuredWhileQueryUploading">An error occured while uploading queries !!</system:String>
     <system:String x:Key="LangKeySelectAtleastOneQuery">Please select at least one query.</system:String>
+
+    <system:String x:Key="LangKeyCantPerformTheActionBecauseOfTheMatchedUserFilters">Can't perform the action because of the matched User Filters</system:String>
+    <system:String x:Key="LangKeyDetailedInfoNeedsToBeSetToBeAbleToUseThisFilter">DetailedInfo needs to be set to be able to use this filter</system:String>
 </ResourceDictionary>
