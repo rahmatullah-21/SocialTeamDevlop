@@ -471,7 +471,7 @@ namespace DominatorHouseCore.Models.Publisher
                 SetProperty(ref _campaignEndDate, value);
             }
         }
-        private bool _isDelayPostChecked;
+        private bool _isDelayPostChecked = true;
         [ProtoMember(35)]
         public bool IsDelayPostChecked
         {

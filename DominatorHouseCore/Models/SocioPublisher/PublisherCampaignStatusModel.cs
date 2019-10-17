@@ -178,7 +178,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
                 OnPropertyChanged(nameof(EndDate));
             }
         }
-        private bool _isDelayPostChecked;
+        private bool _isDelayPostChecked = true;
         [ProtoMember(35)]
         public bool IsDelayPostChecked
         {

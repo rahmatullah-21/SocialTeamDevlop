@@ -175,7 +175,7 @@
                                             </StackPanel>
                                         </Button>
 
-                                        <Button Name="PART_Settings" Foreground="White" Margin="1"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="32" Width="100" Cursor="Hand" VerticalAlignment="Center" >
+                                        <!--<Button Name="PART_Settings" Foreground="White" Margin="1"  Background="{DynamicResource AccentBaseColorBrush}"  HorizontalAlignment="Center"  Height="32" Width="100" Cursor="Hand" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Horizontal" ToolTip="{DynamicResource LangKeySettingToolTip}">
 
                                                 <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
@@ -185,12 +185,12 @@
                                                 </Rectangle>
                                                 <Label Content="{DynamicResource LangKeySettings}" Margin="0,-2,0,0" FontSize="11" Foreground="White"  FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                             </StackPanel>
-                                        </Button>
+                                        </Button>-->
 
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel>
+                            <!--<StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
                                              Margin="2" TextWrapping="Wrap" Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PostTitleHeight}" Width="300"  AcceptsReturn="True"
@@ -261,7 +261,7 @@
                                                IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSpinTax}"/>
                                     </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
+                            </StackPanel>-->
                         </StackPanel>
                     </Border>
                 </ControlTemplate>

@@ -2141,7 +2141,7 @@
     <system:String x:Key="LangKeySocialNetwork">Social Network</system:String>
     <system:String x:Key="LangKeySocialProfiles">Social Profiles</system:String>
     <system:String x:Key="LangKeySocinator">Twitter Bot</system:String>
-    <system:String x:Key="LangKeySociopublisher">Sociopublisher</system:String>
+    <system:String x:Key="LangKeySociopublisher">Post publisher</system:String>
     <system:String x:Key="LangKeySoftwareSettings">Software Settings</system:String>
     <system:String x:Key="LangKeySomeonesFollowers">Someone's Followers</system:String>
     <system:String x:Key="LangKeySomeonesFollowersPostS">Someone's Followers Post(S)</system:String>

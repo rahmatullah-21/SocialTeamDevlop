@@ -70,7 +70,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
                         var generalModels = _genericFileManager.GetModuleDetails<GeneralModel>(file);
                         var moduleToUpdate = generalModels.FirstOrDefault(x => x.CampaignId == campaignId);
                         ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newGeneralModel, generalModels, file, SocialNetworks.Social);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
 
                     }
 

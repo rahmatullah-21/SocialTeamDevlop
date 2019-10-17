@@ -106,7 +106,7 @@
             <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
 
                 <!--Button for navigate into managing destination-->
-                <Button Background="Transparent" ToolTip="{DynamicResource LangKeyGoToManageDestination}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManageDestinations" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManageDestinations">
+                <!--<Button Background="Transparent" ToolTip="{DynamicResource LangKeyGoToManageDestination}" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManageDestinations" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManageDestinations">
                     <Button.Template>
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -121,7 +121,7 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-                </Button>
+                </Button>-->
 
                 <!--Button for navigate into managing posts-->
                 <Button Background="Transparent" Cursor="Hand" ToolTip="{DynamicResource LangKeyGoToManagePosts}" BorderBrush="Transparent" BorderThickness="0" Name="ButtonManagePosts" Margin="5" Command="{Binding NavigationCommand}" CommandParameter="ManagePosts">
@@ -258,7 +258,7 @@
                             </MenuItem>
 
                             <!--Duplicate all selected campaign-->
-                            <MenuItem Header="{DynamicResource LangKeyDuplicate}" Name="MenuDuplicate" Command="{Binding CampaignCloneCommand}" CommandParameter="MenuClone">
+                            <!--<MenuItem Header="{DynamicResource LangKeyDuplicate}" Name="MenuDuplicate" Command="{Binding CampaignCloneCommand}" CommandParameter="MenuClone">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
                                         <Rectangle.OpacityMask>
@@ -268,7 +268,7 @@
                                 </MenuItem.Icon>
                             </MenuItem>
 
-                            <!--Publish Now all selected campaign-->
+                            --><!--Publish Now all selected campaign--><!--
                             <MenuItem Header="{DynamicResource LangKeyPublishNow}" Name="MenuPublishNow" Command="{Binding PublishNowSelectedCampaignCommand}" CommandParameter="PublishNow">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
@@ -279,7 +279,7 @@
                                 </MenuItem.Icon>
                             </MenuItem>
 
-                            <!--Export the campaign Id all selected campaign-->
+                            --><!--Export the campaign Id all selected campaign--><!--
                             <MenuItem Header="{DynamicResource LangKeyExportCampaignId}" Name="MenuExportCampaignId" Command="{Binding CopyCampaignId}" CommandParameter="MultipleCopy">
                                 <MenuItem.Icon>
                                     <Rectangle Width="15" Height="15" Fill="Black">
@@ -288,13 +288,13 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                 </MenuItem.Icon>
-                            </MenuItem>
+                            </MenuItem>-->
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
 
 
-                <Button Background="Transparent" VerticalAlignment="Center"
+                <!--<Button Background="Transparent" VerticalAlignment="Center"
                         ToolTip="{DynamicResource LangKeyTutorials}" Command="{Binding TutorialsCommand}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -306,7 +306,7 @@
                             <TextBlock Text="{DynamicResource LangKeyTutorials}" Margin="6,0" Foreground="White"/>
                         </StackPanel>
                     </Button.Content>
-                </Button>
+                </Button>-->
             </StackPanel>
         </Grid>
 
@@ -510,7 +510,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <mah:FlyoutsControl Grid.Row="1">
+        <!--<mah:FlyoutsControl Grid.Row="1">
             <mah:Flyout Header="{DynamicResource LangKeyTutorials}" Position="Right"
                              Visibility="Collapsed" Theme="Accent" FontWeight="Bold"
                              Foreground="White" Width="400" BorderBrush="Black" BorderThickness="2"
@@ -524,7 +524,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <!--<RowDefinition Height="*"/>-->
+                        --><!--<RowDefinition Height="*"/>--><!--
                     </Grid.RowDefinitions>
                     <Border BorderThickness="0,2,0,2" BorderBrush="Black" >
                         <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
@@ -546,7 +546,7 @@
                       </Hyperlink>
                         </TextBlock>
                     </Border>
-                    <!--<Border Grid.Row="2" BorderThickness="0,2,0,2" BorderBrush="Black">
+                    --><!--<Border Grid.Row="2" BorderThickness="0,2,0,2" BorderBrush="Black">
                         <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap" >
                       <Hyperlink Foreground="White"
@@ -556,7 +556,7 @@
                                Foreground="White" />
                       </Hyperlink>
                         </TextBlock>
-                    </Border>-->
+                    </Border>--><!--
                     <Border Grid.Row="2" BorderThickness="0,2,0,2" BorderBrush="Black">
                         <TextBlock Cursor="Help" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10"
                                TextWrapping="Wrap">
@@ -606,7 +606,7 @@
                     </Grid>
                 </Grid>
             </mah:Flyout>
-        </mah:FlyoutsControl>
+        </mah:FlyoutsControl>-->
 
     </Grid>
 </UserControl>

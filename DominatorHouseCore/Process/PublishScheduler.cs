@@ -360,7 +360,7 @@ namespace DominatorHouseCore.Process
 
                 // Check any destinations has been deleted
                 if (deletedDestinationCount > 0)
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                       String.Format("LangKeyNDestinationsDeletedFromCampaign".FromResourceDictionary(), deletedDestinationCount, publisherPostFetchModel?.SelectedDestinations.Count, campaignStatusModel.CampaignName));
 
                 ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>> destinations;
@@ -372,7 +372,7 @@ namespace DominatorHouseCore.Process
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                            String.Format("LangKeyCampaignHasZeroAsMaxPublishingCount".FromResourceDictionary(), campaignStatusModel.CampaignName));
                         return;
                     }
@@ -403,7 +403,7 @@ namespace DominatorHouseCore.Process
                     // Check whether current accounts network present or not
                     if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                             String.Format("LangKeyNoPermissionToRunNetworkPurchaseIt".FromResourceDictionary(),accountsNetwork));
                         continue;
                     }
@@ -477,7 +477,7 @@ namespace DominatorHouseCore.Process
 
                 if (campaignStatusModel == null)
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPostNotRegisterWithAnyCampaign".FromResourceDictionary());
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPostNotRegisterWithAnyCampaign".FromResourceDictionary());
                     return;
                 }
 
@@ -486,7 +486,7 @@ namespace DominatorHouseCore.Process
 
                 if (!isStart)
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPostCampaignExpired".FromResourceDictionary());
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPostCampaignExpired".FromResourceDictionary());
                     return;
                 }
 
@@ -572,7 +572,7 @@ namespace DominatorHouseCore.Process
 
                 // Check any destinations has been deleted
                 if (deletedDestinationCount > 0)
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
                        String.Format("LangKeyNDestinationsDeletedFromCampaign".FromResourceDictionary(), deletedDestinationCount, publisherPostFetchModel?.SelectedDestinations.Count, campaignStatusModel.CampaignName));
 
                 var destinations = UpdatePostDetails(campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, allDestination, post, allDestinaionGuid);
@@ -589,7 +589,7 @@ namespace DominatorHouseCore.Process
                     // Check whether current accounts network present or not
                     if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoPermissionToRunNetworkPurchaseIt".FromResourceDictionary(), accountsNetwork));
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoPermissionToRunNetworkPurchaseIt".FromResourceDictionary(), accountsNetwork));
                         continue;
                     }
 
@@ -761,7 +761,7 @@ namespace DominatorHouseCore.Process
         {
             if (givenDestinations.Count == 0)
             {
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyNoUniqueDestinationsPresent".FromResourceDictionary());
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyNoUniqueDestinationsPresent".FromResourceDictionary());
                 return new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
             }
 
@@ -777,13 +777,13 @@ namespace DominatorHouseCore.Process
                 // Checking, If no more post available
                 if (!pendingPostList.Any())
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(),campaignName));
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(),campaignName));
                     return null;
                 }
 
                 //Get the general settings from bin files
                 var generalSettingsModel = genericFileManager.GetModuleDetails<GeneralModel>
-                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Social))
+                                               (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter))
                                                .FirstOrDefault(x => x.CampaignId == campaignId) ?? new GeneralModel();
 
                 // Validate the toaster notifications is needed
@@ -802,7 +802,7 @@ namespace DominatorHouseCore.Process
 
                 // Validate whether all destinations contains posts or not
                 if (pendingPostList.Count < postsDestinations.Count)
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPendingPostsLesserThanRequiredRandDestinationCount".FromResourceDictionary());
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPendingPostsLesserThanRequiredRandDestinationCount".FromResourceDictionary());
 
                 #region Assigning the Posts to Destinations
 
@@ -851,7 +851,7 @@ namespace DominatorHouseCore.Process
 
                 if (givenDestinations.Count == 0)
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyNoUniqueDestinationsPresent".FromResourceDictionary());
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyNoUniqueDestinationsPresent".FromResourceDictionary());
                     return new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
                 }
 
@@ -886,7 +886,7 @@ namespace DominatorHouseCore.Process
                         {
                             ToasterNotification.ShowInfomation(String.Format("LangKeyCampaignHasNExpiredPosts".FromResourceDictionary(), campaignName, expiredPostCount));
                         }
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(),campaignName));
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(),campaignName));
                         return null;
                     }
 
@@ -910,7 +910,7 @@ namespace DominatorHouseCore.Process
 
                     // Validate whether all destinations contains posts or not
                     if (pendingPostList.Count < postsDestinations.Count)
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPendingPostsLesserThanRequiredRandDestinationCount".FromResourceDictionary());
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignName, "LangKeyPublisher".FromResourceDictionary(), "LangKeyPendingPostsLesserThanRequiredRandDestinationCount".FromResourceDictionary());
 
                     #region Assigning the Posts to Destinations
 
@@ -987,7 +987,7 @@ namespace DominatorHouseCore.Process
                     if (post.LstPublishedPostDetailsModels.Any(x =>
                         x.DestinationUrl == currentDestinationUrl && destinationDetails.AccountId == x.AccountId))
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyPostAlreadyPublishedOnTheAccount".FromResourceDictionary(), destinationDetails.AccountName, destinationDetails.DestinationType, destinationDetails.DestinationUrl));
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyPostAlreadyPublishedOnTheAccount".FromResourceDictionary(), destinationDetails.AccountName, destinationDetails.DestinationType, destinationDetails.DestinationUrl));
                         return;
                     }
 
@@ -1081,7 +1081,7 @@ namespace DominatorHouseCore.Process
                     if (post.LstPublishedPostDetailsModels.Any(x =>
                         x.DestinationUrl == currentDestinationUrl && destinationDetails.AccountId == x.AccountId))
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyPostAlreadyPublishedOnTheAccount".FromResourceDictionary(), destinationDetails.AccountName, destinationDetails.DestinationType, destinationDetails.DestinationUrl));
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyPostAlreadyPublishedOnTheAccount".FromResourceDictionary(), destinationDetails.AccountName, destinationDetails.DestinationType, destinationDetails.DestinationUrl));
                         return;
                     }
 
@@ -1445,8 +1445,8 @@ namespace DominatorHouseCore.Process
                              // Add into scheduled lsit
                              PublisherScheduledList.Add(addJobName);
 
-                             if (startTime < DateTime.Now)
-                                 startTime = startTime.AddDays(1);
+                             //if (startTime < DateTime.Now)
+                             //    startTime = startTime.AddDays(1);
 
                              // Add job manager
                              JobManager.AddJob(() =>

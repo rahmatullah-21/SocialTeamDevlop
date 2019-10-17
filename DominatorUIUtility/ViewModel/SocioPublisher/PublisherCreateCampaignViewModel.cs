@@ -314,12 +314,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningSelectDestination".FromResourceDictionary());
                 return;
             }
-            // Verify whether timer setted or not
-            if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
-            {
-                Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningSelectProperTimeToRun".FromResourceDictionary());
-                return;
-            }
+            // Verify whether timer set or not
+            //if (_publisherCreateCampaignModel.JobConfigurations.LstTimer.Count == 0)
+            //{
+            //    Dialog.ShowDialog("LangKeyWarning".FromResourceDictionary(), "LangKeyWarningSelectProperTimeToRun".FromResourceDictionary());
+            //    return;
+            //}
 
             // Verify whether any post is saved to pending/draft or not
             if (PublisherCreateCampaignModel.PostCollection.Count == 0)
@@ -664,8 +664,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked)
                 {
                     specificRunningTime = new List<TimeSpan>();
-                    specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
-                    for (int i = 0; i < PublisherCreateCampaignModel.JobConfigurations.MaxPost - 1; i++)
+
+                    var firstTimeSpan = DateTime.Now.TimeOfDay;
+
+                    if(PublisherCreateCampaignModel.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Published) > 0)
+                    {
+                        var minsLeft = RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue) - (DateTime.Now - PublisherCreateCampaignModel.UpdatedDate).Minutes;
+                        var addTime = PublisherCreateCampaignModel.UpdatedDate.AddMinutes(minsLeft + 1);
+                        firstTimeSpan = addTime < DateTime.Now ? firstTimeSpan : addTime.TimeOfDay;
+                    }                                          
+                    
+                    specificRunningTime.Add(firstTimeSpan);
+                    var processingCount = PublisherCreateCampaignModel.PostCollection.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
+                    for (int i = 0; i < processingCount - 1; i++)
                     {
                         specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
                     }
@@ -1136,7 +1147,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             //Set the Images and initialize neccessary image viewer details
             publisherDirectPosts.PostContentControl.SetMedia();
-            publisherDirectPosts.ImageMediaViewer.Initialize();
+            //publisherDirectPosts.ImageMediaViewer.Initialize();
         }
 
         #endregion
@@ -1197,45 +1208,45 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
             };
 
-            // Scarpe post UI, If any one of network(Facebook,Pinterest, Twitter)
-            #region Scrape Posts
+            //// Scarpe post UI, If any one of network(Facebook,Pinterest, Twitter)
+            //#region Scrape Posts
 
-            if (FeatureFlags.IsNetworkAvailable(SocialNetworks.Facebook) ||
-                FeatureFlags.IsNetworkAvailable(SocialNetworks.Pinterest) ||
-                FeatureFlags.IsNetworkAvailable(SocialNetworks.Twitter))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = "LangKeyScrapePost".FromResourceDictionary(),
-                    Content = new Lazy<UserControl>(() => PublisherScrapePost.GetPublisherScrapePost(tabItemsControl))
-                });
-            }
+            //if (FeatureFlags.IsNetworkAvailable(SocialNetworks.Facebook) ||
+            //    FeatureFlags.IsNetworkAvailable(SocialNetworks.Pinterest) ||
+            //    FeatureFlags.IsNetworkAvailable(SocialNetworks.Twitter))
+            //{
+            //    tabItems.Add(new TabItemTemplates
+            //    {
+            //        Title = "LangKeyScrapePost".FromResourceDictionary(),
+            //        Content = new Lazy<UserControl>(() => PublisherScrapePost.GetPublisherScrapePost(tabItemsControl))
+            //    });
+            //}
 
-            #endregion
+            //#endregion
 
-            // Share Post, Rss and Monitor Folder Ul
-            #region Share , Monitor Folder, Rss
+            //// Share Post, Rss and Monitor Folder Ul
+            //#region Share , Monitor Folder, Rss
 
-            tabItems.Add(new TabItemTemplates
-            {
-                Title = "LangKeySharePost".FromResourceDictionary(),
-                Content = new Lazy<UserControl>(() => PublisherSharePost.GetPublisherSharePost(tabItemsControl))
-            });
+            //tabItems.Add(new TabItemTemplates
+            //{
+            //    Title = "LangKeySharePost".FromResourceDictionary(),
+            //    Content = new Lazy<UserControl>(() => PublisherSharePost.GetPublisherSharePost(tabItemsControl))
+            //});
 
 
-            tabItems.Add(new TabItemTemplates
-            {
-                Title = Application.Current.FindResource("LangKeyRSSFeed")?.ToString(),
-                Content = new Lazy<UserControl>(() => PublisherRssFeed.GetPublisherRssFeed(tabItemsControl))
-            });
+            //tabItems.Add(new TabItemTemplates
+            //{
+            //    Title = Application.Current.FindResource("LangKeyRSSFeed")?.ToString(),
+            //    Content = new Lazy<UserControl>(() => PublisherRssFeed.GetPublisherRssFeed(tabItemsControl))
+            //});
 
-            tabItems.Add(new TabItemTemplates
-            {
-                Title = Application.Current.FindResource("LangKeyMonitorFolder")?.ToString(),
-                Content = new Lazy<UserControl>(() => PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl))
-            });
+            //tabItems.Add(new TabItemTemplates
+            //{
+            //    Title = Application.Current.FindResource("LangKeyMonitorFolder")?.ToString(),
+            //    Content = new Lazy<UserControl>(() => PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl))
+            //});
 
-            #endregion
+            //#endregion
 
             return tabItems;
         }

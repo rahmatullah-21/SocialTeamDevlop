@@ -107,16 +107,7 @@ namespace DominatorHouseCore.Diagnostics
                         //    : PublisherCampaignStatus.Completed;
                     }
                     List<TimeSpan> specificRunningTime = null;
-                    if (campaigns.JobConfigurations.IsDelayPostChecked)
-                    {
-                        specificRunningTime = new List<TimeSpan>();
-                        specificRunningTime.Add(campaigns.JobConfigurations.TimeRange.StartTime);
-                        for (int i = 0; i < campaigns.JobConfigurations.MaxPost - 1; i++)
-                        {
-                            specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(campaigns.JobConfigurations.DelayBetweenEachPost.EndValue, campaigns.JobConfigurations.DelayBetweenEachPost.StartValue))));
-                        }
-
-                    }
+                    
                     //Assign the Campaign Detatils
                     var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                     {
@@ -153,7 +144,26 @@ namespace DominatorHouseCore.Diagnostics
 
                         // Update post counts
                         GetPostStatus(publisherCampaignStatusModel);
+                        if (campaigns.JobConfigurations.IsDelayPostChecked)
+                        {
+                            specificRunningTime = new List<TimeSpan>();
 
+                            var firstTimeSpan = DateTime.Now.TimeOfDay;
+
+                            if (publisherCampaignStatusModel.PublishedCount > 0)
+                            {
+                                var minsLeft = RandomUtilties.GetRandomNumber(campaigns.JobConfigurations.DelayBetweenEachPost.EndValue, campaigns.JobConfigurations.DelayBetweenEachPost.StartValue) - (DateTime.Now - campaigns.UpdatedDate).Minutes;
+                                var addTime = campaigns.UpdatedDate.AddMinutes(minsLeft+1);
+                                firstTimeSpan = addTime < DateTime.Now ? firstTimeSpan: addTime.TimeOfDay;
+                            }
+
+                            specificRunningTime.Add(firstTimeSpan);
+                            for (int i = 0; i < publisherCampaignStatusModel.PendingCount - 1; i++)
+                            {
+                                specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(campaigns.JobConfigurations.DelayBetweenEachPost.EndValue, campaigns.JobConfigurations.DelayBetweenEachPost.StartValue))));
+                            }
+                        }
+                        publisherCampaignStatusModel.SpecificRunningTime = specificRunningTime;
                         // Update campaign status to complete   // Commented for Fixing bug EW-I563
                         //if (DateTime.Now > campaigns.JobConfigurations.CampaignEndDate)
                         //    UpdateCampaignStatus(campaigns.CampaignId, PublisherCampaignStatus.Completed);

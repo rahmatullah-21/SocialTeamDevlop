@@ -328,9 +328,10 @@ namespace DominatorUIUtility.Views.SocioPublisher
             }
             CancelToken();
             JobConfigurations.LstTimer.Clear();
-            if (numericMaxPost.Value != null && JobConfigurations.MaxPost != 0)
-                SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
+            //if (numericMaxPost.Value != null && JobConfigurations.MaxPost != 0)
+            //    SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
 
         }
+        
     }
 }

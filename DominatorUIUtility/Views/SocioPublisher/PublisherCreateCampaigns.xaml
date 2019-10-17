@@ -40,7 +40,7 @@
                               SelectedItem="{Binding SelectedItem}" metroControls:TextBoxHelper.ClearTextButton="True" />
                 </StackPanel>
 
-                <Button x:Name="BtnSelectDestination" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
+                <!--<Button x:Name="BtnSelectDestination" Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
                         Foreground="White" VerticalAlignment="Center"  Margin="5"
                         Command="{Binding SelectDestinationCommand}">
                     <Button.Template>
@@ -59,7 +59,7 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-                </Button>
+                </Button>-->
 
                 <Button  Cursor="Hand" Background="{DynamicResource AccentBaseColorBrush}" 
                         Foreground="White" VerticalAlignment="Center"  Margin="5"
@@ -225,9 +225,9 @@
                                 <ContentControl Content="{Binding JobConfigurationControl}"></ContentControl>
                                 <!--<publisher:JobConfiguration JobConfigurations="{Binding PublisherCreateCampaignModel.JobConfigurations,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>-->
                             </Expander>
-                            <Expander Header="{DynamicResource LangKeyOtherConfigurations}" Margin="15,5,5,5">
+                            <!--<Expander Header="{DynamicResource LangKeyOtherConfigurations}" Margin="15,5,5,5">
                                 <local:OtherConfiguration OtherConfigurations="{Binding PublisherCreateCampaignModel.OtherConfiguration}"/>
-                            </Expander>
+                            </Expander>-->
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>

@@ -854,7 +854,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 _genericFileManager.Delete<PublisherPostFetchModel>(x => publisherCampaignStatusModels.FirstOrDefault(a => a.CampaignId == x.CampaignId) != null,
                     ConstantVariable.GetPublisherPostFetchFile);
-                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "Publisher Campaign", "LangKeyCampaignDeletionCompleted".FromResourceDictionary());
+                GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, "", "Publisher Campaign", "LangKeyCampaignDeletionCompleted".FromResourceDictionary());
 
             }
             if (ListPublisherCampaignStatusModels.Count == 0 ||

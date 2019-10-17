@@ -62,7 +62,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource LangKeyErrorDetails}" DisplayMemberBinding="{Binding ErrorDetails}"/>
-                    <GridViewColumn  Header="{DynamicResource LangKeyActions}">
+                    <!--<GridViewColumn  Header="{DynamicResource LangKeyActions}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Cursor="Hand" 
@@ -73,7 +73,7 @@
                                         Background="Transparent"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    </GridViewColumn>-->
                 </GridView>
             </ListView.View>
         </ListView>

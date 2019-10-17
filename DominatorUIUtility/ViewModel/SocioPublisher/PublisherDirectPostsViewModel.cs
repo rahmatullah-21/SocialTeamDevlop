@@ -246,17 +246,17 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PostDetailsModel = new PostDetailsModel();
                     var publisherDirectPosts = PublisherDirectPosts.GetPublisherDirectPosts(tabItemsControl);
                     publisherDirectPosts.PostContentControl.SetMedia();
-                    publisherDirectPosts.ImageMediaViewer.Initialize();
+                    //publisherDirectPosts.ImageMediaViewer.Initialize();
 
                     var createCampaign = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns();
                     createCampaign.PublisherCreateCampaignViewModel.PublisherCreateCampaignModel.PostDetailsModel =
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
 
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign",  $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, createCampaignModel.CampaignName, "Publisher Campaign",  $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
                 }
                 else
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyFailedToSave".FromResourceDictionary()} to {status} list. {"LangKeyAddAtleastOnePost".FromResourceDictionary()}");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyFailedToSave".FromResourceDictionary()} to {status} list. {"LangKeyAddAtleastOnePost".FromResourceDictionary()}");
 
                 _multipostWindow?.Close();
                 _multipostWindow = null;
