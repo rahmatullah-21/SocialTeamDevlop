@@ -649,11 +649,11 @@ namespace EmbeddedBrowser
                 Thread.Sleep(TimeSpan.FromSeconds(delayAtLast));
         }
 
-        public async Task<string> GetPageSourceAsync()
+        public async Task<string> GetPageSourceAsync(double delay = 1)
         {
             try
             {
-                await Task.Delay(1000);
+                await Task.Delay(TimeSpan.FromSeconds(delay));
                 return await Browser.GetSourceAsync();
             }
             catch (ArgumentException e)
