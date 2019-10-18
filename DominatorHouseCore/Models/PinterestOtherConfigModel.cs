@@ -39,5 +39,37 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _paginationCount, value);
             }
         }
+
+        private bool _isCampainWiseUnique = true;
+        [ProtoMember(3)]
+        public bool IsCampainWiseUnique
+        {
+            get
+            {
+                return _isCampainWiseUnique;
+            }
+            set
+            {
+                if (value)
+                    IsAccountWiseUnique = false;
+                SetProperty(ref _isCampainWiseUnique, value);
+            }
+        }
+
+        private bool _isAccountWiseUnique = true;
+        [ProtoMember(4)]
+        public bool IsAccountWiseUnique
+        {
+            get
+            {
+                return _isAccountWiseUnique;
+            }
+            set
+            {
+                if (value)
+                    IsCampainWiseUnique = false;
+                SetProperty(ref _isAccountWiseUnique, value);
+            }
+        }
     }
 }

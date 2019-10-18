@@ -4384,5 +4384,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeySelectActivitiesToPerformWithAccount">Select the activities you want to perform with this account ({0})</system:String>
     <system:String x:Key="LangKeyPhotoVideo">Photo/Video</system:String>
     <system:String x:Key="LangKeyPageInviterNote">Hi, I'm inviting you to like my Page because I thought that you might be interested in supporting it.</system:String>
-    
+    <system:String x:Key="LangKeyPinUrlNotExist">Pin Url => {0} doesn't exist.</system:String>
 </ResourceDictionary>

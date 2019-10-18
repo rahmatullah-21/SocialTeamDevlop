@@ -30,6 +30,11 @@
                                              Value="{Binding PaginationCount}" />
                     <TextBlock Text="{DynamicResource LangKeyPaginationsBeforeSendItToPerformActivity}" Margin="5"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding PinterestOtherConfigModel}">
+                    <Label Margin="5" Content="{DynamicResource LangUseUniqueFeatureAs}"/>
+                    <RadioButton Margin="5" Content="{DynamicResource LangCampaignWise}" IsChecked="{Binding IsCampainWiseUnique}"/>
+                    <RadioButton Margin="5" Content="{DynamicResource LangAccountWise}"  IsChecked="{Binding IsAccountWiseUnique}"/>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
     </ControlTemplate>
