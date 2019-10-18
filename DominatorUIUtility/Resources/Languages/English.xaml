@@ -3765,7 +3765,7 @@ Are you sure?</system:String>
     <system:String x:Key="LangKeyFriendName">Friend Name</system:String>
     <system:String x:Key="LangKeyChangeLanguage">Change Language</system:String>
     <system:String x:Key="LangKeyConfirmToSetLanguage"  xml:space="preserve">Set Language Chinese. To apply this setting, you need to restart.
-    Do you want to Restart?</system:String>
+Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyYes">Yes</system:String>
     <system:String x:Key="LangKeyNo">No</system:String>
     <system:String x:Key="LangKeySavingAccountFailedUserOrPasswordEmpty">Saving Account failed because either user or password is empty</system:String>
@@ -4379,4 +4379,10 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyServerEncounteredAnInternalError">The server encountered an internal error or misconfiguration and was unable to complete your request</system:String>
     <system:String x:Key="LangKeyERRFORWARDINGDENIED">ERR_FORWARDING_DENIED</system:String>
     <system:String x:Key="LangKeyERRACCESSDENIED">ERR_ACCESS_DENIED</system:String>
+
+    <system:String x:Key="LangKeyActivitiesSelection">Activities Selection</system:String>
+    <system:String x:Key="LangKeySelectActivitiesToPerformWithAccount">Select the activities you want to perform with this account ({0})</system:String>
+    <system:String x:Key="LangKeyPhotoVideo">Photo/Video</system:String>
+    <system:String x:Key="LangKeyPageInviterNote">Hi, I'm inviting you to like my Page because I thought that you might be interested in supporting it.</system:String>
+    
 </ResourceDictionary>

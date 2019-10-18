@@ -303,8 +303,7 @@ namespace DominatorHouseCore.Utility
         public static string GetTumblrConfigFile() => GetOtherDir() + @"\Tumblr.bin";
 
 
-        public static string PageInviterNote =>
-            "Hi, I'm inviting you to like my Page because I thought that you might be interested in supporting it.";
+        public static string PageInviterNote => "LangKeyPageInviterNote".FromResourceDictionary();
 
         public static string SocialAccountManagerVideoLink => "https://www.youtube.com/playlist?list=PL60e8mIWfxoaY8utTkKYXCL6ULzlb3TeE";
 

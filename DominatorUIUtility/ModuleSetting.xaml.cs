@@ -1,4 +1,5 @@
 ﻿using CommonServiceLocator;
+using DominatorHouseCore.Utility;
 using DominatorUIUtility.ViewModel.Startup;
 using MahApps.Metro.Controls;
 using Prism.Regions;
@@ -28,7 +29,7 @@ namespace DominatorUIUtility
                 if (_instance == null)
                     _instance = new ModuleSetting(ServiceLocator.Current.GetInstance<IRegionManager>());
                 var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-                _instance.Title = $"Socinator - {{ {viewModel.SelectedNetwork} }} ( {  viewModel.SelectAccount.UserName} )";
+                _instance.Title = $"{"LangKeySocinator".FromResourceDictionary()} - {{ {viewModel.SelectedNetwork} }} ( {  viewModel.SelectAccount.UserName} )";
                 return _instance;
             }
         }

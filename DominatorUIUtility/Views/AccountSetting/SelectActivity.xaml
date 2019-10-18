@@ -13,9 +13,11 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <StackPanel  HorizontalAlignment="Left" Margin="0,5">
-            <TextBlock Text="Activities Selection" VerticalAlignment="Center" Margin="20,0"  FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectAccount.AccountBaseModel.UserName,StringFormat=Select the activities you want to perform with this account ({0})}" 
+            <TextBlock Text="{DynamicResource LangKeyActivitiesSelection}" VerticalAlignment="Center" Margin="20,0"  FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectAccount.AccountBaseModel.UserName,StringFormat={StaticResource LangKeySelectActivitiesToPerformWithAccount}}" 
                        VerticalAlignment="Center" FontWeight="DemiBold" Margin="35,2"/>
+
+            <!--<TextBlock Text="{Binding Path=SelectAccount.AccountBaseModel.UserName, StringFormat={StaticResource LangKeySelectActivitiesToPerformWithAccount}}" />-->
         </StackPanel>
         <ItemsControl ItemsSource="{Binding SelectActivityModel.LstNetworkActivityType}"
                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5" Grid.Row="1" >
