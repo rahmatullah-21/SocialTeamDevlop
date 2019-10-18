@@ -1690,7 +1690,11 @@ namespace DominatorUIUtility.ViewModel
                                 }
                                 if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
                                                     x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
+                                {
+                                    if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                                        account.AccountBaseModel.Status = AccountStatus.NotChecked;
                                     LstDominatorAccountModel.AddSync(account);
+                                }
                             }
                         }
                     }
@@ -1765,6 +1769,9 @@ namespace DominatorUIUtility.ViewModel
                             }
                         if (!string.IsNullOrEmpty(account.Status))
                             dominatorAccountModel.AccountBaseModel.Status = (AccountStatus)Enum.Parse(typeof(AccountStatus), account.Status);
+                        if (dominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                            dominatorAccountModel.AccountBaseModel.Status = AccountStatus.NotChecked;
+
                         if (!string.IsNullOrEmpty(account.ActivityManager))
                             dominatorAccountModel.ActivityManager = JsonConvert.DeserializeObject<JobActivityManager>(account.ActivityManager);
                         LstDominatorAccountModel.AddSync(dominatorAccountModel);
