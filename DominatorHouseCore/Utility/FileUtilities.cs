@@ -344,7 +344,5 @@ namespace DominatorHouseCore.Utility
             catch (Exception ex)
             { }
         }
-
-
     }
 }

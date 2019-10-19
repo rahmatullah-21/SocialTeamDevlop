@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -157,6 +158,31 @@ namespace DominatorHouseCore.Utility
                 var keySubstring = resourceDictionaryKey.Substring("LangKey".Length);
                 return Regex.Replace(keySubstring, "(\\B[A-Z])", " $1");
             }
+        }
+
+        /// <summary>
+        /// Get Report Header as string
+        /// </summary>
+        /// <param name="resourceDictionaryKey">List of resourceDictionary key. It should be sequential.</param>
+        /// <returns></returns>
+        public static string ReportHeaderFromResourceDict(this List<string> resourceDictionaryKeys)
+        {
+            string header = "";
+            foreach (var each in resourceDictionaryKeys)
+            {
+                string lang = "";
+                try
+                {
+                    lang = Application.Current?.FindResource(each)?.ToString() ?? each;
+                }
+                catch (Exception)
+                {
+                    lang = each.Substring("LangKey".Length);
+                    lang = Regex.Replace(lang, "(\\B[A-Z])", " $1");
+                }
+                header += $"{lang},";
+            }
+            return header.TrimEnd(',');
         }
 
 
@@ -395,7 +421,7 @@ namespace DominatorHouseCore.Utility
             });
         }
 
-        public static T GetActivityModel<T>(this string activitySettings, dynamic lastModel,bool isNonQuery = false)
+        public static T GetActivityModel<T>(this string activitySettings, dynamic lastModel, bool isNonQuery = false)
         {
             dynamic getModel = JsonConvert.DeserializeObject<T>(activitySettings);
 
@@ -410,7 +436,7 @@ namespace DominatorHouseCore.Utility
                         var listOldQuery = getModel.ListQueryType;
                         getModel.ListQueryType = lastModel.ListQueryType;
 
-                        Utilities.ModifySavedQueries(getModel.SavedQueries, getModel.ListQueryType, listOldQuery); 
+                        Utilities.ModifySavedQueries(getModel.SavedQueries, getModel.ListQueryType, listOldQuery);
                     }
                 }
                 catch (Exception ex)
@@ -419,5 +445,21 @@ namespace DominatorHouseCore.Utility
             }
             return getModel;
         }
+
+        public static string AsCsvData(this string data/*, bool isLast = false*/)
+        {
+            return $"\"{data?.Replace("\"", "\"\"")}\""/* + (!isLast ? "," : "")*/;
+        }
+
+        public static ObservableCollection<GridViewColumnDescriptor> CampaignReportViewColumn(List<KeyValuePair<string,string>> listResourceKeyBindingId)
+        {
+            var returnIt = new ObservableCollection<GridViewColumnDescriptor>();
+            foreach(var each in listResourceKeyBindingId)
+            {
+                returnIt.Add(new GridViewColumnDescriptor { ColumnHeaderText = each.Key.FromResourceDictionary(), ColumnBindingText = each.Value});
+            }
+            return returnIt;
+        }
+        
     }
 }

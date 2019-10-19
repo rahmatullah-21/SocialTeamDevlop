@@ -4385,4 +4385,11 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyPhotoVideo">Photo/Video</system:String>
     <system:String x:Key="LangKeyPageInviterNote">Hi, I'm inviting you to like my Page because I thought that you might be interested in supporting it.</system:String>
     <system:String x:Key="LangKeyPinUrlNotExist">Pin Url => {0} doesn't exist.</system:String>
+    <system:String x:Key="LangKeyPostOwnerName">Post Owner Name</system:String>
+    <system:String x:Key="LangKeyPostOwnerURl">Post Owner Url </system:String>
+    <system:String x:Key="LangKeyMyComment">My Comment</system:String>
+    <system:String x:Key="LangKeyInteractionDateTime">Interaction DateTime</system:String>
+
+    <system:String x:Key="LangKeyCommunityType">Community Type</system:String>
+    <system:String x:Key="LangKeyJoinRequestDate">JoinRequest Date</system:String>
 </ResourceDictionary>
