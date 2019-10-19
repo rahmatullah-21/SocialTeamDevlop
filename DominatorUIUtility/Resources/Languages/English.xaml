@@ -4392,4 +4392,6 @@ Do you want to continue running {0}?</system:String>
 
     <system:String x:Key="LangKeyCommunityType">Community Type</system:String>
     <system:String x:Key="LangKeyJoinRequestDate">JoinRequest Date</system:String>
+    <system:String x:Key="LangKeyDeleteConversations">Delete Conversations</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInDeleteConversation">This Socinator feature helps to automate delete all Conversation of users on LinkedIn. It allows to select accounts for delete conversations on configured time.</system:String>
 </ResourceDictionary>

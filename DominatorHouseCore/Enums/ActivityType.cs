@@ -332,6 +332,8 @@ namespace DominatorHouseCore.Enums
         [Description("Reddit")]
         EditComment = 117,
         [Description("Instagram")]
-        StoryViewer = 118
+        StoryViewer = 118,
+        [Description("LinkedIn,LangKeyDeleteConversations")]
+        DeleteConversations = 119
     }
 }
