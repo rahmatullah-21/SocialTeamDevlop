@@ -88,6 +88,8 @@ namespace DominatorUIUtility.CustomControl
                 var list = FileUtilities.FileBrowseAndReader();
                 if (list.Count == 0)
                     return;
+                if(string.IsNullOrWhiteSpace(InputText))
+                    InputCollection.Clear();
                 foreach (var text in list)
                 {
                     if (!InputCollection.Contains(text))
