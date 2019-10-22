@@ -385,10 +385,6 @@ namespace DominatorHouseCore.Settings
                 var postScraperConstants = ServiceLocator.Current
                     .GetInstance<IPostScraperConstants>();
 
-                if (postScraperConstants.LstRunningAccountsAds.Contains(account.AccountId)
-                        || postScraperConstants.LstRunningAccountsLcs.Contains(account.AccountId))
-                    return;
-
                 if ((DateTime.Now - postScraperConstants.LastLcsJobTime).TotalHours > 10000)
                     postScraperConstants.LastLcsJobTime = DateTime.Now.Subtract(TimeSpan.FromHours(4));
 
@@ -418,7 +414,7 @@ namespace DominatorHouseCore.Settings
                         await asyncAdScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token);
                         
                         JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account); },
-                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1.5)));
+                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1)));
 
                     }
                     else
