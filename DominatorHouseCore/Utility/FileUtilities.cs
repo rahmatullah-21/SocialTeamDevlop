@@ -325,8 +325,8 @@ namespace DominatorHouseCore.Utility
                 {
                     var data = line.Trim();
                     if (!string.IsNullOrEmpty(data))
-                        csvSplitList.Add(ImageExtracter.CheckUrlValid(data) ? data : data.Replace(":", "\t"));
-
+                        //csvSplitList.Add(ImageExtracter.CheckUrlValid(data) ? data : data.Replace(":", "\t"));
+                        csvSplitList.Add(ImageExtracter.CheckUrlValid(data.Split('\t').Last()) ? data : data.Replace(":", "\t"));
                 }
                 return csvSplitList;
             }

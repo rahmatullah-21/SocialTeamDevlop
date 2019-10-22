@@ -4394,4 +4394,10 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyJoinRequestDate">JoinRequest Date</system:String>
     <system:String x:Key="LangKeyDeleteConversations">Delete Conversations</system:String>
     <system:String x:Key="LangKeyModuleDescriptionLinkedInDeleteConversation">This Socinator feature helps to automate delete all Conversation of users on LinkedIn. It allows to select accounts for delete conversations on configured time.</system:String>
+
+    <system:String x:Key="LangKeyAlreadyFollowedUserOutsideSoftware">Already followed user => {0} outside software</system:String>
+    <system:String x:Key="LangKeyServerIsExperiencingMildCaseHiccups">Our server is experiencing a mild case of the hiccups. We've reported it to the team.</system:String>
+    <system:String x:Key="LangKeyFetchResetLinkFromAssociatedEmailAddress">Please wait for a minute trying to fetch Reset link from associated email address</system:String>
+    <system:String x:Key="LangKeyResetPasswordLinkFetched">Reset password link fetched successfully.</system:String>
+    <system:String x:Key="LangKeyFailedToFetchPasswordLink">Failed to fetch password link from mail.</system:String>
 </ResourceDictionary>
