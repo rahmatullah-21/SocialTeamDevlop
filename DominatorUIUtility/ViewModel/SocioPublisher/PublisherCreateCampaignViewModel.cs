@@ -858,9 +858,12 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // Get the index of the current campaign
             var index = PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels.IndexOf(currentItem);
 
-            // Substutite with proper index
-            PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels[index] = publisherCampaignStatusModel;
-
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Substutite with proper index
+                PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels[index] = publisherCampaignStatusModel;
+            });
+            
             var LstPublishedPostDetailsModels = PostlistFileManager.GetAll(publisherCampaignStatusModel.CampaignId);
             PublisherCreateCampaignModel.PostCollection.ForEach(post =>
             {

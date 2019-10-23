@@ -660,7 +660,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _exportPath, value);
             }
         }
-        private bool _isThreadLimitChecked;
+        private bool _isThreadLimitChecked = true;
         [ProtoMember(45)]
         public bool IsThreadLimitChecked
         {
@@ -668,7 +668,7 @@ namespace DominatorHouseCore.Models
             set { SetProperty(ref _isThreadLimitChecked, value); }
         }
 
-        private int _maxThreadCount = 1;
+        private int _maxThreadCount = 10;
         [ProtoMember(46)]
         public int MaxThreadCount
         {

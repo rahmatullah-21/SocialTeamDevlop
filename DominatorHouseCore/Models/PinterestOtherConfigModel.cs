@@ -40,7 +40,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isCampainWiseUnique = true;
+        private bool _isCampainWiseUnique = false;
         [ProtoMember(3)]
         public bool IsCampainWiseUnique
         {

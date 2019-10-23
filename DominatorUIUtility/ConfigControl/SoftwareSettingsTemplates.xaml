@@ -96,7 +96,7 @@
                         <StackPanel Orientation="Horizontal">
                             <CheckBox Margin="5" Content="{DynamicResource LangKeyMaxThreadsToRun}"
                               IsChecked="{Binding IsThreadLimitChecked}"/>
-                            <mah:NumericUpDown Minimum="1" Margin="5" Value="{Binding MaxThreadCount}"/>
+                            <mah:NumericUpDown Minimum="1" Margin="5" IsEnabled="{Binding IsThreadLimitChecked}" Value="{Binding MaxThreadCount}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <CheckBox Content="{DynamicResource LangKeyDefaultExportPath}" Name="IsDefaultPath" IsChecked="{Binding IsDefaultExportPathSelected}"/>
