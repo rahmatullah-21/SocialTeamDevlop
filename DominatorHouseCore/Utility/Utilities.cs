@@ -167,7 +167,7 @@ namespace DominatorHouseCore.Utility
         /// <returns></returns>
         public static string ReportHeaderFromResourceDict(this List<string> resourceDictionaryKeys)
         {
-            string header = "";
+            string header = ""; 
             foreach (var each in resourceDictionaryKeys)
             {
                 string lang = "";

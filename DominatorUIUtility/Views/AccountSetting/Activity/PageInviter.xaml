@@ -38,8 +38,8 @@
                             <RadioButton Name="ChckPostUrl" GroupName="Category" Content="{DynamicResource LangKeyInvitePagePostLikers}"  Width="300" Margin="10,5" FontSize="13" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Left" IsChecked="{Binding InviterDetailsModel.IsPostUrl}"/>
 
                             <StackPanel Orientation="Vertical"  Margin="30,5" Visibility="{Binding InviterDetailsModel.IsPostUrl,Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <RadioButton Margin="0,4,0,4" GroupName="PagePostOptions" Name="ChkboxRandomPost"  Foreground="Black" FontWeight="SemiBold"   Content="Random Post(s)" IsChecked="{Binding InviterDetailsModel.IsRandomPosts}"   />
-                                <RadioButton GroupName="PagePostOptions"  Name="ChkboxSpecificPost"  Foreground="Black" Margin="0,4,0,4"  FontWeight="SemiBold" Content="Specific Post" IsChecked="{Binding InviterDetailsModel.IsSpecificPosts}" />
+                                <RadioButton Margin="0,4,0,4" GroupName="PagePostOptions" Name="ChkboxRandomPost"  Foreground="Black" FontWeight="SemiBold"   Content="{DynamicResource LangKeyRandomPosts}" IsChecked="{Binding InviterDetailsModel.IsRandomPosts}"   />
+                                <RadioButton GroupName="PagePostOptions"  Name="ChkboxSpecificPost"  Foreground="Black" Margin="0,4,0,4"  FontWeight="SemiBold" Content="{DynamicResource LangKeySpecificPost}" IsChecked="{Binding InviterDetailsModel.IsSpecificPosts}" />
                                 <customControl1:SelectOptionControl ToolTip="{DynamicResource LangKeyCustomPostUrl}" x:Name="BtnPostUrl" SelectedInputOption="{DynamicResource LangKeySelectPages}"
                                                                LstSelectedInput="{Binding InviterDetailsModel.ListPostUrl}"
                                                                                 InputText="{Binding InviterDetailsModel.PostUrlText}" IsSelectButtonVisible="False"                                                                                                                          

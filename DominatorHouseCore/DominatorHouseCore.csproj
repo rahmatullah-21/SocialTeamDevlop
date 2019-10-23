@@ -285,6 +285,7 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\Friends.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedCommentReplies.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedComments.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedEvents.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedGroups.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\PrivateWhitelist.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedCommentReplies.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedComments.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedEvents.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedGroups.cs" />

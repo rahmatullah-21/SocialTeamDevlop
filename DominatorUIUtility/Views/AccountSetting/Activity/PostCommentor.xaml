@@ -31,7 +31,7 @@
                 <Expander Header="{DynamicResource LangKeySearchQuery}" Margin="5,5"
                                    IsExpanded="{Binding ElementName=header,Path=IsExpanded,Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Engage With Posts From" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                        <TextBlock Text="{DynamicResource LangKeyEngageWithPostsFrom}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
 
                         <StackPanel Orientation="Vertical">
                             <!--Own wall-->

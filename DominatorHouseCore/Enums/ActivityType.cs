@@ -334,6 +334,8 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram")]
         StoryViewer = 118,
         [Description("LinkedIn,LangKeyDeleteConversations")]
-        DeleteConversations = 119
+        DeleteConversations = 119,
+        [Description("Facebook")]
+        CommentRepliesScraper = 120
     }
 }
