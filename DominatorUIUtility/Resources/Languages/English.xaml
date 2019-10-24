@@ -4409,4 +4409,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyNoCommentRepliesFound">Found {0} comment Replies for Comment Url {1}{2}</system:String>
     <system:String x:Key="LangKeySkipedAlreadyInteractedPinWithComment">Skiped already interacted pin => {0} with comment => {1}</system:String>
     <system:String x:Key="LangKeySkipedPin">Skipped pin => {0}</system:String>
+    <system:String x:Key="LangKeyAccountGroupName">Account's Group name</system:String>
+    <system:String x:Key="LangKeySearchByGroupName">Search By GroupName</system:String>
+    <system:String x:Key="LangKeyWriteUserNameGroupName">Write Username/user/GroupName</system:String>
 </ResourceDictionary>

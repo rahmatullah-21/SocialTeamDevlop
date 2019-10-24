@@ -73,18 +73,27 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (SelectedNetworks == SocialNetworks.Social)
                 {
                     if (!string.IsNullOrEmpty(FilterText))
-                        DestinationCollectionView.Filter = x =>
+                        if (_filterByUserName)
+                            DestinationCollectionView.Filter = x =>
                             ((PublisherCreateDestinationSelectModel)x).AccountName.IndexOf(FilterText,
                                 StringComparison.CurrentCultureIgnoreCase) >= 0;
+                        else
+                            DestinationCollectionView.Filter = x =>
+                                                        ((PublisherCreateDestinationSelectModel)x).AccountGroupName.IndexOf(FilterText,
+                                                            StringComparison.CurrentCultureIgnoreCase) >= 0;
                     else DestinationCollectionView.Filter = (x) => true;
                 }
                 else
                 {
                     if (!string.IsNullOrEmpty(FilterText))
-                        DestinationCollectionView.Filter =
+                        if (_filterByUserName)
+                            DestinationCollectionView.Filter =
                             x => ((PublisherCreateDestinationSelectModel)x).SocialNetworks == SelectedNetworks && ((PublisherCreateDestinationSelectModel)x).AccountName.IndexOf(_filterText, StringComparison.CurrentCultureIgnoreCase) >= 0;
-                    else DestinationCollectionView.Filter = x => ((PublisherCreateDestinationSelectModel)x).SocialNetworks == SelectedNetworks;
+                        else
+                            DestinationCollectionView.Filter =
+                                x => ((PublisherCreateDestinationSelectModel)x).SocialNetworks == SelectedNetworks && ((PublisherCreateDestinationSelectModel)x).AccountGroupName.IndexOf(_filterText, StringComparison.CurrentCultureIgnoreCase) >= 0;
 
+                    else DestinationCollectionView.Filter = x => ((PublisherCreateDestinationSelectModel)x).SocialNetworks == SelectedNetworks;
                 }
             }
             catch (Exception ex)
@@ -161,6 +170,39 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 FilterByNetwork();
             }
         }
+
+        private bool _filterByGroupName;
+
+        public bool FilterByGroupName
+        {
+            get
+            {
+                return _filterByGroupName;
+            }
+            set
+            {
+                SetProperty(ref _filterByGroupName, value);
+                if(!string.IsNullOrWhiteSpace(FilterText))
+                    FilterByNetwork();
+            }
+        }
+
+        private bool _filterByUserName = true;
+
+        public bool FilterByUserName
+        {
+            get
+            {
+                return _filterByUserName;
+            }
+            set
+            {
+                SetProperty(ref _filterByUserName, value);
+                if (!string.IsNullOrWhiteSpace(FilterText))
+                    FilterByNetwork();
+            }
+        }
+
         private HashSet<SocialNetworks> _availableNetworks = SocinatorInitialize.AvailableNetworks;
         public HashSet<SocialNetworks> AvailableNetworks
         {
@@ -959,6 +1001,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AccountId = x.AccountBaseModel.AccountId,
                     AccountName = x.AccountBaseModel.UserName,
                     SocialNetworks = x.AccountBaseModel.AccountNetwork,
+                    AccountGroupName = x.AccountBaseModel.AccountGroup.Content,
                     IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsCustomDestinationInNetworks = IsCustomDestinationInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
                     IsGroupsAvailable =
@@ -1427,6 +1470,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         DestinationType = x.DestinationType,
                         DestinationUrl = x.DestinationValue,
                         SocialNetworks = publisherCreateDestinationSelectModel.SocialNetworks,
+                        AccountGroupName = publisherCreateDestinationSelectModel.AccountGroupName,
                         PublisherPostlistModel = new PublisherPostlistModel(),
                         IsCustomDestintions = true,
                         DestinationGuid = Utilities.GetGuid(),

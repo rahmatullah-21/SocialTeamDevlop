@@ -436,5 +436,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         [ProtoMember(7)]
         public string AccountName { get; set; } = string.Empty;
 
+        [ProtoMember(8)]
+        public string AccountGroupName { get; set; } = string.Empty;
     }
 }

@@ -1196,6 +1196,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     AccountId = x.AccountBaseModel.AccountId,
                     AccountName = x.AccountBaseModel.UserName,
                     SocialNetworks = x.AccountBaseModel.AccountNetwork,
+                    AccountGroupName = x.AccountBaseModel.AccountGroup.Content,
                     IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),//x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
                     IsGroupsAvailable =
                         GroupsAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),
@@ -1483,6 +1484,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         {
                             AccountId = x.AccountBaseModel.AccountId,
                             AccountName = x.AccountBaseModel.UserName,
+                            AccountGroupName = x.AccountBaseModel.AccountGroup.Content,
                             SocialNetworks = x.AccountBaseModel.AccountNetwork,
                             IsOwnWallAvailable = !WallAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString()),// x.AccountBaseModel.AccountNetwork != SocialNetworks.Pinterest,
                             IsGroupsAvailable =
@@ -1573,6 +1575,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         DestinationType = x.DestinationType,
                         DestinationUrl = x.DestinationValue,
                         SocialNetworks = allAccountDetailsSelectModel.SocialNetworks,
+                        AccountGroupName = allAccountDetailsSelectModel.AccountGroupName,
                         PublisherPostlistModel = new PublisherPostlistModel(),
                         IsCustomDestintions = true,
                         DestinationGuid = Utilities.GetGuid(),

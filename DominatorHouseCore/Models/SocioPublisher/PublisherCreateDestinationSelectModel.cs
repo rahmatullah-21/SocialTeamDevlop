@@ -350,5 +350,13 @@ namespace DominatorHouseCore.Models.SocioPublisher
             set { SetProperty(ref _isCustomDestinationInNetworks, value); }
         }
 
+        private string _accountGroupName;
+        [ProtoMember(21)]
+        public string AccountGroupName
+        {
+            get { return _accountGroupName; }
+            set { SetProperty(ref _accountGroupName, value); }
+        }
+
     }
 }

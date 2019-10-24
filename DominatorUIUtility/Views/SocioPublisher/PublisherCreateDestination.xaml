@@ -197,9 +197,12 @@
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" Margin="5,5">
-                            <Label Content="{DynamicResource LangKeySearchByUser}" />
-                            <TextBox Width="180" Height="25" Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                     mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWriteUserNameOrName}"/>
+                            <StackPanel Orientation="Vertical">
+                                <RadioButton Margin="5,2" GroupName="RadioBSearchUsersBy" Content="{DynamicResource LangKeySearchByUser}" IsChecked="{Binding FilterByUserName}" />
+                                <RadioButton Margin="5,3" GroupName="RadioBSearchUsersBy" Content="{DynamicResource LangKeySearchByGroupName}" IsChecked="{Binding FilterByGroupName}" />
+                            </StackPanel>
+                            <TextBox Width="200" Height="25" Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                     mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWriteUserNameGroupName}"/>
                             <Label Content="{DynamicResource LangKeySelectNetwork}" />
                             <ComboBox ItemsSource="{Binding AvailableNetworks,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
                                       Margin="5,0" Width="100" SelectedIndex="0" Name="selectedNetwork"
@@ -272,6 +275,19 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
+                        <GridViewColumn  Width="130">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource LangKeyAccountGroupName}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <TextBlock  Margin="6,2,6,2" Text="{Binding AccountGroupName}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
                         <GridViewColumn Width="130">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyPlatform}"/>
