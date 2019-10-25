@@ -435,6 +435,8 @@ namespace DominatorHouse.ViewModels
                 });
                 Task.Factory.StartNew(() =>
                 {
+                    System.Threading.Thread.Sleep(TimeSpan.FromMinutes(1));
+
                     #region Publisher
 
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
