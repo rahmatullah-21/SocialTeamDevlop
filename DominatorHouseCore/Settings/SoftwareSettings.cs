@@ -19,7 +19,6 @@ using FluentScheduler;
 using Microsoft.Win32;
 using Registry = Microsoft.Win32.Registry;
 using DominatorHouseCore.DatabaseHandler.Utility;
-using System.Collections.ObjectModel;
 using DominatorHouseCore.Enums.FdQuery;
 
 namespace DominatorHouseCore.Settings
@@ -30,7 +29,8 @@ namespace DominatorHouseCore.Settings
         void ActivityManagerInitializer();
         void ScheduleAutoUpdation();
         Task ScheduleAdsScraping();
-        Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer, DominatorAccountModel currentAccount = null);
+        Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer, DominatorAccountModel currentAccount = null
+            , SocialNetworks currentNetwork = SocialNetworks.Facebook);
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
     }
@@ -67,7 +67,7 @@ namespace DominatorHouseCore.Settings
                 if (!(Settings.RunQueriesRandomly || Settings.RunQueriesBottomToTop || Settings.RunQueriesTopToBottom))
                     Settings.RunQueriesRandomly = true;
             }
-            
+
             //OtherInitializers();
 
 
@@ -141,7 +141,7 @@ namespace DominatorHouseCore.Settings
         {
             if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
             {
-                FileUtilities.Copy(ConstantVariable.MyAppFolderPath+ @"\"+$"{"LangKeySocinator".FromResourceDictionary()}Icon.png", ConstantVariable.GetSocinatorIcon());
+                FileUtilities.Copy(ConstantVariable.MyAppFolderPath + @"\" + $"{"LangKeySocinator".FromResourceDictionary()}Icon.png", ConstantVariable.GetSocinatorIcon());
                 if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
                     Utilities.DownloadSocinatorIcon();
             }
@@ -331,14 +331,23 @@ namespace DominatorHouseCore.Settings
                 new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
             await ScrapAdsProduceAsync(adScraperblock);
+
+            var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
+                async job =>
+                {
+                    await job.StartAdScarperAsync();
+                },
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+
+            await ScrapAdsProduceAsync(adScraperblock, currentNetwork: SocialNetworks.Quora);
         }
 
 
         public async Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer,
-            DominatorAccountModel currentAccount = null)
+            DominatorAccountModel currentAccount = null, SocialNetworks currentNetwork = SocialNetworks.Facebook)
         {
-            var accounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
-
+            var accounts = _accountsFileManager.GetAll(currentNetwork);
+            
             if (currentAccount != null)
                 accounts = accounts.Where(x => x.AccountId == currentAccount.AccountId).ToList();
 
@@ -390,8 +399,8 @@ namespace DominatorHouseCore.Settings
 
                 AdUpdationType currentUpdationType;
 
-                currentUpdationType = AdUpdationType.Ads;
-                
+                currentUpdationType = account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ? AdUpdationType.FbAds :
+                  AdUpdationType.QuoraAds;
 
                 var asyncAdScraperFactory =
                     ServiceLocator.Current.GetInstance<IAdScraperFactory>(currentUpdationType.ToString());
@@ -412,21 +421,21 @@ namespace DominatorHouseCore.Settings
                         cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                         await asyncAdScraperFactory.ScrapeAdsAsync(account, cancellationTokenSource.Token);
-                        
-                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account); },
+
+                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(1)));
 
                     }
                     else
                     {
-                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account); },
+                        JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(30)));
 
                         return;
                     }
-                        
-                   
-                   
+
+
+
 
                 }
                 catch (OperationCanceledException ex)
