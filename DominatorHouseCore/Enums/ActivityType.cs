@@ -234,7 +234,7 @@ namespace DominatorHouseCore.Enums
         //[Description("Youtube")]
         //DislikeToComment = 77,
 
-        [Description("Facebook")]
+        [Description("Facebook,Instagram")]
         ReplyToComment = 78,
 
         [Description("Tumblr")]
