@@ -24,6 +24,7 @@ namespace DominatorHouseCore.ViewModel
         private const int MaxLogSize = 1000;
         private LoggerModel _selected;
         private SocialNetworks? _selectedNetwork;
+        private DominatorAccountModel _selectedAccount;
         private ObservableCollection<LoggerModel> _logs;
 
         public object SyncObject { get; }
@@ -57,6 +58,16 @@ namespace DominatorHouseCore.ViewModel
                 OnPropertyChanged(nameof(NetworkIsSelected));
                 LogCollection.View.Refresh();
                 ActivityTypes.Selected = null;
+            }
+        }
+
+        public DominatorAccountModel SelectedAccount
+        {
+            get { return _selectedAccount; }
+            set
+            {
+                SetProperty(ref _selectedAccount, value, nameof(SelectedNetwork));
+                LogCollection.View.Refresh();
             }
         }
 
@@ -111,6 +122,17 @@ namespace DominatorHouseCore.ViewModel
         {
             var logs = e.Item as LoggerModel;
 
+            if (logs.AccountCampaign != null && logs.AccountCampaign.Equals(SelectedAccount?.AccountBaseModel.UserName,
+                        StringComparison.InvariantCultureIgnoreCase))
+            {
+                e.Accepted = true;
+            }
+            else if (SelectedAccount != null)
+            {
+                e.Accepted = false;
+                return;
+            }
+
             if (string.IsNullOrEmpty(SelectedNetwork.ToString())
                 && LogType.Equals(logs.LogType, StringComparison.InvariantCultureIgnoreCase))
             {
@@ -144,7 +166,7 @@ namespace DominatorHouseCore.ViewModel
 
         public void Add(string message, LogLevel logLevel)
         {
-            
+
             lock (SyncObject)
             {
 

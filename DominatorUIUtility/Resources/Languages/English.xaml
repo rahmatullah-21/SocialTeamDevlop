@@ -4412,4 +4412,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyAccountGroupName">Account's Group name</system:String>
     <system:String x:Key="LangKeySearchByGroupName">Search By GroupName</system:String>
     <system:String x:Key="LangKeyWriteUserNameGroupName">Write Username/user/GroupName</system:String>
+    <system:String x:Key="LangKeyFilterByAccount">Filter By Account</system:String>
 </ResourceDictionary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Dragablz;
+using DominatorHouseCore.Models;
 
 namespace DominatorHouse.Support.Logs.Views
 {
@@ -25,6 +26,18 @@ namespace DominatorHouse.Support.Logs.Views
             }
         }
 
+        public IEnumerable<DominatorAccountModel> AvailableAccounts
+        {
+            get
+            {
+                return (IEnumerable<DominatorAccountModel>)GetValue(AvailableAccountsProperty);
+            }
+            set
+            {
+                SetValue(AvailableAccountsProperty, value);
+            }
+        }
+
         public ILogViewModel ViewModel
         {
             get
@@ -43,6 +56,9 @@ namespace DominatorHouse.Support.Logs.Views
 
         public static readonly DependencyProperty AvailableNetworksProperty =
             DependencyProperty.Register("AvailableNetworks", typeof(IEnumerable<SocialNetworks?>), typeof(LogView), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty AvailableAccountsProperty =
+            DependencyProperty.Register("AvailableAccounts", typeof(IEnumerable<DominatorAccountModel>), typeof(LogView), new PropertyMetadata(null));
 
 
         public LogView()

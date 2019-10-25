@@ -17,12 +17,15 @@ namespace DominatorHouseCore.Converters
                 return null;
             var collection = values[0] as IEnumerable<DominatorAccountModel>;
             var socialNetworks = values[1] as SocialNetworks?;
-
+            var isReturnwithoutAssign = parameter as bool?;
             if (collection != null)
             {
                 if (socialNetworks.HasValue && socialNetworks.Value != SocialNetworks.Social)
                 {
-                    collection = collection.Where(a => a.AccountBaseModel.AccountNetwork == socialNetworks.Value);
+                    if (isReturnwithoutAssign == true)
+                        return collection.Where(a => a.AccountBaseModel.AccountNetwork == socialNetworks.Value);
+                    else
+                        collection = collection.Where(a => a.AccountBaseModel.AccountNetwork == socialNetworks.Value);
                 }
             }
 

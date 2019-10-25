@@ -22,6 +22,7 @@ using DominatorUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -38,6 +39,8 @@ namespace DominatorHouse.ViewModels
         private readonly ISchedulerProxy _schedulerProxy;
         private Dock _tabDock;
         public ILogViewModel LogViewModel { get; }
+
+        public ObservableCollection<DominatorAccountModel> AccountList { get; set; }
         public IPerfCounterViewModel PerfCounterViewModel { get; }
 
         public SelectableViewModel<string> Languages { get; }
@@ -100,6 +103,9 @@ namespace DominatorHouse.ViewModels
                 _determine_available = a => AvailableNetworks.Contains(a),
                 _inform_warnings = GlobusLogHelper.log.Warn,
             };
+
+            var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+            AccountList = new ObservableCollection<DominatorAccountModel>(accountFileManager.GetAll());
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
@@ -347,24 +353,24 @@ namespace DominatorHouse.ViewModels
                                  ex.DebugLog();
                              }
                          }
-                        //FeatureFlags.Check(module.Network.ToString(), () =>
-                        //{
-                        //    try
-                        //    {
-                        //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
-                        //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
-                        //        AddNetwork(socialNetworkModule.Network);
-                        //    }
-                        //    catch (AggregateException ex)
-                        //    {
-                        //        Console.WriteLine(ex.Message);
-                        //    }
-                        //    catch (Exception ex)
-                        //    {
-                        //        ex.DebugLog();
-                        //    }
-                        //});
-                        Task.Delay(5);
+                         //FeatureFlags.Check(module.Network.ToString(), () =>
+                         //{
+                         //    try
+                         //    {
+                         //        SocinatorInitialize.SocialNetworkRegister(module.GetNetworkCollectionFactory(Strategies), module.Network);
+                         //        PublisherInitialize.SaveNetworkPublisher(module.GetPublisherCollectionFactory(), module.Network);
+                         //        AddNetwork(socialNetworkModule.Network);
+                         //    }
+                         //    catch (AggregateException ex)
+                         //    {
+                         //        Console.WriteLine(ex.Message);
+                         //    }
+                         //    catch (Exception ex)
+                         //    {
+                         //        ex.DebugLog();
+                         //    }
+                         //});
+                         Task.Delay(5);
                      }
 
                      SetActiveNetwork(SocialNetworks.Social);
@@ -537,7 +543,7 @@ namespace DominatorHouse.ViewModels
                     /* LastControlType will be have value "AccountManager" if last opened UserControl was "Account Manager" itselt, it won't let to change UserControl if "Account Details" was opened. */
                     if (AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType == "AccountDetail")
                         return;
-                    
+
                     AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl =
                             AccountCustomControl.GetAccountCustomControl(SocialNetworks.Social, Strategies);
                 }
@@ -563,10 +569,10 @@ namespace DominatorHouse.ViewModels
 
             // if "Account details" was opened in account manager, then discard all account details changes while switching network 
             var isAccountDetailsOpened = AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType;
-            if(isAccountDetailsOpened == "AccountDetail")
+            if (isAccountDetailsOpened == "AccountDetail")
             {
                 ((AccountDetail)(AccountManagerViewModel.GetSingletonAccountManagerViewModel().SelectedUserControl)).AccountDetailsViewModel.UpdateCurrentDominatorAccountModel();
-                 AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType = "AccountManager";
+                AccountManagerViewModel.GetSingletonAccountManagerViewModel().LastControlType = "AccountManager";
             }
 
             TabInitialize(network.Value);
@@ -599,7 +605,7 @@ namespace DominatorHouse.ViewModels
                 TabDock = Dock.Left;
 
                 DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyFatalError".FromResourceDictionary(),
-                    String.Format("LangKeyPurchaseAccessOfNetwork".FromResourceDictionary(),network));
+                    String.Format("LangKeyPurchaseAccessOfNetwork".FromResourceDictionary(), network));
                 ex.DebugLog();
             }
         }

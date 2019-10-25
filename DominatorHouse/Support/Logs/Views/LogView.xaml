@@ -7,11 +7,16 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <system:Boolean x:Key="True">True</system:Boolean>
+        <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
         <converters:ActivityTypesSourceConverter x:Key="ActivityTypesSourceConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+        <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
+        <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
     </UserControl.Resources>
     <UserControl.Template>
         <ControlTemplate>
@@ -22,6 +27,7 @@
                     <Label Content="{DynamicResource LangKeyFilterByNetwork}" FontWeight="SemiBold"/>
                     <ComboBox ItemsSource="{Binding AvailableNetworks, RelativeSource={RelativeSource TemplatedParent}}" Width="200"
                               mah:TextBoxHelper.ClearTextButton="True" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}"/>
+
                     <StackPanel Orientation="Horizontal" Visibility="{Binding NetworkIsSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Label Content="{DynamicResource LangKeyFilterByActivityType}" FontWeight="SemiBold"/>
                         <ComboBox Width="200" mah:TextBoxHelper.ClearTextButton="True"
@@ -33,26 +39,55 @@
                                 </MultiBinding>
                             </ComboBox.ItemsSource>
                         </ComboBox>
-                 </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{DynamicResource LangKeyFilterByAccount}" FontWeight="SemiBold"/>
+                        <ComboBox Width="200" mah:TextBoxHelper.ClearTextButton="True"
+                                  Name="CmbAccount" SelectedItem="{Binding SelectedAccount, Mode=TwoWay}">
+                            <ComboBox.ItemsSource>
+                                <MultiBinding Converter="{StaticResource AccountsFilterConverter}" ConverterParameter="{StaticResource True}">
+                                    <Binding Path="AvailableAccounts"  RelativeSource="{RelativeSource TemplatedParent}" IsAsync="True"/>
+                                    <Binding Path="SelectedNetwork" />
+                                </MultiBinding>
+                            </ComboBox.ItemsSource>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle Margin="5,0" VerticalAlignment="Center"
+                                                   Fill="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
+                                                   Width="12" Height="12">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush
+                                                    Visual="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
+                                                    Stretch="Fill" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                        <TextBlock Text="{Binding AccountBaseModel.UserName}" FontWeight="SemiBold" Foreground="Black"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
-                    <dragablz:TabablzControl x:Name="InitialTabablzControl" SelectionChanged="TabSelectionChange"
+                <dragablz:TabablzControl x:Name="InitialTabablzControl" SelectionChanged="TabSelectionChange"
                                              Style="{DynamicResource TabablzControlStyle}" Margin="0,5,0,0" >
                     <TabItem Header="{DynamicResource LangKeyInfo}" Name="InfoTab" IsSelected="True" >
-                            <views:LogList Logs="{Binding Logs}" 
+                        <views:LogList Logs="{Binding Logs}" 
                                            NetworkFilter="{Binding SelectedNetwork}" 
                                            ActivityTypeFilter="{Binding ActivityTypes.Selected}" 
                                            LogTypeFilter="{x:Static views:LogList.LogTypeInfo}"
                                            SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"
                                            SyncObject="{Binding SyncObject, Mode=OneTime}"/>
-                        </TabItem>
+                    </TabItem>
                     <TabItem Header="{DynamicResource LangKeyError}" Name="ErrorTab" >
-                            <views:LogList Logs="{Binding Logs}" 
+                        <views:LogList Logs="{Binding Logs}" 
                                            NetworkFilter="{Binding SelectedNetwork}" 
                                            ActivityTypeFilter="{Binding ActivityTypes.Selected}" 
                                            LogTypeFilter="{x:Static views:LogList.LogTypeError}"
                                            SelectedLoggerModel="{Binding Selected, Mode=TwoWay}"
                                            SyncObject="{Binding SyncObject, Mode=OneTime}"/>
-                        </TabItem>
+                    </TabItem>
                 </dragablz:TabablzControl>
             </Grid>
         </ControlTemplate>

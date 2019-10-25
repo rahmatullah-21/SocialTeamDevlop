@@ -14,6 +14,7 @@ namespace DominatorHouseCore.Converters
         {
             var collection = values[0] as IEnumerable<ActivityType?>;
             var network = values[1] as SocialNetworks?;
+            
             if (network == null || network == SocialNetworks.Social)
             {
                 return collection;
