@@ -121,7 +121,13 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (_isUncheckFromList)
                     return;
-                LstSelectAccount.Select(x =>
+
+                var list = AccountCollectionView.Cast<SelectAccountModel>();
+                var selectFromlist = LstSelectAccount.Count == list.Count()
+                                     ? LstSelectAccount.ToList() : LstSelectAccount.Intersect(list).ToList();
+
+
+                selectFromlist.Select(x =>
                 {
                     x.IsAccountSelected = isChecked;
                     return x;
@@ -139,9 +145,40 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
+        void CompareModelAndSelectionList()
+        {
+            var collectionList = AccountCollectionView.Cast<SelectAccountModel>();
+            if (collectionList.Count().Equals(0))
+                return;
+            var list = LstSelectAccount.Except(collectionList);
+            list.Where(x => x.IsAccountSelected).ForEach(x => x.IsAccountSelected = false);
+        }
+
+        public void ChangeSelectionAfterFilter()
+        {
+            CompareModelAndSelectionList();
+            var list = AccountCollectionView.Cast<SelectAccountModel>();
+            if (list.Count().Equals(0) || !list.All(x => x.IsAccountSelected))
+            {
+                if (IsAllAccountSelected)
+                {
+                    _isUncheckFromList = true;
+                    IsAllAccountSelected = false;
+                }
+            }
+            else
+            {
+                if (!IsAllAccountSelected)
+                {
+                    _isUncheckFromList = true;
+                    IsAllAccountSelected = true;
+                }
+            }
+        }
+
         private void SingleAccountSelector(object value)
         {
-            if (LstSelectAccount.All(x => x.IsAccountSelected))
+            if (AccountCollectionView.Cast<SelectAccountModel>().All(x => x.IsAccountSelected))
             {
                 IsAllAccountSelected = true;
                 SelectAccountModel.Groups.Select(group =>

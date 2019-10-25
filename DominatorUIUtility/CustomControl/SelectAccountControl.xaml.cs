@@ -106,6 +106,7 @@ namespace DominatorUIUtility.CustomControl
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             FilterAccount();
+            ObjAccountViewModel.ChangeSelectionAfterFilter();
         }
 
         private void FilterAccount()

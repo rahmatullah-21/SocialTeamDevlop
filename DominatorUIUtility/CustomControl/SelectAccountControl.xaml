@@ -28,7 +28,7 @@
                 <Grid Height="30" VerticalAlignment="Center" >
                     <ComboBox x:Name="cmbAllGroups" Margin="10,0,0,0"
                       Grid.Column="0" Text="{Binding SelectAccountModel.GroupText}"
-                       Width="200" Height="30"
+                      Width="200" Height="30"
                       VerticalAlignment="Center" VerticalContentAlignment="Top"
                       FontSize="14" Background="White"
                       IsEditable="True" DropDownClosed="cmbAllGroups_DropDownClosed"

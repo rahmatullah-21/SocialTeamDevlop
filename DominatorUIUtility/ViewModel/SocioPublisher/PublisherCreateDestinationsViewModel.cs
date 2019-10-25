@@ -168,6 +168,28 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
                 SetProperty(ref _filterText, value);
                 FilterByNetwork();
+                ChangeSelectionAfterFilter();
+            }
+        }
+        public void ChangeSelectionAfterFilter()
+        {
+            CompareModelAndSelectionList();
+            var list = DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>();
+            if (list.Count().Equals(0) || !list.All(x => x.IsAccountSelected))
+            {
+                if (IsAllDestinationSelected)
+                {
+                    _isUncheckedFromList = true;
+                    IsAllDestinationSelected = false;
+                }
+            }
+            else
+            {
+                if (!IsAllDestinationSelected)
+                {
+                    _isUncheckedFromList = true;
+                    IsAllDestinationSelected = true;
+                }
             }
         }
 
@@ -654,7 +676,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     break;
                 case "SelectManually":
 
-                    if (PublisherCreateDestinationModel.ListSelectDestination.All(x => x.IsAccountSelected))
+                    if (DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>().All(x => x.IsAccountSelected))
                         IsAllDestinationSelected = true;
                     else
                     {
@@ -677,11 +699,24 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             if (_isUncheckedFromList)
                 return;
-            PublisherCreateDestinationModel.ListSelectDestination.Select(x =>
+            
+           var list = DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>();
+           var selectFromlist = PublisherCreateDestinationModel.ListSelectDestination.Count == list.Count() 
+                                ? PublisherCreateDestinationModel.ListSelectDestination.ToList() : PublisherCreateDestinationModel.ListSelectDestination.Intersect(list).ToList();
+           selectFromlist.Select(x =>
            {
                x.IsAccountSelected = isChecked;
                return x;
            }).ToList();
+        }
+
+        void CompareModelAndSelectionList()
+        {
+            var collectionList = DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>();
+            if (collectionList.Count().Equals(0))
+                return;
+            var list = PublisherCreateDestinationModel.ListSelectDestination.Except(collectionList);
+            list.Where(x=>x.IsAccountSelected).ForEach(x => x.IsAccountSelected = false);
         }
 
         public void SelectAllWalls(bool isChecked)
