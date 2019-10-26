@@ -129,6 +129,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
         {
             try
             {
+                FacebookModel.ListCustomTaggedUser.Clear();
                 var taggedUserList = Regex.Split(FacebookModel.CustomTaggedUser, "\r\n");
                 taggedUserList.ForEach(x =>
                 {
@@ -136,6 +137,10 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
                 });
 
                 FacebookModel.ListCustomTaggedUser = FacebookModel.ListCustomTaggedUser.Distinct().ToList();
+
+                FacebookModel.AccountFriendsPair.RemoveAll(x => FacebookModel.ListCustomTaggedUser.FirstOrDefault(y => y == x.Value) == null);
+
+                FacebookModel.SelectFriendsDetailsModel.AccountFriendsPair.RemoveAll(x => FacebookModel.ListCustomTaggedUser.FirstOrDefault(y => y == x.Value) == null);
             }
             catch (Exception ex)
             {
