@@ -7,6 +7,7 @@ using FluentScheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DominatorHouseCore.BusinessLogic.Scheduler
@@ -32,6 +33,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     return Task.Factory.StartNew(() =>
                     {
+                        Thread.Sleep(TimeSpan.FromSeconds(40));
                         var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
                         // everything is allowed
                         foreach (var account in enabledAccount)
@@ -45,6 +47,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                 {
                     return Task.Factory.StartNew(() =>
                     {
+                        Thread.Sleep(TimeSpan.FromMinutes(1));
                         // be picky - only one per account (choose wisely)
                         foreach (var account in enabledAccount)
                         {
