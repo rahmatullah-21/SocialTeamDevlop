@@ -267,7 +267,7 @@ namespace DominatorUIUtility.ViewModel
 
             InfoButtonSizeChnagedCommand = new BaseCommand<object>(InfoButtonSizeChnagedCommandCanExecute, InfoButtonSizeChnagedCommandExecute);
 
-           
+
             #region Context Menu Command
 
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
@@ -292,7 +292,7 @@ namespace DominatorUIUtility.ViewModel
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
         }
 
-       
+
 
         private void InfoButtonSizeChnagedCommandExecute(object Sender)
         {
@@ -510,7 +510,7 @@ namespace DominatorUIUtility.ViewModel
                             var th = new Thread(() => act()) { IsBackground = true };
                             th.Start();
                             return () => th.Abort();
-                        });
+                        }, string.Empty, false);
                     });
                 }
                 catch (Exception ex)
@@ -610,8 +610,10 @@ namespace DominatorUIUtility.ViewModel
                         var proxypassword = string.Empty;
                         var status = AccountStatus.NotChecked.ToString();
                         var cookies = string.Empty;
+                        var browserCookies = string.Empty;
                         var alternetEmail = string.Empty;
                         var banned = string.Empty;
+                        var isBrowserAutomationActive = string.Empty;
 
                         switch (splitAccount.Length)
                         {
@@ -667,6 +669,18 @@ namespace DominatorUIUtility.ViewModel
                                 alternetEmail = splitAccount[10];
                                 banned = splitAccount[11];
                                 break;
+                            case 14:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                status = splitAccount[8];
+                                cookies = splitAccount[9].Replace("<>", ",");
+                                alternetEmail = splitAccount[10];
+                                banned = splitAccount[11];
+                                browserCookies = splitAccount[12].Replace("<>", ",");
+                                isBrowserAutomationActive = splitAccount[13];
+                                break;
                         }
 
                         if (splitAccount.Length > 4)
@@ -711,6 +725,10 @@ namespace DominatorUIUtility.ViewModel
 
                         #endregion
 
+                        var browserAutomationStatus = false;
+
+                        bool.TryParse(isBrowserAutomationActive, out browserAutomationStatus);
+
                         if (isNetworkAvailable(objDominatorAccountBaseModel.AccountNetwork))
                         {
 
@@ -728,7 +746,7 @@ namespace DominatorUIUtility.ViewModel
                                                                                           .Except(new[] { action })
                                                                                           .ForEach(it => _pendingActions = _pendingActions.Enqueue(it));
                                                                                   };
-                                                                              }));
+                                                                              }, browserCookies, browserAutomationStatus));
                             }
                         }
                         else
@@ -762,7 +780,7 @@ namespace DominatorUIUtility.ViewModel
 
 
         public void AddAccount(DominatorAccountBaseModel objDominatorAccountBaseModel, string cookies,
-            Func<Action, Action> secondaryTaskStrategyReturningCancellation)
+            Func<Action, Action> secondaryTaskStrategyReturningCancellation, string browserCookies, bool isBrowserAutomationActive = false)
         {
             #region Check account limits
 
@@ -827,12 +845,15 @@ namespace DominatorUIUtility.ViewModel
                 try
                 {
                     dominatorAccountModel.CookieHelperList = JArray.Parse(cookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
+                    dominatorAccountModel.BrowserCookieHelperList = JArray.Parse(browserCookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
                 }
                 catch (Exception ex)
                 {
 
                 }
             List<ProxyManagerModel> oldproxies = _proxyFileManager.GetAllProxy();
+
+            dominatorAccountModel.IsRunProcessThroughBrowser = isBrowserAutomationActive;
 
             //var cancel = secondaryTaskStrategyReturningCancellation(() => UpdateProxy(objDominatorAccountBaseModel));
             //dominatorAccountModel.Token.Register(cancel);
@@ -915,7 +936,7 @@ namespace DominatorUIUtility.ViewModel
                         .GetNetworkCoreFactory().AccountUpdateFactory;
 
                     dominatorAccountModel.AccountBaseModel.Status = AccountStatus.TryingToLogin;
-                    
+
                     if (typeof(IAccountUpdateFactoryAsync).IsAssignableFrom(accountFactory.GetType()))
                     {
                         // this account supports async modules
@@ -1487,7 +1508,7 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned";
+            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status";
 
             var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
 
@@ -1514,7 +1535,9 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.Status + ","
                      + JsonConvert.SerializeObject(account.CookieHelperList).Replace(",", "<>") + ","
                      + account.AccountBaseModel.AlternateEmail + ","
-                     + account.AccountBaseModel.Banned;
+                     + account.AccountBaseModel.Banned + ","
+                     + JsonConvert.SerializeObject(account.BrowserCookieHelperList).Replace(",", "<>") + ","
+                     + account.IsRunProcessThroughBrowser.ToString();
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {

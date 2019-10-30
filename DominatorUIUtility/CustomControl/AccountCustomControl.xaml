@@ -102,10 +102,10 @@
     </UserControl.Resources>
 
     <Grid Name="MainGrid">
-        <!--<Grid Panel.ZIndex="1000" Visibility="{Binding IsProgressActive,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid Panel.ZIndex="1000" Visibility="{Binding IsProgressActive,Converter={StaticResource BooleanToVisibilityConverter}}">
             <mah:ProgressRing IsActive="{Binding IsProgressActive}"  />
         </Grid>
-        <Grid Panel.ZIndex="1000" Background="White" Opacity="0.1" Visibility="{Binding IsProgressActive,Converter={StaticResource BooleanToVisibilityConverter}}"/>-->
+        <Grid Panel.ZIndex="1000" Background="White" Opacity="0.1" Visibility="{Binding IsProgressActive,Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
