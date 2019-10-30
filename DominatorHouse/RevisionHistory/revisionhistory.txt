@@ -1,3 +1,40 @@
+Version[1.0.0.69],[30th October 2019]
+New Features:-
+	Social :
+		Social  Publisher =>  Search By Group Name to  create campaign or  destination
+		Activity Log =>  Filter Activities by account name
+
+	Instagram:
+		Insta like/Comment => Added module 'Reply to  comments'.
+	
+Fixed:- 
+	Twitter:
+		Grow follower => Follower => Who Commented On Tweet => Fixed issue with logger is showing no more data.
+		Messenger => Auto Reply => Message Filter => contains specific words => Fixed issue with Message filter in Auto reply.
+		Poster => Reposter => Query type => Custom tweet lists => Fixed issue with Logger is showing failed to reposter with error.
+		Engage => Like => Query type => Someone's followers tweet => query value => Own username => Fixed issue with logger is showing no more data.
+		Poster => Reposter => Custom tweet list => Fixed issue with reposting the text without Media File.
+		Messenger => Message to new followers => Userfilters => user has a profile image => Fixed issue with Logger is showing no more data.
+
+	Linkedin:
+		Campaign => Fixed issue with automatically start all the campaigns.
+		Engage => Share post => Fixed issue with Share Post is not working for multiple accounts by a single campaign.
+		Engage => Share Post => Query Type => Company page URL => Fixed issue with not able to share company URL post.
+		Sociopublisher => Wall => Video posting => Fixed issue with failed to up-lode video.
+
+	Facebook:
+		Socinator => update details and friend count => issue fixed.
+		Sociolpublisher => TagFriends issue has been solved.
+		Broadcast Messages => Send greetings to friends => Issue has been solved.
+		Sociopublisher => Tag friends => Issue resolved with tagging n no of specific friends.
+
+	Instagram:
+	    Insta like/comment => Likecomment => Issue  fixed  with for  query  type  SomeOne's  tagged  post .
+		Account  Manager =>   Issue  fixed  with  Edit  Insta  profile
+		Growfollower => Query  type  SomeOne's followers -> Issue  fixed  with  some  user's filters.
+
+
+
 Version[1.0.0.68],[15th October 2019]
 New Features:-
 	Instagram:
