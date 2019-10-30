@@ -1711,7 +1711,8 @@ namespace DominatorUIUtility.ViewModel
                     var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
 
                     softwareSetting.ScheduleAutoUpdation();
-                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
+                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null
+                        || SocinatorInitialize.GetSocialLibrary(SocialNetworks.Quora) != null)
                         softwareSetting.ScheduleAdsScraping();
                 }
                 catch (Exception ex)

@@ -391,11 +391,11 @@ namespace DominatorHouseCore.Settings
                 var cancellationTokenSource =
                     AccountUpdatesCancellationToken.GetOrAdd(account.AccountId, token => new CancellationTokenSource());
 
-                var postScraperConstants = ServiceLocator.Current
-                    .GetInstance<IPostScraperConstants>();
+                //var postScraperConstants = ServiceLocator.Current
+                //    .GetInstance<IPostScraperConstants>();
 
-                if ((DateTime.Now - postScraperConstants.LastLcsJobTime).TotalHours > 10000)
-                    postScraperConstants.LastLcsJobTime = DateTime.Now.Subtract(TimeSpan.FromHours(4));
+                //if ((DateTime.Now - postScraperConstants.LastLcsJobTime).TotalHours > 10000)
+                //    postScraperConstants.LastLcsJobTime = DateTime.Now.Subtract(TimeSpan.FromHours(4));
 
                 AdUpdationType currentUpdationType;
 
