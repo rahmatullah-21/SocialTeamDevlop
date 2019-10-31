@@ -6,6 +6,9 @@ New Features:-
 
 	Instagram:
 		Insta like/Comment => Added module 'Reply to  comments'.
+    
+	Facebook:
+        Scraper => comment replies scrapper => Added module to scrap comment replies.
 	
 Fixed:- 
 	Twitter:
@@ -23,16 +26,17 @@ Fixed:-
 		Sociopublisher => Wall => Video posting => Fixed issue with failed to up-lode video.
 
 	Facebook:
-		Socinator => update details and friend count => issue fixed.
-		Sociolpublisher => TagFriends issue has been solved.
-		Broadcast Messages => Send greetings to friends => Issue has been solved.
-		Sociopublisher => Tag friends => Issue resolved with tagging n no of specific friends.
-
+		Account Manager => update details and friend count => Fixed issue with friends count and account update.
+		Facebook => Sociolpublisher => Tag Friends issue has been solved.
+		Broadcast Messages => Send greetings to friends => Fixed issue with send greetings.
+		
 	Instagram:
-	    Insta like/comment => Likecomment => Issue  fixed  with for  query  type  SomeOne's  tagged  post .
-		Account  Manager =>   Issue  fixed  with  Edit  Insta  profile
-		Growfollower => Query  type  SomeOne's followers -> Issue  fixed  with  some  user's filters.
+	    Insta like/comment => Likecomment => Fixed issue for  query  type  SomeOne's  tagged  post .
+	    Account Manager => Edit Insta profile => fixed issue with uploadimage
+		Growfollower => Query  type  SomeOne's followers -> Fixed issue with user's filters.
 
+	Reddit:
+		Solved issue with crosspost
 
 
 Version[1.0.0.68],[15th October 2019]
