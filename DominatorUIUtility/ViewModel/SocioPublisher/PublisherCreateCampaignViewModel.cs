@@ -499,7 +499,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     {
                         // Split the share post items by new line
                         var shareUrls = Regex
-                            .Split(PublisherCreateCampaignModel.SharePostModel.ShareAddCustomPostList, "\r\n").ToList();
+                            .Split(PublisherCreateCampaignModel.SharePostModel.ShareAddCustomPostList, "\r\n").Distinct().Where(x=>!string.IsNullOrWhiteSpace(x)).ToList();
                         lstPost = new List<PublisherPostlistModel>();
                         // Add the item into post list bin files
                         foreach (var shareUrl in shareUrls)
