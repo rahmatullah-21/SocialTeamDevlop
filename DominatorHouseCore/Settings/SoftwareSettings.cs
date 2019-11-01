@@ -339,7 +339,7 @@ namespace DominatorHouseCore.Settings
                 },
                 new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-            await ScrapAdsProduceAsync(adScraperblock, currentNetwork: SocialNetworks.Quora);
+            await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
         }
 
 
