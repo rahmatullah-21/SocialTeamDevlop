@@ -435,14 +435,16 @@ namespace DominatorHouse.ViewModels
                 });
                 Task.Factory.StartNew(() =>
                 {
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(50));
+                   
 
                     #region Publisher
 
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
                     //PublishScheduler.ScheduleTodaysPublisher();
                     PublishScheduler.UpdateNewGroupList();
+                   
                     var publisherPostFetcher = new PublisherPostFetcher();
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(50));
                     publisherPostFetcher.StartFetchingPostData();
 
                     #endregion
