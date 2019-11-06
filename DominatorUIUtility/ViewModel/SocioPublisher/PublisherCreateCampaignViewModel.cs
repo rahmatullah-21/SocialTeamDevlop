@@ -368,6 +368,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             #endregion
 
+            var pendingCount = 0;
+
             try
             {
                 // Gettings general settings of current campaign
@@ -506,13 +508,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         {
                             if (postCount >= maxPostCount)
                                 break;
-                            publisherPostlistModel.PostId = Utilities.GetGuid();
-                            publisherPostlistModel.ShareUrl = shareUrl.Trim();
-                            publisherPostlistModel.PostSource = PostSource.SharePost;
-                            lstPost.Add(publisherPostlistModel);
+                            var publisherPostModel = publisherPostlistModel.DeepCloneObject();
+                            publisherPostModel.PostId = Utilities.GetGuid();
+                            publisherPostModel.ShareUrl = shareUrl.Trim();
+                            publisherPostModel.PostSource = PostSource.SharePost;
+                            lstPost.Add(publisherPostModel);
                             // PostlistFileManager.Add(PublisherCreateCampaignModel.CampaignId, publisherPostlistModel);
                             postCount++;
                         }
+                        pendingCount += lstPost.Count;
                         PostlistFileManager.AddRange(PublisherCreateCampaignModel.CampaignId, lstPost);
                     }
 
@@ -664,12 +668,19 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 if (PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked)
                 {
                     specificRunningTime = new List<TimeSpan>();
-                    specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
+                    if(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.TotalSeconds == 0)
+                    {
+                        var minutesFromToday = (DateTime.Now - DateTime.Today).TotalMinutes;
+                        specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.Add(TimeSpan.FromSeconds(minutesFromToday*60 + 10)));
+                    }
+                    else
+                        specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
                     for (int i = 0; i < PublisherCreateCampaignModel.JobConfigurations.MaxPost - 1; i++)
                     {
                         specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
                     }
                 }
+                
                 // Current Campaign Status Details for display in default pages
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                 {
@@ -688,7 +699,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     SpecificRunningTime = PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked ? specificRunningTime : PublisherCreateCampaignModel.JobConfigurations.LstTimer.Select(x => x.MidTime).ToList(),
                     ScheduledWeekday = PublisherCreateCampaignModel.JobConfigurations.Weekday.Where(x => x.IsContentSelected).ToList(),
                     PendingCount = PublisherCreateCampaignModel.PostCollection.Count(x =>
-                        x.PostQueuedStatus == PostQueuedStatus.Pending),
+                        x.PostQueuedStatus == PostQueuedStatus.Pending) + pendingCount,
                     DraftCount = PublisherCreateCampaignModel.PostCollection.Count(x =>
                         x.PostQueuedStatus == PostQueuedStatus.Draft),
                     IsTakeRandomDestination = !PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnDestinationsChecked,

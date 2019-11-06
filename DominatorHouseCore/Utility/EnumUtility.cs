@@ -58,6 +58,30 @@ namespace DominatorHouseCore.Utility
             return null;            
         }
 
+        public static string GetDescriptionAttribute(this string value, Type type)
+        {
+            try
+            {
+
+                if (value != null)
+                {
+                    FieldInfo field = type.GetField(value);
+                    if (field != null)
+                    {
+                        DescriptionAttribute attr = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+                        if (attr != null)
+                        {
+                            return attr.Description;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return null;
+        }
 
         public static List<string> GetListOfDescription<T>() where T : struct
         {

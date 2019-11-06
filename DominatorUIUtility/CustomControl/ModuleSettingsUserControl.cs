@@ -1696,7 +1696,7 @@ namespace DominatorUIUtility.CustomControl
             }
         }
 
-        public void AddQuery(Type queryParameterType)
+        public void AddQuery(Type queryParameterType, List<string> listQueryType = null)
         {
             try
             {
@@ -1704,8 +1704,15 @@ namespace DominatorUIUtility.CustomControl
                 if (string.IsNullOrEmpty(_queryControl.CurrentQuery.QueryValue.Trim()) && _queryControl.QueryCollection.Count == 0)
                     return;
 
-                var enumsList = queryParameterType.GetEnumNames(); // getting current Queries enum names list
-                
+                #region Getting listQueryTypeEnumNames for TuntoSocinator (won't affect the code for socincator) (Getting it for RunQueryScraper and for fixing languageIssue on queriesValue in tuntoSocinator)
+                //var enumsList = queryParameterType.GetEnumNames();
+                var enumsList = listQueryType == null ?
+                   queryParameterType.GetEnumNames() :
+                   queryParameterType.GetEnumNames().
+                   Where(x => listQueryType.Contains(EnumUtility.GetDescriptionAttribute(x, queryParameterType).FromResourceDictionary())).ToArray();
+
+                #endregion
+
                 if (_queryControl.CurrentQuery.QueryValue.Contains(","))
                 {
                     _queryControl.QueryCollection.Clear();
