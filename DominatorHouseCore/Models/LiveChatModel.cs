@@ -60,7 +60,23 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _lstChat, value);
             }
         }
-      
+
+        private ObservableCollection<string> _lstImages = new ObservableCollection<string>();
+
+        public ObservableCollection<string> LstImages
+        {
+            get
+            {
+                return _lstImages;
+            }
+            set
+            {
+                if (value == _lstImages)
+                    return;
+                SetProperty(ref _lstImages, value);
+            }
+        }
+
 
         private SenderDetails _senderDetails = new SenderDetails();
         [ProtoMember(3)]

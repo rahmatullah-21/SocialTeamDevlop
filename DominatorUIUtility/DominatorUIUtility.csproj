@@ -265,6 +265,12 @@
     <Compile Include="CustomControl\AutoReplyMessege.xaml.cs">
       <DependentUpon>AutoReplyMessege.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\ChatImageContainer.xaml.cs">
+      <DependentUpon>ChatImageContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\ChatImageViewer.xaml.cs">
+      <DependentUpon>ChatImageViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml.cs">
       <DependentUpon>AutoReplyOptionControl.xaml</DependentUpon>
     </Compile>
@@ -1177,6 +1183,14 @@
     <Page Include="CustomControl\AutoReplyMessege.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomControl\ChatImageContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\ChatImageViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml">
       <Generator>MSBuild:Compile</Generator>

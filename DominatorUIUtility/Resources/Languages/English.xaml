@@ -4447,4 +4447,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyAddressMapUrl">Address Map Url</system:String>
     <system:String x:Key="LangKeyStopActivityOnContinuousFailsCount">Stop Activity On Continuous Fails Count</system:String>
     <system:String x:Key="LangKeyStoppingActivityReachedStopActivityOnContinuousFailsCount">Stopping activity, reached 'Stop Activity On Continuous Fails Count'</system:String>
+    <system:String x:Key="LangKeyClearChatList">Clear Chat List</system:String>
 </ResourceDictionary>

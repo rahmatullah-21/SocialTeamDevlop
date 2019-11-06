@@ -18,5 +18,7 @@ namespace DominatorHouseCore.Enums
         Text,
         Media,
         Link,
+        TextAndMedia,
+        Null
     }
 }

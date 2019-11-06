@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              mc:Ignorable="d" xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:customControls="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
              xmlns:behaviour="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
@@ -20,6 +22,23 @@
 
         <Grid  Background="{DynamicResource AccentBaseColorBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button  Cursor="Hand"  Foreground="White" Command="{Binding ClearChatListCommand}"
+                        Background="Transparent" VerticalAlignment="Center">
+                    <Button.Content>
+                        <TextBlock Text="{DynamicResource LangKeyClearChatList}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="TextDecorations" Value="Underline" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Button.Content>
+
+                </Button>
                 <Button  Cursor="Hand"  Foreground="White" Command="{Binding FriendSelectionChangedCommand}"
                         Background="Transparent" VerticalAlignment="Center">
                     <Button.Content>
@@ -99,7 +118,7 @@
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition MinHeight="50"/>
                 </Grid.RowDefinitions>
                 <ListBox ItemsSource="{Binding LiveChatModel.LstChat}" Visibility="{Binding ElementName=Senders,
                     Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}">
@@ -148,48 +167,53 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <Border BorderThickness="2" Margin="5,0,0,0" Grid.Row="1" BorderBrush="Gainsboro" Visibility="{Binding ElementName=Senders,
-                    Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}" >
-                    <Grid MinHeight="50" MaxHeight="114" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                <Border BorderThickness="2" Margin="5,0,0,0" Grid.Row="1" BorderBrush="Gainsboro" Visibility="Visible" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Vertical">
+                        <!--<Grid.RowDefinitions>
+                            <RowDefinition MinHeight="105" MaxHeight="110"/>
+                            <RowDefinition MinHeight="50" MaxHeight="114"/>
+                        </Grid.RowDefinitions>-->
+                        <customControls:ChatImageContainer ImageHeight="95" Visibility="Visible" ImageWidth="105" List_SelectedImages="{Binding LiveChatModel.LstImages}" />
+                        <Grid MinHeight="50" MaxHeight="114" Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                        <!-- Attach button -->
-                        <!--<Button  VerticalAlignment="Center" Background="Transparent" Command="{Binding AttachFileCommand}">
-                            <Button.Content>
-                                <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="35" Width="15">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Visual="{StaticResource appbar_paperclip}" Stretch="Fill"/>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                            </Button.Content>
-                            <Button.Style>
-                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>-->
+                            <!-- Attach button -->
+                            <Button  VerticalAlignment="Center" Background="White" Command="{Binding AttachFileCommand}">
+                                <Button.Content>
+                                    <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="25" Width="15">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource appbar_paperclip}" Stretch="Fill"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button.Content>
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
-                        <!-- Message box -->
-                        <TextBox Grid.Column="1" x:Name="TxtMessege"
+                            <!-- Message box -->
+                            <TextBox Grid.Column="1" x:Name="TxtMessege"
                                  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyWriteAMessage}"
-                                 VerticalAlignment="Center" Height="40"
+                                 VerticalAlignment="Center" Height="40" FontSize="14" FontWeight="SemiBold"
                                  BorderThickness="0"  AcceptsReturn="True" Text="{Binding LiveChatModel.TextMessage, Mode=TwoWay}"
-                                 AcceptsTab="True"  VerticalScrollBarVisibility="Auto" />
+                                 AcceptsTab="True"  VerticalScrollBarVisibility="Auto"  TextWrapping="Wrap" />
 
 
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 8 0" >
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 8 0" >
 
-                            <!-- Emoji button -->
-                            <!--<Button Background="Transparent" Command="{Binding EmojiCommand}" Content="😄" FontWeight="Bold" FontSize="30" Name="BtnEmoji"/>
+                                <!-- Emoji button -->
+                                <!--<Button Background="Transparent" Command="{Binding EmojiCommand}" Content="😄" FontWeight="Bold" FontSize="30" Name="BtnEmoji"/>
                             <Popup IsOpen="{Binding IsPopupOpen}" Name="LstEmoji"  MaxHeight="300"   AllowsTransparency="True" 
                                    PopupAnimation="Fade"  Focusable="False" PlacementTarget="{Binding ElementName=BtnEmoji}" 
                                    Placement="Top">
@@ -215,28 +239,30 @@
 
                                 </Border>
                             </Popup>-->
-                            <!-- Send button -->
-                            <Button Padding="8"  Background="Transparent" x:Name="BtnSend" Command="{Binding SendMessageCommand}">
-                                <Button.Content>
-                                    <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="30" Width="30" VerticalAlignment="Center">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill">
-                                                <VisualBrush.Visual>
-                                                    <Path  Canvas.Left="11.0833" Canvas.Top="17.4167" Stretch="Fill"
+                                <!-- Send button -->
+                                <Button Padding="8"  Background="Transparent" x:Name="BtnSend" Command="{Binding SendMessageCommand}">
+                                    <Button.Content>
+                                        <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="30" Width="30" VerticalAlignment="Center">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill">
+                                                    <VisualBrush.Visual>
+                                                        <Path  Canvas.Left="11.0833" Canvas.Top="17.4167" Stretch="Fill"
                                                            Fill="Gainsboro" Data="M17.218,2.268L2.477,8.388C2.13,8.535,2.164,9.05,2.542,9.134L9.33,10.67l1.535,6.787c0.083,0.377,0.602,0.415,0.745,0.065l6.123-14.74C17.866,2.46,17.539,2.134,17.218,2.268 M3.92,8.641l11.772-4.89L9.535,9.909L3.92,8.641z M11.358,16.078l-1.268-5.613l6.157-6.157L11.358,16.078z"></Path>
 
-                                                </VisualBrush.Visual>
-                                            </VisualBrush>
-                                        </Rectangle.OpacityMask>
-                                        <Rectangle.LayoutTransform>
-                                            <RotateTransform Angle="45"/>
-                                        </Rectangle.LayoutTransform>
-                                    </Rectangle>
-                                </Button.Content>
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Rectangle.OpacityMask>
+                                            <Rectangle.LayoutTransform>
+                                                <RotateTransform Angle="45"/>
+                                            </Rectangle.LayoutTransform>
+                                        </Rectangle>
+                                    </Button.Content>
 
-                            </Button>
-                        </StackPanel>
-                    </Grid>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                    
                 </Border>
 
             </Grid>

@@ -952,8 +952,9 @@ namespace DominatorUIUtility.ViewModel
                                     {
                                         if (checkSucceeded.Result)
                                         {
-                                            return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
-                                                dominatorAccountModel.Token);
+                                            //return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
+                                            //    dominatorAccountModel.Token);
+
                                         }
 
                                         return new Task(() => { });

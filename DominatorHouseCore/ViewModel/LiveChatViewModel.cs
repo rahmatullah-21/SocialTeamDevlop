@@ -29,6 +29,7 @@ namespace DominatorHouseCore.ViewModel
             FriendSelectionChangedCommand = new BaseCommand<object>((sender) => true, FriendSelectionChangedExecute);
             AttachFileCommand = new BaseCommand<object>((sender) => true, AttachFileExecute);
             EmojiCommand = new BaseCommand<object>((sender) => true, EmojiExecute);
+            ClearChatListCommand = new BaseCommand<object>((sender) => true, ClearFriendsExecute);
             InitilizeEmoji();
         }
 
@@ -40,6 +41,7 @@ namespace DominatorHouseCore.ViewModel
         public ICommand FriendSelectionChangedCommand { get; set; }
         public ICommand AttachFileCommand { get; set; }
         public ICommand EmojiCommand { get; set; }
+        public ICommand ClearChatListCommand { get; set; }
 
         #endregion
 
@@ -166,22 +168,55 @@ namespace DominatorHouseCore.ViewModel
 
         private void SendMessageExecute(object sender)
         {
-            SendMesage(LiveChatModel.TextMessage, ChatMessageType.Text);
+            ChatMessageType messageType = !string.IsNullOrEmpty(LiveChatModel.TextMessage) &&
+                LiveChatModel.LstImages.Count > 0 ? ChatMessageType.TextAndMedia :
+                !string.IsNullOrEmpty(LiveChatModel.TextMessage) ?
+                ChatMessageType.Text : ChatMessageType.Media;
+
+
+            SendMesage(LiveChatModel.TextMessage, LiveChatModel.LstImages.ToList().DeepCloneObject(),
+                    messageType);
+
+            LiveChatModel.LstImages.Clear();
         }
 
         private void AttachFileExecute(object sender)
         {
             string filters = "Image Files | *.jpg; *.jpeg; *.png; *.gif";
-            var picPath = FileUtilities.GetImageOrVideo(false, filters);
-            if (picPath != null)
-                SendMesage(picPath, ChatMessageType.Media);
+            List<string> picPath = FileUtilities.GetImageOrVideo(true, filters);
+            LiveChatModel.LstImages.AddRange(picPath);
+            //if (picPath != null)
+            //    SendMesage(picPath, ChatMessageType.Media);
         }
         private void EmojiExecute(object sender)
         {
             IsPopupOpen = true;
         }
 
+        private void ClearFriendsExecute(object sender)
+        {
+            try
+            {
+                CancelPriviousTask();
+                _genericFileManager.DeleteBinFiles(
+                     FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
 
+                _genericFileManager.DeleteBinFiles(
+                    FileDirPath.GetFriendDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+
+                LiveChatModel.LstSender.Clear();
+                LiveChatModel.LstChat.Clear();
+                //LiveChatModel.LstImages.Clear();
+
+                UpdateFriendList();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+
+
+        }
         #endregion
 
         #region Methods
@@ -191,6 +226,7 @@ namespace DominatorHouseCore.ViewModel
             try
             {
                 CancelPriviousTask();
+
                 var senders = _genericFileManager.GetModuleDetails<SenderDetails>(
                     FileDirPath.GetFriendDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.AccountId == LiveChatModel.DominatorAccountModel.AccountId);
                 Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
@@ -222,7 +258,7 @@ namespace DominatorHouseCore.ViewModel
             });
 
         }
-        private async void SendMesage(string message, ChatMessageType chatMessageType)
+        private async void SendMesage(string message, List<string> listImages, ChatMessageType chatMessageType)
         {
             try
             {
@@ -231,7 +267,7 @@ namespace DominatorHouseCore.ViewModel
                 if (!string.IsNullOrEmpty(message))
                 {
                     bool isSent = await SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
-                        .SendMessageToUser(LiveChatModel, message, chatMessageType, CancellationSource.Token);
+                        .SendMessageToUser(LiveChatModel, message, listImages, chatMessageType, CancellationSource.Token);
 
                     if (isSent)
                     {

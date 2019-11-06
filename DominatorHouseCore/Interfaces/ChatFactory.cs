@@ -4,6 +4,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +24,8 @@ namespace DominatorHouseCore.Interfaces
         public virtual void UpdateFriendList(LiveChatModel liveChatModel, CancellationToken cancellation) { }
         public virtual void UpdateCurrentChat(LiveChatModel liveChatModel, CancellationToken cancellation) { }
 
-        public virtual async Task<bool> SendMessageToUser(LiveChatModel liveChatModel, string message, ChatMessageType messageType, CancellationToken cancellation) =>
+        public virtual async Task<bool> SendMessageToUser(LiveChatModel liveChatModel, string message, List<string> lstImages,
+            ChatMessageType messageType, CancellationToken cancellation) =>
             true;
 
         public void SaveChatDetails(LiveChatModel liveChatModel, ChatDetails chatDetails, CancellationToken cancellation)

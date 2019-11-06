@@ -31,7 +31,6 @@ namespace DominatorUIUtility.CustomControl
             LiveChatViewModel.SocialNetworks = network;
            
             MainGrid.DataContext = LiveChatViewModel;
-
             InitilizeDefaultValue(network);
         }
 
