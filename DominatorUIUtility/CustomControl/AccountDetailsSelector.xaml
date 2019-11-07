@@ -57,7 +57,9 @@
 
 
                 <ListView Grid.Row="0" ItemsSource="{Binding AccountDetailsSelectorView}" ItemContainerStyle="{StaticResource ListViewItems}"                         
-                          mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False">
+                          mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False" 
+                          VirtualizingStackPanel.IsVirtualizing="True" 
+                          VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListView.Resources>
                         <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -73,9 +75,7 @@
                                             <CheckBox IsChecked="{Binding IsSelected}" 
                                                       x:Name="SingleAccount"
                                                        Margin="5,0,0,0" />
-                                            <Label Content="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                                   AncestorType={x:Type ListViewItem}}, 
-                                                   Converter={StaticResource ListViewItemIndexConverter}}"/>
+                                            <Label Content="{Binding CurrentIndex}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

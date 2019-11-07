@@ -31,36 +31,10 @@ namespace DominatorUIUtility.CustomControl
             LiveChatViewModel.SocialNetworks = network;
            
             MainGrid.DataContext = LiveChatViewModel;
-            InitilizeDefaultValue(network);
-        }
-
-        public void InitilizeDefaultValue(SocialNetworks socialNetworks)
-        {
-            var accountModel = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>()
-                .BySocialNetwork(socialNetworks);
-
-            LiveChatViewModel.LiveChatModel.AccountNames = new ObservableCollection<string>(accountModel.Select(x => x.UserName).ToList());
-
-            if (LiveChatViewModel.LiveChatModel.AccountNames.Count > 0)
-            {
-                LiveChatViewModel.LiveChatModel.DominatorAccountModel = accountModel[0];
-                LiveChatViewModel.LiveChatModel.SelectedAccount = LiveChatViewModel.LiveChatModel.AccountNames.First();
-                LiveChatViewModel.UpdateFriendList();
-            }
             
-            try
-            {
-                LiveChatViewModel.LstAccountModel = accountModel;
-
-                LiveChatViewModel.LiveChatModel.DominatorAccountModel =
-                    LiveChatViewModel.LstAccountModel.FirstOrDefault(x =>
-                        x.UserName == LiveChatViewModel.LstAccountModel[0].UserName.ToString());
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
         }
+
+        
 
         private LiveChatViewModel _liveChatViewModel;
 

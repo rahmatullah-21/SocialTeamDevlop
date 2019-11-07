@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows;
+using DominatorHouseCore.Enums;
 
 namespace DominatorHouseCore.Models
 {
@@ -74,6 +75,22 @@ namespace DominatorHouseCore.Models
                 if (value == _lstImages)
                     return;
                 SetProperty(ref _lstImages, value);
+            }
+        }
+
+        private int _imageCount = 0;
+
+        public int ImageCount
+        {
+            get
+            {
+                return _imageCount;
+            }
+            set
+            {
+                if (value == _imageCount)
+                    return;
+                SetProperty(ref _imageCount, value);
             }
         }
 
@@ -270,6 +287,22 @@ namespace DominatorHouseCore.Models
                 if (value == _messeges)
                     return;
                 SetProperty(ref _messeges, value);
+            }
+        }
+
+        private ChatMessageType _messegeType;
+        [ProtoMember(2)]
+        public ChatMessageType MessegeType
+        {
+            get
+            {
+                return _messegeType;
+            }
+            set
+            {
+                if (value == _messegeType)
+                    return;
+                SetProperty(ref _messegeType, value);
             }
         }
         private string _type;

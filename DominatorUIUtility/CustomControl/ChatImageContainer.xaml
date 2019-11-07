@@ -30,7 +30,8 @@
                     <DataTemplate>
                         <Grid Name="ImageDetails">
                             <!--<Border Height="250" Width="250" BorderBrush="Green" BorderThickness="4" CornerRadius="16">-->
-                            <Rectangle RadiusX="{Binding RadiusX}" RadiusY="{Binding RadiusY}" Width="{Binding DataContext.ImageWidth, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                            <Rectangle RadiusX="{Binding DataContext.RadiusX, RelativeSource={RelativeSource AncestorType=ListView}}" RadiusY="{Binding DataContext.RadiusY, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                                       Width="{Binding DataContext.ImageWidth, RelativeSource={RelativeSource AncestorType=ListView}}" 
                                        Height="{Binding DataContext.ImageHeight, RelativeSource={RelativeSource AncestorType=ListView}}" Margin="5">
                                 <Rectangle.Fill>
                                     <ImageBrush x:Name="myImage" ImageSource="{Binding}"/>

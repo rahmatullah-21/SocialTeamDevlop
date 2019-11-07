@@ -9,6 +9,7 @@ using DominatorHouseCore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -23,6 +24,8 @@ namespace DominatorHouseCore.ViewModel
 
         public LiveChatViewModel()
         {
+            
+            LiveChatModel.LstImages.CollectionChanged += images_CollectionChanged;
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             SendMessageCommand = new BaseCommand<object>((sender) => true, SendMessageExecute);
             UserSelectionChangedCommand = new BaseCommand<object>((sender) => true, UserSelectionChangedExecute);
@@ -30,7 +33,13 @@ namespace DominatorHouseCore.ViewModel
             AttachFileCommand = new BaseCommand<object>((sender) => true, AttachFileExecute);
             EmojiCommand = new BaseCommand<object>((sender) => true, EmojiExecute);
             ClearChatListCommand = new BaseCommand<object>((sender) => true, ClearFriendsExecute);
+            InitilizeDefaultValue(SocialNetworks);
             InitilizeEmoji();
+        }
+
+        private void images_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            LiveChatModel.ImageCount = LiveChatModel.LstImages.Count;
         }
 
 
@@ -207,7 +216,7 @@ namespace DominatorHouseCore.ViewModel
                 LiveChatModel.LstSender.Clear();
                 LiveChatModel.LstChat.Clear();
                 //LiveChatModel.LstImages.Clear();
-
+                InitilizeDefaultValue(SocialNetworks);
                 UpdateFriendList();
             }
             catch (Exception ex)
@@ -531,7 +540,33 @@ namespace DominatorHouseCore.ViewModel
 
         }
 
+        public void InitilizeDefaultValue(SocialNetworks socialNetworks)
+        {
+            var accountModel = ServiceLocator.Current.GetInstance<IAccountsFileManager>()
+                .GetAll(socialNetworks);
 
+            LiveChatModel.AccountNames = new ObservableCollection<string>(accountModel.Select(x => x.UserName).ToList());
+
+            if (LiveChatModel.AccountNames.Count > 0)
+            {
+                LiveChatModel.DominatorAccountModel = accountModel[0];
+                LiveChatModel.SelectedAccount = LiveChatModel.AccountNames.First();
+                UpdateFriendList();
+            }
+
+            try
+            {
+                LstAccountModel = accountModel;
+
+                LiveChatModel.DominatorAccountModel =
+                    LstAccountModel.FirstOrDefault(x =>
+                        x.UserName == LstAccountModel[0].UserName.ToString());
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
 
         #endregion
         private void CancelPriviousTask()

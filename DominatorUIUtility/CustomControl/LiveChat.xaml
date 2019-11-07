@@ -12,6 +12,9 @@
         <converter:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
         <converter:MessegeTypeToHorizontalAlignmentConverter x:Key="MessegeTypeToHorizontalAlignmentConverter"/>
         <converter:EpochToDateTimeConverter x:Key="EpochToDateTimeConverter"/>
+        <converter:ImageCountToRowHeightConverter x:Key="ImageCountToRowHeightConverter"/>
+        <converter:MessageTypeTovisibilityConverter x:Key="MessageTypeTovisibilityConverter"/>
+        <converter:MessageTypeTovisibilityConverter x:Key="MessageTypeTovisibilityConverterInverted" IsReversed="True"/>
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -37,7 +40,6 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </Button.Content>
-
                 </Button>
                 <Button  Cursor="Hand"  Foreground="White" Command="{Binding FriendSelectionChangedCommand}"
                         Background="Transparent" VerticalAlignment="Center">
@@ -118,7 +120,7 @@
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition MinHeight="50"/>
+                    <RowDefinition Height="{Binding LiveChatModel.ImageCount, Converter={StaticResource ImageCountToRowHeightConverter}}"/>
                 </Grid.RowDefinitions>
                 <ListBox ItemsSource="{Binding LiveChatModel.LstChat}" Visibility="{Binding ElementName=Senders,
                     Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}">
@@ -140,10 +142,41 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <Border CornerRadius="10"  Padding="15"  Background="{DynamicResource AccentColorBrush}">
-                                            <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
-                                                    x:Name="Messege"  Text="{Binding Messeges}" Foreground="White"
-                                                    VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left"/>
+                                        <Border CornerRadius="10"  Padding="10"  Background="{DynamicResource AccentColorBrush}">
+                                            <Grid>
+                                                <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
+                                                    x:Name="Messege"  Text="{Binding Messeges}" Foreground="White" FontSize="13" FontWeight="SemiBold"
+                                                    VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverter}}"/>
+
+                                                <ListView Background="{Binding ContolBackground}" BorderBrush="Transparent" x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
+                                                VirtualizingPanel.IsContainerVirtualizable="True" Grid.Row="1" Width="650" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                                VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}"
+                                                AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
+                                                ItemsSource="{Binding List_SelectedImages}">
+                                                    <ListView.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <UniformGrid Columns="3" />
+                                                        </ItemsPanelTemplate>
+                                                    </ListView.ItemsPanel>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <!--<Border Height="60" Width="60" BorderBrush="Green" BorderThickness="4" CornerRadius="16">-->
+                                                            <Rectangle RadiusX="10" RadiusY="10" Width="200" 
+                                                                Height="200" Margin="5"  Cursor="Hand">
+                                                                <Rectangle.Fill>
+                                                                    <!--<Grid Background="Red">-->
+                                                                    <ImageBrush x:Name="myImage" ImageSource="{Binding}" />
+                                                                    <!--</Grid>-->
+
+                                                                </Rectangle.Fill>
+                                                            </Rectangle>
+                                                            <!--</Border>-->
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </Grid> 
+                                          
                                         </Border>
 
                                         <!-- Chat bubble  -->
@@ -167,13 +200,16 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <Border BorderThickness="2" Margin="5,0,0,0" Grid.Row="1" BorderBrush="Gainsboro" Visibility="Visible" VerticalAlignment="Bottom">
+                <Border BorderThickness="2" Margin="5,0,0,0" Grid.Row="1" BorderBrush="Gainsboro" Visibility="{Binding ElementName=Senders,
+                    Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}" >
                     <StackPanel Orientation="Vertical">
+
                         <!--<Grid.RowDefinitions>
                             <RowDefinition MinHeight="105" MaxHeight="110"/>
                             <RowDefinition MinHeight="50" MaxHeight="114"/>
                         </Grid.RowDefinitions>-->
-                        <customControls:ChatImageContainer ImageHeight="95" Visibility="Visible" ImageWidth="105" List_SelectedImages="{Binding LiveChatModel.LstImages}" />
+
+                        <customControls:ChatImageContainer ImageHeight="100" Visibility="Visible" ImageWidth="100" List_SelectedImages="{Binding LiveChatModel.LstImages}" ContolBackground="White"  RadiusX="20" RadiusY="20" />
                         <Grid MinHeight="50" MaxHeight="114" Background="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -181,7 +217,9 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- Attach button -->
+
+                            <!--Attach button-->
+
                             <Button  VerticalAlignment="Center" Background="White" Command="{Binding AttachFileCommand}">
                                 <Button.Content>
                                     <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="25" Width="15">
@@ -202,7 +240,9 @@
                                 </Button.Style>
                             </Button>
 
-                            <!-- Message box -->
+
+                            <!--Message box-->
+
                             <TextBox Grid.Column="1" x:Name="TxtMessege"
                                  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyWriteAMessage}"
                                  VerticalAlignment="Center" Height="40" FontSize="14" FontWeight="SemiBold"
@@ -212,7 +252,8 @@
 
                             <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 8 0" >
 
-                                <!-- Emoji button -->
+
+                                <!--Emoji button-->
                                 <!--<Button Background="Transparent" Command="{Binding EmojiCommand}" Content="😄" FontWeight="Bold" FontSize="30" Name="BtnEmoji"/>
                             <Popup IsOpen="{Binding IsPopupOpen}" Name="LstEmoji"  MaxHeight="300"   AllowsTransparency="True" 
                                    PopupAnimation="Fade"  Focusable="False" PlacementTarget="{Binding ElementName=BtnEmoji}" 
@@ -239,7 +280,8 @@
 
                                 </Border>
                             </Popup>-->
-                                <!-- Send button -->
+                                <!--Send button-->
+
                                 <Button Padding="8"  Background="Transparent" x:Name="BtnSend" Command="{Binding SendMessageCommand}">
                                     <Button.Content>
                                         <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="30" Width="30" VerticalAlignment="Center">
@@ -262,7 +304,7 @@
                             </StackPanel>
                         </Grid>
                     </StackPanel>
-                    
+
                 </Border>
 
             </Grid>

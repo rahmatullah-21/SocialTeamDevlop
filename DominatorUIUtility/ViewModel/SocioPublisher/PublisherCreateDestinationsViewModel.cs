@@ -127,7 +127,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         public ICommand OpenContextMenuCommand { get; set; }
 
         public ICommand SelectionCommand { get; set; }
-        
+
         public ICommand GetSingleAccountPagesOrBoardsCommand { get; set; }
 
         public ICommand SaveDestinationCommand { get; set; }
@@ -204,7 +204,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             set
             {
                 SetProperty(ref _filterByGroupName, value);
-                if(!string.IsNullOrWhiteSpace(FilterText))
+                if (!string.IsNullOrWhiteSpace(FilterText))
                     FilterByNetwork();
             }
         }
@@ -504,6 +504,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 groups.ForEach(group =>
                 {
+                    group.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                     group.Network = publisherCreateDestinationSelectModel.SocialNetworks;
                     group.IsSelected = alreadySelectedGroups.Contains(group.DetailUrl);
                     // Add the group details to Ui's view model 
@@ -617,6 +618,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 pagesOrBoards.ForEach(page =>
                 {
+                    page.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                     page.Network = publisherCreateDestinationSelectModel.SocialNetworks;
                     page.IsSelected = alreadySelectedPages.Contains(page.DetailUrl);
                     if (!Application.Current.Dispatcher.CheckAccess())
@@ -689,7 +691,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     break;
             }
         }
-        
+
         private bool _isUncheckedFromList { get; set; }
         #endregion
 
@@ -699,15 +701,15 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             if (_isUncheckedFromList)
                 return;
-            
-           var list = DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>();
-           var selectFromlist = PublisherCreateDestinationModel.ListSelectDestination.Count == list.Count() 
-                                ? PublisherCreateDestinationModel.ListSelectDestination.ToList() : PublisherCreateDestinationModel.ListSelectDestination.Intersect(list).ToList();
-           selectFromlist.Select(x =>
-           {
-               x.IsAccountSelected = isChecked;
-               return x;
-           }).ToList();
+
+            var list = DestinationCollectionView.Cast<PublisherCreateDestinationSelectModel>();
+            var selectFromlist = PublisherCreateDestinationModel.ListSelectDestination.Count == list.Count()
+                                 ? PublisherCreateDestinationModel.ListSelectDestination.ToList() : PublisherCreateDestinationModel.ListSelectDestination.Intersect(list).ToList();
+            selectFromlist.Select(x =>
+            {
+                x.IsAccountSelected = isChecked;
+                return x;
+            }).ToList();
         }
 
         void CompareModelAndSelectionList()
@@ -716,13 +718,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             if (collectionList.Count().Equals(0))
                 return;
             var list = PublisherCreateDestinationModel.ListSelectDestination.Except(collectionList);
-            list.Where(x=>x.IsAccountSelected).ForEach(x => x.IsAccountSelected = false);
+            list.Where(x => x.IsAccountSelected).ForEach(x => x.IsAccountSelected = false);
         }
 
         public void SelectAllWalls(bool isChecked)
         {
-        //    if (_isUncheckedFromList)
-        //        return;
+            //    if (_isUncheckedFromList)
+            //        return;
             PublisherCreateDestinationModel.ListSelectDestination.Where(y => y.IsAccountSelected).Select(x =>
              {
                  x.PublishonOwnWall = isChecked;
@@ -857,6 +859,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     groups.ForEach(group =>
                     {
+                        group.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                         group.Network = x.SocialNetworks;
                         group.IsSelected = alreadySelectedGroups.Contains(group.DetailUrl);
                         if (!Application.Current.Dispatcher.CheckAccess())
@@ -971,6 +974,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         pages.ForEach(group =>
                         {
+                            group.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                             group.Network = x.SocialNetworks;
                             group.IsSelected = alreadySelectedPages.Contains(group.DetailUrl);
                             if (!Application.Current.Dispatcher.CheckAccess())

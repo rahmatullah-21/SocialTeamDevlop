@@ -9,6 +9,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
         public string AccountName { get; set; }
 
+        private int _currentIndex;
+
+        public int CurrentIndex
+        {
+            get
+            {
+                return _currentIndex;
+            }
+            set
+            {
+                if (_currentIndex == value)
+                    return;
+                _currentIndex = value;
+                OnPropertyChanged(nameof(CurrentIndex));
+            }
+        }
+
 
         private bool _isSelected;
 

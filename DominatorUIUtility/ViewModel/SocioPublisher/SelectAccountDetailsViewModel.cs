@@ -522,6 +522,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 groups.ForEach(group =>
                 {
+                    group.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                     group.Network = allAccountDetailsSelectModel.SocialNetworks;
 
                     // Add the group details to Ui's view model 
@@ -635,6 +636,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 pagesOrBoards.ForEach(page =>
                 {
+                    page.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                     page.Network = allAccountDetailsSelectModel.SocialNetworks;
 
                     if (!Application.Current.Dispatcher.CheckAccess())
@@ -745,6 +747,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 groups.ForEach(friend =>
                 {
+                    friend.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                     friend.Network = allAccountDetailsSelectModel.SocialNetworks;
 
                     // Add the group details to Ui's view model 
@@ -932,6 +935,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     groups.ForEach(group =>
                     {
+                        group.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                         group.Network = x.SocialNetworks;
                         if (!Application.Current.Dispatcher.CheckAccess())
                         {
@@ -1029,6 +1033,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                         pages.ForEach(group =>
                         {
+                            group.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                             group.Network = x.SocialNetworks;
                             if (!Application.Current.Dispatcher.CheckAccess())
                             {
@@ -1132,6 +1137,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                     groups.ForEach(friend =>
                     {
+                        friend.CurrentIndex = accountDetailsSelector.AccountDetailsSelectorViewModel.ListAccountDetailsSelectorModels.Count + 1;
                         friend.Network = x.SocialNetworks;
                         if (!Application.Current.Dispatcher.CheckAccess())
                         {

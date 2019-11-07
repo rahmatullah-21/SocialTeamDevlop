@@ -233,6 +233,7 @@
     <Compile Include="Converters\EpochToDateTimeConverter.cs" />
     <Compile Include="Converters\FeatureVisibilityConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Converters\ImageCountToRowHeightConverter.cs" />
     <Compile Include="Converters\IndexToRowNoConverter.cs" />
     <Compile Include="Converters\IntToDateTimeConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Converters\ListViewItemIndexConverter.cs" />
     <Compile Include="Converters\ActivityTypesSourceConverter.cs" />
     <Compile Include="Converters\LogViewItemsSourceConverter.cs" />
+    <Compile Include="Converters\MessageTypeTovisibilityConverter.cs" />
     <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
     <Compile Include="Converters\PositiveValueConvertor.cs" />
