@@ -320,6 +320,14 @@ namespace DominatorHouseCore.Models
                 if (value == _time)
                     return;
                 SetProperty(ref _time, value);
+                try
+                {
+                    MessageTime = DateTime.Parse(value);
+                }
+                catch(Exception ex)
+                {
+
+                }
             }
         }
 
@@ -388,6 +396,23 @@ namespace DominatorHouseCore.Models
                 if (value == _listMediaUrls)
                     return;
                 SetProperty(ref _listMediaUrls, value);
+            }
+        }
+
+        private DateTime _messageTime;
+
+        [ProtoMember(9)]
+        public DateTime MessageTime
+        {
+            get
+            {
+                return _messageTime;
+            }
+            set
+            {
+                if (value == _messageTime)
+                    return;
+                SetProperty(ref _messageTime, value);
             }
         }
     }

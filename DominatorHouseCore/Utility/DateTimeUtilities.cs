@@ -426,6 +426,12 @@ namespace DominatorHouseCore.Utility
             var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
             return EpochToDateTimeUtc(epoch) + (dateProvider.Now() - dateProvider.UtcNow());
         }
+
+        public static DateTime EpochToDateTimeLocal(this Int64 epoch)
+        {
+            var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
+            return EpochToDateTimeUtc(epoch) + (dateProvider.Now() - dateProvider.UtcNow());
+        }
     }
 
 

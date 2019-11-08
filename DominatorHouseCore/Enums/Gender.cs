@@ -19,6 +19,11 @@ namespace DominatorHouseCore.Enums
         Media,
         Link,
         TextAndMedia,
+        ReelShare,
+        Mediashare,
+        RavenMedia,
+        LiveViewerInvite,
+        StoryShare,
         Null
     }
 }
