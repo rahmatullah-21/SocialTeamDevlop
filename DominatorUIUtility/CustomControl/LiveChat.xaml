@@ -15,6 +15,7 @@
         <converter:ImageCountToRowHeightConverter x:Key="ImageCountToRowHeightConverter"/>
         <converter:MessageTypeTovisibilityConverter x:Key="MessageTypeTovisibilityConverter"/>
         <converter:MessageTypeTovisibilityConverter x:Key="MessageTypeTovisibilityConverterInverted" IsReversed="True"/>
+        <converter:MessageTypeToColorConverter x:Key="MessageTypeToColorConverter" />
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -122,13 +123,13 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="{Binding LiveChatModel.ImageCount, Converter={StaticResource ImageCountToRowHeightConverter}}"/>
                 </Grid.RowDefinitions>
+                <!--<ScrollViewer>-->
                 <ListBox ItemsSource="{Binding LiveChatModel.LstChat}" Visibility="{Binding ElementName=Senders,
-                    Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}">
+                        Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="False">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Focusable" Value="False"/>
                         </Style>
-
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -142,48 +143,22 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <Border CornerRadius="10"  Padding="10"  Background="{DynamicResource AccentColorBrush}">
+                                        <Border CornerRadius="10"  Padding="10"  Background="{Binding MessegeType, Converter={StaticResource MessageTypeToColorConverter}}">
                                             <Grid>
                                                 <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
                                                     x:Name="Messege"  Text="{Binding Messeges}" Foreground="White" FontSize="13" FontWeight="SemiBold"
                                                     VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverter}}"/>
 
-                                                <ListView Background="{Binding ContolBackground}" BorderBrush="Transparent" x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
-                                                VirtualizingPanel.IsContainerVirtualizable="True" Grid.Row="1" Width="650" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                                VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}"
-                                                AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
-                                                ItemsSource="{Binding List_SelectedImages}">
-                                                    <ListView.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <UniformGrid Columns="3" />
-                                                        </ItemsPanelTemplate>
-                                                    </ListView.ItemsPanel>
 
-                                                    <ListView.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <!--<Border Height="60" Width="60" BorderBrush="Green" BorderThickness="4" CornerRadius="16">-->
-                                                            <Rectangle RadiusX="10" RadiusY="10" Width="200" 
-                                                                Height="200" Margin="5"  Cursor="Hand">
-                                                                <Rectangle.Fill>
-                                                                    <!--<Grid Background="Red">-->
-                                                                    <ImageBrush x:Name="myImage" ImageSource="{Binding}" />
-                                                                    <!--</Grid>-->
-
-                                                                </Rectangle.Fill>
-                                                            </Rectangle>
-                                                            <!--</Border>-->
-                                                        </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
-                                            </Grid> 
-                                          
+                                                <customControls:ChatMediaContainer  ListMediaUrls="{Binding LiveChatModel.ListMediaUrls}" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}"/>
+                                            </Grid>
                                         </Border>
 
                                         <!-- Chat bubble  -->
                                         <Path Grid.Row="1"   Stroke="Black"  Panel.ZIndex="1"  Margin="15 -1 15 0"
-                                                  Data="M 0,0 L 10,10 L 20,0 L 0,0"  StrokeThickness="0" Fill="{DynamicResource AccentColorBrush}"
+                                                  Data="M 0,0 L 10,10 L 20,0 L 0,0"  StrokeThickness="0" Fill="{Binding MessegeType, Converter={StaticResource MessageTypeToColorConverter}}"
                                                   HorizontalAlignment="{Binding Type,
-                                                  Converter={StaticResource MessegeTypeToHorizontalAlignmentConverter}}" />
+                                                  Converter={StaticResource MessegeTypeToHorizontalAlignmentConverter}}"/>
 
                                         <!-- Time containers -->
                                         <StackPanel Name="ExtraDetails"  Grid.Row="2"
@@ -199,6 +174,8 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                <!--</ScrollViewer>-->
+
 
                 <Border BorderThickness="2" Margin="5,0,0,0" Grid.Row="1" BorderBrush="Gainsboro" Visibility="{Binding ElementName=Senders,
                     Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}" >

@@ -290,21 +290,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private ChatMessageType _messegeType;
-        [ProtoMember(2)]
-        public ChatMessageType MessegeType
-        {
-            get
-            {
-                return _messegeType;
-            }
-            set
-            {
-                if (value == _messegeType)
-                    return;
-                SetProperty(ref _messegeType, value);
-            }
-        }
+        
         private string _type;
         [ProtoMember(3)]
         public string Type
@@ -368,6 +354,40 @@ namespace DominatorHouseCore.Models
                 _clientContext = value;
                 OnPropertyChanged();
 
+            }
+        }
+
+        private ChatMessageType _messegeType;
+        [ProtoMember(7)]
+        public ChatMessageType MessegeType
+        {
+            get
+            {
+                return _messegeType;
+            }
+            set
+            {
+                if (value == _messegeType)
+                    return;
+                SetProperty(ref _messegeType, value);
+            }
+        }
+
+
+        private ObservableCollection<string> _listMediaUrls;
+
+        [ProtoMember(8)]
+        public ObservableCollection<string> ListMediaUrls
+        {
+            get
+            {
+                return _listMediaUrls;
+            }
+            set
+            {
+                if (value == _listMediaUrls)
+                    return;
+                SetProperty(ref _listMediaUrls, value);
             }
         }
     }

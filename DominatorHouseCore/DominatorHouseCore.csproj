@@ -229,6 +229,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
+    <Compile Include="Converters\ChatImageCountToColumnConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\EpochToDateTimeConverter.cs" />
     <Compile Include="Converters\FeatureVisibilityConverter.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="Converters\ListViewItemIndexConverter.cs" />
     <Compile Include="Converters\ActivityTypesSourceConverter.cs" />
     <Compile Include="Converters\LogViewItemsSourceConverter.cs" />
+    <Compile Include="Converters\MessageTypeToColorConverter.cs" />
     <Compile Include="Converters\MessageTypeTovisibilityConverter.cs" />
     <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
