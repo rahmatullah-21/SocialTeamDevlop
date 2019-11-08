@@ -88,7 +88,10 @@ namespace DominatorHouseCore.Interfaces
 
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        liveChatModel.LstChat.Insert(0, chatDetails);
+                        if (liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
+                            liveChatModel.LstChat.Insert(0, chatDetails);
+                        else
+                            liveChatModel.LstChat.Add(chatDetails);
                     });
                     //liveChatModel.LstChat.Add(chatDetails);
                     _genericFileManager.AddModule(chatDetails,
