@@ -16,6 +16,8 @@
         <converter:MessageTypeTovisibilityConverter x:Key="MessageTypeTovisibilityConverter"/>
         <converter:MessageTypeTovisibilityConverter x:Key="MessageTypeTovisibilityConverterInverted" IsReversed="True"/>
         <converter:MessageTypeToColorConverter x:Key="MessageTypeToColorConverter" />
+        <converter:ChatImageCountToColumnConverter x:Key="ChatImageCountToColumnConverter"/>
+        <converter:ChatImageCountToHeightConverter x:Key="ChatImageCountToHeightConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -133,7 +135,7 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Padding="5" >
+                            <Border Padding="5" Margin="0,15">
                                 <Grid>
                                     <Grid HorizontalAlignment="{Binding Type, Converter={StaticResource MessegeTypeToHorizontalAlignmentConverter}}">
 
@@ -149,8 +151,44 @@
                                                     x:Name="Messege"  Text="{Binding Messeges}" Foreground="White" FontSize="13" FontWeight="SemiBold"
                                                     VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverter}}"/>
 
-
-                                                <customControls:ChatMediaContainer  ListMediaUrls="{Binding LiveChatModel.ListMediaUrls}" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}"/>
+                                                <Border CornerRadius="4">
+                                                    <ListView  BorderBrush="Transparent" x:Name="AccountListView" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                                        AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ScrollViewer.CanContentScroll="False"
+                                                        ItemsSource="{Binding ListMediaUrls}" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}">
+                                                        <ListView.Resources>
+                                                            <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+                                                        </ListView.Resources>
+                                                        <ListView.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <UniformGrid Columns="{Binding ListMediaUrls,Converter={StaticResource ChatImageCountToColumnConverter}}" />
+                                                            </ItemsPanelTemplate>
+                                                        </ListView.ItemsPanel>
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <!--<Border Height="60" Width="60" BorderBrush="Green" BorderThickness="4" CornerRadius="16">-->
+                                                                <Rectangle RadiusX="10" RadiusY="10" Width="{Binding DataContext.ListMediaUrls,RelativeSource={RelativeSource AncestorType=ListView},Converter={StaticResource ChatImageCountToHeightConverter}}" 
+                                                                    Height="{Binding DataContext.ListMediaUrls,RelativeSource={RelativeSource AncestorType=ListView},Converter={StaticResource ChatImageCountToHeightConverter}}" Margin="5"  Cursor="Hand">
+                                                                    <Rectangle.Fill>
+                                                                        <!--<Grid Background="Red">-->
+                                                                        <ImageBrush x:Name="myImage" ImageSource="{Binding}" />
+                                                                        <!--</Grid>-->
+                                                                    </Rectangle.Fill>
+                                                                </Rectangle>
+                                                                <!--</Border>-->
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </Border>
+                                                <!--<customControls:ChatMediaContainer ScrollViewer.CanContentScroll="False" ListMediaUrls="{Binding LiveChatModel.ListMediaUrls}" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}"/>-->
                                             </Grid>
                                         </Border>
 
@@ -165,7 +203,7 @@
                                                     HorizontalAlignment="{Binding Type, 
                                                     Converter={StaticResource MessegeTypeToHorizontalAlignmentConverter}}"
                                                     Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Time,Converter={StaticResource EpochToDateTimeConverter}}"  Margin="0 0 15 0"/>
+                                            <TextBlock Text="{Binding Time,Converter={StaticResource EpochToDateTimeConverter}}"  />
                                         </StackPanel>
                                     </Grid>
                                 </Grid>

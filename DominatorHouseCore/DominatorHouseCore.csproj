@@ -230,6 +230,7 @@
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
     <Compile Include="Converters\ChatImageCountToColumnConverter.cs" />
+    <Compile Include="Converters\ChatImageCountToHeightConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\EpochToDateTimeConverter.cs" />
     <Compile Include="Converters\FeatureVisibilityConverter.cs" />
