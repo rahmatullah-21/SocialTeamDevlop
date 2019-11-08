@@ -1445,7 +1445,7 @@ namespace DominatorHouseCore.Process
                              // Add into scheduled lsit
                              PublisherScheduledList.Add(addJobName);
 
-                             if (startTime < DateTime.Now)
+                             if (startTime.AddSeconds(10) < DateTime.Now)
                                  startTime = startTime.AddDays(1);
 
                              // Add job manager
