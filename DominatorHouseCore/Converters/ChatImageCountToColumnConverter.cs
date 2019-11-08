@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,14 @@ using System.Windows.Data;
 
 namespace DominatorHouseCore.Converters
 {
-    [ValueConversion(typeof(List<string>), typeof(int))]
+    [ValueConversion(typeof(ObservableCollection<string>), typeof(int))]
 
     public class ChatImageCountToColumnConverter : IValueConverter
     {
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var imageList = (List<string>)value;
+            var imageList = (ObservableCollection<string>)value;
 
             if (imageList.Count == 1)
                 return 1;

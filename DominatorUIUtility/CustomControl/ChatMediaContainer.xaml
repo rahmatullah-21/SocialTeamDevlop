@@ -13,16 +13,19 @@
     <Grid Name="MediaContainer">
         <Border CornerRadius="4">
             <ListView  BorderBrush="Transparent" x:Name="AccountListView" ScrollViewer.IsDeferredScrollingEnabled="True"
-                         VirtualizingPanel.IsContainerVirtualizable="True" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                         VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" 
+                         Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                          AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}"
-                         ItemsSource="{Binding ListMediaUrls}">
+                         ItemsSource="{Binding ListMediaUrls}" ScrollViewer.CanContentScroll="False">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="{Binding ListMediaUrls,Converter={StaticResource ChatImageCountToColumnConverter}}" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
-
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Focusable" Value="False"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <!--<Border Height="60" Width="60" BorderBrush="Green" BorderThickness="4" CornerRadius="16">-->
