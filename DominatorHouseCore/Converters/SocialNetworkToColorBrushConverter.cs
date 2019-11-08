@@ -37,6 +37,8 @@ namespace DominatorHouseCore.Converters
                         return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
                     case SocialNetworks.Tumblr:
                         return Brushes.DimGray;
+                    case SocialNetworks.TikTok:
+                        return null;
                     case SocialNetworks.Social:
                         return null;
                     default:

@@ -4448,4 +4448,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyStopActivityOnContinuousFailsCount">Stop Activity On Continuous Fails Count</system:String>
     <system:String x:Key="LangKeyStoppingActivityReachedStopActivityOnContinuousFailsCount">Stopping activity, reached 'Stop Activity On Continuous Fails Count'</system:String>
     <system:String x:Key="LangKeyClearChatList">Clear Chat List</system:String>
+    <system:String x:Key="LangKeyTikTokliker/TikTokcommenter">Liker/Commenter</system:String>
+    <system:String x:Key="LangKeyKeywordUserPost">Keyword User Post(S)</system:String>
 </ResourceDictionary>

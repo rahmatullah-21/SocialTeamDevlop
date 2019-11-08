@@ -36,6 +36,8 @@ namespace DominatorHouseCore.Converters
                         return Application.Current?.FindResource("appbar_youtube");
                     case SocialNetworks.Tumblr:
                         return Application.Current?.FindResource("appbar_social_tumblr");
+                    case SocialNetworks.TikTok:
+                        return null;
                     case SocialNetworks.Social:
                         return null;
                     default:

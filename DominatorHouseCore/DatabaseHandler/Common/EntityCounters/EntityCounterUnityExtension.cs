@@ -17,6 +17,7 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             //Container.AddNewExtension<EntityCounterFunctionGplusRegisterUnityExtension>();
             Container.AddNewExtension<EntityCounterFunctionPinterestRegisterUnityExtension>();
             Container.AddNewExtension<EntityCounterFunctionYoutubeRegisterUnityExtension>();
+            Container.AddNewExtension<EntityCounterFunctionTikTokRegisterUnityExtension>();
         }
     }
 }

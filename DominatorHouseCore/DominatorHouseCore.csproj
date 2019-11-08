@@ -267,6 +267,7 @@
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionInstagramRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionLinkedinRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionPinterestRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTikTokRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTumblrRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionQuoraRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionRedditRegisterUnityExtension.cs" />
@@ -415,6 +416,12 @@
     <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TdTables\Campaign\InteractedUsers.cs" />
     <Compile Include="DatabaseHandler\TdTables\Campaign\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Accounts\FeedInfoes.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Accounts\Friendships.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Campaigns\InteractedPosts.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\FollowType.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\FeedInfo.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\FollowType.cs" />
@@ -494,6 +501,8 @@
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\TdQuery\TdTweetInteractionQueryEnum.cs" />
     <Compile Include="Enums\TdQuery\TdUserInteractionQueryEnum.cs" />
+    <Compile Include="Enums\TtdQuery\TtdPostQuery.cs" />
+    <Compile Include="Enums\TtdQuery\TtdUserQuery.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrBroadcastMessageQuery.cs" />
     <Compile Include="Enums\TumblrQuery\TumblrQuery.cs" />
     <Compile Include="Enums\UserType.cs" />

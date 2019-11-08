@@ -12,7 +12,7 @@
         Quora,
         Gplus,
         Youtube,
-        Tumblr
-
+        Tumblr,
+        TikTok
     }
 }

@@ -22,9 +22,9 @@ namespace DominatorHouseCore.ViewModel
         private readonly IGenericFileManager _genericFileManager;
         public SocialNetworks SocialNetworks { get; set; }
 
-        public LiveChatViewModel()
+        public LiveChatViewModel(SocialNetworks socialNetworks)
         {
-            
+            SocialNetworks = socialNetworks;
             LiveChatModel.LstImages.CollectionChanged += images_CollectionChanged;
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             SendMessageCommand = new BaseCommand<object>((sender) => true, SendMessageExecute);
