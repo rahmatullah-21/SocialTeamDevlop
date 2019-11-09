@@ -11,10 +11,10 @@ using DominatorHouseCore.Enums;
 namespace DominatorHouseCore.Models
 {
     [ProtoContract]
-    public class LiveChatModel:BindableBase
+    public class LiveChatModel : BindableBase
     {
-       
-        private ObservableCollection<SenderDetails> _lstSender=new ObservableCollection<SenderDetails>();
+
+        private ObservableCollection<SenderDetails> _lstSender = new ObservableCollection<SenderDetails>();
         [ProtoMember(1)]
         public ObservableCollection<SenderDetails> LstSender
         {
@@ -31,9 +31,9 @@ namespace DominatorHouseCore.Models
         }
 
 
-        private Dictionary<string , ObservableCollection<ChatDetails>> _accountChatDetails=new Dictionary<string, ObservableCollection<ChatDetails>>();
+        private Dictionary<string, ObservableCollection<ChatDetails>> _accountChatDetails = new Dictionary<string, ObservableCollection<ChatDetails>>();
         [ProtoMember(2)]
-        public Dictionary<string , ObservableCollection<ChatDetails>> AccountChatDetails
+        public Dictionary<string, ObservableCollection<ChatDetails>> AccountChatDetails
         {
             get { return _accountChatDetails; }
             set
@@ -46,7 +46,7 @@ namespace DominatorHouseCore.Models
 
 
 
-        private ObservableCollection<ChatDetails> _lstChat= new ObservableCollection<ChatDetails>();
+        private ObservableCollection<ChatDetails> _lstChat = new ObservableCollection<ChatDetails>();
 
         public ObservableCollection<ChatDetails> LstChat
         {
@@ -115,7 +115,7 @@ namespace DominatorHouseCore.Models
         [ProtoMember(4)]
         public string SenderDetailsCursorId { get; set; }
 
-        public DominatorAccountModel DominatorAccountModel { get; set; }=new DominatorAccountModel();
+        public DominatorAccountModel DominatorAccountModel { get; set; } = new DominatorAccountModel();
 
 
         private ObservableCollection<string> _accountNames = new ObservableCollection<string>();
@@ -133,7 +133,7 @@ namespace DominatorHouseCore.Models
         }
 
 
-        private string _selectedAccount =string.Empty;
+        private string _selectedAccount = string.Empty;
 
         public string SelectedAccount
         {
@@ -143,14 +143,14 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if(_selectedAccount == value)
+                if (_selectedAccount == value)
                     return;
                 SetProperty(ref _selectedAccount, value);
             }
         }
 
 
-        private string _textMessage =string.Empty;
+        private string _textMessage = string.Empty;
 
         public string TextMessage
         {
@@ -245,7 +245,7 @@ namespace DominatorHouseCore.Models
 
         [ProtoMember(8)]
         public string AccountId { get; set; } = string.Empty;
-        
+
         public bool MoreAvailableMax { get; set; }
 
         public bool MoreAvailableMin { get; set; }
@@ -253,7 +253,7 @@ namespace DominatorHouseCore.Models
         public string NextMaxId { get; set; }
         public string NextMinId { get; set; }
 
-      
+
     }
 
     [ProtoContract]
@@ -290,7 +290,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        
+
         private string _type;
         [ProtoMember(3)]
         public string Type
@@ -322,9 +322,12 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _time, value);
                 try
                 {
-                    MessageTime = DateTime.Parse(value);
+                    if (Utilities.GetIntegerOnlyString(Time) != Time)
+                        MessageTime = DateTime.Parse(Time);
+                    else
+                        MessageTime = DateTimeUtilities.EpochToDateTimeLocal(long.Parse(Time));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
@@ -348,7 +351,7 @@ namespace DominatorHouseCore.Models
                 if (value == _IsRecieved) return;
                 _IsRecieved = value;
                 OnPropertyChanged();
-              
+
             }
         }
         private string _clientContext;
@@ -410,8 +413,6 @@ namespace DominatorHouseCore.Models
             }
             set
             {
-                if (value == _messageTime)
-                    return;
                 SetProperty(ref _messageTime, value);
             }
         }
@@ -422,7 +423,7 @@ namespace DominatorHouseCore.Models
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-           return (bool)value ? HorizontalAlignment.Right: HorizontalAlignment.Left;
+            return (bool)value ? HorizontalAlignment.Right : HorizontalAlignment.Left;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

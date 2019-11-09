@@ -144,11 +144,11 @@ namespace DominatorHouseCore.ViewModel
                 try
                 {
                     CancelPriviousTask();
-                    _genericFileManager.DeleteBinFiles(
-                     FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
-
+                    
                     var senders = _genericFileManager.GetModuleDetails<ChatDetails>(
                         FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.SenderId == LiveChatModel.SenderDetails.SenderId);
+
+                    senders = senders.OrderBy(x => x.MessageTime);
                     Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
                     // ReSharper disable once ConstantConditionalAccessQualifier
                     senders?.ForEach(chat =>
@@ -194,6 +194,8 @@ namespace DominatorHouseCore.ViewModel
                     messageType);
 
             LiveChatModel.LstImages.Clear();
+
+            LiveChatModel.TextMessage = string.Empty;
         }
 
         private void AttachFileExecute(object sender)
@@ -224,7 +226,7 @@ namespace DominatorHouseCore.ViewModel
                 LiveChatModel.LstChat.Clear();
                 //LiveChatModel.LstImages.Clear();
                 InitilizeDefaultValue(SocialNetworks);
-                //UpdateFriendList();
+                UpdateFriendList();
             }
             catch (Exception ex)
             {
@@ -287,11 +289,13 @@ namespace DominatorHouseCore.ViewModel
 
                     if (isSent)
                     {
-                        LiveChatModel.TextMessage = string.Empty;
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks, LiveChatModel.DominatorAccountModel.AccountBaseModel.UserName, "Chat", "Successfully sent message!");
                     }
                     else
                     {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks, LiveChatModel.DominatorAccountModel.AccountBaseModel.UserName, "Chat", "message sending fail");
+                        LiveChatModel.TextMessage = message;
+                        LiveChatModel.LstImages.AddRange(listImages);
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks, LiveChatModel.DominatorAccountModel.AccountBaseModel.UserName, "Chat", "Message sending fail");
                     }
                 }
             }
