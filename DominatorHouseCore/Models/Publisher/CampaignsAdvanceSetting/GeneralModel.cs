@@ -9,7 +9,6 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
 
         public void InitializeGeneralModel()
         {
-            IsWhenPublishingSendOnePostChecked = true;
             IsRunSingleAccountPerCampaign = true;
         }
 
@@ -399,7 +398,7 @@ namespace DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting
         }
         [ProtoMember(25)]
         public string CampaignId { get; set; }
-      
+
 
         public GeneralModel Clone()
         {

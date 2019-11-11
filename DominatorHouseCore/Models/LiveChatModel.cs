@@ -215,6 +215,14 @@ namespace DominatorHouseCore.Models
                 if (value == _lastMessegedate)
                     return;
                 SetProperty(ref _lastMessegedate, value);
+                try
+                {
+                    LastMessegeDateTime = DateTimeUtilities.EpochToDateTimeLocal(int.Parse(_lastMessegedate.Split('.')[0]));
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
 
@@ -252,6 +260,24 @@ namespace DominatorHouseCore.Models
 
         public string NextMaxId { get; set; }
         public string NextMinId { get; set; }
+
+        private DateTime _lastMessegeDateTime;
+
+        [ProtoMember(9)]
+        public DateTime LastMessegeDateTime
+        {
+            get
+            {
+                return _lastMessegeDateTime;
+            }
+            set
+            {
+                if (value == _lastMessegeDateTime)
+                    return;
+                SetProperty(ref _lastMessegeDateTime, value);
+
+            }
+        }
 
 
     }

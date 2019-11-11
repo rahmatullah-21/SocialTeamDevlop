@@ -614,6 +614,7 @@
     <Compile Include="Models\PrivateBlacklistUserModel.cs" />
     <Compile Include="Models\PrivateWhitelistUserModel.cs" />
     <Compile Include="Models\ProcessScopeModel.cs" />
+    <Compile Include="Models\PublisherUsedDestinationModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\FacebookModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\GooglePlusModel.cs" />
     <Compile Include="Models\Publisher\CampaignsAdvanceSetting\InstagramModel.cs" />

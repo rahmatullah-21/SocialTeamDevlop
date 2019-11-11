@@ -144,7 +144,7 @@ namespace DominatorHouseCore.ViewModel
                 try
                 {
                     CancelPriviousTask();
-                    
+
                     var senders = _genericFileManager.GetModuleDetails<ChatDetails>(
                         FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.SenderId == LiveChatModel.SenderDetails.SenderId);
 
@@ -247,6 +247,8 @@ namespace DominatorHouseCore.ViewModel
 
                 var senders = _genericFileManager.GetModuleDetails<SenderDetails>(
                     FileDirPath.GetFriendDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.AccountId == LiveChatModel.DominatorAccountModel.AccountId);
+
+                senders = senders.OrderByDescending(x => x.LastMessegeDateTime);
                 Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstSender.Clear());
                 // ReSharper disable once ConstantConditionalAccessQualifier
                 senders?.ForEach(sender =>
@@ -265,6 +267,8 @@ namespace DominatorHouseCore.ViewModel
                     CancelPriviousTask();
                     //LiveChatModel.DominatorAccountModel = LstAccountModel.FirstOrDefault(x => x.UserName == LiveChatModel.SelectedAccount);
 
+                    SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
+                        .CloseBrowser(LiveChatModel, CancellationSource.Token);
 
                     SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
                         .UpdateFriendList(LiveChatModel, CancellationSource.Token);
