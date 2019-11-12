@@ -110,7 +110,7 @@ namespace DominatorHouseCore.Models.Publisher
         /// <summary>
         /// To Specify the publisher to all postlists
         /// </summary>
-        private bool _isPublishPostOnDestinationsChecked;
+        private bool _isPublishPostOnDestinationsChecked = true;
         [ProtoMember(9)]
         public bool IsPublishPostOnDestinationsChecked
         {
@@ -120,9 +120,68 @@ namespace DominatorHouseCore.Models.Publisher
             }
             set
             {
-                if (value == _isPublishPostOnDestinationsChecked)
-                    return;
                 SetProperty(ref _isPublishPostOnDestinationsChecked, value);
+
+                if (value && (_isPublishPostOnRandomNDestinationsChecked || _isWhenPublishingSendOnePostChecked))
+                {
+                    if (_isPublishPostOnRandomNDestinationsChecked)
+                        IsPublishPostOnRandomNDestinationsChecked = false;
+                    if (_isWhenPublishingSendOnePostChecked)
+                        IsWhenPublishingSendOnePostChecked = false;
+                }
+                else if (!value && !_isWhenPublishingSendOnePostChecked && !_isPublishPostOnRandomNDestinationsChecked)
+                    IsPublishPostOnDestinationsChecked = true;
+            }
+        }
+        
+        private bool _isPublishPostOnRandomNDestinationsChecked;
+        [ProtoMember(37)]
+        /// <summary>
+        /// To Specify to publish posts on random destinations with specific count
+        /// </summary>
+        public bool IsPublishPostOnRandomNDestinationsChecked
+        {
+            get
+            {
+                return _isPublishPostOnRandomNDestinationsChecked;
+            }
+            set
+            {
+                SetProperty(ref _isPublishPostOnRandomNDestinationsChecked, value);
+
+                if (value && (_isPublishPostOnDestinationsChecked || _isWhenPublishingSendOnePostChecked))
+                {
+                    if (_isWhenPublishingSendOnePostChecked)
+                        IsWhenPublishingSendOnePostChecked = false;
+                    if (_isPublishPostOnDestinationsChecked)
+                        IsPublishPostOnDestinationsChecked = false;
+                }
+                else if (!value && !_isPublishPostOnDestinationsChecked && !_isWhenPublishingSendOnePostChecked)
+                    IsPublishPostOnDestinationsChecked = true;
+            }
+        }
+
+        private bool _isWhenPublishingSendOnePostChecked;
+        [ProtoMember(38)]
+        public bool IsWhenPublishingSendOnePostChecked
+        {
+            get
+            {
+                return _isWhenPublishingSendOnePostChecked;
+            }
+            set
+            {
+                SetProperty(ref _isWhenPublishingSendOnePostChecked, value);
+
+                if (value && (_isPublishPostOnRandomNDestinationsChecked || _isPublishPostOnDestinationsChecked))
+                {
+                    if (_isPublishPostOnRandomNDestinationsChecked)
+                        IsPublishPostOnRandomNDestinationsChecked = false;
+                    if (_isPublishPostOnDestinationsChecked)
+                        IsPublishPostOnDestinationsChecked = false;
+                }
+                else if (!value && !_isPublishPostOnRandomNDestinationsChecked && !_isPublishPostOnDestinationsChecked)
+                    IsPublishPostOnDestinationsChecked = true;
             }
         }
 

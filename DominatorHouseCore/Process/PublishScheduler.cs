@@ -342,7 +342,7 @@ namespace DominatorHouseCore.Process
                         if (!accountsWithNetworks.ContainsKey(x.AccountId))
                             accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
 
-                        if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
+                        if (!campaignStatusModel.SendOnePostForEachDestination && campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
                         {
                             var currentAccountQueue = accountsWithDestinations.GetOrAdd(x.AccountId,
                                 queue => new Queue<PublisherDestinationDetailsModel>());
@@ -367,7 +367,7 @@ namespace DominatorHouseCore.Process
 
                 #region Random Destinations
 
-                if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination)
+                if (campaignStatusModel.IsTakeRandomDestination)
                 {
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)
@@ -387,7 +387,7 @@ namespace DominatorHouseCore.Process
                 #region All Destinations
 
                 else
-                    destinations = AssignPostToSelectAllDestination(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount);
+                    destinations = AssignPostToSelectAllDestination(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, campaignStatusModel.SendOnePostForEachDestination);
 
                 #endregion
 
@@ -838,7 +838,8 @@ namespace DominatorHouseCore.Process
            int totalDestinationCount,
            string campaignId,
            string campaignName,
-           int postsMaximumDestinationCount)
+           int postsMaximumDestinationCount,
+           bool isWhenPublishingSendOnePostChecked)
         {
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
@@ -914,7 +915,7 @@ namespace DominatorHouseCore.Process
 
                     #region Assigning the Posts to Destinations
 
-                    if (generalSettingsModel.IsWhenPublishingSendOnePostChecked)
+                    if (isWhenPublishingSendOnePostChecked)
                     {
                         for (var count = 0; count < pendingPostList.Count; count++)
                         {
