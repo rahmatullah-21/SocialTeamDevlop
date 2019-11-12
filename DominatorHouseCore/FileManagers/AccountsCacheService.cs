@@ -34,9 +34,11 @@ namespace DominatorHouseCore.FileManagers
         public AccountsCacheService(IBinFileHelper binFileHelper)
         {
             _binFileHelper = binFileHelper;
+           
             _cache = new Lazy<Dictionary<string, DominatorAccountModel>>(() =>
             {
-                return _binFileHelper.GetAccountDetails().ToDictionary(a => a.AccountId, a => a);
+                return _binFileHelper.GetAccountDetails().
+                GroupBy(x => x.AccountId).Select(y => y.First()).ToDictionary(a => a.AccountId, a => a);
             });
         }
 
@@ -44,7 +46,7 @@ namespace DominatorHouseCore.FileManagers
         {
             lock (_syncContext)
             {
-                return _cache.Value.Values;
+                return _cache.Value?.Values;
             }
         }
 
