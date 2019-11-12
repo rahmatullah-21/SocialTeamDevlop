@@ -608,6 +608,7 @@ namespace DominatorUIUtility.ViewModel
                         var proxyport = string.Empty;
                         var proxyusername = string.Empty;
                         var proxypassword = string.Empty;
+                        var proxyGroup = string.Empty;
                         var status = AccountStatus.NotChecked.ToString();
                         var cookies = string.Empty;
                         var browserCookies = string.Empty;
@@ -681,13 +682,26 @@ namespace DominatorUIUtility.ViewModel
                                 browserCookies = splitAccount[12].Replace("<>", ",");
                                 isBrowserAutomationActive = splitAccount[13];
                                 break;
+                            case 15:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                status = splitAccount[8];
+                                cookies = splitAccount[9].Replace("<>", ",");
+                                alternetEmail = splitAccount[10];
+                                banned = splitAccount[11];
+                                browserCookies = splitAccount[12].Replace("<>", ",");
+                                isBrowserAutomationActive = splitAccount[13];
+                                proxyGroup = splitAccount[14];
+                                break;
                         }
 
                         if (splitAccount.Length > 4)
                         {
                             if (string.IsNullOrEmpty(proxyaddress) || string.IsNullOrEmpty(proxyport))
                             {
-                                proxyaddress = proxyport = proxyusername = proxypassword = string.Empty;
+                                proxyaddress = proxyport = proxyusername = proxypassword = proxyGroup = string.Empty;
                             }
                             //valid the proxy ip and port
                             //else if (!Proxy.IsValidProxyIp(proxyaddress) || !Proxy.IsValidProxyPort(proxyport))
@@ -712,6 +726,7 @@ namespace DominatorUIUtility.ViewModel
                             Password = password,
                             AccountProxy =
                             {
+                                ProxyGroup = proxyGroup,
                                 ProxyIp = proxyaddress,
                                 ProxyPort = proxyport,
                                 ProxyUsername = proxyusername,
@@ -822,6 +837,8 @@ namespace DominatorUIUtility.ViewModel
                 Password = objDominatorAccountBaseModel.Password,
                 AccountProxy =
                 {
+                    ProxyGroup= string.IsNullOrEmpty(objDominatorAccountBaseModel.AccountProxy.ProxyGroup) ? "Ungrouped" :
+                        objDominatorAccountBaseModel.AccountProxy.ProxyGroup,
                     ProxyIp = objDominatorAccountBaseModel.AccountProxy.ProxyIp,
                     ProxyPort = objDominatorAccountBaseModel.AccountProxy.ProxyPort,
                     ProxyUsername = objDominatorAccountBaseModel.AccountProxy.ProxyUsername,
@@ -1048,6 +1065,9 @@ namespace DominatorUIUtility.ViewModel
                             if (string.IsNullOrEmpty(proxy.AccountProxy.ProxyPassword) || proxy.AccountProxy.ProxyPassword != objAccountBaseModel.AccountProxy.ProxyPassword)
                                 proxy.AccountProxy.ProxyPassword = objAccountBaseModel.AccountProxy.ProxyPassword;
 
+                            if (string.IsNullOrEmpty(proxy.AccountProxy.ProxyGroup) || proxy.AccountProxy.ProxyGroup != objAccountBaseModel.AccountProxy.ProxyGroup)
+                                proxy.AccountProxy.ProxyGroup = objAccountBaseModel.AccountProxy.ProxyGroup;
+
                             objAccountBaseModel.AccountProxy = proxy.AccountProxy;
 
                             var accountTomodified = new AccountAssign
@@ -1254,7 +1274,8 @@ namespace DominatorUIUtility.ViewModel
                         ProxyIp = objAccount.AccountProxy.ProxyIp,
                         ProxyPort = objAccount.AccountProxy.ProxyPort,
                         ProxyUsername = objAccount.AccountProxy.ProxyUsername,
-                        ProxyPassword = objAccount.AccountProxy.ProxyPassword
+                        ProxyPassword = objAccount.AccountProxy.ProxyPassword,
+                        ProxyGroup= objAccount.AccountProxy.ProxyGroup
                     }
             };
 

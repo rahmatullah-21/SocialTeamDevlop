@@ -3642,6 +3642,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEnterHostName">Enter Host name</system:String>
     <system:String x:Key="LangKeyEnterPort">Enter port</system:String>
     <system:String x:Key="LangKeyEnterIpFormat">Format:{255.255.255.255}</system:String>
+    <system:String x:Key="LangKeyTypeProxyGroup">Type Proxy Group</system:String>
     <system:String x:Key="LangKeyTypeProxyIp">Type Proxy Ip</system:String>
     <system:String x:Key="LangKeyTypeProxyPort">Type Proxy Port</system:String>
     <system:String x:Key="LangKeyTypeProxyUsername">Type Proxy User Name</system:String>
