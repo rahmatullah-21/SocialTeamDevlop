@@ -110,7 +110,7 @@ namespace DominatorHouseCore.Models.Publisher
         /// <summary>
         /// To Specify the publisher to all postlists
         /// </summary>
-        private bool _isPublishPostOnDestinationsChecked = true;
+        private bool _isPublishPostOnDestinationsChecked;
         [ProtoMember(9)]
         public bool IsPublishPostOnDestinationsChecked
         {
@@ -130,11 +130,11 @@ namespace DominatorHouseCore.Models.Publisher
                         IsWhenPublishingSendOnePostChecked = false;
                 }
                 else if (!value && !_isWhenPublishingSendOnePostChecked && !_isPublishPostOnRandomNDestinationsChecked)
-                    IsPublishPostOnDestinationsChecked = true;
+                    IsPublishPostOnRandomNDestinationsChecked = true;
             }
         }
         
-        private bool _isPublishPostOnRandomNDestinationsChecked;
+        private bool _isPublishPostOnRandomNDestinationsChecked = true;
         [ProtoMember(37)]
         /// <summary>
         /// To Specify to publish posts on random destinations with specific count
@@ -157,7 +157,7 @@ namespace DominatorHouseCore.Models.Publisher
                         IsPublishPostOnDestinationsChecked = false;
                 }
                 else if (!value && !_isPublishPostOnDestinationsChecked && !_isWhenPublishingSendOnePostChecked)
-                    IsPublishPostOnDestinationsChecked = true;
+                    IsPublishPostOnRandomNDestinationsChecked = true;
             }
         }
 
@@ -181,7 +181,7 @@ namespace DominatorHouseCore.Models.Publisher
                         IsPublishPostOnDestinationsChecked = false;
                 }
                 else if (!value && !_isPublishPostOnRandomNDestinationsChecked && !_isPublishPostOnDestinationsChecked)
-                    IsPublishPostOnDestinationsChecked = true;
+                    IsPublishPostOnRandomNDestinationsChecked = true;
             }
         }
 

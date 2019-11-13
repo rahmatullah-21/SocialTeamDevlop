@@ -4449,5 +4449,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyStopActivityOnContinuousFailsCount">Stop Activity On Continuous Fails Count</system:String>
     <system:String x:Key="LangKeyStoppingActivityReachedStopActivityOnContinuousFailsCount">Stopping activity, reached 'Stop Activity On Continuous Fails Count'</system:String>
     <system:String x:Key="LangKeyClearChatList">Clear Chat List</system:String>
-    <system:String x:Key="LangKeySetDestinationsCount">Set Destinations Count</system:String>
+    <system:String x:Key="LangKeySetDestinationsForEachPost">Set Destinations For Each Post</system:String>
 </ResourceDictionary>
