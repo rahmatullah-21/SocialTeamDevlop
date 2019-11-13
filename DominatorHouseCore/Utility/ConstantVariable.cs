@@ -131,6 +131,15 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
+
+        public static string GetProcessedDestinationDir()
+        {
+            string dir = $"{GetPlatformBaseDirectory()}\\Other\\PublisherProcessedDestination";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir; 
+        }
+
+
         public static string GetOtherProxyFile() => GetOtherDir() + @"\Proxy.bin";
         public static string GetOtherPostsFile() => GetOtherDir() + @"\Posts.bin";
         public static string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";

@@ -631,6 +631,7 @@
     <Compile Include="Models\SocioPublisher\PublishedPostDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherCustomDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\PublisherPostFetchModel.cs" />
+    <Compile Include="Models\SocioPublisher\PublisherProcessedDestinationModel.cs" />
     <Compile Include="Models\SocioPublisher\SelctAccountDetailsModel.cs" />
     <Compile Include="Models\SocioPublisher\Settings\RedditPostSetting.cs" />
     <Compile Include="Process\ExecutionCounters\InteractedEntityCounterKey.cs" />

@@ -289,4 +289,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+
 }
