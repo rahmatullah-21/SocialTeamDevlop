@@ -1121,6 +1121,8 @@ namespace DominatorUIUtility.ViewModel
                                                 UserName = objAccountBaseModel.UserName,
                                                 AccountNetwork = objAccountBaseModel.AccountNetwork
                                             });
+                                        if (!string.IsNullOrEmpty(proxy.AccountProxy.ProxyGroup))
+                                            proxyToUpdate.AccountProxy.ProxyGroup = proxy.AccountProxy.ProxyGroup;
                                     }
                                 }
                                 catch (Exception ex)
