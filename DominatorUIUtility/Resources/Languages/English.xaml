@@ -4450,4 +4450,8 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyStoppingActivityReachedStopActivityOnContinuousFailsCount">Stopping activity, reached 'Stop Activity On Continuous Fails Count'</system:String>
     <system:String x:Key="LangKeyClearChatList">Clear Chat List</system:String>
     <system:String x:Key="LangKeySetDestinationsForEachPost">Set Destinations For Each Post</system:String>
+    <system:String x:Key="LangKeySpecialConfigurationForCTR">Special Configuration</system:String>
+    <system:String x:Key="LangKeyStringVideoId">Video Id</system:String>
+    <system:String x:Key="LangKeyAddQueryToList">Add Query To List</system:String>
+    <system:String x:Key="LangKeyAllowVisibilityForCTRInAllModule">Allow Visibility Of CTR Settings In All Modules</system:String>
 </ResourceDictionary>
