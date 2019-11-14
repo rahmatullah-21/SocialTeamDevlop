@@ -1532,7 +1532,7 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status";
+            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name";
 
             var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
 
@@ -1561,7 +1561,8 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.AlternateEmail + ","
                      + account.AccountBaseModel.Banned + ","
                      + JsonConvert.SerializeObject(account.BrowserCookieHelperList).Replace(",", "<>") + ","
-                     + account.IsRunProcessThroughBrowser.ToString();
+                     + account.IsRunProcessThroughBrowser.ToString() + ","
+                     + account.AccountBaseModel.AccountProxy.ProxyGroup;
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {

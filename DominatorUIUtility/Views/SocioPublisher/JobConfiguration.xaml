@@ -134,7 +134,7 @@
 
         </StackPanel>-->
 
-        <GroupBox Margin="5" Header="{DynamicResource LangKeySetDestinationsForEachPost}">
+        <GroupBox Margin="5" Header="{DynamicResource LangKeyPostDestinationConfiguration}">
             <StackPanel Orientation="Vertical" Margin="5">
                 <CheckBox Content="{DynamicResource LangKeyPublishAPostListItemOnAllSelectedDestinations}" IsChecked="{Binding IsPublishPostOnDestinationsChecked}"  Margin="5" />
 

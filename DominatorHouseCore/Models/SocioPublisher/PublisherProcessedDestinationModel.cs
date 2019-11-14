@@ -22,13 +22,12 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_campaignId == value)
                     return;
-                _campaignId = value;
-                OnPropertyChanged(nameof(CampaignId));
+                SetProperty(ref _campaignId, value);
             }
         }
 
         private List<string> _listTotalDestination = new List<string>();
-        
+
         [ProtoMember(2)]
         public List<string> ListTotalDestination
         {
@@ -40,8 +39,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_listTotalDestination == value)
                     return;
-                _listTotalDestination = value;
-                OnPropertyChanged(nameof(ListTotalDestination));
+                SetProperty(ref _listTotalDestination, value);
             }
         }
 
@@ -58,9 +56,67 @@ namespace DominatorHouseCore.Models.SocioPublisher
             {
                 if (_listProcessedDestination == value)
                     return;
-                _listProcessedDestination = value;
-                OnPropertyChanged(nameof(ListProcessedDestination));
+                SetProperty(ref _listProcessedDestination, value);
             }
         }
+
+        private int _destinationCount = 0;
+
+        [ProtoMember(4)]
+        public int DestinationCount
+        {
+            get
+            {
+                return _destinationCount;
+            }
+            set
+            {
+                if (_destinationCount == value)
+                    return;
+                SetProperty(ref _destinationCount, value);
+            }
+        }
+
+        private List<PostDestinationModel> _listSkippedDestination = new List<PostDestinationModel>();
+
+        [ProtoMember(5)]
+        public List<PostDestinationModel> ListSkippedDestination
+        {
+            get
+            {
+                return _listSkippedDestination;
+            }
+            set
+            {
+                if (_listSkippedDestination == value)
+                    return;
+                SetProperty(ref _listSkippedDestination, value);
+            }
+        }
+    }
+
+
+
+    [Serializable]
+    [ProtoContract]
+    public class PostDestinationModel : BindableBase
+    {
+        private List<string> _destinationGuidList;
+
+        [ProtoMember(1)]
+        public List<string> DestinationGuidList
+        {
+            get
+            {
+                return _destinationGuidList;
+            }
+            set
+            {
+                if (_destinationGuidList == value)
+                    return;
+                SetProperty(ref _destinationGuidList, value);
+            }
+        }
+
     }
 }
