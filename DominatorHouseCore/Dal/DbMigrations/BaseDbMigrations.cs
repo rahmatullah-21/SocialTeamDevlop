@@ -49,7 +49,9 @@ namespace DominatorHouseCore.Dal.DbMigrations
                     connection.Insert(new DbVersions { Description = descr, Id = migration.Key, MIgrationDate = DateTime.UtcNow });
                 }
 
-                MigratedDbs.Add(connection.DatabasePath, DateTime.UtcNow);
+                //Added condition(to prevent exception) for not adding same key in MigratedDBs
+                if (!MigratedDbs.ContainsKey(connection.DatabasePath))
+                    MigratedDbs.Add(connection.DatabasePath, DateTime.UtcNow);
             }
         }
 

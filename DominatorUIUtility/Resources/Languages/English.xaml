@@ -4454,4 +4454,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyStringVideoId">Video Id</system:String>
     <system:String x:Key="LangKeyAddQueryToList">Add Query To List</system:String>
     <system:String x:Key="LangKeyAllowVisibilityForCTRInAllModule">Allow Visibility Of CTR Settings In All Modules</system:String>
+    <system:String x:Key="LangKeyCommentOnPinAfterRepin">Comment On Pin After Repin</system:String>
+    <system:String x:Key="LangKeyTryOnPinAfterRepin">Try On Pin After Repin</system:String>
 </ResourceDictionary>
