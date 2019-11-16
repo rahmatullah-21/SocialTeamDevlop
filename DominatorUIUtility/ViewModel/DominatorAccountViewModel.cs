@@ -1706,68 +1706,96 @@ namespace DominatorUIUtility.ViewModel
 
         public void InitialAccountDetails()
         {
-            lock (_syncLoadAccounts)
+            try
             {
-                try
+                lock (_syncLoadAccounts)
                 {
-                    var accountList = _accountsFileManager.GetAll();
-
-                    var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
-
-                    if (accountList == null || accountList.Count == 0)
+                    try
                     {
-                        var filePath = ConstantVariable.GetIndexAccountFile();
-                        if (File.Exists(filePath))
-                            File.Delete(filePath);
+                        var accountList = _accountsFileManager.GetAll();
 
-                        UpdateAccountFromDb(availablenetworks);
-                    }
-                    else
-                    {
-                        var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
+                        var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
 
-                        foreach (var account in savedAccounts)
+                        if (accountList == null || accountList.Count == 0)
                         {
-                            if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
-                                .AccountNetwork))
+                            var filePath = ConstantVariable.GetIndexAccountFile();
+                            if (File.Exists(filePath))
+                                File.Delete(filePath);
+
+                            UpdateAccountFromDb(availablenetworks);
+                        }
+                        else
+                        {
+                            var savedAccounts = accountList.Where(x => availablenetworks.Contains(x.AccountBaseModel.AccountNetwork));
+
+                            foreach (var account in savedAccounts)
                             {
-                                if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+                                if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
+                                    .AccountNetwork))
                                 {
-                                    GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
-                                    break;
-                                }
-                                if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
-                                                    x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
-                                {
-                                    if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
-                                        account.AccountBaseModel.Status = AccountStatus.NotChecked;
-                                    LstDominatorAccountModel.AddSync(account);
+                                    if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
+                                    {
+                                        GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
+                                        break;
+                                    }
+                                    if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
+                                                        x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
+                                    {
+                                        if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                                            account.AccountBaseModel.Status = AccountStatus.NotChecked;
+                                        LstDominatorAccountModel.AddSync(account);
+                                    }
                                 }
                             }
                         }
+
+                        _mainViewModel.AccountList = new ObservableCollection<DominatorAccountModel>(_accountsFileManager.GetAll());
+
+                        #region Start scheduling 
+
+                        var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
+                        runningActivityManager.Initialize(LstDominatorAccountModel);
+
+                        #endregion
+
+                        var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
+
+                        softwareSetting.ScheduleAutoUpdation();
+                        if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null
+                            || SocinatorInitialize.GetSocialLibrary(SocialNetworks.Quora) != null)
+                            softwareSetting.ScheduleAdsScraping();
                     }
-
-                    _mainViewModel.AccountList = new ObservableCollection<DominatorAccountModel>(_accountsFileManager.GetAll());
-
-                    #region Start scheduling 
-
-                    var runningActivityManager = ServiceLocator.Current.GetInstance<IRunningActivityManager>();
-                    runningActivityManager.Initialize(LstDominatorAccountModel);
-
-                    #endregion
-
-                    var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
-
-                    softwareSetting.ScheduleAutoUpdation();
-                    if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null
-                        || SocinatorInitialize.GetSocialLibrary(SocialNetworks.Quora) != null)
-                        softwareSetting.ScheduleAdsScraping();
+                    catch (Exception ex)
+                    {
+                        /*DEBUG*/
+                        Console.WriteLine(ex.StackTrace);
+                    }
                 }
-                catch (Exception ex)
+
+                Task.Factory.StartNew(() =>
                 {
-                    /*DEBUG*/
-                    Console.WriteLine(ex.StackTrace);
-                }
+                    var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
+
+                    var account = new DominatorAccountModel()
+                    {
+                        AccountId = "ActivateBrowserLogin",
+
+                        AccountBaseModel = new DominatorAccountBaseModel()
+                        {
+                            UserName = "socinator",
+                            Password = "socinator",
+                            AccountProxy = new Proxy()
+                        }
+                    };
+
+                    var browserManager = accountScopeFactory[$"{account.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(account.AccountBaseModel.AccountNetwork.ToString());
+
+                    browserManager.BrowserLogin(account, LoginType.InitialiseBrowser);
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
             }
         }
 
