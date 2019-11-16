@@ -2034,34 +2034,64 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts, bool isNeedToSchedule = false)
+        private void StopAllActivity(List<DominatorAccountModel> selectedAccounts, bool isNeedToSchedule = false, bool activateBrowser = false, bool activateHttp = false)
         {
-
             ThreadFactory.Instance.Start(() =>
             {
-                selectedAccounts.ForEach(account =>
+                if (selectedAccounts.Count == 0)
+                    return;
+                try
                 {
-                    var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
-                    var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
-                    jobActivityConfigurationManager[account.AccountId].ToList().ForEach(x =>
+                    ToasterNotification.ShowInfomation($"{"LangKeyAccountActivities".FromResourceDictionary()}\n{String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10)}");
+
+                    IsProgressActive = true;
+
+                    selectedAccounts.ForEach(account =>
                     {
-                        if (x.IsEnabled)
+                        var jobActivityConfigurationManager = ServiceLocator.Current.GetInstance<IJobActivityConfigurationManager>();
+                        var dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                        jobActivityConfigurationManager[account.AccountId].ToList().ForEach(x =>
                         {
-                            x.IsEnabled = false;
-                            dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, isNeedToSchedule);
+                            if (x.IsEnabled)
+                            {
+                                x.IsEnabled = false;
+                                dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, isNeedToSchedule);
+                            }
+                        });
+                        
+                        if(activateBrowser)
+                        {
+                            account.IsRunProcessThroughBrowser = true;
+                            new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                           .AddOrUpdateBrowserSettings(true)
+                           .SaveToBinFile();
                         }
+                        else if(activateHttp)
+                        {
+                            account.IsRunProcessThroughBrowser = false;
+                            new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
+                               .AddOrUpdateBrowserSettings(false)
+                               .SaveToBinFile();
+                        }
+
+                        // ReSharper disable once ConstantConditionalAccessQualifier
+                        account?.NotifyCancelled();
+
+                        GlobusLogHelper.log.Info(Log.StopAllActivitiesOfAccount, account.AccountBaseModel.AccountNetwork, account.AccountBaseModel.UserName);
                     });
 
-                    // ReSharper disable once ConstantConditionalAccessQualifier
-                    account?.NotifyCancelled();
-                    GlobusLogHelper.log.Info(Log.StopAllActivitiesOfAccount,
-                         account.AccountBaseModel.AccountNetwork,
-                         account.AccountBaseModel.UserName);
-                });
+                    var BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
+                    BinFileHelper.UpdateAllAccounts(LstDominatorAccountModel.ToList());
 
-                var BinFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
-                BinFileHelper.UpdateAllAccounts(LstDominatorAccountModel.ToList());
-
+                    Thread.Sleep(TimeSpan.FromSeconds(10));
+                    selectedAccounts.ForEach(x =>
+                    {
+                        x.CancellationSource = new CancellationTokenSource();
+                    });
+                }
+                catch (Exception ex)
+                { ex.DebugLog(); }
+                finally { IsProgressActive = false; }
             });
         }
 
@@ -2069,16 +2099,34 @@ namespace DominatorUIUtility.ViewModel
         {
             ThreadFactory.Instance.Start(() =>
             {
-                selectedAccounts.ForEach(accountSelected =>
+                if (selectedAccounts.Count == 0)
+                    return;
+                try
                 {
-                    var accountFullDetails = LstDominatorAccountModel.FirstOrDefault(x => x.UserName == accountSelected.UserName);
+                    ToasterNotification.ShowInfomation($"{"LangKeyAccountActivities".FromResourceDictionary()}\n{String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10)}");
 
-                    accountFullDetails?.NotifyCancelled();
+                    IsProgressActive = true;
 
-                    if (accountFullDetails != null)
-                        GlobusLogHelper.log.Info(Log.StopUpdatingAccount, accountFullDetails.AccountBaseModel.AccountNetwork, accountFullDetails.AccountBaseModel.UserName);
-                });
-                _updateAccountList.Clear();
+                    selectedAccounts.ForEach(accountSelected =>
+                    {
+                        var accountFullDetails = LstDominatorAccountModel.FirstOrDefault(x => x.UserName == accountSelected.UserName);
+
+                        accountFullDetails?.NotifyCancelled();
+
+                        if (accountFullDetails != null)
+                            GlobusLogHelper.log.Info(Log.StopUpdatingAccount, accountFullDetails.AccountBaseModel.AccountNetwork, accountFullDetails.AccountBaseModel.UserName);
+                    });
+                    _updateAccountList.Clear();
+
+                    Thread.Sleep(TimeSpan.FromSeconds(10));
+                    selectedAccounts.ForEach(x =>
+                    {
+                        x.CancellationSource = new CancellationTokenSource();
+                    });
+                }
+                catch (Exception ex) { ex.DebugLog(); }
+                finally
+                { IsProgressActive = false; }
             });
         }
 
@@ -2099,39 +2147,35 @@ namespace DominatorUIUtility.ViewModel
                     var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
 
                     if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram))
-                    {
                         Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
-                        if (accountsToProcess.Count() == 0)
-                            return;
+
+                    if (accountsToProcess.Count() == 0)
+                    {
+                        ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
+                        return;
                     }
+                    
+                    StopAllActivity(accountsToProcess.ToList(), true,true);
 
-                    accountsToProcess.ForEach(x =>
-                    {
-                        x.IsRunProcessThroughBrowser = true;
-                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                       .AddOrUpdateBrowserSettings(true)
-                       .SaveToBinFile();
-                    });
+                    #region commented code
+                    //StopProcess(accountsToProcess.ToList());
 
-                    StopAllActivity(accountsToProcess.ToList(), true);
+                    //Task.Factory.StartNew(() =>
+                    //{
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10));
 
-                    StopProcess(accountsToProcess.ToList());
+                    //    IsProgressActive = true;
 
-                    Task.Factory.StartNew(() =>
-                    {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10));
+                    //    Thread.Sleep(TimeSpan.FromSeconds(10));
 
-                        IsProgressActive = true;
+                    //    accountsToProcess.ForEach(x =>
+                    //    {
+                    //        x.CancellationSource = new CancellationTokenSource();
+                    //    });
 
-                        Thread.Sleep(TimeSpan.FromSeconds(10));
-
-                        accountsToProcess.ForEach(x =>
-                        {
-                            x.CancellationSource = new CancellationTokenSource();
-                        });
-
-                        IsProgressActive = false;
-                    });
+                    //    IsProgressActive = false;
+                    //}); 
+                    #endregion
                 }
             }
             else
@@ -2152,43 +2196,16 @@ namespace DominatorUIUtility.ViewModel
                 {
                     var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
                     if (accountsToProcess.Count() == 0)
+                    {
+                        ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
                         return;
-                    accountsToProcess.ForEach(x =>
-                    {
-                        x.IsRunProcessThroughBrowser = false;
-                        new SocinatorAccountBuilder(x.AccountBaseModel.AccountId)
-                           .AddOrUpdateBrowserSettings(false)
-                           .SaveToBinFile();
-                    });
-
-                    StopAllActivity(accountsToProcess.ToList(), true);
-
-                    StopProcess(accountsToProcess.ToList());
-
-                    Task.Factory.StartNew(() =>
-                    {
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SelectedNetworkViewModel.Selected, "", "LangKeyAccountActivities".FromResourceDictionary(), String.Format("LangKeyWaitForNSecs".FromResourceDictionary(), 10));
-
-                        IsProgressActive = true;
-
-                        Thread.Sleep(10000);
-
-                        accountsToProcess.ForEach(x =>
-                        {
-                            x.CancellationSource = new CancellationTokenSource();
-                        });
-
-                        IsProgressActive = false;
-                    });
-
+                    }
+                    
+                    StopAllActivity(accountsToProcess.ToList(), true, activateHttp:true);
                 }
             }
             else
-            {
                 GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, "", "LangKeyBrowserAutomation".FromResourceDictionary(), "LangKeyErrorSelectAtleastOneAccount".FromResourceDictionary());
-            }
-
-
         }
 
         private void UpdateGroupDetailsExecute()
