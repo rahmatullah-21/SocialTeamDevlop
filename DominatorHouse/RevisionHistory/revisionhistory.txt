@@ -1,3 +1,53 @@
+Version[1.0.0.70],[16th november 2019]
+New Features:-
+	Youtube:
+		Engage => Comment => Like post after comment.
+
+Fixed:- 
+	Social:
+		Publisher => Fixed issue with unique image post.
+		Publisher => Fixed issue with post on random destination as per given count.
+		Publisher => Linkedin => Fixed issue with video posting.
+		Publisher => Twitter => Fixed issue with publishing when use multiple destination.
+		Proxy Manager => Fixed issue with edit group name.
+
+	Pinterest:
+		Account Manager => Fixed Login Issue in http settings.
+		Grow follower => Follower ==> Fixed  Issue For some query types.
+		Board => fixed Issue with Creating new Board.
+		Pin Messgae => Fixed Issue with Auto Reply to New Messages.
+
+	Instagram:
+		Insta Like/comment => Reply comment => Fixed issue with Not repling comment for Private Account.
+		Insta Scraper => User Scraper => Fixed Issue for Query type User who messaged us.
+
+	Tumblr:
+		Account Manager => Fixed issue with showing post count/follower count.
+		Grow follower => Follower => Fixed issue with keyword query type.
+
+	Quora:
+		Grow follower ==> Follower => Fixed Issue with custom user list.
+
+	Youtube:
+		Engage => Comment => Fixed issue with browser automation setting.
+		Watch Video => View Increaser => Fixed issue with view Increaser.
+		Account Manager => Fixed issue with account synchronization.
+
+	LinkedIn:
+		Salesnavigator Scraper ==> Fixed issue with user scraper.
+		Company Scraper ==> Report ==> Fixed issue with export data to CSV.
+
+	Twitter:
+		Poster => Delete => Fixed issue with delete tweetted post.
+		POster => Reposter => Fixed issue with Hashtag query type.
+	
+	Facebook:
+		Engage => Reply To Comments => Fixed issue with reply to comment.
+		Scraper => Fixed issue with scraping basic details.
+		Group Joiner => Fixed issue with group auto join.
+		Engage => Post Liker => Fixed issue with page like.
+
+
 Version[1.0.0.69],[30th October 2019]
 New Features:-
 	Social :
