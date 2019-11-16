@@ -22,9 +22,10 @@ namespace DominatorHouseCore.ViewModel
         private readonly IGenericFileManager _genericFileManager;
         public SocialNetworks SocialNetworks { get; set; }
 
-        public LiveChatViewModel(SocialNetworks socialNetworks)
+        public LiveChatViewModel(SocialNetworks networks)
         {
-            SocialNetworks = socialNetworks;
+            SocialNetworks = networks;
+            InitilizeDefaultValue(SocialNetworks);
             LiveChatModel.LstImages.CollectionChanged += images_CollectionChanged;
             _genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             SendMessageCommand = new BaseCommand<object>((sender) => true, SendMessageExecute);
@@ -33,8 +34,8 @@ namespace DominatorHouseCore.ViewModel
             AttachFileCommand = new BaseCommand<object>((sender) => true, AttachFileExecute);
             EmojiCommand = new BaseCommand<object>((sender) => true, EmojiExecute);
             ClearChatListCommand = new BaseCommand<object>((sender) => true, ClearFriendsExecute);
-            InitilizeDefaultValue(SocialNetworks);
             InitilizeEmoji();
+            UpdateFriendList();
         }
 
         private void images_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -123,6 +124,9 @@ namespace DominatorHouseCore.ViewModel
             try
             {
 
+                LstAccountModel = ServiceLocator.Current.GetInstance<IAccountsFileManager>()
+                .GetAll(SocialNetworks);
+
                 LiveChatModel.DominatorAccountModel = LstAccountModel.FirstOrDefault(x => x.UserName == LiveChatModel.SelectedAccount && x.AccountBaseModel.AccountNetwork == SocialNetworks);
 
                 UpdateFriendList();
@@ -140,6 +144,9 @@ namespace DominatorHouseCore.ViewModel
                 try
                 {
                     CancelPriviousTask();
+                    _genericFileManager.DeleteBinFiles(
+                     FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+
                     var senders = _genericFileManager.GetModuleDetails<ChatDetails>(
                         FileDirPath.GetChatDetailFile(LiveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork)).Where(x => x.SenderId == LiveChatModel.SenderDetails.SenderId);
                     Application.Current.Dispatcher.Invoke(() => LiveChatModel.LstChat.Clear());
@@ -217,7 +224,7 @@ namespace DominatorHouseCore.ViewModel
                 LiveChatModel.LstChat.Clear();
                 //LiveChatModel.LstImages.Clear();
                 InitilizeDefaultValue(SocialNetworks);
-                UpdateFriendList();
+                //UpdateFriendList();
             }
             catch (Exception ex)
             {
@@ -273,7 +280,7 @@ namespace DominatorHouseCore.ViewModel
             {
                 CancelPriviousTask();
 
-                if (!string.IsNullOrEmpty(message))
+                if (!string.IsNullOrEmpty(message) || listImages.Count > 0)
                 {
                     bool isSent = await SocinatorInitialize.GetSocialLibrary(SocialNetworks).GetNetworkCoreFactory().ChatFactory
                         .SendMessageToUser(LiveChatModel, message, listImages, chatMessageType, CancellationSource.Token);
@@ -542,25 +549,25 @@ namespace DominatorHouseCore.ViewModel
 
         public void InitilizeDefaultValue(SocialNetworks socialNetworks)
         {
-            var accountModel = ServiceLocator.Current.GetInstance<IAccountsFileManager>()
+            var accountModelList = ServiceLocator.Current.GetInstance<IAccountsFileManager>()
                 .GetAll(socialNetworks);
 
-            LiveChatModel.AccountNames = new ObservableCollection<string>(accountModel.Select(x => x.UserName).ToList());
+            LiveChatModel.AccountNames = new ObservableCollection<string>(accountModelList.Select(x => x.UserName).ToList());
 
             if (LiveChatModel.AccountNames.Count > 0)
             {
-                LiveChatModel.DominatorAccountModel = accountModel[0];
+                LiveChatModel.DominatorAccountModel = accountModelList[0];
                 LiveChatModel.SelectedAccount = LiveChatModel.AccountNames.First();
-                UpdateFriendList();
+
             }
 
             try
             {
-                LstAccountModel = accountModel;
+                LstAccountModel = accountModelList;
 
                 LiveChatModel.DominatorAccountModel =
                     LstAccountModel.FirstOrDefault(x =>
-                        x.UserName == LstAccountModel[0].UserName.ToString());
+                        x.AccountBaseModel.UserName == LiveChatModel.SelectedAccount);
             }
             catch (Exception ex)
             {

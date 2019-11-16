@@ -271,6 +271,9 @@
     <Compile Include="CustomControl\ChatImageViewer.xaml.cs">
       <DependentUpon>ChatImageViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\ChatMediaContainer.xaml.cs">
+      <DependentUpon>ChatMediaContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml.cs">
       <DependentUpon>AutoReplyOptionControl.xaml</DependentUpon>
     </Compile>
@@ -1189,6 +1192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\ChatImageViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\ChatMediaContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

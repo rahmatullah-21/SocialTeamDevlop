@@ -1,8 +1,10 @@
-﻿using DominatorHouseCore.DatabaseHandler.Common;
+﻿using System;
+using DominatorHouseCore.DatabaseHandler.Common;
+using DominatorHouseCore.Enums;
 
-namespace DominatorHouseCore.DatabaseHandler.TtdTables.Campaigns
+namespace DominatorHouseCore.DatabaseHandler.TtdTables.Accounts
 {
-    public class InteractedPosts : Entity
+    public class InteractedPosts: Entity,IActivityTypeEntity
     {
         /// <summary>
         /// Contains QueryType For Interaction
@@ -70,5 +72,10 @@ namespace DominatorHouseCore.DatabaseHandler.TtdTables.Campaigns
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string AccountUsername { get; set; }
+
+        public ActivityType GetActivityType()
+        {
+            return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
+        }
     }
 }

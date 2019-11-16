@@ -242,7 +242,7 @@
     <system:String x:Key="LangKeyBlacklistedUsers">Blacklisted Users</system:String>
     <system:String x:Key="LangKeyBlacklisted">Blacklisted</system:String>
     <system:String x:Key="LangKeyBlacklists">Blacklists</system:String>
-    <system:String x:Key="LangKeyBlacklistusers">Blacklistusers</system:String>
+    <system:String x:Key="LangKeyBlacklistusers">Blacklist Users</system:String>
     <system:String x:Key="LangKeyBlockFollower">Block Follower</system:String>
     <system:String x:Key="LangKeyBlockTheUserAfterHisCommentIsDeleted">Block The User After His Comment Is deleted</system:String>
     <system:String x:Key="LangKeyBlocked">Blocked</system:String>
@@ -4450,4 +4450,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyClearChatList">Clear Chat List</system:String>
     <system:String x:Key="LangKeyTikTokliker/TikTokcommenter">Liker/Commenter</system:String>
     <system:String x:Key="LangKeyKeywordUserPost">Keyword User Post(S)</system:String>
+    <system:String x:Key="LangKeyTiktokScrape">Tiktok Scraper</system:String>
 </ResourceDictionary>

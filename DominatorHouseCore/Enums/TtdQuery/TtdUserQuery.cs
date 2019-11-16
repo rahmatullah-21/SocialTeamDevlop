@@ -8,7 +8,7 @@ namespace DominatorHouseCore.Enums.TtdQuery
         Keywords,
         
         [Description("LangKeyHashtagUserS")]
-        HashtagUsers,
+        HashTagUsers,
 
         [Description("LangKeySomeonesFollowers")]
         SomeonesFollowers,

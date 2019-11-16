@@ -43,10 +43,54 @@ namespace DominatorHouseCore.DatabaseHandler.TtdTables.Campaigns
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
-        public string Gender
+        public int Gender
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
+        public string FullName
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
+        public string ProfilePicUrl
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 15)]
+        public bool IsVerified
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
+        public bool IsBlocked
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
+        public bool IsBlocking
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
+        public string Birthday
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
+        public string Signature
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string FollowingsCount
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
+        public string FollowersCount
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public string FeedsCount
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        public string Country
+        { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
         public string Status
         { get; set; }
     }

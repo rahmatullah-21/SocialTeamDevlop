@@ -23,5 +23,6 @@ namespace DominatorHouseCore.Models
         public IEvent ResultEvent { get; set; }
         public IEntity ResultEntity { get; set; }
         public IPostComment ResultPostComment { get; set; }
+        public IHashTag ResultHashTag { get; set; }
     }
 }

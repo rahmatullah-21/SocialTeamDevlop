@@ -24,7 +24,7 @@ namespace DominatorHouseCore.DatabaseHandler.TtdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 5)]
-        public string CreateTime
+        public int CreateTime
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 6)]
@@ -44,7 +44,7 @@ namespace DominatorHouseCore.DatabaseHandler.TtdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
-        public int CommentCount
+        public string CommentCount
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
@@ -68,7 +68,7 @@ namespace DominatorHouseCore.DatabaseHandler.TtdTables.Accounts
         { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
-        public string UpdateTime
+        public int UpdateTime
         { get; set; }
     }
 }

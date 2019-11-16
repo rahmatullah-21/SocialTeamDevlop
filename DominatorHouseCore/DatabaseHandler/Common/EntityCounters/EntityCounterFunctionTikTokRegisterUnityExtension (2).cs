@@ -18,6 +18,17 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
                 .RegisterInstance<ICounterKeyFactory<InteractedUsers>>(
                     new CounterKeyFactory<InteractedUsers>(SocialNetworks.TikTok, true));
 
+
+            Container
+                .RegisterInstance<IEntityCounterFunction<InteractedPosts>>(
+                    new EntityCounterFunction<InteractedPosts>(
+                        new DateEpochFilterPredicate<InteractedPosts>(
+                            a => a.InteractionDate),
+                        new ActivityTypeAsStringFilterPredicate<InteractedPosts>(
+                            a => a.ActivityType)));
+            Container
+                .RegisterInstance<ICounterKeyFactory<InteractedPosts>>(
+                    new CounterKeyFactory<InteractedPosts>(SocialNetworks.Facebook, true));
         }
     }
 }

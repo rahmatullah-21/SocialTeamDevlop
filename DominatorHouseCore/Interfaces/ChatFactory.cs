@@ -84,9 +84,14 @@ namespace DominatorHouseCore.Interfaces
                 if (!isPresent)
                 {
                     cancellation.ThrowIfCancellationRequested();
+                    var item = liveChatModel.LstChat.FirstOrDefault(x => x.MessageTime > chatDetails.MessageTime);
+
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        liveChatModel.LstChat.Add(chatDetails);
+                        if (liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
+                            liveChatModel.LstChat.Insert(0, chatDetails);
+                        else
+                            liveChatModel.LstChat.Add(chatDetails);
                     });
                     //liveChatModel.LstChat.Add(chatDetails);
                     _genericFileManager.AddModule(chatDetails,
@@ -120,7 +125,7 @@ namespace DominatorHouseCore.Interfaces
                 try
                 {
                     cancellation.ThrowIfCancellationRequested();
-                    if (friends.SenderId == friendDetail.SenderId)
+                    if (friends.SenderId == friendDetail.SenderId && friends.AccountId == friendDetail.AccountId)
                     {
                         isPresent = true;
                         if (!ObjectComparer.Compare(friends, friendDetail))
@@ -162,6 +167,10 @@ namespace DominatorHouseCore.Interfaces
             {
                 if (!isPresent)
                 {
+                    if (liveChatModel.LstSender.Count() > 0 && liveChatModel.LstSender.FirstOrDefault().AccountId != friendDetail.AccountId)
+                        return;
+
+                    cancellation.ThrowIfCancellationRequested();
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
                         liveChatModel.LstSender.Add(friendDetail);
@@ -172,6 +181,7 @@ namespace DominatorHouseCore.Interfaces
                 }
                 else if (requireUpdate)
                 {
+                    cancellation.ThrowIfCancellationRequested();
                     _genericFileManager.UpdateModuleDetails(oldData,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
                 }

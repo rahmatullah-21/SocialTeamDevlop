@@ -56,17 +56,17 @@ namespace DominatorHouseCore.DatabaseHandler.TtdTables.Accounts
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 12)]
-        public int FollowingsCount
+        public string FollowingsCount
         { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 13)]
-        public int FollowersCount
+        public string FollowersCount
         { get; set; }
 
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 14)]
-        public int FeedsCount
+        public string FeedsCount
         { get; set; }
 
 

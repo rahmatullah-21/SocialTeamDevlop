@@ -26,10 +26,9 @@ namespace DominatorUIUtility.CustomControl
         {
 
             InitializeComponent();
-           
-            LiveChatViewModel = new LiveChatViewModel(network);
 
-         
+            LiveChatViewModel = new LiveChatViewModel(network);
+            
             MainGrid.DataContext = LiveChatViewModel;
             
         }

@@ -229,6 +229,8 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToWidthConverter.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
+    <Compile Include="Converters\ChatImageCountToColumnConverter.cs" />
+    <Compile Include="Converters\ChatImageCountToHeightConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\EpochToDateTimeConverter.cs" />
     <Compile Include="Converters\FeatureVisibilityConverter.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="Converters\ListViewItemIndexConverter.cs" />
     <Compile Include="Converters\ActivityTypesSourceConverter.cs" />
     <Compile Include="Converters\LogViewItemsSourceConverter.cs" />
+    <Compile Include="Converters\MessageTypeToColorConverter.cs" />
     <Compile Include="Converters\MessageTypeTovisibilityConverter.cs" />
     <Compile Include="Converters\MessegeTypeToHorizontalAlignmentConverter.cs" />
     <Compile Include="Converters\PercentageToColorConverter.cs" />
@@ -267,7 +270,7 @@
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionInstagramRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionLinkedinRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionPinterestRegisterUnityExtension.cs" />
-    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTikTokRegisterUnityExtension.cs" />
+    <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTikTokRegisterUnityExtension %282%29.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionTumblrRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionQuoraRegisterUnityExtension.cs" />
     <Compile Include="DatabaseHandler\Common\EntityCounters\EntityCounterFunctionRedditRegisterUnityExtension.cs" />
@@ -418,9 +421,16 @@
     <Compile Include="DatabaseHandler\TdTables\Campaign\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TtdTables\Accounts\FeedInfoes.cs" />
     <Compile Include="DatabaseHandler\TtdTables\Accounts\Friendships.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Accounts\InteractedHashTags.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TtdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Accounts\PrivateBlacklist.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Accounts\PrivateWhitelist.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Accounts\UnfollowedUsers.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Campaigns\InteractedHashTags.cs" />
     <Compile Include="DatabaseHandler\TtdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TtdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\TtdTables\Campaigns\UnfollowedUsers.cs" />
     <Compile Include="DatabaseHandler\TtdTables\FollowType.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\DailyStatitics.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\FeedInfo.cs" />
@@ -536,6 +546,7 @@
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IGlobalInteractionDetails.cs" />
+    <Compile Include="Interfaces\IHashTag.cs" />
     <Compile Include="Interfaces\IJob.cs" />
     <Compile Include="Interfaces\IModuleConfiguration.cs" />
     <Compile Include="Interfaces\INetworkCollectionFactory.cs" />

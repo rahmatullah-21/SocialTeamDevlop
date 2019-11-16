@@ -1,27 +1,27 @@
 ﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Utility;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace DominatorHouseCore.Converters
 {
-    [ValueConversion(typeof(ChatMessageType), typeof(Visibility))]
 
-    public class MessageTypeTovisibilityConverter : IValueConverter
+    [ValueConversion(typeof(ChatMessageType), typeof(Brush))]
+
+    public class MessageTypeToColorConverter : IValueConverter
     {
         public bool IsReversed { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (IsReversed)
-                return (ChatMessageType)value == ChatMessageType.Media ? Visibility.Visible : Visibility.Collapsed;
+                return (ChatMessageType)value == ChatMessageType.Media ? "AccentColorBrush".FromResourceDictionary() : "White";
 
-            return (ChatMessageType)value == ChatMessageType.Media ? Visibility.Collapsed : Visibility.Visible;
+            return (ChatMessageType)value == ChatMessageType.Media ? "White" : "AccentColorBrush".FromResourceDictionary();
+
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
