@@ -1,3 +1,42 @@
+Version[1.0.0.71],[27th november 2019]
+New Features:-
+	Youtube:
+		Other confriguration => Youtube => set timeout (in sec) on solving Login captcha maunually.
+
+Fixed:- 
+	
+	Social:
+		Publisher => Fixed issue in publishing post in Pinterest
+
+	Instagram:
+		Issue fixed with Comment => Mention unique user only once from each account
+
+	Tumblr:
+		Issue fixed with Reblog => Hashtag user(s) => It showing only searching Hashtag user(s)
+		Issue fixed with scraper => post scraper => keywords => it showing only searching for keywords.
+
+	
+	Twitter:
+		Twitter => Poster => Reposter => Liked user's Tweets => Logger is showing no more data.
+		Twitter => Poster => Reposter => Someone's Followings Tweets => Logger is showing no more data.
+		Twitter => Poster==>Reposter => Someone's Followers Tweets => Logger is showing no more data.
+	
+	Facebook:
+		Scraper => Profile Scraper => Fan page liker issue fixed.
+		Engage => issue fixed with comment on posts from page.
+		Engage => Post like => Page post react by => Own page issue fixed.
+		Accounts => Account manager => Friends count issue has been fixed.
+		Sociopublisher => Posting in groups issue fixed with  Browser automation.
+		
+	Youtube:
+		Account Manager => Fixed issue in account Login
+		Engage => Comment => fixed issue with comment
+
+	Pinterest:
+		Account Manager => Fixed issue in account Login
+		Pin Poster => Repin => Fixed issue in Repin	
+
+
 Version[1.0.0.70],[16th november 2019]
 New Features:-
 	Youtube:
