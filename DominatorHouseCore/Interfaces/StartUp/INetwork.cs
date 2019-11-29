@@ -1,13 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.StartupActivity;
 using DominatorHouseCore.StartupActivity.Instagram;
-using DominatorHouseCore.StartupActivity.Linkedin;
-using DominatorHouseCore.StartupActivity.Pinterest;
-using DominatorHouseCore.StartupActivity.Quora;
-using DominatorHouseCore.StartupActivity.Reddit;
-using DominatorHouseCore.StartupActivity.Tumblr;
-using DominatorHouseCore.StartupActivity.Twitter;
-using DominatorHouseCore.StartupActivity.Youtube;
 using System.Collections.Generic;
 
 namespace DominatorHouseCore.Interfaces.StartUp
@@ -26,15 +19,7 @@ namespace DominatorHouseCore.Interfaces.StartUp
 
             try
             {
-                Networks.Add(SocialNetworks.Quora.ToString(), new QuoraActivity());
-                //Networks.Add(SocialNetworks.Facebook.ToString(), new FacebookActivity());
                 Networks.Add(SocialNetworks.Instagram.ToString(), new InstagramActivity());
-                Networks.Add(SocialNetworks.LinkedIn.ToString(), new LinkedinActivity());
-                Networks.Add(SocialNetworks.Pinterest.ToString(), new PinterestActivity());
-                Networks.Add(SocialNetworks.Reddit.ToString(), new RedditActivity());
-                Networks.Add(SocialNetworks.Tumblr.ToString(), new TumblrActivity());
-                Networks.Add(SocialNetworks.Twitter.ToString(), new TwitterActivity());
-                Networks.Add(SocialNetworks.Youtube.ToString(), new YoutubeActivity());
             }
             catch {}
         }

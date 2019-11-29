@@ -11,7 +11,7 @@ namespace DominatorHouseCore.Models
     public class DominatorAccountBaseModel : Prism.Mvvm.BindableBase
     {
 
-        private SocialNetworks _accountNetwork = SocialNetworks.Facebook;
+        private SocialNetworks _accountNetwork = SocialNetworks.Instagram;
         /// <summary>
         ///  To Identify Account is belongs to which network
         /// </summary>

@@ -71,43 +71,23 @@ namespace DominatorHouseCore.Utility
                     typeof(GlobalInteractionViewModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetConfigurationDir)
                 },
-                {
-                    typeof(FacebookModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-                },
+              
                 {
                     typeof(GeneralModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
-                {
-                    typeof(GooglePlusModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-                },
+               
                 {
                     typeof(Models.Publisher.CampaignsAdvanceSetting.InstagramModel),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
                 },
-                {
-                    typeof(Models.Publisher.CampaignsAdvanceSetting.PinterestModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-                },
-                {
-                    typeof(Models.Publisher.CampaignsAdvanceSetting.TumblrModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-                },
-                {
-                    typeof(Models.Publisher.CampaignsAdvanceSetting.TwitterModel),
-                    Tuple.Create(new object(), (Func<string>) ConstantVariable.GetPublisherOtherConfigDir)
-                },
+               
                 {
                     typeof(object),
                     Tuple.Create(new object(), (Func<string>) ConstantVariable.GetIndexAccountFile)
                 }
                 ,
-                {
-                    typeof(ConfigFacebookModel),
-                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherFacebookSettingsFile)
-                } 
+               
 
             };
 

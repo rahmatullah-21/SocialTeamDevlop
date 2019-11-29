@@ -500,22 +500,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
 
-        private FdPostSettings _fdPostSettings = new FdPostSettings();
+        //private FdPostSettings _fdPostSettings = new FdPostSettings();
 
-        [ProtoMember(11)]
-        public FdPostSettings FdPostSettings
-        {
-            get
-            {
-                return _fdPostSettings;
-            }
-            set
-            {
-                if (_fdPostSettings == value)
-                    return;
-                SetProperty(ref _fdPostSettings, value);
-            }
-        }
+        //[ProtoMember(11)]
+        //public FdPostSettings FdPostSettings
+        //{
+        //    get
+        //    {
+        //        return _fdPostSettings;
+        //    }
+        //    set
+        //    {
+        //        if (_fdPostSettings == value)
+        //            return;
+        //        SetProperty(ref _fdPostSettings, value);
+        //    }
+        //}
 
 
         private GdPostSettings _gdPostSettings = new GdPostSettings();
@@ -536,73 +536,73 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
-        private TdPostSettings _tdPostSettings = new TdPostSettings();
-        [ProtoMember(13)]
-        public TdPostSettings TdPostSettings
-        {
-            get
-            {
-                return _tdPostSettings;
-            }
-            set
-            {
-                if (_tdPostSettings == value)
-                    return;
+        //private TdPostSettings _tdPostSettings = new TdPostSettings();
+        //[ProtoMember(13)]
+        //public TdPostSettings TdPostSettings
+        //{
+        //    get
+        //    {
+        //        return _tdPostSettings;
+        //    }
+        //    set
+        //    {
+        //        if (_tdPostSettings == value)
+        //            return;
 
-                SetProperty(ref _tdPostSettings, value);
-            }
-        }
+        //        SetProperty(ref _tdPostSettings, value);
+        //    }
+        //}
 
-        private LdPostSettings _ldPostSettings = new LdPostSettings();
-        [ProtoMember(14)]
-        public LdPostSettings LdPostSettings
-        {
-            get
-            {
-                return _ldPostSettings;
-            }
-            set
-            {
-                if (_ldPostSettings == value)
-                    return;
+        //private LdPostSettings _ldPostSettings = new LdPostSettings();
+        //[ProtoMember(14)]
+        //public LdPostSettings LdPostSettings
+        //{
+        //    get
+        //    {
+        //        return _ldPostSettings;
+        //    }
+        //    set
+        //    {
+        //        if (_ldPostSettings == value)
+        //            return;
 
-                SetProperty(ref _ldPostSettings, value);
-            }
-        }
+        //        SetProperty(ref _ldPostSettings, value);
+        //    }
+        //}
 
-        private RedditPostSetting _redditPostSetting = new RedditPostSetting();
-        [ProtoMember(24)]
-        public RedditPostSetting RedditPostSetting
-        {
-            get
-            {
-                return _redditPostSetting;
-            }
-            set
-            {
+        //private RedditPostSetting _redditPostSetting = new RedditPostSetting();
+        //[ProtoMember(24)]
+        //public RedditPostSetting RedditPostSetting
+        //{
+        //    get
+        //    {
+        //        return _redditPostSetting;
+        //    }
+        //    set
+        //    {
 
-                if (_redditPostSetting == value)
-                    return;
-                SetProperty(ref _redditPostSetting, value);
-            }
-        }
+        //        if (_redditPostSetting == value)
+        //            return;
+        //        SetProperty(ref _redditPostSetting, value);
+        //    }
+        //}
 
-        private TumberPostSettings _tumberPostSettings = new TumberPostSettings();
-        [ProtoMember(15)]
-        public TumberPostSettings TumberPostSettings
-        {
-            get
-            {
-                return _tumberPostSettings;
-            }
-            set
-            {
-                if (_tumberPostSettings == value)
-                    return;
+        //private TumberPostSettings _tumberPostSettings = new TumberPostSettings();
+        //[ProtoMember(15)]
+        //public TumberPostSettings TumberPostSettings
+        //{
+        //    get
+        //    {
+        //        return _tumberPostSettings;
+        //    }
+        //    set
+        //    {
+        //        if (_tumberPostSettings == value)
+        //            return;
 
-                SetProperty(ref _tumberPostSettings, value);
-            }
-        }
+        //        SetProperty(ref _tumberPostSettings, value);
+        //    }
+        //}
         private string _fdSellProductTitle;
         [ProtoMember(16)]
         public string FdSellProductTitle
