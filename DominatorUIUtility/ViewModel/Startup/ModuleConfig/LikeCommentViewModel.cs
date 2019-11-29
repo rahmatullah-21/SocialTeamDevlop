@@ -1,7 +1,6 @@
 ﻿using DominatorHouseCore;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
 using DominatorUIUtility.CustomControl;
 using DominatorUIUtility.Views.AccountSetting.CustomControl;
@@ -49,9 +48,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             ListQueryType.Clear();
         }
 
-        public LikerCommentorConfigModel LikerCommentorConfigModel { get; set; } 
-            = new LikerCommentorConfigModel();
-
         private void LikeCommentValidate()
         {
             if (!IsActionasPageChecked && !IsActionasOwnAccountChecked)
@@ -68,11 +64,6 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             if (SavedQueries.Count == 0)
             {
                 Dialog.ShowDialog("Error", "Please add at least one query.");
-                return;
-            }
-            if (LikerCommentorConfigModel.ListReactionType.Count == 0)
-            {
-                Dialog.ShowDialog("Error", "Please select atleast one reaction type.");
                 return;
             }
 

@@ -64,27 +64,7 @@ namespace DominatorHouseCore.FileManagers
 
         public Dictionary<Type, Tuple<object, Func<string>>> __lockAndFileByType =
            new Dictionary<Type, Tuple<object, Func<string>>>
-           {
-                 {
-                    typeof(ConfigFacebookModel),
-                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherFacebookSettingsFile)
-                } ,
-                {
-                    typeof(PinterestModel),
-                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherPinterestSettingsFile)
-                },
-               {
-                    typeof(TumblrModel),
-                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherTumblrSettingsFile)
-                } ,
-                {
-                    typeof(TwitterModel),
-                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherTwitterSettingsFile)
-                },
-                {
-                    typeof(YoutubeModel),
-                    Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherYoutubeSettingsFile)
-                } ,
+           { 
                 {
                     typeof(EmailNotificationsModel),
                     Tuple.Create(new object(), (Func<string>)ConstantVariable.GetOtherEmailNotificationFile)

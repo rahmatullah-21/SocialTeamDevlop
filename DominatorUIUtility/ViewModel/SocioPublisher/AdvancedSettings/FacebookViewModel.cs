@@ -273,7 +273,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
             window.ShowDialog();
 
-            FacebookModel.SelectPageDetailsModel = selectAccountDetailsControl.GetSelectAccountModel();
+
         }
 
         private bool SelectFriendsCanExecute(object arg) => true;
@@ -300,22 +300,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 
         public ICommand SaveMentionCommad { get; set; }
 
-        private FacebookModel _facebookModel = new FacebookModel();
-
-        public FacebookModel FacebookModel
-        {
-            get
-            {
-                return _facebookModel;
-            }
-            set
-            {
-                if (_facebookModel == value)
-                    return;
-                SetProperty(ref _facebookModel, value);
-            }
-        }
-
+     
 
 
     }

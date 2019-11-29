@@ -821,12 +821,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 IsFdSellPost = post.IsFdSellPost,
                 PostId = post.PostDetailsId,
                 GeneralPostSettings = post.PublisherPostSettings.GeneralPostSettings,
-                FdPostSettings = post.PublisherPostSettings.FdPostSettings,
                 GdPostSettings = post.PublisherPostSettings.GdPostSettings,
-                TdPostSettings = post.PublisherPostSettings.TdPostSettings,
-                LdPostSettings = post.PublisherPostSettings.LdPostSettings,
-                TumberPostSettings = post.PublisherPostSettings.TumberPostSettings,
-                RedditPostSetting = post.PublisherPostSettings.RedditPostSetting,
                 PublisherPostSettings = post.PublisherPostSettings,
                 ExpiredTime = expireDate,
                 PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
@@ -935,12 +930,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     IsFdSellPost = post.IsFdSellPost,
                     PostId = post.PostDetailsId,
                     GeneralPostSettings = post.PublisherPostSettings.GeneralPostSettings,
-                    FdPostSettings = post.PublisherPostSettings.FdPostSettings,
                     GdPostSettings = post.PublisherPostSettings.GdPostSettings,
-                    TdPostSettings = post.PublisherPostSettings.TdPostSettings,
-                    LdPostSettings = post.PublisherPostSettings.LdPostSettings,
-                    TumberPostSettings = post.PublisherPostSettings.TumberPostSettings,
-                    RedditPostSetting = post.PublisherPostSettings.RedditPostSetting,
                     PublisherPostSettings = post.PublisherPostSettings,
                     ExpiredTime = expireDate,
                     PostCategory = post.IsFdSellPost ? PostCategory.SellPost : PostCategory.OrdinaryPost,
@@ -1058,8 +1048,6 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // get the monitor folder posts ui 
             var publisherMonitorFolder = PublisherMonitorFolder.GetPublisherMonitorFolder(tabItemsControl);
 
-            // get the share post UI
-            var publisherSharePost = PublisherSharePost.GetPublisherSharePost(tabItemsControl);
 
             // get the scrape post UI
             var publisherScrapePost = PublisherScrapePost.GetPublisherScrapePost(tabItemsControl);
@@ -1079,7 +1067,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             SetPublisherMonitorFolder(publisherMonitorFolder);
 
             // set the share saved post details
-            SetPublisherSharePost(publisherSharePost);
+         
 
             // set the scrape post input details
             SetPublisherScrapePost(publisherScrapePost);
@@ -1090,12 +1078,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// To change the share posts details
         /// </summary>
         /// <param name="publisherScrapePost"><see cref="PublisherSharePost"/> given scarpe post details</param>
-        private void SetPublisherSharePost(PublisherSharePost publisherScrapePost)
-        {
-            // assign the share post model with given input, which holds already saved details
-            publisherScrapePost.PublisherSharePostViewModel.SharePostModel =
-                PublisherCreateCampaignModel.SharePostModel;
-        }
+     
 
         /// <summary>
         /// To change the scrape posts details
@@ -1212,32 +1195,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 }
             };
 
-            // Scarpe post UI, If any one of network(Facebook,Pinterest, Twitter)
-            #region Scrape Posts
-
-            if (FeatureFlags.IsNetworkAvailable(SocialNetworks.Facebook) ||
-                FeatureFlags.IsNetworkAvailable(SocialNetworks.Pinterest) ||
-                FeatureFlags.IsNetworkAvailable(SocialNetworks.Twitter))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = "LangKeyScrapePost".FromResourceDictionary(),
-                    Content = new Lazy<UserControl>(() => PublisherScrapePost.GetPublisherScrapePost(tabItemsControl))
-                });
-            }
-
-            #endregion
 
             // Share Post, Rss and Monitor Folder Ul
             #region Share , Monitor Folder, Rss
-
-            tabItems.Add(new TabItemTemplates
-            {
-                Title = "LangKeySharePost".FromResourceDictionary(),
-                Content = new Lazy<UserControl>(() => PublisherSharePost.GetPublisherSharePost(tabItemsControl))
-            });
-
-
             tabItems.Add(new TabItemTemplates
             {
                 Title = Application.Current.FindResource("LangKeyRSSFeed")?.ToString(),

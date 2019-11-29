@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                     mc:Ignorable="d" 
-            xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"       
-            xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"       
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                     xmlns:passwordHelper="clr-namespace:DominatorUIUtility.Behaviours">
+             xmlns:passwordHelper="clr-namespace:DominatorUIUtility.Behaviours">
     <Dialog:CustomDialog.Resources>
         <ControlTemplate x:Key="ErrorTemplate">
             <StackPanel Orientation="Horizontal">

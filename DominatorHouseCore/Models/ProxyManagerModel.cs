@@ -146,7 +146,7 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _userName, value);
             }
         }
-        private SocialNetworks _accountNetwork = SocialNetworks.Facebook;
+        private SocialNetworks _accountNetwork = SocialNetworks.Instagram;
 
         [ProtoMember(2)]
         public SocialNetworks AccountNetwork

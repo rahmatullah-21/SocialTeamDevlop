@@ -121,7 +121,7 @@ namespace EmbeddedBrowser
             Browser.MenuHandler = new MenuHandler();
             Browser.RequestHandler = _requestHandlerCustom;
 
-            if (DominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Facebook)
+            if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
                 Browser.LifeSpanHandler = new BrowserLifeSpanHandler();
 
             var url = CustomUse && !string.IsNullOrEmpty(TargetUrl) ? TargetUrl : GetNetworksLoginUrl();
@@ -297,19 +297,13 @@ namespace EmbeddedBrowser
                     var url = "";
                     if (cefCookie.Domain.Contains("www."))
                         url = "https://" + cefCookie.Domain.TrimStart('.');
-                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && cefCookie.Domain.Contains("pinterest"))
-                        url = "https://" + (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest") ? "www." : "") + cefCookie.Domain.TrimStart('.');
-                    else
+                     else
                         url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
                     var set = Browser.RequestContext.GetCookieManager(callBack).SetCookie(url, cefCookie);
 
                     //if (!set) { /*Is cookie set ?*/ }
                 }
-
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && !CustomUse)
-                    Browser.Address = UrlBar.Text = SocialHomeUrls();
-
                 // Just to check that how many cookie was inserted
                 var cefInitialCookies = await BrowserCookies(callBack);
             }
@@ -346,8 +340,6 @@ namespace EmbeddedBrowser
                     var url = "";
                     if (cefCookie.Domain.Contains("www."))
                         url = "https://" + cefCookie.Domain.TrimStart('.');
-                    else if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Pinterest && cefCookie.Domain.Contains("pinterest"))
-                        url = "https://" + (cefCookie.Domain.StartsWith(".pinterest") || cefCookie.Domain.StartsWith("pinterest") ? "www." : "") + cefCookie.Domain.TrimStart('.');
                     else
                         url = "https://www" + (!cefCookie.Domain.StartsWith(".") ? "." : "") + cefCookie.Domain;
 
@@ -355,10 +347,6 @@ namespace EmbeddedBrowser
 
                     //if (!set) { /*Is cookie set ?*/ }
                 }
-
-                if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && !CustomUse)
-                    Browser.Address = UrlBar.Text = SocialHomeUrls();
-
                 // Just to check that how many cookie was inserted
                 var cefInitialCookies = await BrowserCookies(callBack);
             }
@@ -496,8 +484,7 @@ namespace EmbeddedBrowser
 
         private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
         {
-            var homePage = DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Youtube && DominatorAccountModel.IsUserLoggedIn ?
-                SocialHomeUrls() : GetNetworksLoginUrl();
+            var homePage = GetNetworksLoginUrl();
             Browser.Load(homePage);
         }
 
@@ -1258,39 +1245,8 @@ namespace EmbeddedBrowser
         {
             switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
             {
-                case SocialNetworks.Facebook:
-                    return "https://www.facebook.com";
                 case SocialNetworks.Instagram:
-                    return "https://www.instagram.com/accounts/login/";
-                case SocialNetworks.Twitter:
-                    return "https://twitter.com/login";
-                case SocialNetworks.Pinterest:
-                    return "https://www.pinterest.com/login/";
-                case SocialNetworks.LinkedIn:
-                    return "https://www.linkedin.com";
-                case SocialNetworks.Reddit:
-                    return "https://www.reddit.com/login";
-                case SocialNetworks.Quora:
-                    return "https://www.quora.com/";
-                case SocialNetworks.Gplus:
-                    return "https://accounts.google.com/signin";
-                case SocialNetworks.Youtube:
-                    return "https://accounts.google.com/signin";
-                case SocialNetworks.Tumblr:
-                    return "https://www.tumblr.com/login";
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private string SocialHomeUrls()
-        {
-            switch (DominatorAccountModel.AccountBaseModel.AccountNetwork)
-            {
-                case SocialNetworks.Gplus:
-                    return "https://plus.google.com/";
-                case SocialNetworks.Youtube:
-                    return "https://www.youtube.com/";
+                    return "https://www.instagram.com/accounts/login/";  
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -23,33 +23,12 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
 
         public IReadOnlyDictionary<SocialNetworks, Action<DbOperations>> DbInitialCounters { get; } = new Dictionary<SocialNetworks, Action<DbOperations>>
         {
-            //{SocialNetworks.Gplus,(operation) => {operation.Count<GplusTables.Accounts.Friendships>();}},
-            {SocialNetworks.Twitter,(operation) =>{operation.Count<TdTables.Accounts.Friendships>();}},
-            {SocialNetworks.Facebook,(operation)=>{operation.Count<FdTables.Accounts.Friends>();} },
             {SocialNetworks.Instagram,(operation)=>{operation.Count<GdTables.Accounts.Friendships>();}},
-            {SocialNetworks.Pinterest,(operation) =>{operation.Count<PdTables.Accounts.Friendships>();} },
-            {SocialNetworks.Quora,(operation) =>{operation.Count<QdTables.Accounts.Friendships>(); } },
-            {SocialNetworks.LinkedIn,(operation) => {operation.Count<LdTables.Account.Connections>();} },
-            {SocialNetworks.Youtube,(operation)=>{operation.Count<YdTables.Accounts.Friendships>(); }},
-            {SocialNetworks.Reddit,(operation) => {operation.Count<RdTables.Accounts.InteractedUsers>();} },
-            {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Account.InteractedUser>(); }},
-            {SocialNetworks.TikTok,(operation)=>{operation.Count<TtdTables.Accounts.InteractedUsers>(); }}
-
         };
 
         public IReadOnlyDictionary<SocialNetworks, Action<DbOperations>> DbCampaignInitialCounters { get; } = new Dictionary<SocialNetworks, Action<DbOperations>>
         {
-            //{SocialNetworks.Gplus,operation=>{ operation.Count<GplusTables.Campaigns.InteractedUsersReport>();}},
-            {SocialNetworks.Twitter,operation=>{operation.Count<TdTables.Campaign.InteractedUsers>();}},
-            {SocialNetworks.Facebook,operation=>{operation.Count<FdTables.Campaigns.InteractedUsers>();} },
             {SocialNetworks.Instagram,operation=>{operation.Count<GdTables.Campaigns.InteractedUsers>(); } },
-            {SocialNetworks.Pinterest,operation =>{operation.Count<PdTables.Campaigns.InteractedUsers>();} },
-            {SocialNetworks.Quora,operation =>{ operation.Count<QdTables.Campaigns.InteractedUsers>(); } },
-            {SocialNetworks.LinkedIn,operation=>{operation.Count<LdTables.Campaign.InteractedUsers>();} },
-            {SocialNetworks.Youtube,operation=>{operation.Count<YdTables.Campaign.InteractedChannels>(); }},
-            {SocialNetworks.Reddit,(operation) => {operation.Count<RdTables.Campaigns.InteractedUsers>();} },
-            {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Campaign.InteractedUser>(); }},
-             {SocialNetworks.TikTok,(operation)=>{operation.Count<TtdTables.Campaigns.InteractedUsers>(); }}
         };
 
 

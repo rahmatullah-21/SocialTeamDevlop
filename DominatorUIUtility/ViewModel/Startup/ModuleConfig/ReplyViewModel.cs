@@ -22,7 +22,7 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
     {
         public ReplyViewModel(IRegionManager region) : base(region)
         {
-            ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Reply });
+            //ViewModelToSave.Add(new ActivityConfig { Model = this, ActivityType = ActivityType.Reply });
             NextCommand = new DelegateCommand(ReplyValidation);
             PreviousCommand = new DelegateCommand(NavigatePrevious);
             LoadedCommand = new DelegateCommand<string>(OnLoad);

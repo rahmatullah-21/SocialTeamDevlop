@@ -30,9 +30,7 @@
                       Content="{DynamicResource LangKeyShortenAllTheUrlsFromThePostUsingTheAccountsConfiguredInSettings}"  Margin="5"/>
             <!--<CheckBox IsChecked="{Binding OtherConfigurations.IsPostTextChecked}" 
                       Content="{DynamicResource LangKeyEnableFindAndReplaceForPostText}"  Margin="5"/>-->
-            <CheckBox IsChecked="{Binding OtherConfigurations.IsAllowPublishingPinterestChecked}" Visibility="{Binding Source={x:Static enums:SocialNetworks.Pinterest},Converter={StaticResource FeatureVisibilityConverter}}"
-                      Content="{DynamicResource LangKeyAllowPublishingOfTextPostsWithLinksOnPinterest}"  Margin="5"/>
-            <CheckBox IsChecked="{Binding OtherConfigurations.IsPostAsStoryChecked}" Visibility="{Binding Source={x:Static enums:SocialNetworks.Instagram},Converter={StaticResource FeatureVisibilityConverter}}"
+             <CheckBox IsChecked="{Binding OtherConfigurations.IsPostAsStoryChecked}" Visibility="{Binding Source={x:Static enums:SocialNetworks.Instagram},Converter={StaticResource FeatureVisibilityConverter}}"
                       Content="{DynamicResource LangKeyPostAsAPartOfYourStoryInsteadOfOnTheWallAppliesToInstagramDestinationOnly}"  Margin="5"/>
             <StackPanel Orientation="Vertical" Margin="20,5,0,0">
                 <CheckBox  IsChecked="{Binding OtherConfigurations.IsMentionUser}" Content="{DynamicResource LangKeyMentionUserInStoryPost}" Visibility="{Binding OtherConfigurations.IsPostAsStoryChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>

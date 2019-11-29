@@ -104,19 +104,7 @@ namespace DominatorHouseCore.Utility
                                      PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", newLink),
                                      PublisherInstagramTitle = postDetailsModel.PublisherInstagramTitle.Replace("[FeedTitle]", title),
                                      GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
-                                     FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
                                      GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
-                                     TdPostSettings = new TdPostSettings()
-                                     {
-                                         IsDeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings.IsDeletePostAfterHours,
-                                         IsMentionUser = postDetailsModel.PublisherPostSettings.TdPostSettings.IsMentionUser,
-                                         DeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings.DeletePostAfterHours,
-                                         MentionUserList = postDetailsModel.PublisherPostSettings.TdPostSettings.MentionUserList,
-                                         RssImageList = new List<string>() { Imageurl }
-                                     },
-                                     LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
-                                     TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
-                                     RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
                                      FdSellLocation = postDetailsModel.FdSellLocation,
                                      FdSellPrice = postDetailsModel.FdSellPrice,
                                      FdSellProductTitle = postDetailsModel.FdSellProductTitle,
@@ -160,19 +148,7 @@ namespace DominatorHouseCore.Utility
                                      PdSourceUrl = postDetailsModel.PdSourceUrl.Replace("[FeedUrl]", link),
                                      PublisherInstagramTitle = postDetailsModel.PublisherInstagramTitle.Replace("[FeedTitle]", title),
                                      GeneralPostSettings = postDetailsModel.PublisherPostSettings.GeneralPostSettings,
-                                     FdPostSettings = postDetailsModel.PublisherPostSettings.FdPostSettings,
                                      GdPostSettings = postDetailsModel.PublisherPostSettings.GdPostSettings,
-                                     TdPostSettings = new TdPostSettings()
-                                     {
-                                         IsDeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings.IsDeletePostAfterHours,
-                                         IsMentionUser = postDetailsModel.PublisherPostSettings.TdPostSettings.IsMentionUser,
-                                         DeletePostAfterHours = postDetailsModel.PublisherPostSettings.TdPostSettings.DeletePostAfterHours,
-                                         MentionUserList = postDetailsModel.PublisherPostSettings.TdPostSettings.MentionUserList,
-                                         RssImageList = new List<string>() { Imageurl }
-                                     },
-                                     LdPostSettings = postDetailsModel.PublisherPostSettings.LdPostSettings,
-                                     TumberPostSettings = postDetailsModel.PublisherPostSettings.TumberPostSettings,
-                                     RedditPostSetting = postDetailsModel.PublisherPostSettings.RedditPostSetting,
                                      FdSellLocation = postDetailsModel.FdSellLocation,
                                      FdSellPrice = postDetailsModel.FdSellPrice,
                                      FdSellProductTitle = postDetailsModel.FdSellProductTitle,

@@ -21,7 +21,7 @@
         </StackPanel>
 
 
-        <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enums:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
+        <!--<StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enums:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
             <CheckBox Margin="2" Content="{DynamicResource LangKeySharePostsFromFacebookPages}" IsChecked="{Binding SharePostModel.IsShareFdPagePost}" />
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPageUrl}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
@@ -72,7 +72,7 @@
                 </StackPanel>
             </StackPanel>
 
-        </StackPanel>
+        </StackPanel>-->
 
     </StackPanel>
 

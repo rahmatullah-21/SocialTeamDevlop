@@ -1,6 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
-using DominatorHouseCore.Models.FacebookModels;
+
 using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;

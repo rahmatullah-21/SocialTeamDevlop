@@ -12,51 +12,12 @@
         <converters:FeatureVisibilityConverter x:Key="FeatureVisibilityConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical"  Name="MainGrid" >
-        <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enums:SocialNetworks.Facebook},Converter={StaticResource FeatureVisibilityConverter}}">
-            <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromFacebook}" IsChecked="{Binding ScrapePostModel.IsScrapeFacebookPost}"/>
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapeFacebookPost,Converter={StaticResource BooleanToVisibilityConverter}}"
-                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl}" Margin="2" TextWrapping="Wrap" 
-                         Height="60" Width="404" AcceptsReturn="True" Text="{Binding ScrapePostModel.AddFdPostSource}" />
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enums:SocialNetworks.Pinterest},Converter={StaticResource FeatureVisibilityConverter}}">
-            <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromPinterest}" 
-                          IsChecked="{Binding ScrapePostModel.IsScrapePinterestPost}"/>
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapePinterestPost,Converter={StaticResource BooleanToVisibilityConverter}}"
-                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeBoardsUsersSearchPin}" 
-                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
-                        Text="{Binding ScrapePostModel.AddPdPostSource}" />
-            <StackPanel Orientation="Vertical" Visibility="{Binding ScrapePostModel.IsScrapePinterestPost,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <RadioButton Margin="2" Content="{DynamicResource LangKeyUseOriginalPostDetails}" 
-                          IsChecked="{Binding ScrapePostModel.IsOriginalPostDetails}"/>
-                <StackPanel Orientation="Horizontal">
-                    <RadioButton Margin="2" Content="{DynamicResource LangKeyUseOwnPostDetails}" 
-                          IsChecked="{Binding ScrapePostModel.IsOwnPostDetails}"/>
-                    <mah:Badged Badge="{Binding ScrapePostModel.LstScrapedPostDetails.Count,UpdateSourceTrigger=PropertyChanged}" Margin="10,15,0,0"
-                                Visibility="{Binding ScrapePostModel.IsOwnPostDetails,Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Button VerticalAlignment="Center" HorizontalAlignment="Left" 
-                        Content="{DynamicResource LangKeyUploadPostDetails}" Background="{DynamicResource AccentBaseColorBrush}"
-                        Foreground="White"
-                        Margin="5"  Height="30" Width="150" Command="{Binding UploadPostDetailsCommand}"/>
-                    </mah:Badged>
-                  
-                </StackPanel>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Visibility="{Binding Source={x:Static enums:SocialNetworks.Twitter},Converter={StaticResource FeatureVisibilityConverter}}">
-            <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromTwitter}" IsChecked="{Binding ScrapePostModel.IsScrapeTwitterPost}" />
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeUsersSearch}"
-                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
-                         Text="{Binding ScrapePostModel.AddTdPostSource}" 
-                     Visibility="{Binding ScrapePostModel.IsScrapeTwitterPost,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        </StackPanel>
-
         <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeySetting}" FontSize="13" FontWeight="SemiBold"/>
         <StackPanel Orientation="Horizontal" Margin="2">
             <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyScrape}" Margin="0,0,10,0"/>
             <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"   Minimum="1" Value="{Binding ScrapePostModel.ScrapeCount}"/>
             <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyRecentPostOnEveryOperation}" Margin="0,0,10,0"/>
         </StackPanel>
-
         <StackPanel Orientation="Horizontal" Margin="2">
             <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyCheckForNewPostEvery}" Margin="0,0,10,0"/>
             <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.StartScrapeOnXminute}"/>
