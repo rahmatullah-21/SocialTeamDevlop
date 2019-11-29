@@ -61,7 +61,6 @@ namespace Socinator
             container.AddNewExtension<Interception>();
             container.AddNewExtension<CoreUnityExtension>();
             container.LoadConfiguration();
-            //StartupBaseViewModel.GetFaceBookActivity = (activityType) => new FacebookActivity().GetActivity(activityType);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

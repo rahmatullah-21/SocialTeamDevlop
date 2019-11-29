@@ -11,6 +11,6 @@ namespace DominatorHouseCore.Enums
         BrowserLogin = 1,
         AutomationLogin = 2,
         CheckLogin = 3,
-        InitialiseBrowser = 4
+        InitialiseBrowser = 4,
     }
 }
