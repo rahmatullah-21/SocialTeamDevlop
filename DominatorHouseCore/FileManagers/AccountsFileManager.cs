@@ -50,7 +50,7 @@ namespace DominatorHouseCore.FileManagers
         public bool Edit(DominatorAccountModel account)
             => SaveAccount(account);
 
-        public List<DominatorAccountModel> GetAll() => _accountsCacheService.GetAccountDetails().ToList();
+        public List<DominatorAccountModel> GetAll() => _accountsCacheService.GetAccountDetails()?.ToList();
 
         public List<DominatorAccountModel> GetAll(SocialNetworks network)
             => _accountsCacheService.GetAccountDetails().Where(a => a.AccountBaseModel.AccountNetwork == network).ToList();

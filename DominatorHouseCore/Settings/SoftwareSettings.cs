@@ -429,7 +429,7 @@ namespace DominatorHouseCore.Settings
                     else
                     {
                         JobManager.AddJob(async () => { await ServiceLocator.Current.GetInstance<ISoftwareSettings>().ScrapAdsProduceAsync(_adsActionBuffer, account, account.AccountBaseModel.AccountNetwork); },
-                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddMinutes(30)));
+                           s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
 
                         return;
                     }

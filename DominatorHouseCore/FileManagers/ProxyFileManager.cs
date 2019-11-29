@@ -21,6 +21,8 @@ namespace DominatorHouseCore.FileManagers
         void Delete(Predicate<ProxyManagerModel> match);
         ProxyManagerModel GetProxyById(string ProxyId);
         Task UpdateProxyStatusAsync(ProxyManagerModel currentProxyManager, string url);
+
+        bool VerifyProxy(Proxy currentProxy, string url);
     }
 
     public class ProxyFileManager : IProxyFileManager
@@ -66,6 +68,50 @@ namespace DominatorHouseCore.FileManagers
         {
             return GetAllProxy().FirstOrDefault(x => x.AccountProxy.ProxyId == ProxyId);
         }
+
+
+        public bool VerifyProxy(Proxy currentProxy, string url)
+        {
+            var stopWatch = new Stopwatch();
+
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+                request.Timeout = 5000;
+
+                if (currentProxy != null)
+                {
+                    request.Proxy = new WebProxy(currentProxy.ProxyIp, int.Parse(currentProxy.ProxyPort))
+                    {
+                        BypassProxyOnLocal = true
+                    };
+                    if (!string.IsNullOrEmpty(currentProxy.ProxyUsername)
+                        && !string.IsNullOrEmpty(currentProxy.ProxyPassword))
+                    {
+                        request.Proxy.Credentials = new NetworkCredential(currentProxy.ProxyUsername, currentProxy.ProxyPassword);
+                    }
+
+                    GlobusLogHelper.log.Info(Log.ProxyVerificationStarted, SocialNetworks.Social, currentProxy.ProxyIp + ":" + currentProxy.ProxyPort);
+
+                    using (var response = (HttpWebResponse)request.GetResponse())
+                    {
+                        if (response.StatusCode.ToString() == "OK")
+                            return true;
+                        else
+                            return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return false;
+
+        }
+
+
         public async Task UpdateProxyStatusAsync(ProxyManagerModel currentProxyManager, string url)
         {
             var stopWatch = new Stopwatch();

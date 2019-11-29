@@ -3642,6 +3642,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEnterHostName">Enter Host name</system:String>
     <system:String x:Key="LangKeyEnterPort">Enter port</system:String>
     <system:String x:Key="LangKeyEnterIpFormat">Format:{255.255.255.255}</system:String>
+    <system:String x:Key="LangKeyTypeProxyGroup">Type Proxy Group</system:String>
     <system:String x:Key="LangKeyTypeProxyIp">Type Proxy Ip</system:String>
     <system:String x:Key="LangKeyTypeProxyPort">Type Proxy Port</system:String>
     <system:String x:Key="LangKeyTypeProxyUsername">Type Proxy User Name</system:String>
@@ -4448,7 +4449,14 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyStopActivityOnContinuousFailsCount">Stop Activity On Continuous Fails Count</system:String>
     <system:String x:Key="LangKeyStoppingActivityReachedStopActivityOnContinuousFailsCount">Stopping activity, reached 'Stop Activity On Continuous Fails Count'</system:String>
     <system:String x:Key="LangKeyClearChatList">Clear Chat List</system:String>
-    <system:String x:Key="LangKeyTikTokliker/TikTokcommenter">Liker/Commenter</system:String>
-    <system:String x:Key="LangKeyKeywordUserPost">Keyword User Post(S)</system:String>
-    <system:String x:Key="LangKeyTiktokScrape">Tiktok Scraper</system:String>
+    <system:String x:Key="LangKeyPostDestinationConfiguration">Post-Destination Configuration</system:String>
+    <system:String x:Key="LangKeySpecialConfigurationForCTR">Special Configuration</system:String>
+    <system:String x:Key="LangKeyStringVideoId">Video Id</system:String>
+    <system:String x:Key="LangKeyAddQueryToList">Add Query To List</system:String>
+    <system:String x:Key="LangKeyAllowVisibilityForCTRInAllModule">Allow Visibility Of CTR Settings In All Modules</system:String>
+    <system:String x:Key="LangKeyCommentOnPinAfterRepin">Comment On Pin After Repin</system:String>
+    <system:String x:Key="LangKeyTryOnPinAfterRepin">Try On Pin After Repin</system:String>
+    <system:String x:Key="LangKeyNoAccountsFoundToPerformAction">No Such Accounts found to perform the action on.</system:String>
+    <system:String x:Key="LangKeyCaptchaSolvingManuallyTimeout">Set timeout (in secs) on solving login captcha manually</system:String>
+    <system:String x:Key="LangKeyMustHaveConnectionsCount">Must Have Connections</system:String>
 </ResourceDictionary>

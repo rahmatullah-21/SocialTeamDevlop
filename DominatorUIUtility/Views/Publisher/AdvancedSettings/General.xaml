@@ -60,7 +60,7 @@
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyRandomImagesForPostsWithMultipleImages}" Margin="0,0,10,0"/>
                 </StackPanel>
                 <CheckBox Content="{DynamicResource LangKeyWhenPublishingSendOnePostForEachDestination}"
-                          VerticalAlignment="Center" Margin="5" 
+                          VerticalAlignment="Center" Margin="5" Visibility="Collapsed"
                           IsChecked="{Binding GeneralModel.IsWhenPublishingSendOnePostChecked}"/>
                 <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyEachDestinationWillReceiveItsOwnPostFromTheList}" Margin="35,0"/>-->
                 <CheckBox Content="{DynamicResource LangKeyChooseRandomPostsFromThePostListInsteadOfTopOne}"

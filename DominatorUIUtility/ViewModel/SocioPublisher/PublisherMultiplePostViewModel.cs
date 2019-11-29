@@ -140,6 +140,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         private void ImportFromCsvExecute(object sender)
         {
+            IsStopLoadingPost = false;
+
             var listPostDetailsModel = FileUtilities.FileBrowseAndReader();
 
             var separator = ConstantVariable.Separator;

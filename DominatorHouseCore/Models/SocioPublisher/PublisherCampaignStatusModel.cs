@@ -228,6 +228,11 @@ namespace DominatorHouseCore.Models.SocioPublisher
         public bool IsTakeRandomDestination { get; set; }
 
         /// <summary>
+        /// To specify While publihsing Send One Post For Each Destination
+        /// </summary>
+        public bool SendOnePostForEachDestination { get; set; }
+
+        /// <summary>
         /// To specify the total random destinations
         /// </summary>
         public int TotalRandomDestination { get; set; }
@@ -284,4 +289,6 @@ namespace DominatorHouseCore.Models.SocioPublisher
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+
 }

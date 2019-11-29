@@ -702,7 +702,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         x.PostQueuedStatus == PostQueuedStatus.Pending) + pendingCount,
                     DraftCount = PublisherCreateCampaignModel.PostCollection.Count(x =>
                         x.PostQueuedStatus == PostQueuedStatus.Draft),
-                    IsTakeRandomDestination = !PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnDestinationsChecked,
+                    IsTakeRandomDestination = PublisherCreateCampaignModel.JobConfigurations.IsPublishPostOnRandomNDestinationsChecked,
+                    SendOnePostForEachDestination = PublisherCreateCampaignModel.JobConfigurations.IsWhenPublishingSendOnePostChecked,
                     TotalRandomDestination = PublisherCreateCampaignModel.JobConfigurations.RandomDestinationCount,
                     MinRandomDestinationPerAccount = PublisherCreateCampaignModel.JobConfigurations.PostBetween.EndValue,
                 };

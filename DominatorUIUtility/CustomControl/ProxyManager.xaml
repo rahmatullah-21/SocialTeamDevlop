@@ -636,7 +636,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{DynamicResource LangKeyGroup}"
-                                            Binding="{Binding AccountProxy.ProxyGroup}" IsReadOnly="True"/>
+                                            Binding="{Binding AccountProxy.ProxyGroup}" />
 
 
             </DataGrid.Columns>

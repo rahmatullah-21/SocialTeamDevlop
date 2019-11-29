@@ -162,7 +162,6 @@ namespace DominatorHouseCore.Process
                 {
                     _dominatorScheduler.RescheduleifLimitReached(this, limitInfo, limitType);
                 }
-
             }
             catch (Exception ex)
             {
@@ -266,7 +265,7 @@ namespace DominatorHouseCore.Process
         #region Job Process workflow routines
 
         private static readonly object SyncJobProcess = new object();
-        
+
         public JobKey Id => AsId(AccountId, TemplateId);
 
         public static JobKey AsId(string account, string templateId)
@@ -287,7 +286,7 @@ namespace DominatorHouseCore.Process
 
                 if (!_runningJobsHolder.StartIfNotRunning(Id, this))
                     return Task.CompletedTask;
-                
+
                 var task = ThreadFactory.Instance.Start(() =>
                   {
 
@@ -397,6 +396,7 @@ namespace DominatorHouseCore.Process
                 GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
 
+
                 if (!DominatorAccountModel.IsUserLoggedIn || (_httpHelper.GetRequestParameter().Cookies == null))
                 {
 
@@ -415,6 +415,14 @@ namespace DominatorHouseCore.Process
                 {
                     GlobusLogHelper.log.Info(Log.SuccessfulLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
                     return true;
+                }
+                else if (!string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyIp)
+                    && !string.IsNullOrEmpty(DominatorAccountModel.AccountBaseModel.AccountProxy.ProxyPort)
+                    && DominatorAccountModel.IsRunProcessThroughBrowser)
+                {
+                    var proxyFileManager = ServiceLocator.Current.GetInstance<IProxyFileManager>();
+                    proxyFileManager.VerifyProxy(DominatorAccountModel.AccountBaseModel.AccountProxy,
+                        ConstantVariable.GoogleLink);
                 }
             }
             catch (Exception ex)

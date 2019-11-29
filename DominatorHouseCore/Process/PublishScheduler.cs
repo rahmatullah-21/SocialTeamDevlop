@@ -342,7 +342,7 @@ namespace DominatorHouseCore.Process
                         if (!accountsWithNetworks.ContainsKey(x.AccountId))
                             accountsWithNetworks.Add(x.AccountId, x.SocialNetworks);
 
-                        if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
+                        if (!campaignStatusModel.SendOnePostForEachDestination && campaignStatusModel.IsTakeRandomDestination && postsAccountDestinationLimits > 0)
                         {
                             var currentAccountQueue = accountsWithDestinations.GetOrAdd(x.AccountId,
                                 queue => new Queue<PublisherDestinationDetailsModel>());
@@ -367,7 +367,7 @@ namespace DominatorHouseCore.Process
 
                 #region Random Destinations
 
-                if (!advancedSettings.IsWhenPublishingSendOnePostChecked && campaignStatusModel.IsTakeRandomDestination)
+                if (campaignStatusModel.IsTakeRandomDestination)
                 {
                     // Check whether total destination is zero 
                     if (campaignStatusModel.TotalRandomDestination == 0)
@@ -387,7 +387,7 @@ namespace DominatorHouseCore.Process
                 #region All Destinations
 
                 else
-                    destinations = AssignPostToSelectAllDestination(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount);
+                    destinations = AssignPostToSelectAllDestination(allDestination, accountIds, totalDestinationCount, campaignStatusModel.CampaignId, campaignStatusModel.CampaignName, postsMaximumDestinationCount, campaignStatusModel.SendOnePostForEachDestination);
 
                 #endregion
 
@@ -404,7 +404,7 @@ namespace DominatorHouseCore.Process
                     if (!SocinatorInitialize.IsNetworkAvailable(accountsNetwork))
                     {
                         GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignStatusModel.CampaignName, "LangKeyPublisher".FromResourceDictionary(),
-                            String.Format("LangKeyNoPermissionToRunNetworkPurchaseIt".FromResourceDictionary(),accountsNetwork));
+                            String.Format("LangKeyNoPermissionToRunNetworkPurchaseIt".FromResourceDictionary(), accountsNetwork));
                         continue;
                     }
 
@@ -643,12 +643,9 @@ namespace DominatorHouseCore.Process
 
             lock (updatelock)
             {
+                var skipCount = 0;
 
                 var givenDestinations = totalDestinations.ToList();
-
-                var accounts = accountId.ToList();
-
-                accounts.Shuffle();
 
                 var postsDestinations = new List<List<string>>();
 
@@ -656,22 +653,42 @@ namespace DominatorHouseCore.Process
 
                 while (true)
                 {
+                    #region Commented
                     // Split the destination with maximum destinations
-                    var currentPostsDestination = new List<string>();
+                    //var currentPostsDestination = new List<string>();
 
-                    for (var initial = 0; initial < postsMaximumDestinationCount; initial++)
-                    {
-                        if (totalDestinations.Count <= 0)
-                            break;
-                        // Get the destinations
-                        var destination = totalDestinations.Dequeue();
-                        currentPostsDestination.Add(destination.DestinationGuid);
-                    }
-                    if (currentPostsDestination.Count > 0)
-                        // Add the splitted destinations
-                        postsDestinations.Add(currentPostsDestination);
-                    else
+                    //for (var initial = 0; initial < postsMaximumDestinationCount; initial++)
+                    //{
+                    //    if (totalDestinations.Count <= 0)
+                    //        break;
+                    //    // Get the destinations
+                    //    var destination = totalDestinations.Dequeue();
+                    //    currentPostsDestination.Add(destination.DestinationGuid);
+                    //}
+                    //if (currentPostsDestination.Count > 0)
+                    //    // Add the splitted destinations
+                    //    postsDestinations.Add(currentPostsDestination);
+                    //else
+                    //    break; 
+                    #endregion
+
+                    var currentPostDestination = givenDestinations.Skip(skipCount).Take(postsMaximumDestinationCount)
+                        .ToList();
+
+                    if (currentPostDestination.Count == 0)
                         break;
+                    else if (currentPostDestination.Count < postsMaximumDestinationCount)
+                    {
+                        givenDestinations.Shuffle();
+
+                        currentPostDestination.AddRange(givenDestinations.Except(currentPostDestination).Take
+                           (postsMaximumDestinationCount - currentPostDestination.Count));
+                    }
+
+
+                    postsDestinations.Add(currentPostDestination.Select(x => x.DestinationGuid).ToList());
+
+                    skipCount += postsMaximumDestinationCount;
                 }
 
                 #endregion
@@ -710,7 +727,7 @@ namespace DominatorHouseCore.Process
                 while (true)
                 {
                     // Split the destination with maximum destinations
-                    var currentPostsDestination = new List<string>();
+                    var currentPostsDestination = new List<KeyValuePair<string, string>>();
 
                     foreach (var account in accounts)
                     {
@@ -735,15 +752,18 @@ namespace DominatorHouseCore.Process
                                 break;
                             var destination = currentAccountQueue.Dequeue();
                             accountsDestinations.Add(destination);
-                            currentPostsDestination.Add(destination.DestinationGuid);
+                            currentPostsDestination.Add(new KeyValuePair<string, string>(account, destination.DestinationGuid));
                         }
                     }
                     if (currentPostsDestination.Count > 0)
-                        // Add the splitted destinations
-                        postsDestinations.Add(currentPostsDestination);
+                        postsDestinations.Add(currentPostsDestination.Select(x => x.Value).ToList());
+                    // Add the splitted destinations
                     else
                         break;
                 }
+
+                if (postsDestinations.Any(x => x.Count == postsMaximumDestinationCount))
+                    postsDestinations.RemoveAll(x => x.Count < postsMaximumDestinationCount);
 
                 #endregion
 
@@ -757,7 +777,7 @@ namespace DominatorHouseCore.Process
            string campaignId,
            string campaignName,
            IReadOnlyCollection<PublisherDestinationDetailsModel> givenDestinations,
-           IReadOnlyList<List<string>> postsDestinations)
+           List<List<string>> postsDestinations)
         {
             if (givenDestinations.Count == 0)
             {
@@ -777,7 +797,7 @@ namespace DominatorHouseCore.Process
                 // Checking, If no more post available
                 if (!pendingPostList.Any())
                 {
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(),campaignName));
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(), campaignName));
                     return null;
                 }
 
@@ -806,20 +826,27 @@ namespace DominatorHouseCore.Process
 
                 #region Assigning the Posts to Destinations
 
-                for (var count = 0; count < pendingPostList.Count; count++)
-                {
-                    // Get the posts
-                    var post = pendingPostList[count];
+                #region Commented
+                //// Get the posts
+                //var post = pendingPostList[count];
 
-                    // Check whether count exceeds destinations
-                    if (count >= postsDestinations.Count)
-                        break;
+                //// Check whether count exceeds destinations
+                //if (count >= postsDestinations.Count)
+                //    break;
 
-                    // Get the destination
-                    var destinations = postsDestinations[count];
+                //// Get the destination
+                //var destinations = postsDestinations[count]; 
+                #endregion
 
-                    UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
-                }
+                var post = pendingPostList.First();
+
+                var destinations = GetOrAddProcessedDestination(campaignId, givenDestinations.
+                    Select(x => x.DestinationGuid).ToList(), postsDestinations.
+                    FirstOrDefault().Count, postsDestinations);
+
+                UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
+
+
                 #endregion
 
                 // update stats to publisher default view
@@ -838,7 +865,8 @@ namespace DominatorHouseCore.Process
            int totalDestinationCount,
            string campaignId,
            string campaignName,
-           int postsMaximumDestinationCount)
+           int postsMaximumDestinationCount,
+           bool isWhenPublishingSendOnePostChecked)
         {
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             var destinationWithPosts = new ConcurrentDictionary<string, Queue<PublisherDestinationDetailsModel>>();
@@ -886,7 +914,7 @@ namespace DominatorHouseCore.Process
                         {
                             ToasterNotification.ShowInfomation(String.Format("LangKeyCampaignHasNExpiredPosts".FromResourceDictionary(), campaignName, expiredPostCount));
                         }
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(),campaignName));
+                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, campaignName, "LangKeyPublisher".FromResourceDictionary(), String.Format("LangKeyNoUniquePostsAvailableForCampaign".FromResourceDictionary(), campaignName));
                         return null;
                     }
 
@@ -914,25 +942,31 @@ namespace DominatorHouseCore.Process
 
                     #region Assigning the Posts to Destinations
 
-                    if (generalSettingsModel.IsWhenPublishingSendOnePostChecked)
+                    if (isWhenPublishingSendOnePostChecked)
                     {
-                        for (var count = 0; count < pendingPostList.Count; count++)
-                        {
-                            // Get the posts
-                            var post = pendingPostList[count];
+                        //for (var count = 0; count < pendingPostList.Count; count++)
+                        //{
+                        //    // Get the posts
+                        //    var post = pendingPostList[count];
 
-                            // Check whether count exceeds destinations
-                            if (count >= alldestinations.Count)
-                                break;
+                        //    // Check whether count exceeds destinations
+                        //    if (count >= alldestinations.Count)
+                        //        break;
 
-                            // Get the destination
-                            var destination = alldestinations[count];
+                        //    // Get the destination
+                        //    var destination = alldestinations[count];
 
-                            var destinations = new List<string> { destination };
+                        //    var destinations = new List<string> { destination };
 
-                            UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
+                        //    UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
 
-                        }
+                        //}
+
+                        var post = pendingPostList.First();
+
+                        var destinations = GetOrAddProcessedDestination(campaignId, alldestinations, 1, null);
+
+                        UpdatePostDetails(campaignId, campaignName, givenDestinations, destinationWithPosts, post, destinations);
                     }
                     else
                     {
@@ -1052,6 +1086,83 @@ namespace DominatorHouseCore.Process
                 ex.DebugLog();
             }
             return destinationWithPosts;
+        }
+
+        private static List<string> GetOrAddProcessedDestination(string campaignId, List<string> totalDestination,
+                    int destinationCount, List<List<string>> postDestinationList)
+        {
+            //Get the locking objects
+            var updatelock = GetPostsForPublishing.GetOrAdd(campaignId, _lock => new object());
+
+            lock (updatelock)
+            {
+                if (destinationCount > 1)
+                    totalDestination.Shuffle();
+
+                var unProcessedDestinations = new List<string>();
+
+                var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
+
+                var processedDestinationModel = genericFileManager
+                    .GetModel<PublisherProcessedDestinationModel>($"{ConstantVariable.GetProcessedDestinationDir()}//{campaignId}.bin");
+
+                if (!(processedDestinationModel.ListTotalDestination.Intersect(totalDestination).ToList().Count == totalDestination.Count
+                    && processedDestinationModel.ListTotalDestination.Count == totalDestination.Count) ||
+                        processedDestinationModel.DestinationCount != destinationCount)
+                {
+                    processedDestinationModel.CampaignId = campaignId;
+                    processedDestinationModel.ListTotalDestination = totalDestination;
+                    processedDestinationModel.ListProcessedDestination.Clear();
+                    processedDestinationModel.ListSkippedDestination.Clear();
+                    processedDestinationModel.DestinationCount = destinationCount;
+
+                }
+
+                var processdDestinaionList = processedDestinationModel.ListProcessedDestination;
+
+                if (postDestinationList == null || postDestinationList.Count == 0)
+                {
+                    unProcessedDestinations = processedDestinationModel.ListTotalDestination.Except(processdDestinaionList).ToList();
+
+                    if (unProcessedDestinations.Count < destinationCount && processdDestinaionList.Count > 0)
+                    {
+                        if (destinationCount > 1)
+                            processdDestinaionList.Shuffle();
+
+                        unProcessedDestinations.AddRange(processdDestinaionList.Take(destinationCount - unProcessedDestinations.Count));
+
+                        processedDestinationModel.ListProcessedDestination.Clear();
+                    }
+
+                    processedDestinationModel.ListProcessedDestination.AddRange(unProcessedDestinations.Take(destinationCount));
+                }
+                else
+                {
+                    if (processedDestinationModel.ListSkippedDestination.Count > 0)
+                    {
+                        unProcessedDestinations = processedDestinationModel.ListSkippedDestination.FirstOrDefault().DestinationGuidList;
+                        processedDestinationModel.ListSkippedDestination.Remove(processedDestinationModel.ListSkippedDestination.FirstOrDefault());
+                    }
+                    else
+                    {
+                        unProcessedDestinations = postDestinationList.FirstOrDefault();
+                        postDestinationList.Remove(unProcessedDestinations);
+                        postDestinationList.ForEach(x =>
+                        {
+                            processedDestinationModel.ListSkippedDestination.Add(new PostDestinationModel()
+                            {
+                                DestinationGuidList = x
+                            });
+                        });
+
+                    }
+                }
+
+                genericFileManager
+                    .Save(processedDestinationModel, $"{ConstantVariable.GetProcessedDestinationDir()}//{campaignId}.bin");
+
+                return unProcessedDestinations.Take(destinationCount).ToList();
+            }
         }
 
         private static void UpdatePostDetails(string campaignId,
@@ -1410,7 +1521,7 @@ namespace DominatorHouseCore.Process
                 //timeRange = GenerateRandomIntervals(campaign.MaximumTime, campaign.TimeRange);
 
             }
-         
+
             // Iterate running times 
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
 
@@ -1426,7 +1537,7 @@ namespace DominatorHouseCore.Process
                 return;
             // Finding index
             var campaignIndex = allCampaign.IndexOf(currentCampaign);
-            
+
             allCampaign[campaignIndex] = currentCampaign;
 
             //Save into bin file 
@@ -1463,15 +1574,15 @@ namespace DominatorHouseCore.Process
                                       }
                                       else
                                       {
-                                          if ((campaign.EndDate != null && campaign.EndDate < DateTime.Now) || campaign.StartDate ==null)
+                                          if ((campaign.EndDate != null && campaign.EndDate < DateTime.Now) || campaign.StartDate == null)
                                               return;
-                                          scheduleTime = DateTime.Now.AddSeconds(((campaign.StartDate??DateTime.Now) - DateTime.Now).TotalSeconds);
+                                          scheduleTime = DateTime.Now.AddSeconds(((campaign.StartDate ?? DateTime.Now) - DateTime.Now).TotalSeconds);
                                       }
 
                                       JobManager.AddJob(() =>
                                       {
-                                              // Call the start publishing
-                                              SchedulePublisher(campaign);
+                                          // Call the start publishing
+                                          SchedulePublisher(campaign);
                                       }, x => x.WithName(addJobName).ToRunOnceAt(scheduleTime));
 
                                   }, s => s.WithName(addJobName).ToRunOnceAt(startTime));

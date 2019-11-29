@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Utility
         public static string UseragentLocale { get; } = "en_US";
 
         // public static string IgVersion { get; } = "40.33.0";
-        public static string IgVersion { get; } = "107.0.0.27.121 ";//"94.0.0.22.116";
+        public static string IgVersion { get; } = "117.0.0.28.123";//"107.0.0.27.121 ";//"94.0.0.22.116";
 
         public static string ApiUrl => $"{(object)InstagramBaseUrl}api/v1/";
 
@@ -131,6 +131,15 @@ namespace DominatorHouseCore.Utility
             DirectoryUtilities.CreateDirectory(dir);
             return dir;
         }
+
+        public static string GetProcessedDestinationDir()
+        {
+            string dir = $"{GetPlatformBaseDirectory()}\\Other\\PublisherProcessedDestination";
+            DirectoryUtilities.CreateDirectory(dir);
+            return dir; 
+        }
+
+
         public static string GetOtherProxyFile() => GetOtherDir() + @"\Proxy.bin";
         public static string GetOtherPostsFile() => GetOtherDir() + @"\Posts.bin";
         public static string GetOtherConfigFile() => GetOtherDir() + @"\Config.bin";

@@ -65,5 +65,19 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _StopRunQueryIfNActivityFailed, value);
             }
         }
+
+        private int _timeoutToSolveCaptchaManually = 25;
+        [ProtoMember(5)]
+        public int TimeoutToSolveCaptchaManually
+        {
+            get
+            {
+                return _timeoutToSolveCaptchaManually;
+            }
+            set
+            {
+                SetProperty(ref _timeoutToSolveCaptchaManually, value);
+            }
+        }
     }
 }

@@ -35,6 +35,10 @@
                     <Label Margin="5" Content="{DynamicResource LangKeyStopQueryIfFailedTillN}"/>
                     <controls:NumericUpDown Minimum="1" Maximum="500"  Value="{Binding StopRunQueryIfNActivityFailed}"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5" DataContext="{Binding YoutubeModel}">
+                    <Label Margin="5" Content="{DynamicResource LangKeyCaptchaSolvingManuallyTimeout}"/>
+                    <controls:NumericUpDown Minimum="10" Maximum="60"  Value="{Binding TimeoutToSolveCaptchaManually}"/>
+                </StackPanel>
 
                 <!-- Old Config (Implement it later) -->
                 <!--<StackPanel Margin="10" x:Name="MainGrid">

@@ -78,7 +78,7 @@ namespace EmbeddedBrowser
 
         public BrowserWindow()
         {
-            if(!Cef.IsInitialized)
+            if (!Cef.IsInitialized)
             {
                 CefSettings settings = new CefSettings();
                 settings.CommandLineArgsDisabled = false;
@@ -86,7 +86,7 @@ namespace EmbeddedBrowser
                 settings.CefCommandLineArgs.Add("--disable-reading-from-canvas", "1");
                 Cef.Initialize(settings);
             }
-           
+
             InitializeComponent();
             WindowBrowsers.DataContext = this;
             SearchCommand = new DelegateCommand(() => GoToUrl());
@@ -102,7 +102,7 @@ namespace EmbeddedBrowser
             CustomUse = customUse;
             _isNeedResourceData = isNeedResourceData;
             _requestHandlerCustom = new RequestHandlerCustom(this, isNeedResourceData);
-          
+
             //SkipYoutubeAd = skipAd;
             browserLoginMessage = browserLoginMessageToDisplay;
 
@@ -941,8 +941,32 @@ namespace EmbeddedBrowser
         }
 
 
-        public async Task MouseHoverAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
+        public async Task MouseScrollAsync(int xLoc, int yLoc, int scrollByXLoc = 0, int scrollByYLoc = 0,
+            double delayBefore = 0, double delayAfter = 0,
             int clickLeavEvent = 0)
+        {
+
+            MouseButtonType mouseButton = MouseButtonType.Right;
+
+            if (delayBefore > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayBefore));
+
+            if (Browser.IsDisposed) return;
+
+
+
+            // mouseUp(4th parameter) = false , MouseButton to be pressed
+            Browser.GetBrowser().GetHost().SendMouseMoveEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None), false);
+            await Task.Delay(100);
+
+            Browser.GetBrowser().GetHost().SendMouseWheelEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None), scrollByXLoc, scrollByYLoc);
+            
+            if (delayAfter > 0)
+                await Task.Delay(TimeSpan.FromSeconds(delayAfter));
+        }
+
+        public async Task MouseHoverAsync(int xLoc, int yLoc, double delayBefore = 0, double delayAfter = 0,
+          int clickLeavEvent = 0)
         {
 
             MouseButtonType mouseButton = MouseButtonType.Right;
@@ -963,6 +987,7 @@ namespace EmbeddedBrowser
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter));
         }
+
 
         public async Task<List<string>> GetListInnerHtml(ActType actType, AttributeType attributeType, string attributeValue,
             ValueTypes valueType = ValueTypes.InnerHtml, string value = "")
@@ -1000,7 +1025,7 @@ namespace EmbeddedBrowser
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1 :
                 int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
                 parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) - 1;
-            
+
             while (itemCount >= 0)
             {
                 listNodes.Add(await GetChildElementValueAsync(actType, parentAttributeType,
@@ -1020,7 +1045,7 @@ namespace EmbeddedBrowser
             {
                 if (delayBefore > 0)
                     await Task.Delay(TimeSpan.FromSeconds(delayBefore));
-                
+
                 var z = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}";
 
                 if (Browser.IsDisposed) return "";
@@ -1062,7 +1087,7 @@ namespace EmbeddedBrowser
             }
             catch (Exception ex)
             {
-                
+
             }
 
             return jsResponse.Success ? jsResponse.Result?.ToString() : "";
@@ -1078,7 +1103,7 @@ namespace EmbeddedBrowser
             var doc = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].getElementsBy{childAttributeName}('{childAttributeValue}')[{childIndex}].{ valueType.GetDescriptionAttr()}";
 
             var doc2 = $"document.getElementsBy{parentAttributeType}('{parentAttributeValue}')[{parentIndex}].querySelectorAll('[{childAttributeName.GetDescriptionAttr()}=\"{childAttributeValue}\"]').length";
-            
+
             if (Browser.IsDisposed) return "";
 
             if (!Browser.CanExecuteJavascriptInMainFrame)
@@ -1423,7 +1448,7 @@ namespace EmbeddedBrowser
                 else
                     return false;
 
-               
+
             }
             catch (Exception ex)
             {

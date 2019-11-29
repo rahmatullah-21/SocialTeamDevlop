@@ -690,6 +690,7 @@ namespace DominatorUIUtility.ViewModel
                      catch (Exception ex)
                      { }
                  });
+
                 _proxyFileManager.EditAllProxy(LstProxyManagerModel.ToList());
                 RefreshEnable = Visibility.Visible;
             });

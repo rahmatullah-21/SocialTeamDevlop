@@ -22,6 +22,9 @@ namespace DominatorHouseCore.Interfaces
         }
 
         public virtual void UpdateFriendList(LiveChatModel liveChatModel, CancellationToken cancellation) { }
+
+        public virtual void CloseBrowser(LiveChatModel liveChatModel, CancellationToken cancellation) { }
+
         public virtual void UpdateCurrentChat(LiveChatModel liveChatModel, CancellationToken cancellation) { }
 
         public virtual async Task<bool> SendMessageToUser(LiveChatModel liveChatModel, string message, List<string> lstImages,
@@ -84,14 +87,12 @@ namespace DominatorHouseCore.Interfaces
                 if (!isPresent)
                 {
                     cancellation.ThrowIfCancellationRequested();
-                    var item = liveChatModel.LstChat.FirstOrDefault(x => x.MessageTime > chatDetails.MessageTime);
+                    var item = liveChatModel.LstChat.LastOrDefault(x => x.MessageTime < chatDetails.MessageTime);
+                    var indexCurrentItem = item == null ? 0 : liveChatModel.LstChat.IndexOf(item) + 1;
 
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        if (liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)
-                            liveChatModel.LstChat.Insert(0, chatDetails);
-                        else
-                            liveChatModel.LstChat.Add(chatDetails);
+                        liveChatModel.LstChat.Insert(indexCurrentItem, chatDetails);
                     });
                     //liveChatModel.LstChat.Add(chatDetails);
                     _genericFileManager.AddModule(chatDetails,
@@ -169,11 +170,13 @@ namespace DominatorHouseCore.Interfaces
                 {
                     if (liveChatModel.LstSender.Count() > 0 && liveChatModel.LstSender.FirstOrDefault().AccountId != friendDetail.AccountId)
                         return;
+                    var item = liveChatModel.LstSender.FirstOrDefault(x => x.LastMessegeDateTime < friendDetail.LastMessegeDateTime);
+                    var indexCurrentItem = item == null ? 0 : liveChatModel.LstSender.IndexOf(item);
 
                     cancellation.ThrowIfCancellationRequested();
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        liveChatModel.LstSender.Add(friendDetail);
+                        liveChatModel.LstSender.Insert(indexCurrentItem, friendDetail);
                     });
 
                     _genericFileManager.AddModule(friendDetail,
