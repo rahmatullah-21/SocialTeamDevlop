@@ -1772,25 +1772,40 @@ namespace DominatorUIUtility.ViewModel
                     }
                 }
 
+
+                // Open extra window for facebook in advance and close to avoid hanging issue
                 Task.Factory.StartNew(() =>
                 {
-                    var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
-
-                    var account = new DominatorAccountModel()
+                    try
                     {
-                        AccountId = "ActivateBrowserLogin",
+                        var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
 
-                        AccountBaseModel = new DominatorAccountBaseModel()
+                        var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
+
+                        if (availablenetworks.Contains(SocialNetworks.Facebook))
                         {
-                            UserName = "socinator",
-                            Password = "socinator",
-                            AccountProxy = new Proxy()
+                            var account = new DominatorAccountModel()
+                            {
+                                AccountId = "ActivateBrowserLogin",
+
+                                AccountBaseModel = new DominatorAccountBaseModel()
+                                {
+                                    UserName = "socinator",
+                                    Password = "socinator",
+                                    AccountProxy = new Proxy()
+                                }
+                            };
+
+                            var browserManager = accountScopeFactory[$"{account.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(account.AccountBaseModel.AccountNetwork.ToString());
+
+                            browserManager.BrowserLogin(account, LoginType.InitialiseBrowser);
                         }
-                    };
-
-                    var browserManager = accountScopeFactory[$"{account.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(account.AccountBaseModel.AccountNetwork.ToString());
-
-                    browserManager.BrowserLogin(account, LoginType.InitialiseBrowser);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.StackTrace);
+                    }
+                    
                 });
             }
             catch (Exception ex)
@@ -2058,15 +2073,15 @@ namespace DominatorUIUtility.ViewModel
                                 dominatorScheduler.StopActivity(account, x.ActivityType.ToString(), x.TemplateId, isNeedToSchedule);
                             }
                         });
-                        
-                        if(activateBrowser)
+
+                        if (activateBrowser)
                         {
                             account.IsRunProcessThroughBrowser = true;
                             new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
                            .AddOrUpdateBrowserSettings(true)
                            .SaveToBinFile();
                         }
-                        else if(activateHttp)
+                        else if (activateHttp)
                         {
                             account.IsRunProcessThroughBrowser = false;
                             new SocinatorAccountBuilder(account.AccountBaseModel.AccountId)
@@ -2154,8 +2169,8 @@ namespace DominatorUIUtility.ViewModel
                         ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
                         return;
                     }
-                    
-                    StopAllActivity(accountsToProcess.ToList(), true,true);
+
+                    StopAllActivity(accountsToProcess.ToList(), true, true);
 
                     #region commented code
                     //StopProcess(accountsToProcess.ToList());
@@ -2200,8 +2215,8 @@ namespace DominatorUIUtility.ViewModel
                         ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
                         return;
                     }
-                    
-                    StopAllActivity(accountsToProcess.ToList(), true, activateHttp:true);
+
+                    StopAllActivity(accountsToProcess.ToList(), true, activateHttp: true);
                 }
             }
             else
