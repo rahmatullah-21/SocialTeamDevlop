@@ -1,5 +1,4 @@
 ﻿using DominatorHouseCore.Annotations;
-using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorUIUtility.ViewModel.SocioPublisher;
 using System;
@@ -23,51 +22,51 @@ namespace DominatorUIUtility.CustomControl
             SelectDetails.DataContext = SelectAccountDetailsViewModel;
         }
 
-        public SelectAccountDetailsControl(List<FbEntityTypes> listColumnName, string selectedAccount, bool isSingleAccount, string pageHeaderText, bool isFanpage = false)
-        {
-            InitializeComponent();
+        //public SelectAccountDetailsControl(List<FbEntityTypes> listColumnName, string selectedAccount, bool isSingleAccount, string pageHeaderText, bool isFanpage = false)
+        //{
+        //    InitializeComponent();
 
-            if (isSingleAccount)
-            {
-                SelectAccountDetailsViewModel.IsSelectedSingleAccount = true;
-                SelectAccountDetailsViewModel.DisplayAccount = selectedAccount;
-            }
-            SelectAccountDetailsViewModel.InitializeDestinationList();
+        //    if (isSingleAccount)
+        //    {
+        //        SelectAccountDetailsViewModel.IsSelectedSingleAccount = true;
+        //        SelectAccountDetailsViewModel.DisplayAccount = selectedAccount;
+        //    }
+        //    SelectAccountDetailsViewModel.InitializeDestinationList();
 
-            if (listColumnName.Contains(FbEntityTypes.Group))
-            {
-                SelectAccountDetailsViewModel.SelectAccountDetailsModel.GroupColWidth = "0";
-                SelectAccountDetailsViewModel.GroupColWidth = "0";
-            }
+        //    if (listColumnName.Contains(FbEntityTypes.Group))
+        //    {
+        //        SelectAccountDetailsViewModel.SelectAccountDetailsModel.GroupColWidth = "0";
+        //        SelectAccountDetailsViewModel.GroupColWidth = "0";
+        //    }
 
-            if (listColumnName.Contains(FbEntityTypes.Page))
-            {
-                SelectAccountDetailsViewModel.SelectAccountDetailsModel.PageColWidth = "0";
-                SelectAccountDetailsViewModel.PageColWidth = "0";
-            }
+        //    if (listColumnName.Contains(FbEntityTypes.Page))
+        //    {
+        //        SelectAccountDetailsViewModel.SelectAccountDetailsModel.PageColWidth = "0";
+        //        SelectAccountDetailsViewModel.PageColWidth = "0";
+        //    }
 
-            if (listColumnName.Contains(FbEntityTypes.Friend))
-            {
-                SelectAccountDetailsViewModel.SelectAccountDetailsModel.FriendColWidth = "0";
-                SelectAccountDetailsViewModel.FriendColWidth = "0";
-            }
+        //    if (listColumnName.Contains(FbEntityTypes.Friend))
+        //    {
+        //        SelectAccountDetailsViewModel.SelectAccountDetailsModel.FriendColWidth = "0";
+        //        SelectAccountDetailsViewModel.FriendColWidth = "0";
+        //    }
 
-            if (listColumnName.Contains(FbEntityTypes.CustomDestination))
-            {
-                SelectAccountDetailsViewModel.SelectAccountDetailsModel.CustomDestinationColWidth = "0";
-                SelectAccountDetailsViewModel.CustomColumnWidth = "0";
-            }
+        //    if (listColumnName.Contains(FbEntityTypes.CustomDestination))
+        //    {
+        //        SelectAccountDetailsViewModel.SelectAccountDetailsModel.CustomDestinationColWidth = "0";
+        //        SelectAccountDetailsViewModel.CustomColumnWidth = "0";
+        //    }
 
-            if (!string.IsNullOrEmpty(pageHeaderText))
-            {
-                SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
-            }
+        //    if (!string.IsNullOrEmpty(pageHeaderText))
+        //    {
+        //        SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
+        //    }
 
-            SelectAccountDetailsViewModel.IsFanpage = isFanpage;
+        //    SelectAccountDetailsViewModel.IsFanpage = isFanpage;
 
 
-            SelectDetails.DataContext = SelectAccountDetailsViewModel;
-        }
+        //    SelectDetails.DataContext = SelectAccountDetailsViewModel;
+        //}
 
         public SelectAccountDetailsControl(SelectAccountDetailsModel selctAccountDetailsModel, bool isFanpage = false)
         {
@@ -88,40 +87,40 @@ namespace DominatorUIUtility.CustomControl
             SelectDetails.DataContext = SelectAccountDetailsViewModel;
         }
 
-        public SelectAccountDetailsControl(List<FbEntityTypes> hiddenColumnList, SelectAccountDetailsModel model
-            , bool isFanpage = false)
-        {
-            InitializeComponent();
-            SelectAccountDetailsViewModel.SelectAccountDetailsModel = model;
+        //public SelectAccountDetailsControl(List<FbEntityTypes> hiddenColumnList, SelectAccountDetailsModel model
+        //    , bool isFanpage = false)
+        //{
+        //    InitializeComponent();
+        //    SelectAccountDetailsViewModel.SelectAccountDetailsModel = model;
 
-            if (hiddenColumnList.Contains(FbEntityTypes.Group))
-            {
-                SelectAccountDetailsViewModel.SelectAccountDetailsModel.GroupColWidth = "0";
-                SelectAccountDetailsViewModel.GroupColWidth = "0";
-            }
+        //    if (hiddenColumnList.Contains(FbEntityTypes.Group))
+        //    {
+        //        SelectAccountDetailsViewModel.SelectAccountDetailsModel.GroupColWidth = "0";
+        //        SelectAccountDetailsViewModel.GroupColWidth = "0";
+        //    }
 
-            if (hiddenColumnList.Contains(FbEntityTypes.Page))
-            {
-                SelectAccountDetailsViewModel.SelectAccountDetailsModel.PageColWidth = "0";
-                SelectAccountDetailsViewModel.PageColWidth = "0";
-            }
+        //    if (hiddenColumnList.Contains(FbEntityTypes.Page))
+        //    {
+        //        SelectAccountDetailsViewModel.SelectAccountDetailsModel.PageColWidth = "0";
+        //        SelectAccountDetailsViewModel.PageColWidth = "0";
+        //    }
 
-            if (hiddenColumnList.Contains(FbEntityTypes.Friend))
-            {
-                SelectAccountDetailsViewModel.SelectAccountDetailsModel.FriendColWidth = "0";
-                SelectAccountDetailsViewModel.FriendColWidth = "0";
-            }
+        //    if (hiddenColumnList.Contains(FbEntityTypes.Friend))
+        //    {
+        //        SelectAccountDetailsViewModel.SelectAccountDetailsModel.FriendColWidth = "0";
+        //        SelectAccountDetailsViewModel.FriendColWidth = "0";
+        //    }
 
-            SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
+        //    SelectAccountDetailsViewModel.InviteForPagesText = "Select Pages";
 
 
 
-            SelectAccountDetailsViewModel.IsFanpage = isFanpage;
-            SelectAccountDetailsViewModel.EditDestination();
-            SelectAccountDetailsViewModel.IsSelectedSingleAccount = false;
+        //    SelectAccountDetailsViewModel.IsFanpage = isFanpage;
+        //    SelectAccountDetailsViewModel.EditDestination();
+        //    SelectAccountDetailsViewModel.IsSelectedSingleAccount = false;
 
-            SelectDetails.DataContext = SelectAccountDetailsViewModel;
-        }
+        //    SelectDetails.DataContext = SelectAccountDetailsViewModel;
+        //}
 
         public SelectAccountDetailsViewModel SelectAccountDetailsViewModel
         {
@@ -158,7 +157,7 @@ namespace DominatorUIUtility.CustomControl
         }
 
         public static readonly RoutedEvent SaveDetailsChangedRoutedEvent = EventManager.RegisterRoutedEvent("SaveDetailsChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SelectAccountDetailsControl));
-        private List<FbEntityTypes> hiddenColumnList;
+      //  private List<FbEntityTypes> hiddenColumnList;
         private SelectAccountDetailsModel model;
 
         public event RoutedEventHandler SaveDetailsChanged

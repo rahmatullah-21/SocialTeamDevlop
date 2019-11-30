@@ -3,7 +3,6 @@ using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Enums;
-using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
@@ -1233,10 +1232,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         ? "0" + "/" + allAccountDetailsSelectModel.TotalFriends
                         : "LangKeyNA".FromResourceDictionary();
 
-                if (x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
-                {
-                    SelectAccountDetailsModel.ListSelectDestination.Add(allAccountDetailsSelectModel);
-                }
+                
             });
 
             DestinationCollectionView = CollectionViewSource.GetDefaultView(SelectAccountDetailsModel.ListSelectDestination);
@@ -1511,11 +1507,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                             BoardsOrPagesAvailableInNetworks.Contains(x.AccountBaseModel.AccountNetwork.ToString())
                                 ? "0" + "/" + allAccountDetailsSelectModel.TotalPagesOrBoards
                                 : "LangKeyNA".FromResourceDictionary();
-                        if (x.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
-                        {
-                            SelectAccountDetailsModel.ListSelectDestination.Add(
-                            allAccountDetailsSelectModel);
-                        }
+                       
                     }
                 });
                 DestinationCollectionView = CollectionViewSource.GetDefaultView(SelectAccountDetailsModel.ListSelectDestination);
@@ -1556,8 +1548,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
             var publisherAddCustomDestination = PublisherAddCustomDestination.GetPublisherAddCustomDestination(alreadySavedCustomDestination);
 
-            publisherAddCustomDestination.PublisherCustomDestinationViewModel.InputDestination.DestinationType =
-                FbEntityTypes.Friend.ToString();
+            //publisherAddCustomDestination.PublisherCustomDestinationViewModel.InputDestination.DestinationType =
+            //    FbEntityTypes.Friend.ToString();
             var dialog = new Dialog();
             var window = dialog.GetMetroWindow(publisherAddCustomDestination, "LangKeyAddCustomDestination".FromResourceDictionary());
 

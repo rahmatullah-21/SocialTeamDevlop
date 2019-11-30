@@ -22,26 +22,26 @@ namespace DominatorHouse.OtherConfiguration
                     Title =FindResource("LangKeyInstagram").ToString(),
                    Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.Instagram))
                 },
-                new TabItemTemplates
-                {
-                    Title=FindResource("LangKeyFacebook").ToString(),
-                  Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.Facebook))
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("LangKeyReddit").ToString(),
-                    Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.Reddit))
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("LangKeyLinkedIn").ToString(),
-                    Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.LinkedIn))
-                },
-                new TabItemTemplates
-                {
-                    Title=FindResource("LangKeyTwitter").ToString(),
-                    Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.Twitter))
-                },
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("LangKeyFacebook").ToString(),
+                //  Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.Facebook))
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("LangKeyReddit").ToString(),
+                //    Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.Reddit))
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("LangKeyLinkedIn").ToString(),
+                //    Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.LinkedIn))
+                //},
+                //new TabItemTemplates
+                //{
+                //    Title=FindResource("LangKeyTwitter").ToString(),
+                //    Content = new Lazy<UserControl>(()=>new Migration(SocialNetworks.Twitter))
+                //},
                
             };
 

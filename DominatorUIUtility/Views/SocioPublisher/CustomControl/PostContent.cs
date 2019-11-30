@@ -463,29 +463,29 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                 {
                     switch (network)
                     {
-                        case SocialNetworks.Facebook:
-                            objAdvancedSettings.PostFacebookSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
+                        //case SocialNetworks.Facebook:
+                        //    objAdvancedSettings.PostFacebookSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
                         case SocialNetworks.Instagram:
                             objAdvancedSettings.PostInstagramSettings.PublisherPostSettings = postSettingsDeepClone;
                             break;
-                        case SocialNetworks.Twitter:
-                            objAdvancedSettings.PostTwitterSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.LinkedIn:
-                            objAdvancedSettings.PostLinkedInSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.Tumblr:
-                            objAdvancedSettings.PostTumblrSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.Reddit:
-                            objAdvancedSettings.PostRedditSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.Pinterest:
-                        case SocialNetworks.Quora:
-                        //case SocialNetworks.Gplus:
-                        case SocialNetworks.Youtube:
-                            break;
+                        //case SocialNetworks.Twitter:
+                        //    objAdvancedSettings.PostTwitterSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.LinkedIn:
+                        //    objAdvancedSettings.PostLinkedInSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.Tumblr:
+                        //    objAdvancedSettings.PostTumblrSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.Reddit:
+                        //    objAdvancedSettings.PostRedditSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.Pinterest:
+                        //case SocialNetworks.Quora:
+                        ////case SocialNetworks.Gplus:
+                        //case SocialNetworks.Youtube:
+                        //    break;
                         // ReSharper disable once RedundantEmptySwitchSection
                         default:
                             break;

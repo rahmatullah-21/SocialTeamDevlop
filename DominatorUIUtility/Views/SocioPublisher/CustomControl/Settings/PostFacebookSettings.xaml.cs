@@ -39,11 +39,11 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public PostFacebookSettings(PublisherPostSettings publisherPostSettings):this()
-        {
-            PublisherPostSettings = publisherPostSettings;
-            MainGrid.DataContext = PublisherPostSettings.FdPostSettings;
-        }
+        //public PostFacebookSettings(PublisherPostSettings publisherPostSettings):this()
+        //{
+        //    PublisherPostSettings = publisherPostSettings;
+        //    MainGrid.DataContext = PublisherPostSettings.FdPostSettings;
+        //}
 
      
     }

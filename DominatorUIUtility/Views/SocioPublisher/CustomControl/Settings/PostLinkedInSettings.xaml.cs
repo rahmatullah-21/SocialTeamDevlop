@@ -39,10 +39,10 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public PostLinkedInSettings(PublisherPostSettings publisherPostSettings):this()
-        {
-            PublisherPostSettings = publisherPostSettings;
-            MainGrid.DataContext = PublisherPostSettings.LdPostSettings;
-        }
+        //public PostLinkedInSettings(PublisherPostSettings publisherPostSettings):this()
+        //{
+        //    PublisherPostSettings = publisherPostSettings;
+        //    MainGrid.DataContext = PublisherPostSettings.LdPostSettings;
+        //}
     }
 }

@@ -27,7 +27,7 @@
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsInstagramConverter" Expected="{x:Static enums:SocialNetworks.Instagram}"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsNotInstagramConverter" Expected="{x:Static enums:SocialNetworks.Instagram}" Inversed="True"/>
-        <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsTwitterConverter" Expected="{x:Static enums:SocialNetworks.Twitter}"/>
+        <!--<converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsTwitterConverter" Expected="{x:Static enums:SocialNetworks.Twitter}"/>-->
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Social}"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />

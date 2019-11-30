@@ -40,14 +40,14 @@ namespace DominatorUIUtility.ViewModel.OtherConfigurations
 
         #region Constructor
 
-        public SocinatorMacrosViewModel(IGenericFileManager genericFileManager) : base("LangKeyMacroS", "SocinatorMacrosControlTemplate")
-        {
-            _genericFileManager = genericFileManager;
-            SaveMacrosCommand = new DelegateCommand<SocinatorMacrosViewModel>(SaveMacrosExecute);
-            DeleteCommand = new DelegateCommand<SocinatorIntellisenseModel>(DeleteMacrosExecute);
-            ImportMacrosCammand = new DelegateCommand(ImportMacrosExecute);
-            MacrosCollection = new ObservableCollection<SocinatorIntellisenseModel>(_genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails));
-        }
+        //public SocinatorMacrosViewModel(IGenericFileManager genericFileManager) : base("LangKeyMacroS", "SocinatorMacrosControlTemplate")
+        //{
+        //    _genericFileManager = genericFileManager;
+        //    SaveMacrosCommand = new DelegateCommand<SocinatorMacrosViewModel>(SaveMacrosExecute);
+        //    DeleteCommand = new DelegateCommand<SocinatorIntellisenseModel>(DeleteMacrosExecute);
+        //    ImportMacrosCammand = new DelegateCommand(ImportMacrosExecute);
+        //    MacrosCollection = new ObservableCollection<SocinatorIntellisenseModel>(_genericFileManager.GetModuleDetails<SocinatorIntellisenseModel>(ConstantVariable.GetMacroDetails));
+        //}
         #endregion
 
         #region Methods

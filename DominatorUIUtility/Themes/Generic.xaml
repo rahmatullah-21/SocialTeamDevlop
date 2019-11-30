@@ -235,27 +235,7 @@
                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PdSourceUrl}"/>
                                     </StackPanel>
 
-                                    <StackPanel Visibility="{TemplateBinding behaviours:NetworkAvailablity.FbElementVisible}">
-                                        <CheckBox  Name="CheckBoxFdSellPost" Margin="2" Content="{DynamicResource LangKeyEnableFacebookSellPost}" 
-                                               IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsFdSellPost}"/>
-                                        <StackPanel Visibility="{Binding ElementName =CheckBoxFdSellPost, Path=IsChecked ,Converter= {StaticResource BooleanToVisibilityConverter}}">
-                                            <TextBox VerticalAlignment="Center"  AcceptsReturn="True" HorizontalAlignment="Left"
-                                                 mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWhatAreYouSelling}" Name="TextBoxFdSellProductTitle" 
-                                                 VerticalContentAlignment="Center"  Margin="2" TextWrapping="Wrap" Height="40" Width="303"
-                                                 Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellProductTitle}"/>
-                                            <StackPanel Name="FdSellPostDetails" Orientation="Horizontal">
-                                                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                     mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPrice}"
-                                                     Name="TextBoxFdSellPrice"  VerticalContentAlignment="Center"  Margin="2" 
-                                                     TextWrapping="Wrap" Height="30" Width="100"
-                                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellPrice}"/>
-                                                <TextBox VerticalAlignment="Center"  mah:TextBoxHelper.Watermark="{DynamicResource LangKeyLocation}" 
-                                                     HorizontalAlignment="Left" Name="TextBoxFdSellLocation"  VerticalContentAlignment="Center" 
-                                                     Margin="2" TextWrapping="Wrap" Height="30" Width="200"
-                                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FdSellLocation}"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </StackPanel>
+                                    
                                     <StackPanel Orientation="Horizontal" >
                                         <CheckBox  Name="CheckBoxIsSpinTax" Margin="2" Content="{DynamicResource LangKeyIsSpinTax}" 
                                                IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSpinTax}"/>

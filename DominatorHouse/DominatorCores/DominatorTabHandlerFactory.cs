@@ -88,11 +88,11 @@ namespace Socinator.DominatorCores
                     Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
                     Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration"))
                 },
-                new TabItemTemplates
-                {
-                    Title = "LangKeyOtherTools".FromResourceDictionary(),
-                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherTools"))
-                }
+                //new TabItemTemplates
+                //{
+                //    Title = "LangKeyOtherTools".FromResourceDictionary(),
+                //    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherTools"))
+                //}
             };
         }
 

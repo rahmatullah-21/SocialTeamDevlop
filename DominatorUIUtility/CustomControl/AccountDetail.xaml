@@ -175,44 +175,8 @@
                      controls:TextBoxHelper.Watermark="{DynamicResource LangKeyWebsite}" Width="230"
                      FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" />
                 </StackPanel>
-                <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyAlternateEmail}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <TextBox Name="AlterGoogleEmail" Text="{Binding DominatorAccountModel.AccountBaseModel.AlternateEmail}" KeyDown="OnKeyDown"
-                             controls:TextBoxHelper.Watermark="{DynamicResource LangKeyAlternateEmail}" Width="230"
-                             FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" />
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel"  >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>-->
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
-                </StackPanel>
-                <StackPanel  Orientation="Horizontal" >
-                    <TextBlock Text="{DynamicResource LangKeyPhoneNumber}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
-                    <TextBox Name="GooglePhoneNumber" Text="{Binding DominatorAccountModel.AccountBaseModel.PhoneNumber}" KeyDown="OnKeyDown"
-                             controls:TextBoxHelper.Watermark="{DynamicResource LangKeyPhoneNumber}" Width="230" ToolTip="{DynamicResource LangKeyAddPhoneNumber}"
-                             FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" />
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel"  >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>-->
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
-                </StackPanel>
+              
+         
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyStatus}" Width="120"  Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
                     <Label Name="TxtStatus" controls:TextBoxHelper.Watermark="{DynamicResource LangKeyStatus}" Width="230"
@@ -526,9 +490,9 @@
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}" >
+                                <!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}" >
                                     <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
+                                </DataTrigger>-->
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>

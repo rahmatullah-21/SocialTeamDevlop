@@ -103,19 +103,6 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Youtube}" >
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                        <!--<DataTrigger Binding="{Binding AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Gplus}" >
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>-->
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
             <TextBlock Text="{DynamicResource LangKeyAlternateEmail}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
             <TextBox Width="230" Grid.Column="1" Text="{Binding AlternateEmail}" FontWeight="SemiBold"  controls:TextBoxHelper.Watermark="{DynamicResource LangKeyAlternateEmail}"
                      Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" KeyDown="OnKeyDown"/>

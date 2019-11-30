@@ -235,7 +235,7 @@
 
                             <!--Attach button-->
 
-                            <Button  VerticalAlignment="Center" Background="White" Command="{Binding AttachFileCommand}">
+                            <!--<Button  VerticalAlignment="Center" Background="White" Command="{Binding AttachFileCommand}">
                                 <Button.Content>
                                     <Rectangle Fill="Gray" HorizontalAlignment="Center" Height="25" Width="15">
                                         <Rectangle.OpacityMask>
@@ -253,7 +253,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
-                            </Button>
+                            </Button>-->
 
 
                             <!--Message box-->

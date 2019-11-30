@@ -29,45 +29,46 @@ namespace DominatorHouseCore.Enums
 
 
         [Description("Instagram")]
-        DeletePost = 9,
+        DeletePost = 8,
         [Description("Instagram")]
-        UserScraper = 11,
+        UserScraper = 9,
 
         [Description("Instagram")]
-        Reposter = 13,
+        Reposter = 10,
 
         [Description("Instagram")]
-        CommentScraper = 29,
+        CommentScraper = 11,
 
         [Description("Instagram")]
-        PostScraper = 30,
+        PostScraper = 12,
 
         [Description("Instagram")]
-        BlockFollower = 56,
+        BlockFollower = 13,
         [Description("Instagram")]
-        LikeComment = 57,
-
-        [Description("Instagram")]
-        HashtagsScraper = 58,
+        LikeComment = 14,
 
         [Description("Instagram")]
-        FollowBack = 60,
+        HashtagsScraper = 15,
 
         [Description("Instagram")]
-        BroadcastMessages = 70,
+        FollowBack = 16,
 
         [Description("Instagram")]
-        SendMessageToFollower = 71,
+        BroadcastMessages = 17,
 
         [Description("Instagram")]
-        AutoReplyToNewMessage = 72,
+        SendMessageToFollower = 18,
 
         [Description("Instagram")]
-        ReplyToComment = 78,
+        AutoReplyToNewMessage = 19,
 
         [Description("Instagram")]
-        StoryViewer = 118,
+        ReplyToComment = 20,
 
+        [Description("Instagram")]
+        StoryViewer = 21,
 
+        [Description("Instagram")]
+        DownloadScraper = 22,
     }
 }
