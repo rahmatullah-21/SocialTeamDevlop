@@ -56,7 +56,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 if (sender != null)
                 {
-                    SelectedNetworks = (SocialNetworks)sender;
+                    SelectedNetworks = SocialNetworks.Instagram;
                     FilterByNetwork();
                 }
             }

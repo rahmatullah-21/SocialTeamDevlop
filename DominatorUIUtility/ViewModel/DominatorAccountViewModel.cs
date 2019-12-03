@@ -470,8 +470,7 @@ namespace DominatorUIUtility.ViewModel
                 Content = objAddUpdateAccountControl
             };
 
-            objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
-                    objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
+            objDominatorAccountBaseModel.AccountNetwork = SocialNetworks.Instagram;
 
             var objDialog = new Dialog();
             var dialogWindow = objDialog.GetCustomDialog(customDialog, "LangKeyAddAccount".FromResourceDictionary());

@@ -203,10 +203,7 @@
                             </StackPanel>
                             <TextBox Width="200" Height="25" Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                      mah:TextBoxHelper.Watermark="{DynamicResource LangKeyWriteUserNameGroupName}"/>
-                            <Label Content="{DynamicResource LangKeySelectNetwork}" />
-                            <ComboBox ItemsSource="{Binding AvailableNetworks,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
-                                      Margin="5,0" Width="100" SelectedIndex="0" Name="selectedNetwork"
-                                      behaviours:SelectionChangedBehaviour.Command="{Binding NetworkSelectionChangedCommand}"/>
+                            
                         </StackPanel>
                     </Grid>
 
@@ -262,7 +259,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn  Width="250">
+                        <GridViewColumn  Width="275">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyNameOrUsername}"/>
                             </GridViewColumn.Header>
@@ -275,7 +272,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn  Width="130">
+                        <GridViewColumn  Width="200">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyAccountGroupName}"/>
                             </GridViewColumn.Header>
@@ -287,8 +284,8 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        
-                        <GridViewColumn Width="130">
+
+                        <GridViewColumn Width="200">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyPlatform}"/>
                             </GridViewColumn.Header>
@@ -326,106 +323,8 @@
 
                         </GridViewColumn>
 
-                        <GridViewColumn Width="130">
-                            <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource LangKeyGroups}"/>
-                            </GridViewColumn.Header>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <Button Cursor="Hand" Margin="6,2,6,2" 
-                                                    Content="{Binding GroupSelectorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                    x:Name="ButtonSelectGroups" 
-                                                    FontWeight="SemiBold"       
-                                                    Command="{Binding Path=DataContext.GetSingleAccountGroupsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                    Background="Transparent">
-                                            <Button.Style>
-                                                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
-                                                    <Setter Property="IsEnabled" Value="false"/>
-                                                    <Style.Triggers>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
-                                                                <Condition Binding="{Binding IsGroupsAvailable}" Value="true"/>
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="IsEnabled" Value="True"/>
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
 
-                        <GridViewColumn Width="130">
-                            <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource LangKeyPagesOrBoards}"/>
-                            </GridViewColumn.Header>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <Button Cursor="Hand" Margin="6,2,6,2" 
-                                                    Content="{Binding PagesOrBoardsSelectorText}" 
-                                                    x:Name="ButtonSelectGroups" 
-                                                    FontWeight="SemiBold"      
-                                                    Command="{Binding Path=DataContext.GetSingleAccountPagesOrBoardsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                    Background="Transparent">
-                                            <Button.Style>
-                                                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
-                                                    <Setter Property="IsEnabled" Value="false"/>
-                                                    <Style.Triggers>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
-                                                                <Condition Binding="{Binding IsPagesOrBoardsAvailable}" Value="true"/>
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="IsEnabled" Value="True"/>
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        <GridViewColumn Width="130">
-                            <GridViewColumn.Header>
-                                <TextBlock Text="{DynamicResource LangKeyCustomDestination}"/>
-                            </GridViewColumn.Header>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <Button Cursor="Hand" Margin="6,2,6,2" 
-                                                Content="{Binding CustomDestinationSelectorText}" 
-                                                x:Name="ButtonSelectGroups" 
-                                                FontWeight="SemiBold"      
-                                                Command="{Binding Path=DataContext.AddCustomDestinationCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                                Background="Transparent">
-                                            <Button.Style>
-                                                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
-                                                    <Setter Property="IsEnabled" Value="false"/>
-                                                    <Style.Triggers>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
-                                                                <Condition Binding="{Binding IsCustomDestinationInNetworks}" Value="true"/>
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="IsEnabled" Value="True"/>
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </Border>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        <GridViewColumn Width="130">
+                        <GridViewColumn Width="200">
                             <GridViewColumn.Header>
                                 <Border BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                     <CheckBox Margin="6,2,6,2" Content="{DynamicResource LangKeyWallsProfiles}" IsChecked="{Binding IsAllWallsSelected}"/>
@@ -459,7 +358,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="150">
+                        <GridViewColumn Width="205">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyStatus}"/>
                             </GridViewColumn.Header>

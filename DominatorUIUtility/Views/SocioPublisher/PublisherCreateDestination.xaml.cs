@@ -53,7 +53,7 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
         private void PublisherCreateDestination_OnLoaded(object sender, RoutedEventArgs e)
         {
-            PublisherCreateDestinationsViewModel.NetworkSelectionChangedExecute(selectedNetwork.SelectedItem);
+            PublisherCreateDestinationsViewModel.NetworkSelectionChangedExecute("Instagram");
             if (!PublisherCreateDestinationsViewModel.IsSavedDestination)
                 return;
 

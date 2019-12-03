@@ -178,7 +178,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn  Width="250">
+                    <GridViewColumn  Width="355">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyDestinationName}"/>
                         </GridViewColumn.Header>
@@ -188,13 +188,13 @@
                                     <StackPanel VerticalAlignment="Center">
                                         <TextBlock  Margin="6,2,6,2" Text="{Binding DestinationName}"/>
                                     </StackPanel>
-                                    
+
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="130">
+                    <!--<GridViewColumn Width="130">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyAccountCount}"/>
                         </GridViewColumn.Header>
@@ -224,10 +224,6 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-
-
-             
-
                     <GridViewColumn Width="130">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyGroupsCount}"/>
@@ -243,7 +239,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="160">
+                   <GridViewColumn Width="160">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyCustomDestinationCount}"/>
                         </GridViewColumn.Header>
@@ -256,9 +252,9 @@
                                 </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    </GridViewColumn>-->
 
-                    <GridViewColumn Width="150">
+                    <GridViewColumn Width="355">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyWallsProfilesCount}"/>
                         </GridViewColumn.Header>
@@ -273,7 +269,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="150">
+                    <GridViewColumn Width="355">
                         <GridViewColumn.Header>
                             <TextBlock Text="{DynamicResource LangKeyCampaignsCount}"/>
                         </GridViewColumn.Header>

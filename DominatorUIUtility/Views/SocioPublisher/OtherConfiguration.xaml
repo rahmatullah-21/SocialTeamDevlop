@@ -24,8 +24,8 @@
                      Margin="30,5" Visibility="{Binding OtherConfigurations.IsEnableSignatureChecked,
                      Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-            <CheckBox IsChecked="{Binding OtherConfigurations.IsCheckedForApprovePost}" Margin="5"
-                      Content="{DynamicResource LangKeyCheckForApproveYourPostForReddit}"/>
+            <!--<CheckBox IsChecked="{Binding OtherConfigurations.IsCheckedForApprovePost}" Margin="5"
+                      Content="{DynamicResource LangKeyCheckForApproveYourPostForReddit}"/>-->
             <CheckBox IsChecked="{Binding OtherConfigurations.IsShortenURLsChecked}"
                       Content="{DynamicResource LangKeyShortenAllTheUrlsFromThePostUsingTheAccountsConfiguredInSettings}"  Margin="5"/>
             <!--<CheckBox IsChecked="{Binding OtherConfigurations.IsPostTextChecked}" 

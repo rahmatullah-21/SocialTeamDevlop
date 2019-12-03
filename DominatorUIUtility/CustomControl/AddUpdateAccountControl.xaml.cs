@@ -28,17 +28,17 @@ namespace DominatorUIUtility.CustomControl
         {
             InitializeComponent();
 
-            if (socialNetwork == SocialNetworks.Social)
-            {
-                foreach (var item in SocinatorInitialize.GetRegisterNetwork())
-                {
-                    if (item == SocialNetworks.Social)
-                        continue;
-                    ComboBoxSocialNetworks.Items.Add(item);
-                }
-            }
-            else
-                ComboBoxSocialNetworks.Items.Add(socialNetwork);
+            //if (socialNetwork == SocialNetworks.Social)
+            //{
+            //    foreach (var item in SocinatorInitialize.GetRegisterNetwork())
+            //    {
+            //        if (item == SocialNetworks.Social)
+            //            continue;
+            //        ComboBoxSocialNetworks.Items.Add(item);
+            //    }
+            //}
+            //else
+            //    ComboBoxSocialNetworks.Items.Add(socialNetwork);
 
             btnSave.Content = !string.IsNullOrEmpty(actionButtonContent) ? actionButtonContent : "LangKeySave".FromResourceDictionary();
             TextBlockPageTitle.Text = !string.IsNullOrEmpty(title) ? title : "LangKeyAddAccount".FromResourceDictionary();
