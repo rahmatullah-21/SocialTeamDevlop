@@ -5,5 +5,6 @@
         <!--<ResourceDictionary Source="../ConfigControl/SocinatorMacrosTemplates.xaml"/>-->
         <ResourceDictionary Source="../ConfigControl/EmbeddedBrowserSettingTemplate.xaml"/>
         <ResourceDictionary Source="../ConfigControl/InstagramTemplates.xaml"/>
+        <ResourceDictionary Source="../CustomControl/MediaGeneratorTemplates.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

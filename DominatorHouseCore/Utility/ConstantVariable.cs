@@ -25,7 +25,7 @@ namespace DominatorHouseCore.Utility
 
         public static bool UseSystemProxy { get; } = true;
 
-        public static string ApplicationName { get; } =/* "Socinator";*/"LangKeySocinator".FromResourceDictionary();
+        public static string ApplicationName { get; } =/* "Socinator";*/"LangKeyGramBoard".FromResourceDictionary();
 
         public static string BitlyApiKey { get; set; } = string.Empty;
 
@@ -169,7 +169,7 @@ namespace DominatorHouseCore.Utility
         public static string MyAppFolderPath => Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         
         public static string GetNotFoundImage() => GetOtherDir() + @"\NotFoundImage.png";
-        public static string GetSocinatorIcon() => GetOtherDir() + @"\"+$"{"LangKeySocinator".FromResourceDictionary()}Icon.png";
+        public static string GetSocinatorIcon() => GetOtherDir() + @"\"+$"{"LangKeyGramBoard".FromResourceDictionary()}Icon.png";
         public static string GetOtherEmailNotificationFile() => GetOtherDir() + @"\EmailNotification.bin";
         public static string GetOtherEmbeddedBrowserSettingsFile() => GetOtherDir() + @"\EmbeddedBrowserSettings.bin";
         public static string GetOtherSoftwareSettingsFile() => GetOtherDir() + @"\SoftwareSettings.bin";

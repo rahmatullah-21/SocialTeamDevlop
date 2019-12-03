@@ -28,8 +28,8 @@ namespace DominatorUIUtility.IoC
             //Container.RegisterSingleton<IThridPartyServicesViewModel, CaptchaServicesViewModel>("CaptchaServicesViewModel");
             //Container.RegisterSingleton<IThridPartyServicesViewModel, UrlShortnerServicesViewModel>("UrlShortnerServicesViewModel");
             //Container.RegisterSingleton<IThridPartyServicesViewModel, ImageCaptchaServicesViewModel>("ImageCaptchaServicesViewModel");
-           
-            //Container.RegisterSingleton<IOtherToolsViewModel, MediaGeneratorViewModel>("MediaGeneratorViewModel");
+
+            Container.RegisterSingleton<IOtherToolsViewModel, MediaGeneratorViewModel>("MediaGeneratorViewModel");
 
             Container.RegisterSingleton<IProxyManagerViewModel, ProxyManagerViewModel>();
             Container.RegisterSingleton<IVerifyProxiesViewModel, VerifyProxiesViewModel>();

@@ -71,9 +71,9 @@
                 <CheckBox Content="{DynamicResource LangKeyDoNotPublishPostsOnMultipleAccountsInParallelDelayEveryPostOnEveryAccount}" 
                           VerticalAlignment="Center" Margin="5" 
                           IsChecked="{Binding GeneralModel.IsRunSingleAccountPerCampaign}"/>
-                <CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview}"
+                <!--<CheckBox Content="{DynamicResource LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview}"
                           IsChecked="{Binding GeneralModel.IsRemoveLinkFromPostsChecked}"
-                          VerticalAlignment="Center" Margin="5"/>
+                          VerticalAlignment="Center" Margin="5"/>-->
                 <!--<TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyForTumblrItRemovedForImagePostsAsTheLinkIsAttechedToTheImage}" Margin="25,5"/>-->
                 <!--<CheckBox Content="{DynamicResource LangKeyDisableTemporarySleepAfter192193Error}" 
                           VerticalAlignment="Center" Margin="5"

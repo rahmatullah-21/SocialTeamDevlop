@@ -227,7 +227,7 @@ namespace DominatorHouse.ViewModels
                     {
                         try
                         {
-                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeySocinator".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary(), settings);
+                            fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeyGramBoard".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary(), settings);
                             if (string.IsNullOrEmpty(fatalError))
                             {
                                 Application.Current.MainWindow.Close();
@@ -253,7 +253,7 @@ namespace DominatorHouse.ViewModels
                 {
                     try
                     {
-                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeySocinator".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary());
+                        fatalError = await DialogCoordinator.Instance.ShowInputAsync(Application.Current.MainWindow, "LangKeyGramBoard".FromResourceDictionary(), "LangKeyLicense".FromResourceDictionary());
                         if (await IsProcessFatalError(fatalError))
                             // ReSharper disable once RedundantJumpStatement
                             continue;

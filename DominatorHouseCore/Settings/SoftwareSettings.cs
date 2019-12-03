@@ -140,7 +140,7 @@ namespace DominatorHouseCore.Settings
         {
             if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
             {
-                FileUtilities.Copy(ConstantVariable.MyAppFolderPath + @"\" + $"{"LangKeySocinator".FromResourceDictionary()}Icon.png", ConstantVariable.GetSocinatorIcon());
+                FileUtilities.Copy(ConstantVariable.MyAppFolderPath + @"\" + $"{"LangKeyGramBoard".FromResourceDictionary()}Icon.png", ConstantVariable.GetSocinatorIcon());
                 if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
                     Utilities.DownloadSocinatorIcon();
             }

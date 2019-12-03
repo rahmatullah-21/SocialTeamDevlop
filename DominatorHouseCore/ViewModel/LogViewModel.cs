@@ -147,7 +147,8 @@ namespace DominatorHouseCore.ViewModel
             }
             else e.Accepted = false;
             if (!string.IsNullOrEmpty(ActivityTypes.Selected?.ToString()))
-                if (logs.Network.Equals(SelectedNetwork.ToString(), StringComparison.InvariantCultureIgnoreCase) && logs.ActivityType.Equals(ActivityTypes.Selected?.ToString(),
+                if (logs.Network.Equals(SelectedNetwork.ToString(), StringComparison.InvariantCultureIgnoreCase) && logs.ActivityType != null &&
+                    logs.ActivityType.Equals(ActivityTypes.Selected?.ToString(),
                         StringComparison.InvariantCultureIgnoreCase))
                 {
                     e.Accepted = true;
