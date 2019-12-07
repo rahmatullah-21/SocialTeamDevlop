@@ -110,5 +110,10 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Campaign
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
         public string ReblogText { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
+        public string DataRootId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 25)]
+        public string DataKey { get; set; }
     }
 }

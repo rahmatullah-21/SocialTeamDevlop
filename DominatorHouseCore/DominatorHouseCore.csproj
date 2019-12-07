@@ -428,10 +428,12 @@
     <Compile Include="DatabaseHandler\TumblrTables\Account\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\PrivateWhitelist.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Account\UnFollowedUser.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Account\UnLikedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\InteractedUser.cs" />
     <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnFollowedUser.cs" />
     <Compile Include="Dal\DbMigrations\BaseDbMigrations.cs" />
+    <Compile Include="DatabaseHandler\TumblrTables\Campaign\UnLikedPosts.cs" />
     <Compile Include="DatabaseHandler\Utility\DbAccountServiceBase.cs" />
     <Compile Include="DatabaseHandler\Utility\DbOperations.cs" />
     <Compile Include="DatabaseHandler\Utility\GlobalDatabaseConnection.cs" />

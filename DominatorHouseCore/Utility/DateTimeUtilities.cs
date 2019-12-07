@@ -432,6 +432,11 @@ namespace DominatorHouseCore.Utility
             var dateProvider = ServiceLocator.Current.GetInstance<IDateProvider>();
             return EpochToDateTimeUtc(epoch) + (dateProvider.Now() - dateProvider.UtcNow());
         }
+
+        public static Int64 GetCurrentEpochTimeSeconds(this DateTime date)
+        {
+            return Convert.ToInt64(Math.Floor((date.ToUniversalTime() - DateUtc1970).TotalSeconds));
+        }
     }
 
 

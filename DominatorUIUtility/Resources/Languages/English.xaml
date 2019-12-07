@@ -4459,4 +4459,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyNoAccountsFoundToPerformAction">No Such Accounts found to perform the action on.</system:String>
     <system:String x:Key="LangKeyCaptchaSolvingManuallyTimeout">Set timeout (in secs) on solving login captcha manually</system:String>
     <system:String x:Key="LangKeyMustHaveConnectionsCount">Must Have Connections</system:String>
+    <system:String x:Key="LangKeyLikedBySoftware">Liked By Software</system:String>
 </ResourceDictionary>

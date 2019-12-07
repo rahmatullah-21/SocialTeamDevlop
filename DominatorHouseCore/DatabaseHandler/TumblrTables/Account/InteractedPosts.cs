@@ -97,6 +97,11 @@ namespace DominatorHouseCore.DatabaseHandler.TumblrTables.Account
         public string ReblogText { get; set; }
         [Column(Order = 22)]
         public string AccountName { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        public string DataRootId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
+        public string DataKey { get; set; }
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);

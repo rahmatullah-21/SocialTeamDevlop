@@ -13,7 +13,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus,Tumblr,LinkedIn,Youtube")]
         Like = 3,
 
-        [Description("Twitter,Instagram,Gplus")]
+        [Description("Twitter,Instagram,Gplus,Tumblr")]
         Unlike = 4,
 
         [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube,Reddit")]
