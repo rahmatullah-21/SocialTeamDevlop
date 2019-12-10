@@ -33,7 +33,7 @@ namespace DominatorHouseCore.UnitTests.Tests.ViewModels
             Container.RegisterInstance(lockFileConfigProvider);
             fileSystemProvider = Substitute.For<IFileSystemProvider>();
             Container.RegisterInstance(fileSystemProvider);
-            liveChatViewModel = new LiveChatViewModel();
+            liveChatViewModel = new LiveChatViewModel(Enums.SocialNetworks.Facebook);
         }
         [TestMethod]
         public void should_UserSelectionChangedCommand_update_sender_list_depend_on_account_selection()
