@@ -266,7 +266,7 @@ namespace DominatorHouseCore.Utility
 
         public static string VideoToImageConvertPngFileName { get; set; } = "_SOCINATORIMAGE.png";
         public static string ProcessingInput { get; set; } =
-            "https://socinator.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
+            "https://app.gramboard.ai/amember/api/check-activation?key={0}&request[hardware-id]={1}";
 
         public static string ProcessingDebugType { get; set; } =
             "https://dominatorhouse.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
