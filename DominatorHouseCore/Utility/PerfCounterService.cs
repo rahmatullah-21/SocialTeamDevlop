@@ -62,8 +62,12 @@ namespace DominatorHouseCore.Utility
 
         private double GetMemoryUsage()
         {
-            var memAvailable = (double)_memory.NextValue();
-            return memAvailable;
+            try
+            {
+                var memAvailable = (double)_memory.NextValue();
+                return memAvailable;
+            }
+            catch(Exception e) { e.DebugLog(); return 0; }
         }
 
         private double GetCpuUsage()

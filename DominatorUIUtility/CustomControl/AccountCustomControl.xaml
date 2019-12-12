@@ -821,6 +821,12 @@
                                                         <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.DisableAccount}">
                                                             <Setter Property="Text" Value="{DynamicResource LangKeyDisableAccount}" />
                                                         </DataTrigger>
+                                                        <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.BrowerNotSecure}">
+                                                            <Setter Property="Text" Value="{DynamicResource LangKeyBrowserNotsecure}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.AccountDisabled}">
+                                                            <Setter Property="Text" Value="{DynamicResource LangKeyAccountDisabled}" />
+                                                        </DataTrigger>
                                                         <DataTrigger Binding="{Binding AccountBaseModel.Status}"
                                                                  Value="{x:Static enums:AccountStatus.InvalidSecurityCode}">
                                                             <Setter Property="Text"

@@ -4462,4 +4462,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyLikedBySoftware">Liked By Software</system:String>
     <system:String x:Key="LangKeyMustHaveBusinessAccount">User Must Have Business Accounts</system:String>
     <system:String x:Key="LangKeyFollowOnlyBusinessAccounts">Follow only Business Accounts</system:String>
+    <system:String x:Key="LangKeyBrowserNotsecure">Browser isn't secure for login.</system:String>
+
 </ResourceDictionary>
