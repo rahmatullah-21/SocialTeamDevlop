@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using DominatorHouseCore;
 using System;
 using System.IO;
 
@@ -17,37 +18,47 @@ namespace EmbeddedBrowser.BrowserHelper
 
         FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)
         {
-            if (dataIn == null)
+            try
             {
-                dataInRead = 0;
-                dataOutWritten = 0;
+                if (dataIn == null)
+                {
+                    dataInRead = 0;
+                    dataOutWritten = 0;
+
+                    return FilterStatus.Done;
+                }
+
+                //Calculate how much data we can read, in some instances dataIn.Length is
+                //greater than dataOut.Length
+                dataInRead = Math.Min(dataIn.Length, dataOut.Length);
+                dataOutWritten = dataInRead;
+
+                var readBytes = new byte[dataInRead];
+                dataIn.Read(readBytes, 0, readBytes.Length);
+                dataOut.Write(readBytes, 0, readBytes.Length);
+
+                //Write buffer to the memory stream
+                memoryStream.Write(readBytes, 0, readBytes.Length);
+
+                //If we read less than the total amount avaliable then we need
+                //return FilterStatus.NeedMoreData so we can then write the rest
+                if (dataInRead < dataIn.Length)
+                {
+                    return FilterStatus.NeedMoreData;
+                }
+
+                if (memoryStream.Length > 0)
+                    Data = memoryStream.ToArray();
 
                 return FilterStatus.Done;
             }
-
-            //Calculate how much data we can read, in some instances dataIn.Length is
-            //greater than dataOut.Length
-            dataInRead = Math.Min(dataIn.Length, dataOut.Length);
-            dataOutWritten = dataInRead;
-
-            var readBytes = new byte[dataInRead];
-            dataIn.Read(readBytes, 0, readBytes.Length);
-            dataOut.Write(readBytes, 0, readBytes.Length);
-
-            //Write buffer to the memory stream
-            memoryStream.Write(readBytes, 0, readBytes.Length);
-
-            //If we read less than the total amount avaliable then we need
-            //return FilterStatus.NeedMoreData so we can then write the rest
-            if (dataInRead < dataIn.Length)
+            catch (Exception ex)
             {
-                return FilterStatus.NeedMoreData;
+                ex.DebugLog();
+                dataInRead = 0;
+                dataOutWritten = 0;
+                return FilterStatus.Error;
             }
-
-            if (memoryStream.Length > 0)
-                Data = memoryStream.ToArray();
-
-            return FilterStatus.Done;
         }
 
         void IDisposable.Dispose()
