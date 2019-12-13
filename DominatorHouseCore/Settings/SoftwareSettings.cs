@@ -328,18 +328,18 @@ namespace DominatorHouseCore.Settings
                 {
                     await job.StartAdScarperAsync();
                 },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
 
             await ScrapAdsProduceAsync(adScraperblock);
 
-            var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
-                async job =>
-                {
-                    await job.StartAdScarperAsync();
-                },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            //var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-            await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
+            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
         }
 
 
