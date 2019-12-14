@@ -92,17 +92,25 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 16)]
         public string CommentId { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 17)]
         public string PostUrl { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 18)]
         public string Mentions { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string WatchPartInvitedTo { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
         public string WatchPartInvitedToUserName { get; set; }
+
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 21)]
         public bool IsMoreCommentsNeeded { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
+        public bool OwnerId { get; set; }
+
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);
