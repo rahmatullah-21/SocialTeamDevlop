@@ -10,6 +10,12 @@ namespace DominatorHouseCore.Utility
     {
         public static string UseragentCommonFormat { get; } = "Instagram {0} Android ({1}/{2}; {3}; {4}; {5}; {6}; {7}; {8}; {9})";
 
+        public static string TikTokUserAgentCommonFormat { get; } = "{0}/{1} (Linux; U; Android {2}; {3}; {4}; Build/{5}; Cronet/58.0.2991.0)";
+
+        public static string UserAgentDomain = "com.zhiliaoapp.musically";
+
+        public static string TikTokManifestVersion { get; } = "2018110931";
+
         public static string UseragentLocale { get; } = "en_US";
 
         // public static string IgVersion { get; } = "40.33.0";

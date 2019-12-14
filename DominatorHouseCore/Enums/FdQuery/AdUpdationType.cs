@@ -4,6 +4,7 @@
     {
         FbAds = 1,
         QuoraAds = 2,
-        Lcs = 3
+        Lcs = 3,
+        Ads = 4
     }
 }
