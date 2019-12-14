@@ -32,7 +32,8 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.LinkedIn,(operation) => {operation.Count<LdTables.Account.Connections>();} },
             {SocialNetworks.Youtube,(operation)=>{operation.Count<YdTables.Accounts.Friendships>(); }},
             {SocialNetworks.Reddit,(operation) => {operation.Count<RdTables.Accounts.InteractedUsers>();} },
-            {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Account.InteractedUser>(); }}
+            {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Account.InteractedUser>(); }},
+            {SocialNetworks.TikTok,(operation)=>{operation.Count<TtdTables.Accounts.InteractedUsers>(); }}
         };
 
         public IReadOnlyDictionary<SocialNetworks, Action<DbOperations>> DbCampaignInitialCounters { get; } = new Dictionary<SocialNetworks, Action<DbOperations>>
@@ -46,7 +47,8 @@ namespace DominatorHouseCore.DatabaseHandler.CoreModels
             {SocialNetworks.LinkedIn,operation=>{operation.Count<LdTables.Campaign.InteractedUsers>();} },
             {SocialNetworks.Youtube,operation=>{operation.Count<YdTables.Campaign.InteractedChannels>(); }},
             {SocialNetworks.Reddit,(operation) => {operation.Count<RdTables.Campaigns.InteractedUsers>();} },
-            {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Campaign.InteractedUser>(); }}
+            {SocialNetworks.Tumblr,(operation)=>{operation.Count<TumblrTables.Campaign.InteractedUser>(); }},
+            {SocialNetworks.TikTok,(operation)=>{operation.Count<TtdTables.Campaigns.InteractedUsers>(); }}
         };
 
 

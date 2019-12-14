@@ -38,7 +38,9 @@ namespace DominatorHouseCore.Converters
                     case SocialNetworks.Tumblr:
                         return Brushes.DimGray;
                     case SocialNetworks.Social:
+                    case SocialNetworks.TikTok:
                         return null;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

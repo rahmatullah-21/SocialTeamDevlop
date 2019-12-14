@@ -505,6 +505,7 @@ namespace DominatorHouseCore.Diagnostics
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Tumblr);
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Youtube);
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Reddit);
+            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.TikTok);
         }
 
         public static async Task<string> ProcessFatalException(string exception, string fixture)
