@@ -111,5 +111,8 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Campaign
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 19)]
         public string CommentId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 20)]
+        public string Status { get; set; }
     }
 }

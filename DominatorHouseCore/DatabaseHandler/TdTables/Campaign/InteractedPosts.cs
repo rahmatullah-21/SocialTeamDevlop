@@ -169,6 +169,8 @@ namespace DominatorHouseCore.DatabaseHandler.TdTables.Campaign
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string CommentId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public string Status { get; set; }
 
     }
 }
