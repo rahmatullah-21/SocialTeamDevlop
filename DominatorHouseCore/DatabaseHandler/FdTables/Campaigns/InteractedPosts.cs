@@ -121,7 +121,9 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Campaigns
         public bool IsMoreCommentsNeeded { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
-        public bool OwnerId { get; set; }
+        public string OwnerId { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 24)]
+        public string Status { get; set; }
     }
 }

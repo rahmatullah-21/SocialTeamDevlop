@@ -109,7 +109,10 @@ namespace DominatorHouseCore.DatabaseHandler.FdTables.Accounts
         public bool IsMoreCommentsNeeded { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 22)]
-        public bool OwnerId { get; set; }
+        public string OwnerId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 23)]
+        public string Status { get; set; }
 
         public ActivityType GetActivityType()
         {
