@@ -84,9 +84,6 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
         public string CommenterChannelId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
-        public string Permalink { get; set; }
-
-        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
         public string Status { get; set; }
     }
 }
