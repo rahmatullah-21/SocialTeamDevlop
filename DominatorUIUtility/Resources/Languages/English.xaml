@@ -4484,4 +4484,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyUserCount">User Count</system:String>
     <system:String x:Key="LangKeyViewCount">View Count</system:String>
     <system:String x:Key="LangKeyUnfollowedUserId">Unfollowed User Id</system:String>
+    <system:String x:Key="LangIGTikTokWontRunWithBrowserAutoTryWithHttp">Instagram and TikTok accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
+
 </ResourceDictionary>

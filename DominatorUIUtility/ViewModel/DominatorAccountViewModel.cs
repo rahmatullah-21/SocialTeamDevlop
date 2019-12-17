@@ -2159,10 +2159,10 @@ namespace DominatorUIUtility.ViewModel
                   "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
 
-                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram))
-                        Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
+                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && (x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram || x.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok)))
+                        Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGTikTokWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
 
                     if (accountsToProcess.Count() == 0)
                     {
@@ -2209,7 +2209,7 @@ namespace DominatorUIUtility.ViewModel
                       "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
                     if (accountsToProcess.Count() == 0)
                     {
                         ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
