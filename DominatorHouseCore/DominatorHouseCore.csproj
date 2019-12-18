@@ -316,6 +316,7 @@
     <Compile Include="DatabaseHandler\FdTables\FdGlobals\FdAccountDetails.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateWhitelist.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\UserConversation.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\HashtagScrape.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />

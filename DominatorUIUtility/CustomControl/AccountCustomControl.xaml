@@ -27,6 +27,7 @@
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsInstagramConverter" Expected="{x:Static enums:SocialNetworks.Instagram}"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsNotInstagramConverter" Expected="{x:Static enums:SocialNetworks.Instagram}" Inversed="True"/>
+        <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsNotTikTokConverter" Expected="{x:Static enums:SocialNetworks.TikTok}" Inversed="True"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsTwitterConverter" Expected="{x:Static enums:SocialNetworks.Twitter}"/>
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Social}"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
@@ -115,10 +116,10 @@
             <DockPanel Grid.Row="0" Name="MainContainer" Background="{DynamicResource AccentColorBrush}">
 
                 <Label  HorizontalAlignment="Left" DockPanel.Dock="Left"
-                               VerticalAlignment="Center" 
+                               VerticalAlignment="Bottom" 
                                FontSize="16"
                                FontWeight="SemiBold" VerticalContentAlignment="Center"
-                               Foreground="White" Margin="5,0,0,0"
+                               Foreground="White" Margin="5,0,0,4"
                                Content="{DynamicResource LangKeyAccountDetails}" />
 
                 <ToggleButton DockPanel.Dock="Right" Visibility="{Binding MenuHandlerModel.IsMenuHandlerVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent" Cursor="Hand" Background="Transparent" VerticalAlignment="Center" 
@@ -663,7 +664,7 @@
                             <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{StaticResource DeleteIcon}"/>
-                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{StaticResource GoToToolsIcon}"
@@ -687,7 +688,7 @@
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}">
+                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
                                 <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
                                 <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>

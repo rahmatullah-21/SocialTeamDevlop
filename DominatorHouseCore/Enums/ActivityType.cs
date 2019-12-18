@@ -4,19 +4,19 @@ namespace DominatorHouseCore.Enums
 {
     public enum ActivityType
     {
-        [Description("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit")]
+        [Description("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit,TikTok")]
         Follow = 1,
 
-        [Description("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit")]
+        [Description("Twitter,Instagram,Gplus,Quora,Tumblr,Pinterest,Reddit,TikTok")]
         Unfollow = 2,
 
-        [Description("Twitter,Instagram,Gplus,Tumblr,LinkedIn,Youtube")]
+        [Description("Twitter,Instagram,Gplus,Tumblr,LinkedIn,Youtube,TikTok")]
         Like = 3,
 
         [Description("Twitter,Instagram,Gplus,Tumblr")]
         Unlike = 4,
 
-        [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube,Reddit")]
+        [Description("Twitter,Instagram,Gplus,Pinterest,LinkedIn,Tumblr,Youtube,Reddit,TikTok")]
         Comment = 5,
 
         //,Instagram,Reddit
@@ -37,7 +37,7 @@ namespace DominatorHouseCore.Enums
         //[Description("Facebook,Twitter,Instagram")]
         //Message = 10,
 
-        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit,Tumblr,Quora")]
+        [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit,Tumblr,Quora,TikTok")]
         UserScraper = 11,
 
          [Description("Facebook")]
@@ -94,7 +94,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Gplus,Instagram,Reddit,Tumblr")]
         CommentScraper = 29,
 
-        [Description("Facebook,Gplus,Youtube,Instagram,Tumblr")]
+        [Description("Facebook,Gplus,Youtube,Instagram,Tumblr,TikTok")]
         PostScraper = 30,
 
         [Description("Facebook,LinkedIn,LangKeyGroupJoiner")]
@@ -174,7 +174,7 @@ namespace DominatorHouseCore.Enums
         [Description("Instagram,Youtube,Facebook")]
         LikeComment = 57,
 
-        [Description("Instagram")]
+        [Description("Instagram,TikTok")]
         HashtagsScraper = 58,
 
         [Description("Pinterest")]

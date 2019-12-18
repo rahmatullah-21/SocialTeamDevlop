@@ -37,8 +37,9 @@ namespace DominatorHouseCore.Converters
                     case SocialNetworks.Tumblr:
                         return Application.Current?.FindResource("appbar_social_tumblr");
                     case SocialNetworks.Social:
-                    case SocialNetworks.TikTok:
                         return null;
+                    case SocialNetworks.TikTok:
+                        return Application.Current?.FindResource("appbar_youtube_play"/*"TikTok_Icon"*/);
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

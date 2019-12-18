@@ -4222,7 +4222,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyNoMoreUpdatedTweetsAvailableBefore">No more updated tweets available before  {0} day(s).</system:String>
     <system:String x:Key="LangKeyGettingLikedTweet">Getting liked tweet of user {0}</system:String>
     <system:String x:Key="LangKeyFilterByMutualFriendsCount">Filter By Mutual Friends Count</system:String>
-    <system:String x:Key="LangKeySelectMutualFriendsCountFilter">Please select Select Mutual Friends Count Filter</system:String>
+    <system:String x:Key="LangKeySelectMutualFriendsCountFilter">Please Select Mutual Friends Count Filter</system:String>
 
     <system:String x:Key="LangKeyBoardDetails">Board Details</system:String>
     <system:String x:Key="LangKeyFollowerDetails">Follower Details</system:String>
@@ -4485,5 +4485,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyViewCount">View Count</system:String>
     <system:String x:Key="LangKeyUnfollowedUserId">Unfollowed User Id</system:String>
     <system:String x:Key="LangIGTikTokWontRunWithBrowserAutoTryWithHttp">Instagram and TikTok accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
-
+    <system:String x:Key="LangKeyBoardNameFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
+    <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
 </ResourceDictionary>

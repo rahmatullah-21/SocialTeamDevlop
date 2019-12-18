@@ -50,7 +50,11 @@ namespace DominatorHouseCore.DatabaseHandler.Common.EntityCounters
             Container
                 .RegisterInstance<ICounterKeyFactory<HashtagScrape>>(
                     new CounterKeyFactory<HashtagScrape>(SocialNetworks.Instagram, false));
-            
+
+            Container
+               .RegisterInstance<ICounterKeyFactory<UserConversation>>(
+                   new CounterKeyFactory<UserConversation>(SocialNetworks.Instagram, false));
+
         }
     }
 }
