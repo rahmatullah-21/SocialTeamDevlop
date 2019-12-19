@@ -4,9 +4,9 @@
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
 "ProjectName" = "8:SocinatorNew"
-"LanguageId" = "3:1036"
+"LanguageId" = "3:1033"
 "CodePage" = "3:1252"
-"UILanguageId" = "3:1036"
+"UILanguageId" = "3:1033"
 "SccProjectName" = "8:"
 "SccLocalPath" = "8:"
 "SccAuxPath" = "8:"
@@ -8809,7 +8809,7 @@
         }
         "MsiBootstrapper"
         {
-        "LangId" = "3:1036"
+        "LangId" = "3:1033"
         "RequiresElevation" = "11:FALSE"
         }
         "Product"
@@ -8817,7 +8817,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Socinator"
         "ProductCode" = "8:{48D005F8-2C49-4F85-AAEA-D3A3355AD524}"
-        "PackageCode" = "8:{82EEADBE-B41D-4F6D-9D1D-4952268EFB74}"
+        "PackageCode" = "8:{E654031C-6D11-4BB2-A469-79B84B240087}"
         "UpgradeCode" = "8:{1E6E4263-4FEE-4146-8718-FC78C6FE2B4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
