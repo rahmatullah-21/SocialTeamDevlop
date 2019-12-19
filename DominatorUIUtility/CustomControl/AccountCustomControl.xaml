@@ -836,6 +836,9 @@
                                                         <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.TooManyAttemptsWithTheSamePhoneNumber}">
                                                             <Setter Property="Text" Value="{DynamicResource LangKeyTooManyAttemptWithSameNumber}" />
                                                         </DataTrigger>
+                                                        <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotRegisteredYet}">
+                                                            <Setter Property="Text" Value="{DynamicResource LangKeyAccountNotRegisteredYet}" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>

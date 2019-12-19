@@ -73,10 +73,10 @@
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="White">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_cancel}" Stretch="Fill"/>
+                                    <VisualBrush Visual="{StaticResource appbar_arrow_left}" Stretch="Fill"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{DynamicResource LangKeyCancel}" Margin="6,0" Foreground="White"/>
+                            <TextBlock Text="{DynamicResource LangKeyBack}" Margin="6,0" Foreground="White"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -312,6 +312,14 @@
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.AccountDisabled}" >
                                         <Setter Property="Content" Value="{DynamicResource LangKeyAccountDisabled}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotRegisteredYet}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyAccountNotRegisteredYet}" />
+                                        <Setter Property="Foreground" Value="#9b111e" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.ProfileSuspended}" >
+                                        <Setter Property="Content" Value="{DynamicResource LangKeyProfileSuspended}" />
                                         <Setter Property="Foreground" Value="#9b111e" />
                                     </DataTrigger>
                                 </Style.Triggers>

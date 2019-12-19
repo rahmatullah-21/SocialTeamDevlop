@@ -4487,4 +4487,5 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangIGTikTokWontRunWithBrowserAutoTryWithHttp">Instagram and TikTok accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
     <system:String x:Key="LangKeyBoardNameFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
     <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
+    <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
 </ResourceDictionary>

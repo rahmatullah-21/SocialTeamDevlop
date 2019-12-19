@@ -40,6 +40,8 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyBrowserNotsecure")]
         BrowerNotSecure,
         [Description("LangKeyAccountDisabled")]
-        AccountDisabled
+        AccountDisabled,
+        [Description("LangKeyAccountNotRegisteredYet")]
+        NotRegisteredYet
     }
 }
