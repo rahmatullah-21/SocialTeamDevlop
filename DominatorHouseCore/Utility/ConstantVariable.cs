@@ -266,19 +266,25 @@ namespace DominatorHouseCore.Utility
 
         public static string VideoToImageConvertPngFileName { get; set; } = "_SOCINATORIMAGE.png";
         public static string ProcessingInput { get; set; } =
-            "https://app.gramboard.ai/amember/api/check-activation?key={0}&request[hardware-id]={1}";
+            "https://app.gramboard.ai/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
         public static string ProcessingDebugType { get; set; } =
             "https://dominatorhouse.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
         public static string FindExemptions { get; set; } =
-            "https://socinator.com/amember/softsale/api/check-license?key={0}";
+            "https://app.gramboard.ai/amember/softsale/api/check-license?key={0}";
+
+        public static string FindExemptionsGramBoard { get; set; } =
+            "https://app.gramboard.ai/amember/softsale/api/check-license?key={0}";
+
+        //public static string ExemptionInnerException { get; set; }
+        //    = "https://socinator.com/amember/api/invoices/{0}?_key={1}";
 
         public static string ExemptionInnerException { get; set; }
-            = "https://socinator.com/amember/api/invoices/{0}?_key={1}";
+            = "https://app.gramboard.ai/amember/api/invoices/{0}?_key={1}";
 
         public static string LogExemptions { get; set; }
-            = "https://socinator.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
+            = "https://app.gramboard.ai/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
 
         public static string DebugLogExemptions { get; set; }
             = "https://dominatorhouse.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
