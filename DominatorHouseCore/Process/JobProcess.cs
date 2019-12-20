@@ -294,7 +294,7 @@ namespace DominatorHouseCore.Process
 
                       // Login and run scraper/poster from derived concrete classes
                       if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success ||
-                      DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin) // Added this condition if account is getting checked for login from otherSide in software. It should run the activity in this case also.
+                      DominatorAccountModel.AccountBaseModel.Status == AccountStatus.TryingToLogin || DominatorAccountModel.AccountBaseModel.Status == AccountStatus.UpdatingDetails) // Added this condition if account is getting checked for login from otherSide in software. It should run the activity in this case also.
                       {
                           try
                           {

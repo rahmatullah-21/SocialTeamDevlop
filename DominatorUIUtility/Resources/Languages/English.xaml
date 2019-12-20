@@ -4490,4 +4490,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
     <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
  [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
+    <system:String x:Key="LangKeyUpdatingDetails">Updating Details</system:String>
+    <system:String x:Key="LangKeyAlreadyUpdatingDetailsSoWait">The account is currently updating details. Please wait and then do the action.</system:String>
+
 </ResourceDictionary>

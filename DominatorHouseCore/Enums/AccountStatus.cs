@@ -42,6 +42,8 @@ namespace DominatorHouseCore.Enums
         [Description("LangKeyAccountDisabled")]
         AccountDisabled,
         [Description("LangKeyAccountNotRegisteredYet")]
-        NotRegisteredYet
+        NotRegisteredYet,
+        [Description("LangKeyUpdatingDetails")]
+        UpdatingDetails
     }
 }

@@ -1,7 +1,67 @@
+Version[1.0.0.72],[20th December 2019]
+New Features:-
+	For all Networks:
+		added feature unique user's post inside other configuartion tab.
+
+	Social:
+		Added feature when publishing send one post for each destination.
+	
+	Instagram:
+		Grow followers ==> follower ==> Added new feature to follow only business account's.
+		Instascrape ==> User Scraper ==> Added new feature to scrape only business account's
+
+	Tumblr:
+		Engage ==> Added new feature to Unlike the post.
+
+Fixed:- 
+	Facebook:
+		Grow friends ==> Incoming friend request ==> Fixed issue with accept and cancel received requests.
+		Accounts ==> Account manager ==> Fixed issue with friends count and groups count update.
+		Broadcast messages ==> fixed issue with sending broadcast messages with post liker. 
+		Social ==> Fixed issue with publishing post in wall.
+
+	Instagram:
+		Grow followers ==> follow ==> custom user list ==> Issue fixed with showing wrong logger.
+		Grow followers ==> follow ==> Location users ==> Issue fixed with showing only serching.
+
+
+	Linkedin:
+		Browser mode » connection » Withdraw connection request==>Fixed issue with Withdraw connection request.
+		Group==>Group Joiner==>Browser mode==>Fixed issue with Group joiner.
+		Broadcast message==>facing issue when sending message with media file==>Fixed issue with Broadcast message.
+		Socialpublisher==>Ownwall==>In Browsermode==>Fixed issue with pubisher ownwall.
+		Engage==>Share Post==>In Browser mode==>fixed issue with share post.
+		Publishing video==>Facing issue when publishing video in group as well==> Fixed issue with publishing video in groups as well.
+
+	Twitter:
+		Grow Follower ==> Unfollower ==> Fixed issue with showing no more data.
+		Poster ==> Delete ==> Fixed issue with delete post.
+		Engage ==> Like ==> Fixed issue with showing no more data found.
+		Engage ==> Unlike ==> Fixed issue with unlike.
+
+	Youtube:
+		Engage ==> Comment ==> Fixed issue with failed to comment.
+		Engage ==> Like ==> Fixed issue with Like.
+		Watch Video ==> Fixed issue with watch video with browser visibility.
+		Watch Video ==> View Increase ==> Fixed issue with watch video with browser visibility.
+
+	Pinterest:
+		Fixed Issues with Browser Mode. 
+		Growfollower ==> Follower ==> Fixed  Issue with Not  following  Board  followers .
+		Publisher ==> Fixed  issue  with  Not  posting Link as  text  post.
+
+	Tumblr:
+		Grow followers ==> follow ==>Issue fixed with keyword.
+
+	Quora: 
+		Voting ==>Upvote Answers ==> Issue fixed with some query type.
+		Voting ==> Downvote Answers  ==>Issue fixed with some querytype.
+
+
 Version[1.0.0.71],[27th november 2019]
 New Features:-
 	Youtube:
-		Other confriguration => Youtube => set timeout (in sec) on solving Login captcha maunually.
+		Other confriguration => Youtube => set timeout (in sec) on solving Login captcha manually.
 
 Fixed:- 
 	

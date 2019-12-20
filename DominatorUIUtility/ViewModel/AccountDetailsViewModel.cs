@@ -205,6 +205,12 @@ namespace DominatorUIUtility.ViewModel
                 Dialog.ShowDialog("LangKeyLogin".FromResourceDictionary(), "LangKeyAlreadyCheckingLoginSoWait".FromResourceDictionary());
                 return;
             }
+            else if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
+            {
+                Dialog.ShowDialog("LangKeyLogin".FromResourceDictionary(), "LangKeyAlreadyUpdatingDetailsSoWait".FromResourceDictionary());
+                return;
+            }
+
 
             DominatorAccountModel.CookieHelperList?.ToList().ForEach(cookie =>
             {

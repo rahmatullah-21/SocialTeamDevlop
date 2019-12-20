@@ -839,6 +839,9 @@
                                                         <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.NotRegisteredYet}">
                                                             <Setter Property="Text" Value="{DynamicResource LangKeyAccountNotRegisteredYet}" />
                                                         </DataTrigger>
+                                                        <DataTrigger Binding="{Binding AccountBaseModel.Status}" Value="{x:Static enums:AccountStatus.UpdatingDetails}">
+                                                            <Setter Property="Text" Value="{DynamicResource LangKeyUpdatingDetails}" />
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
