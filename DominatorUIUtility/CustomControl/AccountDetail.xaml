@@ -15,10 +15,25 @@
         <converters:IntToDateTimeConverter x:Key="IntToDateTimeConverter"/>
     </UserControl.Resources>
     <Grid>
-        <Grid  Background="{DynamicResource AccentBaseColorBrush}" Height="40"  VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right"  
-                        Background="{DynamicResource AccentBaseColorBrush}">
+        <Grid Background="{DynamicResource AccentBaseColorBrush}" Height="40"  VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                        Background="{DynamicResource AccentBaseColorBrush}" >
+                <Button x:Name="btnCopyDetails" HorizontalAlignment="Left" Background="Transparent"  Command="{Binding CopyCommand}" ToolTip="{DynamicResource LangKeyCopyAccountDetailToClipBoard}" ToolTipService.Placement="Right">
+                    <Button.Content>
+                        <StackPanel >
+                            <Rectangle Width="15" Height="15" Fill="LightGreen" >
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_page_copy}" Stretch="Fill"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
 
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                        Background="{DynamicResource AccentBaseColorBrush}" >
+               
                 <Button x:Name="btnSave"  Margin="75,0,5,0" Foreground="White"
                         Command="{Binding SaveCommand}" Height="30">
                     <Button.Content>

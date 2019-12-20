@@ -4488,4 +4488,6 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyBoardNameFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
     <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
     <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
+    <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
+ [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
 </ResourceDictionary>
