@@ -180,6 +180,7 @@ namespace DominatorUIUtility.ViewModel
             SendVerificationCodeCommand = new BaseCommand<object>(SendVerificationCodeCanExecute, SendVerificationCodeExecute);
             SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
             SendResetPasswordLinkCommand = new BaseCommand<object>(sender => true, SendResetPasswordLinkExecute);
+            CopyCommand = new BaseCommand<object>(CopyCanExecute, CopyExecute);
         }
         #endregion
 
@@ -193,6 +194,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SendVerificationCodeCommand { get; set; }
         public ICommand SetNewPasswordCommand { get; set; }
         public ICommand SendResetPasswordLinkCommand { get; set; }
+        public ICommand CopyCommand { get; set; }
         #endregion
 
         private bool SaveCanExecute(object arg) => true;
@@ -203,6 +205,12 @@ namespace DominatorUIUtility.ViewModel
                 Dialog.ShowDialog("LangKeyLogin".FromResourceDictionary(), "LangKeyAlreadyCheckingLoginSoWait".FromResourceDictionary());
                 return;
             }
+            else if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
+            {
+                Dialog.ShowDialog("LangKeyLogin".FromResourceDictionary(), "LangKeyAlreadyUpdatingDetailsSoWait".FromResourceDictionary());
+                return;
+            }
+
 
             DominatorAccountModel.CookieHelperList?.ToList().ForEach(cookie =>
             {
@@ -682,6 +690,30 @@ namespace DominatorUIUtility.ViewModel
                         }
                     }
                 });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
+
+        private bool CopyCanExecute(object arg) => true;
+        private void CopyExecute(object sender)
+        {
+            try
+            {
+                var proxy = DominatorAccountModel.AccountBaseModel?.AccountProxy;
+                var proxyString = "";
+                if (!string.IsNullOrWhiteSpace(proxy?.ProxyIp))
+                {
+                    if (!string.IsNullOrWhiteSpace(proxy.ProxyUsername))
+                        proxyString = $"|{proxy.ProxyIp}:{proxy.ProxyPort}:{proxy.ProxyUsername}:{proxy.ProxyPassword}:";
+                    else
+                        proxyString = $"|{proxy.ProxyIp}:{proxy.ProxyPort}";
+                }
+                var details = $"{DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString()}|{DominatorAccountModel.AccountBaseModel.UserName}:{DominatorAccountModel.AccountBaseModel.Password}{proxyString}";
+                new AutoItTool().CopyToClip(details);
+                ToasterNotification.ShowSuccess("Details copied to clipboard successfully.");
             }
             catch (Exception ex)
             {

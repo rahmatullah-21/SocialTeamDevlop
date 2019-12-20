@@ -294,7 +294,7 @@
                 </Button>
 
 
-                <Button Background="Transparent" VerticalAlignment="Center"
+                <!--<Button Background="Transparent" VerticalAlignment="Center"
                         ToolTip="{DynamicResource LangKeyTutorials}" Command="{Binding TutorialsCommand}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -306,7 +306,7 @@
                             <TextBlock Text="{DynamicResource LangKeyTutorials}" Margin="6,0" Foreground="White"/>
                         </StackPanel>
                     </Button.Content>
-                </Button>
+                </Button>-->
             </StackPanel>
         </Grid>
 

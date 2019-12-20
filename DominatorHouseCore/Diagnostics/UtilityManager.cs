@@ -438,9 +438,9 @@ namespace DominatorHouseCore.Diagnostics
                                 SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
                                 var exemptionDescription = arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionDescription"]].ToString();
                                 exemptionDescription = exemptionDescription.Replace(ConstantVariable.MarketingSoftware, string.Empty).Trim();
-                                var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), exemptionDescription);
-                                SocinatorInitialize.AvailableNetworks.Add(networks);
-                                SocinatorInitialize.MaximumAccountCount = 10000;
+                                //var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), exemptionDescription);
+                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Instagram);
+                                SocinatorInitialize.MaximumAccountCount = 100000;
                             }
                             catch (Exception ex)
                             {

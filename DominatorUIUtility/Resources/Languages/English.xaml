@@ -4460,4 +4460,39 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyNoAccountsFoundToPerformAction">No Such Accounts found to perform the action on.</system:String>
     <system:String x:Key="LangKeyCaptchaSolvingManuallyTimeout">Set timeout (in secs) on solving login captcha manually</system:String>
     <system:String x:Key="LangKeyMustHaveConnectionsCount">Must Have Connections</system:String>
+
+    <system:String x:Key="LangKeyLikedBySoftware">Liked By Software</system:String>
+    <system:String x:Key="LangKeyMustHaveBusinessAccount">User Must Have Business Accounts</system:String>
+    <system:String x:Key="LangKeyFollowOnlyBusinessAccounts">Follow only Business Accounts</system:String>
+    <system:String x:Key="LangKeyBrowserNotsecure">Browser isn't secure for login.</system:String>
+    <system:String x:Key="LangKeyKeywordUserPost">Keyword User Post(S)</system:String>
+    <system:String x:Key="LangKeyTikTokLiker/TikTokCommenter">Liker/Commenter</system:String>
+    <system:String x:Key="LangKeyTikTokScrape">TikTok Scraper</system:String>
+    <system:String x:Key="LangKeyProfilePicUrl">Profile Pic Url</system:String>
+    <system:String x:Key="LangKeyIsAccountVerified">Is Account Verified</system:String>
+    <system:String x:Key="LangKeyIsBlocked">Is Account Blocked</system:String>
+    <system:String x:Key="LangKeyBirthday">Birthday</system:String>
+    <system:String x:Key="LangKeySignature">Signature</system:String>
+    <system:String x:Key="LangKeyFansCount">Fans Count</system:String>
+    <system:String x:Key="LangKeyFeedsCount">Feeds Count</system:String>
+    <system:String x:Key="LangKeyFeedId">Feed Id</system:String>
+    <system:String x:Key="LangKeyCreateTime">Create Time</system:String>
+    <system:String x:Key="LangKeyOwnerUsername">Owner Username</system:String>
+    <system:String x:Key="LangKeyOwnerUserId">Owner User Id</system:String>
+    <system:String x:Key="LangKeyVideoUrl">Video Url</system:String>
+    <system:String x:Key="LangKeyDuration">Duration</system:String>
+    <system:String x:Key="LangKeyDownloadCount">Download Count</system:String>
+    <system:String x:Key="LangKeyPlayCount">Play Count</system:String>
+    <system:String x:Key="LangKeyUserCount">User Count</system:String>
+    <system:String x:Key="LangKeyViewCount">View Count</system:String>
+    <system:String x:Key="LangKeyUnfollowedUserId">Unfollowed User Id</system:String>
+    <system:String x:Key="LangIGTikTokWontRunWithBrowserAutoTryWithHttp">Instagram and TikTok accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
+    <system:String x:Key="LangKeyBoardNameFormatForMultiple">Format for multiple :- abc|abc|abc</system:String>
+    <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
+    <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
+    <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
+ [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
+    <system:String x:Key="LangKeyUpdatingDetails">Updating Details</system:String>
+    <system:String x:Key="LangKeyAlreadyUpdatingDetailsSoWait">The account is currently updating details. Please wait and then do the action.</system:String>
+
 </ResourceDictionary>

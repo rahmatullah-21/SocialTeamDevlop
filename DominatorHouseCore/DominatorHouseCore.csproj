@@ -75,6 +75,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoItX3.Assembly">
+      <HintPath>..\packages\AutoItX.Dotnet.3.3.14.5\lib\AutoItX3.Assembly.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
@@ -280,6 +283,7 @@
     <Compile Include="DatabaseHandler\DHTables\WhiteListUser.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateWhitelist.cs" />
+    <Compile Include="DatabaseHandler\GdTables\Accounts\UserConversation.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\HashtagScrape.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\GdTables\Campaigns\InteractedUsers.cs" />
@@ -319,7 +323,9 @@
     <Compile Include="Enums\EmbeddedBrowser\BrowserEnums.cs" />
     <Compile Include="Enums\GdQuery\GdPostQuery.cs" />
     <Compile Include="Enums\GdQuery\GdUserQuery.cs" />
+    <Compile Include="Enums\KeyboardKeys.cs" />
     <Compile Include="Enums\LoginType.cs" />
+    <Compile Include="Enums\MouseKeys.cs" />
     <Compile Include="Enums\QueryType.cs" />
     <Compile Include="Enums\ReportType.cs" />
     <Compile Include="Enums\UserType.cs" />
@@ -460,6 +466,7 @@
     <Compile Include="UIExtensions\GridViewExtension.cs" />
     <Compile Include="Utility\AccountGrowthPropertiesProvider.cs" />
     <Compile Include="Utility\AccountScopeFactory.cs" />
+    <Compile Include="Utility\AutoItTool.cs" />
     <Compile Include="Utility\CacheText.cs" />
     <Compile Include="Utility\CodeConstants.cs" />
     <Compile Include="Utility\DateProvider.cs" />

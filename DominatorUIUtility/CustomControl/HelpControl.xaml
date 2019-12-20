@@ -25,7 +25,7 @@
         </Grid>
 
         <!--  Watch Video Tutorials  -->
-        <Grid Grid.Row="1" Background="#3897F0" >
+        <!--<Grid Grid.Row="1" Background="#3897F0" >
 
             <TextBlock Cursor="Help"  FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" >
                            <Hyperlink  Name="WatchVideolink" Foreground="White" NavigateUri="{Binding VideoTutorial}" RequestNavigate="Hyperlink_RequestNavigate" >                           
@@ -33,10 +33,10 @@
                            </Hyperlink>
                  </TextBlock>
 
-        </Grid>
+        </Grid>-->
 
         <!--  Contact Support  -->
-        <Grid Grid.Row="2">
+        <!--<Grid Grid.Row="2">
             
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.5*" />
@@ -60,8 +60,10 @@
                 </TextBlock>
             </Grid>
             
-        </Grid>
-        
+        </Grid>-->
+        <Grid Grid.Row="1" Background="WhiteSmoke"/>
+        <Grid Grid.Row="2" Background="WhiteSmoke"/>
+
     </Grid>
 
 </UserControl>

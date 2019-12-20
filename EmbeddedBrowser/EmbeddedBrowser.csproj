@@ -287,6 +287,9 @@
     <Content Include="CefSharpFiles\Libs\libEGL.dll" />
     <Content Include="CefSharpFiles\Libs\libGLESv2.dll" />
     <Content Include="CefSharpFiles\Libs\widevinecdmadapter.dll" />
+    <Resource Include="Resources\Gramboard.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>

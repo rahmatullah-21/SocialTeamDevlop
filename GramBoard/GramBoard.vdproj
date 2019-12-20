@@ -171,12 +171,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1DD60C2229A6F55D885CAF0A1666F4FD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1E23C47672B13F037095C5D732195AC2"
         "OwnerKey" = "8:_108AF62D1A6E03FBDBA454D43CDAB402"
         "MsmSig" = "8:_UNDEFINED"
@@ -328,6 +322,18 @@
         "Entry"
         {
         "MsmKey" = "8:_2BF895F157EC85D7F89540D3FF5B62F0"
+        "OwnerKey" = "8:_7C2C4D63E4434831922114EC22913318"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2E02138C2CBE7EC344138E0C90960C75"
+        "OwnerKey" = "8:_108AF62D1A6E03FBDBA454D43CDAB402"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2E02138C2CBE7EC344138E0C90960C75"
         "OwnerKey" = "8:_7C2C4D63E4434831922114EC22913318"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1954,6 +1960,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2E02138C2CBE7EC344138E0C90960C75"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2BF895F157EC85D7F89540D3FF5B62F0"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2390,6 +2402,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
         "Release"
@@ -2414,6 +2434,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -2816,32 +2844,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1DD60C2229A6F55D885CAF0A1666F4FD"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:System.Net.Http.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9BB776249FA94195A7BDE25BACACB814"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1E23C47672B13F037095C5D732195AC2"
             {
             "AssemblyRegister" = "3:1"
@@ -3226,6 +3228,37 @@
                     }
                 }
             "SourcePath" = "8:WPFFolderBrowser.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9BB776249FA94195A7BDE25BACACB814"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2E02138C2CBE7EC344138E0C90960C75"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:AutoItX3.Assembly, Version=3.0.0.0, Culture=neutral, PublicKeyToken=a646454c8d475470, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_2E02138C2CBE7EC344138E0C90960C75"
+                    {
+                    "Name" = "8:AutoItX3.Assembly.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:AutoItX3.Assembly.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9BB776249FA94195A7BDE25BACACB814"
@@ -6695,21 +6728,21 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GramBoard"
-        "ProductCode" = "8:{37509B7A-5F07-4604-93D3-49E9447B78E4}"
-        "PackageCode" = "8:{71786428-AF5E-4281-8AE6-B941656F07D9}"
+        "ProductCode" = "8:{F67C1E76-7ECF-4A0E-9C1A-A4398DED19CA}"
+        "PackageCode" = "8:{4FB4141C-A7E8-4142-8F49-B02C24AA6D3D}"
         "UpgradeCode" = "8:{AFCBED83-F098-40AB-BC07-5485B4281366}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "ProductVersion" = "8:1.0.1"
+        "Manufacturer" = "8:GramBoard"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:GramBoard"
+        "Title" = "8:GramBoard 1.0.0.1"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:GramBoard"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
@@ -7259,7 +7292,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7C2C4D63E4434831922114EC22913318"
             {
-            "SourcePath" = "8:..\\DominatorHouse\\obj\\Debug\\GramBoarad.exe"
+            "SourcePath" = "8:..\\DominatorHouse\\obj\\Release\\GramBoarad.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9BB776249FA94195A7BDE25BACACB814"
