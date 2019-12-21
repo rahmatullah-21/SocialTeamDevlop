@@ -37,7 +37,6 @@ namespace DominatorUIUtility.ViewModel
         public DominatorAccountModel OldDominatorAccountModel { get; set; }
         private AccessorStrategies strategy;
         private bool _isEmailVerification;
-
         public bool IsEmailVerification
         {
             get { return _isEmailVerification; }
@@ -156,6 +155,15 @@ namespace DominatorUIUtility.ViewModel
         //        SetProperty(ref _isManualVerify, value);
         //    }
         //}
+        private string _jsonCookies;
+        public string JsonCookies
+        {
+            get { return _jsonCookies; }
+            set
+            {
+                SetProperty(ref _jsonCookies, value);
+            }
+        }
         #endregion
 
         #region Constructors
@@ -181,6 +189,7 @@ namespace DominatorUIUtility.ViewModel
             SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
             SendResetPasswordLinkCommand = new BaseCommand<object>(sender => true, SendResetPasswordLinkExecute);
             CopyCommand = new BaseCommand<object>(CopyCanExecute, CopyExecute);
+            PasteJsonCookiesCommand = new BaseCommand<object>(PasteJsonCookiesCanExecute, PasteJsonCookiesExecute);
         }
         #endregion
 
@@ -195,6 +204,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SetNewPasswordCommand { get; set; }
         public ICommand SendResetPasswordLinkCommand { get; set; }
         public ICommand CopyCommand { get; set; }
+        public ICommand PasteJsonCookiesCommand { get; set; }
         #endregion
 
         private bool SaveCanExecute(object arg) => true;
@@ -718,6 +728,23 @@ namespace DominatorUIUtility.ViewModel
             catch (Exception ex)
             {
                 ex.DebugLog();
+            }
+        }
+
+        private bool PasteJsonCookiesCanExecute(object arg) => true;
+
+        private void PasteJsonCookiesExecute(object sender)
+        {
+            try
+            {
+                var getClip = new AutoItTool().GetLastCopied();
+                if (string.IsNullOrWhiteSpace(getClip))
+                    return;
+                JsonCookies = getClip;
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }
