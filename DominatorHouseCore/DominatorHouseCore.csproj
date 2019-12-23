@@ -472,6 +472,7 @@
     <Compile Include="Utility\DateProvider.cs" />
     <Compile Include="Utility\EnumExtensions.cs" />
     <Compile Include="Utility\FileSystemProvider.cs" />
+    <Compile Include="Utility\JsonHandler.cs" />
     <Compile Include="Utility\LockFileConfigProvider.cs" />
     <Compile Include="Utility\MacrosHelper.cs" />
     <Compile Include="Utility\MapperProvider.cs" />
