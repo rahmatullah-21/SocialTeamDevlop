@@ -189,7 +189,7 @@ namespace DominatorUIUtility.ViewModel
             SetNewPasswordCommand = new BaseCommand<object>(sender => true, SetNewPasswordExecute);
             SendResetPasswordLinkCommand = new BaseCommand<object>(sender => true, SendResetPasswordLinkExecute);
             CopyCommand = new BaseCommand<object>(CopyCanExecute, CopyExecute);
-            PasteJsonCookiesCommand = new BaseCommand<object>(PasteJsonCookiesCanExecute, PasteJsonCookiesExecute);
+            SaveJsonCookiesCommand = new BaseCommand<object>(SaveJsonCookiesCanExecute, SaveJsonCookiesExecute);
         }
         #endregion
 
@@ -204,7 +204,7 @@ namespace DominatorUIUtility.ViewModel
         public ICommand SetNewPasswordCommand { get; set; }
         public ICommand SendResetPasswordLinkCommand { get; set; }
         public ICommand CopyCommand { get; set; }
-        public ICommand PasteJsonCookiesCommand { get; set; }
+        public ICommand SaveJsonCookiesCommand { get; set; }
         #endregion
 
         private bool SaveCanExecute(object arg) => true;
@@ -723,7 +723,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 var details = $"{DominatorAccountModel.AccountBaseModel.AccountNetwork.ToString()}|{DominatorAccountModel.AccountBaseModel.UserName}:{DominatorAccountModel.AccountBaseModel.Password}{proxyString}";
                 new AutoItTool().CopyToClip(details);
-                ToasterNotification.ShowSuccess("Details copied to clipboard successfully.");
+                ToasterNotification.ShowSuccess("LangKeyDetailsCopiedToClipboard".FromResourceDictionary());
             }
             catch (Exception ex)
             {
@@ -731,16 +731,46 @@ namespace DominatorUIUtility.ViewModel
             }
         }
 
-        private bool PasteJsonCookiesCanExecute(object arg) => true;
+        private bool SaveJsonCookiesCanExecute(object arg) => true;
 
-        private void PasteJsonCookiesExecute(object sender)
+        private void SaveJsonCookiesExecute(object sender)
         {
             try
             {
-                var getClip = new AutoItTool().GetLastCopied();
-                if (string.IsNullOrWhiteSpace(getClip))
+                if (string.IsNullOrWhiteSpace(JsonCookies.Trim()))
                     return;
-                JsonCookies = getClip;
+
+                if(DominatorAccountModel.CookieHelperList.Count > 0)
+                {
+                    if (Dialog.ShowCustomDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyWannaReplaceOldCookieWithNewOne".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
+                        return;                    
+                }
+
+                DominatorAccountModel.CookieHelperList.Clear();
+                
+                var jsonHand = new JsonHandler("{\"object\" :" + JsonCookies + "}");
+                var token = jsonHand.GetJToken("object");
+                foreach (var t in token)
+                {
+                    var name = jsonHand.GetJTokenValue(t, "name");
+                    var value = jsonHand.GetJTokenValue(t, "value");
+                    var domain = jsonHand.GetJTokenValue(t, "domain");
+                    var path = jsonHand.GetJTokenValue(t, "path");
+                    var expireString = jsonHand.GetJTokenValue(t, "expirationDate");
+                    DateTime expire = DateTime.Now.AddYears(1);
+                    if (!string.IsNullOrWhiteSpace(expireString))
+                        expire = DateTimeUtilities.EpochToDateTimeUtc(Convert.ToInt64(expireString)*1000);
+                    var httpOnly = jsonHand.GetJTokenValue(t, "httpOnly").ToLower() == "true" ? true: false;
+                    var secure = jsonHand.GetJTokenValue(t, "secure").ToLower() == "true" ? true : false;
+
+                    DominatorAccountModel
+                        .CookieHelperList
+                        .Add(new CookieHelper()
+                            { Name = name, Value = value, Domain = domain,
+                              Expires = expire, HttpOnly = httpOnly, Secure = secure });
+                }
+
+                Dialog.ShowDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyCookiesSavedNowLogin".FromResourceDictionary());
             }
             catch (Exception ex)
             {

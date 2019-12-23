@@ -4492,5 +4492,14 @@ Do you want to continue running {0}?</system:String>
  [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
     <system:String x:Key="LangKeyUpdatingDetails">Updating Details</system:String>
     <system:String x:Key="LangKeyAlreadyUpdatingDetailsSoWait">The account is currently updating details. Please wait and then do the action.</system:String>
-
+    <system:String x:Key="LangKeyStepsToGetJsonCookies" xml:space="preserve">Steps to get json cookies from your browsers
+1. Add Extenstion "EditThisCookie" to your firefox/Chrome browser if not added.
+2. Open the social network website the account belongs to.
+3. Click over the extension icon and then click on "Export" button on it.
+Note: Cookies should belong to the same account.</system:String>
+    <system:String x:Key="LangKeyPasteJsonCookiesLogin">Paste Cookies (Json text) to login</system:String>
+    <system:String x:Key="LangKeySaveCookies">Save Cookies</system:String>
+    <system:String x:Key="LangKeyWannaReplaceOldCookieWithNewOne">Account already has some cookies. Do you want to replace them with new one?</system:String>
+    <system:String x:Key="LangKeyDetailsCopiedToClipboard">Details copied to clipboard successfully.</system:String>
+    <system:String x:Key="LangKeyCookiesSavedNowLogin">Json Cookies saved succesfully. Now Click on Save button to get the account to login with the cookies.</system:String>
 </ResourceDictionary>
