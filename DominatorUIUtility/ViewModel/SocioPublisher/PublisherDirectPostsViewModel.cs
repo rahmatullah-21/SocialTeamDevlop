@@ -34,7 +34,20 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             SaveCurrentPostCommand = new BaseCommand<object>(CanExecuteSaveSinglePost, SavePost);
             UploadDescriptionCommand = new BaseCommand<object>((sender) => true, UploadDescription);
             LstPostDetailsModels = new ObservableCollection<PostDetailsModel>();
+            MultipleImageUrlCommand = new BaseCommand<object>((sender) => true, MultipleImageUrlExecute);
             BindingOperations.EnableCollectionSynchronization(LstPostDetailsModels, _lock);
+        }
+
+        private void MultipleImageUrlExecute(object sender)
+        {
+            try
+            {
+                PostDetailsModel.ListMultipleImageUrl = Regex.Split(PostDetailsModel.MultipleImageUrl, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         private void UploadDescription(object obj)
@@ -140,6 +153,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         /// </summary>
         public ICommand SaveCurrentPostCommand { get; set; }
         public ICommand UploadDescriptionCommand { get; set; }
+
+        public ICommand MultipleImageUrlCommand { get; set; }
         #endregion
 
         #region Methods
@@ -253,7 +268,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                         new PostDetailsModel();
                     tabItemsControl.PostDetailsModel = new PostDetailsModel();
 
-                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign",  $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
+                    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyPostSaved".FromResourceDictionary()} to {status} list");
                 }
                 else
                     GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Social, createCampaignModel.CampaignName, "Publisher Campaign", $"{"LangKeyFailedToSave".FromResourceDictionary()} to {status} list. {"LangKeyAddAtleastOnePost".FromResourceDictionary()}");

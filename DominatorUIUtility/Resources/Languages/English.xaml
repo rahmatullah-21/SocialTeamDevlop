@@ -4503,4 +4503,7 @@ Note: Cookies should belong to the same dominator account.</system:String>
     <system:String x:Key="LangKeyWannaReplaceOldCookieWithNewOne">Account already has some cookies. Do you want to replace them with new one?</system:String>
     <system:String x:Key="LangKeyDetailsCopiedToClipboard">Details copied to clipboard successfully.</system:String>
     <system:String x:Key="LangKeyCookiesSavedNowLogin">Json Cookies saved succesfully. Now Click on Save button to get the account to login with the cookies.</system:String>
+    <system:String x:Key="LangKeyDoNotScrapePostsOlderThan">Do Not Scrape posts older than</system:String>
+    <system:String x:Key="LangKeyUploadGoogleImageFromUrl">Upload Google image from url</system:String>
+    <system:String x:Key="LangKeyUploadMutipleImageUrl">Upload Mutiple Image Url</system:String>
 </ResourceDictionary>
