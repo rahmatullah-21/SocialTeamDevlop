@@ -739,17 +739,18 @@ namespace DominatorUIUtility.ViewModel
             {
                 if (string.IsNullOrWhiteSpace(JsonCookies.Trim()))
                     return;
-
-                if(DominatorAccountModel.CookieHelperList.Count > 0)
-                {
-                    if (Dialog.ShowCustomDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyWannaReplaceOldCookieWithNewOne".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
-                        return;                    
-                }
-
-                DominatorAccountModel.CookieHelperList.Clear();
                 
                 var jsonHand = new JsonHandler("{\"object\" :" + JsonCookies + "}");
+                
+                if (DominatorAccountModel.CookieHelperList.Count > 0)
+                {
+                    if (Dialog.ShowCustomDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyWannaReplaceOldCookieWithNewOne".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
+                        return;
+                }
+
                 var token = jsonHand.GetJToken("object");
+                DominatorAccountModel.CookieHelperList.Clear();
+                
                 foreach (var t in token)
                 {
                     var name = jsonHand.GetJTokenValue(t, "name");
@@ -774,7 +775,12 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-
+                if (ex.Message?.Contains(" parsing ") ??false)
+                {
+                    ToasterNotification.ShowError("Cookies are not in a valid json text form.");
+                }
+                else
+                    ex.DebugLog();
             }
         }
     }
