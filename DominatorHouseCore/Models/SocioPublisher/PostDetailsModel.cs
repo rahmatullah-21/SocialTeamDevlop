@@ -4,6 +4,7 @@ using DominatorHouseCore.Models.SocioPublisher.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.Enums.SocioPublisher;
 using ProtoBuf;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Models.SocioPublisher
 {
@@ -467,6 +468,41 @@ namespace DominatorHouseCore.Models.SocioPublisher
             get { return _isChangeHashOfMedia; }
             set { SetProperty(ref _isChangeHashOfMedia, value); }
         }
+
+        private List<string> _listmultipleImageUrl;
+        [ProtoMember(25)]
+        public List<string> ListMultipleImageUrl
+        {
+            get { return _listmultipleImageUrl; }
+            set { SetProperty(ref _listmultipleImageUrl, value); }
+        }
+
+
+        private string _multipleImageUrl;
+        [ProtoMember(26)]
+        public string MultipleImageUrl
+        {
+            get { return _multipleImageUrl; }
+            set { SetProperty(ref _multipleImageUrl, value); }
+        }
+
+
+        private bool _isUploadSingleImage = true;
+        [ProtoMember(26)]
+        public bool IsUploadSingleImage
+        {
+            get { return _isUploadSingleImage; }
+            set { SetProperty(ref _isUploadSingleImage, value); }
+        }
+
+        private bool _isUploadMultipleImage;
+        [ProtoMember(26)]
+        public bool IsUploadMultipleImage
+        {
+            get { return _isUploadMultipleImage; }
+            set { SetProperty(ref _isUploadMultipleImage, value); }
+        }
+
 
         public void Dispose()
         {
