@@ -1708,35 +1708,22 @@ namespace DominatorUIUtility.ViewModel
                             if (SocinatorInitialize.AvailableNetworks.Contains(account.AccountBaseModel
                                 .AccountNetwork))
                             {
+
                                 if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
                                 {
-                                    //<<<<<<< HEAD
-                                    //                                    GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
-                                    //                                    break;
-                                    //                                }
-                                    //                                if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
-                                    //                                                    x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
-                                    //                                {
-                                    //                                    if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
-                                    //                                        account.AccountBaseModel.Status = AccountStatus.NotChecked;
-                                    //                                    LstDominatorAccountModel.AddSync(account);
-                                    //=======
-                                    if (LstDominatorAccountModel.Count >= SocinatorInitialize.MaximumAccountCount)
-                                    {
-                                        GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
-                                        break;
-                                    }
-                                    if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
-                                                        x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
-                                    {
-                                        if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
-                                            account.AccountBaseModel.Status = AccountStatus.NotChecked;
-                                        else if (account.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
-                                            account.AccountBaseModel.Status = AccountStatus.Success;
-                                        LstDominatorAccountModel.AddSync(account);
-                                    }
-                                    //>>>>>>> b8073ab845c337bccd746eb3b3da40f7dbce7c36
+                                    GlobusLogHelper.log.Info("LangKeyAddedMaxAccountAsPerYourPlan".FromResourceDictionary());
+                                    break;
                                 }
+                                if (!LstDominatorAccountModel.Any(x => x.AccountBaseModel.UserName == account.UserName &&
+                                                    x.AccountBaseModel.AccountNetwork == account.AccountBaseModel.AccountNetwork))
+                                {
+                                    if (account.AccountBaseModel.Status == AccountStatus.TryingToLogin)
+                                        account.AccountBaseModel.Status = AccountStatus.NotChecked;
+                                    else if (account.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
+                                        account.AccountBaseModel.Status = AccountStatus.Success;
+                                    LstDominatorAccountModel.AddSync(account);
+                                }
+
                             }
                         }
                     }

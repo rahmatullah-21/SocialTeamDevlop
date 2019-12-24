@@ -110,7 +110,7 @@ namespace Socinator
                 {
                     try
                     {
-                        if (item.ProcessName != "Socinator")
+                        if (item.ProcessName != "GramBoard")
                             continue;
                         itemCount++;
                         if (itemCount <= 1) continue;
