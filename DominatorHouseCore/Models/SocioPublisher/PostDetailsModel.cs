@@ -488,7 +488,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
 
 
         private bool _isUploadSingleImage = true;
-        [ProtoMember(26)]
+        [ProtoMember(27)]
         public bool IsUploadSingleImage
         {
             get { return _isUploadSingleImage; }
@@ -496,7 +496,7 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
         private bool _isUploadMultipleImage;
-        [ProtoMember(26)]
+        [ProtoMember(28)]
         public bool IsUploadMultipleImage
         {
             get { return _isUploadMultipleImage; }
