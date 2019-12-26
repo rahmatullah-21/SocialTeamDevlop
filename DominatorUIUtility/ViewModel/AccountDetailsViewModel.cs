@@ -737,7 +737,7 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(JsonCookies.Trim()))
+                if (string.IsNullOrWhiteSpace(JsonCookies?.Trim()))
                     return;
                 
                 var jsonHand = new JsonHandler("{\"object\" :" + JsonCookies + "}");

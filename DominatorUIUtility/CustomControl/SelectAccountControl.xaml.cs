@@ -52,9 +52,9 @@ namespace DominatorUIUtility.CustomControl
             savedAccounts.ForEach(x =>
             {
 
-                //add only account status should be success
+                //add only account status should be success/UpdatingDetails
 
-                if (x.AccountBaseModel.Status == AccountStatus.Success)
+                if (x.AccountBaseModel.Status == AccountStatus.Success || x.AccountBaseModel.Status == AccountStatus.UpdatingDetails)
                 {
                     ObjAccountViewModel.LstSelectAccount.Add(new SelectAccountModel
                     {
