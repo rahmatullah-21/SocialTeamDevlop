@@ -4506,4 +4506,5 @@ Note: Cookies should belong to the same dominator account.</system:String>
     <system:String x:Key="LangKeyDoNotScrapePostsOlderThan">Do Not Scrape posts older than</system:String>
     <system:String x:Key="LangKeyUploadGoogleImageFromUrl">Upload Google image from url</system:String>
     <system:String x:Key="LangKeyUploadMutipleImageUrl">Upload Mutiple Image Url</system:String>
+    <system:String x:Key="LangKeySelectCategory">Please Select Category</system:String>
 </ResourceDictionary>
