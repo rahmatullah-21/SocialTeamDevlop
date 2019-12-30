@@ -66,8 +66,7 @@
             <CheckBox Margin="2" IsChecked="{Binding ScrapePostModel.IsScrapePostOlderThanXXDays}" />
             <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyDoNotScrapePostsOlderThan}" Margin="0,0,10,0"/>
             <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.DoNotScrapePostOlderThanNDays.StartValue}"/>
-            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyTo}" Margin="5,0,10,0"/>
-            <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.DoNotScrapePostOlderThanNDays.EndValue}"/>
+            <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.DoNotScrapePostOlderThanNDays.StartValue}" Visibility="Collapsed"/>
             <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyDays}" Margin="0,0,10,0"/>
         </StackPanel>
     </StackPanel>
