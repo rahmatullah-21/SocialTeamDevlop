@@ -349,7 +349,7 @@ namespace DominatorUIUtility.ViewModel
                         {
                             reportDetails.ForEach(item =>
                             {
-                                Application.Current.Dispatcher.Invoke(() => reportControl.ReportModel.LstReports.Add(item));
+                                Application.Current.Dispatcher.Invoke(async () => reportControl.ReportModel.LstReports.Add(item));
                                 Thread.Sleep(10);
                             });
                         });
