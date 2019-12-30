@@ -742,14 +742,14 @@ namespace DominatorUIUtility.ViewModel
                 
                 var jsonHand = new JsonHandler("{\"object\" :" + JsonCookies + "}");
                 
-                if (DominatorAccountModel.CookieHelperList.Count > 0)
+                if (DominatorAccountModel.CookieHelperList == null || DominatorAccountModel.CookieHelperList.Count > 0)
                 {
                     if (Dialog.ShowCustomDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyWannaReplaceOldCookieWithNewOne".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
                         return;
                 }
 
                 var token = jsonHand.GetJToken("object");
-                DominatorAccountModel.CookieHelperList.Clear();
+                DominatorAccountModel.CookieHelperList = new System.Collections.Generic.HashSet<CookieHelper>();
                 
                 foreach (var t in token)
                 {
