@@ -470,8 +470,7 @@ namespace DominatorUIUtility.ViewModel
                 Content = objAddUpdateAccountControl
             };
 
-            objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
-                    objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
+            objDominatorAccountBaseModel.AccountNetwork = SocialNetworks.Instagram;
 
             var objDialog = new Dialog();
             var dialogWindow = objDialog.GetCustomDialog(customDialog, "LangKeyAddAccount".FromResourceDictionary());
@@ -1765,10 +1764,7 @@ namespace DominatorUIUtility.ViewModel
                         var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
 
                         softwareSetting.ScheduleAutoUpdation();
-                        if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null
-                            || SocinatorInitialize.GetSocialLibrary(SocialNetworks.Quora) != null
-                            || SocinatorInitialize.GetSocialLibrary(SocialNetworks.TikTok) != null)
-                            softwareSetting.ScheduleAdsScraping();
+                       
                     }
                     catch (Exception ex)
                     {
@@ -1787,24 +1783,7 @@ namespace DominatorUIUtility.ViewModel
 
                         var availablenetworks = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>().Select(y => y.Network);
 
-                        if (availablenetworks.Contains(SocialNetworks.Facebook))
-                        {
-                            var account = new DominatorAccountModel()
-                            {
-                                AccountId = "ActivateBrowserLogin",
-
-                                AccountBaseModel = new DominatorAccountBaseModel()
-                                {
-                                    UserName = "socinator",
-                                    Password = "socinator",
-                                    AccountProxy = new Proxy()
-                                }
-                            };
-
-                            var browserManager = accountScopeFactory[$"{account.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(account.AccountBaseModel.AccountNetwork.ToString());
-
-                            browserManager.BrowserLogin(account, LoginType.InitialiseBrowser);
-                        }
+                       
                     }
                     catch (Exception ex)
                     {
@@ -2166,9 +2145,9 @@ namespace DominatorUIUtility.ViewModel
                   "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
 
-                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && (x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram || x.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok)))
+                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && (x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram)))
                         Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGTikTokWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
 
                     if (accountsToProcess.Count() == 0)
@@ -2216,7 +2195,7 @@ namespace DominatorUIUtility.ViewModel
                       "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram);
                     if (accountsToProcess.Count() == 0)
                     {
                         ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");
