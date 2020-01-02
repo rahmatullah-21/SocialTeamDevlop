@@ -757,7 +757,7 @@ namespace DominatorUIUtility.ViewModel
                     var value = jsonHand.GetJTokenValue(t, "value");
                     var domain = jsonHand.GetJTokenValue(t, "domain");
                     var path = jsonHand.GetJTokenValue(t, "path");
-                    var expireString = jsonHand.GetJTokenValue(t, "expirationDate");
+                    var expireString = jsonHand.GetJTokenValue(t, "expirationDate").Split('.')[0];
                     DateTime expire = DateTime.Now.AddYears(1);
                     if (!string.IsNullOrWhiteSpace(expireString))
                         expire = DateTimeUtilities.EpochToDateTimeUtc(Convert.ToInt64(expireString)*1000);
