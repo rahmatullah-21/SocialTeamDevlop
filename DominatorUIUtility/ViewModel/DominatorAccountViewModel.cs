@@ -1766,7 +1766,8 @@ namespace DominatorUIUtility.ViewModel
 
                         softwareSetting.ScheduleAutoUpdation();
                         if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null
-                            || SocinatorInitialize.GetSocialLibrary(SocialNetworks.Quora) != null)
+                            || SocinatorInitialize.GetSocialLibrary(SocialNetworks.Quora) != null
+                            || SocinatorInitialize.GetSocialLibrary(SocialNetworks.TikTok) != null)
                             softwareSetting.ScheduleAdsScraping();
                     }
                     catch (Exception ex)

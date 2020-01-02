@@ -340,6 +340,15 @@ namespace DominatorHouseCore.Settings
                 new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
             await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
+
+            var adScraperblockTikTok = new ActionBlock<ScrapAdsDetails>(
+                async job =>
+                {
+                    await job.StartAdScarperAsync();
+                },
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+
+            await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.TikTok);
         }
 
 
@@ -385,7 +394,7 @@ namespace DominatorHouseCore.Settings
 
 
         public async Task StartAdScarperAsync()
-        {
+         {
             try
             {
                 var cancellationTokenSource =
@@ -400,7 +409,7 @@ namespace DominatorHouseCore.Settings
                 AdUpdationType currentUpdationType;
 
                 currentUpdationType = account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ? AdUpdationType.FbAds :
-                  AdUpdationType.QuoraAds;
+                   account.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok ? AdUpdationType.Ads : AdUpdationType.QuoraAds;
 
                 var asyncAdScraperFactory =
                     ServiceLocator.Current.GetInstance<IAdScraperFactory>(currentUpdationType.ToString());
@@ -432,11 +441,7 @@ namespace DominatorHouseCore.Settings
                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
 
                         return;
-                    }
-
-
-
-
+                    }                    
                 }
                 catch (OperationCanceledException ex)
                 {
