@@ -737,26 +737,27 @@ namespace DominatorUIUtility.ViewModel
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(JsonCookies.Trim()))
+                if (string.IsNullOrWhiteSpace(JsonCookies?.Trim()))
                     return;
-
-                if(DominatorAccountModel.CookieHelperList.Count > 0)
-                {
-                    if (Dialog.ShowCustomDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyWannaReplaceOldCookieWithNewOne".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
-                        return;                    
-                }
-
-                DominatorAccountModel.CookieHelperList.Clear();
                 
                 var jsonHand = new JsonHandler("{\"object\" :" + JsonCookies + "}");
+                
+                if (DominatorAccountModel.CookieHelperList == null || DominatorAccountModel.CookieHelperList.Count > 0)
+                {
+                    if (Dialog.ShowCustomDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyWannaReplaceOldCookieWithNewOne".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
+                        return;
+                }
+
                 var token = jsonHand.GetJToken("object");
+                DominatorAccountModel.CookieHelperList = new System.Collections.Generic.HashSet<CookieHelper>();
+                
                 foreach (var t in token)
                 {
                     var name = jsonHand.GetJTokenValue(t, "name");
                     var value = jsonHand.GetJTokenValue(t, "value");
                     var domain = jsonHand.GetJTokenValue(t, "domain");
                     var path = jsonHand.GetJTokenValue(t, "path");
-                    var expireString = jsonHand.GetJTokenValue(t, "expirationDate");
+                    var expireString = jsonHand.GetJTokenValue(t, "expirationDate").Split('.')[0];
                     DateTime expire = DateTime.Now.AddYears(1);
                     if (!string.IsNullOrWhiteSpace(expireString))
                         expire = DateTimeUtilities.EpochToDateTimeUtc(Convert.ToInt64(expireString)*1000);
@@ -774,7 +775,12 @@ namespace DominatorUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-
+                if (ex.Message?.Contains(" parsing ") ??false)
+                {
+                    ToasterNotification.ShowError("Cookies are not in a valid json text form.");
+                }
+                else
+                    ex.DebugLog();
             }
         }
     }

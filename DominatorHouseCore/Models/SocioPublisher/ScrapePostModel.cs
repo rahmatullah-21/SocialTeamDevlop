@@ -195,5 +195,40 @@ namespace DominatorHouseCore.Models.SocioPublisher
             get { return _lstScrapedPostDetails; }
             set { SetProperty(ref _lstScrapedPostDetails, value); }
         }
+
+        private bool _isScrapePostOlderThanXXDays;
+
+        [ProtoMember(12)]
+        public bool IsScrapePostOlderThanXXDays
+        {
+            get
+            {
+                return _isScrapePostOlderThanXXDays;
+            }
+            set
+            {
+                if (value == _isScrapePostOlderThanXXDays)
+                    return;
+                SetProperty(ref _isScrapePostOlderThanXXDays, value);
+            }
+        }
+
+        private RangeUtilities _doNotscrapePostOlderThanNDays = new RangeUtilities(2, 4);
+
+        [ProtoMember(13)]
+        public RangeUtilities DoNotScrapePostOlderThanNDays
+        {
+            get
+            {
+                return _doNotscrapePostOlderThanNDays;
+            }
+            set
+            {
+                if (value == _doNotscrapePostOlderThanNDays)
+                    return;
+                SetProperty(ref _doNotscrapePostOlderThanNDays, value);
+            }
+        }
+
     }
 }

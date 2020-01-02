@@ -20,7 +20,7 @@
         <Grid Background="{DynamicResource AccentBaseColorBrush}" Height="40"  VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                         Background="{DynamicResource AccentBaseColorBrush}" >
-                <Button x:Name="btnCopyDetails" HorizontalAlignment="Left" Background="Transparent"  Command="{Binding CopyCommand}" ToolTip="{DynamicResource LangKeyCopyAccountDetailToClipBoard}" ToolTipService.Placement="Right">
+                <Button x:Name="btnCopyDetails" HorizontalAlignment="Left" Background="Transparent"  Command="{Binding CopyCommand}" ToolTip="{DynamicResource LangKeyCopyAccountDetailToClipBoard}" ToolTipService.ShowDuration="20000" ToolTipService.Placement="Right">
                     <Button.Content>
                         <StackPanel >
                             <Rectangle Width="15" Height="15" Fill="LightGreen" >
@@ -748,7 +748,7 @@
                                                 <VisualBrush Visual="{StaticResource appbar_save}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
-                                        <TextBlock Text="{DynamicResource LangKeySave}" VerticalAlignment="Center"  Foreground="White"/>
+                                        <TextBlock Text="{DynamicResource LangKeyAdd}" VerticalAlignment="Center"  Foreground="White"/>
                                     </StackPanel>
                                 </Button.Content>
                             </Button>

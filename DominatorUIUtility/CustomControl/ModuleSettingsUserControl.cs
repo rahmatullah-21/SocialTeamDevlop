@@ -1829,7 +1829,7 @@ namespace DominatorUIUtility.CustomControl
             try
             {
                 var networks = SocinatorInitialize.AccountModeActiveSocialNetwork;
-                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks && x.AccountBaseModel.Status == AccountStatus.Success).Select(x => x.UserName));
+                var accounts = new ObservableCollectionBase<string>(_accountsFileManager.GetAll().Where(x => x.AccountBaseModel.AccountNetwork == networks && (x.AccountBaseModel.Status == AccountStatus.Success || x.AccountBaseModel.Status == AccountStatus.UpdatingDetails)).Select(x => x.UserName));
 
                 _accountGrowthModeHeader.AccountItemSource = accounts;
 
