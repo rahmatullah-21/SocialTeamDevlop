@@ -16,13 +16,13 @@
             <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
       
-        <Grid Grid.Row="0" Background="Gray" Name="selectaccount"  >
+        <Grid Grid.Row="0" Background="LightGray" Name="selectaccount"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Name="btnSelectAccount" HorizontalAlignment="Left"  Style="{StaticResource ButtonStyle}" Background="#3897F0" 
+            <Button Name="btnSelectAccount" HorizontalAlignment="Left"  Style="{StaticResource ButtonStyle}" Background="#d11919" 
                     Visibility="{Binding SelectAccountVisibility,Converter={StaticResource BooleanToVisibilityConverter}}"
                     Command="{Binding SelectAccountCommand}" >
                 <Button.Content>
@@ -47,7 +47,7 @@
                                    Text="{Binding NoOfAccountsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
         </Grid>
-        <Grid Grid.Row="1"  Background="#fee0a6">
+        <Grid Grid.Row="1"  Background="#f7e6e1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="4*" />
@@ -61,7 +61,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Button Name="btnCampaignManager"
-                        Grid.Column="0" Style="{StaticResource ButtonStyle}" Background="#ef1d1d" 
+                        Grid.Column="0" Style="{StaticResource ButtonStyle}" Background="#082363" 
                         Width="160"  Command="{Binding CreateCampaignCommand}" CommandParameter="{Binding}">
                     <StackPanel Orientation="Horizontal">
                         <AccessText Margin="25,0,0,0"
