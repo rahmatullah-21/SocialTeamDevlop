@@ -2,5 +2,6 @@
 {
     public interface IDashboardViewModel : ITabViewModel
     {
+        string CurrentVersion { get; set; }
     }
 }

@@ -11,11 +11,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
+using CommonServiceLocator;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Request;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.ViewModel.DashboardVms;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json.Linq;
+using WindowsInstaller;
 
 namespace DominatorHouseCore.Diagnostics
 {
@@ -320,8 +323,6 @@ namespace DominatorHouseCore.Diagnostics
         }
 
 
-
-
         public static HashSet<SocialNetworks> LogExceptionForEachNetwork(string details, string exceptionType)
         {
             try
@@ -483,7 +484,7 @@ namespace DominatorHouseCore.Diagnostics
                 }
 
                 #endregion
-                
+
             }
             catch (Exception ex)
             {
@@ -564,8 +565,68 @@ namespace DominatorHouseCore.Diagnostics
             }
             return string.Empty;
         }
-        public static async Task<Stream> ProcessUpdatedVersionString(string serverName, string Path)
-            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink, serverName, Path));
+
+        public static async Task<bool> CheckForNewUpdates()
+        {
+            try
+            {
+                var finalResponse = string.Empty;
+
+                var revisionHistoryViewModel = ServiceLocator.Current.GetInstance<IDashboardViewModel>("RevisionHistory");
+                var currentVersion = Utilities.GetBetween(revisionHistoryViewModel.CurrentVersion, "[", "]");
+
+                using (var streamReader = new StreamReader(await ProcessUpdatedVersionString()))
+                {
+                    finalResponse = streamReader.ReadToEnd();
+                }
+
+                if (string.IsNullOrEmpty(finalResponse.Trim()))
+                    return false;
+
+                else if (currentVersion.Trim() != finalResponse.Trim())
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return false;
+        }
+
+        public static async Task<bool> InstallNewUpdates()
+        {
+            try
+            {
+                bool installedApplication = false;
+
+                Type type = Type.GetTypeFromProgID("WindowsInstaller.Installer");
+                Installer installer = (Installer)Activator.CreateInstance(type);
+                string GetDesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    installer.InstallProduct(string.Format(ConstantVariable.UpdateVersionLink
+                        , ConstantVariable.UpdatedVersionIP, ConstantVariable.UpdateInstallerFilePath), "PROPERTY=VALUE");
+
+                    installedApplication = true;
+                });
+
+                while (!installedApplication)
+                    await Task.Delay(1000);
+
+                return true;
+                
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
+
+        public static async Task<Stream> ProcessUpdatedVersionString()
+            => await HttpHelper.GetResponseStreamAsync(string.Format(ConstantVariable.UpdateVersionLink
+                , ConstantVariable.UpdatedVersionIP, ConstantVariable.UpdateVersionFilePath));
+
 
     }
 }

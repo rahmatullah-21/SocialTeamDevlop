@@ -4508,4 +4508,7 @@ Note: Cookies should belong to the same dominator account.</system:String>
     <system:String x:Key="LangKeyUploadMutipleImageUrl">Upload Mutiple Image Url</system:String>
     <system:String x:Key="LangKeySelectCategory">Please Select Category</system:String>
     <system:String x:Key="LangKeyGroupMemberBasicDetails">Group Member Basic Details</system:String>
+    <system:String x:Key="LangKeyAnUpdatedVersionAvailable">A new version of socinator is available</system:String>
+    <system:String x:Key="LangKeyCheckingUpdates">Hang On! Checking for Updates</system:String>
+    <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Socinator</system:String>
 </ResourceDictionary>

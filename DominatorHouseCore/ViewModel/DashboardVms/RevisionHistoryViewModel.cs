@@ -27,6 +27,7 @@ namespace DominatorHouseCore.ViewModel.DashboardVms
                 }
 
                 var result = Regex.Split(text, "Version").ToList();
+                CurrentVersion = result.FirstOrDefault(x=> !string.IsNullOrEmpty(x));
                 if (result.Count != 0)
                 {
                     AddingVersionDetails(result);
@@ -85,6 +86,24 @@ namespace DominatorHouseCore.ViewModel.DashboardVms
                 SetProperty(ref _revisionHistoryModel, value);
             }
         }
+
+
+        private string _currentVersion = string.Empty;
+
+        public string CurrentVersion
+        {
+            get
+            {
+                return _currentVersion;
+            }
+            set
+            {
+                if (_currentVersion == value)
+                    return;
+                SetProperty(ref _currentVersion, value);
+            }
+        }
+
         private ObservableCollection<RevisionHistoryModel> _lstRevisionHistoryModel = new ObservableCollection<RevisionHistoryModel>();
 
         public ObservableCollection<RevisionHistoryModel> LstRevisionHistoryModel
