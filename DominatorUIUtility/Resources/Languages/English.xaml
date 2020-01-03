@@ -4493,11 +4493,12 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyUpdatingDetails">Updating Details</system:String>
     <system:String x:Key="LangKeyAlreadyUpdatingDetailsSoWait">The account is currently updating details. Please wait and then do the action.</system:String>
     <system:String x:Key="LangKeyStepsToGetJsonCookies" xml:space="preserve">Steps to get json cookies from your browsers
-1. Add Extenstion "EditThisCookie" to your firefox/Chrome browser if not added.
-2. Login the account in the browser(Chrome/Firefox) with the account proxy(if proxy is attached), if it's not already logged in there.
-2. Open the social network website the account belongs to.
-3. Click over the extension icon and then click on "Export" button on it.
-Note: Cookies should belong to the same dominator account.</system:String>
+1. Go to your browser(firefox/Chrome) and add Extenstion "EditThisCookie" if it's not added to the browser.
+2. If the same account is not already logged in there then, Login the account in the browser(Chrome/Firefox) with the account proxy(if proxy is attached).
+3. Open the social network website the account belongs to.
+4. Click over the extension icon and then click on "Export" button on it.
+5. Now come back here again and check the CheckBox and paste the cookies into the TextBox and then click on "Add" Button.
+Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyPasteJsonCookiesLogin">Paste Cookies (Json text) to login</system:String>
     <system:String x:Key="LangKeySaveCookies">Save Cookies</system:String>
     <system:String x:Key="LangKeyWannaReplaceOldCookieWithNewOne">Account already has some cookies. Do you want to replace them with new one?</system:String>
