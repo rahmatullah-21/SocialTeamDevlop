@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
@@ -210,6 +211,8 @@ namespace DominatorHouse.ViewModels
         private async Task FatalErrorDiagnosis()
         {
             string fatalError;
+            await UpdateSoftware();
+
             var key = SocinatorKeyHelper.Key;
             if (key != null)
             {
@@ -264,6 +267,48 @@ namespace DominatorHouse.ViewModels
                     }
                 }
 
+        }
+
+        private async Task UpdateSoftware()
+        {
+            try
+            {
+                if (ConfigurationManager.AppSettings["SoftwareType"] == "Others")
+                    return;
+
+                var controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "LangKeyCheckingUpdates".FromResourceDictionary(),
+                        "LangKeyTakeFewMoments".FromResourceDictionary());
+                controller.SetIndeterminate();
+
+                if (await UtilityManager.CheckForNewUpdates())
+                {
+                    controller.SetProgress(0);
+                    bool isInstallUpdates = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyAnUpdatedVersionAvailable".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
+                    if (isInstallUpdates)
+                    {
+                        controller = await DialogCoordinator.Instance.ShowProgressAsync(Application.Current.MainWindow, "LangKeyUpdatingSocinator".FromResourceDictionary(),
+                            "LangKeyTakeFewMoments".FromResourceDictionary());
+                        controller.SetIndeterminate();
+
+                        if (await UtilityManager.InstallNewUpdates())
+                        {
+                            Application.Current.Shutdown();
+                            Process.Start(Application.ResourceAssembly.Location);
+                            Process.GetCurrentProcess().Kill();
+                            Environment.Exit(0);
+                        }
+
+                    }
+
+                    
+                }
+
+                await controller.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         private async Task<bool> DiagnoseFatalError(string fatalError)
@@ -435,14 +480,14 @@ namespace DominatorHouse.ViewModels
                 });
                 Task.Factory.StartNew(() =>
                 {
-                   
+
 
                     #region Publisher
 
                     PublisherInitialize.GetInstance.PublishCampaignInitializer();
                     //PublishScheduler.ScheduleTodaysPublisher();
                     PublishScheduler.UpdateNewGroupList();
-                   
+
                     var publisherPostFetcher = new PublisherPostFetcher();
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(50));
                     publisherPostFetcher.StartFetchingPostData();
