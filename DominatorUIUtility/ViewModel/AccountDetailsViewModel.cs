@@ -742,7 +742,7 @@ namespace DominatorUIUtility.ViewModel
                 
                 var jsonHand = new JsonHandler("{\"object\" :" + JsonCookies + "}");
                 
-                if (DominatorAccountModel.CookieHelperList == null || DominatorAccountModel.CookieHelperList.Count > 0)
+                if ((DominatorAccountModel.CookieHelperList != null && DominatorAccountModel.CookieHelperList.Count > 0) || (DominatorAccountModel.BrowserCookieHelperList != null && DominatorAccountModel.BrowserCookieHelperList.Count > 0))
                 {
                     if (Dialog.ShowCustomDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyWannaReplaceOldCookieWithNewOne".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MahApps.Metro.Controls.Dialogs.MessageDialogResult.Negative)
                         return;
@@ -750,7 +750,8 @@ namespace DominatorUIUtility.ViewModel
 
                 var token = jsonHand.GetJToken("object");
                 DominatorAccountModel.CookieHelperList = new System.Collections.Generic.HashSet<CookieHelper>();
-                
+                DominatorAccountModel.BrowserCookieHelperList = new System.Collections.Generic.HashSet<CookieHelper>();
+
                 foreach (var t in token)
                 {
                     var name = jsonHand.GetJTokenValue(t, "name");
@@ -764,13 +765,20 @@ namespace DominatorUIUtility.ViewModel
                     var httpOnly = jsonHand.GetJTokenValue(t, "httpOnly").ToLower() == "true" ? true: false;
                     var secure = jsonHand.GetJTokenValue(t, "secure").ToLower() == "true" ? true : false;
 
-                    DominatorAccountModel
-                        .CookieHelperList
-                        .Add(new CookieHelper()
-                            { Name = name, Value = value, Domain = domain,
-                              Expires = expire, HttpOnly = httpOnly, Secure = secure });
+                    var cookie = new CookieHelper()
+                    {
+                        Name = name,
+                        Value = value,
+                        Domain = domain,
+                        Expires = expire,
+                        HttpOnly = httpOnly,
+                        Secure = secure
+                    };
+                    DominatorAccountModel.CookieHelperList.Add(cookie);
+                    if (DominatorAccountModel.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook)
+                        DominatorAccountModel.BrowserCookieHelperList.Add(cookie);
                 }
-
+                
                 Dialog.ShowDialog("LangKeySaveCookies".FromResourceDictionary(), "LangKeyCookiesSavedNowLogin".FromResourceDictionary());
             }
             catch (Exception ex)

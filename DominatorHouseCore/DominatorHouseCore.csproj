@@ -762,6 +762,7 @@
     <Compile Include="Utility\ReachedLimitType.cs" />
     <Compile Include="Utility\RssFeedUtilities.cs" />
     <Compile Include="Utility\SpinTexHelper.cs" />
+    <Compile Include="Utility\TiktokDeviceGenerator.cs" />
     <Compile Include="Utility\ToasterNotification.cs" />
     <Compile Include="Utility\WebService.cs" />
     <Compile Include="ViewModel\AdvancedSettings\GeneralViewModel.cs" />
