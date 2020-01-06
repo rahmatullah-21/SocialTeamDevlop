@@ -274,6 +274,9 @@
     <Compile Include="CustomControl\ChatMediaContainer.xaml.cs">
       <DependentUpon>ChatMediaContainer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\CustomLogControl.xaml.cs">
+      <DependentUpon>CustomLogControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\FacebookCustomControl\AutoReplyOptionControl.xaml.cs">
       <DependentUpon>AutoReplyOptionControl.xaml</DependentUpon>
     </Compile>
@@ -1196,6 +1199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControl\ChatMediaContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CustomLogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

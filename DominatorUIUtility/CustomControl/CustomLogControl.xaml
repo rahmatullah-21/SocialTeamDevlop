@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="DominatorUIUtility.CustomControl.CustomLogControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ListView x:Name="ErrorLogger" 
+                          SelectedItem="{Binding SelectedLoggerModel, Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                          ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingPanel.IsContainerVirtualizable="True"
+                          VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+                          VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding SourceCollection}">
+          
+            <ListView.InputBindings>
+                <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCmd}"/>
+            </ListView.InputBindings>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy" Command="{Binding CopyCmd}"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn  Width="50" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Rectangle Height="15" Width="15" >
+                                        <Rectangle.Style>
+                                            <Style TargetType="Rectangle">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding LogType}" Value="Info">
+                                                        <Setter Property="OpacityMask">
+                                                            <Setter.Value>
+                                                                <VisualBrush Visual="{StaticResource appbar_information_circle}" Stretch="Fill" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="#33ff33" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyInformations}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding LogType}" Value="Error">
+                                                        <Setter Property="OpacityMask">
+                                                            <Setter.Value>
+                                                                <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="Red" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyError}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding LogType}" Value="Warn">
+                                                        <Setter Property="OpacityMask">
+                                                            <Setter.Value>
+                                                                <VisualBrush Visual="{StaticResource appbar_shield_alert}" Stretch="Fill"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="#ffd700" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="ToolTip" Value="{DynamicResource LangKeyWarning}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="150"/>
+                        <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
+                        <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
+                        <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
+                        <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>
