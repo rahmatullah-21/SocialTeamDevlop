@@ -336,6 +336,8 @@ namespace DominatorHouseCore.Enums
         [Description("LinkedIn,LangKeyDeleteConversations")]
         DeleteConversations = 119,
         [Description("Facebook")]
-        CommentRepliesScraper = 120
+        CommentRepliesScraper = 120,
+        [Description("LinkedIn")]
+        MessageConversationScraper =121
     }
 }
