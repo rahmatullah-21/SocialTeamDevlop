@@ -23,6 +23,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type dragable:TabablzControl}" >
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
@@ -47,7 +48,7 @@
             <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-
+        
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
@@ -63,13 +64,19 @@
             </TabControl.Style>
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <TextBlock Text="{Binding Title}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="{Binding Path=Foreground,ElementName=TabName, Mode=OneWay}" Width="40" Height="40"  Name="myRectangle">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{Binding ImagePath}" Stretch="Fill" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <TextBlock Name="TabName" VerticalAlignment="Center" Margin="10,0,0,0" Text="{Binding Title}"/>
+                    </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                     <Grid>
-
                         <UserControl Content="{Binding Content.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </Grid>
                 </DataTemplate>
