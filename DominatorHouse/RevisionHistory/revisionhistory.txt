@@ -1,3 +1,39 @@
+Version[1.0.0.73],[6th January 2020]
+New Features:-
+	Social:
+		Account Manager ==> Account Details ==>  Login account using JSON Cookies. [Excepted for Networks Instagram and Quora]
+	
+	Instagram:
+		Grow followers ==> follower ==> Added new feature to follow only business account's.
+		Instascrape ==> User Scraper ==> Added new feature to scrape only business account's
+
+	Tumblr:
+		Grow Follower==>Follow==>User filters==>User bio/username/Name must not contain any invalid words.
+
+Fixed:- 
+	Pinterest:
+		Account Manager ==> Fixed  Issue  with  Showing  Not  checked  status for  newly  added  accounts .
+		Boards ==> fixed  issue  with   Send  Board  Invitation
+	
+	Instagram:
+		Account  Manager => Fixed  Two  factor login Issue while  verifying .
+		Insta  scraper =>  User  scraper -> Fixed  issue  with  scrapping Only  users  Having   Email  Id & contact  No
+
+	LinkedIn:
+		Browser mode==>Grow connection==>Send Connection request==>Fixed issue with send connection request.
+		Browser mode==>Messenger==>Send Greeting to Connection==>Fixed issue with send Greeting to connection.
+		
+	Tumblr:
+		Social ==>Fixed issue with creating post in Upload google image from URL.
+        Scraper ==>User Scrapper ==>Fixed issue with query type Keywords.
+        Broadcast Messages==>Fixed issue with query type Someone who liked the post & Someones following
+		
+	Facebook:
+		 Engage==>Fan page liker==>Fixed issue with query type Graph search Url.
+		 
+	Youtube:
+		 Account Manager ==> AccountDetails ==> Fixed Issue with Login through JSON cookies
+
 Version[1.0.0.72],[20th December 2019]
 New Features:-
 	For all Networks:
