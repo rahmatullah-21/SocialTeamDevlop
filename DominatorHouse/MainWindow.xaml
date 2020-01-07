@@ -11,11 +11,12 @@
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
-        BorderThickness="1" Icon="SociNator.ico"
+        BorderThickness="1" Icon="Legion.ico"
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
+    xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
         Name="SocinatorWindow" MinWidth="500" MinHeight="500"
         WindowState="Maximized" >
 
@@ -27,6 +28,7 @@
             <Style TargetType="{x:Type dragable:TabablzControl}" >
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
             </Style>
+            <converters:IconNameToMarginConverter x:Key="IconNameToMarginConverter"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -64,7 +66,14 @@
             </TabControl.Style>
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
-                    <TextBlock Text="{Binding Title}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="{Binding Path=Foreground,ElementName=TabName, Mode=OneWay}" Width="{Binding ImagePath,Converter={StaticResource IconNameToMarginConverter}}" Height="{Binding ImagePath,Converter={StaticResource IconNameToMarginConverter}}"  Name="myRectangle">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{Binding ImagePath}" Stretch="Fill" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <TextBlock Name="TabName" VerticalAlignment="Center" Margin="10,0,0,0" Text="{Binding Title}"/>
+                    </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>

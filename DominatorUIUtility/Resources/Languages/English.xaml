@@ -4513,4 +4513,5 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyCheckingUpdates">Hang On! Checking for Updates</system:String>
     <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Socinator</system:String>
     <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
+    <system:String x:Key="LangKeyLegion">Legion</system:String>
 </ResourceDictionary>

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Socinator.DominatorCores
 {
@@ -46,22 +47,26 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsManager") == null? "Account Manager" : Application.Current.FindResource("LangKeyAccountsManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager",null,SocialNetworks.Social))
+                    Content = new Lazy<UserControl>(() => AccountManager.GetSingletonAccountManager("AccountManager",null,SocialNetworks.Social)),
+                    ImagePath= (Visual)Application.Current.FindResource("AccountManagerIcon") as Canvas
                 },
                 new TabItemTemplates
                 {
                     Title="LangKeyAccountGrowth".FromResourceDictionary(),
-                    Content = new Lazy<UserControl>(() =>  ServiceLocator.Current.GetInstance<AccountGrowthControl>())
+                    Content = new Lazy<UserControl>(() =>  ServiceLocator.Current.GetInstance<AccountGrowthControl>()),
+                     ImagePath= (Visual)Application.Current.FindResource("AccountGrowthIcon") as Canvas
                 },
-                new TabItemTemplates
-                {
-                    Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
-                   Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("Dashboard"))
-                },
+                //new TabItemTemplates
+                //{
+                //    Title = Application.Current.FindResource("LangKeyDashboard") == null? "Dash Board" : Application.Current.FindResource("LangKeyDashboard")?.ToString(),
+                //   Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("Dashboard")),
+                //    ImagePath= (Visual)Application.Current.FindResource("DashBoardIcon") as Canvas
+                //},
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyAccountsActivity") == null? "Accounts Activity" : Application.Current.FindResource("LangKeyAccountsActivity")?.ToString(),
-                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<DominatorAutoActivity>())
+                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<DominatorAutoActivity>()),
+                     ImagePath= (Visual)Application.Current.FindResource("AccountActivityIcon") as Canvas
                 },
                 //new TabItemTemplates
                 //{
@@ -71,12 +76,14 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeySociopublisher") == null? "Socio Publisher" : Application.Current.FindResource("LangKeySociopublisher")?.ToString(),
-                    Content = new Lazy<UserControl>(()=>PublisherHome.Instance)
+                    Content = new Lazy<UserControl>(()=>PublisherHome.Instance),
+                     ImagePath= (Visual)Application.Current.FindResource("SocioPublisherIcon") as Canvas
                 },
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyProxyManager") == null? "Proxy Manager" : Application.Current.FindResource("LangKeyProxyManager")?.ToString(),
-                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<ProxyManager>())
+                    Content = new Lazy<UserControl>(() => ServiceLocator.Current.GetInstance<ProxyManager>()),
+                     ImagePath= (Visual)Application.Current.FindResource("ProxyManagerIcon") as Canvas
                 },
                 //new TabItemTemplates
                 //{
@@ -86,12 +93,14 @@ namespace Socinator.DominatorCores
                 new TabItemTemplates
                 {
                     Title = Application.Current.FindResource("LangKeyOtherConfigurations") == null? "Other Configuration" : Application.Current.FindResource("LangKeyOtherConfigurations")?.ToString(),
-                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration"))
+                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherConfiguration")),
+                     ImagePath= (Visual)Application.Current.FindResource("SettingsIcon") as Canvas
                 },
                 new TabItemTemplates
                 {
                     Title = "LangKeyOtherTools".FromResourceDictionary(),
-                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherTools"))
+                    Content=new Lazy<UserControl>(()=> ServiceLocator.Current.GetInstance<TablifiedContentControl>("OtherTools")),
+                     ImagePath= (Visual)Application.Current.FindResource("OtherToolsIcon") as Canvas
                 }
             };
         }

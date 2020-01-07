@@ -29,7 +29,7 @@ namespace DominatorUIUtility
                 if (_instance == null)
                     _instance = new ModuleSetting(ServiceLocator.Current.GetInstance<IRegionManager>());
                 var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-                _instance.Title = $"{"LangKeySocinator".FromResourceDictionary()} - {{ {viewModel.SelectedNetwork} }} ( {  viewModel.SelectAccount.UserName} )";
+                _instance.Title = $"{"LangKeyLegion".FromResourceDictionary()} - {{ {viewModel.SelectedNetwork} }} ( {  viewModel.SelectAccount.UserName} )";
                 return _instance;
             }
         }

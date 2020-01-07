@@ -8,14 +8,14 @@
     <Grid  Name="MainGrid">
         
         <!--Split the Rows-->
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="3*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
 
         <!--  Module Description  -->
-        <Grid Grid.Row="0" Background="WhiteSmoke">
+        <Grid Background="WhiteSmoke">
             <TextBlock Grid.Row="0" Name="sliderDescription"
                                    FontSize="14" Padding="10,10,10,0"
                                    FontWeight="Light"
@@ -25,7 +25,7 @@
         </Grid>
 
         <!--  Watch Video Tutorials  -->
-        <Grid Grid.Row="1" Background="#3897F0" >
+        <!--<Grid Grid.Row="1" Background="#3897F0" >
 
             <TextBlock Cursor="Help"  FontSize="16"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" >
                            <Hyperlink  Name="WatchVideolink" Foreground="White" NavigateUri="{Binding VideoTutorial}" RequestNavigate="Hyperlink_RequestNavigate" >                           
@@ -35,7 +35,7 @@
 
         </Grid>
 
-        <!--  Contact Support  -->
+        --><!--  Contact Support  --><!--
         <Grid Grid.Row="2">
             
             <Grid.RowDefinitions>
@@ -60,7 +60,7 @@
                 </TextBlock>
             </Grid>
             
-        </Grid>
+        </Grid>-->
         
     </Grid>
 
