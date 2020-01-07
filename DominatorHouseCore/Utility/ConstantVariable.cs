@@ -161,6 +161,7 @@ namespace DominatorHouseCore.Utility
 
         public static string GetPublisherPostlistSettingsFile() => GetOtherDir() + @"\PostlistSettings.bin";
 
+        public static string GetThemesFile() => GetOtherDir() + @"\Themes.txt";
         public static string GetChatDir()
         {
             string dir = $"{GetPlatformBaseDirectory()}\\LiveChat";

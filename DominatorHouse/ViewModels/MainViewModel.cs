@@ -46,6 +46,8 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<string> Languages { get; }
 
+        public SelectableViewModel<string> Themes { get; }
+
         public ISelectedNetworkViewModel AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
@@ -76,6 +78,7 @@ namespace DominatorHouse.ViewModels
             AvailableNetworks = availableNetworks;
             _schedulerProxy = schedulerProxy;
             Languages = new SelectableViewModel<string>(new[] { "English" });
+            Themes = new SelectableViewModel<string>(ServiceLocator.Current.GetInstance<IBinFileHelper>().ThemesList());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;

@@ -52,6 +52,10 @@ namespace DominatorHouseCore.Utility
         List<T> GetFacebookEntity<T>() where T : class, new();
 
         void SaveFacebookEntity<T>(List<T> friendsModelList, string filePath) where T : class, new();
+
+        string[] ThemesList();
+
+        void SetTheme(string theme);
     }
 
     public class BinFileHelper : IBinFileHelper
@@ -632,6 +636,45 @@ namespace DominatorHouseCore.Utility
         public List<T> GetFacebookEntity<T>() where T : class, new()
         {
             return _protoBuffBase.DeserializeList<T>(ConstantVariable.GetFacebookDetailsConfigFile());
+        }
+
+        public string[] ThemesList()
+        {
+            try
+            {
+                if (!File.Exists(ConstantVariable.GetThemesFile()))
+                {
+                    using (var sw = new StreamWriter(ConstantVariable.GetThemesFile(), false))
+                    {
+                        sw.WriteLine("Light\r\nDark");
+                        sw.Close();
+                    }
+                    return new string[] { "Light", "Dark" };
+                }
+
+                var sr = new StreamReader(ConstantVariable.GetThemesFile());
+                string str = sr.ReadToEnd().Trim();
+                sr.Close();
+                return System.Text.RegularExpressions.Regex.Split(str, "\r\n").ToArray();
+            }
+            catch (Exception ex)
+            {
+                ex.ErrorLog();
+            }
+            return new string[] { "Light", "Dark" };
+        }
+
+        public void SetTheme(string theme)
+        {
+            try
+            {
+                using (var sw = new StreamWriter(ConstantVariable.GetThemesFile(), false))
+                {
+                    sw.WriteLine(theme);
+                }
+            }
+            catch
+            { }
         }
     }
 
