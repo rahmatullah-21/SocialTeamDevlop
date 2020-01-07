@@ -30,6 +30,10 @@
                      x:Shared="False"
                      Fill="{Binding ColorBrush, Mode=OneWay}" />
 
+    <Style  TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="#252525"/>
+    </Style>
+
     <Style x:Key="canceledit_style">
         <Setter Property="Control.Background" Value="#FF4948"/>
         <!--<Setter Property="Control.Background" Value="{DynamicResource AccentColorBrush}" />-->
@@ -263,7 +267,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter TargetName="Border" Property="Background" Value="AliceBlue" />
+                            <Setter TargetName="Border" Property="Background" Value="#252529" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -6,7 +6,7 @@
 
     <Color x:Key="HighlightColor">Green</Color>
 
-    <Color x:Key="AccentBaseColor">#003569</Color>
+    <Color x:Key="AccentBaseColor">#252529</Color>
     <!--Prussian Blue-->
 
     <Color x:Key="AccentColor">#003569</Color>

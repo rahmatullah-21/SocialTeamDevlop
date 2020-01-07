@@ -102,6 +102,7 @@ namespace Socinator
         {
             try
             {
+                return;
                 var selected = (sender as ComboBox).SelectedItem as string;
                 var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
                 var firstInFile = binFileHelper.ThemesList()[0];
