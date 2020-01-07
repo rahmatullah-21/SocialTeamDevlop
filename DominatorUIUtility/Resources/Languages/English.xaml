@@ -25,7 +25,7 @@
     <system:String x:Key="LangKeyPercentFromThisList">% From This List</system:String>
     <system:String x:Key="LangKeyPercentOfTheExtraHashtagsFromThisList">% Of The Extra Hashtags From This List.</system:String>
     <system:String x:Key="LangKeyPercentOfTaggingAPost">Of Tagging A Post</system:String>
-    <system:String x:Key="LangKeyEachPostWillBePublishedToAllSelectedDestinationsIncludingGroupsPagesWalls">(Each Post Will Be Published To All Selected Destinations Including Groups, Pages, Walls)</system:String>
+    <system:String x:Key="LangKeyEachPostWillBePublishedToAllSelectedDestinationsIncludingGroupsPagesWalls">(Each Post Will Be Published To All Selected Destinations)</system:String>
     <system:String x:Key="LangKeySelectDesiredReactionsBelow">(Select Desired Reactions Below)</system:String>
     <system:String x:Key="LangKeySeparateWordsByAComma">(Separate Words By A Comma)</system:String>
     <system:String x:Key="LangKeyNoActionWillBeExecutedOnAnySocialProfileDuringSelectedTimeIntervalEachAccountHasItsOwnNightModeIfBetterPrecisionIsNeededSpecifyingANightModeForAnAccountDoesNotExemptThatAccountFromGlobalNightMode">* No Action Will Be Executed On Any Social Profile During Selected Time Interval. Each Account Has Its Own Night Mode If Better Precision Is Needed.Specifying A Night Mode For An Account Does Not Exempt That Account From Global Night Mode</system:String>
@@ -2690,9 +2690,9 @@ They are replaced with user info.</system:String>
     <system:String x:Key="LangKeySourceUrl">Source Url</system:String>
 
     <system:String x:Key="LangKeyImportAccountDescription"  xml:space="preserve">Format :
-Type 1. Group Name:SocialNetwork:User Name:Password:Alternate Email (For YouTube)
-Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Alternate Email (For YouTube)
-Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password:Alternate Email (For YouTube)
+Type 1. Group Name:SocialNetwork:User Name:Password
+Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port
+Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password
     </system:String>
     <system:String x:Key="LangKeyImportProxyDescription"  xml:space="preserve">Format :
 Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password

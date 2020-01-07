@@ -190,7 +190,7 @@
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel>
+                            <StackPanel Visibility="Collapsed">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox VerticalAlignment="Center"  HorizontalAlignment="Left" Name="TextBoxTitle" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyPostTitle}"
                                              Margin="2" TextWrapping="Wrap" Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PostTitleHeight}" Width="300"  AcceptsReturn="True"
