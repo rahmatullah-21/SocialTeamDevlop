@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmbeddedBrowser"
         xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" Name="WindowBrowsers"
-        Title="SociNator Browser" 
+        Title="GramBoard Browser" 
         Icon="Resources/Gramboard.ico" Closing="Window_Closing"
         mc:Ignorable="d"  ResizeMode="CanResizeWithGrip" 
         WindowTransitionsEnabled="False"

@@ -11,6 +11,7 @@
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="GramBoard"
+        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
         BorderThickness="1" Icon="Gramboard.ico"
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
@@ -28,6 +29,7 @@
             <Style TargetType="{x:Type dragable:TabablzControl}" >
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
             </Style>
+            <converters:IconNameToMarginConverter x:Key="IconNameToMarginConverter"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -48,7 +50,7 @@
             <RowDefinition Height="{Binding PerfCounterViewModel.LogViewHeight, Mode=TwoWay}"  MaxHeight="430"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        
+
         <!--Account Growth Mode Tabs-->
         <TabControl Margin="5" controls:TabControlHelper.Underlined="None" TabStripPlacement="{Binding TabDock}" SelectedItem="{Binding TabItems.Selected}"
                   VerticalAlignment="Stretch" ItemsSource="{Binding TabItems.ItemsCollection}"
@@ -65,7 +67,7 @@
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type  models:TabItemTemplates}">
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Fill="{Binding Path=Foreground,ElementName=TabName, Mode=OneWay}" Width="40" Height="40"  Name="myRectangle">
+                        <Rectangle Fill="{Binding Path=Foreground,ElementName=TabName, Mode=OneWay}" Width="{Binding ImagePath,Converter={StaticResource IconNameToMarginConverter}}" Height="{Binding ImagePath,Converter={StaticResource IconNameToMarginConverter}}"  Name="myRectangle">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Visual="{Binding ImagePath}" Stretch="Fill" />
                             </Rectangle.OpacityMask>
