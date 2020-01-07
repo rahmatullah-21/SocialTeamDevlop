@@ -113,17 +113,9 @@ namespace Socinator
                 {
                     case "Light":
                         {
-                            List<ResourceDictionary> res = Application.Current.Resources.MergedDictionaries.ToList();
-                            ResourceDictionary obj = res.Where(x => x.Source.OriginalString.ToString() == "/DominatorUIUtility;component/Styles/BaseDarkStyles.xaml").FirstOrDefault();
-                            delFlag = Application.Current.Resources.MergedDictionaries.Remove(obj);
-                            if (delFlag)
-                                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/DominatorUIUtility;component/Styles/BaseStyles.xaml", UriKind.RelativeOrAbsolute) });
-
-                            obj = res.Where(x => x.Source.OriginalString.ToString() == "/DominatorUIUtility;component/Themes/Dark.xaml").FirstOrDefault();
-                            delFlag = Application.Current.Resources.MergedDictionaries.Remove(obj);
-                            if (delFlag)
-                                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/DominatorUIUtility;component/Themes/PrussianBlue.xaml", UriKind.RelativeOrAbsolute) });
-                            
+                            var color = Application.Current.Resources["PrussianBlueColor"];
+                            Application.Current.Resources["AccentBaseColor"] = color;
+                            Application.Current.Resources["UserControlBackground"] = Application.Current.Resources["LightUI"];
                             binFileHelper.SetTheme("Light\r\nDark");
                         }
                         break;
@@ -131,16 +123,9 @@ namespace Socinator
                     case "Dark":
                         {
                             List<ResourceDictionary> res = Application.Current.Resources.MergedDictionaries.ToList();
-                            ResourceDictionary obj = res.Where(x => x.Source.OriginalString.ToString() == "/DominatorUIUtility;component/Styles/BaseStyles.xaml").FirstOrDefault();
-                            delFlag = Application.Current.Resources.MergedDictionaries.Remove(obj);
-                            if (delFlag)
-                                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/DominatorUIUtility;component/Styles/BaseDarkStyles.xaml", UriKind.RelativeOrAbsolute) });
-
-                            obj = res.Where(x => x.Source.OriginalString.ToString() == "/DominatorUIUtility;component/Themes/PrussianBlue.xaml").FirstOrDefault();
-                            delFlag = Application.Current.Resources.MergedDictionaries.Remove(obj);
-                            if (delFlag)
-                                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/DominatorUIUtility;component/Themes/Dark.xaml", UriKind.RelativeOrAbsolute) });
-
+                            var color = Application.Current.Resources["DarkGreyUI"];
+                            Application.Current.Resources["AccentBaseColor"] = color;
+                            Application.Current.Resources["UserControlBackground"] = Application.Current.Resources["DarkGreyUI"];
                             binFileHelper.SetTheme("Dark\r\nLight");
                         }
                         break;
