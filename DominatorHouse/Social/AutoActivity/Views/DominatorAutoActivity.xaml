@@ -165,7 +165,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Cursor="Hand" Content="{DynamicResource LangKeyMore}" x:Name="ButtonViewActivityStatus" 
                                                     FontWeight="SemiBold" Command="{Binding DataContext.GoToToolsCmd, Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
-                                                    Background="Transparent" />
+                                                    Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>

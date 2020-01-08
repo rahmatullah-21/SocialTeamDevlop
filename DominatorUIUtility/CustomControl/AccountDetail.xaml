@@ -760,9 +760,6 @@
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
                                         <Setter Property="Visibility" Value="Collapsed" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Quora}" >
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.TikTok}" >
                                         <Setter Property="Visibility" Value="Collapsed" />
                                     </DataTrigger>

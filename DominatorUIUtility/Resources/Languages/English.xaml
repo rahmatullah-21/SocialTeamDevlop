@@ -4513,4 +4513,8 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyCheckingUpdates">Hang On! Checking for Updates</system:String>
     <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Socinator</system:String>
     <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
+    <system:String x:Key="LangKeyUnLikeSource">Unlike Source</system:String>
+    <system:String x:Key="LangKeyPagePostCommenters">Page Post Commenters</system:String>
+    <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters</system:String>
+    <system:String x:Key="LagKeyNoMoreCommetersForPost">"No More Commenters Available For Post Url {0}"</system:String>
 </ResourceDictionary>
