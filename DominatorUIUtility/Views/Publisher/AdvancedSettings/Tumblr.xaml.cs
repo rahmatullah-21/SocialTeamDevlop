@@ -57,13 +57,13 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 
         private void Tumblr_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
-                .PublisherCreateCampaignViewModel
-                .PublisherCreateCampaignModel.CampaignId;
-            var tumblrModel = _genericFileManager.GetModuleDetails<TumblrModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr))
-                .FirstOrDefault(x => x.CampaignId == campaignId);
-            TumblrViewModel.TumblrModel = tumblrModel ?? (new TumblrModel());
+            //var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+            //    .PublisherCreateCampaignViewModel
+            //    .PublisherCreateCampaignModel.CampaignId;
+            //var tumblrModel = _genericFileManager.GetModuleDetails<TumblrModel>
+            //        (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr))
+            //    .FirstOrDefault(x => x.CampaignId == campaignId);
+            //TumblrViewModel.TumblrModel = tumblrModel ?? (new TumblrModel());
         }
     }
 }

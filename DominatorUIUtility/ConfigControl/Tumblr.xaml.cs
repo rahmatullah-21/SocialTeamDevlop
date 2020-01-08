@@ -4,6 +4,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using CommonServiceLocator;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 
 namespace DominatorUIUtility.ConfigControl
 {

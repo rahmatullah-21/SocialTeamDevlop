@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              mc:Ignorable="d" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:FeatureVisibilityConverter x:Key="FeatureVisibilityConverter" />

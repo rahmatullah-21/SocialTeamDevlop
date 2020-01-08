@@ -7,16 +7,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
-        xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore"
+        xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=LegionCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="{Binding AvailableNetworks.Selected,StringFormat={}{0} DOMINATOR}"
+        Title="LEGION"
+        WindowStyle="None"
         BorderThickness="1" Icon="Legion.ico"
         WindowTitleBrush="{DynamicResource AccentColorBrush}"
         NonActiveWindowTitleBrush="#B30000"
         GlowBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="True" 
-    xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
         Name="SocinatorWindow" MinWidth="500" MinHeight="500"
         WindowState="Maximized" >
 
@@ -31,7 +32,41 @@
             <converters:IconNameToMarginConverter x:Key="IconNameToMarginConverter"/>
         </ResourceDictionary>
     </Window.Resources>
+    <controls:MetroWindow.TitleTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                
+                <TextBlock
+                    Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}},Path=Title}"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    Margin="3,0,4,2"
+                    Padding="5,0"
+                    FontWeight="SemiBold"/>
+                <StatusBar Height="25" Margin="0,0,0,2" VerticalAlignment="Center" >
+                    <StatusBar.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid/>
+                        </ItemsPanelTemplate>
+                    </StatusBar.ItemsPanel>
 
+                    <StatusBarItem Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="White" FontSize="14">
+                                <Run Text="["/>
+                                <Run Text="{DynamicResource LangKeyDate}"/>
+                                <Run Text=": "/>
+                                <Run Text="{Binding DataContext.PerfCounterViewModel.CurrentDateTime,
+                                     RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}
+                                     , StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
+                                <Run Text="]"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </StatusBarItem>
+                </StatusBar>
+            </StackPanel>
+        </DataTemplate>
+    </controls:MetroWindow.TitleTemplate>
     <!--Manage Networks Here -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
@@ -43,6 +78,17 @@
 
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
+
+    <!--<controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+
+            <ComboBox DataContext="{Binding AvailableNetworks}"  Background="Transparent" 
+                      ItemsSource="{Binding ItemsCollection}" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedItem="{Binding Selected}" />
+            <ComboBox DataContext="{Binding Languages}"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}"/>
+            --><!--<ComboBox x:Name="ThemeCombo" DataContext="{Binding Themes}" Visibility="Collapsed" SelectionChanged="ThemeCombo_SelectionChanged"  Background="Transparent" Foreground="White" BorderBrush="Transparent" BorderThickness="0" SelectedIndex="0" ItemsSource="{Binding ItemsCollection}" />--><!--
+
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>-->
     <Grid Name="MainGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"/>

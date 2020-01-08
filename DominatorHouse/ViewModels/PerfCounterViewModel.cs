@@ -10,7 +10,7 @@ namespace DominatorHouse.ViewModels
 {
     public interface IPerfCounterViewModel : IDisposable
     {
-
+        DateTime? CurrentDateTime { get; set; }
     }
 
     public class PerfCounterViewModel : BindableBase, IPerfCounterViewModel

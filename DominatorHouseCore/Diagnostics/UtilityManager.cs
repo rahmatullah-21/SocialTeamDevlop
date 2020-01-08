@@ -496,17 +496,17 @@ namespace DominatorHouseCore.Diagnostics
 
         private static void AddAllNetwork()
         {
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Twitter);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Twitter);
             SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Facebook);
             //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Gplus);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Instagram);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.LinkedIn);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Quora);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Pinterest);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Tumblr);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Youtube);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Reddit);
-            SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.TikTok);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Instagram);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.LinkedIn);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Quora);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Pinterest);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Tumblr);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Youtube);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Reddit);
+            //SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.TikTok);
         }
 
         public static async Task<string> ProcessFatalException(string exception, string fixture)

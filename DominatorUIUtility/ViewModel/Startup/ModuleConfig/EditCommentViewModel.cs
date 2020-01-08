@@ -217,44 +217,44 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             try
             {
-                LstCommentDetails.Clear();
-                LstImportComment.Clear();
-                LstImportComment.AddRange(FileUtilities.FileBrowseAndReader());
-                var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-                var accounts = accountFileManager.GetAll(SocialNetworks.Reddit).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
-                   Select(x => x.AccountBaseModel.UserName).ToList();
+                //LstCommentDetails.Clear();
+                //LstImportComment.Clear();
+                //LstImportComment.AddRange(FileUtilities.FileBrowseAndReader());
+                //var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+                //var accounts = accountFileManager.GetAll(SocialNetworks.Reddit).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
+                //   Select(x => x.AccountBaseModel.UserName).ToList();
 
-                if (LstImportComment.Count != 0)
-                {
-                    foreach (var commentFromFile in LstImportComment)
-                    {
-                        try
-                        {
-                            var commentDetails = commentFromFile.Split('\t').ToList();
-                            var commentInfo = new EditCommentInfo();
-                            commentInfo.EditCommentUrl = commentDetails[0];
-                            commentInfo.Message = commentDetails[1];
-                            commentInfo.Accounts = commentDetails[2];
+                //if (LstImportComment.Count != 0)
+                //{
+                //    foreach (var commentFromFile in LstImportComment)
+                //    {
+                //        try
+                //        {
+                //            var commentDetails = commentFromFile.Split('\t').ToList();
+                //            var commentInfo = new EditCommentInfo();
+                //            commentInfo.EditCommentUrl = commentDetails[0];
+                //            commentInfo.Message = commentDetails[1];
+                //            commentInfo.Accounts = commentDetails[2];
 
-                            if (!accounts.Contains(commentInfo.Accounts))
-                            {
-                                GlobusLogHelper.log.Info($"Account => {commentInfo.Accounts} is not present.");
-                                continue;
-                            }
+                //            if (!accounts.Contains(commentInfo.Accounts))
+                //            {
+                //                GlobusLogHelper.log.Info($"Account => {commentInfo.Accounts} is not present.");
+                //                continue;
+                //            }
 
-                            LstCommentDetails.Add(commentInfo);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    }
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
-                        "Comment Details are ready to add !!");
-                    GlobusLogHelper.log.Info("Comment Details Sucessfully Uploaded !!");
-                }
-                else
-                    GlobusLogHelper.log.Info("You did not upload any Comment Details !!");
+                //            LstCommentDetails.Add(commentInfo);
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            ex.DebugLog();
+                //        }
+                //    }
+                //    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
+                //        "Comment Details are ready to add !!");
+                //    GlobusLogHelper.log.Info("Comment Details Sucessfully Uploaded !!");
+                //}
+                //else
+                //    GlobusLogHelper.log.Info("You did not upload any Comment Details !!");
             }
             catch (Exception ex)
             {

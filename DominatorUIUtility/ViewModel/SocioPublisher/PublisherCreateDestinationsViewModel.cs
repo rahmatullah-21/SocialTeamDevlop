@@ -230,8 +230,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             get
             {
-                if(_availableNetworks.Contains(SocialNetworks.TikTok))
-                    _availableNetworks.Remove(SocialNetworks.TikTok);
+                //if(_availableNetworks.Contains(SocialNetworks.TikTok))
+                //    _availableNetworks.Remove(SocialNetworks.TikTok);
                 return _availableNetworks;
             }
             set
@@ -1027,7 +1027,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
 
             var accountList = ServiceLocator.Current.GetInstance<IAccountCollectionViewModel>().GetCopySync();
-            var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+            var accounts = accountList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success);
 
             if (!Application.Current.CheckAccess())
                 Application.Current.Dispatcher.Invoke(() => { PublisherCreateDestinationModel.ListSelectDestination.Clear(); });

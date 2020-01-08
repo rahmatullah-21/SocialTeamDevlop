@@ -24,91 +24,91 @@ namespace DominatorUIUtility.Behaviours
 
         #endregion
 
-        #region Instagram
+        //#region Instagram
 
-        public static readonly DependencyProperty IgElementVisibleProperty = DependencyProperty.RegisterAttached(
-            "IgElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.Instagram)));
+        //public static readonly DependencyProperty IgElementVisibleProperty = DependencyProperty.RegisterAttached(
+        //    "IgElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.Instagram)));
 
-        public static void SetIgElementVisible(DependencyObject element, Visibility value)
-        {
-            element.SetValue(IgElementVisibleProperty, value);
-        }
+        //public static void SetIgElementVisible(DependencyObject element, Visibility value)
+        //{
+        //    element.SetValue(IgElementVisibleProperty, value);
+        //}
 
-        public static Visibility GetIgElementVisible(DependencyObject element)
-        {
-            return (Visibility) element.GetValue(IgElementVisibleProperty);
-        }
-
-
-        #endregion
-
-        #region Twitter
+        //public static Visibility GetIgElementVisible(DependencyObject element)
+        //{
+        //    return (Visibility) element.GetValue(IgElementVisibleProperty);
+        //}
 
 
-        public static readonly DependencyProperty TwtElementVisibleProperty = DependencyProperty.RegisterAttached(
-            "TwtElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.Twitter)));
+        //#endregion
 
-        public static void SetTwtElementVisible(DependencyObject element, Visibility value)
-        {
-            element.SetValue(TwtElementVisibleProperty, value);
-        }
+        //#region Twitter
 
-        public static Visibility GetTwtElementVisible(DependencyObject element)
-        {
-            return (Visibility) element.GetValue(TwtElementVisibleProperty);
-        }
 
-        #endregion
+        //public static readonly DependencyProperty TwtElementVisibleProperty = DependencyProperty.RegisterAttached(
+        //    "TwtElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.Twitter)));
 
-        #region LinkedIn
+        //public static void SetTwtElementVisible(DependencyObject element, Visibility value)
+        //{
+        //    element.SetValue(TwtElementVisibleProperty, value);
+        //}
 
-        public static readonly DependencyProperty LdElementVisibleProperty = DependencyProperty.RegisterAttached(
-            "LdElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.LinkedIn)));
+        //public static Visibility GetTwtElementVisible(DependencyObject element)
+        //{
+        //    return (Visibility) element.GetValue(TwtElementVisibleProperty);
+        //}
 
-        public static void SetLdElementVisible(DependencyObject element, Visibility value)
-        {
-            element.SetValue(LdElementVisibleProperty, value);
-        }
+        //#endregion
 
-        public static Visibility GetLdElementVisible(DependencyObject element)
-        {
-            return (Visibility) element.GetValue(LdElementVisibleProperty);
-        }
+        //#region LinkedIn
 
-        #endregion
+        //public static readonly DependencyProperty LdElementVisibleProperty = DependencyProperty.RegisterAttached(
+        //    "LdElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.LinkedIn)));
 
-        #region Tumblr
+        //public static void SetLdElementVisible(DependencyObject element, Visibility value)
+        //{
+        //    element.SetValue(LdElementVisibleProperty, value);
+        //}
 
-        public static readonly DependencyProperty TumblrElementVisibleProperty = DependencyProperty.RegisterAttached(
-            "TumblrElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.Tumblr)));
+        //public static Visibility GetLdElementVisible(DependencyObject element)
+        //{
+        //    return (Visibility) element.GetValue(LdElementVisibleProperty);
+        //}
 
-        public static void SetTumblrElementVisible(DependencyObject element, Visibility value)
-        {
-            element.SetValue(TumblrElementVisibleProperty, value);
-        }
+        //#endregion
 
-        public static Visibility GetTumblrElementVisible(DependencyObject element)
-        {
-            return (Visibility) element.GetValue(TumblrElementVisibleProperty);
-        }
+        //#region Tumblr
 
-        #endregion
+        //public static readonly DependencyProperty TumblrElementVisibleProperty = DependencyProperty.RegisterAttached(
+        //    "TumblrElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.Tumblr)));
 
-        #region Pinterest
+        //public static void SetTumblrElementVisible(DependencyObject element, Visibility value)
+        //{
+        //    element.SetValue(TumblrElementVisibleProperty, value);
+        //}
 
-        public static readonly DependencyProperty PdElementVisibleProperty = DependencyProperty.RegisterAttached(
-            "PdElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.Pinterest)));
+        //public static Visibility GetTumblrElementVisible(DependencyObject element)
+        //{
+        //    return (Visibility) element.GetValue(TumblrElementVisibleProperty);
+        //}
 
-        public static void SetPdElementVisible(DependencyObject element, Visibility value)
-        {
-            element.SetValue(PdElementVisibleProperty, value);
-        }
+        //#endregion
 
-        public static Visibility GetPdElementVisible(DependencyObject element)
-        {
-            return (Visibility) element.GetValue(PdElementVisibleProperty);
-        }
+        //#region Pinterest
 
-        #endregion
+        //public static readonly DependencyProperty PdElementVisibleProperty = DependencyProperty.RegisterAttached(
+        //    "PdElementVisible", typeof(Visibility), typeof(NetworkAvailablity), new PropertyMetadata(FeatureFlags.Check(SocialNetworks.Pinterest)));
+
+        //public static void SetPdElementVisible(DependencyObject element, Visibility value)
+        //{
+        //    element.SetValue(PdElementVisibleProperty, value);
+        //}
+
+        //public static Visibility GetPdElementVisible(DependencyObject element)
+        //{
+        //    return (Visibility) element.GetValue(PdElementVisibleProperty);
+        //}
+
+        //#endregion
     }
 }

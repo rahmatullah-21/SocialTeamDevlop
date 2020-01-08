@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              Name="PublisherDefault"
              mc:Ignorable="d" 
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl">
     <UserControl.Resources>
@@ -165,7 +165,7 @@
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/Select.png" />
                                     <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>

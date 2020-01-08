@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"   
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>

@@ -14,7 +14,7 @@
                         <ItemsPanelTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <!--<ColumnDefinition Width="*"/>-->
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -24,7 +24,7 @@
                         </ItemsPanelTemplate>
                     </StatusBar.ItemsPanel>
 
-                    <StatusBarItem  Grid.Column="0" HorizontalAlignment="Center">
+                    <!--<StatusBarItem  Grid.Column="0" HorizontalAlignment="Center" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Foreground="White">
                                 <Run Text="{DynamicResource LangKeyDate}"/>
@@ -32,9 +32,9 @@
                                 <Run Text="{Binding CurrentDateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
                             </TextBlock>
                         </StackPanel>
-                    </StatusBarItem>
+                    </StatusBarItem>-->
 
-                    <StatusBarItem  Grid.Column="1" HorizontalAlignment="Center">
+                    <StatusBarItem  Grid.Column="0" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Foreground="White">
                                 <Run Text="{DynamicResource LangKeyAvailableMemory}"/>
@@ -45,7 +45,7 @@
                         </StackPanel>
                     </StatusBarItem>
 
-                    <StatusBarItem  Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <StatusBarItem  Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center">
                         <TextBlock Text="{DynamicResource LangKeyActivityLog}" Name="ActivityLog">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
@@ -55,7 +55,7 @@
                         </TextBlock>
                     </StatusBarItem>
 
-                    <StatusBarItem  Grid.Column="3" HorizontalAlignment="Center">
+                    <StatusBarItem  Grid.Column="2" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
 
                             <TextBlock Foreground="White" >
@@ -67,7 +67,7 @@
                         </StackPanel>
                     </StatusBarItem>
 
-                    <StatusBarItem  Grid.Column="4" HorizontalAlignment="Center">
+                    <StatusBarItem  Grid.Column="3" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock 
                                    Foreground="White" >

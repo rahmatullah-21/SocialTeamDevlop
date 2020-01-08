@@ -41,83 +41,83 @@ namespace DominatorUIUtility.Views.Publisher
 
             #endregion
 
-            #region Gplus
+            //#region Gplus
 
-            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Gplus))
+            ////if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Gplus))
+            ////{
+            ////    tabItems.Add(new TabItemTemplates
+            ////    {
+            ////        Title = FindResource("LangKeyGoogle+").ToString(),
+            ////        Content = new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
+            ////    });
+            ////}
+
+            //#endregion
+
+            //#region Pinterest
+
+            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Pinterest))
             //{
             //    tabItems.Add(new TabItemTemplates
             //    {
-            //        Title = FindResource("LangKeyGoogle+").ToString(),
-            //        Content = new Lazy<UserControl>(GooglePlus.GetSingeltonGooglePlusObject)
+            //        Title = FindResource("LangKeyPinterest").ToString(),
+            //        Content = new Lazy<UserControl>(Pinterest.GetSingeltonPinterestObject)
             //    });
             //}
 
-            #endregion
+            //#endregion
 
-            #region Pinterest
+            //#region Twitter
 
-            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Pinterest))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = FindResource("LangKeyPinterest").ToString(),
-                    Content = new Lazy<UserControl>(Pinterest.GetSingeltonPinterestObject)
-                });
-            }
+            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Twitter))
+            //{
+            //    tabItems.Add(new TabItemTemplates
+            //    {
+            //        Title = FindResource("LangKeyTwitter").ToString(),
+            //        Content = new Lazy<UserControl>(Twitter.GetSingletonTwitterObject)
+            //    });
+            //}
 
-            #endregion
+            //#endregion
 
-            #region Twitter
+            //#region Instagram
 
-            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Twitter))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = FindResource("LangKeyTwitter").ToString(),
-                    Content = new Lazy<UserControl>(Twitter.GetSingletonTwitterObject)
-                });
-            }
+            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Instagram))
+            //{
+            //    tabItems.Add(new TabItemTemplates
+            //    {
+            //        Title = FindResource("LangKeyInstagram").ToString(),
+            //        Content = new Lazy<UserControl>(Instagram.GetSingeltonInstagramObject)
+            //    });
+            //}
 
-            #endregion
+            //#endregion
 
-            #region Instagram
+            //#region Tumblr
 
-            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Instagram))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = FindResource("LangKeyInstagram").ToString(),
-                    Content = new Lazy<UserControl>(Instagram.GetSingeltonInstagramObject)
-                });
-            }
+            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Tumblr))
+            //{
+            //    tabItems.Add(new TabItemTemplates
+            //    {
+            //        Title = FindResource("LangKeyTumblr").ToString(),
+            //        Content = new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
+            //    });
+            //}
 
-            #endregion
+            //#endregion
 
-            #region Tumblr
+            //#region Reddit
 
-            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Tumblr))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = FindResource("LangKeyTumblr").ToString(),
-                    Content = new Lazy<UserControl>(Tumblr.GetSingeltonTumblr)
-                });
-            }
+            //if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Reddit))
+            //{
+            //    tabItems.Add(new TabItemTemplates
+            //    {
+            //        Title = FindResource("LangKeyReddit").ToString(),
+            //        Content = new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
+            //    });
+            //}
 
-            #endregion
-
-            #region Reddit
-
-            if (SocinatorInitialize.IsNetworkAvailable(SocialNetworks.Reddit))
-            {
-                tabItems.Add(new TabItemTemplates
-                {
-                    Title = FindResource("LangKeyReddit").ToString(),
-                    Content = new Lazy<UserControl>(Reddit.GetSingeltonRedditObject)
-                });
-            }
-
-            #endregion
+            //#endregion
 
             CampaignsAdvanceSettingTab.ItemsSource = tabItems;
             AdvanceSetting = new AdvanceSetting();

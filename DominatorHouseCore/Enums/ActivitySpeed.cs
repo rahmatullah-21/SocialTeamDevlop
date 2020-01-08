@@ -3,8 +3,8 @@
     public enum ActivitySpeed
     {
         Slow,
-        Medium,
-        Fast,
-        Superfast
+        Medium
+        //Fast,
+        //Superfast
     }
 }

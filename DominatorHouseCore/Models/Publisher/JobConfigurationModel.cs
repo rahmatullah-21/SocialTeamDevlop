@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Models.Publisher
         /// <summary>
         /// To Specify the maximum post time
         /// </summary>
-        private int _maxPost;
+        private int _maxPost = 1;
         [ProtoMember(1)]
         public int MaxPost
         {
@@ -133,7 +133,7 @@ namespace DominatorHouseCore.Models.Publisher
                     IsPublishPostOnRandomNDestinationsChecked = true;
             }
         }
-        
+
         private bool _isPublishPostOnRandomNDestinationsChecked = true;
         [ProtoMember(37)]
         /// <summary>

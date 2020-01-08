@@ -142,8 +142,8 @@ namespace DominatorHouseCore.Settings
             if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
             {
                 FileUtilities.Copy(ConstantVariable.MyAppFolderPath + @"\" + $"{"LangKeyLegion".FromResourceDictionary()}Icon.png", ConstantVariable.GetSocinatorIcon());
-                if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
-                    Utilities.DownloadSocinatorIcon();
+                //if (!File.Exists(ConstantVariable.GetSocinatorIcon()))
+                //    Utilities.DownloadSocinatorIcon();
             }
         }
 
@@ -332,23 +332,23 @@ namespace DominatorHouseCore.Settings
 
             await ScrapAdsProduceAsync(adScraperblock);
 
-            var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
-                async job =>
-                {
-                    await job.StartAdScarperAsync();
-                },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            //var adScraperblockQuora = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-            await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
+            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.Quora);
 
-            var adScraperblockTikTok = new ActionBlock<ScrapAdsDetails>(
-                async job =>
-                {
-                    await job.StartAdScarperAsync();
-                },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
+            //var adScraperblockTikTok = new ActionBlock<ScrapAdsDetails>(
+            //    async job =>
+            //    {
+            //        await job.StartAdScarperAsync();
+            //    },
+            //    new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-            await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.TikTok);
+            //await ScrapAdsProduceAsync(adScraperblockQuora, currentNetwork: SocialNetworks.TikTok);
         }
 
 
@@ -356,7 +356,7 @@ namespace DominatorHouseCore.Settings
             DominatorAccountModel currentAccount = null, SocialNetworks currentNetwork = SocialNetworks.Facebook)
         {
             var accounts = _accountsFileManager.GetAll(currentNetwork);
-            
+
             if (currentAccount != null)
                 accounts = accounts.Where(x => x.AccountId == currentAccount.AccountId).ToList();
 
@@ -394,7 +394,7 @@ namespace DominatorHouseCore.Settings
 
 
         public async Task StartAdScarperAsync()
-         {
+        {
             try
             {
                 var cancellationTokenSource =
@@ -408,8 +408,8 @@ namespace DominatorHouseCore.Settings
 
                 AdUpdationType currentUpdationType;
 
-                currentUpdationType = account.AccountBaseModel.AccountNetwork == SocialNetworks.Facebook ? AdUpdationType.FbAds :
-                   account.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok ? AdUpdationType.Ads : AdUpdationType.QuoraAds;
+                currentUpdationType = AdUpdationType.FbAds;
+
 
                 var asyncAdScraperFactory =
                     ServiceLocator.Current.GetInstance<IAdScraperFactory>(currentUpdationType.ToString());
@@ -441,7 +441,7 @@ namespace DominatorHouseCore.Settings
                            s => s.WithName(jobId).ToRunOnceAt(DateTime.Now.AddHours(2)));
 
                         return;
-                    }                    
+                    }
                 }
                 catch (OperationCanceledException ex)
                 {

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.Resources>

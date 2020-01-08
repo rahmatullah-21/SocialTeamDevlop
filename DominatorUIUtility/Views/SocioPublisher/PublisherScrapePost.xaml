@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore"
              mc:Ignorable="d" >
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -18,7 +18,7 @@
                          mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl}" Margin="2" TextWrapping="Wrap" 
                          Height="60" Width="404" AcceptsReturn="True" Text="{Binding ScrapePostModel.AddFdPostSource}" />
         </StackPanel>
-        <StackPanel Orientation="Vertical" >
+        <StackPanel Orientation="Vertical" Visibility="Collapsed">
             <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromPinterest}" 
                           IsChecked="{Binding ScrapePostModel.IsScrapePinterestPost}"/>
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapePinterestPost,Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -42,7 +42,7 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" Visibility="Collapsed">
             <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromTwitter}" IsChecked="{Binding ScrapePostModel.IsScrapeTwitterPost}" />
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeUsersSearch}"
                          Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"

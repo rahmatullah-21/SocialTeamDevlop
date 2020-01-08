@@ -6,18 +6,18 @@
     <unity:PrismApplication.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Languages/English.xaml" />
-                <ResourceDictionary Source="/DominatorUIUtility;component/Styles/BaseStyles.xaml" />
+                <ResourceDictionary Source="/LegionUIUtility;component/Resources/Languages/English.xaml" />
+                <ResourceDictionary Source="/LegionUIUtility;component/Styles/BaseStyles.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
-                <ResourceDictionary Source="/DominatorUIUtility;component/Themes/PrussianBlue.xaml" />
-                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/Icons.xaml" />
+                <ResourceDictionary Source="/LegionUIUtility;component/Themes/PrussianBlue.xaml" />
+                <ResourceDictionary Source="/LegionUIUtility;component/Resources/Icons.xaml" />
                 <ResourceDictionary Source="/Social/DashBoards/DashboardTemplates.xaml" />
                 <ResourceDictionary Source="/Social/TablifiedContentControlTemplates.xaml" />
-                <ResourceDictionary Source="/DominatorUIUtility;component/Resources/UtilityControls.xaml" />
+                <ResourceDictionary Source="/LegionUIUtility;component/Resources/UtilityControls.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource MetroExpander}">
                 <Setter Property="IsExpanded" Value="True" />

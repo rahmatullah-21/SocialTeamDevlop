@@ -31,7 +31,7 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
     /// Add this XmlNamespace attribute to the root element of the markup file where it is 
     /// to be used:
     ///
-    ///     xmlns:MyNamespace="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl;assembly=DominatorUIUtility.Views.SocioPublisher.CustomControl"
+    ///     xmlns:MyNamespace="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl;assembly=LegionUIUtility.Views.SocioPublisher.CustomControl"
     ///
     /// You will also need to add a project reference from the project where the XAML file lives
     /// to this project and Rebuild to avoid compilation errors:
@@ -466,26 +466,26 @@ namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
                         case SocialNetworks.Facebook:
                             objAdvancedSettings.PostFacebookSettings.PublisherPostSettings = postSettingsDeepClone;
                             break;
-                        case SocialNetworks.Instagram:
-                            objAdvancedSettings.PostInstagramSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.Twitter:
-                            objAdvancedSettings.PostTwitterSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.LinkedIn:
-                            objAdvancedSettings.PostLinkedInSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.Tumblr:
-                            objAdvancedSettings.PostTumblrSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.Reddit:
-                            objAdvancedSettings.PostRedditSettings.PublisherPostSettings = postSettingsDeepClone;
-                            break;
-                        case SocialNetworks.Pinterest:
-                        case SocialNetworks.Quora:
+                        //case SocialNetworks.Instagram:
+                        //    objAdvancedSettings.PostInstagramSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.Twitter:
+                        //    objAdvancedSettings.PostTwitterSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.LinkedIn:
+                        //    objAdvancedSettings.PostLinkedInSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.Tumblr:
+                        //    objAdvancedSettings.PostTumblrSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.Reddit:
+                        //    objAdvancedSettings.PostRedditSettings.PublisherPostSettings = postSettingsDeepClone;
+                        //    break;
+                        //case SocialNetworks.Pinterest:
+                        //case SocialNetworks.Quora:
                         //case SocialNetworks.Gplus:
-                        case SocialNetworks.Youtube:
-                            break;
+                        //case SocialNetworks.Youtube:
+                        //    break;
                         // ReSharper disable once RedundantEmptySwitchSection
                         default:
                             break;

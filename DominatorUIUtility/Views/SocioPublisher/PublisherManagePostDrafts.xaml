@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              xmlns:customcontrol="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:socioPublisher="clr-namespace:DominatorHouseCore.Enums.SocioPublisher;assembly=DominatorHouseCore"
+             xmlns:socioPublisher="clr-namespace:DominatorHouseCore.Enums.SocioPublisher;assembly=LegionCore"
              xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
              x:Name="DraftPostList"
              mc:Ignorable="d" >

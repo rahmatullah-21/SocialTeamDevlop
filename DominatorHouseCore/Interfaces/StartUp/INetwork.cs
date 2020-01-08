@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace DominatorHouseCore.Interfaces.StartUp
 {
     
-    class SocialNetworkActivity
+    public class SocialNetworkActivity
     {
         private static Dictionary<string, INetworkActivity> Networks { get; } = new Dictionary<string, INetworkActivity>();
         public static INetworkActivity GetNetworkActivity(string networks)
@@ -26,15 +26,15 @@ namespace DominatorHouseCore.Interfaces.StartUp
 
             try
             {
-                Networks.Add(SocialNetworks.Quora.ToString(), new QuoraActivity());
+                //Networks.Add(SocialNetworks.Quora.ToString(), new QuoraActivity());
                 //Networks.Add(SocialNetworks.Facebook.ToString(), new FacebookActivity());
-                Networks.Add(SocialNetworks.Instagram.ToString(), new InstagramActivity());
-                Networks.Add(SocialNetworks.LinkedIn.ToString(), new LinkedinActivity());
-                Networks.Add(SocialNetworks.Pinterest.ToString(), new PinterestActivity());
-                Networks.Add(SocialNetworks.Reddit.ToString(), new RedditActivity());
-                Networks.Add(SocialNetworks.Tumblr.ToString(), new TumblrActivity());
-                Networks.Add(SocialNetworks.Twitter.ToString(), new TwitterActivity());
-                Networks.Add(SocialNetworks.Youtube.ToString(), new YoutubeActivity());
+                //Networks.Add(SocialNetworks.Instagram.ToString(), new InstagramActivity());
+                //Networks.Add(SocialNetworks.LinkedIn.ToString(), new LinkedinActivity());
+                //Networks.Add(SocialNetworks.Pinterest.ToString(), new PinterestActivity());
+                //Networks.Add(SocialNetworks.Reddit.ToString(), new RedditActivity());
+                //Networks.Add(SocialNetworks.Tumblr.ToString(), new TumblrActivity());
+                //Networks.Add(SocialNetworks.Twitter.ToString(), new TwitterActivity());
+                //Networks.Add(SocialNetworks.Youtube.ToString(), new YoutubeActivity());
             }
             catch {}
         }

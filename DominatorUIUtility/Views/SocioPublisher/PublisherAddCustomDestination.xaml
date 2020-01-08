@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl" 
-               xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+               xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              Name="CustomDestination"
              mc:Ignorable="d">
     <UserControl.Resources>

@@ -78,7 +78,7 @@ namespace DominatorHouse.Social.Settings.View
                 }
                 if (ColorName == "Default")
                 {
-                    ThemeManager.AddAccent("PrussianBlue", new Uri("pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
+                    ThemeManager.AddAccent("PrussianBlue", new Uri("pack://application:,,,/LegionUIUtility;component/Themes/PrussianBlue.xaml"));
                     newAccent = ThemeManager.GetAccent("PrussianBlue");
                     newAppTheme = ThemeManager.GetAppTheme(ThemeName);
                 }

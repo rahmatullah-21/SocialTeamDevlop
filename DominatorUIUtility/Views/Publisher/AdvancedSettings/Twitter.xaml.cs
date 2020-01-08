@@ -57,13 +57,13 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 
         private void Twitter_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
-                .PublisherCreateCampaignViewModel
-                .PublisherCreateCampaignModel.CampaignId;
-            var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter))
-                .FirstOrDefault(x => x.CampaignId == campaignId);
-            TwitterViewModel.TwitterModel = twitterModel ?? (new TwitterModel());
+            //var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+            //    .PublisherCreateCampaignViewModel
+            //    .PublisherCreateCampaignModel.CampaignId;
+            //var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>
+            //        (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter))
+            //    .FirstOrDefault(x => x.CampaignId == campaignId);
+            //TwitterViewModel.TwitterModel = twitterModel ?? (new TwitterModel());
         }
     }
 }

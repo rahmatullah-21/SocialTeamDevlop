@@ -145,7 +145,7 @@ namespace Socinator
                 AppTheme newAppTheme;
                 string ColorName = themeName == "Light" ? "PrussianBlue" : "cyan";
                 
-                ThemeManager.AddAccent(ColorName, new Uri($"pack://application:,,,/DominatorUIUtility;component/Themes/{(themeName == "Light" ? "PrussianBlue" : "Dark")}.xaml"));
+                ThemeManager.AddAccent(ColorName, new Uri($"pack://application:,,,/LegionUIUtility;component/Themes/{(themeName == "Light" ? "PrussianBlue" : "Dark")}.xaml"));
                 newAccent = ThemeManager.GetAccent(ColorName);
                 newAppTheme = ThemeManager.GetAppTheme(ThemeName);
                 

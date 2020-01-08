@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              xmlns:passwordHelper="clr-namespace:DominatorUIUtility.Behaviours"
-             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"  
+             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=LegionCore"  
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
 
     <Grid VerticalAlignment="Center" Name="MainGrid" Margin="0,30">

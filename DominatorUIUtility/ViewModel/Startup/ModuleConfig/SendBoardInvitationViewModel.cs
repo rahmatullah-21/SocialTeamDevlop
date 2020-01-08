@@ -192,44 +192,44 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             try
             {
-                ListBoardCollaboratorDetails.Clear();
-                listBoardCollaborators.Clear();
-                listBoardCollaborators.AddRange(FileUtilities.FileBrowseAndReader());
-                var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-                var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
-                    Select(x => x.AccountBaseModel.UserName).ToList();
+                //ListBoardCollaboratorDetails.Clear();
+                //listBoardCollaborators.Clear();
+                //listBoardCollaborators.AddRange(FileUtilities.FileBrowseAndReader());
+                //var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+                //var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
+                //    Select(x => x.AccountBaseModel.UserName).ToList();
 
-                if (listBoardCollaborators.Count != 0)
-                {
-                    foreach (string board in listBoardCollaborators)
-                    {
-                        try
-                        {
-                            string[] boardCollaboratorsdetails = board.Split('\t');
-                            BoardCollaboratorInfo boardCollaboratorInfo = new BoardCollaboratorInfo();
-                            boardCollaboratorInfo.BoardUrl = boardCollaboratorsdetails[0];
-                            boardCollaboratorInfo.Email = boardCollaboratorsdetails[1];
-                            boardCollaboratorInfo.Account = boardCollaboratorsdetails[2];
+                //if (listBoardCollaborators.Count != 0)
+                //{
+                //    foreach (string board in listBoardCollaborators)
+                //    {
+                //        try
+                //        {
+                //            string[] boardCollaboratorsdetails = board.Split('\t');
+                //            BoardCollaboratorInfo boardCollaboratorInfo = new BoardCollaboratorInfo();
+                //            boardCollaboratorInfo.BoardUrl = boardCollaboratorsdetails[0];
+                //            boardCollaboratorInfo.Email = boardCollaboratorsdetails[1];
+                //            boardCollaboratorInfo.Account = boardCollaboratorsdetails[2];
 
-                            if (!accounts.Contains(boardCollaboratorInfo.Account))
-                            {
-                                GlobusLogHelper.log.Info($"Account => {boardCollaboratorInfo.Account} is not present.");
-                                continue;
-                            }
+                //            if (!accounts.Contains(boardCollaboratorInfo.Account))
+                //            {
+                //                GlobusLogHelper.log.Info($"Account => {boardCollaboratorInfo.Account} is not present.");
+                //                continue;
+                //            }
 
-                            ListBoardCollaboratorDetails.Add(boardCollaboratorInfo);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    }
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
-                        "Board Collaborators are ready to add !!");
-                    GlobusLogHelper.log.Info("Board Collaborators sucessfully uploaded !!");
-                }
-                else
-                    GlobusLogHelper.log.Info("You did not upload any Board Collaborators !!");
+                //            ListBoardCollaboratorDetails.Add(boardCollaboratorInfo);
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            ex.DebugLog();
+                //        }
+                //    }
+                //    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
+                //        "Board Collaborators are ready to add !!");
+                //    GlobusLogHelper.log.Info("Board Collaborators sucessfully uploaded !!");
+                //}
+                //else
+                //    GlobusLogHelper.log.Info("You did not upload any Board Collaborators !!");
             }
             catch (Exception ex)
             {

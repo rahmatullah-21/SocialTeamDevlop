@@ -21,22 +21,22 @@ namespace DominatorHouseCore.Converters
                         return ConstantVariable.SocialAccountManagerVideoLink;
                     case SocialNetworks.Facebook:
                         return ConstantVariable.FbAccountManagerVideoLink;
-                    case SocialNetworks.Instagram:
-                        return ConstantVariable.IgAccountManagerVideoLink;
-                    case SocialNetworks.LinkedIn:
-                        return ConstantVariable.LdAccountManagerVideoLink;
-                    case SocialNetworks.Quora:
-                        return ConstantVariable.QdAccountManagerVideoLink;
-                    case SocialNetworks.Reddit:
-                        return ConstantVariable.RdAccountManagerVideoLink;
-                    case SocialNetworks.Tumblr:
-                        return ConstantVariable.TmblrAccountManagerVideoLink;
-                    case SocialNetworks.Twitter:
-                        return ConstantVariable.TdAccountManagerVideoLink;
-                    case SocialNetworks.Pinterest:
-                        return ConstantVariable.PdAccountManagerVideoLink;
-                    case SocialNetworks.Youtube:
-                        return ConstantVariable.YtAccountManagerVideoLink;
+                    //case SocialNetworks.Instagram:
+                    //    return ConstantVariable.IgAccountManagerVideoLink;
+                    //case SocialNetworks.LinkedIn:
+                    //    return ConstantVariable.LdAccountManagerVideoLink;
+                    //case SocialNetworks.Quora:
+                    //    return ConstantVariable.QdAccountManagerVideoLink;
+                    //case SocialNetworks.Reddit:
+                    //    return ConstantVariable.RdAccountManagerVideoLink;
+                    //case SocialNetworks.Tumblr:
+                    //    return ConstantVariable.TmblrAccountManagerVideoLink;
+                    //case SocialNetworks.Twitter:
+                    //    return ConstantVariable.TdAccountManagerVideoLink;
+                    //case SocialNetworks.Pinterest:
+                    //    return ConstantVariable.PdAccountManagerVideoLink;
+                    //case SocialNetworks.Youtube:
+                    //    return ConstantVariable.YtAccountManagerVideoLink;
                     default:
                         return ConstantVariable.SocialAccountManagerVideoLink;
                 }

@@ -9,7 +9,7 @@
               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:DHCustomControl="clr-namespace:DominatorUIUtility.CustomControl;assembly=DominatorUIUtility">
+             xmlns:DHCustomControl="clr-namespace:DominatorUIUtility.CustomControl;assembly=LegionUIUtility">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

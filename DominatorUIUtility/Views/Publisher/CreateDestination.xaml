@@ -28,7 +28,7 @@
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
-                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/Select.png" />
                                     <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
@@ -39,19 +39,19 @@
                         <ContextMenu>
                             <MenuItem Header="{DynamicResource LangKeySelectAllPagesOrBoards}" Name="SelectAllAccounts" >
                                 <MenuItem.Icon>
-                                    <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="15" Height="15"/>
+                                    <Image Source="/LegionUIUtility;component/Images/selectall.png" Width="15" Height="15"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
                             <MenuItem Header="{DynamicResource LangKeySelectNone}" Name="SelectNoneAccounts" >
                                 <MenuItem.Icon>
-                                    <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
+                                    <Image Source="/LegionUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
                             <MenuItem Header="{DynamicResource LangKeySelectAllWallsOrProfiles}" Name="SelectAllWallsOrProfiles" >
                                 <MenuItem.Icon>
-                                    <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
+                                    <Image Source="/LegionUIUtility;component/Images/deselect.png"  Width="15" Height="15"  />
                                 </MenuItem.Icon>
                             </MenuItem>
                         </ContextMenu>

@@ -1215,9 +1215,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             // Scarpe post UI, If any one of network(Facebook,Pinterest, Twitter)
             #region Scrape Posts
 
-            if (FeatureFlags.IsNetworkAvailable(SocialNetworks.Facebook) ||
-                FeatureFlags.IsNetworkAvailable(SocialNetworks.Pinterest) ||
-                FeatureFlags.IsNetworkAvailable(SocialNetworks.Twitter))
+            if (FeatureFlags.IsNetworkAvailable(SocialNetworks.Facebook))
             {
                 tabItems.Add(new TabItemTemplates
                 {

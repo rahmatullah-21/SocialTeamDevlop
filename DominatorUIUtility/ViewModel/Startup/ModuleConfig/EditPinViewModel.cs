@@ -268,51 +268,51 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         {
             try
             {
-                listDetails.Clear();
-                listPins.Clear();
-                listPins.AddRange(FileUtilities.FileBrowseAndReader());
-                var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-                var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
-                    Select(x => x.AccountBaseModel.UserName).ToList();
+                //listDetails.Clear();
+                //listPins.Clear();
+                //listPins.AddRange(FileUtilities.FileBrowseAndReader());
+                //var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
+                //var accounts = accountFileManager.GetAll(SocialNetworks.Pinterest).Where(x => x.AccountBaseModel.Status == AccountStatus.Success).
+                //    Select(x => x.AccountBaseModel.UserName).ToList();
 
-                if (listPins.Count != 0)
-                {
-                    foreach (string pin in listPins)
-                    {
-                        try
-                        {
-                            string[] pindetails = pin.Split('\t');
-                            if (pindetails[0] == "Board")
-                            {
-                                continue;
-                            }
-                            PinInfo pinInfo = new PinInfo();
-                            pinInfo.Board = pindetails[0];
-                            pinInfo.PinDescription = pindetails[1];
-                            pinInfo.Section = pindetails[2];
-                            pinInfo.WebsiteUrl = pindetails[3];
-                            pinInfo.PinToBeEdit = pindetails[4];
-                            pinInfo.Account = pindetails[5];
+                //if (listPins.Count != 0)
+                //{
+                //    foreach (string pin in listPins)
+                //    {
+                //        try
+                //        {
+                //            string[] pindetails = pin.Split('\t');
+                //            if (pindetails[0] == "Board")
+                //            {
+                //                continue;
+                //            }
+                //            PinInfo pinInfo = new PinInfo();
+                //            pinInfo.Board = pindetails[0];
+                //            pinInfo.PinDescription = pindetails[1];
+                //            pinInfo.Section = pindetails[2];
+                //            pinInfo.WebsiteUrl = pindetails[3];
+                //            pinInfo.PinToBeEdit = pindetails[4];
+                //            pinInfo.Account = pindetails[5];
 
-                            if (!accounts.Contains(pinInfo.Account))
-                            {
-                                GlobusLogHelper.log.Info($"Account => {pinInfo.Account} is not present.");
-                                continue;
-                            }
+                //            if (!accounts.Contains(pinInfo.Account))
+                //            {
+                //                GlobusLogHelper.log.Info($"Account => {pinInfo.Account} is not present.");
+                //                continue;
+                //            }
 
-                            listDetails.Add(pinInfo);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.DebugLog();
-                        }
-                    }
-                    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
-                        "Pins are ready to add !!");
-                    GlobusLogHelper.log.Info("Pins sucessfully uploaded !!");
-                }
-                else
-                    GlobusLogHelper.log.Info("You did not upload any pins !!");
+                //            listDetails.Add(pinInfo);
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            ex.DebugLog();
+                //        }
+                //    }
+                //    DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "Info",
+                //        "Pins are ready to add !!");
+                //    GlobusLogHelper.log.Info("Pins sucessfully uploaded !!");
+                //}
+                //else
+                //    GlobusLogHelper.log.Info("You did not upload any pins !!");
             }
             catch (Exception ex)
             {

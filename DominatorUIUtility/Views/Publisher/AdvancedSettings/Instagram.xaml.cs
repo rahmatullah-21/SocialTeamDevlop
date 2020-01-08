@@ -58,13 +58,13 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 
         private void Instagram_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
-                .PublisherCreateCampaignViewModel
-                .PublisherCreateCampaignModel.CampaignId;
-            var instagramModel = _genericFileManager.GetModuleDetails<InstagramModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram))
-                .FirstOrDefault(x => x.CampaignId == campaignId);
-            InstagramViewModel.InstagramModel = instagramModel ?? (new InstagramModel());
+            //var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+            //    .PublisherCreateCampaignViewModel
+            //    .PublisherCreateCampaignModel.CampaignId;
+            //var instagramModel = _genericFileManager.GetModuleDetails<InstagramModel>
+            //        (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram))
+            //    .FirstOrDefault(x => x.CampaignId == campaignId);
+            //InstagramViewModel.InstagramModel = instagramModel ?? (new InstagramModel());
         }
     }
 }

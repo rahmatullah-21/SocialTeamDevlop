@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"          
              mc:Ignorable="d" 
              xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:FeatureVisibilityConverter x:Key="FeatureVisibilityConverter" />
@@ -24,16 +24,16 @@
                      Margin="30,5" Visibility="{Binding OtherConfigurations.IsEnableSignatureChecked,
                      Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-            <CheckBox IsChecked="{Binding OtherConfigurations.IsCheckedForApprovePost}" Margin="5"
-                      Content="{DynamicResource LangKeyCheckForApproveYourPostForReddit}"/>
+            <!--<CheckBox IsChecked="{Binding OtherConfigurations.IsCheckedForApprovePost}" Margin="5"
+                      Content="{DynamicResource LangKeyCheckForApproveYourPostForReddit}"/>-->
             <CheckBox IsChecked="{Binding OtherConfigurations.IsShortenURLsChecked}"
                       Content="{DynamicResource LangKeyShortenAllTheUrlsFromThePostUsingTheAccountsConfiguredInSettings}"  Margin="5"/>
             <!--<CheckBox IsChecked="{Binding OtherConfigurations.IsPostTextChecked}" 
                       Content="{DynamicResource LangKeyEnableFindAndReplaceForPostText}"  Margin="5"/>-->
-            <CheckBox IsChecked="{Binding OtherConfigurations.IsAllowPublishingPinterestChecked}" Visibility="{Binding Source={x:Static enums:SocialNetworks.Pinterest},Converter={StaticResource FeatureVisibilityConverter}}"
+            <!--<CheckBox IsChecked="{Binding OtherConfigurations.IsAllowPublishingPinterestChecked}" Visibility="{Binding Source={x:Static enums:SocialNetworks.Pinterest},Converter={StaticResource FeatureVisibilityConverter}}"
                       Content="{DynamicResource LangKeyAllowPublishingOfTextPostsWithLinksOnPinterest}"  Margin="5"/>
             <CheckBox IsChecked="{Binding OtherConfigurations.IsPostAsStoryChecked}" Visibility="{Binding Source={x:Static enums:SocialNetworks.Instagram},Converter={StaticResource FeatureVisibilityConverter}}"
-                      Content="{DynamicResource LangKeyPostAsAPartOfYourStoryInsteadOfOnTheWallAppliesToInstagramDestinationOnly}"  Margin="5"/>
+                      Content="{DynamicResource LangKeyPostAsAPartOfYourStoryInsteadOfOnTheWallAppliesToInstagramDestinationOnly}"  Margin="5"/>-->
             <StackPanel Orientation="Vertical" Margin="20,5,0,0">
                 <CheckBox  IsChecked="{Binding OtherConfigurations.IsMentionUser}" Content="{DynamicResource LangKeyMentionUserInStoryPost}" Visibility="{Binding OtherConfigurations.IsPostAsStoryChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <TextBox VerticalAlignment="Center" Text="{Binding OtherConfigurations.MentionUserList}" IsEnabled="{Binding IsMentionUser}" AcceptsReturn="True"

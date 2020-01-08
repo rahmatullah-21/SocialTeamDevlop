@@ -94,119 +94,119 @@ namespace DominatorUIUtility.Views.SocioPublisher
 
                     #endregion
 
-                    #region Google+
+                    //#region Google+
 
-                    //var oldGooglePlusModel = ObjCampaignsAdvanceSetting.AdvanceSetting.GooglePlusModel;
-                    //var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
-                    //newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject(oldGooglePlusModel, newGooglePlusModel);
+                    ////var oldGooglePlusModel = ObjCampaignsAdvanceSetting.AdvanceSetting.GooglePlusModel;
+                    ////var newGooglePlusModel = GooglePlus.GetSingeltonGooglePlusObject().GooglePlusViewModel.GooglePlusModel;
+                    ////newGooglePlusModel = ObjectComparer.CompareAndGetChangedObject(oldGooglePlusModel, newGooglePlusModel);
 
-                    //if (newGooglePlusModel != null)
+                    ////if (newGooglePlusModel != null)
+                    ////{
+                    ////    newGooglePlusModel.CampaignId = campaignId;
+                    ////    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
+                    ////    var lstGooglePlusModels = _genericFileManager.GetModuleDetails<GooglePlusModel>(file);
+                    ////    var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    ////    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
+                    ////    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Gplus, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+
+                    ////}
+                    //#endregion
+
+                    //#region Instagram
+
+                    //var oldInstagramModel = ObjCampaignsAdvanceSetting.AdvanceSetting.InstagramModel;
+                    //var newInstagramModel = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel;
+                    //newInstagramModel =
+                    //    ObjectComparer.CompareAndGetChangedObject(oldInstagramModel,
+                    //        newInstagramModel);
+                    //if (newInstagramModel != null)
                     //{
-                    //    newGooglePlusModel.CampaignId = campaignId;
-                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Gplus);
-                    //    var lstGooglePlusModels = _genericFileManager.GetModuleDetails<GooglePlusModel>(file);
-                    //    var moduleToUpdate = lstGooglePlusModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newGooglePlusModel, lstGooglePlusModels, file, SocialNetworks.Gplus);
-                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Gplus, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                    //    newInstagramModel.CampaignId = campaignId;
+                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
+                    //    var lstInstagramModels = _genericFileManager.GetModuleDetails<InstagramModel>(file);
+                    //    var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newInstagramModel, lstInstagramModels, file, SocialNetworks.Instagram);
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Instagram, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                    //}
+
+                    //#endregion
+
+                    //#region Pinterest
+
+                    //var oldPinterestModel = ObjCampaignsAdvanceSetting.AdvanceSetting.PinterestModel;
+                    //var newPinterestModel = Pinterest.GetSingeltonPinterestObject().PinterestViewModel.PinterestModel;
+                    //newPinterestModel = ObjectComparer.CompareAndGetChangedObject(oldPinterestModel, newPinterestModel);
+
+                    //if (newPinterestModel != null)
+                    //{
+                    //    newPinterestModel.CampaignId = campaignId;
+                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
+                    //    var lstPinterestModels = _genericFileManager.GetModuleDetails<PinterestModel>(file);
+                    //    var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newPinterestModel, lstPinterestModels, file, SocialNetworks.Pinterest);
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
 
                     //}
-                    #endregion
+                    //#endregion
 
-                    #region Instagram
+                    //#region Tumblr
 
-                    var oldInstagramModel = ObjCampaignsAdvanceSetting.AdvanceSetting.InstagramModel;
-                    var newInstagramModel = Instagram.GetSingeltonInstagramObject().InstagramViewModel.InstagramModel;
-                    newInstagramModel =
-                        ObjectComparer.CompareAndGetChangedObject(oldInstagramModel,
-                            newInstagramModel);
-                    if (newInstagramModel != null)
-                    {
-                        newInstagramModel.CampaignId = campaignId;
-                        var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
-                        var lstInstagramModels = _genericFileManager.GetModuleDetails<InstagramModel>(file);
-                        var moduleToUpdate = lstInstagramModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                        ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newInstagramModel, lstInstagramModels, file, SocialNetworks.Instagram);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Instagram, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
-                    }
+                    //var oldTumblrModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TumblrModel;
+                    //var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
+                    //newTumblrModel =
+                    //    ObjectComparer.CompareAndGetChangedObject(oldTumblrModel,
+                    //        newTumblrModel);
+                    //if (newTumblrModel != null)
+                    //{
+                    //    newTumblrModel.CampaignId = campaignId;
+                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
+                    //    var lstTumblrModels = _genericFileManager.GetModuleDetails<TumblrModel>(file);
+                    //    var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Tumblr, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
 
-                    #endregion
+                    //}
 
-                    #region Pinterest
+                    //#endregion
 
-                    var oldPinterestModel = ObjCampaignsAdvanceSetting.AdvanceSetting.PinterestModel;
-                    var newPinterestModel = Pinterest.GetSingeltonPinterestObject().PinterestViewModel.PinterestModel;
-                    newPinterestModel = ObjectComparer.CompareAndGetChangedObject(oldPinterestModel, newPinterestModel);
+                    //#region Twitter
 
-                    if (newPinterestModel != null)
-                    {
-                        newPinterestModel.CampaignId = campaignId;
-                        var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
-                        var lstPinterestModels = _genericFileManager.GetModuleDetails<PinterestModel>(file);
-                        var moduleToUpdate = lstPinterestModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                        ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newPinterestModel, lstPinterestModels, file, SocialNetworks.Pinterest);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                    //var oldTwitterModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TwitterModel;
+                    //var newTwitterModel = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel;
+                    //newTwitterModel = ObjectComparer.CompareAndGetChangedObject(oldTwitterModel, newTwitterModel);
 
-                    }
-                    #endregion
+                    //if (newTwitterModel != null)
+                    //{
+                    //    newTwitterModel.CampaignId = campaignId;
+                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
+                    //    var lstTwitterModels = _genericFileManager.GetModuleDetails<TwitterModel>(file);
+                    //    var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTwitterModel, lstTwitterModels, file, SocialNetworks.Twitter);
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
 
-                    #region Tumblr
+                    //}
 
-                    var oldTumblrModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TumblrModel;
-                    var newTumblrModel = Tumblr.GetSingeltonTumblr().TumblrViewModel.TumblrModel;
-                    newTumblrModel =
-                        ObjectComparer.CompareAndGetChangedObject(oldTumblrModel,
-                            newTumblrModel);
-                    if (newTumblrModel != null)
-                    {
-                        newTumblrModel.CampaignId = campaignId;
-                        var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
-                        var lstTumblrModels = _genericFileManager.GetModuleDetails<TumblrModel>(file);
-                        var moduleToUpdate = lstTumblrModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                        ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTumblrModel, lstTumblrModels, file, SocialNetworks.Tumblr);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Tumblr, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                    //#endregion
 
-                    }
+                    //#region Reddit
 
-                    #endregion
+                    //var oldRedditModel = ObjCampaignsAdvanceSetting.AdvanceSetting.RedditModel;
+                    //var newRedditModel = Reddit.GetSingeltonRedditObject().RedditViewModel.RedditModel;
+                    //newRedditModel = ObjectComparer.CompareAndGetChangedObject(oldRedditModel, newRedditModel);
 
-                    #region Twitter
+                    //if (newRedditModel != null)
+                    //{
+                    //    newRedditModel.CampaignId = campaignId;
+                    //    var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
+                    //    var lstRedditModels = _genericFileManager.GetModuleDetails<RedditModel>(file);
+                    //    var moduleToUpdate = lstRedditModels.FirstOrDefault(x => x.CampaignId == campaignId);
+                    //    ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newRedditModel, lstRedditModels, file, SocialNetworks.Reddit);
+                    //    GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Reddit, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
 
-                    var oldTwitterModel = ObjCampaignsAdvanceSetting.AdvanceSetting.TwitterModel;
-                    var newTwitterModel = Twitter.GetSingletonTwitterObject().TwitterViewModel.TwitterModel;
-                    newTwitterModel = ObjectComparer.CompareAndGetChangedObject(oldTwitterModel, newTwitterModel);
+                    //}
 
-                    if (newTwitterModel != null)
-                    {
-                        newTwitterModel.CampaignId = campaignId;
-                        var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
-                        var lstTwitterModels = _genericFileManager.GetModuleDetails<TwitterModel>(file);
-                        var moduleToUpdate = lstTwitterModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                        ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newTwitterModel, lstTwitterModels, file, SocialNetworks.Twitter);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Twitter, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
+                    //#endregion
 
-                    }
-
-                    #endregion
-
-                    #region Reddit
-
-                    var oldRedditModel = ObjCampaignsAdvanceSetting.AdvanceSetting.RedditModel;
-                    var newRedditModel = Reddit.GetSingeltonRedditObject().RedditViewModel.RedditModel;
-                    newRedditModel = ObjectComparer.CompareAndGetChangedObject(oldRedditModel, newRedditModel);
-
-                    if (newRedditModel != null)
-                    {
-                        newRedditModel.CampaignId = campaignId;
-                        var file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
-                        var lstRedditModels = _genericFileManager.GetModuleDetails<RedditModel>(file);
-                        var moduleToUpdate = lstRedditModels.FirstOrDefault(x => x.CampaignId == campaignId);
-                        ObjCampaignsAdvanceSetting.AddUpdateDetails(moduleToUpdate, newRedditModel, lstRedditModels, file, SocialNetworks.Reddit);
-                        GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Reddit, "Publisher Campaign", "Campaign - Advanced settings", "Details successfully saved");
-
-                    }
-
-                    #endregion
-                    
                     window.Close();
                 }
                 catch (Exception ex)

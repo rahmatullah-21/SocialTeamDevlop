@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" x:Name="ReportsControl" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
+             xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=LegionCore">
 
     <UserControl.Resources>
         <converters:ListCountVisiblityConverter x:Key="ListCountVisiblityConverter"/>

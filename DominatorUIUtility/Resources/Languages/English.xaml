@@ -1823,7 +1823,7 @@
     <system:String x:Key="LangKeyRemoveSourceIfFollowBackRatioIsLowerThan">Remove Source If Follow Back Ratio Is Lower Than</system:String>
     <system:String x:Key="LangKeyRemoveTagsFromPostTextAsTheyAreAddedInTheTagsSectionOnTumblr">Remove Tags From Post Text (As They Are Added In The Tags Section On Tumblr)</system:String>
     <system:String x:Key="LangKeyRemoveThe">Remove the via option from Facebook Page Shares.</system:String>
-    <system:String x:Key="LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview">Remove The Link From The Post After Facebook/Google Plus/Linkedin/Pinterest Displays The Preview.</system:String>
+    <system:String x:Key="LangKeyRemoveTheLinkFromThePostAfterDisplaysThePreview">Remove The Link From The Post After Facebook.</system:String>
     <system:String x:Key="LangKeyRemoveUserFromListAfterHeIsTagged">Remove User From List After He Is Tagged</system:String>
     <system:String x:Key="LangKeyRepin">Repin</system:String>
     <system:String x:Key="LangKeyRepinFilter">Repin Filter</system:String>
@@ -2689,9 +2689,9 @@ They are replaced with user info.</system:String>
     <system:String x:Key="LangKeySourceUrl">Source Url</system:String>
 
     <system:String x:Key="LangKeyImportAccountDescription"  xml:space="preserve">Format :
-Type 1. Group Name:SocialNetwork:User Name:Password:Alternate Email (For YouTube)
-Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Alternate Email (For YouTube)
-Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password:Alternate Email (For YouTube)
+Type 1. Group Name:SocialNetwork:User Name:Password
+Type 2. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port
+Type 3. Group Name:SocialNetwork:User Name:Password:Proxy Address:Proxy Port:Proxy User Name:Proxy Password
     </system:String>
     <system:String x:Key="LangKeyImportProxyDescription"  xml:space="preserve">Format :
 Type 1. Group Name:Proxy Name:IP:Port:Proxy User Name:Proxy Password
@@ -4514,4 +4514,5 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Socinator</system:String>
     <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
     <system:String x:Key="LangKeyLegion">Legion</system:String>
+    <system:String x:Key="LangKeyLegionAlreadyRunning">Legion is already running.</system:String>
 </ResourceDictionary>

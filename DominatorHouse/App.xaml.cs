@@ -112,7 +112,7 @@ namespace Socinator
                 {
                     try
                     {
-                        if (item.ProcessName != "Socinator")
+                        if (item.ProcessName != "Legion")
                             continue;
                         itemCount++;
                         if (itemCount <= 1) continue;

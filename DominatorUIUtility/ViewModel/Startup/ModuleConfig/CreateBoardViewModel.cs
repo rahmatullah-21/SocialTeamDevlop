@@ -158,8 +158,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                         }
                         else
                         {
-                            DominatorHouseCore.LogHelper.GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, "", ActivityType.CreateBoard,
-                                "You are required to have at least one letter or number in a board name");
+                            //DominatorHouseCore.LogHelper.GlobusLogHelper.log.Info(Log.CustomMessage, SocialNetworks.Pinterest, "", ActivityType.CreateBoard,
+                            //    "You are required to have at least one letter or number in a board name");
                             return;
                         }
                     }

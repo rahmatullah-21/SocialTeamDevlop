@@ -547,48 +547,48 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     //}
 
 
-                    file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
-                    var instagramModel = _genericFileManager.GetModuleDetails<InstagramModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if (instagramModel != null)
-                    {
-                        instagramModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        _genericFileManager.AddModule(instagramModel, file);
-                    }
+                    //file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Instagram);
+                    //var instagramModel = _genericFileManager.GetModuleDetails<InstagramModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    //if (instagramModel != null)
+                    //{
+                    //    instagramModel.CampaignId = clonedCampaignStatus.CampaignId;
+                    //    _genericFileManager.AddModule(instagramModel, file);
+                    //}
 
 
-                    file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
-                    var pinterestModel = _genericFileManager.GetModuleDetails<PinterestModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if (pinterestModel != null)
-                    {
-                        pinterestModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        _genericFileManager.AddModule(pinterestModel, file);
-                    }
+                    //file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest);
+                    //var pinterestModel = _genericFileManager.GetModuleDetails<PinterestModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    //if (pinterestModel != null)
+                    //{
+                    //    pinterestModel.CampaignId = clonedCampaignStatus.CampaignId;
+                    //    _genericFileManager.AddModule(pinterestModel, file);
+                    //}
 
 
-                    file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
-                    var tumblrModel = _genericFileManager.GetModuleDetails<TumblrModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if (tumblrModel != null)
-                    {
-                        tumblrModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        _genericFileManager.AddModule(tumblrModel, file);
-                    }
+                    //file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Tumblr);
+                    //var tumblrModel = _genericFileManager.GetModuleDetails<TumblrModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    //if (tumblrModel != null)
+                    //{
+                    //    tumblrModel.CampaignId = clonedCampaignStatus.CampaignId;
+                    //    _genericFileManager.AddModule(tumblrModel, file);
+                    //}
 
-                    file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
-                    var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if (twitterModel != null)
-                    {
-                        twitterModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        _genericFileManager.AddModule(twitterModel, file);
-                    }
+                    //file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Twitter);
+                    //var twitterModel = _genericFileManager.GetModuleDetails<TwitterModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    //if (twitterModel != null)
+                    //{
+                    //    twitterModel.CampaignId = clonedCampaignStatus.CampaignId;
+                    //    _genericFileManager.AddModule(twitterModel, file);
+                    //}
 
 
-                    file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
-                    var redditModel = _genericFileManager.GetModuleDetails<RedditModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
-                    if (redditModel != null)
-                    {
-                        redditModel.CampaignId = clonedCampaignStatus.CampaignId;
-                        _genericFileManager.AddModule(redditModel, file);
-                    }
+                    //file = ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit);
+                    //var redditModel = _genericFileManager.GetModuleDetails<RedditModel>(file).FirstOrDefault(x => x.CampaignId == campaignStatus.CampaignId);
+                    //if (redditModel != null)
+                    //{
+                    //    redditModel.CampaignId = clonedCampaignStatus.CampaignId;
+                    //    _genericFileManager.AddModule(redditModel, file);
+                    //}
 
 
 

@@ -464,19 +464,12 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
 
             var account = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount;
 
-            if (account.AccountBaseModel.AccountNetwork != SocialNetworks.Quora)
+            if (LstDisplayManageMessageModel.Count == 0)
             {
-                if (LstDisplayManageMessageModel.Count == 0)
-                {
-                    Dialog.ShowDialog("Error", "Please add atleast One Message");
-                    return;
-                }
-            }
-            else if (account.AccountBaseModel.AccountNetwork == SocialNetworks.Quora && string.IsNullOrEmpty(Message))
-            {
-                Dialog.ShowDialog("Error", "Please type some message.");
+                Dialog.ShowDialog("Error", "Please add atleast One Message");
                 return;
             }
+
 
             NavigateNext();
         }

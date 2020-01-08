@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums.DHEnum;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
+             xmlns:viewModel="clr-namespace:DominatorHouseCore.ViewModel;assembly=LegionCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums.DHEnum;assembly=LegionCore"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              Name="AccountModule"
              mc:Ignorable="d">

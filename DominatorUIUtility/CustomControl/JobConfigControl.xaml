@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore"
              mc:Ignorable="d" Loaded="JobConfigControl_Loaded"
-             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:AverageConverter x:Key="AverageConverter"/>

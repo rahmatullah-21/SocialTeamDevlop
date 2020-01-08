@@ -2,17 +2,7 @@
 {
     public enum SocialNetworks
     {
-        Facebook,
-        Instagram,
-        Twitter,
-        Pinterest,
-        LinkedIn,
-        Reddit,
-        Social,
-        Quora,
-        Gplus,
-        Youtube,
-        Tumblr,
-        TikTok
+        Facebook,        
+        Social
     }
 }

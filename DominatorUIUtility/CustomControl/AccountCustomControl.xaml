@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:uiExtensions="clr-namespace:DominatorHouseCore.UIExtensions;assembly=DominatorHouseCore"
+             xmlns:uiExtensions="clr-namespace:DominatorHouseCore.UIExtensions;assembly=LegionCore"
              xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -25,10 +25,10 @@
         <system:Boolean x:Key="True">True</system:Boolean>
         <system:Boolean x:Key="False">False</system:Boolean>
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
-        <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsInstagramConverter" Expected="{x:Static enums:SocialNetworks.Instagram}"/>
-        <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsNotInstagramConverter" Expected="{x:Static enums:SocialNetworks.Instagram}" Inversed="True"/>
-        <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsNotTikTokConverter" Expected="{x:Static enums:SocialNetworks.TikTok}" Inversed="True"/>
-        <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsTwitterConverter" Expected="{x:Static enums:SocialNetworks.Twitter}"/>
+        
+        
+        
+        
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Social}"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
@@ -162,7 +162,7 @@
                                 <Controls:DropDownButton.Content>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Vertical" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/Select.png" />
                                             <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
@@ -170,7 +170,7 @@
                                 <Controls:DropDownButton.Items>
                                     <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccountsSub"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
                                         <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
+                                            <Image Source="/LegionUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
 
@@ -178,26 +178,26 @@
 
                                     <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccountsSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
                                         <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
+                                            <Image Source="/LegionUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
                                         </MenuItem.Icon>
                                     </MenuItem>
 
                                     <Separator />
                                     <MenuItem Header="{DynamicResource LangKeyNotWorkingAccounts}" Name="TitleMenuNotWorkingAccountSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
                                         <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
+                                            <Image Source="/LegionUIUtility;component/Images/notworking.png" Width="20" Height="20" />
                                         </MenuItem.Icon>
                                     </MenuItem>
 
                                     <MenuItem Header="{DynamicResource LangKeyNotCheckedAccounts}" Name="TitleMenuNotCheckedAccountSub" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
                                         <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
+                                            <Image Source="/LegionUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
                                         </MenuItem.Icon>
                                     </MenuItem>
 
                                     <MenuItem Name="MenuTitleGroupsSub"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource LangKeySelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
                                         <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
+                                            <Image Source="/LegionUIUtility;component/Images/groupsearch.png" />
                                         </MenuItem.Icon>
                                         <MenuItem.ItemTemplate>
                                             <DataTemplate>
@@ -214,7 +214,7 @@
 
                                     <MenuItem Header="{DynamicResource LangKeyDeselectAll}" Name="TitleMenu_DeselectAllSub"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource False}">
                                         <MenuItem.Icon>
-                                            <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
+                                            <Image Source="/LegionUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
                                         </MenuItem.Icon>
                                     </MenuItem>
 
@@ -225,7 +225,7 @@
                                 <Controls:DropDownButton.Content>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Vertical" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
+                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/Updates.png" />
                                             <Label Content="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
@@ -286,7 +286,7 @@
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                             <StackPanel Orientation="Vertical">
-                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
+                                                <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/export.png" />
                                                 <Label Content="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                             </StackPanel>
                                         </Border>
@@ -369,7 +369,7 @@
                                 <ControlTemplate>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Horizontal" >
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/AddSingleAccount.png"  />
+                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/AddSingleAccount.png"  />
                                             <Label Content="{DynamicResource LangKeyAddAccount}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
@@ -404,7 +404,7 @@
                             <Controls:DropDownButton.Content>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal" >
-                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/Select.png" />
                                         <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
@@ -412,7 +412,7 @@
                             <Controls:DropDownButton.Items>
                                 <MenuItem Header="{DynamicResource LangKeyAllAccounts}" Name="TitleMenu_AllAccounts"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource True}">
                                     <MenuItem.Icon>
-                                        <Image Source="/DominatorUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
+                                        <Image Source="/LegionUIUtility;component/Images/selectall.png" Width="20" Height="20"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
 
@@ -420,26 +420,26 @@
 
                                 <MenuItem Header="{DynamicResource LangKeyWorkingAccounts}" Name="TitleMenuWorkingAccounts" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="Working" >
                                     <MenuItem.Icon>
-                                        <Image Source="/DominatorUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
+                                        <Image Source="/LegionUIUtility;component/Images/workingaccount.png" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
 
                                 <Separator />
                                 <MenuItem Header="{DynamicResource LangKeyNotWorkingAccounts}" Name="TitleMenuNotWorkingAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotWorking" >
                                     <MenuItem.Icon>
-                                        <Image Source="/DominatorUIUtility;component/Images/notworking.png" Width="20" Height="20" />
+                                        <Image Source="/LegionUIUtility;component/Images/notworking.png" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
 
                                 <MenuItem Header="{DynamicResource LangKeyNotCheckedAccounts}" Name="TitleMenuNotCheckedAccount" Command="{Binding SelectAccountByStatusCommand}" CommandParameter="NotChecked" >
                                     <MenuItem.Icon>
-                                        <Image Source="/DominatorUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
+                                        <Image Source="/LegionUIUtility;component/Images/NotChecked.png" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
 
                                 <MenuItem Name="MenuTitleGroups"  Height="30" ItemsSource="{Binding Groups}" Header="{DynamicResource LangKeySelectAccountsByGroups}"  Command="{Binding UpdateGroupCommand}">
                                     <MenuItem.Icon>
-                                        <Image Source="/DominatorUIUtility;component/Images/groupsearch.png" />
+                                        <Image Source="/LegionUIUtility;component/Images/groupsearch.png" />
                                     </MenuItem.Icon>
                                     <MenuItem.ItemTemplate>
                                         <DataTemplate>
@@ -456,7 +456,7 @@
 
                                 <MenuItem Header="{DynamicResource LangKeyDeselectAll}" Name="TitleMenu_DeselectAll"  Command="{Binding SelectAccountCommand}" CommandParameter="{StaticResource False}">
                                     <MenuItem.Icon>
-                                        <Image Source="/DominatorUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
+                                        <Image Source="/LegionUIUtility;component/Images/deselect.png"  Width="20" Height="20"  />
                                     </MenuItem.Icon>
                                 </MenuItem>
 
@@ -472,7 +472,7 @@
                             <Controls:DropDownButton.Content>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal" >
-                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Updates.png" />
+                                        <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/Updates.png" />
                                         <Label Content="{DynamicResource LangKeyUpdate}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
@@ -538,7 +538,7 @@
                                 <ControlTemplate>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/export.png" />
+                                            <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/export.png" />
                                             <Label Content="{DynamicResource LangKeyExport}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                         </StackPanel>
                                     </Border>
@@ -664,7 +664,7 @@
                             <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{StaticResource DeleteIcon}"/>
-                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
+                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}" 
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{StaticResource GoToToolsIcon}"
@@ -677,18 +677,13 @@
                             <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{StaticResource UpdateFriendshipIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
-                                  Icon="{StaticResource InstEditIcon}" 
-                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
-                                  CommandParameter="{Binding}" />
-                            <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
-                                  Icon="{StaticResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
-                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
+                            
+                            
                             <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{StaticResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
+                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}" >
                                 <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
                                 <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>

@@ -9,7 +9,7 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl" 
-             xmlns:cnvrt="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:cnvrt="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
     <UserControl.Resources>
         <cnvrt:BooleanToVisibilityConverter x:Key="visiblity" IsInversed="True"/>

@@ -11,7 +11,7 @@
         WindowTransitionsEnabled="False"
         WindowState="Maximized"
         xmlns:control="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+        xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

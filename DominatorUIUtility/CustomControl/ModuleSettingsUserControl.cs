@@ -1908,26 +1908,26 @@ namespace DominatorUIUtility.CustomControl
                     Model.JobConfiguration.DelayBetweenJobs = mediumSpeed.DelayBetweenJobs;
                     Model.JobConfiguration.DelayBetweenActivity = mediumSpeed.DelayBetweenActivity;
                 }
-                else if (Model.JobConfiguration.SelectedItem == "Fast")
-                {
-                    var fastSpeed = Model.FastSpeed;
-                    Model.JobConfiguration.ActivitiesPerDay = fastSpeed.ActivitiesPerDay;
-                    Model.JobConfiguration.ActivitiesPerHour = fastSpeed.ActivitiesPerHour;
-                    Model.JobConfiguration.ActivitiesPerWeek = fastSpeed.ActivitiesPerWeek;
-                    Model.JobConfiguration.ActivitiesPerJob = fastSpeed.ActivitiesPerJob;
-                    Model.JobConfiguration.DelayBetweenJobs = fastSpeed.DelayBetweenJobs;
-                    Model.JobConfiguration.DelayBetweenActivity = fastSpeed.DelayBetweenActivity;
-                }
-                else if (Model.JobConfiguration.SelectedItem == "Superfast")
-                {
-                    var superfastSpeed = Model.SuperfastSpeed;
-                    Model.JobConfiguration.ActivitiesPerDay = superfastSpeed.ActivitiesPerDay;
-                    Model.JobConfiguration.ActivitiesPerHour = superfastSpeed.ActivitiesPerHour;
-                    Model.JobConfiguration.ActivitiesPerWeek = superfastSpeed.ActivitiesPerWeek;
-                    Model.JobConfiguration.ActivitiesPerJob = superfastSpeed.ActivitiesPerJob;
-                    Model.JobConfiguration.DelayBetweenJobs = superfastSpeed.DelayBetweenJobs;
-                    Model.JobConfiguration.DelayBetweenActivity = superfastSpeed.DelayBetweenActivity;
-                }
+                //else if (Model.JobConfiguration.SelectedItem == "Fast")
+                //{
+                //    var fastSpeed = Model.FastSpeed;
+                //    Model.JobConfiguration.ActivitiesPerDay = fastSpeed.ActivitiesPerDay;
+                //    Model.JobConfiguration.ActivitiesPerHour = fastSpeed.ActivitiesPerHour;
+                //    Model.JobConfiguration.ActivitiesPerWeek = fastSpeed.ActivitiesPerWeek;
+                //    Model.JobConfiguration.ActivitiesPerJob = fastSpeed.ActivitiesPerJob;
+                //    Model.JobConfiguration.DelayBetweenJobs = fastSpeed.DelayBetweenJobs;
+                //    Model.JobConfiguration.DelayBetweenActivity = fastSpeed.DelayBetweenActivity;
+                //}
+                //else if (Model.JobConfiguration.SelectedItem == "Superfast")
+                //{
+                //    var superfastSpeed = Model.SuperfastSpeed;
+                //    Model.JobConfiguration.ActivitiesPerDay = superfastSpeed.ActivitiesPerDay;
+                //    Model.JobConfiguration.ActivitiesPerHour = superfastSpeed.ActivitiesPerHour;
+                //    Model.JobConfiguration.ActivitiesPerWeek = superfastSpeed.ActivitiesPerWeek;
+                //    Model.JobConfiguration.ActivitiesPerJob = superfastSpeed.ActivitiesPerJob;
+                //    Model.JobConfiguration.DelayBetweenJobs = superfastSpeed.DelayBetweenJobs;
+                //    Model.JobConfiguration.DelayBetweenActivity = superfastSpeed.DelayBetweenActivity;
+                //}
 
             }
             catch (Exception ex)

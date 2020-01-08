@@ -18,27 +18,27 @@ namespace DominatorHouseCore.Converters
                 {
                     case SocialNetworks.Facebook:
                         return (SolidColorBrush)(new BrushConverter().ConvertFrom("#003569"));
-                    case SocialNetworks.Instagram:
-                        return Brushes.Red;
-                    case SocialNetworks.Twitter:
-                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#3897F0"));
-                    case SocialNetworks.Pinterest:
-                    case SocialNetworks.Quora:
-                        return Brushes.Red;
-                    case SocialNetworks.LinkedIn:
-                        return Brushes.DodgerBlue;
-                    case SocialNetworks.Reddit:
-                        return Brushes.OrangeRed;
+                    //case SocialNetworks.Instagram:
+                    //    return Brushes.Red;
+                    //case SocialNetworks.Twitter:
+                    //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#3897F0"));
+                    //case SocialNetworks.Pinterest:
+                    //case SocialNetworks.Quora:
+                    //    return Brushes.Red;
+                    //case SocialNetworks.LinkedIn:
+                    //    return Brushes.DodgerBlue;
+                    //case SocialNetworks.Reddit:
+                    //    return Brushes.OrangeRed;
                     //case SocialNetworks.Quora:
                     //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#28A745"));
                     //case SocialNetworks.Gplus:
                     //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
-                    case SocialNetworks.Youtube:
-                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
-                    case SocialNetworks.Tumblr:
-                        return Brushes.DimGray;
-                    case SocialNetworks.TikTok:
-                        return Brushes.Black;
+                    //case SocialNetworks.Youtube:
+                    //    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
+                    //case SocialNetworks.Tumblr:
+                    //    return Brushes.DimGray;
+                    //case SocialNetworks.TikTok:
+                    //    return Brushes.Black;
                     case SocialNetworks.Social:
                         return null;
 

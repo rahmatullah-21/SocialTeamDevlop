@@ -5,6 +5,7 @@ using DominatorHouseCore.Models;
 using MahApps.Metro.Controls.Dialogs;
 using CommonServiceLocator;
 using DominatorHouseCore.Utility;
+using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 
 namespace DominatorUIUtility.ConfigControl
 {

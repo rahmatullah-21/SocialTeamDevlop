@@ -64,13 +64,13 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         private void ValidateAndNevigate()
         {
             var network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel.AccountNetwork;
-            if (network == SocialNetworks.Youtube)
-            {
-                if (ValidateYoutube())
-                    NavigateNext();
-            }
-            else if (ValidateReddit())
-                NavigateNext();
+            //if (network == SocialNetworks.Youtube)
+            //{
+            //    if (ValidateYoutube())
+            //        NavigateNext();
+            //}
+            //else if (ValidateReddit())
+            NavigateNext();
         }
 
         public Visibility YoutubeElementsVisibility { get; set; } = Visibility.Collapsed;

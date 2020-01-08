@@ -4,12 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:passwordHelper="clr-namespace:DominatorUIUtility.Behaviours"
-             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"  
+             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=LegionCore"  
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              Name="AccountDetailsControl"
-             mc:Ignorable="d"  xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             mc:Ignorable="d"  xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore">
     <UserControl.Resources>
         <converters:StringLengthToBooleanConverter x:Key="LengthToBooleanConverter"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>
@@ -200,14 +200,14 @@
                     <StackPanel.Style>
                         <Style TargetType="StackPanel"  >
                             <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
+                            <!--<Style.Triggers>
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
+                                --><!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
                                     <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>-->
-                            </Style.Triggers>
+                                </DataTrigger>--><!--
+                            </Style.Triggers>-->
                         </Style>
                     </StackPanel.Style>
                 </StackPanel>
@@ -219,14 +219,14 @@
                     <StackPanel.Style>
                         <Style TargetType="StackPanel"  >
                             <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
+                            <!--<Style.Triggers>
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                                <!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
+                                --><!--<DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}" >
                                     <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>-->
-                            </Style.Triggers>
+                                </DataTrigger>--><!--
+                            </Style.Triggers>-->
                         </Style>
                     </StackPanel.Style>
                 </StackPanel>
@@ -474,11 +474,11 @@
                         <CheckBox.Style>
                             <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
                                 <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
+                                <!--<Style.Triggers>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}"  Value="{x:Static enums:SocialNetworks.Instagram}" >
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
-                                </Style.Triggers>
+                                </Style.Triggers>-->
                             </Style>
                         </CheckBox.Style>
                     </CheckBox>
@@ -559,14 +559,14 @@
                     <StackPanel.Style>
                         <Style TargetType="StackPanel"  >
                             <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
+                            <!--<Style.Triggers>
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Pinterest}" >
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-                            </Style.Triggers>
+                            </Style.Triggers>-->
                         </Style>
                     </StackPanel.Style>
                     <CheckBox Name="AutoVerifyByEmail" Content="{DynamicResource LangKeyAutoVerifyByEmail}" IsChecked="{Binding DominatorAccountModel.IsAutoVerifyByEmail}"  Margin="5" FontWeight="SemiBold"/>
@@ -756,7 +756,7 @@
                         <StackPanel.Style>
                             <Style TargetType="StackPanel"  >
                                 <Setter Property="Visibility" Value="Visible" />
-                                <Style.Triggers>
+                                <!--<Style.Triggers>
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}" >
                                         <Setter Property="Visibility" Value="Collapsed" />
                                     </DataTrigger>
@@ -766,7 +766,7 @@
                                     <DataTrigger Binding="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" Value="{x:Static enums:SocialNetworks.TikTok}" >
                                         <Setter Property="Visibility" Value="Collapsed" />
                                     </DataTrigger>
-                                </Style.Triggers>
+                                </Style.Triggers>-->
                             </Style>
                         </StackPanel.Style>
                         <StackPanel Orientation="Horizontal">

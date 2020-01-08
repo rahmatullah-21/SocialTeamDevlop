@@ -470,8 +470,7 @@ namespace DominatorUIUtility.ViewModel
                 Content = objAddUpdateAccountControl
             };
 
-            objDominatorAccountBaseModel.AccountNetwork = (SocialNetworks)Enum.Parse(typeof(SocialNetworks),
-                    objAddUpdateAccountControl.ComboBoxSocialNetworks.Text);
+            objDominatorAccountBaseModel.AccountNetwork = SocialNetworks.Facebook;
 
             var objDialog = new Dialog();
             var dialogWindow = objDialog.GetCustomDialog(customDialog, "LangKeyAddAccount".FromResourceDictionary());
@@ -596,10 +595,10 @@ namespace DominatorUIUtility.ViewModel
                         //assign the username, password and groupname
                         var groupname = splitAccount[0];
 
-                        var socialNetwork = splitAccount[1];
-                        if (socialNetwork == "AccountNetwork" || socialNetwork == SocialNetworks.Social.ToString()) continue;
-                        var username = splitAccount[2];
-                        var password = splitAccount[3];
+                        var socialNetwork = SocialNetworks.Facebook.ToString();
+                        
+                        var username = splitAccount[1];
+                        var password = splitAccount[2];
 
                         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                             continue;
@@ -618,86 +617,86 @@ namespace DominatorUIUtility.ViewModel
 
                         switch (splitAccount.Length)
                         {
+                            case 4:
+                                alternetEmail = splitAccount[3];
+                                break;
                             case 5:
-                                alternetEmail = splitAccount[4];
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
                                 break;
                             case 6:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                alternetEmail = splitAccount[5];
                                 break;
                             case 7:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                alternetEmail = splitAccount[6];
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
                                 break;
                             case 8:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                proxyusername = splitAccount[6];
-                                proxypassword = splitAccount[7];
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
+                                alternetEmail = splitAccount[7];
                                 break;
                             case 9:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                proxyusername = splitAccount[6];
-                                proxypassword = splitAccount[7];
-                                alternetEmail = splitAccount[8];
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
+                                status = splitAccount[7];
+                                cookies = splitAccount[8].Replace("<>", ",");
                                 break;
                             case 10:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                proxyusername = splitAccount[6];
-                                proxypassword = splitAccount[7];
-                                status = splitAccount[8];
-                                cookies = splitAccount[9].Replace("<>", ",");
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
+                                status = splitAccount[7];
+                                cookies = splitAccount[8].Replace("<>", ",");
+                                alternetEmail = splitAccount[9];
                                 break;
                             case 11:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                proxyusername = splitAccount[6];
-                                proxypassword = splitAccount[7];
-                                status = splitAccount[8];
-                                cookies = splitAccount[9].Replace("<>", ",");
-                                alternetEmail = splitAccount[10];
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
+                                status = splitAccount[7];
+                                cookies = splitAccount[8].Replace("<>", ",");
+                                alternetEmail = splitAccount[9];
+                                banned = splitAccount[10];
                                 break;
-                            case 12:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                proxyusername = splitAccount[6];
-                                proxypassword = splitAccount[7];
-                                status = splitAccount[8];
-                                cookies = splitAccount[9].Replace("<>", ",");
-                                alternetEmail = splitAccount[10];
-                                banned = splitAccount[11];
+                            case 13:
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
+                                status = splitAccount[7];
+                                cookies = splitAccount[8].Replace("<>", ",");
+                                alternetEmail = splitAccount[9];
+                                banned = splitAccount[10];
+                                browserCookies = splitAccount[11].Replace("<>", ",");
+                                isBrowserAutomationActive = splitAccount[12];
                                 break;
                             case 14:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                proxyusername = splitAccount[6];
-                                proxypassword = splitAccount[7];
-                                status = splitAccount[8];
-                                cookies = splitAccount[9].Replace("<>", ",");
-                                alternetEmail = splitAccount[10];
-                                banned = splitAccount[11];
-                                browserCookies = splitAccount[12].Replace("<>", ",");
-                                isBrowserAutomationActive = splitAccount[13];
-                                break;
-                            case 15:
-                                proxyaddress = splitAccount[4];
-                                proxyport = splitAccount[5];
-                                proxyusername = splitAccount[6];
-                                proxypassword = splitAccount[7];
-                                status = splitAccount[8];
-                                cookies = splitAccount[9].Replace("<>", ",");
-                                alternetEmail = splitAccount[10];
-                                banned = splitAccount[11];
-                                browserCookies = splitAccount[12].Replace("<>", ",");
-                                isBrowserAutomationActive = splitAccount[13];
-                                proxyGroup = splitAccount[14];
+                                proxyaddress = splitAccount[3];
+                                proxyport = splitAccount[4];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
+                                status = splitAccount[7];
+                                cookies = splitAccount[8].Replace("<>", ",");
+                                alternetEmail = splitAccount[9];
+                                banned = splitAccount[10];
+                                browserCookies = splitAccount[11].Replace("<>", ",");
+                                isBrowserAutomationActive = splitAccount[12];
+                                proxyGroup = splitAccount[13];
                                 break;
                         }
 
-                        if (splitAccount.Length > 4)
+                        if (splitAccount.Length > 3)
                         {
                             if (string.IsNullOrEmpty(proxyaddress) || string.IsNullOrEmpty(proxyport))
                             {
@@ -1532,9 +1531,9 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name";
+            const string header = "Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name";
 
-            var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
+            var filename = $"{exportPath}\\Legion_Accounts {ConstantVariable.DateasFileName}.csv";
 
             if (!File.Exists(filename))
             {
@@ -1549,7 +1548,6 @@ namespace DominatorUIUtility.ViewModel
                 {
                     var csvData =
                      account.AccountBaseModel.AccountGroup.Content + ","
-                     + account.AccountBaseModel.AccountNetwork + ","
                      + account.AccountBaseModel.UserName + ","
                      + account.AccountBaseModel.Password + ","
                      + account.AccountBaseModel.AccountProxy.ProxyIp + ","
@@ -1558,7 +1556,6 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.AccountProxy.ProxyPassword + ","
                      + account.AccountBaseModel.Status + ","
                      + JsonConvert.SerializeObject(account.CookieHelperList).Replace(",", "<>") + ","
-                     + account.AccountBaseModel.AlternateEmail + ","
                      + account.AccountBaseModel.Banned + ","
                      + JsonConvert.SerializeObject(account.BrowserCookieHelperList).Replace(",", "<>") + ","
                      + account.IsRunProcessThroughBrowser.ToString() + ","
@@ -1765,9 +1762,7 @@ namespace DominatorUIUtility.ViewModel
                         var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
 
                         softwareSetting.ScheduleAutoUpdation();
-                        if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null
-                            || SocinatorInitialize.GetSocialLibrary(SocialNetworks.Quora) != null
-                            || SocinatorInitialize.GetSocialLibrary(SocialNetworks.TikTok) != null)
+                        if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
                             softwareSetting.ScheduleAdsScraping();
                     }
                     catch (Exception ex)
@@ -2166,9 +2161,9 @@ namespace DominatorUIUtility.ViewModel
                   "LangKeyStartActivityByBrowserStopByHttp".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser);
 
-                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected && (x.AccountBaseModel.AccountNetwork == SocialNetworks.Instagram || x.AccountBaseModel.AccountNetwork == SocialNetworks.TikTok)))
+                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected))
                         Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGTikTokWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
 
                     if (accountsToProcess.Count() == 0)
@@ -2216,7 +2211,7 @@ namespace DominatorUIUtility.ViewModel
                       "LangKeyStartActivityByHttpStopByBrowser".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary());
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && x.IsRunProcessThroughBrowser && x.AccountBaseModel.AccountNetwork != SocialNetworks.Instagram && x.AccountBaseModel.AccountNetwork != SocialNetworks.TikTok);
+                    var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected);
                     if (accountsToProcess.Count() == 0)
                     {
                         ToasterNotification.ShowInfomation($"{"LangKeyNoAccountsFoundToPerformAction".FromResourceDictionary()}");

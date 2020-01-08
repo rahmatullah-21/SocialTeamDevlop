@@ -298,27 +298,27 @@ namespace DominatorUIUtility.Views.AccountSetting.CustomControl
             DelayBetweenActivity = new RangeUtilities(0, 1)
         };
 
-        public Activity FastSpeed = new Activity()
-        {
-            ActivitiesPerDay = new RangeUtilities(266, 400),
-            ActivitiesPerHour = new RangeUtilities(26, 40),
-            ActivitiesPerWeek = new RangeUtilities(1600, 2400),
-            ActivitiesPerJob = new RangeUtilities(33, 50),
-            DelayBetweenJobs = new RangeUtilities(65, 97),
-            DelayBetweenActivity = new RangeUtilities(0, 1)
-        };
+        //public Activity FastSpeed = new Activity()
+        //{
+        //    ActivitiesPerDay = new RangeUtilities(266, 400),
+        //    ActivitiesPerHour = new RangeUtilities(26, 40),
+        //    ActivitiesPerWeek = new RangeUtilities(1600, 2400),
+        //    ActivitiesPerJob = new RangeUtilities(33, 50),
+        //    DelayBetweenJobs = new RangeUtilities(65, 97),
+        //    DelayBetweenActivity = new RangeUtilities(0, 1)
+        //};
 
 
-        public Activity SuperfastSpeed = new Activity()
-        {
-            ActivitiesPerDay = new RangeUtilities(400, 600),
-            ActivitiesPerHour = new RangeUtilities(40, 60),
-            ActivitiesPerWeek = new RangeUtilities(2400, 3600),
-            ActivitiesPerJob = new RangeUtilities(50, 75),
-            DelayBetweenJobs = new RangeUtilities(77, 116),
-            DelayBetweenActivity = new RangeUtilities(0, 1)
+        //public Activity SuperfastSpeed = new Activity()
+        //{
+        //    ActivitiesPerDay = new RangeUtilities(400, 600),
+        //    ActivitiesPerHour = new RangeUtilities(40, 60),
+        //    ActivitiesPerWeek = new RangeUtilities(2400, 3600),
+        //    ActivitiesPerJob = new RangeUtilities(50, 75),
+        //    DelayBetweenJobs = new RangeUtilities(77, 116),
+        //    DelayBetweenActivity = new RangeUtilities(0, 1)
 
-        };
+        //};
     }
     public class Activity
     {

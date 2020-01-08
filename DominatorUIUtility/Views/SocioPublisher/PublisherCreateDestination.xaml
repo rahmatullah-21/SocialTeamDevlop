@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              x:Name="CreateDestination"
              mc:Ignorable="d"  
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              Loaded="PublisherCreateDestination_OnLoaded"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
     <UserControl.Resources>
@@ -82,7 +82,7 @@
                         <ControlTemplate>
                             <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                 <StackPanel Orientation="Horizontal" >
-                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/DominatorUIUtility;component/Images/Select.png" />
+                                    <Image Width="25" Height="25" Stretch="UniformToFill" Source="/LegionUIUtility;component/Images/Select.png" />
                                     <Label Content="{DynamicResource LangKeySelect}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </Border>
@@ -314,7 +314,7 @@
                                                                 </Setter>
                                                             </DataTrigger>
 
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                                            <!--<DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Instagram}">
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="Red" Width="20" Height="20">
@@ -386,7 +386,7 @@
                                                                         </Rectangle>
                                                                     </Setter.Value>
                                                                 </Setter>
-                                                            </DataTrigger>
+                                                            </DataTrigger>-->
                                                             <!--<DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Gplus}">
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
@@ -399,7 +399,7 @@
                                                                 </Setter>
                                                             </DataTrigger>-->
 
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                                            <!--<DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Youtube}">
                                                                 <Setter Property="Content" >
                                                                     <Setter.Value>
                                                                         <Rectangle Fill="#FF0000" Width="20" Height="20">
@@ -421,7 +421,7 @@
                                                                         </Rectangle>
                                                                     </Setter.Value>
                                                                 </Setter>
-                                                            </DataTrigger>
+                                                            </DataTrigger>-->
                                                         </Style.Triggers>
                                                     </Style>
                                                 </ContentControl.Style>

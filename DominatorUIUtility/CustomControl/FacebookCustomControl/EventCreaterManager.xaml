@@ -9,7 +9,7 @@
              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
              xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore">
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore">
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

@@ -48,6 +48,8 @@ namespace DominatorHouse.ViewModels
 
         public SelectableViewModel<string> Themes { get; }
 
+        public string Value { get; set; } = "Hello";
+
         public ISelectedNetworkViewModel AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }

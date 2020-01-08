@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore.Integratio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditDominatorCore.IntegrationTests", "..\reddit-dominator-library\Tests\RedditDominatorCore.IntegrationTests\RedditDominatorCore.IntegrationTests.csproj", "{B431F1E4-CC2C-41F5-8D8A-17F05F92043F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Legion", "Legion\Legion.vdproj", "{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -457,6 +459,15 @@ Global
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F}.Release|x64.Build.0 = Release|Any CPU
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F}.Release|x86.ActiveCfg = Release|Any CPU
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F}.Release|x86.Build.0 = Release|Any CPU
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Debug|Any CPU.ActiveCfg = Debug
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Debug|x64.ActiveCfg = Debug
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Debug|x86.ActiveCfg = Debug
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Debug-fast-test|Any CPU.ActiveCfg = Debug
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Debug-fast-test|x64.ActiveCfg = Debug
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Debug-fast-test|x86.ActiveCfg = Debug
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Release|Any CPU.ActiveCfg = Release
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Release|x64.ActiveCfg = Release
+		{F09898C2-CF5C-4C1E-AD41-6D02EC2B01CA}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -480,7 +491,7 @@ Global
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F} = {4C32F6EE-9036-42DB-9157-43986E4233D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
+		SolutionGuid = {E957EBB3-1EB8-4718-8F80-22FABC38D06A}
 	EndGlobalSection
 EndGlobal

@@ -89,27 +89,27 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
         private void validateAndNevigate()
         {
             var network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel.AccountNetwork;
-            if (network == SocialNetworks.Twitter)
-            {
-                if (!UnLike.IsLikedTweets && !UnLike.IsCustomTweets)
-                {
-                    Dialog.ShowDialog("Error", "Please select at least one source type.");
-                    return;
-                }
-                if (UnLike.IsCustomTweets && string.IsNullOrEmpty(UnLike.CustomTweets.Trim()))
-                {
-                    Dialog.ShowDialog("Error", "Please type some Tweets.");
-                    return;
-                }
-            }
-            else if (network == SocialNetworks.Instagram)
-            {
-                if (!IsCheckedUnlikeMedia)
-                {
-                    Dialog.ShowDialog("Error", "Please check Source Type");
-                    return;
-                }
-            }
+            //if (network == SocialNetworks.Twitter)
+            //{
+            //    if (!UnLike.IsLikedTweets && !UnLike.IsCustomTweets)
+            //    {
+            //        Dialog.ShowDialog("Error", "Please select at least one source type.");
+            //        return;
+            //    }
+            //    if (UnLike.IsCustomTweets && string.IsNullOrEmpty(UnLike.CustomTweets.Trim()))
+            //    {
+            //        Dialog.ShowDialog("Error", "Please type some Tweets.");
+            //        return;
+            //    }
+            //}
+            //else if (network == SocialNetworks.Instagram)
+            //{
+            //    if (!IsCheckedUnlikeMedia)
+            //    {
+            //        Dialog.ShowDialog("Error", "Please check Source Type");
+            //        return;
+            //    }
+            //}
             NavigateNext();
         }
     }

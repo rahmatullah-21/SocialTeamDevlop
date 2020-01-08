@@ -194,8 +194,8 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
             if (InstagramElementsVisibility == Visibility.Visible)
                 AllVisibility = Visibility.Collapsed;
             network = ServiceLocator.Current.TryResolve<ISelectActivityViewModel>().SelectAccount.AccountBaseModel.AccountNetwork;
-            if (network == SocialNetworks.Reddit || network == SocialNetworks.Instagram)
-                IsVisible = true;
+            //if (network == SocialNetworks.Reddit || network == SocialNetworks.Instagram)
+            //    IsVisible = true;
             JobConfiguration = new JobConfiguration
             {
                 ActivitiesPerJobDisplayName = "LangKeyNumberOfUnfollowPerJob".FromResourceDictionary(),
@@ -207,23 +207,18 @@ namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
                 Speeds = Enum.GetNames(typeof(ActivitySpeed)).ToList()
             };
         }
-       
+
         private void NextValidation()
         {
             if (_UnFollower.IsChkPeopleFollowedOutsideSoftwareChecked || _UnFollower.IsChkPeopleFollowedBySoftwareCheecked || _UnFollower.IsChkCustomUsersListChecked)
             {
-                if (network != SocialNetworks.Reddit)
+                if (_UnFollower.IsWhoDoNotFollowBackChecked || _UnFollower.IsWhoFollowBackChecked)
                 {
-                    if (_UnFollower.IsWhoDoNotFollowBackChecked || _UnFollower.IsWhoFollowBackChecked)
-                    {
-                        if (CheckCustomUser())
-                            NavigateNext();
-                    }
-                    else
-                        Dialog.ShowDialog("Error", "Please select Unfollow source type.");
+                    if (CheckCustomUser())
+                        NavigateNext();
                 }
-                else if (CheckCustomUser())
-                    NavigateNext();
+                else
+                    Dialog.ShowDialog("Error", "Please select Unfollow source type.");
             }
             else
             {

@@ -57,13 +57,13 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 
         private void Pinterest_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
-                .PublisherCreateCampaignViewModel
-                .PublisherCreateCampaignModel.CampaignId;
-            var pinterestModel = _genericFileManager.GetModuleDetails<PinterestModel>
-                    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest))
-                .FirstOrDefault(x => x.CampaignId == campaignId);
-            PinterestViewModel.PinterestModel = pinterestModel ?? (new PinterestModel());
+            //var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+            //    .PublisherCreateCampaignViewModel
+            //    .PublisherCreateCampaignModel.CampaignId;
+            //var pinterestModel = _genericFileManager.GetModuleDetails<PinterestModel>
+            //        (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Pinterest))
+            //    .FirstOrDefault(x => x.CampaignId == campaignId);
+            //PinterestViewModel.PinterestModel = pinterestModel ?? (new PinterestModel());
         }
     }
 }

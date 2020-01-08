@@ -43,27 +43,27 @@ namespace DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig
                 var network = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), nw);
                 switch (network)
                 {
-                    case SocialNetworks.Twitter:
-                        visibilityModel.TwitterElementsVisibility = Visibility.Visible;
-                        break;
-                    case SocialNetworks.Instagram:
-                        visibilityModel.InstagramElementsVisibility = Visibility.Visible;
-                        break;
-                    case SocialNetworks.LinkedIn:
-                        visibilityModel.LinkedInElementsVisibility = Visibility.Visible;
-                        break;
+                    //case SocialNetworks.Twitter:
+                    //    visibilityModel.TwitterElementsVisibility = Visibility.Visible;
+                    //    break;
+                    //case SocialNetworks.Instagram:
+                    //    visibilityModel.InstagramElementsVisibility = Visibility.Visible;
+                    //    break;
+                    //case SocialNetworks.LinkedIn:
+                    //    visibilityModel.LinkedInElementsVisibility = Visibility.Visible;
+                    //    break;
                     case SocialNetworks.Facebook:
                         visibilityModel.FacebookElementsVisibility = Visibility.Visible;
                         break;
-                    case SocialNetworks.Youtube:
-                        visibilityModel.YoutubeElementsVisibility = Visibility.Visible;
-                        break;
-                    case SocialNetworks.Reddit:
-                        visibilityModel.RedditElementsVisibility = Visibility.Visible;
-                        break;
-                    case SocialNetworks.Quora:
-                        visibilityModel.QuoraElementsVisibility = Visibility.Visible;
-                        break;
+                    //case SocialNetworks.Youtube:
+                    //    visibilityModel.YoutubeElementsVisibility = Visibility.Visible;
+                    //    break;
+                    //case SocialNetworks.Reddit:
+                    //    visibilityModel.RedditElementsVisibility = Visibility.Visible;
+                    //    break;
+                    //case SocialNetworks.Quora:
+                    //    visibilityModel.QuoraElementsVisibility = Visibility.Visible;
+                    //    break;
                 }
             }
             catch{ }

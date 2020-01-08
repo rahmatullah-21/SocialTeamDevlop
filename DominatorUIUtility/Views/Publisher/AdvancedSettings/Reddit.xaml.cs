@@ -57,13 +57,13 @@ namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
 
         private void Reddit_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
-                .PublisherCreateCampaignViewModel
-                .PublisherCreateCampaignModel.CampaignId;
-            var redditModel = _genericFileManager.GetModuleDetails<RedditModel>
-                (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit))
-                .FirstOrDefault(x => x.CampaignId == campaignId);
-            RedditViewModel.RedditModel = redditModel ?? (new RedditModel());
+            //var campaignId = PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns()
+            //    .PublisherCreateCampaignViewModel
+            //    .PublisherCreateCampaignModel.CampaignId;
+            //var redditModel = _genericFileManager.GetModuleDetails<RedditModel>
+            //    (ConstantVariable.GetPublisherOtherConfigFile(SocialNetworks.Reddit))
+            //    .FirstOrDefault(x => x.CampaignId == campaignId);
+            //RedditViewModel.RedditModel = redditModel ?? (new RedditModel());
         }
     }
 }

@@ -2,11 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" x:Name="MainGrid"
-             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
-             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=DominatorHouseCore"
-             xmlns:uiExtensions="clr-namespace:DominatorHouseCore.UIExtensions;assembly=DominatorHouseCore"
-             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=DominatorHouseCore">
+             xmlns:converter="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
+             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore"
+             xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=LegionCore"
+             xmlns:uiExtensions="clr-namespace:DominatorHouseCore.UIExtensions;assembly=LegionCore"
+             xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=LegionCore">
     <UserControl.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converter:BooleanToVisibilityConverter IsInversed="True" x:Key="BooleanToVisibilityConverterInversed"/>
@@ -305,7 +305,7 @@
                                                 </Setter>
                                             </DataTrigger>
 
-                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
+                                            <!--<DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Instagram}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
                                                         <Rectangle Fill="Red" Width="20" Height="20">
@@ -387,7 +387,7 @@
                                                         </Rectangle>
                                                     </Setter.Value>
                                                 </Setter>
-                                            </DataTrigger>
+                                            </DataTrigger>-->
                                             <!--<DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Gplus}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
@@ -399,7 +399,7 @@
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>-->
-                                            <DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
+                                            <!--<DataTrigger Binding="{Binding Path=AccountNetwork}" Value="{x:Static enums:SocialNetworks.Youtube}">
                                                 <Setter Property="Content" >
                                                     <Setter.Value>
                                                         <Rectangle Fill="#FF0000" Width="20" Height="20">
@@ -409,7 +409,7 @@
                                                         </Rectangle>
                                                     </Setter.Value>
                                                 </Setter>
-                                            </DataTrigger>
+                                            </DataTrigger>-->
 
 
                                         </Style.Triggers>

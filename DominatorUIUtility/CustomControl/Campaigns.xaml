@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              x:Name="Campaign" 
              mc:Ignorable="d"  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
+             xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
              xmlns:viewModel="clr-namespace:DominatorUIUtility.ViewModel" 
              xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
@@ -200,7 +200,7 @@
                                                                   Command="{Binding Data.ReportCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                                 <MenuItem.Icon>
-                                                                    <Image Source="/DominatorUIUtility;component/Images/black_PostList.png"  />
+                                                                    <Image Source="/LegionUIUtility;component/Images/black_PostList.png"  />
                                                                 </MenuItem.Icon>
                                                             </MenuItem>
                                                             <MenuItem Header="{DynamicResource LangKeyExportReport}" VerticalContentAlignment="Center"
@@ -234,7 +234,7 @@
                                                                   Command="{Binding Data.SelectedAccountsCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                                 <MenuItem.Icon>
-                                                                    <Image Source="/DominatorUIUtility;component/Images/groupupdate.png"  />
+                                                                    <Image Source="/LegionUIUtility;component/Images/groupupdate.png"  />
                                                                 </MenuItem.Icon>
                                                             </MenuItem>
                                                         </ContextMenu>
