@@ -447,6 +447,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            <Setter Property="Foreground" Value="WhiteSmoke"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="VerticalContentAlignment" Value="Center"/>

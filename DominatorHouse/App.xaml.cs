@@ -39,6 +39,7 @@ namespace Socinator
         protected override Window CreateShell()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            MahApps.Metro.ThemeManager.AddAccent("PrussianBlue", new Uri($"pack://application:,,,/DominatorUIUtility;component/Themes/PrussianBlue.xaml"));
             InitializeAutoMapper();
             var shell = Container.Resolve<MainWindow>();
 
