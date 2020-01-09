@@ -97,7 +97,13 @@ namespace DominatorHouseCore.Enums.FdQuery
         [Description("LangKeyFriendsBasicDetails")]
         FriendsBasicDetails = 17,
         [Description("LangKeyGroupMemberBasicDetails")]
-        GroupMemberBasicDetails = 18
+        GroupMemberBasicDetails = 18,
+        [Description("LangKeyPagePostCommenters")]
+        PagePostPostCommenters = 19,
+        [Description("LangKeyGroupPostCommenters")]
+        GroupPostCommenters = 20,
+        [Description("LangKeyPeopleConnectedInMessenger")]
+        ConnectedPeopleInMessenger = 21,
     }
 
     public enum FdProfileScraperQuery
