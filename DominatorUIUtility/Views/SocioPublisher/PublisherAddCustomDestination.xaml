@@ -82,7 +82,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Name="BtnDelete" Width="40" Height="25" Background="Transparent"
-                                                VerticalAlignment="Top" Margin="10,0"   
+                                                VerticalAlignment="Top" Margin="10,0" Foreground="{DynamicResource TextColorBrushAccordingTheme1}"  
                                                 Command="{Binding ElementName=CustomDestinationList,Path=DataContext.DeleteCommand}"
                                                 CommandParameter="{Binding ElementName=BtnDelete}">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

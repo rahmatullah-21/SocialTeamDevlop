@@ -38,7 +38,7 @@
                         VerticalContentAlignment="Center" Background="Transparent" ToolTip="{DynamicResource LangKeyDeleteSelected}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal" >
-                                <Rectangle Width="15" Height="20" Fill="White">
+                                <Rectangle Width="15" Height="20" Fill="IndianRed">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                     </Rectangle.OpacityMask>
@@ -162,7 +162,7 @@
                                                                   Command="{Binding Data.EditCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                                 <MenuItem.Icon>
-                                                                    <Rectangle Width="20" Height="20" Fill="Black">
+                                                                    <Rectangle Width="20" Height="20" Fill="{DynamicResource IconFillBrushAccordingTheme}" >
                                                                         <Rectangle.OpacityMask>
                                                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit_box}" />
                                                                         </Rectangle.OpacityMask>
@@ -174,7 +174,7 @@
                                                                   Command="{Binding Data.DuplicateCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                                 <MenuItem.Icon>
-                                                                    <Rectangle Fill="Black" Width="17" Height="16">
+                                                                    <Rectangle Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="17" Height="16">
                                                                         <Rectangle.OpacityMask>
                                                                             <VisualBrush Visual="{StaticResource appbar_page_duplicate}" Stretch="Fill" />
                                                                         </Rectangle.OpacityMask>
@@ -187,7 +187,7 @@
                                                                   Command="{Binding Data.DeleteCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                                 <MenuItem.Icon>
-                                                                    <Rectangle Width="15" Height="20" Fill="Black">
+                                                                    <Rectangle Width="15" Height="20" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                                         <Rectangle.OpacityMask>
                                                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                                         </Rectangle.OpacityMask>
@@ -208,7 +208,7 @@
                                                                   Command="{Binding Data.ExportReportCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                                 <MenuItem.Icon>
-                                                                    <Rectangle Fill="Black" Width="17" Height="16">
+                                                                    <Rectangle Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="17" Height="16">
                                                                         <Rectangle.OpacityMask>
                                                                             <VisualBrush Visual="{StaticResource appbar_inbox_out}" Stretch="Fill" />
                                                                         </Rectangle.OpacityMask>
@@ -221,7 +221,7 @@
                                                                   Command="{Binding Data.CopyCampaignIdCommand, Source={StaticResource ContextMenuBinding}}"
                                                                   CommandParameter="{Binding}">
                                                                 <MenuItem.Icon>
-                                                                    <Rectangle Fill="Black" Width="17" Height="16">
+                                                                    <Rectangle Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="17" Height="16">
                                                                         <Rectangle.OpacityMask>
                                                                             <VisualBrush Visual="{StaticResource appbar_page_copy}" Stretch="Fill" />
                                                                         </Rectangle.OpacityMask>

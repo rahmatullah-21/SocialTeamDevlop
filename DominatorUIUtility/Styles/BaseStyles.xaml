@@ -348,8 +348,8 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Setter Property="Height" Value="35"></Setter>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="MaxHeight" Value="35"></Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
@@ -367,8 +367,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="ContentBorder"
-                            Background="White">
+                    <Border x:Name="ContentBorder">
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -378,7 +377,7 @@
                                     Value="{x:Static SystemColors.HighlightBrush}" />
                             <Setter Property="IsSelected" Value="True" />
                         </Trigger>
-                        <Trigger Property="IsSelected"   Value="True">
+                        <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background"
                                     TargetName="ContentBorder"
                                     Value="{x:Static SystemColors.HighlightBrush}" />

@@ -53,7 +53,7 @@
                 <VisualBrush Visual="{StaticResource appbar_book_open_hardcover}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="DeleteIcon" Fill="Red" Width="17" Height="20">
+        <Rectangle x:Key="DeleteIcon" Fill="IndianRed" Width="17" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill" />
             </Rectangle.OpacityMask>

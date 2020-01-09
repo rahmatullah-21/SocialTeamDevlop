@@ -42,6 +42,7 @@ namespace DominatorUIUtility.CustomControl
             LstNonQueryType.Add("LangKeyNewsFeedPosts".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyOwnFriends".FromResourceDictionary());
             LstNonQueryType.Add("LangKeyScrapUserWhomWeMessaged".FromResourceDictionary());
+            LstNonQueryType.Add("LangKeyPeopleConnectedInMessenger".FromResourceDictionary());
 
             DeleteQueryCommand = new BaseCommand<object>((sender) => true, DeleteQueryExecute);
             DeleteMulipleCommand = new BaseCommand<object>((sender) => true, DeleteMulipleExecute);

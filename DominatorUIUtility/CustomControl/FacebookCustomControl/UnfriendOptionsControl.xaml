@@ -48,6 +48,11 @@
                     <controls:NumericUpDown Value="{Binding UnfriendOptionModel.HoursBefore}"  FontWeight="SemiBold" Foreground="Black" Minimum="0" IsEnabled="{Binding UnfriendOptionModel.IsGroupsBetweenChecked}"/>
                     <Label Content="{DynamicResource LangKeyHours}" FontWeight="SemiBold" Foreground="Black" />
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                    <CheckBox Margin="30,5,15,5" Content="{DynamicResource LangKeyHaveNotPerformedPostOnWallActivityFrom}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding UnfriendOptionModel.IsNotPostOnWall}"/>
+                    <controls:NumericUpDown Value="{Binding UnfriendOptionModel.DaysNotPostedOnWall}" FontWeight="SemiBold" Foreground="Black" Minimum="0" IsEnabled="{Binding UnfriendOptionModel.IsNotPostOnWall}" />
+                    <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
+                </StackPanel>
                 <StackPanel Orientation="Vertical" Visibility="{Binding MessageOptionsVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" >
                     <CheckBox Margin="30,5,15,5" Content="{DynamicResource LangKeyReplyToMessagesThatContainSpecificWord﻿}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding UnfriendOptionModel.IsFilterByMessageText}"/>
                     <customControl:InputBoxControl Margin="55,5,15,5" Visibility="{Binding UnfriendOptionModel.IsFilterByMessageText,Converter={StaticResource BooleanToVisibilityConverter}}" InputText="{Binding UnfriendOptionModel.FilterText}" GetInputClick="Save_Click"/>

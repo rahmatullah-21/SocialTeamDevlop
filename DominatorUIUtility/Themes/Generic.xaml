@@ -138,7 +138,7 @@
                             </StackPanel>-->
                             <StackPanel Margin="1" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path= IsMediaVisibility}">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource AccebtBaseColorBrush}" Text="{DynamicResource LangKeyMediaS}" FontSize="12" VerticalAlignment="Center" />
+                                    <TextBlock Name="TextBlockMedia" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" Text="{DynamicResource LangKeyMediaS}" FontSize="12" VerticalAlignment="Center" />
                                 </StackPanel>
                                 <CheckBox Content="{DynamicResource LangKeyChangeHashOfMedia}" Margin="5" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsChangeHashOfMedia}">
                                     <CheckBox.Style>
