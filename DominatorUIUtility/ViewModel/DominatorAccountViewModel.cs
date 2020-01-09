@@ -2163,8 +2163,8 @@ namespace DominatorUIUtility.ViewModel
                 {
                     var accountsToProcess = LstDominatorAccountModel.Where(x => x.IsAccountManagerAccountSelected && !x.IsRunProcessThroughBrowser);
 
-                    if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected))
-                        Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGTikTokWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
+                    //if (LstDominatorAccountModel.Any(x => x.IsAccountManagerAccountSelected))
+                    //    Dialog.ShowDialog("LangKeyNote".FromResourceDictionary(), "LangIGTikTokWontRunWithBrowserAutoTryWithHttp".FromResourceDictionary());
 
                     if (accountsToProcess.Count() == 0)
                     {
