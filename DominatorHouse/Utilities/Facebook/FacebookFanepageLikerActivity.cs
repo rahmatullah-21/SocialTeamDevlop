@@ -1,6 +1,6 @@
-﻿using DominatorHouseCore.StartupActivity;
+﻿using DominatorHouseCore.Enums.FdQuery;
+using DominatorHouseCore.StartupActivity;
 using DominatorHouseCore.Utility;
-using FaceDominatorCore.FDEnums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -492,12 +492,10 @@
     <Compile Include="Enums\EmbeddedBrowser\BrowserEnums.cs" />
     <Compile Include="Enums\FdQuery\AdUpdationType.cs" />
     <Compile Include="Enums\FdQuery\EventType.cs" />
+    <Compile Include="Enums\FdQuery\FacebookQueryParameters.cs" />
     <Compile Include="Enums\FdQuery\FbEntityTypes.cs" />
-    <Compile Include="Enums\FdQuery\FdFanpageLikerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdFriendRequestQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdGroupJoinerQuery.cs" />
     <Compile Include="Enums\FdQuery\FdPosterQuery.cs" />
-    <Compile Include="Enums\FdQuery\FdProfileScraperQuery.cs" />
     <Compile Include="Enums\FdQuery\FdUnfriendQuery.cs" />
     <Compile Include="Enums\FdQuery\PlaceQueryParameters.cs" />
     <Compile Include="Enums\FdQuery\PostOptions.cs" />
