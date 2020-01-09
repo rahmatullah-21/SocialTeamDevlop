@@ -660,35 +660,35 @@
                         <ContextMenu x:Key="ItemContextMenu">
                             <MenuItem Header="{DynamicResource LangKeyDetails}" CommandParameter="{Binding}"
                                   Command="{Binding Data.ProfileDetailsCommand, Source={StaticResource ContextMenuBinding}}"
-                                  Icon="{StaticResource DetailsIcon}"/>
+                                  Icon="{DynamicResource DetailsIcon}"/>
                             <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
-                                  Icon="{StaticResource DeleteIcon}"/>
-                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
+                                  Icon="{DynamicResource DeleteIcon}"/>
+                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{StaticResource GoToToolsIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
                                   CommandParameter="{Binding}"
                                   Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
                                   Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
-                            <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{StaticResource CheckStatusIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{DynamicResource CheckStatusIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{StaticResource UpdateFriendshipIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{DynamicResource UpdateFriendshipIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
-                                  Icon="{StaticResource InstEditIcon}" 
+                                  Icon="{DynamicResource InstEditIcon}" 
                                   Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
                                   CommandParameter="{Binding}" />
                             <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
-                                  Icon="{StaticResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
+                                  Icon="{DynamicResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
                                   Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{StaticResource CopyAccountIdIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{DynamicResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
+                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
                                 <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
                                 <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>

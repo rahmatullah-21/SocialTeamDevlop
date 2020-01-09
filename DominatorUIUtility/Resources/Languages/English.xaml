@@ -4517,4 +4517,6 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyPagePostCommenters">Page Post Commenters</system:String>
     <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters</system:String>
     <system:String x:Key="LagKeyNoMoreCommetersForPost">"No More Commenters Available For Post Url {0}"</system:String>
+    <system:String x:Key="LangKeyScrapePostsFromReddit">Scrape Posts From Reddit</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeKeywordUserSubreddit">Add Posts Source! Like ([K] Keyword, [U] User Post Url, [S] Subreddit Post Url)</system:String>
 </ResourceDictionary>

@@ -230,5 +230,42 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+        #region RedditPost Scaper 
+
+        //To specify reddit scrape post is checked
+        [ProtoMember(14)]
+        private bool _isScrapeRedditPost;
+
+        public bool IsScrapeRedditPost
+        {
+            get { return _isScrapeRedditPost; }
+            set
+            {
+                if (_isScrapeRedditPost == value)
+                    return;
+                _isScrapeRedditPost = value;
+                OnPropertyChanged(nameof(IsScrapeRedditPost));
+            }
+        }
+
+
+        //To specify scraping details of reddit
+        [ProtoMember(15)]
+        private string _addRdPostSource;
+
+        public string AddRdPostSource
+        {
+            get { return _addRdPostSource; }
+            set
+            {
+                if (_addRdPostSource == value)
+                    return;
+                _addRdPostSource = value;
+                OnPropertyChanged(nameof(AddRdPostSource));
+            }
+        }
+
+        #endregion
+
     }
 }

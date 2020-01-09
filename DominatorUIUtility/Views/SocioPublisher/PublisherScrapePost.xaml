@@ -49,7 +49,13 @@
                          Text="{Binding ScrapePostModel.AddTdPostSource}" 
                      Visibility="{Binding ScrapePostModel.IsScrapeTwitterPost,Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
-
+        <StackPanel Orientation="Vertical" >
+            <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromReddit}" IsChecked="{Binding ScrapePostModel.IsScrapeRedditPost}"/>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapeRedditPost,Converter={StaticResource BooleanToVisibilityConverter}}"
+                         mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeKeywordUserSubreddit}" Margin="2" TextWrapping="Wrap" 
+                         Height="60" Width="404" AcceptsReturn="True" Text="{Binding ScrapePostModel.AddRdPostSource}" />
+        </StackPanel>
+        
         <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeySetting}" FontSize="13" FontWeight="SemiBold"/>
         <StackPanel Orientation="Horizontal" Margin="2">
             <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyScrape}" Margin="0,0,10,0"/>
