@@ -1532,7 +1532,32 @@ namespace DominatorUIUtility.ViewModel
             if (string.IsNullOrEmpty(exportPath))
                 return;
 
-            const string header = "Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name";
+            string header = string.Empty;
+
+            string FirstCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                              .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn1Value;
+
+            string SecondCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                              .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn2Value;
+
+            string ThirdCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                              .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn3Value;
+
+            string FourthCountHeader = SocinatorInitialize.GetSocialLibrary(SocinatorInitialize.ActiveSocialNetwork)
+                              .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
+
+            if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader}";
+
+            else if (!string.IsNullOrEmpty(FourthCountHeader))
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader}";            
+
+            else if (!string.IsNullOrEmpty(ThirdCountHeader))
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader}";
+
+            else if (!string.IsNullOrEmpty(SecondCountHeader))
+                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader}";
+
 
             var filename = $"{exportPath}\\{SocinatorInitialize.ActiveSocialNetwork}_Accounts {ConstantVariable.DateasFileName}.csv";
 
@@ -1562,7 +1587,11 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.Banned + ","
                      + JsonConvert.SerializeObject(account.BrowserCookieHelperList).Replace(",", "<>") + ","
                      + account.IsRunProcessThroughBrowser.ToString() + ","
-                     + account.AccountBaseModel.AccountProxy.ProxyGroup;
+                     + account.AccountBaseModel.AccountProxy.ProxyGroup + ","
+                     + account.DisplayColumnValue1
+                     + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")
+                     + (string.IsNullOrEmpty(ThirdCountHeader) ? "" : $",{account.DisplayColumnValue3}")
+                     + (string.IsNullOrEmpty(FourthCountHeader) ? "" : $",{account.DisplayColumnValue4}");
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
@@ -1576,6 +1605,8 @@ namespace DominatorUIUtility.ViewModel
             });
             Dialog.ShowDialog("LangKeyExportAccounts".FromResourceDictionary(), String.Format("LangKeyAccountsSuccessfullyExportedTo".FromResourceDictionary(), filename));
         }
+
+
 
         #endregion
 
@@ -1810,7 +1841,7 @@ namespace DominatorUIUtility.ViewModel
                     {
                         Console.WriteLine(ex.StackTrace);
                     }
-                    
+
                 });
             }
             catch (Exception ex)
