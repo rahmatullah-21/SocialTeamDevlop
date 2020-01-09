@@ -597,12 +597,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
                 #endregion
 
-                // scrape post details, This is useful for only for Facebook,Pinterest, Twitter
+                // scrape post details, This is useful for only for Facebook,Pinterest, Twitter, Reddit
                 #region ScrapePost
 
                 if (PublisherCreateCampaignModel.ScrapePostModel.IsScrapeFacebookPost ||
                     PublisherCreateCampaignModel.ScrapePostModel.IsScrapePinterestPost ||
-                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeTwitterPost)
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeTwitterPost ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeRedditPost)
                 {
                     var scrapeFetchModel = new PublisherPostFetchModel
                     {

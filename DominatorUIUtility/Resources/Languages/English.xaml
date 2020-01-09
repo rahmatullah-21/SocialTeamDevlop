@@ -4519,4 +4519,10 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LagKeyNoMoreCommetersForPost">"No More Commenters Available For Post Url {0}"</system:String>
     <system:String x:Key="LangKeyScrapePostsFromReddit">Scrape Posts From Reddit</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeKeywordUserSubreddit">Add Posts Source! Like ([K] Keyword, [U] User Post Url, [S] Subreddit Post Url)</system:String>
+    <system:String x:Key="LangKeyHaveNotPerformedPostOnWallActivityFrom">Friends Have Not Performed Post On Wall Activity From</system:String>
+    <system:String x:Key="LangKeyMentionCommentedUserInReply">Mention Commented User In Reply</system:String>
+    <system:String x:Key="LangKeyPeopleConnectedInMessenger">People Connected In Messenger</system:String>
+    <system:String x:Key="LangKeyTotalNoConversions">Total {0} Conversions Found After Date Filter</system:String>
+    <system:String x:Key="LangKeyNoMoreConversionsFound">No More Conversions Found</system:String>
+    <system:String x:Key="LangKeySendMessageToUserWhoHaveNotIntracted">Send Message To User Who Have Not Interacted From</system:String>
 </ResourceDictionary>
