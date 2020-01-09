@@ -18,8 +18,8 @@
             <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
         <Grid.Resources>
-            <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>
-            <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter"/>
+            <!--<converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter"/>-->
+            <!--<converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter"/>-->
         </Grid.Resources>
         <Grid Grid.Row="0" MaxHeight="40" HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal" Margin="0,2,5,2">
@@ -98,19 +98,19 @@
                                                 <ContentControl.Style>
                                                     <Style TargetType="{x:Type ContentControl}">
                                                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                        <Setter Property="Content">
+                                                        <!--<Setter Property="Content">
                                                             <Setter.Value>
-                                                                <Rectangle Fill="White" Width="25" Height="25">
+                                                                --><!--<Rectangle Fill="White" Width="25" Height="25">
                                                                     <Rectangle.OpacityMask>
                                                                         <VisualBrush Visual="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
                                                                     </Rectangle.OpacityMask>
-                                                                </Rectangle>
+                                                                </Rectangle>--><!--
                                                             </Setter.Value>
-                                                        </Setter>
+                                                        </Setter>-->
                                                     </Style>
                                                 </ContentControl.Style>
                                             </ContentControl>
-                                            <Label Content="{DynamicResource LangKeyLogin}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <!--<Label Content="{DynamicResource LangKeyLogin}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>-->
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>
@@ -129,7 +129,7 @@
                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_home_location_round}" />
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
-                                            <Label Content="{DynamicResource LangKeyCheckIp}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+                                            <!--<Label Content="{DynamicResource LangKeyCheckIp}" Margin="5,0,0,0" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalContentAlignment="Center"/>-->
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>
