@@ -70,7 +70,7 @@
                                         x:Name="BtnViewInBrowser" 
                                         FontWeight="SemiBold"       
                                         Command="{Binding Path=DataContext.ViewInBrowserCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                        Background="Transparent"/>
+                                        Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme1}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

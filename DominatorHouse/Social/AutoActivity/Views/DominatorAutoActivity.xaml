@@ -64,7 +64,10 @@
                         <Setter Property="Height" Value="35"></Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="Transparent" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>

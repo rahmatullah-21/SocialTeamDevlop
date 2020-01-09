@@ -30,7 +30,7 @@
                       Grid.Column="0" Text="{Binding SelectAccountModel.GroupText}"
                       Width="200" Height="30"
                       VerticalAlignment="Center" VerticalContentAlignment="Top"
-                      FontSize="14" Background="White"
+                      FontSize="14"
                       IsEditable="True" DropDownClosed="cmbAllGroups_DropDownClosed"
                       IsTextSearchEnabled="False" 
                       ItemsSource="{Binding SelectAccountModel.Groups}">
@@ -58,7 +58,7 @@
 
             <!--Account detail list-->
             <Grid Grid.Row="1" Margin="0,10,0,0">
-                <ListView ItemsSource="{Binding AccountCollectionView}" ItemContainerStyle="{StaticResource ListViewItems}"
+                <ListView ItemsSource="{Binding AccountCollectionView}" HorizontalContentAlignment="Stretch"
                           Name="lstviewAccounts" Foreground="{DynamicResource AccentBaseColorBrush}"
                           Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="False"
                           AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">

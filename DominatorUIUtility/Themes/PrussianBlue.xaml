@@ -24,6 +24,9 @@
     <SolidColorBrush x:Key="UserControlBackgroundBrush" Color="#ffffff" />
     <SolidColorBrush x:Key="SelectedTabBorderBrush" Color="AliceBlue" />
     <SolidColorBrush x:Key="TextColorBrushAccordingTheme" Color="Black" />
+    <SolidColorBrush x:Key="TextColorBrushAccordingTheme1" Color="#233140" />
+    <SolidColorBrush x:Key="IconFillBrushAccordingTheme" Color="Black" />
+    <SolidColorBrush x:Key="ListItemsMouseHoverColorAccordingTheme" Color="#D6EBF2" />
     
     <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource HighlightColor}" options:Freeze="True" />
     <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{StaticResource AccentBaseColor}" options:Freeze="True" />

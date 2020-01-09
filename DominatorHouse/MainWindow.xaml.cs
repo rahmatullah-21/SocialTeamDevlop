@@ -118,6 +118,9 @@ namespace Socinator
                             Application.Current.Resources["UserControlBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
                             Application.Current.Resources["SelectedTabBorderBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); //Black
                             Application.Current.Resources["TextColorBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); // Pure Black
+                            Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1,0,0)); // Black
+                            Application.Current.Resources["TextColorBrushAccordingTheme1"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(35, 49, 64)); // #233140
+                            Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(214, 235, 242)); // LightBlue (Much Lighter)
                         }
                         break;
 
@@ -128,6 +131,9 @@ namespace Socinator
                             Application.Current.Resources["UserControlBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(37, 37, 41)); // Black
                             Application.Current.Resources["SelectedTabBorderBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(37, 37, 41)); // Black
                             Application.Current.Resources["TextColorBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
+                            Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1, 166, 163)); // Teal
+                            Application.Current.Resources["TextColorBrushAccordingTheme1"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1, 166, 163)); // Teal
+                            Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(47, 79, 79)); // DarkSlateGrey
                         }
                         break;
                 }
