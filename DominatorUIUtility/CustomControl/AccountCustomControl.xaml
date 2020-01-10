@@ -25,10 +25,10 @@
         <system:Boolean x:Key="True">True</system:Boolean>
         <system:Boolean x:Key="False">False</system:Boolean>
         <converters:AccountsFilterConverter x:Key="AccountsFilterConverter"/>
-        
-        
-        
-        
+
+
+
+
         <converters:VisibleIfEqualConverter x:Key="VisibleIfNetworkIsSocialConverter" Expected="{x:Static enums:SocialNetworks.Social}"/>
         <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
         <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
@@ -48,52 +48,52 @@
 
 
 
-        <Rectangle x:Key="DetailsIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="DetailsIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_book_open_hardcover}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="DeleteIcon" Fill="Black" Width="17" Height="20">
+        <Rectangle x:Key="DeleteIcon" Fill="IndianRed" Width="17" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="BrowseLoginIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="BrowseLoginIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_browser}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="GoToToolsIcon" Fill="Black" Width="20" Height="18">
+        <Rectangle x:Key="GoToToolsIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="18">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_tools}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="CheckStatusIcon" Fill="Black" Width="20" Height="18">
+        <Rectangle x:Key="CheckStatusIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="18">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_page_search}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="UpdateFriendshipIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="UpdateFriendshipIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_group}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="GotoAccountProvideIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="GotoAccountProvideIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_page_edit}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="InstEditIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="InstEditIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_edit_box}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="CopyAccountIdIcon" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="CopyAccountIdIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_page_copy}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="CustomSetting" Fill="Black" Width="20" Height="20">
+        <Rectangle x:Key="CustomSetting" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_settings}" Stretch="Fill" />
             </Rectangle.OpacityMask>
@@ -233,7 +233,7 @@
                                 <Controls:DropDownButton.Items>
                                     <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenuSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="RoyalBlue">
+                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -243,7 +243,7 @@
 
                                     <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatusSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Black">
+                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -253,7 +253,7 @@
 
                                     <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcessSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="RoyalBlue">
+                                            <Rectangle Width="15" Height="15" Fill="IndianRed">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -262,7 +262,7 @@
                                     </MenuItem>
                                     <MenuItem Header="{DynamicResource LangKeyStopAllActivity}"  Name="StopAllActivitySub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopAllActivity">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="RoyalBlue">
+                                            <Rectangle Width="15" Height="15" Fill="Red">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -271,7 +271,7 @@
                                     </MenuItem>
                                     <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="RoyalBlue">
+                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -299,7 +299,7 @@
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                             <StackPanel Orientation="Vertical" >
-                                                <Rectangle Width="15" Height="20" Fill="White">
+                                                <Rectangle Width="15" Height="20" Fill="IndianRed">
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                     </Rectangle.OpacityMask>
@@ -328,7 +328,7 @@
                                 <Controls:DropDownButton.Items>
                                     <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" Name="btnEnableBrowserAutomationSub" Command="{Binding ActivateBrowserAutomationCommand}" CommandParameter="UpdateAllDetail">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Black">
+                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -338,7 +338,7 @@
 
                                     <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" Name="btnDisableBrowserAutomationSub" Command="{Binding DeActivateBrowserAutomationCommand}" CommandParameter="CheckAccountStatus">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="Black">
+                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -480,7 +480,7 @@
                             <Controls:DropDownButton.Items>
                                 <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="13" Height="15" Fill="RoyalBlue">
+                                        <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -490,7 +490,7 @@
 
                                 <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="Black">
+                                        <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -500,7 +500,7 @@
 
                                 <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="RoyalBlue">
+                                        <Rectangle Width="15" Height="15" Fill="IndianRed">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -509,7 +509,7 @@
                                 </MenuItem>
                                 <MenuItem Header="{DynamicResource LangKeyStopAllActivity}"  Name="StopAllActivity" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopAllActivity">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="RoyalBlue">
+                                        <Rectangle Width="15" Height="15" Fill="Red">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -518,7 +518,7 @@
                                 </MenuItem>
                                 <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="13" Height="15" Fill="RoyalBlue">
+                                        <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -556,7 +556,7 @@
                                 <ControlTemplate>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                         <StackPanel Orientation="Horizontal" >
-                                            <Rectangle Width="15" Height="20" Fill="White">
+                                            <Rectangle Width="15" Height="20" Fill="IndianRed">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                 </Rectangle.OpacityMask>
@@ -590,7 +590,7 @@
                             <Controls:DropDownButton.Items>
                                 <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughBrowser}" Name="btnEnableBrowserAutomation" Command="{Binding ActivateBrowserAutomationCommand}" CommandParameter="UpdateAllDetail">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="Black">
+                                        <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -600,7 +600,7 @@
 
                                 <MenuItem Header="{DynamicResource LangKeyRunAllActivityThroughHttp}" Name="btnDisableBrowserAutomation" Command="{Binding DeActivateBrowserAutomationCommand}" CommandParameter="CheckAccountStatus">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="Black">
+                                        <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_stop}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -660,35 +660,42 @@
                         <ContextMenu x:Key="ItemContextMenu">
                             <MenuItem Header="{DynamicResource LangKeyDetails}" CommandParameter="{Binding}"
                                   Command="{Binding Data.ProfileDetailsCommand, Source={StaticResource ContextMenuBinding}}"
-                                  Icon="{StaticResource DetailsIcon}"/>
+                                  Icon="{DynamicResource DetailsIcon}"/>
                             <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
-                                  Icon="{StaticResource DeleteIcon}"/>
-                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{StaticResource BrowseLoginIcon}" 
+                                  Icon="{DynamicResource DeleteIcon}"/>
+                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{StaticResource GoToToolsIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
                                   CommandParameter="{Binding}"
                                   Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
                                   Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
-                            <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{StaticResource CheckStatusIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{DynamicResource CheckStatusIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{StaticResource UpdateFriendshipIcon}"
+                            <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{DynamicResource UpdateFriendshipIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
-                            
-                            
-                            <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{StaticResource CopyAccountIdIcon}"
+
+                            <!--<MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
+                                  Icon="{DynamicResource InstEditIcon}" 
+                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
+                                  CommandParameter="{Binding}" />
+                            <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
+                                  Icon="{DynamicResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
+                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />-->
+                            <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{DynamicResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{StaticResource CustomSetting}" Style="{StaticResource VisiblityStyle}" >
-                                <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
+                            <!--<MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">-->
+
+                                <!--<MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>-->
                                 <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>-->
-                            </MenuItem>
+                            <!--</MenuItem>-->
                         </ContextMenu>
                     </ListView.Resources>
 
@@ -903,7 +910,7 @@
                 </ListView>
                 <!--Help section-->
                 <Controls:FlyoutsControl>
-                    <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" Theme="Accent" FontWeight="Bold"
+                    <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
                         <local:HelpControl ModuleDescription="{DynamicResource LangKeyAccountCustomControlDescription}"
                                                  VideoTutorial="{Binding SelectedNetworkViewModel.Selected, Converter={StaticResource SocialNetworkToLinkConverter}}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 

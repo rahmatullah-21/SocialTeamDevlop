@@ -217,7 +217,10 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _lastMessegedate, value);
                 try
                 {
-                    LastMessegeDateTime = DateTimeUtilities.EpochToDateTimeLocal(int.Parse(_lastMessegedate.Split('.')[0]));
+                    if (_lastMessegedate.Length > 12)
+                        LastMessegeDateTime = DateTimeUtilities.EpochToDateTimeLocal(long.Parse(_lastMessegedate.Split('.')[0]));
+                    else
+                        LastMessegeDateTime = DateTimeUtilities.EpochToDateTimeLocal(int.Parse(_lastMessegedate.Split('.')[0]));
                 }
                 catch (Exception ex)
                 {

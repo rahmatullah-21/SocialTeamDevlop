@@ -118,8 +118,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers,IsAsync=True}" 
-                         Background="White" VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizing="True"
+                <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstBlackListUsers,IsAsync=True}" VerticalAlignment="Stretch" VirtualizingPanel.IsVirtualizing="True"
                          VirtualizingPanel.VirtualizationMode="Recycling">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

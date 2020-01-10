@@ -64,7 +64,10 @@
                         <Setter Property="Height" Value="35"></Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="Transparent" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -120,6 +123,20 @@
                                                     <Style TargetType="ListBoxItem">
                                                         <Setter Property="Focusable" Value="False"/>
                                                         <Setter Property="Background" Value="Transparent"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="False">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                            </Trigger>
+                                                            <DataTrigger Binding="{Binding IsMouseOver,RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                                                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                                                                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
                                                     </Style>
 
                                                 </ListBox.ItemContainerStyle>
@@ -165,7 +182,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Cursor="Hand" Content="{DynamicResource LangKeyMore}" x:Name="ButtonViewActivityStatus" 
                                                     FontWeight="SemiBold" Command="{Binding DataContext.GoToToolsCmd, Source={x:Reference CampaignStatusList}}" CommandParameter="{Binding}"
-                                                    Background="Transparent" />
+                                                    Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>

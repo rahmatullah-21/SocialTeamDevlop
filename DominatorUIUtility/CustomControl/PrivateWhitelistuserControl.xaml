@@ -128,8 +128,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
-                    <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstWhiteListUsers,IsAsync=True}" 
-                         Background="White" VerticalAlignment="Stretch">
+                    <ListBox x:Name="LinkslistBox" ItemsSource="{Binding LstWhiteListUsers,IsAsync=True}" VerticalAlignment="Stretch">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="ChkWhitlistuser"  IsChecked="{Binding IsWhiteListUserChecked}"

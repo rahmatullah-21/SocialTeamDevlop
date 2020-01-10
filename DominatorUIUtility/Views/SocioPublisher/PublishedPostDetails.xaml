@@ -10,19 +10,11 @@
         <converters:IndexToRowNoConverter x:Key="IndexToRowNoConverter"/>
     </UserControl.Resources>
     <Grid>
-        <ListView AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding PublisherPostlist.LstPublishedPostDetailsModels}">
+        <ListView  ItemContainerStyle="{DynamicResource ListViewItems}" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding PublisherPostlist.LstPublishedPostDetailsModels}">
             <ListView.CommandBindings>
                 <CommandBinding Command="ApplicationCommands.Copy"
                                 CanExecute="CopyCanExecute" Executed="CopyExecuted" />
             </ListView.CommandBindings>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                    <Setter Property="Height" Value="40"></Setter>
-
-                </Style>
-            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{DynamicResource LangKeySrNo}"  DisplayMemberBinding="{Binding (ItemsControl.AlternationIndex),
@@ -70,7 +62,7 @@
                                         x:Name="BtnViewInBrowser" 
                                         FontWeight="SemiBold"       
                                         Command="{Binding Path=DataContext.ViewInBrowserCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
-                                        Background="Transparent"/>
+                                        Background="Transparent" Foreground="{DynamicResource TextColorBrushAccordingTheme1}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

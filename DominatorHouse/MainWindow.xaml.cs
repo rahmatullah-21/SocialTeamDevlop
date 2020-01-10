@@ -12,6 +12,7 @@ using Socinator.Social.Settings.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -102,59 +103,52 @@ namespace Socinator
         {
             try
             {
-                return;
+                var setThemeString = "Light\r\nDark";
                 var selected = (sender as ComboBox).SelectedItem as string;
-                var binFileHelper = ServiceLocator.Current.GetInstance<IBinFileHelper>();
-                var firstInFile = binFileHelper.ThemesList()[0];
-                
-                bool delFlag = false;
 
+                string themeName = $"Base{selected}";
+                Accent newAccent;
+                AppTheme newAppTheme;
+                string colorName = selected == "Light" ? "PrussianBlue" : "Teal";
+                
                 switch (selected)
                 {
                     case "Light":
                         {
-                            var color = Application.Current.Resources["PrussianBlueColor"];
-                            Application.Current.Resources["AccentBaseColor"] = color;
-                            Application.Current.Resources["UserControlBackground"] = Application.Current.Resources["LightUI"];
-                            binFileHelper.SetTheme("Light\r\nDark");
+                            Application.Current.Resources["UserControlBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
+                            Application.Current.Resources["SelectedTabBorderBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); //Black
+                            Application.Current.Resources["TextColorBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 248, 255)); // Pure Black
+                            Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1,0,0)); // Black
+                            Application.Current.Resources["TextColorBrushAccordingTheme1"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(35, 49, 64)); // #233140
+                            Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(214, 235, 242)); // LightBlue (Much Lighter)
+                            Application.Current.Resources["GreenColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 128, 0)); // Green
+
                         }
                         break;
 
                     case "Dark":
-                        {
-                            List<ResourceDictionary> res = Application.Current.Resources.MergedDictionaries.ToList();
-                            var color = Application.Current.Resources["DarkGreyUI"];
-                            Application.Current.Resources["AccentBaseColor"] = color;
-                            Application.Current.Resources["UserControlBackground"] = Application.Current.Resources["DarkGreyUI"];
-                            binFileHelper.SetTheme("Dark\r\nLight");
+                        { //GreenColorAccordingTheme
+                            setThemeString = "Dark\r\nLight";
+
+                            Application.Current.Resources["UserControlBackgroundBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(37, 37, 41)); // Black
+                            Application.Current.Resources["SelectedTabBorderBrush"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(37, 37, 41)); // Black
+                            Application.Current.Resources["TextColorBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255)); // White
+                            Application.Current.Resources["IconFillBrushAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1, 166, 163)); // Teal
+                            Application.Current.Resources["TextColorBrushAccordingTheme1"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(1, 166, 163)); // Teal
+                            Application.Current.Resources["ListItemsMouseHoverColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(47, 79, 79)); // DarkSlateGrey
+                            Application.Current.Resources["GreenColorAccordingTheme"] = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(144, 238, 144)); // LightGreen
+
                         }
                         break;
                 }
 
-                ChangeAppearance(selected);
+                newAccent = ThemeManager.GetAccent(colorName);
+                newAppTheme = ThemeManager.GetAppTheme(themeName);
+                ThemeManager.ChangeAppStyle(Application.Current, newAccent, newAppTheme);
+
+                ServiceLocator.Current.GetInstance<IBinFileHelper>().SetTheme(setThemeString);
             }
             catch (Exception ex) { }
-        }
-
-        public void ChangeAppearance(string themeName)
-        {
-            try
-            {
-                string ThemeName = $"Base{themeName}";
-                Accent newAccent;
-                AppTheme newAppTheme;
-                string ColorName = themeName == "Light" ? "PrussianBlue" : "cyan";
-                
-                ThemeManager.AddAccent(ColorName, new Uri($"pack://application:,,,/LegionUIUtility;component/Themes/{(themeName == "Light" ? "PrussianBlue" : "Dark")}.xaml"));
-                newAccent = ThemeManager.GetAccent(ColorName);
-                newAppTheme = ThemeManager.GetAppTheme(ThemeName);
-                
-                ThemeManager.ChangeAppStyle(Application.Current, newAccent, newAppTheme);
-            }
-            catch (Exception ex)
-            {
-                ex.DebugLog();
-            }
         }
     }
 }

@@ -30,10 +30,6 @@
                      x:Shared="False"
                      Fill="{Binding ColorBrush, Mode=OneWay}" />
 
-    <!--<Style  TargetType="{x:Type UserControl}">
-        <Setter Property="Background" Value="{DynamicResource UserControlBackground}"/>
-    </Style>-->
-
     <Style x:Key="canceledit_style">
         <Setter Property="Control.Background" Value="#FF4948"/>
         <!--<Setter Property="Control.Background" Value="{DynamicResource AccentColorBrush}" />-->
@@ -267,7 +263,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter TargetName="Border" Property="Background" Value="AliceBlue" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectedTabBorderBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -320,7 +316,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
-                            <Setter TargetName="Border" Property="Background" Value="AliceBlue" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectedTabBorderBrush}" />
 
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -331,10 +327,37 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
-
-
     <Style TargetType="ListViewItem" x:Key="ListViewItems">
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Border Name="Selection" Visibility="Collapsed" />
+                        <!-- This is used when GridView is put inside the ListView -->
+                        <GridViewRowPresenter Grid.RowSpan="2"
+                                      Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="MaxHeight" Value="35"></Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Background" Value="Transparent" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 
@@ -344,8 +367,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="ContentBorder"
-                            Background="White">
+                    <Border x:Name="ContentBorder">
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -355,7 +377,7 @@
                                     Value="{x:Static SystemColors.HighlightBrush}" />
                             <Setter Property="IsSelected" Value="True" />
                         </Trigger>
-                        <Trigger Property="IsSelected"   Value="True">
+                        <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background"
                                     TargetName="ContentBorder"
                                     Value="{x:Static SystemColors.HighlightBrush}" />
@@ -366,7 +388,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type TextBox}" x:Key="TransparentTextBoxStyle">
+        <Style TargetType="{x:Type TextBox}" x:Key="TransparentTextBoxStyle">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>

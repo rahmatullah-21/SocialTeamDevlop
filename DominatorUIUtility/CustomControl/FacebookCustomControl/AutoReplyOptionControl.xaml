@@ -13,27 +13,27 @@
     <Grid Name="MainGrid">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding AutoReplyOptionModel.SourceDisplayName}" Margin="4" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                <TextBlock Text="{Binding AutoReplyOptionModel.SourceDisplayName}" Margin="4" FontWeight="Bold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  FontSize="13"/>
                 <StackPanel Orientation="Vertical" >
-                    <CheckBox Margin="30,5" Content="{Binding AutoReplyOptionModel.BySoftwareDisplayName}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsMessageRequestChecked}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
-                    <CheckBox Margin="30,5" Content="{Binding AutoReplyOptionModel.OutsideSoftwareDisplayName}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsFriendsMessageChecked}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
+                    <CheckBox Margin="30,5" Content="{Binding AutoReplyOptionModel.BySoftwareDisplayName}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsMessageRequestChecked}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
+                    <CheckBox Margin="30,5" Content="{Binding AutoReplyOptionModel.OutsideSoftwareDisplayName}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsFriendsMessageChecked}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
                     <!--<CheckBox Margin="30,5" Content="{DynamicResource LangKeyReplyToPendingPageMessages}" FontSize="12" FontWeight="SemiBold" IsChecked="{Binding AutoReplyOptionModel.IsReplyToPageMessagesChecked}" Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>-->
                     <customControl:InputBoxControl Margin="35,5" x:Name="OwnPageUrls" InputText="{Binding AutoReplyOptionModel.OwnPages}"
                                                    Visibility="{Binding AutoReplyOptionModel.IsReplyToPageMessagesChecked,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <CheckBox Visibility="Collapsed" Margin="30,5" Content="{DynamicResource LangKeyCustomUsersList}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.CustomUserList}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
+                    <CheckBox Visibility="Collapsed" Margin="30,5" Content="{DynamicResource LangKeyCustomUsersList}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.CustomUserList}"  Command="{Binding CheckedChangedCommand}" CommandParameter="{Binding CommandParameter}"/>
                 </StackPanel>
             </StackPanel>
           
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{DynamicResource LangKeySourceFilter}" Margin="4,30,4,10" FontWeight="Bold" Foreground="Black"  FontSize="13"/>
+                <TextBlock Text="{DynamicResource LangKeySourceFilter}" Margin="4,30,4,10" FontWeight="Bold" Foreground="{DynamicResource TextColorBrushAccordingTheme}"  FontSize="13"/>
                 <StackPanel Orientation="Horizontal" >
-                    <CheckBox Margin="30,5,15,5" Content="{DynamicResource LangKeyMessageShouldHaveBeenSentBefore}" FontWeight="SemiBold" Foreground="Black" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
-                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.DaysBefore}" FontWeight="SemiBold" Foreground="Black" Minimum="0" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}" />
-                    <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="Black" />
-                    <Label Content="{DynamicResource LangKeyAnd}" FontWeight="SemiBold" Margin="0,0,5,0" Foreground="Black" />
-                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.HoursBefore}"  FontWeight="SemiBold" Foreground="Black" Minimum="0" Maximum="23" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
-                    <Label Content="{DynamicResource LangKeyHours}" FontWeight="SemiBold" Foreground="Black" />
+                    <CheckBox Margin="30,5,15,5" Content="{DynamicResource LangKeyMessageShouldHaveBeenSentBefore}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" FontSize="13"  IsChecked="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
+                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.DaysBefore}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" Minimum="0" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}" />
+                    <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
+                    <Label Content="{DynamicResource LangKeyAnd}" FontWeight="SemiBold" Margin="0,0,5,0" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
+                    <controls:NumericUpDown Value="{Binding AutoReplyOptionModel.HoursBefore}"  FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" Minimum="0" Maximum="23" IsEnabled="{Binding AutoReplyOptionModel.IsFilterApplied}"/>
+                    <Label Content="{DynamicResource LangKeyHours}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

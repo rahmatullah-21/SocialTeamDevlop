@@ -18,6 +18,9 @@ namespace DominatorHouseCore.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if ((ChatMessageType)value == ChatMessageType.TextAndMedia)
+                return Visibility.Visible;
+
             if (IsReversed)
                 return (ChatMessageType)value == ChatMessageType.Media ? Visibility.Visible : Visibility.Collapsed;
 

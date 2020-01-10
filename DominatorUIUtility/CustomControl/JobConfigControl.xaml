@@ -257,19 +257,19 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Button HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                                Foreground="Black"
+                                                Foreground="{DynamicResource TextColorBrushAccordingTheme1}"
                                                 Background="Transparent" Command="{Binding Source={x:Reference MainGrid},
                                                 Path=DataContext.RemoveFavoriteTimeCommand}"
                                                 CommandParameter="{Binding}">
                                             <Button.Content>
-                                                <Rectangle Fill="Black" Width="15" Height="20">
+                                                <Rectangle Fill="IndianRed" Width="15" Height="20">
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"></VisualBrush>
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
                                             </Button.Content>
                                         </Button>
-                                        <TextBlock Text="{Binding DataContext.FavoriteTimeName,RelativeSource={RelativeSource FindAncestor,AncestorType=MenuItem}}" Foreground="Black" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding DataContext.FavoriteTimeName,RelativeSource={RelativeSource FindAncestor,AncestorType=MenuItem}}" Foreground="{DynamicResource TextColorBrushAccordingTheme1}" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </DataTemplate>
                             </controls:DropDownButton.ItemTemplate>
