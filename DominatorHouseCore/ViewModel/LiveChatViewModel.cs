@@ -558,9 +558,9 @@ namespace DominatorHouseCore.ViewModel
         public void InitilizeDefaultValue(SocialNetworks socialNetworks)
         {
             var accountModelList = ServiceLocator.Current.GetInstance<IAccountsFileManager>()
-                .GetAll(socialNetworks);
+                .GetAll(socialNetworks).ToList();
 
-            LiveChatModel.AccountNames = new ObservableCollection<string>(accountModelList.Select(x => x.UserName).ToList());
+            LiveChatModel.AccountNames = new ObservableCollection<string>(accountModelList.Where(x => x.AccountBaseModel.Status == AccountStatus.Success).Select(x => x.UserName).ToList());
 
             if (LiveChatModel.AccountNames.Count > 0)
             {

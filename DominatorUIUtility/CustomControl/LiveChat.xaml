@@ -145,54 +145,59 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <Border CornerRadius="10"  Padding="10"  Background="{Binding MessegeType, Converter={StaticResource MessageTypeToColorConverter}}">
-                                            <Grid>
-                                                <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
+                                        <StackPanel >
+                                            <Border CornerRadius="4" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}">
+                                            <ListView  BorderBrush="Transparent" x:Name="AccountListView" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                                        AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ScrollViewer.CanContentScroll="False"
+                                                        ItemsSource="{Binding ListMediaUrls}" >
+                                                <ListView.Resources>
+                                                    <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
+                                                </ListView.Resources>
+                                                <ListView.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Columns="{Binding ListMediaUrls,Converter={StaticResource ChatImageCountToColumnConverter}}" />
+                                                    </ItemsPanelTemplate>
+                                                </ListView.ItemsPanel>
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <!--<Border Height="60" Width="60" BorderBrush="Green" BorderThickness="4" CornerRadius="16">-->
+                                                        <Rectangle RadiusX="10" RadiusY="10" Width="{Binding DataContext.ListMediaUrls,RelativeSource={RelativeSource AncestorType=ListView},Converter={StaticResource ChatImageCountToHeightConverter}}" 
+                                                                    Height="{Binding DataContext.ListMediaUrls,RelativeSource={RelativeSource AncestorType=ListView},Converter={StaticResource ChatImageCountToHeightConverter}}" Margin="5"  Cursor="Hand">
+                                                            <Rectangle.Fill>
+                                                                <!--<Grid Background="Red">-->
+                                                                <ImageBrush x:Name="myImage" ImageSource="{Binding}" />
+                                                                <!--</Grid>-->
+                                                            </Rectangle.Fill>
+                                                        </Rectangle>
+                                                        <!--</Border>-->
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                            </Border>
+
+                                            <Border CornerRadius="10"  Padding="10" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverter}}" Background="{Binding MessegeType, Converter={StaticResource MessageTypeToColorConverter}}">
+                                <Grid>
+                                    <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
                                                     x:Name="Messege"  Text="{Binding Messeges}" Foreground="White" FontSize="13" FontWeight="SemiBold"
                                                     VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverter}}"/>
 
-                                                <Border CornerRadius="4">
-                                                    <ListView  BorderBrush="Transparent" x:Name="AccountListView" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                                        AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" ScrollViewer.CanContentScroll="False"
-                                                        ItemsSource="{Binding ListMediaUrls}" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}">
-                                                        <ListView.Resources>
-                                                            <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
-                                                        </ListView.Resources>
-                                                        <ListView.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <UniformGrid Columns="{Binding ListMediaUrls,Converter={StaticResource ChatImageCountToColumnConverter}}" />
-                                                            </ItemsPanelTemplate>
-                                                        </ListView.ItemsPanel>
-                                                        <ListView.ItemContainerStyle>
-                                                            <Style TargetType="ListViewItem">
-                                                                <Style.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </ListView.ItemContainerStyle>
-                                                        <ListView.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <!--<Border Height="60" Width="60" BorderBrush="Green" BorderThickness="4" CornerRadius="16">-->
-                                                                <Rectangle RadiusX="10" RadiusY="10" Width="{Binding DataContext.ListMediaUrls,RelativeSource={RelativeSource AncestorType=ListView},Converter={StaticResource ChatImageCountToHeightConverter}}" 
-                                                                    Height="{Binding DataContext.ListMediaUrls,RelativeSource={RelativeSource AncestorType=ListView},Converter={StaticResource ChatImageCountToHeightConverter}}" Margin="5"  Cursor="Hand">
-                                                                    <Rectangle.Fill>
-                                                                        <!--<Grid Background="Red">-->
-                                                                        <ImageBrush x:Name="myImage" ImageSource="{Binding}" />
-                                                                        <!--</Grid>-->
-                                                                    </Rectangle.Fill>
-                                                                </Rectangle>
-                                                                <!--</Border>-->
-                                                            </DataTemplate>
-                                                        </ListView.ItemTemplate>
-                                                    </ListView>
-                                                </Border>
-                                                <!--<customControls:ChatMediaContainer ScrollViewer.CanContentScroll="False" ListMediaUrls="{Binding LiveChatModel.ListMediaUrls}" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}"/>-->
-                                            </Grid>
-                                        </Border>
 
-                                        <!-- Chat bubble  -->
+                                    <!--<customControls:ChatMediaContainer ScrollViewer.CanContentScroll="False" ListMediaUrls="{Binding LiveChatModel.ListMediaUrls}" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverterInverted}}"/>-->
+                                </Grid>
+                            </Border>
+                                        </StackPanel>
+
+
+                            <!-- Chat bubble  -->
                                         <Path Grid.Row="1"   Stroke="Black"  Panel.ZIndex="1"  Margin="15 -1 15 0"
                                                   Data="M 0,0 L 10,10 L 20,0 L 0,0"  StrokeThickness="0" Fill="{Binding MessegeType, Converter={StaticResource MessageTypeToColorConverter}}"
                                                   HorizontalAlignment="{Binding Type,
