@@ -233,7 +233,7 @@
                                 <Controls:DropDownButton.Items>
                                     <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenuSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="RoyalBlue">
+                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -243,7 +243,7 @@
 
                                     <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatusSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -253,7 +253,7 @@
 
                                     <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcessSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="RoyalBlue">
+                                            <Rectangle Width="15" Height="15" Fill="IndianRed">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -262,7 +262,7 @@
                                     </MenuItem>
                                     <MenuItem Header="{DynamicResource LangKeyStopAllActivity}"  Name="StopAllActivitySub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopAllActivity">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="RoyalBlue">
+                                            <Rectangle Width="15" Height="15" Fill="Red">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -271,7 +271,7 @@
                                     </MenuItem>
                                     <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="RoyalBlue">
+                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -299,7 +299,7 @@
                                     <ControlTemplate>
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                             <StackPanel Orientation="Vertical" >
-                                                <Rectangle Width="15" Height="20" Fill="White">
+                                                <Rectangle Width="15" Height="20" Fill="IndianRed">
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                     </Rectangle.OpacityMask>
@@ -480,7 +480,7 @@
                             <Controls:DropDownButton.Items>
                                 <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="13" Height="15" Fill="RoyalBlue">
+                                        <Rectangle Width="13" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -490,7 +490,7 @@
 
                                 <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
+                                        <Rectangle Width="15" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -500,7 +500,7 @@
 
                                 <MenuItem Header="{DynamicResource LangKeyStopProcess}" Name="StopProcess" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopProcess">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="RoyalBlue">
+                                        <Rectangle Width="15" Height="15" Fill="IndianRed">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -509,7 +509,7 @@
                                 </MenuItem>
                                 <MenuItem Header="{DynamicResource LangKeyStopAllActivity}"  Name="StopAllActivity" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="StopAllActivity">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="RoyalBlue">
+                                        <Rectangle Width="15" Height="15" Fill="Red">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_sign_stop}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -518,7 +518,7 @@
                                 </MenuItem>
                                 <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="13" Height="15" Fill="RoyalBlue">
+                                        <Rectangle Width="13" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -556,7 +556,7 @@
                                 <ControlTemplate>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
                                         <StackPanel Orientation="Horizontal" >
-                                            <Rectangle Width="15" Height="20" Fill="White">
+                                            <Rectangle Width="15" Height="20" Fill="IndianRed">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                 </Rectangle.OpacityMask>
