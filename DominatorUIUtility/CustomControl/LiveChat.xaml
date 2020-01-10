@@ -70,7 +70,7 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="350" MaxWidth="350"/>
+                <ColumnDefinition Width="Auto" MinWidth="350" MaxWidth="420"/>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*" MinWidth="400"/>
             </Grid.ColumnDefinitions>
@@ -99,7 +99,7 @@
                                     <TextBlock x:Name="LastMessegeDate" Text="{Binding LastMessegedate,Converter={StaticResource EpochToDateTimeConverter}}"
                                                Margin="10,0" Grid.Column="1" TextTrimming="WordEllipsis" HorizontalAlignment="Right"/>
                                 </Grid>
-                                <TextBlock x:Name="LastMessege"  Text="{Binding LastMesseges}" Margin="0,5,0,0" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock x:Name="LastMessege"  Text="{Binding LastMesseges}" Margin="0,5,0,0" Height="30" TextTrimming="CharacterEllipsis"/>
                                 <Separator Margin="0,20,0,0"/>
                             </StackPanel>
                         </Grid>
@@ -126,7 +126,7 @@
                     <RowDefinition Height="{Binding LiveChatModel.ImageCount, Converter={StaticResource ImageCountToRowHeightConverter}}"/>
                 </Grid.RowDefinitions>
                 <!--<ScrollViewer>-->
-                <ListBox ItemsSource="{Binding LiveChatModel.LstChat}" Visibility="{Binding ElementName=Senders,
+                <ListBox ItemsSource="{Binding LiveChatModel.LstChat}"  Visibility="{Binding ElementName=Senders,
                         Path=SelectedIndex,Converter={StaticResource IntToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="False">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
@@ -186,7 +186,7 @@
 
                                             <Border CornerRadius="10"  Padding="10" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverter}}" Background="{Binding MessegeType, Converter={StaticResource MessageTypeToColorConverter}}">
                                 <Grid>
-                                    <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" 
+                                    <TextBox IsReadOnly="True" BorderThickness="0" Background="Transparent" MaxWidth="200"
                                                     x:Name="Messege"  Text="{Binding Messeges}" Foreground="White" FontSize="13" FontWeight="SemiBold"
                                                     VerticalAlignment="Top"  Margin="10,5" HorizontalAlignment="Left" Visibility="{Binding MessegeType, Converter={StaticResource MessageTypeTovisibilityConverter}}"/>
 

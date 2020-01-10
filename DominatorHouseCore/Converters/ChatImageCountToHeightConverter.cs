@@ -14,11 +14,11 @@ namespace DominatorHouseCore.Converters
             var imageList = (ObservableCollection<string>)value;
 
             if (imageList.Count == 1)
-                return 505;
+                return 320;
             if (imageList.Count == 2 || imageList.Count == 4)
-                return 246;
+                return 155;
             else
-                return 160;
+                return 100;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
