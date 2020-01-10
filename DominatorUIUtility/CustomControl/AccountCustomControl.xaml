@@ -233,7 +233,7 @@
                                 <Controls:DropDownButton.Items>
                                     <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenuSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
+                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -243,7 +243,7 @@
 
                                     <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatusSub" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
+                                            <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -271,7 +271,7 @@
                                     </MenuItem>
                                     <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                         <MenuItem.Icon>
-                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
+                                            <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -480,7 +480,7 @@
                             <Controls:DropDownButton.Items>
                                 <MenuItem Header="{DynamicResource LangKeyUpdateAllDetails}" Name="UpdateAllDetailsMenu" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="UpdateAllDetail">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="13" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
+                                        <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -490,7 +490,7 @@
 
                                 <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Name="CheckAccountStatus" Command="{Binding UpdateAccountDetailsCommand}" CommandParameter="CheckAccountStatus">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="15" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
+                                        <Rectangle Width="15" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_checkmark}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
@@ -518,7 +518,7 @@
                                 </MenuItem>
                                 <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                     <MenuItem.Icon>
-                                        <Rectangle Width="13" Height="15" Fill="{DynamicResource GreenColorAccordingTheme}">
+                                        <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Visual="{StaticResource appbar_refresh}" Stretch="Fill"/>
                                             </Rectangle.OpacityMask>
