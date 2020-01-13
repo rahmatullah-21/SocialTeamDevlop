@@ -171,7 +171,7 @@ namespace DominatorHouseCore.Interfaces
                     if (liveChatModel.LstSender.Count() > 0 && liveChatModel.LstSender.FirstOrDefault().AccountId != friendDetail.AccountId)
                         return;
                     var item = liveChatModel.LstSender.FirstOrDefault(x => x.LastMessegeDateTime < friendDetail.LastMessegeDateTime);
-                    var indexCurrentItem = item == null ? 0 : liveChatModel.LstSender.IndexOf(item);
+                    var indexCurrentItem = item == null ? liveChatModel.LstSender.Count : liveChatModel.LstSender.IndexOf(item);
 
                     cancellation.ThrowIfCancellationRequested();
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
@@ -181,6 +181,8 @@ namespace DominatorHouseCore.Interfaces
 
                     _genericFileManager.AddModule(friendDetail,
                         FileDirPath.GetFriendDetailFile(liveChatModel.DominatorAccountModel.AccountBaseModel.AccountNetwork));
+
+                    Thread.Sleep(5000);
                 }
                 else if (requireUpdate)
                 {
