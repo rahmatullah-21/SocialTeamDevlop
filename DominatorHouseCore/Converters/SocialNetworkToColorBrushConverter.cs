@@ -17,7 +17,7 @@ namespace DominatorHouseCore.Converters
                 switch (network.Value)
                 {
                     case SocialNetworks.Facebook:
-                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#003569"));
+                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#3684C1"));
                     case SocialNetworks.Instagram:
                         return Brushes.Red;
                     case SocialNetworks.Twitter:
@@ -38,7 +38,7 @@ namespace DominatorHouseCore.Converters
                     case SocialNetworks.Tumblr:
                         return Brushes.DimGray;
                     case SocialNetworks.TikTok:
-                        return Brushes.Black;
+                        return Brushes.DarkCyan;
                     case SocialNetworks.Social:
                         return null;
 
