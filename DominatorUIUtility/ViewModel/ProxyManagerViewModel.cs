@@ -352,7 +352,7 @@ namespace DominatorUIUtility.ViewModel
                 }
                 if (parsingResult.InvalidProxies.Any())
                 {
-                    var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Socinator";
+                    var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Legion";
                     DirectoryUtilities.CreateDirectory(path);
                     var filename = $"{path}\\invalidProxies {ConstantVariable.DateasFileName}.txt";
                     using (var streamWriter = new StreamWriter(filename, true))

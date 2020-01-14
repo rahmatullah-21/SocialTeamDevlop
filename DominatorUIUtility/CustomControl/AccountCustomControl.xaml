@@ -312,7 +312,7 @@
                                 </Button.Template>
                             </Button>
 
-                            <Controls:DropDownButton MaxHeight="55" Visibility="{Binding MenuHandlerModel.IsBrowserAutomationVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnBrowserAutomationSub">
+                            <!--<Controls:DropDownButton MaxHeight="55" Visibility="{Binding MenuHandlerModel.IsBrowserAutomationVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnBrowserAutomationSub">
                                 <Controls:DropDownButton.Content>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Vertical">
@@ -346,7 +346,7 @@
                                         </MenuItem.Icon>
                                     </MenuItem>
                                 </Controls:DropDownButton.Items>
-                            </Controls:DropDownButton>
+                            </Controls:DropDownButton>-->
 
 
                             <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsInfoVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Name="btnInfoSub" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
@@ -574,7 +574,7 @@
                             </i:Interaction.Triggers>
                         </Button>
 
-                        <Controls:DropDownButton Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
+                        <!--<Controls:DropDownButton Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
                             <Controls:DropDownButton.Content>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal">
@@ -615,7 +615,7 @@
                                     <i:InvokeCommandAction Command="{Binding BrowserButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnBrowserAutomation}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </Controls:DropDownButton>
+                        </Controls:DropDownButton>-->
 
 
 
@@ -664,7 +664,7 @@
                             <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{DynamicResource DeleteIcon}"/>
-                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
+                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" 
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
@@ -880,7 +880,7 @@
 
                             </GridViewColumn>
 
-                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+                            <!--<GridViewColumn Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>-->
 
                             <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
                                 <GridViewColumn.CellTemplate>

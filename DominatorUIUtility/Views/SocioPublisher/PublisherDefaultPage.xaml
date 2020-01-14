@@ -294,7 +294,7 @@
                 </Button>
 
 
-                <Button Background="Transparent" VerticalAlignment="Center"
+                <Button Visibility="Collapsed" Background="Transparent" VerticalAlignment="Center"
                         ToolTip="{DynamicResource LangKeyTutorials}" Command="{Binding TutorialsCommand}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">

@@ -103,7 +103,7 @@
                         </Rectangle>
                         <Label Content="{DynamicResource LangKeyActivitySpeed}"  FontWeight="Bold" FontSize="20"/>
                     </StackPanel>
-                    <Label Content="{DynamicResource LangKeySuperfastNotRecommended}" HorizontalAlignment="Center" Foreground="Red"></Label>
+                    <Label Content="{DynamicResource LangKeySuperfastNotRecommended}" Visibility="Collapsed" HorizontalAlignment="Center" Foreground="Red"></Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Label Content="{DynamicResource LangKeyAverageDailyActivities}" FontSize="14" FontWeight="SemiBold"  HorizontalAlignment="Center"/>
                         <Label  FontSize="14" FontWeight="SemiBold"  HorizontalAlignment="Center">

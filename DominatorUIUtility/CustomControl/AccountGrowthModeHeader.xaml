@@ -46,7 +46,7 @@
                         <AccessText Margin="6,0" Text="{DynamicResource LangKey_Save}" />
                     </StackPanel>
                 </Button>
-                <Button  VerticalAlignment="Center"   Background="Transparent" Foreground="White" Command="{Binding TutorialCommand}" CommandParameter="{Binding VideoTutorialLink}">
+                <Button  VerticalAlignment="Center" Visibility="Collapsed"   Background="Transparent" Foreground="White" Command="{Binding TutorialCommand}" CommandParameter="{Binding VideoTutorialLink}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Width="15" Height="15" Fill="White">

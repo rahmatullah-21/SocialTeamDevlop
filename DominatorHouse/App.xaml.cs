@@ -56,7 +56,7 @@ namespace Socinator
         {
             if (IsAlreadyRunning())
             {
-                MessageBox.Show("LangKeySocinatorAlreadyRunning".FromResourceDictionary(), "LangKeyWarning".FromResourceDictionary(), MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("LangKeyLegionAlreadyRunning".FromResourceDictionary(), "LangKeyWarning".FromResourceDictionary(), MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);
             }
             var container = containerRegistry.GetContainer();

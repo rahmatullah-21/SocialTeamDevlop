@@ -49,7 +49,7 @@
                          Text="{Binding ScrapePostModel.AddTdPostSource}" 
                      Visibility="{Binding ScrapePostModel.IsScrapeTwitterPost,Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" >
+        <StackPanel Orientation="Vertical" Visibility="Collapsed">
             <CheckBox Margin="2" Content="{DynamicResource LangKeyScrapePostsFromReddit}" IsChecked="{Binding ScrapePostModel.IsScrapeRedditPost}"/>
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding ScrapePostModel.IsScrapeRedditPost,Converter={StaticResource BooleanToVisibilityConverter}}"
                          mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeKeywordUserSubreddit}" Margin="2" TextWrapping="Wrap" 

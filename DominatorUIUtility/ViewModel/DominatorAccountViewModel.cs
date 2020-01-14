@@ -596,7 +596,7 @@ namespace DominatorUIUtility.ViewModel
                         var groupname = splitAccount[0];
 
                         var socialNetwork = SocialNetworks.Facebook.ToString();
-                        
+
                         var username = splitAccount[1];
                         var password = splitAccount[2];
 
@@ -617,9 +617,6 @@ namespace DominatorUIUtility.ViewModel
 
                         switch (splitAccount.Length)
                         {
-                            case 4:
-                                alternetEmail = splitAccount[3];
-                                break;
                             case 5:
                                 proxyaddress = splitAccount[3];
                                 proxyport = splitAccount[4];
@@ -627,20 +624,14 @@ namespace DominatorUIUtility.ViewModel
                             case 6:
                                 proxyaddress = splitAccount[3];
                                 proxyport = splitAccount[4];
-                                alternetEmail = splitAccount[5];
+                                proxyusername = splitAccount[5];
+                                proxypassword = splitAccount[6];
                                 break;
                             case 7:
                                 proxyaddress = splitAccount[3];
                                 proxyport = splitAccount[4];
                                 proxyusername = splitAccount[5];
                                 proxypassword = splitAccount[6];
-                                break;
-                            case 8:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                proxyusername = splitAccount[5];
-                                proxypassword = splitAccount[6];
-                                alternetEmail = splitAccount[7];
                                 break;
                             case 9:
                                 proxyaddress = splitAccount[3];
@@ -657,7 +648,6 @@ namespace DominatorUIUtility.ViewModel
                                 proxypassword = splitAccount[6];
                                 status = splitAccount[7];
                                 cookies = splitAccount[8].Replace("<>", ",");
-                                alternetEmail = splitAccount[9];
                                 break;
                             case 11:
                                 proxyaddress = splitAccount[3];
@@ -666,8 +656,7 @@ namespace DominatorUIUtility.ViewModel
                                 proxypassword = splitAccount[6];
                                 status = splitAccount[7];
                                 cookies = splitAccount[8].Replace("<>", ",");
-                                alternetEmail = splitAccount[9];
-                                banned = splitAccount[10];
+                                banned = splitAccount[9];
                                 break;
                             case 13:
                                 proxyaddress = splitAccount[3];
@@ -676,23 +665,23 @@ namespace DominatorUIUtility.ViewModel
                                 proxypassword = splitAccount[6];
                                 status = splitAccount[7];
                                 cookies = splitAccount[8].Replace("<>", ",");
-                                alternetEmail = splitAccount[9];
-                                banned = splitAccount[10];
-                                browserCookies = splitAccount[11].Replace("<>", ",");
-                                isBrowserAutomationActive = splitAccount[12];
+                                banned = splitAccount[9];
+                                browserCookies = splitAccount[10].Replace("<>", ",");
+                                isBrowserAutomationActive = splitAccount[11];
                                 break;
                             case 14:
+                            case 15:
+                            case 16:
                                 proxyaddress = splitAccount[3];
                                 proxyport = splitAccount[4];
                                 proxyusername = splitAccount[5];
                                 proxypassword = splitAccount[6];
                                 status = splitAccount[7];
                                 cookies = splitAccount[8].Replace("<>", ",");
-                                alternetEmail = splitAccount[9];
-                                banned = splitAccount[10];
-                                browserCookies = splitAccount[11].Replace("<>", ",");
-                                isBrowserAutomationActive = splitAccount[12];
-                                proxyGroup = splitAccount[13];
+                                banned = splitAccount[9];
+                                browserCookies = splitAccount[10].Replace("<>", ",");
+                                isBrowserAutomationActive = splitAccount[11];
+                                proxyGroup = splitAccount[12];
                                 break;
                         }
 
@@ -853,6 +842,7 @@ namespace DominatorUIUtility.ViewModel
 
             var dominatorAccountModel = new DominatorAccountModel
             {
+                IsRunProcessThroughBrowser = true,
                 AccountBaseModel = dominatorAccountBaseModel,
                 RowNo = LstDominatorAccountModel.Count + 1,
                 AccountId = dominatorAccountBaseModel.AccountId
@@ -869,7 +859,7 @@ namespace DominatorUIUtility.ViewModel
                 }
             List<ProxyManagerModel> oldproxies = _proxyFileManager.GetAllProxy();
 
-            dominatorAccountModel.IsRunProcessThroughBrowser = isBrowserAutomationActive;
+            //dominatorAccountModel.IsRunProcessThroughBrowser = isBrowserAutomationActive;
 
             //var cancel = secondaryTaskStrategyReturningCancellation(() => UpdateProxy(objDominatorAccountBaseModel));
             //dominatorAccountModel.Token.Register(cancel);
@@ -1546,16 +1536,16 @@ namespace DominatorUIUtility.ViewModel
                               .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
 
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader}";
+                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader}";
 
             else if (!string.IsNullOrEmpty(FourthCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader}";            
+                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader}";
 
             else if (!string.IsNullOrEmpty(ThirdCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader}";
+                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader}";
 
             else if (!string.IsNullOrEmpty(SecondCountHeader))
-                header = $"Account Group,AccountNetwork,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Alternate Email (For YouTube/Gplus),Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader}";
+                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader}";
 
 
 
