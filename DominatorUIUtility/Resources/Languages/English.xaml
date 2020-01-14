@@ -4525,4 +4525,7 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyTotalNoConversions">Total {0} Conversions Found After Date Filter</system:String>
     <system:String x:Key="LangKeyNoMoreConversionsFound">No More Conversions Found</system:String>
     <system:String x:Key="LangKeySendMessageToUserWhoHaveNotIntracted">Send Message To User Who Have Not Interacted From</system:String>
+    <system:String x:Key="LangkeyGroupUrlPosts">GroupUrl Post(S)</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerGroup">Maximum Number of post to be like per Group</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerGroup">Maximum Number of post to be comment per Group</system:String>
 </ResourceDictionary>
