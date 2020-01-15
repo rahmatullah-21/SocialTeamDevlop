@@ -4528,4 +4528,5 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangkeyGroupUrlPosts">GroupUrl Post(S)</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerGroup">Maximum Number of post to be like per Group</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerGroup">Maximum Number of post to be comment per Group</system:String>
+    <system:String x:Key="LangKeyCannotPostOnPage">Cannot Post On page {0} from account {1}!</system:String>
 </ResourceDictionary>
