@@ -12,7 +12,7 @@ namespace DominatorHouseCore.Enums.LdQuery
         MyGroupsPosts,
         [Description("LangKeyCustomPostsList")]
         CustomPosts,
-        [Description("GroupsUrlPosts")]
-        GroupsUrlPosts,
+        [Description("LangkeyGroupUrlPosts")]
+        GroupsUrlPosts
     }
 }
