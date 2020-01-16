@@ -16,7 +16,7 @@
     <Grid Name="MainGrid">
         <StackPanel>
 
-            <CheckBox Content="{DynamicResource LangKeyAdvancedSettings}" IsChecked="{Binding JobConfiguration.IsAdvanceSetting}" Margin="5" Name="ChkAdvance"/>
+            <CheckBox Visibility="{Binding JobConfiguration.IsAdvanceSettingVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Content="{DynamicResource LangKeyAdvancedSettings}" IsChecked="{Binding JobConfiguration.IsAdvanceSetting}" Margin="5" Name="ChkAdvance"/>
             <Border BorderThickness="2" BorderBrush="Black">
                 <Border.Style>
                     <Style TargetType="Border">

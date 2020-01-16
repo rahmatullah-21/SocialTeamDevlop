@@ -10,11 +10,14 @@ namespace DominatorHouseCore.Utility
 
         }
 
-        public RangeUtilities(int start, int end) : this()
+        public RangeUtilities(int start, int end, int maxCount = 999999999) : this()
         {
             StartValue = start;
             EndValue = end;
+            MaxCount = maxCount;
         }
+
+
         private int _startValue;
 
         [ProtoMember(1)]
@@ -29,6 +32,8 @@ namespace DominatorHouseCore.Utility
             set
             {
                 if (value == _startValue)
+                    return;
+                if (value > _maxCount)
                     return;
                 SetProperty(ref _startValue, value);
             }
@@ -49,7 +54,26 @@ namespace DominatorHouseCore.Utility
                     value = _startValue;
                 if (value == _endValue)
                     return;
+                if (value > _maxCount)
+                    return;
                 SetProperty(ref _endValue, value);
+            }
+        }
+
+        private int _maxCount = 999999999;
+
+        [ProtoMember(3)]
+        public int MaxCount
+        {
+            get
+            {
+                return _maxCount;
+            }
+            set
+            {
+                if (_maxCount == value)
+                    return;
+                SetProperty(ref _maxCount, value);
             }
         }
 

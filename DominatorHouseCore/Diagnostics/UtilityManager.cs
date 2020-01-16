@@ -347,21 +347,32 @@ namespace DominatorHouseCore.Diagnostics
                         var exemptionItems = jsonArray.Children()["nested"].First()[ConfigurationManager.AppSettings["ExemptionItem"]].ToString();
                         var arrayExemptionItems = JArray.Parse(exemptionItems)[0];
                         var exemptionTitle = arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionTitle"]].ToString();
+                        var excemptionOptions = arrayExemptionItems[ConfigurationManager.AppSettings["ExemptionOptions"]].ToString();
+                        excemptionOptions = Regex.Replace(excemptionOptions, "\\\"", "\"");
+                        var jsonArrayObject = JObject.Parse(excemptionOptions);
+                        var fullExemptionValue = jsonArrayObject["Advance Setting "]["value"].ToString();
 
                         #endregion
 
                         #region Full Exemption
 
-                        if (exemptionTitle == ConfigurationManager.AppSettings["FullExemption"])
+                        if (fullExemptionValue == ConfigurationManager.AppSettings["FullExemption"])
                         {
                             try
                             {
                                 var options = jsonArray.Children()["nested"].First()[ConfigurationManager.AppSettings["ExemptionItem"]].First()["options"]
                                     .ToString();
-                                var packageCount =
-                                    JObject.Parse(options)[ConfigurationManager.AppSettings["SelectPackage"]]["value"].ToString();
 
-                                SocinatorInitialize.MaximumAccountCount = int.Parse(Utilities.GetIntegerOnlyString(packageCount));
+                                SocinatorInitialize.MaximumAccountCount = 10000;
+
+                                SocinatorInitialize.FullExcemptionActive = true;
+
+                                SocinatorInitialize.AvailableNetworks.Clear();
+
+                                FeatureFlags.Instance = new FeatureFlags { { "SocinatorInitializer", true }, { "Social", true } };
+
+                                SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
+
                                 AddAllNetwork();
                             }
                             catch (Exception ex)
@@ -374,11 +385,16 @@ namespace DominatorHouseCore.Diagnostics
 
                         #region Custom Exemption
 
-                        else if (exemptionTitle == ConfigurationManager.AppSettings["CustomExemption"])
+                        else if (fullExemptionValue == string.Empty)
                         {
                             try
                             {
-                                var arrInvoiceItems = JArray.Parse(exemptionItems);
+                                var options = jsonArray.Children()["nested"].First()[ConfigurationManager.AppSettings["ExemptionItem"]].First()["options"]
+                                   .ToString();
+
+                                SocinatorInitialize.MaximumAccountCount = 10000;
+
+                                SocinatorInitialize.FullExcemptionActive = false;
 
                                 SocinatorInitialize.AvailableNetworks.Clear();
 
@@ -386,39 +402,8 @@ namespace DominatorHouseCore.Diagnostics
 
                                 SocinatorInitialize.AvailableNetworks.Add(SocialNetworks.Social);
 
-                                foreach (var token in arrInvoiceItems)
-                                {
-                                    try
-                                    {
-                                        var tokenString = token["options"].ToString();
+                                AddAllNetwork();
 
-                                        var networkSplit = Regex.Split(tokenString, "},");
-
-                                        SocinatorInitialize.MaximumAccountCount = 10000;
-
-                                        foreach (var networkValues in networkSplit)
-                                        {
-                                            try
-                                            {
-                                                var isSelected = Utilities.GetBetween(networkValues, "value\":[\"", "\"],");
-                                                if (isSelected != "1")
-                                                    continue;
-                                                var network = Utilities.FirstMatchExtractor(networkValues, "optionLabel\":\"(.*?)\"");
-                                                var networks = (SocialNetworks)Enum.Parse(typeof(SocialNetworks), network);
-                                                SocinatorInitialize.AvailableNetworks.Add(networks);
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                ex.DebugLog();
-                                            }
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        SocinatorInitialize.MaximumAccountCount = 0;
-                                        ex.DebugLog();
-                                    }
-                                }
                             }
                             catch (Exception ex)
                             {
@@ -614,7 +599,7 @@ namespace DominatorHouseCore.Diagnostics
                     await Task.Delay(1000);
 
                 return true;
-                
+
             }
             catch (Exception ex)
             {

@@ -19,6 +19,8 @@ namespace DominatorHouseCore.Diagnostics
             new Dictionary<SocialNetworks, INetworkCollectionFactory>();
 
 
+        public static bool FullExcemptionActive { get; set; } = false;
+
         public static int MaximumAccountCount { get; set; } = 10000;
 
         public static HashSet<SocialNetworks> AvailableNetworks { get; set; } = new HashSet<SocialNetworks>();

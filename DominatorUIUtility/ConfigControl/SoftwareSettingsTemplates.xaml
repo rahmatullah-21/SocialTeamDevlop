@@ -30,7 +30,7 @@
             <ScrollViewer   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <StackPanel>
                     <StackPanel Margin="10" DataContext="{Binding SoftwareSettingsModel}">
-                        <CheckBox Margin="5" Content="{DynamicResource LangKeyRunSocinatorAtSystemStartup}"
+                        <CheckBox Margin="5" Content="{DynamicResource LangKeyRunLegionAtSystemStartup}"
                              Visibility="Collapsed" IsChecked="{Binding IsRunDHAtStartUpChecked}"/>
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyShowToolTipWhenMinimizingToSystemTray}"
                               Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
@@ -73,7 +73,7 @@
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyUseTabInsteadOfComma}"
                          Visibility="Collapsed"     IsChecked="{Binding IsUseTabInsteadOfCommaChecked}"/>
                         <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
-                            <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAutoRestartSocinatorAfterAMinimumOf}"
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeyEnableAutoRestartLegionAfterAMinimumOf}"
                                   IsChecked="{Binding IsEnableAutoRestartSocinatorChecked}"/>
                             <mah:NumericUpDown Minimum="0" Margin="5" IsEnabled="{Binding IsEnableAutoRestartSocinatorChecked}"
                                                 Value="{Binding MinHour}"/>

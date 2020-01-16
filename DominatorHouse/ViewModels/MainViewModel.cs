@@ -363,7 +363,7 @@ namespace DominatorHouse.ViewModels
             }
             else
             {
-                if (DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyLicense".FromResourceDictionary(), "LangKeyValidateSocinator".FromResourceDictionary(), MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+                if (DialogCoordinator.Instance.ShowModalMessageExternal(Application.Current.MainWindow, "LangKeyLicense".FromResourceDictionary(), "LangKeyValidateLegion".FromResourceDictionary(), MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
                     return true;
                 else
                     Application.Current.MainWindow.Close();

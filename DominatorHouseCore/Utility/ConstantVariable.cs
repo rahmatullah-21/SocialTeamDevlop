@@ -273,25 +273,25 @@ namespace DominatorHouseCore.Utility
 
         public static string VideoToImageConvertPngFileName { get; set; } = $"_{ApplicationName}IMAGE.png";
         public static string ProcessingInput { get; set; } =
-            "https://socinator.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
+            "https://members.legionsoftware.io/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
         public static string ProcessingDebugType { get; set; } =
             "https://dominatorhouse.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
         public static string FindExemptions { get; set; } =
-            "https://socinator.com/amember/softsale/api/check-license?key={0}";
+            "https://members.legionsoftware.io/softsale/api/check-license?key={0}";
 
         public static string ExemptionInnerException { get; set; }
-            = "https://socinator.com/amember/api/invoices/{0}?_key={1}";
+            = "https://members.legionsoftware.io/api/invoices/{0}?_key={1}";
 
         public static string LogExemptions { get; set; }
-            = "https://socinator.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
+            = "https://members.legionsoftware.io/softsale/api/activate?key={0}&request[hardware-id]={1}";
 
         public static string DebugLogExemptions { get; set; }
             = "https://dominatorhouse.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
 
         public static string LogDebugExemption { get; set; }
-            = "https://socinator.com/amember/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
+            = "https://members.legionsoftware.io/softsale/api/deactivate?key={0}&request[hardware-id]={1}";
 
         public static string DebugPower = "https://powerof7.io/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
@@ -310,9 +310,9 @@ namespace DominatorHouseCore.Utility
         public static string OwnWall { get; set; } = "OwnWall";
         public static string UpdatedVersionIP { get; set; } = "209.250.252.53";
 
-        public static string UpdateVersionFilePath { get; set; } = "SocialInstaller/Socinator.txt";
+        public static string UpdateVersionFilePath { get; set; } = "Legion/Legion.txt";
 
-        public static string UpdateInstallerFilePath { get; set; } = "SocialInstaller/Socinator.msi";
+        public static string UpdateInstallerFilePath { get; set; } = "Legion/Legion.msi";
 
         public static string UpdateVersionLink { get; set; } =
               "http://{0}/{1}";

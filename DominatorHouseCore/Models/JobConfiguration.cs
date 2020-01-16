@@ -5,6 +5,7 @@ using ProtoBuf;
 using System;
 using DominatorHouseCore.Enums;
 using System.Linq;
+using DominatorHouseCore.Diagnostics;
 
 namespace DominatorHouseCore.Models
 {
@@ -24,7 +25,9 @@ namespace DominatorHouseCore.Models
         private List<RunningTimes> _runningTime;
         private string _selectedItem = string.Empty;
         private bool _isAdvanceSetting;
+        private bool _isAdvanceSettingVisible = SocinatorInitialize.FullExcemptionActive;
         private List<string> _speeds = new List<string>();
+        
 
         public JobConfiguration()
         {
@@ -220,9 +223,14 @@ namespace DominatorHouseCore.Models
             {
                 if (_isAdvanceSetting == value)
                     return;
+                if (!IsAdvanceSettingVisible)
+                    return;
                 SetProperty(ref _isAdvanceSetting, value);
             }
         }
+
+
+
 
         [ProtoMember(15)]
         public string SelectedItem
@@ -252,6 +260,17 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _speeds, value);
             }
         }
+
+        
+        public bool IsAdvanceSettingVisible
+        {
+            get
+            {
+                return SocinatorInitialize.FullExcemptionActive;
+            }
+        }
+
+       
 
         #endregion
     }
