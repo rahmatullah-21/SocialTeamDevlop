@@ -557,8 +557,7 @@ namespace DominatorHouseCore.Diagnostics
             {
                 var finalResponse = string.Empty;
 
-                var revisionHistoryViewModel = ServiceLocator.Current.GetInstance<IDashboardViewModel>("RevisionHistory");
-                var currentVersion = Utilities.GetBetween(revisionHistoryViewModel.CurrentVersion, "[", "]");
+                var currentVersion = ConfigurationManager.AppSettings["ExceptionVersion"];
 
                 using (var streamReader = new StreamReader(await ProcessUpdatedVersionString()))
                 {
