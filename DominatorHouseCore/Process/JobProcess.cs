@@ -170,6 +170,31 @@ namespace DominatorHouseCore.Process
             return limitType != ReachedLimitType.NoLimit;
         }
 
+        public bool StopAndRescheduleJob(int scheduleAfterXXHours = 0)
+        {
+            try
+            {
+                try
+                {
+                    _dominatorScheduler.RescheduleifLimitReached(this, new ReachedLimitInfo()
+                        , ReachedLimitType.Job, scheduleAfterXXHours);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
+
+
         public abstract ReachedLimitInfo CheckLimit();
 
         //// TODO: don't think that it works. template.ActivitySettings effectively isn't changed, hence no changes is saved 
