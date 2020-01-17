@@ -494,7 +494,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             var customTimeToSchedule = DateTime.Now.AddHours(scheduleAfterXXHours);
 
             // For enabling job after n hours
-            if (scheduleAfterXXHours > 0)
+            if (limitInfo.LimitValue > 0)
                 GlobusLogHelper.log.Info(limitInfo.ReachedLimitType.ConvertToLogRecord(),
                     jobProcess.DominatorAccountModel.AccountBaseModel.AccountNetwork,
                     jobProcess.DominatorAccountModel.AccountBaseModel.UserName, jobProcess.ActivityType, limitInfo.LimitValue);

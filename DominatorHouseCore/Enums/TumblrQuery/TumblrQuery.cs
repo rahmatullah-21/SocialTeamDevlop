@@ -17,7 +17,9 @@ namespace DominatorHouseCore.Enums.TumblrQuery
         [Description("LangKeyReblogPost")]
         UserReblogedThePost,
         [Description("LangKeyReblogLikerCommenter")]
-        UserLikedCommentedReblogedThePost
+        UserLikedCommentedReblogedThePost,
+        [Description("LangKeyPostOwner")]
+        PostOwner
     }
     public enum TumblrPostQuery
     {

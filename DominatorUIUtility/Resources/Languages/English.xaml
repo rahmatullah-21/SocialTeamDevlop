@@ -97,7 +97,7 @@
     <system:String x:Key="LangKeyAddPosts">Add Posts</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersSearchPin">Add Posts Source! Like (Boards, Users, Search Pin)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl">Add Posts Source! Like (Ownwall,Page, Group,Friend Url)</system:String>
-    <system:String x:Key="LangKeyAddPostsSourceLikeUsersSearch">Add Posts Source! Like (Users,Search)</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeUsersSearch">Add Posts Source! Like ([U]Users,[S]Search,[P]CustomUrl)</system:String>
     <system:String x:Key="LangKeyAddToPrivateBlacklist">Add To Private Blacklist</system:String>
     <system:String x:Key="LangKeyAddProfile">Add Profile</system:String>
     <system:String x:Key="LangKeyAddProxy">Add Proxy</system:String>
@@ -4529,4 +4529,7 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerGroup">Maximum Number of post to be like per Group</system:String>
     <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerGroup">Maximum Number of post to be comment per Group</system:String>
     <system:String x:Key="LangKeyCannotPostOnPage">Cannot Post On page {0} from account {1}!</system:String>
+    <system:String x:Key="LangKeyStopActivityAfter">Stop Activity After</system:String>
+    <system:String x:Key="LangKeyFailedAttemptFor">Failed Attempt For</system:String>
+    <system:String x:Key="LangKeyPostOwner">Post Owner</system:String>
 </ResourceDictionary>
