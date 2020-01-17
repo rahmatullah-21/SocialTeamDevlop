@@ -491,7 +491,7 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
         {
             //jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            var nextTimeToSchedule = DateTime.Now.AddHours(scheduleAfterXXHours);
+            var customTimeToSchedule = DateTime.Now.AddHours(scheduleAfterXXHours);
 
             // For enabling job after n hours
             if (scheduleAfterXXHours > 0)
@@ -508,9 +508,9 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
                     jobProcess.JobConfiguration.DelayBetweenJobs.GetRandom())
                 : DateTimeUtilities.GetNextStartTime(moduleConfiguration, limitType);
 
-            if (scheduleAfterXXHours > 0 && DateTime.Compare(nextTimeToSchedule, nextStartTime) > 0)
+            if (scheduleAfterXXHours > 0 && DateTime.Compare(customTimeToSchedule, nextStartTime) > 0)
             {
-                nextStartTime = nextTimeToSchedule;
+                nextStartTime = customTimeToSchedule;
             }
 
             if (moduleConfiguration != null)
