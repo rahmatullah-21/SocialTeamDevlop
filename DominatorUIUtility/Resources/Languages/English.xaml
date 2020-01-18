@@ -4509,7 +4509,7 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyUploadMutipleImageUrl">Upload Mutiple Image Url</system:String>
     <system:String x:Key="LangKeySelectCategory">Please Select Category</system:String>
     <system:String x:Key="LangKeyGroupMemberBasicDetails">Group Member Basic Details</system:String>
-    <system:String x:Key="LangKeyAnUpdatedVersionAvailable">A new version of Legion is available</system:String>
+    <system:String x:Key="LangKeyAnUpdatedVersionAvailable">A new version of Legion is available. Do you want to update Legion?</system:String>
     <system:String x:Key="LangKeyCheckingUpdates">Hang On! Checking for Updates</system:String>
     <system:String x:Key="LangKeyUpdatingSocinator">Hang On! Updating Legion</system:String>
     <system:String x:Key="LangKeyMessageConversationsScraper">MessageConversation Scraper</system:String>
