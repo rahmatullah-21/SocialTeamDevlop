@@ -4532,4 +4532,9 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyStopActivityAfter">Stop Activity After</system:String>
     <system:String x:Key="LangKeyFailedAttemptFor">Failed Attempt For</system:String>
     <system:String x:Key="LangKeyPostOwner">Post Owner</system:String>
+    <system:String x:Key="LangKeyNumberOfPostsScrapingPerDay">Number Of Posts Scraping Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfPostsScrapingPerHour">Number Of Posts Scraping Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfPostsScrapingPerJob">Number Of Posts Scraping Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfPostsScrapingPerWeek">Number Of Posts Scraping Per Week</system:String>
+    <system:String x:Key="LangKeyHourPerAccount">Hour Per Account</system:String>
 </ResourceDictionary>
