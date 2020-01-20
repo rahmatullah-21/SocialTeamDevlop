@@ -250,7 +250,7 @@
                     </ListView.View>
                 </ListView>
             <controls:FlyoutsControl Grid.Row="1">
-                    <controls:Flyout Name="SelectedAccountFlyout" Background="LightSteelBlue" IsOpen="{Binding SelectedAccountsFlyoutVisibility}" Header="{Binding SelectedAccountListCampaign}" Position="Right">
+                    <controls:Flyout Name="SelectedAccountFlyout" Background="{DynamicResource TextColorBrushAccordingTheme1}" IsOpen="{Binding SelectedAccountsFlyoutVisibility}" Header="{Binding SelectedAccountListCampaign}" Position="Right">
                         <ListBox FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding SelectedAccountList}" />
                     </controls:Flyout>
                 </controls:FlyoutsControl>
