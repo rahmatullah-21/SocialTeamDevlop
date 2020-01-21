@@ -88,7 +88,7 @@
                              Content="{DynamicResource LangKeyCreateAMultipleImagePost}"  IsChecked="{Binding PostDetailsModel.IsMultipleImagePost}"/>
 
             <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Visibility="{Binding PostDetailsModel.IsMultipleImagePost,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel>
+                <StackPanel Margin="0,10">
                     <RadioButton Name="CheckBoxUseFileNameAsDescription" Margin="2" GroupName="Description"
                                   Content="{DynamicResource LangKeyUseFileNameAsPostDescription}"
                                   IsChecked="{Binding PostDetailsModel.IsUseFileNameAsDescription}"/>
