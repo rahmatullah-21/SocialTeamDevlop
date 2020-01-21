@@ -4537,4 +4537,6 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyNumberOfPostsScrapingPerJob">Number Of Posts Scraping Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfPostsScrapingPerWeek">Number Of Posts Scraping Per Week</system:String>
     <system:String x:Key="LangKeyHourPerAccount">Hour Per Account</system:String>
+    <system:String x:Key="LangKeySkipping">Skipping</system:String>
+    <system:String x:Key="LangKeyAsInteractedforthisCampaignForUniqueUser">, As Interacted for this Campaign - Filter Checked with Unique</system:String>
 </ResourceDictionary>
