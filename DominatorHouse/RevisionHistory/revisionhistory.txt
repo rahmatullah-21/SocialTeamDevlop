@@ -1,3 +1,67 @@
+Version[1.0.0.74],[22nd January 2020]
+New Features:-
+	Social : Added Dark Theme. [Check beside the Networks list]
+	
+	Facebook:
+		Scraper ==> Profile Scraper ==> Added  feature to scrape page  post commentors.
+		Scraper ==> Profile Scraper ==> Added  feature to scrape Group post commenters.
+	
+	Linkedin:
+		Scrapper ==> Message conversation scraper ==> Added feature for message conversation scraper.
+		Engage ==> Like/comment ==> Added features to like group url post.
+	
+	Tumblr:
+		Grow followers ==> Added new feature to follow user's by Post owner.
+
+	Reddit:
+		Publisher ==> Create Campaign ==> Scrape Post ==> Scrape post from Reddit
+
+Fixed:- 
+	Social:
+		Publisher ==> Facebook ==> Fixed issue with posting in groups without media file
+		Publisher ==> Reddit ==> Fixed issue with publish post on wall.
+
+	Pinterest:
+		Unfollow ==> Configuration ==> Unfollow Source ==> Fixed issue with People followed by software.
+		PinPoster ==> Repin ==> Query Type ==> Custom Board ==> Browser Mode ==> Fixed issue with repin.
+		Board ==> Send Board Invitation ==> Trying to send board Invitation using Browser Automation ==> Fixed issue with Board Invitation.
+		Unfollow ==> Fixed issue with unfollow.
+		
+	LinkedIn:
+		Salesnavigator scraper ==> User scraper ==> Query type ==> Search URL ==> Fixed issue with salesnavigator user scraper.
+		Grow connection ==> Connection request ==> Query type ==> Salesnavigator SearchUrl ==> Fixed issue with send connection request.
+		Engage ==> Like ==> Query Type ==> GroupUrl Post ==> Browser Mode ==> Fixed issue with like group post.
+		Grow Connection ==> Export Connection ==> Fixed issue with export connection.
+
+	Tumblr:
+		Scraper ==> Userscraper ==> keywords and hashtag  ==> Fixed issue with scrape the followers.
+		Broadcast Messages ==> Fixed issue with send messages to unique user this user filter is not available in account activity mode.
+		Grow followers ==> follow ==> user filter ==> User Bio/Username /Name must not contain any invalid words(separated words by comma) ==> Fixed issue with GUI (This user filter is not available in account activity mode.)
+		Engage ==> Unlike ==> Fixed issue with GUI (Unlike was unavailable in account activity mode).
+
+	Facebook:
+		Broadcast messages ==> send messages to fanpages ==> Fixed issue with sending messages to fanpage.
+		Broadcast messages ==> Broadcast messages ==> Fixed issue with sending broadcast messages using custom url.
+		Group scraper ==> keywords ==> After scraping in report membership statues and Total member showing Zero(0) and  Not A member.
+
+	Twitter:
+		Grow Follower ==> Follow ==> Query type ==> keyword,Hashtags,Location users,Someone's follower ==> Fixed issue with no more data.
+		 	 
+	Youtube:
+		Engage ==> Like comment ==> Custom channel ==> Fixed issue with Like the comment.
+		Engage ==> Comment ==> Keyword ==> Fixed issue with comment the video.
+		Scraper ==> ChannelScraper ==> Custom Url ==> Fixed issue with scrapping the channel.
+		Engage ==> Dislike ==> Custome Url ==> Fixed issue with dislike the video.
+
+	Reddit:
+		Voter ==> Remove vote ==> Query  type Custom  URL ==> Fixed issue with remove vote.
+		Scrapper ==> User   scrapper ==> Fixed issue with user scarpper.
+		Scrapper ==> URL scrapper ==> Fixed issu with url scrapper.
+		Voter ==> Down vote ==> Fixed issue with Down vote
+
+	Quora:
+		Voting ==> Upvote Answers ==> Query Type ==> Custom URLs ==> HTTP MODE ==> Fixed issue with upvote. 
+
 Version[1.0.0.73],[6th January 2020]
 New Features:-
 	Social:
