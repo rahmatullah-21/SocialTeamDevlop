@@ -3290,7 +3290,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEnableAutoFollow">Enable Auto Follow</system:String>
     <system:String x:Key="LangKeyEnableAutoUnfollow">Enable Auto Unfollow</system:String>
     <system:String x:Key="LangKeySavePagination">Save Pagination</system:String>
-    <system:String x:Key="LangKeyLikeOnSpecificComment">Like On Specific Comment of Post</system:String>
+    <system:String x:Key="LangKeyLikeOnSpecificComment">Like Highlighted comment only</system:String>
     <system:String x:Key="LangKeyPostAsSamePage">Post As Same Page (For Ex:- Post on Socinator Page with Socinator account)</system:String>
     <system:String x:Key="LangKeySendGreetingsToFriends">Send Greetings To Friends</system:String>
     <system:String x:Key="LangKeyTodaysBirthdays">Today's Birthdays</system:String>
@@ -3506,7 +3506,7 @@ Type 3. IP:Port
     <system:String x:Key="LangUseUniqueFeatureAs">Use Unique Feature</system:String>
     <system:String x:Key="LangCampaignWise">Campaign wise</system:String>
     <system:String x:Key="LangAccountWise">Account wise</system:String>
-    <system:String x:Key="LangReplyForCommentId">Comment as reply to a specific commentId</system:String>
+    <system:String x:Key="LangReplyForCommentId">Comment as reply to Highlighted comment only</system:String>
     <system:String x:Key="LangKeyImportUsers">Import Users</system:String>
     <system:String x:Key="LangKeyExportUsers">Export Users</system:String>
     <system:String x:Key="LangKeyManageEventCreater">Manage Event Create</system:String>
@@ -3577,7 +3577,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCommentsOfAVideo">Comments of a video</system:String>
     <system:String x:Key="LangKeyLikeCommentsOf">Like comments of</system:String>
     <system:String x:Key="LangKeyVideosOfAChannel">videos of a channel</system:String>
-    <system:String x:Key="LangKeyProvideCommentIdSpecifically">Provide a specific commentId of a comment of a custom video url.</system:String>
+    <system:String x:Key="LangKeyApplicableOnCommntIdUrl">Applicable only on the search query "Custom Url" with the video url containing the specific CommentId</system:String>
     <system:String x:Key="LangKeyAddMultipleMessageSeparatedByNewLine">Add Multiple Message Separated By New Line</system:String>
     <system:String x:Key="LangKeyNumberOfUnLikesPerDay">Number Of Unlikes Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfUnLikesPerHour">Number Of Unlikes Per Hour</system:String>
@@ -4539,4 +4539,6 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyHourPerAccount">Hour Per Account</system:String>
     <system:String x:Key="LangKeySkipping">Skipping</system:String>
     <system:String x:Key="LangKeyAsInteractedforthisCampaignForUniqueUser">, As Interacted for this Campaign - Filter Checked with Unique</system:String>
+    <system:String x:Key="LangKeyUrlsDontHaveCommentId" xml:space="preserve">As you have checked "Activity With Hightlighted comment only" in the Other Configuration Expander.
+ Some of the custom urls don't have CommentId.</system:String>
 </ResourceDictionary>

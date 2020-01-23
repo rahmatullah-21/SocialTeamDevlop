@@ -759,9 +759,16 @@ namespace DominatorUIUtility.ViewModel
                     var domain = jsonHand.GetJTokenValue(t, "domain");
                     var path = jsonHand.GetJTokenValue(t, "path");
                     var expireString = jsonHand.GetJTokenValue(t, "expirationDate").Split('.')[0];
-                    DateTime expire = DateTime.Now.AddYears(1);
+                    DateTime expire = DateTime.Now.AddMonths(6);
+
                     if (!string.IsNullOrWhiteSpace(expireString))
-                        expire = DateTimeUtilities.EpochToDateTimeUtc(Convert.ToInt64(expireString)*1000);
+                        try
+                        {
+                            expire = DateTimeUtilities.EpochToDateTimeUtc(Convert.ToInt64(expireString) * 1000);
+                        }
+                        catch(Exception ex)
+                        { ex.DebugLog($"expireString:{expireString}");  }
+
                     var httpOnly = jsonHand.GetJTokenValue(t, "httpOnly").ToLower() == "true" ? true: false;
                     var secure = jsonHand.GetJTokenValue(t, "secure").ToLower() == "true" ? true : false;
 
