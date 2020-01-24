@@ -253,6 +253,7 @@ namespace DominatorHouseCore.Process
                         postFetchDetails =
                             JsonConvert.DeserializeObject<SharePostModel>(publisherPostFetchModel.PostDetailsWithFilters);
                         break;
+                    case PostSource.ScrapeImages:
                     case PostSource.ScrapedPost:
                         postFetchDetails =
                             JsonConvert.DeserializeObject<ScrapePostModel>(publisherPostFetchModel.PostDetailsWithFilters);
@@ -308,10 +309,27 @@ namespace DominatorHouseCore.Process
                             postScraper.FetchMonitorFoldersPosts(publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.MaximumPostLimitToStore, publisherPostFetchModel.CampaignName);
                         }, s => s.WithName(monitorJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
                         break;
+                    case PostSource.ScrapeImages:
+                        var scrapeImagesJobName = $"{publisherPostFetchModel.CampaignId}-{PostSource.RssFeedPost.ToString()}";
+
+                        var scrapeImagesCampaignstatus = PublisherInitialize.GetInstance.GetSavedCampaigns().FirstOrDefault(x => x.CampaignId == publisherPostFetchModel.CampaignId);
+                        if (scrapeImagesCampaignstatus?.Status != PublisherCampaignStatus.Active)
+                            return;
+                        // Register to sorted set
+                        JobFetcherId.Add(scrapeImagesJobName);
+                        // Add the Job for Rss feed 
+                        JobManager.AddJob(() =>
+                        {
+                            // Call the Rss feed fetcher
+                            postScraper.ScrapeImagePosts(publisherPostFetchModel.CampaignId, postFetchDetails, cancellationTokenSource, publisherPostFetchModel.MaximumPostLimitToStore, publisherPostFetchModel.CampaignName);
+                        }, s => s.WithName(scrapeImagesJobName).ToRunOnceAt(DateTime.Now.AddSeconds(2)).AndEvery(publisherPostFetchModel.DelayForNext).Minutes());
+                        break;
                     case PostSource.NormalPost:
                         break;
                     default:
                         // Iterate the selected destination Id
+                        //if(typeof(postFetchDetails)== ScrapePostModel)
+
                         publisherPostFetchModel.SelectedDestinations.ToList().ForEach(destinationId =>
                         {
                             // Get the details of Destination Id

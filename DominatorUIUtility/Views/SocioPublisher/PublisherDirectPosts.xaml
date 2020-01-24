@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:customControl="clr-namespace:DominatorUIUtility.Views.SocioPublisher.CustomControl"
-             xmlns:customControl2="clr-namespace:DominatorUIUtility.CustomControl"
              mc:Ignorable="d"  xmlns:suggestions="clr-namespace:DominatorUIUtility.Views.SocioPublisher.Suggestions"
              xmlns:control="http://metro.mahapps.com/winfx/xaml/controls">
     <UserControl.Resources>

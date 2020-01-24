@@ -64,6 +64,17 @@ namespace DominatorHouseCore.Interfaces
             }, cancellationTokenSource.Token);
         }
 
+        public void ScrapeImagePosts(string campaignId, ScrapePostModel postFetcherModel, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
+        {
+            ThreadFactory.Instance.Start(() =>
+            {
+                //Create a object of Rss Feed Utilities
+                var mediaFetcherUtilities = new MediaFetcherUtilities();
+                mediaFetcherUtilities.FetchDetailsFromLink(postFetcherModel, campaignId, cancellationTokenSource, maximumPostLimitToStore, campaignName);
+
+            }, cancellationTokenSource.Token);
+        }
+
         #endregion
 
         #region MonitorFolder

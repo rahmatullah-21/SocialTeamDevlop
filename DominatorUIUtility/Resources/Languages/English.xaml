@@ -4537,4 +4537,10 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyNumberOfPostsScrapingPerJob">Number Of Posts Scraping Per Job</system:String>
     <system:String x:Key="LangKeyNumberOfPostsScrapingPerWeek">Number Of Posts Scraping Per Week</system:String>
     <system:String x:Key="LangKeyHourPerAccount">Hour Per Account</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeGoogleSearch">Add Posts Source! Like ([G]Google images, [U]Any other url)</system:String>
+    <system:String x:Key="LangKeyScrapeImagesFromGoogle">Scrape Images/Preview/Product Details From Google/Any Link Url</system:String>
+    <system:String x:Key="LangKeyImagesForEachUrl">Images for each Url.</system:String>
+    <system:String x:Key="LangKeyForScrapingOnly">For Scraping Only.</system:String>
+    <system:String x:Key="LangKeyRemoveAllDestinations">RemoveAllDestinations</system:String>
+    <system:String x:Key="LangKeyDestinationDetailsWillBeRemoved">All selected destinationsmust be removed to proceed for Scraping only option! Do you want to continue?</system:String>
 </ResourceDictionary>

@@ -109,7 +109,8 @@ namespace DominatorHouse.ViewModels
             };
 
             var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            AccountList = new ObservableCollection<DominatorAccountModel>(accountFileManager.GetAll());
+            AccountList = new ObservableCollection<DominatorAccountModel>(accountFileManager.GetAll()
+                .OrderBy(s => s.AccountBaseModel.UserName).ToList());
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }

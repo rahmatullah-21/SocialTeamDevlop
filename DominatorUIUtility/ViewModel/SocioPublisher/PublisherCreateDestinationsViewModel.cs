@@ -45,9 +45,36 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             AddFreshAccounts = new BaseCommand<object>(AddFreshAccountCanExecute, AddFreshAccountExecute);
             AddCustomDestinationCommand = new BaseCommand<object>(AddCustomDestinationCanExecute, AddCustomDestinationExecute);
             NetworkSelectionChangedCommand = new BaseCommand<object>((sender) => true, NetworkSelectionChangedExecute);
+            ScrapingOnlySelectedCommand = new BaseCommand<object>((sender) => true, ScrapingOnlySelectedExecute);
             InitializeProperties();
             InitializeDestinationList();
             IsSavedDestination = false;
+        }
+
+        private void ScrapingOnlySelectedExecute(object sender)
+        {
+            try
+            {
+                var destination = (PublisherCreateDestinationSelectModel)sender;
+
+                if(destination.IsForScrapingOnly)
+                {
+                    destination.PublishonOwnWall = false;
+                    destination.GroupSelectorText = "0/0";
+                    destination.FriendsSelectorText = "0/0";
+                    destination.PagesOrBoardsSelectorText = "0/0";
+                    destination.CustomDestinationSelectorText = "0";
+                    PublisherCreateDestinationModel.AccountPagesBoardsPair.RemoveAll(x => x.Key == destination.AccountId);
+                    PublisherCreateDestinationModel.AccountGroupPair.RemoveAll(x => x.Key == destination.AccountId);
+                    PublisherCreateDestinationModel.CustomDestinations.RemoveAll(x => x.Key == destination.AccountId);
+                    PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => destination.AccountId == y.AccountId);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
         }
 
         public void NetworkSelectionChangedExecute(object sender)
@@ -134,6 +161,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
 
         public ICommand AddCustomDestinationCommand { get; set; }
         public ICommand NetworkSelectionChangedCommand { get; set; }
+
+        public ICommand ScrapingOnlySelectedCommand { get; set; }
         #endregion
 
         #region Properties
@@ -230,7 +259,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
         {
             get
             {
-                if(_availableNetworks.Contains(SocialNetworks.TikTok))
+                if (_availableNetworks.Contains(SocialNetworks.TikTok))
                     _availableNetworks.Remove(SocialNetworks.TikTok);
                 return _availableNetworks;
             }
@@ -332,6 +361,23 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     return;
                 SetProperty(ref _isAllWallsSelected, value);
                 SelectAllWalls(_isAllWallsSelected);
+                //_isUncheckedFromList = false;
+            }
+        }
+
+        private bool _isAllScrapingOnlyChckd;
+        public bool IsAllScrapingOnlyChckd
+        {
+            get
+            {
+                return _isAllScrapingOnlyChckd;
+            }
+            set
+            {
+                if (_isAllScrapingOnlyChckd == value)
+                    return;
+                SetProperty(ref _isAllScrapingOnlyChckd, value);
+                CheckAllScrapingWalls(_isAllScrapingOnlyChckd);
                 //_isUncheckedFromList = false;
             }
         }
@@ -732,6 +778,21 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                  x.PublishonOwnWall = isChecked;
                  return x;
              }).ToList();
+        }
+
+        public void CheckAllScrapingWalls(bool isChecked)
+        {
+            //    if (_isUncheckedFromList)
+            //        return;
+            if (Dialog.ShowCustomDialog("LangKeyRemoveAllDestinations".FromResourceDictionary(), "LangKeyDestinationDetailsWillBeRemoved".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary()) == MessageDialogResult.Affirmative)
+            {
+                PublisherCreateDestinationModel.ListSelectDestination.Where(y => y.IsAccountSelected).Select(x =>
+                {
+                    x.IsForScrapingOnly = isChecked;
+                    return x;
+                }).ToList();
+            }
+                
         }
 
         private bool SelectAccountDetailsCanExecute(object sender) => true;

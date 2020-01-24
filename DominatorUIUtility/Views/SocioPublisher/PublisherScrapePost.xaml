@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=DominatorHouseCore"
-             xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=DominatorHouseCore"
              mc:Ignorable="d" >
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -38,7 +37,7 @@
                         Foreground="White"
                         Margin="5"  Height="30" Width="150" Command="{Binding UploadPostDetailsCommand}"/>
                     </mah:Badged>
-                  
+
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -55,26 +54,62 @@
                          mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeKeywordUserSubreddit}" Margin="2" TextWrapping="Wrap" 
                          Height="60" Width="404" AcceptsReturn="True" Text="{Binding ScrapePostModel.AddRdPostSource}" />
         </StackPanel>
-        
-        <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeySetting}" FontSize="13" FontWeight="SemiBold"/>
-        <StackPanel Orientation="Horizontal" Margin="2">
-            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyScrape}" Margin="0,0,10,0"/>
-            <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"   Minimum="1" Value="{Binding ScrapePostModel.ScrapeCount}"/>
-            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyRecentPostOnEveryOperation}" Margin="0,0,10,0"/>
-        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="0,5">
+            <CheckBox Name="UploadImageUrl" Margin="2" Content="{DynamicResource LangKeyScrapeImagesFromGoogle}"
+                                  IsChecked="{Binding ScrapePostModel.IsScrapeGoogleImgaes}"/>
+            <StackPanel Orientation="Vertical" Visibility="{Binding ScrapePostModel.IsScrapeGoogleImgaes,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="{DynamicResource LangKeyAddPostsSourceLikeGoogleSearch}"
+                         Margin="2" TextWrapping="Wrap" Height="60" Width="404" AcceptsReturn="True"
+                         Text="{Binding ScrapePostModel.AddGooglePostSource}" />
+                <RadioButton Margin="10,2" Name="CheckBoxUseFileNameAsDescription"  GroupName="Description"
+                                  Content="{DynamicResource LangKeyUseFileNameAsPostDescription}"
+                                  IsChecked="{Binding ScrapePostModel.IsUseFileNameAsDescription}"/>
+                <StackPanel Margin="10,0" Orientation="Horizontal">
+                    <RadioButton  Content="{DynamicResource LangKeyUploadPostDescription}" GroupName="Description"
+                                 IsChecked="{Binding ScrapePostModel.IsUploadPostDescription}"  VerticalAlignment="Center"/>
+                    <Button Foreground="White" Margin="2" HorizontalAlignment="Left" Cursor="Hand" 
+                                Visibility="{Binding ScrapePostModel.IsUploadPostDescription,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Background="{DynamicResource AccentBaseColorBrush}"  Height="30"  VerticalAlignment="Center" 
+                                Command="{Binding UploadDescriptionCommand}" CommandParameter="SaveToDraft">
+                        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
+                            <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Left">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_upload}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource LangKeyUploadDescription}"  Foreground="White"
+                                       FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5,0" />
+                        </StackPanel>
+                    </Button>
 
-        <StackPanel Orientation="Horizontal" Margin="2">
-            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyCheckForNewPostEvery}" Margin="0,0,10,0"/>
-            <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.StartScrapeOnXminute}"/>
-            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="0,0,10,0"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="2">
-            <CheckBox Margin="2" IsChecked="{Binding ScrapePostModel.IsScrapePostOlderThanXXDays}" />
-            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyDoNotScrapePostsOlderThan}" Margin="0,0,10,0"/>
-            <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.DoNotScrapePostOlderThanNDays.StartValue}"/>
-            <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.DoNotScrapePostOlderThanNDays.StartValue}" Visibility="Collapsed"/>
-            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyDays}" Margin="0,0,10,0"/>
+                </StackPanel>
+                <StackPanel Margin="11,2" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyScrape}" />
+                    <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"   Minimum="1" Value="{Binding ScrapePostModel.ScrapeCountPerUrl}"/>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyImagesForEachUrl}" Margin="0,0,10,0"/>
+                </StackPanel>
+            </StackPanel>
+
+           
+            <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeySetting}" FontSize="13" FontWeight="SemiBold"/>
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyScrape}" Margin="0,0,10,0"/>
+                <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"   Minimum="1" Value="{Binding ScrapePostModel.ScrapeCount}"/>
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyRecentPostOnEveryOperation}" Margin="0,0,10,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyCheckForNewPostEvery}" Margin="0,0,10,0"/>
+                <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.StartScrapeOnXminute}"/>
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyMinutes}" Margin="0,0,10,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <CheckBox Margin="2" IsChecked="{Binding ScrapePostModel.IsScrapePostOlderThanXXDays}" />
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyDoNotScrapePostsOlderThan}" Margin="0,0,10,0"/>
+                <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.DoNotScrapePostOlderThanNDays.StartValue}"/>
+                <mah:NumericUpDown VerticalAlignment="Center" Margin="5,0"  Minimum="1" Value="{Binding ScrapePostModel.DoNotScrapePostOlderThanNDays.StartValue}" Visibility="Collapsed"/>
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource LangKeyDays}" Margin="0,0,10,0"/>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
-
 </UserControl>
