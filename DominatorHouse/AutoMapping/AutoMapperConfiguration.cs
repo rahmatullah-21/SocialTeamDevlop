@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
 
-namespace DominatorHouse.AutoMapping
+namespace Legion.AutoMapping
 {
     public static class AutoMapperConfiguration
     {

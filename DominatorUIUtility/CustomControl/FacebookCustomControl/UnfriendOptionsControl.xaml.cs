@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace DominatorUIUtility.CustomControl.FacebookCustomControl
+namespace LegionUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for UnfriendOptionsControl.xaml

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher;
 
-namespace DominatorUIUtility.Views.SocioPublisher
+namespace LegionUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for PublisherPostlistSettings.xaml

@@ -6,7 +6,7 @@ using System.Windows.Input;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.FacebookModels;
 
-namespace DominatorUIUtility.CustomControl.FacebookCustomControl
+namespace LegionUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for AutoReplyOptionControl.xaml

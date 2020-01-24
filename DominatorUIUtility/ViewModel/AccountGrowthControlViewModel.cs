@@ -15,7 +15,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public interface IAccountGrowthControlViewModel
     {

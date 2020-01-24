@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using DominatorHouseCore.Models.FacebookModels;
 
-namespace DominatorUIUtility.CustomControl.FacebookCustomControl
+namespace LegionUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for InviterOptionsControl.xaml

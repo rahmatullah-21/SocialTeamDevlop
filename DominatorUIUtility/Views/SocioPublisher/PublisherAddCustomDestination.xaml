@@ -1,9 +1,9 @@
-﻿<UserControl   x:Class="DominatorUIUtility.Views.SocioPublisher.PublisherAddCustomDestination"
+﻿<UserControl   x:Class="LegionUIUtility.Views.SocioPublisher.PublisherAddCustomDestination"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-               xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl" 
+               xmlns:customControl="clr-namespace:LegionUIUtility.CustomControl" 
                xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
              Name="CustomDestination"
              mc:Ignorable="d">

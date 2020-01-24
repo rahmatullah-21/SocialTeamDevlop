@@ -1,7 +1,7 @@
-﻿using DominatorUIUtility.ViewModel.Startup;
+﻿using LegionUIUtility.ViewModel.Startup;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.AccountSetting
+namespace LegionUIUtility.Views.AccountSetting
 {
     /// <summary>
     /// Interaction logic for SelectActivity.xaml

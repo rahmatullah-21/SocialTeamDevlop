@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 
-namespace DominatorUIUtility.Views.Publisher
+namespace LegionUIUtility.Views.Publisher
 {
     /// <summary>
     /// Interaction logic for ManageDestinationIndex.xaml

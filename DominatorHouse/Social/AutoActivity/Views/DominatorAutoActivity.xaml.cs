@@ -1,4 +1,4 @@
-using DominatorHouse.Social.AutoActivity.ViewModels;
+using Legion.Social.AutoActivity.ViewModels;
 
 namespace Socinator.Social.AutoActivity.Views
 {

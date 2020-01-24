@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     public class BoardInfo : BindableBase
     {

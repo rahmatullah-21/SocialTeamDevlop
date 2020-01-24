@@ -5,7 +5,7 @@ using DominatorHouseCore.Models;
 using CommonServiceLocator;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.ConfigControl
+namespace LegionUIUtility.ConfigControl
 {
     /// <summary>
     /// Interaction logic for EmailNotifications.xaml

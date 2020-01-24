@@ -478,6 +478,124 @@ namespace DominatorHouseCore.Models.FacebookModels
             }
         }
 
+        private bool _isNotActiveOnWall;
+        [ProtoMember(23)]
+        public bool IsNotActiveOnWall
+        {
+            get
+            {
+                return _isNotActiveOnWall;
+            }
+
+            set
+            {
+                if (value == _isNotActiveOnWall)
+                    return;
+                SetProperty(ref _isNotActiveOnWall, value);
+            }
+        }
+
+
+        private int _daysNotActiveOnWall;
+        [ProtoMember(24)]
+        public int DaysNotActiveOnWall
+        {
+            get
+            {
+                return _daysNotActiveOnWall;
+            }
+            set
+            {
+                if (value == _daysNotActiveOnWall)
+                    return;
+                SetProperty(ref _daysNotActiveOnWall, value);
+
+            }
+        }
+
+        private bool _isNotActiveOnMyGroupPosts;
+        [ProtoMember(25)]
+        public bool IsNotActiveOnMyGroupPosts
+        {
+            get
+            {
+                return _isNotActiveOnMyGroupPosts;
+            }
+
+            set
+            {
+                if (value == _isNotActiveOnMyGroupPosts)
+                    return;
+                SetProperty(ref _isNotActiveOnMyGroupPosts, value);
+            }
+        }
+
+
+        private int _daysNotActiveOnMyGroupPosts;
+        [ProtoMember(26)]
+        public int DaysNotActiveOnMyGroupPosts
+        {
+            get
+            {
+                return _daysNotActiveOnMyGroupPosts;
+            }
+            set
+            {
+                if (value == _daysNotActiveOnMyGroupPosts)
+                    return;
+                SetProperty(ref _daysNotActiveOnMyGroupPosts, value);
+
+            }
+        }
+        private string _groupUrl;
+        [ProtoMember(27)]
+        public string GroupUrl
+        {
+            get
+            {
+                return _groupUrl;
+            }
+            set
+            {
+                if (value == _groupUrl)
+                    return;
+                SetProperty(ref _groupUrl, value);
+
+            }
+        }
+
+        private bool _isNotConnectedInMessenager;
+        [ProtoMember(28)]
+        public bool IsNotConnectedInMessenager
+        {
+            get
+            {
+                return _isNotConnectedInMessenager;
+            }
+
+            set
+            {
+                if (value == _isNotConnectedInMessenager)
+                    return;
+                SetProperty(ref _isNotConnectedInMessenager, value);
+            }
+        }
+
+
+        private int _daysNotActiveOnMessenager;
+        [ProtoMember(29)]
+        public int DaysNotActiveOnMessenager
+        {
+            get { return _daysNotActiveOnMessenager; }
+            set
+            {
+                if (value == _daysNotActiveOnMessenager)
+                    return;
+                SetProperty(ref _daysNotActiveOnMessenager, value);
+            }
+        }
+
+
     }
 
 

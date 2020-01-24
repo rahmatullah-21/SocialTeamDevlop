@@ -6,7 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dragable="http://dragablz.net/winfx/xaml/dragablz"
-        xmlns:views="clr-namespace:DominatorHouse.Support.Logs.Views"
+        xmlns:views="clr-namespace:Legion.Support.Logs.Views"
         xmlns:models="clr-namespace:DominatorHouseCore.Models;assembly=LegionCore"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"

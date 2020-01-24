@@ -3,7 +3,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.Command;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.Views.SocioPublisher;
 using EmbeddedBrowser;
 using System;
 using System.Globalization;
@@ -11,7 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherManagePostPublishedViewModel : PublisherPostlistBaseViewModel
     {

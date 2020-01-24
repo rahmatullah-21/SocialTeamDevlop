@@ -3,7 +3,7 @@
                     xmlns:converters="clr-namespace:DominatorHouseCore.Converters;assembly=LegionCore"
                     xmlns:utility="clr-namespace:DominatorHouseCore.Utility;assembly=LegionCore"
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-                    xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours"
+                    xmlns:behaviours="clr-namespace:LegionUIUtility.Behaviours"
                     xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore">
     <ControlTemplate x:Key="ProxyManagerControlTemplate">
         <ControlTemplate.Resources>

@@ -1,10 +1,10 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.Enums;
-using DominatorUIUtility.ViewModel.Startup;
+using LegionUIUtility.ViewModel.Startup;
 using System;
 using System.Windows;
 
-namespace DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.Views.ViewModel.Startup.ModuleConfig
 {
 
     public interface ITwitterVisibilityModel

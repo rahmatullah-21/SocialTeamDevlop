@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using DominatorUIUtility.Behaviours;
+using LegionUIUtility.Behaviours;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for HeaderControl.xaml

@@ -1,12 +1,12 @@
-﻿using DominatorHouse.Social.AutoActivity.ViewModels;
-using DominatorHouse.ViewModels;
-using DominatorUIUtility.ViewModel.Startup;
-using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
+﻿using Legion.Social.AutoActivity.ViewModels;
+using Legion.ViewModels;
+using LegionUIUtility.ViewModel.Startup;
+using LegionUIUtility.ViewModel.Startup.ModuleConfig;
 using DominatorHouseCore.ViewModel;
 using Unity;
 using Unity.Extension;
 
-namespace DominatorHouse.IoC
+namespace Legion.IoC
 {
     public class MainContainerExtension : UnityContainerExtension
     {

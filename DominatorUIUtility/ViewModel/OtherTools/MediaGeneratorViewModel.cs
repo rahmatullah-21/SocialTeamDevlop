@@ -10,7 +10,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.OtherTools
+namespace LegionUIUtility.ViewModel.OtherTools
 {
     public class MediaGeneratorViewModel : BaseTabViewModel, IOtherToolsViewModel
     {

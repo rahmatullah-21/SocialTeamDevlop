@@ -6,9 +6,9 @@ using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorUIUtility.ViewModel.SocioPublisher;
+using LegionUIUtility.ViewModel.SocioPublisher;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AccountDetailsSelector.xaml

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.Behaviours
+namespace LegionUIUtility.Behaviours
 {
     public class ViewUtilites
     {

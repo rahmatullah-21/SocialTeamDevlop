@@ -6,7 +6,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace DominatorUIUtility.ConfigControl
+namespace LegionUIUtility.ConfigControl
 {
     /// <summary>
     /// Interaction logic for Facebook.xaml

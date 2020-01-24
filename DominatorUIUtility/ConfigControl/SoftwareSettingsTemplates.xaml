@@ -36,8 +36,8 @@
                               Visibility="Collapsed"   IsChecked="{Binding IsShowToolTipToSystemTrayChecked}"/>
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyRecreateDesktopShortcutAtStartup}"
                               Visibility="Collapsed" IsChecked="{Binding IsRecreateDesktopshortcutAtStartupChecked}"/>
-                        <CheckBox Visibility="Collapsed"  Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
-                              IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>
+                        <!--<CheckBox Visibility="Collapsed"  Margin="5" Content="{DynamicResource LangKeyRunDifferentActivitiesOnTheSameAccountAtOnceRisksImplied}"
+                              IsChecked="{Binding IsEnableParallelActivitiesChecked}"/>-->
                         <!--<CheckBox Margin="5" Content="{DynamicResource LangKeyStopAutoSynchronizeAccount}"
                               IsChecked="{Binding IsStopAutoSynchronizeAccount}"/>-->
                         <StackPanel Margin="20,5" Visibility="{Binding IsEnableGlobalNightModeChecked,Converter={StaticResource BooleanToVisibilityConverter}}">

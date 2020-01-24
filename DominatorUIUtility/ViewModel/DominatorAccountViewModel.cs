@@ -15,8 +15,8 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.IoC;
+using LegionUIUtility.CustomControl;
+using LegionUIUtility.IoC;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -36,14 +36,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Extensions;
-using DominatorUIUtility.Views;
+using LegionUIUtility.Views;
 using BindableBase = Prism.Mvvm.BindableBase;
-using DominatorUIUtility.ViewModel.Startup;
+using LegionUIUtility.ViewModel.Startup;
 using MahApps.Metro.Controls;
 using Unity;
 using System.Windows.Controls.Primitives;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public interface IDominatorAccountViewModel
     {
@@ -617,71 +617,18 @@ namespace DominatorUIUtility.ViewModel
 
                         switch (splitAccount.Length)
                         {
-                            case 5:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                break;
-                            case 6:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                proxyusername = splitAccount[5];
-                                proxypassword = splitAccount[6];
-                                break;
-                            case 7:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                proxyusername = splitAccount[5];
-                                proxypassword = splitAccount[6];
-                                break;
-                            case 9:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                proxyusername = splitAccount[5];
-                                proxypassword = splitAccount[6];
-                                status = splitAccount[7];
-                                cookies = splitAccount[8].Replace("<>", ",");
-                                break;
-                            case 10:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                proxyusername = splitAccount[5];
-                                proxypassword = splitAccount[6];
-                                status = splitAccount[7];
-                                cookies = splitAccount[8].Replace("<>", ",");
-                                break;
-                            case 11:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                proxyusername = splitAccount[5];
-                                proxypassword = splitAccount[6];
-                                status = splitAccount[7];
-                                cookies = splitAccount[8].Replace("<>", ",");
-                                banned = splitAccount[9];
-                                break;
+                            case 12:
                             case 13:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                proxyusername = splitAccount[5];
-                                proxypassword = splitAccount[6];
-                                status = splitAccount[7];
-                                cookies = splitAccount[8].Replace("<>", ",");
-                                banned = splitAccount[9];
-                                browserCookies = splitAccount[10].Replace("<>", ",");
-                                isBrowserAutomationActive = splitAccount[11];
-                                break;
                             case 14:
                             case 15:
-                            case 16:
                                 proxyaddress = splitAccount[3];
                                 proxyport = splitAccount[4];
                                 proxyusername = splitAccount[5];
                                 proxypassword = splitAccount[6];
                                 status = splitAccount[7];
-                                cookies = splitAccount[8].Replace("<>", ",");
+                                browserCookies = splitAccount[8].Replace("<>", ",");
                                 banned = splitAccount[9];
-                                browserCookies = splitAccount[10].Replace("<>", ",");
-                                isBrowserAutomationActive = splitAccount[11];
-                                proxyGroup = splitAccount[12];
+                                proxyGroup = splitAccount[10];
                                 break;
                         }
 
@@ -850,7 +797,6 @@ namespace DominatorUIUtility.ViewModel
             if (!string.IsNullOrEmpty(cookies)/* && dominatorAccountModel.AccountBaseModel.AccountNetwork != SocialNetworks.Youtube*/)
                 try
                 {
-                    dominatorAccountModel.CookieHelperList = JArray.Parse(cookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
                     dominatorAccountModel.BrowserCookieHelperList = JArray.Parse(browserCookies.Replace("<>", ",")).ToObject<HashSet<CookieHelper>>();
                 }
                 catch (Exception ex)
@@ -923,7 +869,7 @@ namespace DominatorUIUtility.ViewModel
                     ProxyPassword = objDominatorAccountBaseModel.AccountProxy.ProxyPassword,
                     UserAgent = dominatorAccountModel.UserAgentWeb,
                     AddedDate = DateTime.Now,
-                    Cookies = cookies
+                    Cookies = browserCookies
                 });
 
                 #endregion
@@ -1536,16 +1482,16 @@ namespace DominatorUIUtility.ViewModel
                               .GetNetworkCoreFactory().AccountCountFactory.HeaderColumn4Value;
 
             if (SocinatorInitialize.ActiveSocialNetwork == SocialNetworks.Social)
-                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader}";
+                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Browser Cookies,Banned,Proxy Group Name,{FirstCountHeader}";
 
             else if (!string.IsNullOrEmpty(FourthCountHeader))
-                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader}";
+                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Browser Cookies,Banned,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader},{FourthCountHeader}";
 
             else if (!string.IsNullOrEmpty(ThirdCountHeader))
-                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader}";
+                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Browser Cookies,Banned,Proxy Group Name,{FirstCountHeader},{SecondCountHeader},{ThirdCountHeader}";
 
             else if (!string.IsNullOrEmpty(SecondCountHeader))
-                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Cookies,Banned,Browser Cookies,Browser Automation Status,Proxy Group Name,{FirstCountHeader},{SecondCountHeader}";
+                header = $"Account Group,Username,Password,Proxy Address,Proxy Port,Proxy Username,Proxy Password,Status,Browser Cookies,Banned,Proxy Group Name,{FirstCountHeader},{SecondCountHeader}";
 
 
 
@@ -1571,10 +1517,8 @@ namespace DominatorUIUtility.ViewModel
                      + account.AccountBaseModel.AccountProxy.ProxyUsername + ","
                      + account.AccountBaseModel.AccountProxy.ProxyPassword + ","
                      + account.AccountBaseModel.Status + ","
-                     + JsonConvert.SerializeObject(account.CookieHelperList).Replace(",", "<>") + ","
-                     + account.AccountBaseModel.Banned + ","
                      + JsonConvert.SerializeObject(account.BrowserCookieHelperList).Replace(",", "<>") + ","
-                     + account.IsRunProcessThroughBrowser.ToString() + ","
+                     + account.AccountBaseModel.Banned + ","
                      + account.AccountBaseModel.AccountProxy.ProxyGroup + ","
                      + account.DisplayColumnValue1
                      + (string.IsNullOrEmpty(SecondCountHeader) ? "" : $",{account.DisplayColumnValue2}")

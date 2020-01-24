@@ -1,4 +1,4 @@
-﻿using DominatorHouse.DominatorCores;
+﻿using Legion.DominatorCores;
 using DominatorHouseCore.Interfaces;
 
 namespace Socinator.Factories

@@ -6,7 +6,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 
-namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
+namespace LegionUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
     /// Interaction logic for PostAdvancedSettings.xaml

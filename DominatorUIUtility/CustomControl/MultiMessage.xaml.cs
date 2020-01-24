@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using DominatorHouseCore.Models;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for MultiMessage.xaml

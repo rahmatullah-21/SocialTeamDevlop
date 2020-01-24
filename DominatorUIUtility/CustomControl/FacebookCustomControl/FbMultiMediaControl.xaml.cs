@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.Models.FacebookModels;
 
-namespace DominatorUIUtility.CustomControl.FacebookCustomControl
+namespace LegionUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for FbMultiMediaControl.xaml

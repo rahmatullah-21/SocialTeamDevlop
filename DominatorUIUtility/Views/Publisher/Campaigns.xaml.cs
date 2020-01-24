@@ -10,7 +10,7 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.FileManagers;
 
-namespace DominatorUIUtility.Views.Publisher
+namespace LegionUIUtility.Views.Publisher
 {
     /// <summary>
     /// Interaction logic for Campaigns.xaml

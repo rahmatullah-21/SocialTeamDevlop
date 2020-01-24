@@ -2,7 +2,7 @@
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 
-namespace DominatorHouse.DominatorCores
+namespace Legion.DominatorCores
 {
     public class SocialPublisherCoreBuilder : PublisherCoreLibraryBuilder
     {

@@ -3,11 +3,11 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using System;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public class AccountManagerViewModel : BindableBase
     {

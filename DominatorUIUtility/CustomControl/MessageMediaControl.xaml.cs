@@ -11,7 +11,7 @@ using Microsoft.Win32;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for MessageMediaControl.xaml

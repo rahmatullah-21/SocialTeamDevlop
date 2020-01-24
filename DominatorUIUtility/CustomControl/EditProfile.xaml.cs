@@ -6,7 +6,7 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.ViewModel;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for EditProfile.xaml

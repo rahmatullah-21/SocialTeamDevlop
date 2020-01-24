@@ -1,7 +1,7 @@
 ﻿using DominatorHouseCore.Interfaces.StartUp;
 using DominatorHouseCore.StartupActivity;
 
-namespace DominatorHouse.Utilities.Facebook
+namespace Legion.Utilities.Facebook
 {
     class FacebookActivity : INetworkActivity
     {

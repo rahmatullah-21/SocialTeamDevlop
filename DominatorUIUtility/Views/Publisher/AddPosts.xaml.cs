@@ -11,11 +11,11 @@ using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.Views.Publisher.AdvancedOptions;
+using LegionUIUtility.Views.Publisher.AdvancedOptions;
 using DominatorHouseCore.FileManagers;
 using Microsoft.Win32;
 
-namespace DominatorUIUtility.Views.Publisher
+namespace LegionUIUtility.Views.Publisher
 {
     /// <summary>
     /// Interaction logic for AddPosts.xaml

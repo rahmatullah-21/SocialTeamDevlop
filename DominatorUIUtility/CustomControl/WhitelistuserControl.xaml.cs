@@ -1,10 +1,10 @@
 ﻿using System.Windows.Controls;
 using System.ComponentModel;
-using DominatorUIUtility.ViewModel;
+using LegionUIUtility.ViewModel;
 using System.Runtime.CompilerServices;
 using DominatorHouseCore.Annotations;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for WhitelistuserControl.xaml

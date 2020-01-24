@@ -4,7 +4,7 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using Prism.Commands;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
+namespace LegionUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
 {
     public class CaptchaServicesViewModel : BaseTabViewModel, IThridPartyServicesViewModel
     {

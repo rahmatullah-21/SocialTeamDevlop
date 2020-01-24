@@ -3,7 +3,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Windows;
 using DominatorHouseCore.Models;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for SingleAccountControl.xaml

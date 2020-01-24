@@ -11,7 +11,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
@@ -29,7 +29,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public class CampaignViewModel : BindableBase
     {

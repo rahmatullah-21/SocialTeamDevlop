@@ -2,14 +2,14 @@
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
+using LegionUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Linq;
 using System.Windows;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
 
     public interface IPostScraperViewModel

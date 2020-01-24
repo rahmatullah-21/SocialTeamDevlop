@@ -1,4 +1,4 @@
-namespace DominatorHouse.Utilities
+namespace Legion.Utilities
 {
 
     //public class SoftwareSettings

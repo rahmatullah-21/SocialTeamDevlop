@@ -2,13 +2,13 @@
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
-using DominatorUIUtility.ViewModel;
+using LegionUIUtility.ViewModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AccountCustomControl.xaml

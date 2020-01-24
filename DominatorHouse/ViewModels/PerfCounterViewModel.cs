@@ -6,7 +6,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace DominatorHouse.ViewModels
+namespace Legion.ViewModels
 {
     public interface IPerfCounterViewModel : IDisposable
     {

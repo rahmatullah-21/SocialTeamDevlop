@@ -8,7 +8,7 @@ using Prism.Commands;
 using Prism.Regions;
 using DominatorHouseCore.Models.SocioPublisher;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     
     public interface IGroupInviterViewModel

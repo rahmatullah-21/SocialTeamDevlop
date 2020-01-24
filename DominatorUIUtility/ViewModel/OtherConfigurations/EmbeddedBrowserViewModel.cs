@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations
+namespace LegionUIUtility.ViewModel.OtherConfigurations
 {
     public class EmbeddedBrowserViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {

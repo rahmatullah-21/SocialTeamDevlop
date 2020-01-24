@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public class SelectAccountViewModel : BindableBase
     {

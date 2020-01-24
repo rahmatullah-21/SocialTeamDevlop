@@ -1,5 +1,5 @@
 ﻿using CommonServiceLocator;
-using DominatorHouse.Social.AutoActivity.ViewModels;
+using Legion.Social.AutoActivity.ViewModels;
 using DominatorHouseCore;
 using DominatorHouseCore.AppResources;
 using DominatorHouseCore.BusinessLogic.Scheduler;
@@ -14,11 +14,11 @@ using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.ViewModel.Common;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.IoC;
-using DominatorUIUtility.ViewModel;
-using DominatorUIUtility.Views.Publisher;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.CustomControl;
+using LegionUIUtility.IoC;
+using LegionUIUtility.ViewModel;
+using LegionUIUtility.Views.Publisher;
+using LegionUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DominatorHouse.ViewModels
+namespace Legion.ViewModels
 {
     public class MainViewModel : BindableBase, IMainViewModel
     {
@@ -145,6 +145,27 @@ namespace DominatorHouse.ViewModels
                     ex.DebugLog();
                 }
             });
+        }
+
+        public void ShowWarningMessage()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    try
+                    {
+
+                        Dialog.ShowDialog("LangKeyWarningPleaseRead".FromResourceDictionary(), "LangKeyStartupWarningMessage".FromResourceDictionary());
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.DebugLog();
+                    }
+                });
+            });
+
+           
         }
 
         private void OnClosing(CancelEventArgs e)
@@ -305,7 +326,7 @@ namespace DominatorHouse.ViewModels
 
                     }
 
-                    
+
                 }
 
                 await controller.CloseAsync();
@@ -378,6 +399,7 @@ namespace DominatorHouse.ViewModels
             {
                 Task.Factory.StartNew(() =>
                  {
+                     ShowWarningMessage();
                      CheckMSVCPlusPlusInstalled();
                      FeatureFlags.UpdateFeatures();
                      var modules = ServiceLocator.Current.GetAllInstances<ISocialNetworkModule>();

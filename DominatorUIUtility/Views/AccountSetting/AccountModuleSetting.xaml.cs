@@ -1,5 +1,5 @@
 ﻿using DominatorHouseCore.Enums;
-using DominatorUIUtility.ViewModel.Startup;
+using LegionUIUtility.ViewModel.Startup;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DominatorUIUtility.Views.AccountSetting
+namespace LegionUIUtility.Views.AccountSetting
 {
     /// <summary>
     /// Interaction logic for AccountModuleSetting.xaml

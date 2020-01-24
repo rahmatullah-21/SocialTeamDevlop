@@ -3,7 +3,7 @@ using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using System.Windows.Input;
 using System;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using System.Collections.Generic;
 using DominatorHouseCore.Enums;
 using System.Linq;
@@ -12,7 +12,7 @@ using DominatorHouseCore.LogHelper;
 using System.Text.RegularExpressions;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings
+namespace LegionUIUtility.ViewModel.SocioPublisher.AdvancedSettings
 {
     public class FacebookViewModel : BindableBase
     {

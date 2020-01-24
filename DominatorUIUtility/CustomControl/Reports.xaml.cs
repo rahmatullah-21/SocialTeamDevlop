@@ -18,7 +18,7 @@ using DominatorHouseCore.Annotations;
 using CommonServiceLocator;
 using DominatorHouseCore.Interfaces;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for Reports.xaml

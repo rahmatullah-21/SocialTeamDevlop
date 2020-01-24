@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
-using DominatorHouse.AutoMapping;
-using DominatorHouse.Social;
+using Legion.AutoMapping;
+using Legion.Social;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.ViewModel;
 using DominatorHouseCore.ViewModel.DashboardVms;
-using DominatorUIUtility.IoC;
-using DominatorUIUtility.ViewModel.OtherConfigurations;
-using DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
-using DominatorUIUtility.ViewModel.OtherTools;
+using LegionUIUtility.IoC;
+using LegionUIUtility.ViewModel.OtherConfigurations;
+using LegionUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
+using LegionUIUtility.ViewModel.OtherTools;
 using Socinator.Factories;
 using Unity;
 using Unity.Extension;
 
-namespace DominatorHouse.IoC
+namespace Legion.IoC
 {
     public class SocialContainerExtension : UnityContainerExtension
     {

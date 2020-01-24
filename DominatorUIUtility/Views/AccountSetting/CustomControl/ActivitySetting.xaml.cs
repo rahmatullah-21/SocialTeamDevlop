@@ -1,7 +1,7 @@
 ﻿using DominatorHouseCore;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
+using LegionUIUtility.Behaviours;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.Views.AccountSetting.CustomControl
+namespace LegionUIUtility.Views.AccountSetting.CustomControl
 {
     /// <summary>
     /// Interaction logic for ActivitySetting.xaml

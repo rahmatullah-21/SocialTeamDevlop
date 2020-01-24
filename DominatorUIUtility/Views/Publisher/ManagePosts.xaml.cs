@@ -4,7 +4,7 @@ using System.Windows.Data;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.ViewModel;
 
-namespace DominatorUIUtility.Views.Publisher
+namespace LegionUIUtility.Views.Publisher
 {
     /// <summary>
     /// Interaction logic for ManagePosts.xaml

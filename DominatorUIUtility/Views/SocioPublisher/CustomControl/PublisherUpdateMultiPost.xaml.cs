@@ -9,7 +9,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
+namespace LegionUIUtility.Views.SocioPublisher.CustomControl
 {
     /// <summary>
     /// Interaction logic for PublisherUpdateMultiPost.xaml

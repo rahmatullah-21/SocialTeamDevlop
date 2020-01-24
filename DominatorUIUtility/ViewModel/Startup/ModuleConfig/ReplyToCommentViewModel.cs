@@ -2,8 +2,8 @@
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.Views.AccountSetting.CustomControl;
+using LegionUIUtility.CustomControl;
+using LegionUIUtility.Views.AccountSetting.CustomControl;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 using Dialog = DominatorHouseCore.Utility.Dialog;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IReplyToCommentViewModel
     {

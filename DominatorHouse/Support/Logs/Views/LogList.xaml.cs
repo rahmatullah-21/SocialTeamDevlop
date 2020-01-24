@@ -3,7 +3,7 @@ using DominatorHouseCore.Models;
 using System.Collections.Specialized;
 using System.Windows;
 
-namespace DominatorHouse.Support.Logs.Views
+namespace Legion.Support.Logs.Views
 {
     /// <summary>
     /// Interaction logic for LogList.xaml

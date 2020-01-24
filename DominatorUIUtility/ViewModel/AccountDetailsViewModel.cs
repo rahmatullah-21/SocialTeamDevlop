@@ -12,7 +12,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using System;
 using System.Linq;
 using System.Net;
@@ -23,7 +23,7 @@ using System.Windows.Input;
 using DominatorHouseCore.Extensions;
 using Unity;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public class AccountDetailsViewModel : BindableBase
     {

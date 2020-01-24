@@ -1,9 +1,9 @@
-﻿using DominatorHouse.Support.Perf.Views;
+﻿using Legion.Support.Perf.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace DominatorHouse.Modules
+namespace Legion.Modules
 {
     public class MainModule : IModule
     {

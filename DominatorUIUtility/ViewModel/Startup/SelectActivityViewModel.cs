@@ -11,7 +11,7 @@ using DominatorHouseCore.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace DominatorUIUtility.ViewModel.Startup
+namespace LegionUIUtility.ViewModel.Startup
 {
     public interface ISelectActivityViewModel
     {

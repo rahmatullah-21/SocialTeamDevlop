@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using DominatorHouseCore.Models;
 
-namespace DominatorHouse.Social.Settings.View
+namespace Legion.Social.Settings.View
 {
     /// <summary>
     /// Interaction logic for Home.xaml

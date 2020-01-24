@@ -5,7 +5,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel;
+using LegionUIUtility.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AddOrUpdateProxyControl.xaml

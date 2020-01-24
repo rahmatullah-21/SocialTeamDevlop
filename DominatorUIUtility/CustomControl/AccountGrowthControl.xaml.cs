@@ -1,7 +1,7 @@
-﻿using DominatorUIUtility.ViewModel;
+﻿using LegionUIUtility.ViewModel;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AccountGrowthControl.xaml

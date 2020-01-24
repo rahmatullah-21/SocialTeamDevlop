@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CommonServiceLocator;
-using DominatorHouse.AutoMapping;
+using Legion.AutoMapping;
 using DominatorHouseCore;
-using DominatorUIUtility.Behaviours;
+using LegionUIUtility.Behaviours;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
@@ -13,9 +13,9 @@ using Microsoft.Practices.Unity.Configuration;
 using Unity;
 using Unity.Interception;
 using MessageBox = System.Windows.MessageBox;
-using DominatorUIUtility.Module;
-using DominatorUIUtility.ViewModel.Startup;
-using DominatorHouse.Utilities.Facebook;
+using LegionUIUtility.Module;
+using LegionUIUtility.ViewModel.Startup;
+using Legion.Utilities.Facebook;
 using DominatorHouseCore.Utility;
 
 namespace Socinator

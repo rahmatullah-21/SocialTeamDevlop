@@ -5,7 +5,7 @@ using CommonServiceLocator;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 
-namespace DominatorUIUtility.ConfigControl
+namespace LegionUIUtility.ConfigControl
 {
     /// <summary>
     /// Interaction logic for Twitter.xaml

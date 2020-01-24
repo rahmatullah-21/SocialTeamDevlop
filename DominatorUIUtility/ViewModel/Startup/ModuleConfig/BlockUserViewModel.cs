@@ -12,7 +12,7 @@ using System.Linq;
 using DominatorHouseCore.LogHelper;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IBlockUserViewModel
     {

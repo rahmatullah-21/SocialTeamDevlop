@@ -7,7 +7,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.Models.FacebookModels;
 
-namespace DominatorUIUtility.CustomControl.FacebookCustomControl
+namespace LegionUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for ManageEventDetails.xaml

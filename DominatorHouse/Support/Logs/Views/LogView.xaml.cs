@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using Dragablz;
 using DominatorHouseCore.Models;
 
-namespace DominatorHouse.Support.Logs.Views
+namespace Legion.Support.Logs.Views
 {
     /// <summary>
     /// Interaction logic for LogView.xaml

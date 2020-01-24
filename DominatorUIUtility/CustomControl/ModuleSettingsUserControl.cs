@@ -13,7 +13,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Settings;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
+using LegionUIUtility.Behaviours;
 using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
@@ -28,7 +28,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Base class which handles events from IHeaderControl, IHelpContol, IFooterControl

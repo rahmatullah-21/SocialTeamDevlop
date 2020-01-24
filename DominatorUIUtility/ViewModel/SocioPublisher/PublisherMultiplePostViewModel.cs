@@ -13,9 +13,9 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.Views.SocioPublisher;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherMultiplePostViewModel : BindableBase
     {

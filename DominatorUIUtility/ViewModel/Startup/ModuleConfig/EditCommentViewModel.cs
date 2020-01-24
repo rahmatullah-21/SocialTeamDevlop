@@ -15,7 +15,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     public class EditCommentInfo : BindableBase
     {

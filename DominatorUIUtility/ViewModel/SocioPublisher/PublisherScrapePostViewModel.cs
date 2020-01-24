@@ -4,7 +4,7 @@ using Prism.Commands;
 using System.Windows.Input;
 using System;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherScrapePostViewModel : BindableBase
     {

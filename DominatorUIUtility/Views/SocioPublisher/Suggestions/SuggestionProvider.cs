@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using LegionUIUtility.Views.SocioPublisher.CustomControl;
 
-namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
+namespace LegionUIUtility.Views.SocioPublisher.Suggestions
 {
     public class SuggestionProvider : ISuggestionProvider
     {

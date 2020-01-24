@@ -1,15 +1,15 @@
-﻿<UserControl x:Class="DominatorUIUtility.Views.AccountSetting.Activity.ReplyToComment"
+﻿<UserControl x:Class="LegionUIUtility.Views.AccountSetting.Activity.ReplyToComment"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.Activity"
+             xmlns:local="clr-namespace:LegionUIUtility.Views.AccountSetting.Activity"
              mc:Ignorable="d" Name="ActivityControl"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-              xmlns:customControl="clr-namespace:DominatorUIUtility.CustomControl"
-             xmlns:actcustom="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
+              xmlns:customControl="clr-namespace:LegionUIUtility.CustomControl"
+             xmlns:actcustom="clr-namespace:LegionUIUtility.Views.AccountSetting.CustomControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:customControl1="clr-namespace:DominatorUIUtility.CustomControl.FacebookCustomControl">
+             xmlns:customControl1="clr-namespace:LegionUIUtility.CustomControl.FacebookCustomControl">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="ReplyToComment"/>

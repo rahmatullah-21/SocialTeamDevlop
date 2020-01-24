@@ -1,8 +1,8 @@
 ﻿using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
-using DominatorUIUtility.Views.Publisher.AdvancedSettings;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.Views.Publisher.AdvancedSettings;
+using LegionUIUtility.Views.SocioPublisher;
 
-namespace DominatorUIUtility.Behaviours
+namespace LegionUIUtility.Behaviours
 {
 
     public class AdvanceSetting

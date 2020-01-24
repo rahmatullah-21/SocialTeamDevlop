@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for MigrationProgress.xaml

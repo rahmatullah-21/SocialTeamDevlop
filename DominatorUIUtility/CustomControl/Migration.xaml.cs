@@ -5,7 +5,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for Migration.xaml

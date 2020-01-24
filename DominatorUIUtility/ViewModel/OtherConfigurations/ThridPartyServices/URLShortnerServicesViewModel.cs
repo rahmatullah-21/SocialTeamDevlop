@@ -6,7 +6,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System.Windows;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
+namespace LegionUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
 {
     public class UrlShortnerServicesViewModel : BaseTabViewModel, IThridPartyServicesViewModel
     {

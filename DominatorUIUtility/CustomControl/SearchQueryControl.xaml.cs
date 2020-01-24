@@ -18,7 +18,7 @@ using System.IO;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Diagnostics;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     public partial class SearchQueryControl : UserControl, INotifyPropertyChanged
     {

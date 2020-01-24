@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.Publisher
+namespace LegionUIUtility.Views.Publisher
 {
     /// <summary>
     /// Interaction logic for ManageDraft.xaml

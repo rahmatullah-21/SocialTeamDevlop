@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.Views.AccountSetting.CustomControl
+namespace LegionUIUtility.Views.AccountSetting.CustomControl
 {
     /// <summary>
     /// Interaction logic for NextPreviousButton.xaml

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DominatorUIUtility
+namespace LegionUIUtility
 {
     /// <summary>
     /// Interaction logic for App.xaml

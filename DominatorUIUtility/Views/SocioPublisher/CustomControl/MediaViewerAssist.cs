@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
+namespace LegionUIUtility.Views.SocioPublisher.CustomControl
 {
     public static class MediaViewerAssist
     {

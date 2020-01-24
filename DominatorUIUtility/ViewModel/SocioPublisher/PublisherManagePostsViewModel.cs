@@ -6,7 +6,7 @@ using DominatorHouseCore.Enums.SocioPublisher;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.Views.SocioPublisher;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -14,7 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherManagePostsViewModel : BindableBase
     {

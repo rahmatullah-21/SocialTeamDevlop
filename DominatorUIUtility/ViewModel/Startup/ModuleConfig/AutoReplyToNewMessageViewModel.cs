@@ -6,8 +6,8 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
+using LegionUIUtility.CustomControl;
+using LegionUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -18,7 +18,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
 
     public interface IAutoReplyToNewMessageViewModel : IFacebookModel

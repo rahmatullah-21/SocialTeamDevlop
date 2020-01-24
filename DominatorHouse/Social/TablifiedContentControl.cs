@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Unity;
 
-namespace DominatorHouse.Social
+namespace Legion.Social
 {
     public class TablifiedContentControl : UserControl
     {

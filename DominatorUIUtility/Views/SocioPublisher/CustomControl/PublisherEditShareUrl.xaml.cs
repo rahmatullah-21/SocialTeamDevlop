@@ -8,7 +8,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.Views.SocioPublisher.CustomControl
+namespace LegionUIUtility.Views.SocioPublisher.CustomControl
 {
     /// <summary>
     /// Interaction logic for PublisherEditSourceUrl.xaml

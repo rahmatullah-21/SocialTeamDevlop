@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using SocialNetworks = DominatorHouseCore.Enums.SocialNetworks;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public interface IAccountCollectionViewModel : IList<DominatorAccountModel>, INotifyCollectionChanged, INotifyPropertyChanged
     {

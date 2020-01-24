@@ -1,6 +1,6 @@
 ﻿using DominatorHouseCore.ViewModel;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
+namespace LegionUIUtility.ViewModel.OtherConfigurations.ThridPartyServices
 {
     public interface IThridPartyServicesViewModel : ITabViewModel
     {

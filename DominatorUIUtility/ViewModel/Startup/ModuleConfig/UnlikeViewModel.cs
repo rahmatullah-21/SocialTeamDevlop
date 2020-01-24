@@ -2,7 +2,7 @@
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
+using LegionUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
 using ProtoBuf;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Windows;
 
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     [ProtoContract]
     public class UnLike : BindableBase

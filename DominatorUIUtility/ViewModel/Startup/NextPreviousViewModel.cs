@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.Startup
+namespace LegionUIUtility.ViewModel.Startup
 {
     public interface INextPreviousViewModel
     {

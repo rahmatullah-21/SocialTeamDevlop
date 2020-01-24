@@ -1,9 +1,9 @@
 ﻿using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
+using LegionUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
 using System.Windows;
 using Unity;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations
+namespace LegionUIUtility.ViewModel.OtherConfigurations
 {
     public class ThirdPartyViewModel : TablifiedContentControlViewModel<IThridPartyServicesViewModel>, IOtherConfigurationViewModel
     {

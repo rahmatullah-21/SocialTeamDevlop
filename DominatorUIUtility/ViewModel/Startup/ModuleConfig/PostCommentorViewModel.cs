@@ -4,7 +4,7 @@ using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
 
     public interface IPostCommentorViewModel

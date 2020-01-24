@@ -311,6 +311,7 @@
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Accounts\InteractedUsersForUnfriend.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\LikedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\MarketplaceDetails.cs" />
     <Compile Include="DatabaseHandler\FdTables\Accounts\OwnGroups.cs" />
@@ -325,6 +326,7 @@
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPages.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedPosts.cs" />
     <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsers.cs" />
+    <Compile Include="DatabaseHandler\FdTables\Campaigns\InteractedUsersForUnfriend.cs" />
     <Compile Include="DatabaseHandler\FdTables\FdGlobals\FdAccountDetails.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateBlacklist.cs" />
     <Compile Include="DatabaseHandler\GdTables\Accounts\PrivateWhitelist.cs" />

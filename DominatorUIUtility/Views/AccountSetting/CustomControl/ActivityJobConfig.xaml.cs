@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace DominatorUIUtility.Views.AccountSetting.CustomControl
+namespace LegionUIUtility.Views.AccountSetting.CustomControl
 {
     /// <summary>
     /// Interaction logic for ActivityJobConfig.xaml

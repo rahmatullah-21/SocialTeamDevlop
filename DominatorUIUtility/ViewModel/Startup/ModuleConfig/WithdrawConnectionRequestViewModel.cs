@@ -12,7 +12,7 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore;
 using System.Linq;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IWithdrawConnectionRequestViewModel
     {

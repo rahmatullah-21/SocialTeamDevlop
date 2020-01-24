@@ -4,7 +4,7 @@ using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
 using Prism.Commands;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations
+namespace LegionUIUtility.ViewModel.OtherConfigurations
 {
     public class PinterestOtherConfigViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {

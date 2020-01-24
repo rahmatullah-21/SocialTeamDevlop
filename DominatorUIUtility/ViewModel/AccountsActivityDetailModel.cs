@@ -3,7 +3,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 using System.Text.RegularExpressions;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public class AccountsActivityDetailModel : BindableBase
     {

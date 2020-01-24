@@ -8,7 +8,7 @@ using DominatorHouseCore.ViewModel.Common;
 using System;
 using System.Threading.Tasks;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public interface IVerifyProxiesViewModel
     {

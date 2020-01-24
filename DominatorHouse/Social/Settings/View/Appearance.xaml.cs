@@ -9,7 +9,7 @@ using DominatorHouseCore.Models;
 using MahApps.Metro;
 using Socinator.Social.Settings.ViewModel;
 
-namespace DominatorHouse.Social.Settings.View
+namespace Legion.Social.Settings.View
 {
     /// <summary>
     /// Interaction logic for Appearance.xaml

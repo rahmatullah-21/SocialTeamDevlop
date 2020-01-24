@@ -19,7 +19,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public interface IPrivateBlickListViewModel
     {

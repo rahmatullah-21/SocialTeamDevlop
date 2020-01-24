@@ -3,7 +3,7 @@ using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.ViewModel;
+using LegionUIUtility.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <inheritdoc>
     ///     <cref></cref>

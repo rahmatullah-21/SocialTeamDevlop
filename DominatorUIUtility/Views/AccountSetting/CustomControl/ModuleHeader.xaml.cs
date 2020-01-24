@@ -1,10 +1,10 @@
-﻿using DominatorUIUtility.Behaviours;
+﻿using LegionUIUtility.Behaviours;
 using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.Views.AccountSetting.CustomControl
+namespace LegionUIUtility.Views.AccountSetting.CustomControl
 {
     /// <summary>
     /// Interaction logic for ModuleHeader.xaml

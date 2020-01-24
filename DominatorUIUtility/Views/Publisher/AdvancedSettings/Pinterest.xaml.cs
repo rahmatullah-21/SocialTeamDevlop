@@ -4,7 +4,7 @@ using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel.AdvancedSettings;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.Views.SocioPublisher;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CommonServiceLocator;
 
-namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
+namespace LegionUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
     /// Interaction logic for Pinterest.xaml

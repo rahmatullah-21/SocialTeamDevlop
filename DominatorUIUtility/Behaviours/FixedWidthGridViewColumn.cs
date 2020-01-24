@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Behaviours
+namespace LegionUIUtility.Behaviours
 {
     public class FixedWidthGridViewColumn : GridViewColumn
     {

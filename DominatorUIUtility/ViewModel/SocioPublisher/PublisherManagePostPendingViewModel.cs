@@ -1,5 +1,5 @@
 ﻿
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherManagePostPendingViewModel : PublisherPostlistBaseViewModel
     { }

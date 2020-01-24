@@ -7,7 +7,7 @@ using DominatorHouseCore.Command;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 
-namespace DominatorUIUtility.CustomControl.FacebookCustomControl
+namespace LegionUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for SelectOptionControl.xaml

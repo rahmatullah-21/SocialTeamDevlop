@@ -7,7 +7,7 @@
     <ProjectGuid>{C7B598E7-4B31-4A92-9B53-022A25E50002}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DominatorHouse</RootNamespace>
+    <RootNamespace>Legion</RootNamespace>
     <AssemblyName>Legion</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

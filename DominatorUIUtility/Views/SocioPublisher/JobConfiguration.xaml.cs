@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Data;
 
-namespace DominatorUIUtility.Views.SocioPublisher
+namespace LegionUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for JobConfiguration.xaml

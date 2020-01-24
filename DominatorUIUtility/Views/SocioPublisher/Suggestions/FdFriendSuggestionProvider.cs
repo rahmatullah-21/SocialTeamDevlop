@@ -4,14 +4,14 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using LegionUIUtility.Views.SocioPublisher.CustomControl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CommonServiceLocator;
 
-namespace DominatorUIUtility.Views.SocioPublisher.Suggestions
+namespace LegionUIUtility.Views.SocioPublisher.Suggestions
 {
     public class FdFriendSuggestionProvider : ISuggestionProvider
     {

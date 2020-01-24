@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for PostAreaBoxControl.xaml

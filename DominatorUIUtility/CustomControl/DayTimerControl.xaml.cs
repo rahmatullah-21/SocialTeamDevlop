@@ -6,7 +6,7 @@ using System.Windows.Input;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for DayTimerControl.xaml

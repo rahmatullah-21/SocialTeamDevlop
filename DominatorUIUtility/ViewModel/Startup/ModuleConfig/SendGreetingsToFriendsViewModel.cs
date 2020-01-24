@@ -2,7 +2,7 @@
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
 
     public interface ISendGreetingsToFriendsViewModel

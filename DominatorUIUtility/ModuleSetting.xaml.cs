@@ -1,12 +1,12 @@
 ﻿using CommonServiceLocator;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel.Startup;
+using LegionUIUtility.ViewModel.Startup;
 using MahApps.Metro.Controls;
 using Prism.Regions;
 using System;
 using System.Windows;
 
-namespace DominatorUIUtility
+namespace LegionUIUtility
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

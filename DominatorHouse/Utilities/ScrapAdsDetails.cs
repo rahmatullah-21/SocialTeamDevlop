@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using DominatorHouseCore.Models;
 
-namespace DominatorHouse.Utilities
+namespace Legion.Utilities
 {
     public class ScrapAdsDetails
     {

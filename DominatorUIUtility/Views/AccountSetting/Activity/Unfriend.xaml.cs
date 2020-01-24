@@ -1,10 +1,10 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
+﻿using LegionUIUtility.ViewModel.Startup.ModuleConfig;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.AccountSetting.Activity
+namespace LegionUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
     /// Interaction logic for Unfriend.xaml

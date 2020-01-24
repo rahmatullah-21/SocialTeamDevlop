@@ -6,7 +6,7 @@ using MahApps.Metro.Controls.Dialogs;
 using CommonServiceLocator;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.ConfigControl
+namespace LegionUIUtility.ConfigControl
 {
     /// <summary>
     /// Interaction logic for Instagram.xaml

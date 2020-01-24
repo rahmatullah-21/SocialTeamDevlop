@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DominatorHouse.Utilities.Facebook
+namespace Legion.Utilities.Facebook
 {
     class FacebookGroupScraperActivity : BaseActivity
     {

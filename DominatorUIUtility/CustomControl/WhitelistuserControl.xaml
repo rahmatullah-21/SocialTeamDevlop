@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DominatorUIUtility.CustomControl.WhitelistuserControl"
+﻿<UserControl x:Class="LegionUIUtility.CustomControl.WhitelistuserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"

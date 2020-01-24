@@ -9,7 +9,7 @@ using DominatorHouseCore.Models;
 using DominatorHouseCore.ProxyServerManagment;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.ViewModel;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using System;
@@ -24,7 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public interface IProxyManagerViewModel : ITabViewModel
     {

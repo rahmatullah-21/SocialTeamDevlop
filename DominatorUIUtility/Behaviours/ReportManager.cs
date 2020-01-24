@@ -1,7 +1,7 @@
 ﻿using System;
 using DominatorHouseCore.Models;
 
-namespace DominatorUIUtility.Behaviours
+namespace LegionUIUtility.Behaviours
 {
    
     

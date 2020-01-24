@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace DominatorHouse.AutoMapping
+namespace Legion.AutoMapping
 {
     public class MainMapperProfile : Profile
     {

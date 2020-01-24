@@ -10,7 +10,7 @@ using MahApps.Metro.Controls.Dialogs;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Enums.FdQuery;
 
-namespace DominatorUIUtility.CustomControl.FacebookCustomControl
+namespace LegionUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for LikerCommentorConfiguration.xaml

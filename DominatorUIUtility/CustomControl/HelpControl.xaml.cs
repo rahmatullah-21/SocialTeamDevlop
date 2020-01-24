@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for HelpControl.xaml

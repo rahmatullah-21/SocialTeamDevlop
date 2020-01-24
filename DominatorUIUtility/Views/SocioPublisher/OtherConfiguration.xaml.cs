@@ -6,14 +6,14 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.Publisher;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.Publisher;
-using DominatorUIUtility.Views.Publisher.AdvancedSettings;
+using LegionUIUtility.Views.Publisher;
+using LegionUIUtility.Views.Publisher.AdvancedSettings;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.SocioPublisher
+namespace LegionUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for OtherConfiguration.xaml

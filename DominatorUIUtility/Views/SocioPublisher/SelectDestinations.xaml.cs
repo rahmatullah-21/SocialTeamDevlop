@@ -4,9 +4,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
-using DominatorUIUtility.ViewModel.SocioPublisher;
+using LegionUIUtility.ViewModel.SocioPublisher;
 
-namespace DominatorUIUtility.Views.SocioPublisher
+namespace LegionUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for SelectDestinations.xaml

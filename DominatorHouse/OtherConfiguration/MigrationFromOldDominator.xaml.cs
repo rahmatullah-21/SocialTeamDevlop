@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 
-namespace DominatorHouse.OtherConfiguration
+namespace Legion.OtherConfiguration
 {
     /// <summary>
     /// Interaction logic for MigrationFromOldDominator.xaml

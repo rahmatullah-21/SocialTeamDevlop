@@ -7,8 +7,8 @@ using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.CustomControl;
+using LegionUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class SelectAccountDetailsViewModel : BindableBase
     {

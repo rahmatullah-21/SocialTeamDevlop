@@ -2,7 +2,7 @@
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.Behaviours
+namespace LegionUIUtility.Behaviours
 {
     public class NetworkAvailablity
     {       

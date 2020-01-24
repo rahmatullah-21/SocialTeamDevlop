@@ -5,9 +5,9 @@
  using DominatorHouseCore.Annotations;
  using DominatorHouseCore.Enums;
  using DominatorHouseCore.Models;
- using DominatorUIUtility.ViewModel;
+ using LegionUIUtility.ViewModel;
 
-namespace DominatorUIUtility.Views
+namespace LegionUIUtility.Views
 {
     /// <summary>
     /// Interaction logic for DominatorAutoActivity.xaml

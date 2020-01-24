@@ -19,7 +19,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Prism.Commands;
 
-namespace DominatorUIUtility.ViewModel
+namespace LegionUIUtility.ViewModel
 {
     public interface IPrivateWhiteListViewModel
     {

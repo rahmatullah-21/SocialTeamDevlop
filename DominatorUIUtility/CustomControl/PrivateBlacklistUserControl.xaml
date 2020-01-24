@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DominatorUIUtility.CustomControl.PrivateBlacklistUserControl"
+﻿<UserControl x:Class="LegionUIUtility.CustomControl.PrivateBlacklistUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
+             xmlns:behaviours="clr-namespace:LegionUIUtility.Behaviours">
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>

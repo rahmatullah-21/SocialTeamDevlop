@@ -3,9 +3,9 @@ using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel.SocioPublisher;
+using LegionUIUtility.ViewModel.SocioPublisher;
 
-namespace DominatorUIUtility.Views.SocioPublisher
+namespace LegionUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for PublisherManagePosts.xaml

@@ -7,9 +7,9 @@ using System.Windows.Input;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
-using DominatorUIUtility.ViewModel;
+using LegionUIUtility.ViewModel;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AddUpdateAccountControl.xaml

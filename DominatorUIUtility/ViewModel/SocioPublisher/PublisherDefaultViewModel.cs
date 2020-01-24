@@ -11,7 +11,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.Views.SocioPublisher;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Prism.Commands;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherDefaultViewModel : BindableBase
     {

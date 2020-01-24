@@ -2,7 +2,7 @@
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 
-namespace DominatorUIUtility.IoC
+namespace LegionUIUtility.IoC
 {
     public interface ISocialNetworkModule
     {

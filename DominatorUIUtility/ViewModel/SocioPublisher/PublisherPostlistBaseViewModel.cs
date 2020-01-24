@@ -11,7 +11,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using LegionUIUtility.Views.SocioPublisher.CustomControl;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
@@ -27,9 +27,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using DominatorHouseCore.Extensions;
-using PublisherEditPost = DominatorUIUtility.Views.SocioPublisher.CustomControl.PublisherEditPost;
+using PublisherEditPost = LegionUIUtility.Views.SocioPublisher.CustomControl.PublisherEditPost;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherPostlistBaseViewModel : BindableBase
     {

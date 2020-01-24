@@ -4531,5 +4531,9 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeySendMessageToUserWhoHaveNotIntracted">Send Message To User Who Have Not Interacted From</system:String>
     <system:String x:Key="LangKeyConfirmationToCloseLegion">Are you sure to close Legion?</system:String>
     <system:String x:Key="LangKeyValidateLegion">Please validate Legion !!</system:String>
-
+    <system:String x:Key="LangKeyUserInActiveOnMyWallFromPast">User Who Are InActive On My Wall From Past</system:String>
+    <system:String x:Key="LangKeyUserInActiveOnMyGroupPostsFromPast">User InActive On My Group Posts From Past</system:String>
+    <system:String x:Key="LangKeyUserInActiveOnMessengerFromPast">User InActive On Messenger From Past</system:String>
+    <system:String x:Key="LangKeyWarningPleaseRead">Warning! Please Read:</system:String>
+    <system:String x:Key="LangKeyStartupWarningMessage">When using LEGION, do not do any activities in the Facebook account/s LEGION is using. This includes: liking, commenting, adding friends, removing friends, posting, deleting and any other activities. Using your Facebook account/s simultaneously with LEGION can put your account at risk.</system:String>
 </ResourceDictionary>

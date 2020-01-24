@@ -3,10 +3,10 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
-using DominatorUIUtility.ViewModel.SocioPublisher;
+using LegionUIUtility.ViewModel.SocioPublisher;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.Views.SocioPublisher
+namespace LegionUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for PublisherCreateDestination.xaml

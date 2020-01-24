@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="DominatorUIUtility.Views.AccountSetting.CustomControl.ModuleHeader"
+﻿<UserControl x:Class="LegionUIUtility.Views.AccountSetting.CustomControl.ModuleHeader"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting.CustomControl"
+             xmlns:local="clr-namespace:LegionUIUtility.Views.AccountSetting.CustomControl"
              mc:Ignorable="d" >
     <Grid Name="Header" Background="{DynamicResource AccentColorBrush}" Visibility="{Binding HeaderNextPreViousVisiblity}" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>

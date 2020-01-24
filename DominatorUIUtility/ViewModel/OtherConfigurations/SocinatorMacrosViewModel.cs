@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations
+namespace LegionUIUtility.ViewModel.OtherConfigurations
 {
     public class SocinatorMacrosViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {

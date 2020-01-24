@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.Publisher.AdvancedOptions
+namespace LegionUIUtility.Views.Publisher.AdvancedOptions
 {
     /// <summary>
     /// Interaction logic for AdvancedOption.xaml

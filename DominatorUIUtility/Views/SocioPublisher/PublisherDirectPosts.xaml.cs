@@ -6,10 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
 using DominatorHouseCore.Annotations;
-using DominatorUIUtility.ViewModel.SocioPublisher;
-using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using LegionUIUtility.ViewModel.SocioPublisher;
+using LegionUIUtility.Views.SocioPublisher.CustomControl;
 
-namespace DominatorUIUtility.Views.SocioPublisher
+namespace LegionUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for PublisherDirectPosts.xaml

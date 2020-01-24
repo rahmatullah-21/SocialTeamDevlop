@@ -7,7 +7,7 @@ using DominatorHouseCore.Utility;
 using Prism.Commands;
 using Prism.Regions;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
 
     public interface IWatchPartyInviterViewModel

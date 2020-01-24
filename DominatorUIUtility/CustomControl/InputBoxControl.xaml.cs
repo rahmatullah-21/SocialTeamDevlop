@@ -9,7 +9,7 @@ using System.Windows.Threading;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore.LogHelper;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for InputBoxControl.xaml

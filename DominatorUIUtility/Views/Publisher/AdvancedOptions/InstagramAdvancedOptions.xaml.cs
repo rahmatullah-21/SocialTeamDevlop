@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.Views.Publisher.AdvancedOptions
+namespace LegionUIUtility.Views.Publisher.AdvancedOptions
 {
     /// <summary>
     /// Interaction logic for InstagramAdvancedOptions.xaml

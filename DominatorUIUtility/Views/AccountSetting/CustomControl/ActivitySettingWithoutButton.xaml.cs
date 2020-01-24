@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DominatorUIUtility.Views.AccountSetting.CustomControl
+namespace LegionUIUtility.Views.AccountSetting.CustomControl
 {
     /// <summary>
     /// Interaction logic for ActivitySetting.xaml

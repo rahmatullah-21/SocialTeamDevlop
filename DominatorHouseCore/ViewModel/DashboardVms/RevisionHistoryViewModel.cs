@@ -20,7 +20,7 @@ namespace DominatorHouseCore.ViewModel.DashboardVms
             {
                 // ReSharper disable once RedundantAssignment
                 var text = string.Empty;
-                using (var stream = Assembly.GetEntryAssembly().GetManifestResourceStream("DominatorHouse.RevisionHistory.revisionhistory.txt"))
+                using (var stream = Assembly.GetEntryAssembly().GetManifestResourceStream("Legion.RevisionHistory.revisionhistory.txt"))
                 {
                     TextReader tr = new StreamReader(stream);
                     text = tr.ReadToEnd();

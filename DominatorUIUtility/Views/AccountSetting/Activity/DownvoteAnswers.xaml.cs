@@ -1,4 +1,4 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
+﻿using LegionUIUtility.ViewModel.Startup.ModuleConfig;
 
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DominatorUIUtility.Views.AccountSetting.Activity
+namespace LegionUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
     /// Interaction logic for DownvoteAnswers.xaml

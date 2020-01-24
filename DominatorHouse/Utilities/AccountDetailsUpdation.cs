@@ -8,7 +8,7 @@ using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
-namespace DominatorHouse.Utilities
+namespace Legion.Utilities
 {
     //public class AccountDetailsUpdation
     //{

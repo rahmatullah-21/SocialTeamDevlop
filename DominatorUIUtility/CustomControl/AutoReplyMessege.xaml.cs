@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AutoReplyMessege.xaml

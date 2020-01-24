@@ -8,13 +8,13 @@ using Prism.Regions;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Models.SocioPublisher;
 using System.Windows;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using DominatorHouseCore.Enums.FdQuery;
 using System.Collections.Generic;
 using DominatorHouseCore.Diagnostics;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
 
     public interface IPageInviterViewModel

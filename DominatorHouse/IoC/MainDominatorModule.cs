@@ -1,11 +1,11 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Interfaces;
 using DominatorHouseCore.Models;
-using DominatorUIUtility.IoC;
+using LegionUIUtility.IoC;
 using Unity;
 using Unity.Resolution;
 
-namespace DominatorHouse
+namespace Legion
 {
     public class MainDominatorModule : ISocialNetworkModule
     {

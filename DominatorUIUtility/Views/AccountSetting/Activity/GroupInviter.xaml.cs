@@ -1,5 +1,5 @@
 ﻿using DominatorHouseCore.Models.SocioPublisher;
-using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
+using LegionUIUtility.ViewModel.Startup.ModuleConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,13 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore.Utility;
 using DominatorHouseCore.Enums;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore;
-using DominatorUIUtility.ViewModel.Startup;
+using LegionUIUtility.ViewModel.Startup;
 using CommonServiceLocator;
 
-namespace DominatorUIUtility.Views.AccountSetting.Activity
+namespace LegionUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
     /// Interaction logic for GroupInviter.xaml

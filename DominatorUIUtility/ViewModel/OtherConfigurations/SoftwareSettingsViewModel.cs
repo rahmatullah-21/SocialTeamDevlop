@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations
+namespace LegionUIUtility.ViewModel.OtherConfigurations
 {
     public class SoftwareSettingsViewModel : BaseTabViewModel, IOtherConfigurationViewModel
     {

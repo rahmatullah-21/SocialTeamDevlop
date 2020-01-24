@@ -4,13 +4,13 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Behaviours;
-using DominatorUIUtility.Views.Publisher.AdvancedSettings;
+using LegionUIUtility.Behaviours;
+using LegionUIUtility.Views.Publisher.AdvancedSettings;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.Publisher
+namespace LegionUIUtility.Views.Publisher
 {
     /// <summary>
     /// Interaction logic for CampaignsAdvanceSetting.xaml

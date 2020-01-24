@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="DominatorUIUtility.CustomControl.AccountDetail"
+﻿<UserControl x:Class="LegionUIUtility.CustomControl.AccountDetail"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:passwordHelper="clr-namespace:DominatorUIUtility.Behaviours"
+             xmlns:passwordHelper="clr-namespace:LegionUIUtility.Behaviours"
              xmlns:validation="clr-namespace:DominatorHouseCore.Utility;assembly=LegionCore"  
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore"
@@ -804,7 +804,7 @@
                                         Command="{Binding RemoveCookiesCommand}"
                                         CommandParameter="{Binding ElementName=Cookies}"  FontWeight="SemiBold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
                             </StackPanel>
-                            <DataGrid Margin="5" ItemsSource="{Binding DominatorAccountModel.CookieHelperList}" MaxHeight="200" Width="500"
+                            <DataGrid Margin="5" ItemsSource="{Binding DominatorAccountModel.BrowserCookieHelperList}" MaxHeight="200" Width="500"
                       AutoGenerateColumns="False" CanUserAddRows="True" Name="Cookies">
 
                                 <DataGrid.Columns>

@@ -1,6 +1,6 @@
-﻿using DominatorHouse.ViewModels;
+﻿using Legion.ViewModels;
 
-namespace DominatorHouse.Support.Perf.Views
+namespace Legion.Support.Perf.Views
 {
     /// <summary>
     /// Interaction logic for PerfCounterView.xaml

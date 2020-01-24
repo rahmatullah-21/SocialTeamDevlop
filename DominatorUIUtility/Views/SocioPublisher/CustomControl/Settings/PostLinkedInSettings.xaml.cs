@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Models.SocioPublisher.Settings;
 
-namespace DominatorUIUtility.Views.SocioPublisher.CustomControl.Settings
+namespace LegionUIUtility.Views.SocioPublisher.CustomControl.Settings
 {
     /// <summary>
     /// Interaction logic for PostLinkedInSettings.xaml

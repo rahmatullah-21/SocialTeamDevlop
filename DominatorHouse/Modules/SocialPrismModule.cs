@@ -2,7 +2,7 @@
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace DominatorHouse.Modules
+namespace Legion.Modules
 {
     public class SocialPrismModule : IModule
     {

@@ -1,10 +1,10 @@
-﻿using DominatorUIUtility.Views.AccountSetting;
-using DominatorUIUtility.Views.AccountSetting.Activity;
+﻿using LegionUIUtility.Views.AccountSetting;
+using LegionUIUtility.Views.AccountSetting.Activity;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace DominatorUIUtility.Module
+namespace LegionUIUtility.Module
 {
     public class UiModule : IModule
     {

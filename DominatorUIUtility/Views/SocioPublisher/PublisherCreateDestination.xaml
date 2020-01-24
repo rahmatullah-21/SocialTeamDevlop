@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DominatorUIUtility.Views.SocioPublisher.PublisherCreateDestination"
+﻿<UserControl x:Class="LegionUIUtility.Views.SocioPublisher.PublisherCreateDestination"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,7 @@
              Loaded="PublisherCreateDestination_OnLoaded"
              xmlns:enums="clr-namespace:DominatorHouseCore.Enums;assembly=LegionCore"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:behaviours="clr-namespace:DominatorUIUtility.Behaviours">
+             xmlns:behaviours="clr-namespace:LegionUIUtility.Behaviours">
     <UserControl.Resources>
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />

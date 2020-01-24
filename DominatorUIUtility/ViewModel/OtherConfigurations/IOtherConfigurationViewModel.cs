@@ -1,6 +1,6 @@
 ﻿using DominatorHouseCore.ViewModel;
 
-namespace DominatorUIUtility.ViewModel.OtherConfigurations
+namespace LegionUIUtility.ViewModel.OtherConfigurations
 {
     public interface IOtherConfigurationViewModel : ITabViewModel
     {

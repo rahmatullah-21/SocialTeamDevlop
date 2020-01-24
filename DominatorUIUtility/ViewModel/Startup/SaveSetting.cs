@@ -9,7 +9,7 @@ using DominatorHouseCore.Utility;
 using Prism.Regions;
 using System.Collections.Generic;
 
-namespace DominatorUIUtility.ViewModel.Startup
+namespace LegionUIUtility.ViewModel.Startup
 {
     public interface ISaveSetting
     {

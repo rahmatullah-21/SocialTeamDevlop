@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using DominatorUIUtility.ViewModel.SocioPublisher;
+using LegionUIUtility.ViewModel.SocioPublisher;
 
-namespace DominatorUIUtility.Views.SocioPublisher
+namespace LegionUIUtility.Views.SocioPublisher
 {
     /// <summary>
     /// Interaction logic for PublisherHome.xaml

@@ -7,7 +7,7 @@ using ProtoBuf;
 using System;
 using System.Linq;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     [ProtoContract]
     public class DeleteSetting : BindableBase

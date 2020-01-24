@@ -1,7 +1,7 @@
-﻿using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
+﻿using LegionUIUtility.ViewModel.Startup.ModuleConfig;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.AccountSetting.Activity
+namespace LegionUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
     /// Interaction logic for SendMessageToNewFriends.xaml

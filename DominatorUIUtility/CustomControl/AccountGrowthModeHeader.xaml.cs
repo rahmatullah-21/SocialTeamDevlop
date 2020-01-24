@@ -4,10 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
-using DominatorUIUtility.Behaviours;
+using LegionUIUtility.Behaviours;
 using Prism.Commands;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AccountGrowthModeHeader.xaml

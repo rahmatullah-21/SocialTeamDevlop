@@ -11,7 +11,7 @@ using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Process;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.Views.SocioPublisher;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,9 +25,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using JobConfiguration = DominatorUIUtility.Views.SocioPublisher.JobConfiguration;
+using JobConfiguration = LegionUIUtility.Views.SocioPublisher.JobConfiguration;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherCreateCampaignViewModel : INotifyPropertyChanged
     {

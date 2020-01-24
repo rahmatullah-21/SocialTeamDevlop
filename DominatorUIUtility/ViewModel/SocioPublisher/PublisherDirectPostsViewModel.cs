@@ -16,11 +16,11 @@ using DominatorHouseCore.LogHelper;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Patterns;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.SocioPublisher;
-using DominatorUIUtility.Views.SocioPublisher.CustomControl;
+using LegionUIUtility.Views.SocioPublisher;
+using LegionUIUtility.Views.SocioPublisher.CustomControl;
 using DominatorHouseCore.Enums;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class PublisherDirectPostsViewModel : BindableBase
     {

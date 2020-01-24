@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using DominatorHouseCore.Models.FacebookModels;
 using DominatorHouseCore.Enums.FdQuery;
 
-namespace DominatorUIUtility.CustomControl.FacebookCustomControl
+namespace LegionUIUtility.CustomControl.FacebookCustomControl
 {
     /// <summary>
     /// Interaction logic for EventCreaterManager.xaml

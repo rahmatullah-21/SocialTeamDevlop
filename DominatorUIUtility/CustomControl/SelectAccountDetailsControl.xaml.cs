@@ -1,7 +1,7 @@
 ﻿using DominatorHouseCore.Annotations;
 using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.Models.SocioPublisher;
-using DominatorUIUtility.ViewModel.SocioPublisher;
+using LegionUIUtility.ViewModel.SocioPublisher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for SelectAccountDetailsControl.xaml

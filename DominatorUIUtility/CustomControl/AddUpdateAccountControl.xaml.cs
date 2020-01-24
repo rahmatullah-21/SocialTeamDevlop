@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DominatorHouseCore.Diagnostics;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for AddUpdateAccountControl.xaml

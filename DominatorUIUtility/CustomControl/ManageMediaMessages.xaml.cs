@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for ManageMediaMessages.xaml

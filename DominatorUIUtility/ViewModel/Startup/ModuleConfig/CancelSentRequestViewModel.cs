@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using System.Windows;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
 
     public interface ICancelSentRequestViewModel

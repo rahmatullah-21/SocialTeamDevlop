@@ -8,7 +8,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Input;
 using DominatorHouseCore.Command;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for MessagesControl.xaml

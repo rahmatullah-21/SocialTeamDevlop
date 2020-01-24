@@ -9,7 +9,7 @@ using System.Linq;
 using DominatorHouseCore.Models.NetworkActivitySetting;
 using System.Collections.Generic;
 
-namespace DominatorUIUtility.ViewModel.Startup
+namespace LegionUIUtility.ViewModel.Startup
 {
     public interface IJobConfigViewModel
     {

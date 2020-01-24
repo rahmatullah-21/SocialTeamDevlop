@@ -7,12 +7,12 @@ using Prism.Regions;
 using System.Windows.Input;
 using System;
 using System.Collections.ObjectModel;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 using System.Windows;
 using System.Linq;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface ISendGreetingsToConnectionsViewModel
     {

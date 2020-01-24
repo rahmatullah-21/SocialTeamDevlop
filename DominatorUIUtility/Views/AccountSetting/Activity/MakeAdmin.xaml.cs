@@ -4,16 +4,16 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.Enums.FdQuery;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.ViewModel.Startup;
-using DominatorUIUtility.ViewModel.Startup.ModuleConfig;
+using LegionUIUtility.CustomControl;
+using LegionUIUtility.ViewModel.Startup;
+using LegionUIUtility.ViewModel.Startup.ModuleConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.AccountSetting.Activity
+namespace LegionUIUtility.Views.AccountSetting.Activity
 {
     /// <summary>
     /// Interaction logic for MakeAdmin.xaml

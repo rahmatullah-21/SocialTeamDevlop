@@ -10,7 +10,7 @@ using DominatorHouseCore.Command;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.ViewModel.SocioPublisher
+namespace LegionUIUtility.ViewModel.SocioPublisher
 {
     public class AccountDetailsSelectorViewModel : BindableBase
     {

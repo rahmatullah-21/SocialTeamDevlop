@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.Views.Publisher
+namespace LegionUIUtility.Views.Publisher
 {
     /// <summary>
     /// Interaction logic for PublisherIndexPage.xaml

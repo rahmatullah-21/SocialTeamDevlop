@@ -2,7 +2,7 @@
 using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.Views.ViewModel.Startup.ModuleConfig;
+using LegionUIUtility.Views.ViewModel.Startup.ModuleConfig;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System;
 using System.Linq;
 using CommonServiceLocator;
 
-namespace DominatorUIUtility.ViewModel.Startup.ModuleConfig
+namespace LegionUIUtility.ViewModel.Startup.ModuleConfig
 {
     public interface IUnsubscribeViewModel : IYoutubeModel, IRedditModel
     {

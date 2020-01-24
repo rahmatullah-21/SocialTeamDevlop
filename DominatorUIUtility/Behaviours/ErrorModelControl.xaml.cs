@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DominatorHouseCore;
 
-namespace DominatorUIUtility.Behaviours
+namespace LegionUIUtility.Behaviours
 {
     /// <summary>
     /// Interaction logic for ErrorModelControl.xaml

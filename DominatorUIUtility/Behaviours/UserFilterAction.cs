@@ -1,7 +1,7 @@
 ﻿using System;
-using DominatorUIUtility.CustomControl;
+using LegionUIUtility.CustomControl;
 
-namespace DominatorUIUtility.Behaviours
+namespace LegionUIUtility.Behaviours
 {
     public static class UserFilterAction
     {

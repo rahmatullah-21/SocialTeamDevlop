@@ -4,15 +4,15 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.Publisher.CampaignsAdvanceSetting;
 using DominatorHouseCore.Utility;
-using DominatorUIUtility.ViewModel.SocioPublisher.AdvancedSettings;
-using DominatorUIUtility.Views.SocioPublisher;
+using LegionUIUtility.ViewModel.SocioPublisher.AdvancedSettings;
+using LegionUIUtility.Views.SocioPublisher;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
+namespace LegionUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
     /// Interaction logic for Facebook.xaml

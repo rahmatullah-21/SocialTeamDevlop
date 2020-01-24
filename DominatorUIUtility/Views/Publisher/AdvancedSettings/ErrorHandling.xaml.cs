@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DominatorUIUtility.Views.Publisher.AdvancedSettings
+namespace LegionUIUtility.Views.Publisher.AdvancedSettings
 {
     /// <summary>
     /// Interaction logic for ErrorHandling.xaml

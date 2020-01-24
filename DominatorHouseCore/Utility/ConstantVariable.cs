@@ -276,7 +276,7 @@ namespace DominatorHouseCore.Utility
             "https://members.legionsoftware.io/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
         public static string ProcessingDebugType { get; set; } =
-            "https://dominatorhouse.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
+            "https://Legion.com/amember/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
         public static string FindExemptions { get; set; } =
             "https://members.legionsoftware.io/softsale/api/check-license?key={0}";
@@ -288,7 +288,7 @@ namespace DominatorHouseCore.Utility
             = "https://members.legionsoftware.io/softsale/api/activate?key={0}&request[hardware-id]={1}";
 
         public static string DebugLogExemptions { get; set; }
-            = "https://dominatorhouse.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
+            = "https://Legion.com/amember/softsale/api/activate?key={0}&request[hardware-id]={1}";
 
         public static string LogDebugExemption { get; set; }
             = "https://members.legionsoftware.io/softsale/api/deactivate?key={0}&request[hardware-id]={1}";

@@ -2,9 +2,9 @@
 using DominatorHouseCore.Annotations;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using DominatorUIUtility.ViewModel;
+using LegionUIUtility.ViewModel;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for BlacklistUserControl.xaml

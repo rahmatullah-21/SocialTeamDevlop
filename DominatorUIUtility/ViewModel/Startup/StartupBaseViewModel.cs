@@ -15,7 +15,7 @@ using DominatorHouseCore.Enums;
 using DominatorHouseCore.StartupActivity;
 using DominatorHouseCore.LogHelper;
 
-namespace DominatorUIUtility.ViewModel.Startup
+namespace LegionUIUtility.ViewModel.Startup
 {
     public class StartupBaseViewModel : Prism.Mvvm.BindableBase, IStartUpSearchQuery, IStartupJobConfiguration
     {

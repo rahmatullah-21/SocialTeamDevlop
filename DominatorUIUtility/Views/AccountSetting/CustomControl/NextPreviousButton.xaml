@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="DominatorUIUtility.Views.AccountSetting.CustomControl.NextPreviousButton"
+﻿<UserControl x:Class="LegionUIUtility.Views.AccountSetting.CustomControl.NextPreviousButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DominatorUIUtility.Views.AccountSetting"
+             xmlns:local="clr-namespace:LegionUIUtility.Views.AccountSetting"
              mc:Ignorable="d">
     <StackPanel Name="ButtonGrid" Orientation="Horizontal" HorizontalAlignment="Right">
         <Button Height="30" HorizontalAlignment="Left"  Grid.Row="1" Margin="5" Foreground="White"

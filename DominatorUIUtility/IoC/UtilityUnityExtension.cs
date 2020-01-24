@@ -1,12 +1,12 @@
-﻿using DominatorUIUtility.CustomControl;
-using DominatorUIUtility.ViewModel;
-using DominatorUIUtility.ViewModel.OtherConfigurations;
-using DominatorUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
-using DominatorUIUtility.ViewModel.OtherTools;
+﻿using LegionUIUtility.CustomControl;
+using LegionUIUtility.ViewModel;
+using LegionUIUtility.ViewModel.OtherConfigurations;
+using LegionUIUtility.ViewModel.OtherConfigurations.ThridPartyServices;
+using LegionUIUtility.ViewModel.OtherTools;
 using Unity;
 using Unity.Extension;
 
-namespace DominatorUIUtility.IoC
+namespace LegionUIUtility.IoC
 {
     public class UtilityUnityExtension : UnityContainerExtension
     {

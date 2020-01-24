@@ -6,7 +6,7 @@ using System.Windows.Media;
 using DominatorHouseCore;
 using DominatorHouseCore.Utility;
 
-namespace DominatorUIUtility.CustomControl
+namespace LegionUIUtility.CustomControl
 {
     /// <summary>
     /// Interaction logic for ExtraFooterControl.xaml
