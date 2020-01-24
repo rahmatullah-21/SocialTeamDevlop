@@ -65,7 +65,7 @@
                         <controls:NumericUpDown Value="{Binding UnfriendOptionModel.DaysNotActiveOnMyGroupPosts}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" Minimum="0" IsEnabled="{Binding UnfriendOptionModel.IsNotActiveOnMyGroupPosts}" />
                         <Label Content="{DynamicResource LangKeyDays}" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" />
                     </StackPanel>
-                    <customControl:InputBoxControl Margin="55,5,15,5"  Visibility="{Binding UnfriendOptionModel.IsNotActiveOnMyGroupPosts,Converter={StaticResource BooleanToVisibilityConverter}}" InputText="{Binding UnfriendOptionModel.GroupUrl,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GetInputClick="GroupNameSave_Click"/>
+                    <customControl:InputBoxControl Margin="55,5,15,5"  Visibility="{Binding UnfriendOptionModel.IsNotActiveOnMyGroupPosts,Converter={StaticResource BooleanToVisibilityConverter}}" InputText="{Binding UnfriendOptionModel.GroupUrl,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="0,5,0,0"  >

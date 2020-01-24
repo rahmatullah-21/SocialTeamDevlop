@@ -1800,7 +1800,7 @@ namespace LegionUIUtility.CustomControl
             }
         }
 
-        void SetQueryTypeEnumName(string[] enumsList, QueryInfo currentQuery)
+        public void SetQueryTypeEnumName(string[] enumsList, QueryInfo currentQuery)
         {
             try
             {

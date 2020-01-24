@@ -3241,7 +3241,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyTagFriendsOption">Tag Friends Option</system:String>
     <system:String x:Key="LangKeyMutualFriends">Mutual Friends</system:String>
     <system:String x:Key="LangKeyFriendsShouldHaveBeenAddedBefore">Friends Should Have Been Added Before</system:String>
-
+    <system:String x:Key="LangKeyFriendsShouldHaveBeenAddedBetween">Friends Should Have Been Added Between</system:String>
     <system:String x:Key="LangLastSynchronizedAt">Last Synchronized At :</system:String>
 
     <system:String x:Key="LangKeyNumberOfSharesPerJob">Number Of Shares Per Job</system:String>
@@ -4536,4 +4536,5 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyUserInActiveOnMessengerFromPast">User InActive On Messenger From Past</system:String>
     <system:String x:Key="LangKeyWarningPleaseRead">Warning! Please Read:</system:String>
     <system:String x:Key="LangKeyStartupWarningMessage">When using LEGION, do not do any activities in the Facebook account/s LEGION is using. This includes: liking, commenting, adding friends, removing friends, posting, deleting and any other activities. Using your Facebook account/s simultaneously with LEGION can put your account at risk.</system:String>
+    <system:String x:Key="LangKeyEnterTheGroupsUrls">Enter The Groups Urls</system:String>
 </ResourceDictionary>
