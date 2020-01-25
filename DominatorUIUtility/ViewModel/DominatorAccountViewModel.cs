@@ -904,9 +904,8 @@ namespace LegionUIUtility.ViewModel
                                     {
                                         if (checkSucceeded.Result)
                                         {
-                                            //return asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
-                                            //    dominatorAccountModel.Token);
-
+                                           //asyncAccount.UpdateDetailsAsync(dominatorAccountModel,
+                                           //     dominatorAccountModel.Token);
                                         }
 
                                         return new Task(() => { });

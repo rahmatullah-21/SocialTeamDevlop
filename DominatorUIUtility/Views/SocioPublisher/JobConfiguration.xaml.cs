@@ -332,5 +332,7 @@ namespace LegionUIUtility.Views.SocioPublisher
                 SpecificPostGenerateIntervals(JobConfigurations.MaxPost, cancellectionToken, true);
 
         }
+
+        
     }
 }

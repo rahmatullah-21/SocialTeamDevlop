@@ -20,6 +20,7 @@ using Microsoft.Win32;
 using Registry = Microsoft.Win32.Registry;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Enums.FdQuery;
+using System.Collections.Generic;
 
 namespace DominatorHouseCore.Settings
 {
@@ -27,7 +28,7 @@ namespace DominatorHouseCore.Settings
     {
         void InitializeOnLoadConfigurations();
         void ActivityManagerInitializer();
-        void ScheduleAutoUpdation();
+        void ScheduleAutoUpdation(List<string> lstAccountsForUpdate = null);
         Task ScheduleAdsScraping();
         Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer, DominatorAccountModel currentAccount = null
             , SocialNetworks currentNetwork = SocialNetworks.Facebook);
@@ -149,7 +150,7 @@ namespace DominatorHouseCore.Settings
 
         #region Producer Consumer Solution for Account Update
 
-        public void ScheduleAutoUpdation()
+        public void ScheduleAutoUpdation(List<string> lstAccountsForUpdate = null)
         {
             var softwareSettingsFileManager = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
             var socinatorSettings = softwareSettingsFileManager.GetSoftwareSettings();
