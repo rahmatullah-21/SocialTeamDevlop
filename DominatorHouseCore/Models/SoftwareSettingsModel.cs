@@ -530,6 +530,12 @@ namespace DominatorHouseCore.Models
         public bool IsEnableParallelActivitiesChecked
         {
             get { return false; }
+            set
+            {
+                if (value == _isEnableParallelActivitiesChecked)
+                    return;
+                SetProperty(ref _isEnableParallelActivitiesChecked, value);
+            }
         }
 
         private int _accountSynchronizationHours = 24;

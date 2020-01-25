@@ -28,8 +28,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://209.250.252.53/socinator/</InstallUrl>
-    <UpdateUrl>http://209.250.252.53/socinator/</UpdateUrl>
+    <InstallUrl>http://209.250.252.53/TuntoSocianator/</InstallUrl>
+    <UpdateUrl>http://209.250.252.53/TuntoSocianator/</UpdateUrl>
     <SupportUrl>https://socinator.com/contact-us/</SupportUrl>
     <ErrorReportUrl>https://socinator.com/contact-us/</ErrorReportUrl>
     <ProductName>Socinator</ProductName>
