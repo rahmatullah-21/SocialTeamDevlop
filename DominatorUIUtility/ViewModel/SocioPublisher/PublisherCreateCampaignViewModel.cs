@@ -250,6 +250,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateCampaignModel.ScrapePostModel.IsScrapePinterestPost ||
                     PublisherCreateCampaignModel.ScrapePostModel.IsScrapeTwitterPost ||
                     PublisherCreateCampaignModel.ScrapePostModel.IsScrapeGoogleImgaes ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeRedditPost ||
                     PublisherCreateCampaignModel.SharePostModel.IsShareFdPagePost ||
                     PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList);
         }
