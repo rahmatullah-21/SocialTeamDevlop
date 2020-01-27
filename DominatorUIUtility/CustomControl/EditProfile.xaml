@@ -41,7 +41,7 @@
                     </Ellipse.Fill>
                 </Ellipse>
                 <StackPanel>
-                    <TextBlock Text="{Binding EditProfileModel.Username}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding EditProfileModel.Username}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                     <Button x:Name="btnUploadImage" Width="150" Background="Transparent" Content="Upload Image" x:FieldModifier="public" Margin="0,0,10,10"  Foreground="{DynamicResource AccentBaseColorBrush}" Command="{Binding UploadPhotoCommand}"/>
                 </StackPanel>
             </StackPanel>
@@ -51,10 +51,10 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{DynamicResource LangKeyName}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock Text="{DynamicResource LangKeyName}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
             <TextBox Name="txtName"  Text="{Binding EditProfileModel.Fullname}"
                      controls:TextBoxHelper.Watermark="Type Name" Width="230" FontSize="13" FontWeight="SemiBold" 
-                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" 
+                     Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" Grid.Column="1" 
                      KeyDown="OnKeyDown"/>
         </Grid>
         <Grid Grid.Row="2">
@@ -62,10 +62,10 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Name="txtblockUserName" Text="{DynamicResource LangKeyUsername}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock Name="txtblockUserName" Text="{DynamicResource LangKeyUsername}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
             <TextBox Name="txtUserName"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" 
                      controls:TextBoxHelper.Watermark="Type User Name" Width="230" FontSize="13" FontWeight="SemiBold" 
-                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" 
+                     Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" Grid.Column="1" 
                      KeyDown="OnKeyDown">
                 <TextBox.Text>
                     <Binding Path="EditProfileModel.Username" UpdateSourceTrigger="PropertyChanged">
@@ -81,10 +81,10 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock  Text="{DynamicResource LangKeyWebsite}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock  Text="{DynamicResource LangKeyWebsite}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
             <TextBox Name="txtWebSite" Text="{Binding EditProfileModel.ExternalUrl}"
                      controls:TextBoxHelper.Watermark="Type Website" Width="230" FontSize="13" FontWeight="SemiBold" 
-                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1" 
+                     Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" Grid.Column="1" 
                      KeyDown="OnKeyDown"/>
         </Grid>
         <Grid Grid.Row="4">
@@ -92,10 +92,10 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock  Text="{DynamicResource LangKeyBio}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+            <TextBlock  Text="{DynamicResource LangKeyBio}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
             <TextBox Name="TxtBio" AcceptsReturn="True" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto"
                      controls:TextBoxHelper.Watermark="Type Bio" Width="230" FontSize="13" FontWeight="SemiBold" 
-                     Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="80" Grid.Column="1" 
+                     Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="80" Grid.Column="1" 
                      KeyDown="OnKeyDown" Text="{Binding EditProfileModel.Bio}"/>
         </Grid>
         <CheckBox Name="ChkPrivateInfo" Margin="5" IsChecked="False" MinWidth="200" Grid.Row="5" Content="{DynamicResource LangKeyPrivateInformation}" HorizontalAlignment="Left"  Width="120" FontWeight="SemiBold" />
@@ -113,9 +113,9 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource LangKeyEmail}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyEmail}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                 <TextBox Name="txtEmail" Text="{Binding EditProfileModel.Email}"  KeyDown="OnKeyDown"
-                          Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1">
+                          Width="230" FontSize="13" Margin="5" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" Grid.Column="1">
 
                 </TextBox>
             </Grid>
@@ -124,16 +124,16 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock  Text="{DynamicResource LangKeyPhoneNumber}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock  Text="{DynamicResource LangKeyPhoneNumber}" Margin="5" Width="120" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                 <TextBox Name="txtPhone" Text="{Binding EditProfileModel.PhoneNumber}" KeyDown="OnKeyDown"
-                         controls:TextBoxHelper.Watermark="Type Phone number" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="Black" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
+                         controls:TextBoxHelper.Watermark="Type Phone number" Width="230" FontSize="13" FontWeight="SemiBold" Margin="5" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center"  Height="30" Grid.Column="1"/>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2.5*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource LangKeyGender}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource LangKeyGender}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
                 <StackPanel Grid.Column="1">
                     <RadioButton GroupName="gender" Margin="5" Content="{DynamicResource LangKeyMale}" IsChecked="{Binding EditProfileModel.IsMaleChecked}"/>
                     <RadioButton GroupName="gender"  Margin="5" Content="{DynamicResource LangKeyFemale}" IsChecked="{Binding EditProfileModel.IsFemaleChecked}"/>

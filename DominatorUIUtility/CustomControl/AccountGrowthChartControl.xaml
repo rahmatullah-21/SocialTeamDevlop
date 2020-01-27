@@ -17,10 +17,10 @@
                         <wpf:Axis Title="{Binding AxisXTitle, RelativeSource={RelativeSource TemplatedParent}}" Labels="{Binding AxisXLabels, RelativeSource={RelativeSource TemplatedParent}}"></wpf:Axis>
                     </wpf:CartesianChart.AxisX>
                     <wpf:CartesianChart.DataTooltip>
-                        <wpf:DefaultTooltip BulletSize="20" Background="Gray"/>
+                        <wpf:DefaultTooltip BulletSize="20" Background="{DynamicResource TextColorBrushAccordingTheme1}" />
                     </wpf:CartesianChart.DataTooltip>
                     <wpf:CartesianChart.ChartLegend>
-                        <wpf:DefaultLegend BulletSize="20" Foreground="Black"/>
+                        <wpf:DefaultLegend BulletSize="20" Foreground="{DynamicResource TextColorBrushAccordingTheme}"/>
                     </wpf:CartesianChart.ChartLegend>
                 </wpf:CartesianChart>
             </Grid>

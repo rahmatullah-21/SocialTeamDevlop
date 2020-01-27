@@ -353,7 +353,7 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                                 <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin = "5">
                                     <ItemsControl x:Name="list" ItemsSource="{Binding GrowthProperties,IsAsync=True}"
-                                                  Focusable="False" Foreground="Black"
+                                                  Focusable="False" Foreground="{DynamicResource TextColorBrushAccordingTheme}"
                                                   VirtualizingPanel.IsContainerVirtualizable="True"
                                                   VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
                                         <ItemsControl.ItemsPanel>
