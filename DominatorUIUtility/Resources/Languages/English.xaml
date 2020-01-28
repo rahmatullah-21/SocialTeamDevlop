@@ -1955,7 +1955,7 @@
     <system:String x:Key="LangKeyScrapePostsFromFacebook">Scrape Posts From Facebook</system:String>
     <system:String x:Key="LangKeyScrapePostsFromPinterest">Scrape Posts From Pinterest</system:String>
     <system:String x:Key="LangKeyScrapePostsFromTwitter">Scrape Posts From Twitter</system:String>
-    <system:String x:Key="LangKeyScrapeQuery">Scrape Query</system:String>
+    <system:String x:Key="LangKeyScrapeQuery">Scrape Target</system:String>
     <system:String x:Key="LangKeyScrapeSingleOrMultipleBoardsUsingThisFeature">Scrape Single Or Multiple Boards Using This Feature.</system:String>
     <system:String x:Key="LangKeyScrapeSingleOrMultiplePinsUsingThisFeature">Scrape Single Or Multiple Pins Using This Feature.</system:String>
     <system:String x:Key="LangKeyScrapeSingleOrMultipleUsersUsingThisFeature">Scrape Single Or Multiple Users Using This Feature.</system:String>
@@ -1975,7 +1975,7 @@
     <system:String x:Key="LangKeyScrapeddate">Scraped Date</system:String>
     <system:String x:Key="LangKeyScraper">Scraper</system:String>
     <system:String x:Key="LangKeySearchKeywords">Search Keywords</system:String>
-    <system:String x:Key="LangKeySearchQuery">Search Query</system:String>
+    <system:String x:Key="LangKeySearchQuery">Search Target</system:String>
     <system:String x:Key="LangKeySearchUrl">Search Url</system:String>
     <system:String x:Key="LangKeySearchUrlPost">Search Url Post</system:String>
     <system:String x:Key="LangKeySearch">Search....</system:String>
@@ -2017,8 +2017,8 @@
     <system:String x:Key="LangKeySelectOwnPages">Select Own Pages</system:String>
     <system:String x:Key="LangKeySelectPages">Select Pages</system:String>
     <system:String x:Key="LangKeySelectPagesBoardsAll">Select Pages(All)</system:String>
-    <system:String x:Key="LangKeySelectQuery">Select Query</system:String>
-    <system:String x:Key="LangKeySelectQueryType">Select Query Type</system:String>
+    <system:String x:Key="LangKeySelectQuery">Select Target</system:String>
+    <system:String x:Key="LangKeySelectQueryType">Select Target Type</system:String>
     <system:String x:Key="LangKeySelectRandomFollowers">Select Random Followers</system:String>
     <system:String x:Key="LangKeySelectRandomProfiles">Select Random Profiles</system:String>
     <system:String x:Key="LangKeySelectRequiredData">Select Required Data</system:String>
@@ -2778,12 +2778,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyToBlacklist">To Blacklist</system:String>
     <system:String x:Key="LangKeyNoMoreDataAvailableToPerform">No More Data Available To Perform</system:String>
     <system:String x:Key="LangKeyFound">Found</system:String>
-    <system:String x:Key="LangKeyResultsByQueryType">Results By Query Type</system:String>
-    <system:String x:Key="LangKeyAndQueryValue">And Query Value</system:String>
+    <system:String x:Key="LangKeyResultsByQueryType">Results By Target Type</system:String>
+    <system:String x:Key="LangKeyAndQueryValue">And Target Value</system:String>
     <system:String x:Key="LangKeyIndexIesAreAlreadyAddedIn">Index(Ies) Are Already Added In</system:String>
     <system:String x:Key="LangKeySearchQuer">Search Quer</system:String>
     <system:String x:Key="LangKeyAreAlreadyAddedIn">Are Already Added In</system:String>
-    <system:String x:Key="LangKeySearchQueryIes">Search Query(Ies)</system:String>
+    <system:String x:Key="LangKeySearchQueryIes">Search Target(Ies)</system:String>
     <system:String x:Key="LangKeyNeedsToVerifiedToPerformNextActivities">Needs To Verified To Perform Next Activities</system:String>
     <system:String x:Key="LangKeySuccessfullyCompleteProcessTo">Successfully Complete Process To</system:String>
     <system:String x:Key="LangKeyStartedProcessTo">Started Process To</system:String>
@@ -2872,44 +2872,44 @@ Type 3. IP:Port
 
 
 
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendFriendRequests">This Legion feature helps to automate sending friend requests on Facebook. It allows to search users with different query types and send them friend requests on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendFriendRequests">This Legion feature helps to automate sending friend requests on Facebook. It allows to search users with different target types and send them friend requests on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoAcceptFriendRequests">This Legion feature helps to automate accepting friend requests on Facebook. It allows to filter followers and follow them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoUnfriend">This Legion feature helps to automate unfriends on Facebook. It allows to search users with different query types and unfriend them as per configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoUnfriend">This Legion feature helps to automate unfriends on Facebook. It allows to search users with different target types and unfriend them as per configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoWithdrawSentRequests">This Legion feature helps to automate withdrawing friend requests users on Facebook. It allows to filter users and withdraw friend requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessages">This Legion feature helps to automate sending direct messages to Facebook. It allows to search and filter users with different query types and send them a direct message on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessages">This Legion feature helps to automate sending direct messages to Facebook. It allows to search and filter users with different target types and send them a direct message on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoReplyToNewMessages">This Legion feature helps to automate replying to new messages on Facebook. It allows to filter messages and reply to them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoJoinGroups">This Legion feature helps to automate joining groups on Facebook. It allows to search and filter groups with different source types and join them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoUnjoinGroups">This Legion feature helps to automate unjoining groups on Facebook. It allows to filter groups and unjoin them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeFanpages">This Legion feature helps to automate liking pages on Facebook. It allows to search and filter pages with different query types and like them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeFanpages">This Legion feature helps to automate liking pages on Facebook. It allows to search and filter pages with different target types and like them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeAndCommentPosts">This Legion feature helps to automate liking and comment on posts on Facebook. It allows to filter posts and liking and commenting on them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeUsers">This Legion feature helps to scrape users from Facebook. It allows to filter users and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeFanPages">This Legion feature helps to scrape fanpages from Facebook. It allows to filter fanpages and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeGroups">This Legion feature helps to scrape groups from Facebook. It allows to filter groups and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeComments">This Legion feature helps to scrape comments from Facebook. It allows to filter comments and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapePosts">This Legion feature helps to scrape posts from Facebook. It allows to filter posts and scrape them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoFollow">This Legion feature helps to automate following users on Twitter. It allows to search users with different query types and perform the follow action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoFollow">This Legion feature helps to automate following users on Twitter. It allows to search users with different target types and perform the follow action on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoFollowBack">This Legion feature helps to automate following back followers on Twitter. It allows to filter followers and follow them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoMute">This Legion feature helps to auto mute users on Twitter. It allows to search users with different query types and mute them as per configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoMute">This Legion feature helps to auto mute users on Twitter. It allows to search users with different target types and mute them as per configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnfollow">This Legion feature helps to automate unfollowing users on Twitter. It allows to filter users and perform the unfollow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoRepost">This Legion feature helps to automate reposting on Twitter. It allows to search and filter posts with different query types and perform the reposting action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoRetweet">This Legion feature helps to automate retweeting on Twitter. It allows to search tweets with different query types and retweet them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoRepost">This Legion feature helps to automate reposting on Twitter. It allows to search and filter posts with different target types and perform the reposting action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoRetweet">This Legion feature helps to automate retweeting on Twitter. It allows to search tweets with different target types and retweet them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoDelete">This Legion feature helps to automate Delete tweet,Delete comments and Undo Retweets on Twitter. It allows to search tweets,comments,retweets with different delete source types and perform the Delete action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoLike">This Legion feature helps to automate likes on Twitter. It allows to search and filter posts with different query types and perform the like action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoComment">This Legion feature helps to automate comment on Twitter. It allows to search and filter posts with different query types and comment on them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoLike">This Legion feature helps to automate likes on Twitter. It allows to search and filter posts with different target types and perform the like action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoComment">This Legion feature helps to automate comment on Twitter. It allows to search and filter posts with different target types and comment on them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoBroadcastMessage">This Legion feature helps to automate sending direct messages on Twitter. It allows to filter and send message to your followers.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoMessageToNewFollowers">This Legion feature helps to automate sending direct messages to new followers on Twitter. It also allows to filter users before sending a message.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoReply">This Legion feature helps to automate sending auto reply to new messages. It also allows to filter users before sending a message.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoScrapeUsers">This Legion feature helps to scrape users from Twitter. It allows to filter users and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionTwitterAutoScrapeTweets">This Legion feature helps to scrape tweets from Twitter. It allows to filter tweets and scrape them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoFollow">This Legion feature helps to automate following users on Instagram. It allows to search users with different query types and perform the follow action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoFollow">This Legion feature helps to automate following users on Instagram. It allows to search users with different target types and perform the follow action on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoFollowBack">This Legion feature helps to automate following back followers on Instagram. It allows to filter followers and follow them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoBlockFollower">This Legion feature helps to automate blocking followers on Instagram. It allows to filter followers and block them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoUnfollow">This Legion feature helps to automate unfollowing users on Instagram. It allows to filter users and perform the unfollow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoRepost">This Legion feature helps to automate reposting on Instagram. It allows to search and filter posts with different query types and perform the reposting action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoRepost">This Legion feature helps to automate reposting on Instagram. It allows to search and filter posts with different target types and perform the reposting action on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoDelete">This Legion feature helps to automate deleting posts on Instagram. It allows to filter own posts and delete them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoLike">This Legion feature helps to automate likes on Instagram. It allows to search and filter posts with different query types and perform the like action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoUnlike">This Legion feature helps to automate Unlikes on Instagram. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoComment">This Legion feature helps to automate comment on Instagram. It allows to search and filter posts with different query types and comment on them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoLike">This Legion feature helps to automate likes on Instagram. It allows to search and filter posts with different target types and perform the like action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoUnlike">This Legion feature helps to automate Unlikes on Instagram. It allows to search and filter posts with different target types and perform the Unlike action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionInstagramAutoComment">This Legion feature helps to automate comment on Instagram. It allows to search and filter posts with different target types and comment on them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoBroadcastMessage">This Legion feature helps to automate sending direct messages on Instagram. It allows to filter and send message to your followers.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoMessageToNewFollowers">This Legion feature helps to automate sending direct messages to new followers on Instagram. It also allows to filter users before sending a message.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoReply">This Legion feature helps to automate sending auto reply to new messages. It also allows to filter users before sending a message.</system:String>
@@ -2917,21 +2917,21 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoDownloadPhotos">This Legion feature helps to download photos from Instagram. It allows to filter instagram posts and download them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionInstagramAutoScrapeHashtags">This Legion feature helps to scrape hashtags from Instagram.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoCreateBoard">This Legion feature helps to automate creating boards on Pinterest. It allows to create multiple boards on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoFollow">This Legion feature helps to automate following users on Pinterest. It allows to search users with different query types and perform the follow action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoFollow">This Legion feature helps to automate following users on Pinterest. It allows to search users with different target types and perform the follow action on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoFollowBack">This Legion feature helps to automate following back followers on Pinterest. It allows to filter followers and follow them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoUnfollow">This Legion feature helps to automate unfollowing users on Pinterest. It allows to filter users and perform the unfollow action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoRepost">This Legion feature helps to automate reposting on Pinterest. It allows to search and filter posts with different query types and perform the reposting action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoRepin">This Legion feature helps to automate Repining on Pinterest. It allows to search pins with different query types and Repin them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoRepost">This Legion feature helps to automate reposting on Pinterest. It allows to search and filter posts with different target types and perform the reposting action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoRepin">This Legion feature helps to automate Repining on Pinterest. It allows to search pins with different target types and Repin them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoDelete">This Legion feature helps to automate deleting pins on Pinterest. It allows to search pins with different delete source types and perform the Delete action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoTry">This Legion feature helps to automate Trys on Pinterest. It allows to search and filter posts with different query types and perform the Try action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoComment">This Legion feature helps to automate comment on Pinterest. It allows to search and filter posts with different query types and comment on them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoTry">This Legion feature helps to automate Trys on Pinterest. It allows to search and filter posts with different target types and perform the Try action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionPinterestAutoComment">This Legion feature helps to automate comment on Pinterest. It allows to search and filter posts with different target types and comment on them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoBroadcastMessage">This Legion feature helps to automate sending direct messages on Pinterest. It allows to filter and send message to your followers.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoMessageToNewFollowers">This Legion feature helps to automate sending direct messages to new followers on Pinterest. It also allows to filter users before sending a message.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoReply">This Legion feature helps to automate sending auto reply to new messages. It also allows to filter users before sending a message.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoScrapeUsers">This Legion feature helps to scrape users from Pinterest. It allows to filter users and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoScrapePins">This Legion feature helps to scrape Pins from Pinterest. It allows to filter Pins and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionPinterestAutoScrapeBoards">This Legion feature helps to scrape Boards from Pinterest. It allows to filter Boards and scrape them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionGplusAutoFollow">This Legion feature helps to automate following users on Gplus. It allows to search users with different query types and perform the follow action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionGplusAutoFollow">This Legion feature helps to automate following users on Gplus. It allows to search users with different target types and perform the follow action on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoUnfollow">This Legion feature helps to automate unfollowing users on Gplus. It allows to filter users and unfollow them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoJoinCommunity">This Legion feature helps to automate joining communities on Gplus. It allows to filter communities and join them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoUnjoinCommunity">This Legion feature helps to automate unjoining communities on Gplus. It allows to filter communities and unjoin them on configured time.</system:String>
@@ -2940,12 +2940,12 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeCommunity">This Legion feature helps to scrape communities on Gplus. It allows to filter communities and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapePeople">This Legion feature helps to scrape users on Gplus. It allows to filter users and scrape them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapePosts">This Legion feature helps to scrape posts on Gplus. It allows to filter posts and scrape them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendConnectionRequest">This Legion feature helps to automate sending connection requests on LinkedIn. It allows to search users with different query types and send them connection requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoAcceptConnectionRequest">This Legion feature helps to automate accepting connection requests on LinkedIn. It allows to search users with different query types and accept connection requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoRemoveConnection">This Legion feature helps to automate removing connections on LinkedIn. It allows to search users with different query types and remove connections on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoWithdrawConnectionRequest">This Legion feature helps to automate withdrawing connection requests on LinkedIn. It allows to search users with different query types and withdraw connection requests on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoExportConnection">This Legion feature helps to automate exporting connections from LinkedIn. It allows to search users with different query types and export them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoBroadcastMessages">This Legion feature helps to automate sending direct messages to users on LinkedIn. It allows to search and filter users with different query types and send them a direct message on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendConnectionRequest">This Legion feature helps to automate sending connection requests on LinkedIn. It allows to search users with different target types and send them connection requests on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoAcceptConnectionRequest">This Legion feature helps to automate accepting connection requests on LinkedIn. It allows to search users with different target types and accept connection requests on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoRemoveConnection">This Legion feature helps to automate removing connections on LinkedIn. It allows to search users with different target types and remove connections on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoWithdrawConnectionRequest">This Legion feature helps to automate withdrawing connection requests on LinkedIn. It allows to search users with different target types and withdraw connection requests on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoExportConnection">This Legion feature helps to automate exporting connections from LinkedIn. It allows to search users with different target types and export them on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoBroadcastMessages">This Legion feature helps to automate sending direct messages to users on LinkedIn. It allows to search and filter users with different target types and send them a direct message on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoReplyToNewMessage">This Legion feature helps to automate sending auto reply to new messages on LinkedIn. It also allows to filter users before sending a message.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendMessagetoNewConnection">This Legion feature helps to automate sending messages to new connections on LinkedIn. It also allows to filter users before sending a message.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionLinkedInAutoSendGreetingsToConnection">This Legion feature helps to automate sending greetings to connections on LinkedIn. It also allows to filter users before sending a message.</system:String>
@@ -3130,8 +3130,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyJoinedCommunityMembers">Joined Communities Members</system:String>
     <system:String x:Key="LangKeyUniqueCommentPerPostFromEachAccount">Unique comment per post from each account</system:String>
     <system:String x:Key="LangKeyMakeCaptionAsSpinText">Make caption as spin text</system:String>
-    <system:String x:Key="LangKeyFiltersNotApplicableForQueryTypeEmail">User filters are not applicable for Email(QueryType)</system:String>
-    <system:String x:Key="LangKeyPersonalNoteNotApplicableForQueryTypeEmail">Personal note is not applicable for Email(QueryType)</system:String>
+    <system:String x:Key="LangKeyFiltersNotApplicableForQueryTypeEmail">User filters are not applicable for Email(TargetType)</system:String>
+    <system:String x:Key="LangKeyPersonalNoteNotApplicableForQueryTypeEmail">Personal note is not applicable for Email(TargetType)</system:String>
     <system:String x:Key="LangKeySuggestedFriend">Suggested Friends</system:String>
     <system:String x:Key="LangKeyUniqueMentionPerPostFromEachAccount">Unique mention per post from each account</system:String>
     <system:String x:Key="LangKeyMediaGenerator">Media generator</system:String>
@@ -3328,9 +3328,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeySavePostToProfile">Save Post(s) To profile</system:String>
     <system:String x:Key="LangKeySelectGroup">Select Groups</system:String>
     <system:String x:Key="LangKeyModuleDescriptionGplusAutoScrapeComments">This Legion feature helps to scrape comments from posts on Gplus. It allows to filter comments and posts and scrape them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">This Legion feature helps to automate mentioning users on a tweet . It allows to search and filter posts with different query types and perform the tweet action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">This Legion feature helps to automate mentioning new followers as welcome tweet. It allows to search and filter posts with different query types and perform the welcome tweet action on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">This Legion feature helps to automate Unlike on Twitter. It allows to search and filter posts with different query types and perform the Unlike action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoTweetTo">This Legion feature helps to automate mentioning users on a tweet . It allows to search and filter posts with different target types and perform the tweet action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoWelcomeTweet">This Legion feature helps to automate mentioning new followers as welcome tweet. It allows to search and filter posts with different target types and perform the welcome tweet action on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionTwitterAutoUnlike">This Legion feature helps to automate Unlike on Twitter. It allows to search and filter posts with different target types and perform the Unlike action on configured time.</system:String>
     <system:String x:Key="LangKeyConnectedWithin">Connected Within</system:String>
     <system:String x:Key="LangKeyProfileScraperCampaigns">Profile Scraper Campaigns</system:String>
     <system:String x:Key="LangKeyPublisherCampaigns">Publisher Campaigns</system:String>
@@ -3559,10 +3559,10 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeOnComment">This Legion feature helps to automate like the comment Of posts on Facebook. It allows to filter posts and like the comments Of post on them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoReplyToComment">This Legion feature helps to automate Reply to comment Of posts on Facebook. It allows to filter posts and Reply to comments Of post on them on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoLikeOnWebpostComment">This Legion feature helps to automate like to Webpost comment Of posts on Facebook. It allows to filter posts and like to Webpost comments Of post on them on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToRecentFriends">This Legion feature helps to automate sending direct messages to recent Friends On Facebook. It allows to search and filter users with different query types and send them a direct message to recent Friends On configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToFanpage">This Legion feature helps to automate sending direct messages to Facebook Fanpage. It allows to search and filter users with different query types and send them a direct message to Fanpage on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToPeopleByLocation">This Legion feature helps to automate sending direct messages to people from location on Facebook Fanpage. It allows to search and filter users with different query types and send them a direct message to people from location on configured time.</system:String>
-    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendBithdayGreetingsToFriends">This Legion feature helps to automate sending greetings to friends on Facebook. It allows to search and filter users with different query types and send them greetings on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToRecentFriends">This Legion feature helps to automate sending direct messages to recent Friends On Facebook. It allows to search and filter users with different target types and send them a direct message to recent Friends On configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToFanpage">This Legion feature helps to automate sending direct messages to Facebook Fanpage. It allows to search and filter users with different target types and send them a direct message to Fanpage on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoBroadcastMessagesToPeopleByLocation">This Legion feature helps to automate sending direct messages to people from location on Facebook Fanpage. It allows to search and filter users with different target types and send them a direct message to people from location on configured time.</system:String>
+    <system:String x:Key="LangKeyModuleDescriptionFacebookAutoSendBithdayGreetingsToFriends">This Legion feature helps to automate sending greetings to friends on Facebook. It allows to search and filter users with different target types and send them greetings on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeUsersFromLocations">This Legion feature helps to scrape users from Locations on Facebook. It allows to filter users and scrape them based on Locations at configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeAlbums">This Legion feature helps to scrape Albums on Facebook. It allows to filter and scrape Albums on configured time.</system:String>
     <system:String x:Key="LangKeyModuleDescriptionFacebookAutoScrapeMarketPlaceDetails">This Legion feature helps to scrape Marketplace Details on Facebook. It allows to filter and scrape Marketplace Details on configured time.</system:String>
@@ -3678,13 +3678,13 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyErrorCampaignWithSameNameAlreadyExists">Campaign with same name already exists. Please change name of Campaign.</system:String>
     <system:String x:Key="LangKeyErrorSelectAtleastOneAccount">Please select at least one account.</system:String>
     <system:String x:Key="LangKeyErrorAddAtLeastOneTimeRange">Please add at least one time range when to run and stop the activity.</system:String>
-    <system:String x:Key="LangKeyErrorAddAtLeastOneQuery">Please add at least one query.</system:String>
+    <system:String x:Key="LangKeyErrorAddAtLeastOneQuery">Please add at least one target.</system:String>
     <system:String x:Key="LangKeyThreadLimitReachedTo">Thread limit count reached to</system:String>
     <system:String x:Key="LangKeyPendingStartsWhenRunnningStops">and pending account will starts once the running account's process stopped.</system:String>
     <system:String x:Key="LangKeyAccountSelected">Account Selected</system:String>
     <system:String x:Key="LangKeyUpdatedSuccessfully">updated successfully</system:String>
     <system:String x:Key="LangKeyAlert">Alert</system:String>
-    <system:String x:Key="LangKeyQueryAlreadyExist">Query already Exist !!</system:String>
+    <system:String x:Key="LangKeyQueryAlreadyExist">Target already Exist !!</system:String>
     <system:String x:Key="LangKeyErrorCampaignConfigurationIsPaused">This account belongs to campaign configuration, which is paused state. Please make the campaign active before changing activity status for this account.</system:String>
     <system:String x:Key="LangKeySuccessfullyStopped">Successfully stopped</system:String>
     <system:String x:Key="LangKeySuccessfullyActivated">Successfully activated</system:String>
@@ -3964,8 +3964,8 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyExportWhiteListUser">Export WhiteList user</system:String>
     <system:String x:Key="LangKeyWhiteListedUserSuccessfullyExportedTo">WhiteListed user successfully exported to [ {0} ]</system:String>
     <system:String x:Key="LangKeySelectAtleastOneActivity">Please select at least one activity.</system:String>
-    <system:String x:Key="LangKeyQueryCantBeAdded">Query can't be added because it may not be related to {0}  {1} module.</system:String>
-    <system:String x:Key="LangKeyTypeSomeQuery">Please type some query.</system:String>
+    <system:String x:Key="LangKeyQueryCantBeAdded">Target can't be added because it may not be related to {0}  {1} module.</system:String>
+    <system:String x:Key="LangKeyTypeSomeQuery">Please type some target.</system:String>
     <system:String x:Key="LangKeyAddATimeRangeToRunStopActivity">Please add at least one time range when to run and stop the activity.</system:String>
     <system:String x:Key="LangKeyMessageCopied">Message copied</system:String>
     <system:String x:Key="LangKeyAsksForSelectingAndOverwritingAccounts">{0} account(s) already set up to run {1} activity. Would you like to overwrite settings of those accounts?
@@ -4012,7 +4012,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyLicenseError">License Error</system:String>
     <system:String x:Key="LangKeyNote">Note</system:String>
     <system:String x:Key="LangIGWontRunWithBrowserAutoTryWithHttp">Instagram accounts won't work with Browser-Automation feature, Please try with Http setting.</system:String>
-    <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">post per account with specific query</system:String>
+    <system:String x:Key="LangKeyPostPerAccountWithSpecificQuery">post per account with specific target</system:String>
     <system:String x:Key="LangKeyFriendsBasicDetails">Friends Basic Details</system:String>
     <system:String x:Key="LangKeyFacebookConfigurationSaved">Facebook Configuration successfully saved !!</system:String>
     <system:String x:Key="LangKeyValidate">Validate</system:String>
@@ -4085,7 +4085,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKey﻿﻿﻿﻿Id">Id</system:String>
     <system:String x:Key="LangKey﻿﻿﻿﻿BlockedFollowerUsername">Blocked Follower Username</system:String>
     <system:String x:Key="LangKey﻿﻿﻿﻿BlockedFollowerUserId">Blocked Follower UserId</system:String>
-    <system:String x:Key="LangKeyNoMessagesMatchwithCurrentQuery">No message matches with current query and User</system:String>
+    <system:String x:Key="LangKeyNoMessagesMatchwithCurrentQuery">No message matches with current target and User</system:String>
     <system:String x:Key="LangKeyFollowedBackUsername">FollowedBack Username</system:String>
     <system:String x:Key="LangKeyFollowedBackUserId">FollowedBack UserId</system:String>
     <system:String x:Key="LangKeyUnfollowedUsername">Unfollowed Username</system:String>
@@ -4095,7 +4095,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyMediaOwner">Media Owner</system:String>
     <system:String x:Key="LangKeyMediaType">Media Type</system:String>
     <system:String x:Key="LangKeyLikedMediaType">Liked Media Type</system:String>
-    <system:String x:Key="LangKeyStopQueryIfFailedTillN">Stop running current query if continuous failed/filtered count reaches to </system:String>
+    <system:String x:Key="LangKeyStopQueryIfFailedTillN">Stop running current target if continuous failed/filtered count reaches to </system:String>
     <system:String x:Key="LangKeyOriginalMediaCode">Original Media Code</system:String>
     <system:String x:Key="LangKeyOriginalMediaOwner">Original Media Owner</system:String>
     <system:String x:Key="LangKeyGeneratedMediaCode">Generated Media Code</system:String>
@@ -4168,13 +4168,13 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyPublishedUrl">PublishedUrl</system:String>
     <system:String x:Key="LangKeyUnlikeMedia">Unlike Media</system:String>
 
-    <system:String x:Key="LangKeyPleaseInputAtleastOneCommentForQuery">Please input at least one comment for Query [ {0} ]</system:String>
+    <system:String x:Key="LangKeyPleaseInputAtleastOneCommentForQuery">Please input at least one comment for Target [ {0} ]</system:String>
     <system:String x:Key="LangKeyPleaseAddProfileUrls">Please add profile url(s).</system:String>
     <system:String x:Key="LangKeyPleaseSelectAtleastOneOfTheConnectionSources">Please select at least one of the connection sources.</system:String>
     <system:String x:Key="LangKeyPleaseSaveYourCustomUsersList">Please save your custom user(s) list.</system:String>
     <system:String x:Key="LangKeyPleaseSelectAtleastOneOfTheMessageFilters">Please select at least one of the message filters.</system:String>
     <system:String x:Key="LangKeyPleaseInputAtleastOneSpecificWord">Please input at least one specific word</system:String>
-    <system:String x:Key="LangKeyPleaseInputAtleastOneMessageForQuery">Please input at least one message for Query [ {0} ]</system:String>
+    <system:String x:Key="LangKeyPleaseInputAtleastOneMessageForQuery">Please input at least one message for Target [ {0} ]</system:String>
     <system:String x:Key="LangKeyPleaseInputAtleastOneMessage">Please input at least one message.</system:String>
     <system:String x:Key="LangKeyPleaseSelectAtleastOneOfGreetingOptions">Please select at least once of the greeting options.</system:String>
     <system:String x:Key="LangKeyPleaseEnterAMesageAndPressTheSaveButton">Please enter a message and press the save button.</system:String>
@@ -4203,7 +4203,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyProxyNotWorkingMessage">Proxy is not working or may be internet connection is closed. Message : {0}</system:String>
     <system:String x:Key="LangKeyNotValidVerificationInputFor">not valid verification input for {0}</system:String>
     <system:String x:Key="LangKeyFilteredTweetWithId">Filtered tweet with id {0}</system:String>
-    <system:String x:Key="LangKeyNoSpecificCommentFoundMessage">No specific comment found for this Query</system:String>
+    <system:String x:Key="LangKeyNoSpecificCommentFoundMessage">No specific comment found for this Target</system:String>
     <system:String x:Key="LangKeyAddMoreCommentsForConfigMessage">Please add more comments for configuration</system:String>
     <system:String x:Key="LangKeyPostUniqueCommentOnSpecificPost">('Post unique comment on a specific post from each account.')</system:String>
     <system:String x:Key="LangKeyUseSpecificCommentMessage">('Use specific comment only once from a account.')</system:String>
@@ -4217,7 +4217,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyBioAndOtherInfoForUser">Getting Bio and all tweeted information for user {0}</system:String>
     <system:String x:Key="LangKeyFilteredUserWithUserName">Filtered user {0}</system:String>
     <system:String x:Key="LangKeyCheckingPrivacySettingForUser">Checking privacy settings for entered user</system:String>
-    <system:String x:Key="LangKeyNoMoreDataToActivityForQuery">No more data available to perform {0} for query value {1}</system:String>
+    <system:String x:Key="LangKeyNoMoreDataToActivityForQuery">No more data available to perform {0} for target value {1}</system:String>
     <system:String x:Key="LangKeyReachedMaximumTweetScrape">Reached maximum Tweet to scrape per user.</system:String>
     <system:String x:Key="LangKeyNoMoreUpdatedTweetsAvailableBefore">No more updated tweets available before  {0} day(s).</system:String>
     <system:String x:Key="LangKeyGettingLikedTweet">Getting liked tweet of user {0}</system:String>
@@ -4232,7 +4232,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyResetPasswordLinkSendingProcessStarted">Reset password link sending process has been started. Please wait...</system:String>
     <system:String x:Key="LangKeyResetPasswordLinkSentSuccessfulMessage">Reset password link sent successfullSuccessfully Added {0} To private blacklisty</system:String>
     <system:String x:Key="LangKeyResetPasswordLinkFailed">Reset password link failed with error => {0}</system:String>
-    <system:String x:Key="LangKeyMentionQueryTypeWithCommentMessage">Please mention query type with the comment</system:String>
+    <system:String x:Key="LangKeyMentionQueryTypeWithCommentMessage">Please mention target type with the comment</system:String>
     <system:String x:Key="LangKeyStartedAfterSomeAction">Started After {0} Action functionality</system:String>
     <system:String x:Key="LangKeyDelayBeforeSomeProcessMessage">Delay of {0} seconds for before activity : {1}</system:String>
     <system:String x:Key="LangKeyFollowedPinOwnerSuccessMessage">Successfully Followed pin owner : {0}</system:String>
@@ -4287,7 +4287,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyWaitForSomeTimeWhileScrappingMessage">Please wait for some time while scrapping data to perform Activity => {0}</system:String>
     <system:String x:Key="LangKeyCheckSomeUrlSeemsIncorrect">Please check {0} url seems incorrect</system:String>
     <system:String x:Key="LangKeyUser">User</system:String>
-    <system:String x:Key="LangKeySelectAtleastOneBoardToRepinForQuery">Please select atleast one board to Repin for query => {0}.</system:String>
+    <system:String x:Key="LangKeySelectAtleastOneBoardToRepinForQuery">Please select atleast one board to Repin for target => {0}.</system:String>
     <system:String x:Key="LangKeyPinHasReachedLimitTimesWithBoard">Pin {0} has reached limit => {1} times with board => {2}</system:String>
     <system:String x:Key="LangKeyAlreadyInteractedPinWithBoard">already interacted pin {0} with board => {1}</system:String>
     <system:String x:Key="LangKeyPinHasReachedLimitBoardsFromAPin">Pin {0} has reached limit => {1} boards from a pin</system:String>
@@ -4352,10 +4352,10 @@ Do you want to continue running {0}?</system:String>
 
     <system:String x:Key="LangKeyAlreadyCheckingLoginSoWait">The account is already checking for login. Please wait and then do the action.</system:String>
     <system:String x:Key="LangKeyQueriesReadyToAdd">Queries are ready to add !!</system:String>
-    <system:String x:Key="LangKeyNoQueryUploaded">You did not upload any query !!</system:String>
+    <system:String x:Key="LangKeyNoQueryUploaded">You did not upload any target !!</system:String>
     <system:String x:Key="LangKeyQueriesUploaded">Queries are sucessfully uploaded !!</system:String>
-    <system:String x:Key="LangKeyErrorOccuredWhileQueryUploading">An error occured while uploading queries !!</system:String>
-    <system:String x:Key="LangKeySelectAtleastOneQuery">Please select at least one query.</system:String>
+    <system:String x:Key="LangKeyErrorOccuredWhileQueryUploading">An error occured while uploading targets !!</system:String>
+    <system:String x:Key="LangKeySelectAtleastOneQuery">Please select at least one target.</system:String>
 
     <system:String x:Key="LangKeyCantPerformTheActionBecauseOfTheMatchedUserFilters">Can't perform the action because of the matched User Filters</system:String>
     <system:String x:Key="LangKeyDetailedInfoNeedsToBeSetToBeAbleToUseThisFilter">DetailedInfo needs to be set to be able to use this filter</system:String>
@@ -4452,7 +4452,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyPostDestinationConfiguration">Post-Destination Configuration</system:String>
     <system:String x:Key="LangKeySpecialConfigurationForCTR">Special Configuration</system:String>
     <system:String x:Key="LangKeyStringVideoId">Video Id</system:String>
-    <system:String x:Key="LangKeyAddQueryToList">Add Query To List</system:String>
+    <system:String x:Key="LangKeyAddQueryToList">Add Target To List</system:String>
     <system:String x:Key="LangKeyAllowVisibilityForCTRInAllModule">Allow Visibility Of CTR Settings In All Modules</system:String>
     <system:String x:Key="LangKeyCommentOnPinAfterRepin">Comment On Pin After Repin</system:String>
     <system:String x:Key="LangKeyTryOnPinAfterRepin">Try On Pin After Repin</system:String>
