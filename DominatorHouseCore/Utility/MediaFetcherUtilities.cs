@@ -159,7 +159,7 @@ namespace DominatorHouseCore.Utility
 
                 if (campaignDetails.Count > 0 && campaignDetails.Any(x => x.PostSource == PostSource.ScrapeImages))
                     int.TryParse(campaignDetails.LastOrDefault(x => x.PostSource == PostSource.ScrapeImages
-                            && x.PostDescription.Contains("_")).PostDescription.Split('_').LastOrDefault(), out descriptionCount);
+                            && x.PostDescription.Contains("_"))?.PostDescription?.Split('_')?.LastOrDefault(), out descriptionCount);
 
                 var postCount = maximumPostLimitToStore - campaignDetails.Count;
 
@@ -173,7 +173,7 @@ namespace DominatorHouseCore.Utility
 
                         var imagelist = ImageExtracter.ExtractLinkDetails(imageUrl, ref pageTitle, ref description).ToList();
 
-                        while (imagelist.Any(x => !x.Contains("https://") && !x.Contains("http://")) && failedCount++ < 5)
+                        while (imagelist.Any(x => !x.Contains("https://") && !x.Contains("http://")) && failedCount++ < 4)
                         {
                             Thread.Sleep(1000);
                             imagelist = ImageExtracter.ExtractLinkDetails(imageUrl, ref pageTitle, ref description).ToList();

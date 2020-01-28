@@ -133,28 +133,103 @@ namespace DominatorHouseCore.Utility
         {
             var imageUrl = new List<string>();
 
-            var scrapeUrl = new Uri(url);
-            var host = scrapeUrl.Host;
+            try
+            {
+                if (!url.Contains("https://"))
+                    url = "https://" + url;
 
-            var webClient = new WebClient();
-            
-            var googlePageResult = webClient.DownloadString(scrapeUrl);
+                var scrapeUrl = new Uri(url);
+                var host = scrapeUrl.Host;
 
-            title = googlePageResult.Contains("\"og_title\"") ?
-                HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "name"
-                , "og_title", "content") : Utilities.GetBetween(googlePageResult, "<title>", "</title>");
+                var webClient = new WebClient();
+                webClient.Encoding = System.Text.Encoding.UTF8;
+                var googlePageResult = webClient.DownloadString(scrapeUrl);
+
+                googlePageResult = Regex.Replace(googlePageResult, "\\\\([^u])", "\\\\$1").Replace("\\", "");
+                googlePageResult = WebUtility.HtmlDecode(googlePageResult);
 
 
-            description = googlePageResult.Contains("\"og:description\"") ?
-                HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
-                , "og:description", "content") : string.Empty;
+                title = googlePageResult.Contains("\"og_title\"") ?
+                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "name"
+                    , "og_title", "content") : Utilities.GetBetween(googlePageResult, "<title>", "</title>");
 
-            var image = googlePageResult.Contains("\"og:image\"") ?
-                HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
-                , "og:image", "content") : string.Empty;
 
-            imageUrl.Add(image);
+                description = googlePageResult.Contains("\"og:description\"") ?
+                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                    , "og:description", "content") : string.Empty;
 
+                var image = googlePageResult.Contains("\"og:image\"") ?
+                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                    , "og:image", "content") : string.Empty;
+
+                var siteUrl = googlePageResult.Contains("\"og:url\"") ?
+                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                    , "og:url", "content") : string.Empty;
+
+                if (!image.Contains("https:") && !string.IsNullOrEmpty(image) && !image.StartsWith("//"))
+                    image = siteUrl + image;
+
+                if (string.IsNullOrEmpty(image))
+                {
+                    var matchCollection = Regex.Matches(googlePageResult, "href=\"(.*?)\"");
+                    if (matchCollection.Count > 0)
+                    {
+                        foreach (Match match in matchCollection)
+                        {
+                            var imageData = match.Groups[1].ToString();
+                            if (imageData.Contains("png") && imageData.ToLower().Contains("logo"))
+                            {
+                                image = match.Groups[1].ToString();
+                                break;
+                            }
+
+                        }
+                    }
+                }
+
+
+                if (string.IsNullOrEmpty(image) && googlePageResult.Contains("\"logo\":"))
+                {
+                    var splitResponse = Regex.Split(googlePageResult, "\"logo\":").Skip(1).ToList();
+                    foreach (var response in splitResponse)
+                    {
+                        try
+                        {
+                            var matchCollection = Regex.Matches(response, ":\"(.*?)\"");
+                            if (matchCollection.Count > 0)
+                            {
+                                foreach (Match match in matchCollection)
+                                {
+                                    var imageData = match.Groups[1].ToString();
+                                    if (imageData.Contains("png"))
+                                    {
+                                        image = imageData;
+                                        break;
+                                    }
+
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(image))
+                                break;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+                }
+
+                if (!image.Contains("https:") && !string.IsNullOrEmpty(image) && image.StartsWith("//"))
+                    image = "https:" + image;
+
+                imageUrl.Add(image);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
             return imageUrl;
         }
 

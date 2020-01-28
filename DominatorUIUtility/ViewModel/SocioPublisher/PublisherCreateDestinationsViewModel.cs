@@ -56,8 +56,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             try
             {
                 var destination = (PublisherCreateDestinationSelectModel)sender;
-
-                if(destination.IsForScrapingOnly)
+                if (destination.IsForScrapingOnly && Dialog.ShowCustomDialog("LangKeyRemoveAllDestinations".FromResourceDictionary(), "LangKeyDestinationDetailsWillBeRemoved".FromResourceDictionary(), "LangKeyContinue".FromResourceDictionary(), "LangKeyCancel".FromResourceDictionary()) == MessageDialogResult.Affirmative)
                 {
                     destination.PublishonOwnWall = false;
                     destination.GroupSelectorText = "0/0";
@@ -69,6 +68,8 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                     PublisherCreateDestinationModel.CustomDestinations.RemoveAll(x => x.Key == destination.AccountId);
                     PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => destination.AccountId == y.AccountId);
                 }
+                else if(destination.IsForScrapingOnly)
+                    destination.IsForScrapingOnly = false;
 
             }
             catch (Exception ex)
@@ -789,6 +790,18 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 PublisherCreateDestinationModel.ListSelectDestination.Where(y => y.IsAccountSelected).Select(x =>
                 {
                     x.IsForScrapingOnly = isChecked;
+                    if (x.IsForScrapingOnly)
+                    {
+                        x.PublishonOwnWall = false;
+                        x.GroupSelectorText = "0/0";
+                        x.FriendsSelectorText = "0/0";
+                        x.PagesOrBoardsSelectorText = "0/0";
+                        x.CustomDestinationSelectorText = "0";
+                        PublisherCreateDestinationModel.AccountPagesBoardsPair.RemoveAll(y => y.Key == x.AccountId);
+                        PublisherCreateDestinationModel.AccountGroupPair.RemoveAll(y => y.Key == x.AccountId);
+                        PublisherCreateDestinationModel.CustomDestinations.RemoveAll(y => y.Key == x.AccountId);
+                        PublisherCreateDestinationModel.DestinationDetailsModels.RemoveAll(y => x.AccountId == y.AccountId);
+                    }
                     return x;
                 }).ToList();
             }
