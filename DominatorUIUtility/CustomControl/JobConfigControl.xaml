@@ -222,63 +222,61 @@
                                         IsEnabled="{Binding ElementName=chkIncreaseEachDay,Path=IsChecked}"/>
                     <Label  VerticalAlignment="Center"  Content="{Binding  JobConfiguration.IncreaseActivityDisplayName}"  />
                 </StackPanel>
+                
+            </StackPanel>
+            <StackPanel>
+                <Label Margin="0,5,0,0" FontWeight="Bold" Content="{DynamicResource LangKeyDayOfTheWeekWhenToOperate}"/>
+                <StackPanel Orientation="Horizontal" >
+                    <StackPanel>
+                        <ListBox ItemsSource="{Binding JobConfiguration.RunningTime}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
 
-
-                <StackPanel>
-                    <Label Margin="0,5,0,0" FontWeight="Bold" Content="{DynamicResource LangKeyDayOfTheWeekWhenToOperate}"/>
-                    <StackPanel Orientation="Horizontal" >
-                        <StackPanel>
-                            <ListBox ItemsSource="{Binding JobConfiguration.RunningTime}">
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <local:DayTimerControl RunningTimes="{Binding Path=.}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <controls:DropDownButton Content="{DynamicResource LangKeySelectFavoriteTime}" Background="{DynamicResource AccentBaseColorBrush}" 
-                                                 Height="30" Margin="5,0" Foreground="White" ItemsSource="{Binding LstFavoriteTime,Mode=OneWay}">
-                            <controls:DropDownButton.ItemContainerStyle>
-                                <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                                    <Setter Property="Header" Value="{Binding FavoriteTimeName}"/>
-                                    <Setter Property="Command" Value="{Binding DataContext.SelectFavoriteTime, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}}"/>
-                                    <Setter Property="CommandParameter" Value="{Binding}"/>
-                                </Style>
-                            </controls:DropDownButton.ItemContainerStyle>
-                            <controls:DropDownButton.ItemTemplate>
+                            <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                    <local:DayTimerControl RunningTimes="{Binding Path=.}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <controls:DropDownButton Content="{DynamicResource LangKeySelectFavoriteTime}" Background="{DynamicResource AccentBaseColorBrush}" 
+                                                 Height="30" Margin="5,0" Foreground="White" ItemsSource="{Binding LstFavoriteTime,Mode=OneWay}">
+                        <controls:DropDownButton.ItemContainerStyle>
+                            <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="Header" Value="{Binding FavoriteTimeName}"/>
+                                <Setter Property="Command" Value="{Binding DataContext.SelectFavoriteTime, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding}"/>
+                            </Style>
+                        </controls:DropDownButton.ItemContainerStyle>
+                        <controls:DropDownButton.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" 
                                                 Foreground="{DynamicResource TextColorBrushAccordingTheme1}"
                                                 Background="Transparent" Command="{Binding Source={x:Reference MainGrid},
                                                 Path=DataContext.RemoveFavoriteTimeCommand}"
                                                 CommandParameter="{Binding}">
-                                            <Button.Content>
-                                                <Rectangle Fill="IndianRed" Width="15" Height="20">
-                                                    <Rectangle.OpacityMask>
-                                                        <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"></VisualBrush>
-                                                    </Rectangle.OpacityMask>
-                                                </Rectangle>
-                                            </Button.Content>
-                                        </Button>
-                                        <TextBlock Text="{Binding DataContext.FavoriteTimeName,RelativeSource={RelativeSource FindAncestor,AncestorType=MenuItem}}" Foreground="{DynamicResource TextColorBrushAccordingTheme1}" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </controls:DropDownButton.ItemTemplate>
-                        </controls:DropDownButton>
-                        <Button Content="{DynamicResource LangKeyCreateFavorite}" Background="{DynamicResource AccentBaseColorBrush}" 
+                                        <Button.Content>
+                                            <Rectangle Fill="IndianRed" Width="15" Height="20">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"></VisualBrush>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button.Content>
+                                    </Button>
+                                    <TextBlock Text="{Binding DataContext.FavoriteTimeName,RelativeSource={RelativeSource FindAncestor,AncestorType=MenuItem}}" Foreground="{DynamicResource TextColorBrushAccordingTheme1}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </controls:DropDownButton.ItemTemplate>
+                    </controls:DropDownButton>
+                    <Button Content="{DynamicResource LangKeyCreateFavorite}" Background="{DynamicResource AccentBaseColorBrush}" 
                                 Height="30" Foreground="White" Name="BtnCreateFavorite" Click="BtnCreateFavorite_OnClick"/>
-                    </StackPanel>
                 </StackPanel>
-
             </StackPanel>
         </StackPanel>
     </Grid>
