@@ -91,7 +91,6 @@ namespace DominatorHouseCore.ViewModel
             ActivityTypes.ItemSelected += OnActivityTypeSlectionChange;
             LogCollection.Source = Logs;
             LogCollection.Filter += FilterLog;
-
         }
 
         private void OnActivityTypeSlectionChange(object sender, ActivityType? e)
