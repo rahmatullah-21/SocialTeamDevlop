@@ -4549,5 +4549,6 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyAsInteractedforthisCampaignForUniqueUser">, As Interacted for this Campaign - Filter Checked with Unique</system:String>
     <system:String x:Key="LangKeyUrlsDontHaveCommentId" xml:space="preserve">As you have checked "Activity With Hightlighted comment only" in the Other Configuration Expander.
  Some of the custom urls don't have CommentId.</system:String>
+    <system:String x:Key="LangKeyErrorOnDeletingCampaigns">Oops! got error on deleting campaigns.</system:String>
 
 </ResourceDictionary>

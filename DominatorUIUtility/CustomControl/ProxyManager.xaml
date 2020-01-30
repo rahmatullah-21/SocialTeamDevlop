@@ -270,7 +270,7 @@
                   CanUserAddRows="False" Foreground="White" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  GridLinesVisibility="All" ItemContainerStyle="{DynamicResource ListViewItems}"
+                  GridLinesVisibility="All"
                   x:Name="ProxyDataGrid" VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True"
@@ -446,8 +446,8 @@
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            <Setter Property="Foreground" Value="WhiteSmoke"/>
-                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme}"/>
+                            <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="VerticalContentAlignment" Value="Center"/>

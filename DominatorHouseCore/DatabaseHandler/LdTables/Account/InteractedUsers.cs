@@ -60,5 +60,7 @@ namespace DominatorHouseCore.DatabaseHandler.LdTables.Account
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 10)]
         public string Status { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 11)]
+        public string ConnectedTime { get; set; }
     }
 }

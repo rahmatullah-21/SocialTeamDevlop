@@ -145,12 +145,12 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="4" >
-                                                <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="40" Height="25" 
+                                                <Button Name="BtnCampaignSetting" Style="{StaticResource ButtonStyle}" Background="{DynamicResource AccentBaseColorBrush}" Width="38" Height="20" 
                                                     VerticalAlignment="Top" Margin="10,0,0,0"  Command="{Binding DataContext.SettingCommand,
                                                     RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                                     CommandParameter="{Binding ElementName=BtnCampaignSetting}" >
                                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                        <Rectangle Width="15" Height="15" Fill="White"  HorizontalAlignment="Center">
+                                                        <Rectangle Width="14" Height="14" Fill="White"  HorizontalAlignment="Center">
                                                             <Rectangle.OpacityMask>
                                                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
                                                             </Rectangle.OpacityMask>

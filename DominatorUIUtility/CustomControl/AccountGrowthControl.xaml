@@ -108,7 +108,7 @@
                     </Grid>
                     <!--Account List View-->
                     <Grid Grid.Row="1">
-                        <ListView x:Name="AccountListView" VirtualizingPanel.IsContainerVirtualizable="True"
+                        <ListView x:Name="AccountListView" VirtualizingPanel.IsContainerVirtualizable="True"  ItemContainerStyle="{StaticResource ListViewItems}"
                                   VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                                   AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Foreground="{DynamicResource AccentBaseColorBrush}">
                             <ListView.ItemsSource>

@@ -112,7 +112,8 @@ namespace DominatorUIUtility.CustomControl
             {
                 reportDetails.ForEach(item =>
                 {
-                    Application.Current.Dispatcher.Invoke(() => ReportModel.LstReports.Add(item));
+                    Application.Current.Dispatcher.Invoke(() =>
+                       ReportModel.LstReports.Add(item));
                     Thread.Sleep(10);
                 });
             });
