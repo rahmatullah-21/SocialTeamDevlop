@@ -3883,7 +3883,7 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyNoCommentsFound">Found {0} comments for post Url {1}{2}</system:String>
     <system:String x:Key="LangKeyNoLikersFound">Found {0} likers for post Url {1}</system:String>
     <system:String x:Key="LangKeyNoMoreCommentsForPostUrl">No more comments for post Url {0}</system:String>
-    <system:String x:Key="LangKeyCannotReplyToComment">Cannot Reply To comment of post url {0} because its not a page post"</system:String>
+    <system:String x:Key="LangKeyCannotReplyToComment">Cannot Reply To comment of post url {0} because its not a page post</system:String>
     <system:String x:Key="LangKeyInValidPostUrl">InValid Post Url {0}</system:String>
     <system:String x:Key="LangKeyFanpageDosentMatchWithFilter">Fanpage with url {0} Dosent Match With Filter Condition</system:String>
     <system:String x:Key="LangKeyUserDosentMatchWithFilter">User With Profile Url {0} Dosent Match With Filter Condition</system:String>
@@ -4537,4 +4537,5 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyWarningPleaseRead">Warning! Please Read:</system:String>
     <system:String x:Key="LangKeyStartupWarningMessage">When using LEGION, do not do any activities in the Facebook account/s LEGION is using. This includes: liking, commenting, adding friends, removing friends, posting, deleting and any other activities. Using your Facebook account/s simultaneously with LEGION can put your account at risk.</system:String>
     <system:String x:Key="LangKeyEnterTheGroupsUrls">Enter The Groups Urls</system:String>
+    <system:String x:Key="LangKeyCannotReplyToCommentPrivateUser">Cannot Reply To comment of post url {0} because it's a private post</system:String>
 </ResourceDictionary>

@@ -257,11 +257,11 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
         {
             try
             {
-                var lastCount = campaignDetails.Count(x=> x.PostQueuedStatus == PostQueuedStatus.Pending);
+                var lastCount = campaignDetails.Count(x => x.PostQueuedStatus == PostQueuedStatus.Pending);
                 if (lastCount == 0)
                     return;
                 var nonExisting = campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost && x.PostQueuedStatus == PostQueuedStatus.Pending && !PublisherCreateCampaignModel.LstFeedUrl.Any(y => y.FeedUrl == x.ShareUrl)).ToList();
-                foreach(var x in nonExisting)
+                foreach (var x in nonExisting)
                 {
                     var removeThem = campaignDetails.FirstOrDefault(y => y.PostSource == PostSource.RssFeedPost && y.PostQueuedStatus == PostQueuedStatus.Pending && y.ShareUrl == x.ShareUrl && y.PostDescription == x.PostDescription);
                     if (removeThem != null)
@@ -273,13 +273,13 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
 
                 var tempToRemoveDupli = new List<PublisherPostlistModel>();
                 tempToRemoveDupli.AddRange(campaignDetails.Where(x => x.PostSource == PostSource.RssFeedPost && x.PostQueuedStatus == PostQueuedStatus.Pending).ToList());
-                foreach(var x in tempToRemoveDupli)
+                foreach (var x in tempToRemoveDupli)
                 {
                     var removeThem = campaignDetails.Where(y => y.PostSource == PostSource.RssFeedPost && y.PostQueuedStatus == PostQueuedStatus.Pending && y.ShareUrl == x.ShareUrl && y.PostDescription == x.PostDescription).ToList();
                     if (removeThem.Count() > 1)
                     {
                         removeThem.Remove(removeThem.Last());
-                        foreach(var y in removeThem)
+                        foreach (var y in removeThem)
                         {
                             var removeIt = campaignDetails.FirstOrDefault(z => z.PostSource == PostSource.RssFeedPost && z.PostQueuedStatus == PostQueuedStatus.Pending && z.ShareUrl == y.ShareUrl && z.PostDescription == y.PostDescription);
                             if (removeIt != null)
@@ -501,7 +501,7 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
                     {
                         // Split the share post items by new line
                         var shareUrls = Regex
-                            .Split(PublisherCreateCampaignModel.SharePostModel.ShareAddCustomPostList, "\r\n").Distinct().Where(x=>!string.IsNullOrWhiteSpace(x)).ToList();
+                            .Split(PublisherCreateCampaignModel.SharePostModel.ShareAddCustomPostList, "\r\n").Distinct().Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
                         lstPost = new List<PublisherPostlistModel>();
                         // Add the item into post list bin files
                         foreach (var shareUrl in shareUrls)
@@ -669,10 +669,10 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
                 if (PublisherCreateCampaignModel.JobConfigurations.IsDelayPostChecked)
                 {
                     specificRunningTime = new List<TimeSpan>();
-                    if(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.TotalSeconds == 0)
+                    if (PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.TotalSeconds == 0)
                     {
                         var minutesFromToday = (DateTime.Now - DateTime.Today).TotalMinutes;
-                        specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.Add(TimeSpan.FromSeconds(minutesFromToday*60 + 10)));
+                        specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime.Add(TimeSpan.FromSeconds(minutesFromToday * 60 + 10)));
                     }
                     else
                         specificRunningTime.Add(PublisherCreateCampaignModel.JobConfigurations.TimeRange.StartTime);
@@ -681,7 +681,7 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
                         specificRunningTime.Add(specificRunningTime[i].Add(TimeSpan.FromMinutes(RandomUtilties.GetRandomNumber(PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.EndValue, PublisherCreateCampaignModel.JobConfigurations.DelayBetweenEachPost.StartValue))));
                     }
                 }
-                
+
                 // Current Campaign Status Details for display in default pages
                 var publisherCampaignStatusModel = new PublisherCampaignStatusModel
                 {
@@ -876,7 +876,7 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
                 // Substutite with proper index
                 PublisherInitialize.GetInstance.ListPublisherCampaignStatusModels[index] = publisherCampaignStatusModel;
             });
-            
+
             var LstPublishedPostDetailsModels = PostlistFileManager.GetAll(publisherCampaignStatusModel.CampaignId);
             PublisherCreateCampaignModel.PostCollection.ForEach(post =>
             {
@@ -1069,6 +1069,14 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
             JobConfiguration = JobConfiguration.GetInstance(PublisherCreateCampaignModel.JobConfigurations, isEditMode);
 
             JobConfigurationControl = JobConfiguration;
+
+            if (!isEditMode &&  PublisherCreateCampaignModel.JobConfigurations.LstTimer.Count
+                != PublisherCreateCampaignModel.JobConfigurations.MaxPost &&
+                PublisherCreateCampaignModel.JobConfigurations.MaxPost == 1)
+            {
+                PublisherCreateCampaignModel.JobConfigurations.MaxPost--;
+                PublisherCreateCampaignModel.JobConfigurations.MaxPost++;
+            }
 
             // set the direct post saved post details
             SetPostContectData(publisherDirectPosts);

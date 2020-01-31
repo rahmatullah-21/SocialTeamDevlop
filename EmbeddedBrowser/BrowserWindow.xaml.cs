@@ -1009,6 +1009,20 @@ namespace EmbeddedBrowser
             return listNodes;
         }
 
+        public async Task<int> GetItemCountInnerHtml(ActType actType, AttributeType attributeType, string attributeValue,
+            ValueTypes valueType = ValueTypes.InnerHtml, string value = "")
+        {
+            if (Browser.IsDisposed)
+                return 0;
+                    
+            List<string> listNodes = new List<string>();
+
+            int itemCount = actType == ActType.ActByQuery ? int.Parse(await GetElementValueAsync(ActType.GetLengthByQuery, attributeType, attributeValue))
+                : int.Parse(await GetElementValueAsync(ActType.GetLength, attributeType, attributeValue));
+
+            return itemCount;
+        }
+
         public async Task<List<string>> GetListInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
             string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
             ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
@@ -1035,6 +1049,24 @@ namespace EmbeddedBrowser
             return listNodes;
         }
 
+        public async Task<int> GetCountInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
+            string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
+            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+        {
+            if (Browser.IsDisposed)
+                return 0;
+             
+            int itemCount = actType == ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(ActType.GetLengthByCustomQuery, parentAttributeType,
+                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex))
+                : actType == ActType.GetValue ? int.Parse(await GetChildElementValueAsync(ActType.GetLength, parentAttributeType,
+                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) :
+                int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
+                parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex));
+            
+            return itemCount;
+        }
+
+
         public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
             string attributeValue, ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int clickIndex = 0
             , string value = "")
@@ -1045,7 +1077,7 @@ namespace EmbeddedBrowser
                 if (delayBefore > 0)
                     await Task.Delay(TimeSpan.FromSeconds(delayBefore));
 
-                var z = $"document.getElementsBy{attributeType}('{attributeValue}')[{clickIndex}].{value}";
+                var z = $"document.getElementsBy{attributeType}('{attributeValue}').length";
 
                 if (Browser.IsDisposed) return "";
 

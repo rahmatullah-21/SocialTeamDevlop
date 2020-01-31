@@ -40,7 +40,7 @@ namespace LegionUIUtility.Views.SocioPublisher
             _jobConfiguration.LastPostCount = jobConfigurationModel.LstTimer.Count;
             _jobConfiguration.JobConfigurations = jobConfigurationModel;
             _jobConfiguration.MainGrid.DataContext = _jobConfiguration.JobConfigurations;
-
+            
             return _jobConfiguration;
         }
 
@@ -166,20 +166,34 @@ namespace LegionUIUtility.Views.SocioPublisher
 
                 for (int noOfPost = 0; noOfPost < maxCount; noOfPost++)
                 {
-                    cancellectionToken.Token.ThrowIfCancellationRequested();
-                    endTime = startTime + timeToAddToStartTime;
-                    Application.Current.Dispatcher.Invoke(() =>
+                    try
                     {
                         cancellectionToken.Token.ThrowIfCancellationRequested();
-                        JobConfigurations.LstTimer.Add(new TimeSpanHelper()
+                        endTime = startTime + timeToAddToStartTime;
+                        Application.Current.Dispatcher.Invoke(() =>
                         {
-                            StartTime = startTime,
-                            MidTime = DateTimeUtilities.GetRandomTime(startTime, endTime, random),
-                            EndTime = endTime
+                            try
+                            {
+                                cancellectionToken.Token.ThrowIfCancellationRequested();
+                                JobConfigurations.LstTimer.Add(new TimeSpanHelper()
+                                {
+                                    StartTime = startTime,
+                                    MidTime = DateTimeUtilities.GetRandomTime(startTime, endTime, random),
+                                    EndTime = endTime
+                                });
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
                         });
-                    });
-                    startTime = endTime + TimeSpan.FromSeconds(1);
-                    Thread.Sleep(50);
+                        startTime = endTime + TimeSpan.FromSeconds(1);
+                        Thread.Sleep(50);
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                    }
                 }
             });
         }
