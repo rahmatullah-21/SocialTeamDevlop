@@ -73,5 +73,6 @@ namespace DominatorHouse.Support.Logs.Views
             if (header != null && ViewModel != null && ViewModel.LogType != header?.ToString())
                 ViewModel.LogType = header?.ToString();
         }
+
     }
 }

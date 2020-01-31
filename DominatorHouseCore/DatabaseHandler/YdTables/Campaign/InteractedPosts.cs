@@ -85,5 +85,8 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Campaign
 
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
         public string Status { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 28)]
+        public string PostTitle { get; set; }
     }
 }

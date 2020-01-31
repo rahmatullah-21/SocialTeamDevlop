@@ -54,6 +54,8 @@ namespace DominatorHouseCore.ViewModel
             get { return _selectedNetwork; }
             set
             {
+                if (_selectedNetwork == value)
+                    return;
                 SetProperty(ref _selectedNetwork, value, nameof(SelectedNetwork));
                 OnPropertyChanged(nameof(NetworkIsSelected));
                 LogCollection.View.Refresh();
@@ -66,6 +68,8 @@ namespace DominatorHouseCore.ViewModel
             get { return _selectedAccount; }
             set
             {
+                if (_selectedAccount == value)
+                    return;
                 SetProperty(ref _selectedAccount, value, nameof(SelectedNetwork));
                 LogCollection.View.Refresh();
             }
