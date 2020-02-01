@@ -43,11 +43,7 @@ namespace DominatorHouse.ViewModels
 
         public ObservableCollection<DominatorAccountModel> AccountList { get; set; }
         public IPerfCounterViewModel PerfCounterViewModel { get; }
-
-        public SelectableViewModel<string> Languages { get; }
-
-        public SelectableViewModel<string> Themes { get; }
-
+        
         public ISelectedNetworkViewModel AvailableNetworks { get; }
 
         public SelectableViewModel<TabItemTemplates> TabItems { get; }
@@ -77,8 +73,6 @@ namespace DominatorHouse.ViewModels
             PerfCounterViewModel = perfCounterViewModel;
             AvailableNetworks = availableNetworks;
             _schedulerProxy = schedulerProxy;
-            Languages = new SelectableViewModel<string>(new[] { "English" });
-            Themes = new SelectableViewModel<string>(ServiceLocator.Current.GetInstance<IBinFileHelper>().ThemesList());
             AvailableNetworks.ItemSelected += OnAvailableNetworks_ItemSelected;
             TabItems = new SelectableViewModel<TabItemTemplates>(new List<TabItemTemplates>());
             TabItems.ItemSelected += OnTabItems_ItemSelected;
@@ -422,7 +416,7 @@ namespace DominatorHouse.ViewModels
                          Task.Delay(5);
                      }
 
-                     SetActiveNetwork(SocialNetworks.Social);
+                     SetActiveNetwork(SocialNetworks.LinkedIn);
                  });
                 ThreadFactory.Instance.Start(() =>
                 {

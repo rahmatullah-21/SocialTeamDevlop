@@ -58,7 +58,7 @@
                 <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="BrowseLoginIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
+        <!--<Rectangle x:Key="BrowseLoginIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_browser}" Stretch="Fill" />
             </Rectangle.OpacityMask>
@@ -67,7 +67,7 @@
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_tools}" Stretch="Fill" />
             </Rectangle.OpacityMask>
-        </Rectangle>
+        </Rectangle>-->
         <Rectangle x:Key="CheckStatusIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="18">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_page_search}" Stretch="Fill" />
@@ -78,26 +78,26 @@
                 <VisualBrush Visual="{StaticResource appbar_group}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="GotoAccountProvideIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
+        <!--<Rectangle x:Key="GotoAccountProvideIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_page_edit}" Stretch="Fill" />
             </Rectangle.OpacityMask>
-        </Rectangle>
-        <Rectangle x:Key="InstEditIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
+        </Rectangle>-->
+        <!--<Rectangle x:Key="InstEditIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_edit_box}" Stretch="Fill" />
             </Rectangle.OpacityMask>
-        </Rectangle>
+        </Rectangle>-->
         <Rectangle x:Key="CopyAccountIdIcon" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_page_copy}" Stretch="Fill" />
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Key="CustomSetting" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
+        <!--<Rectangle x:Key="CustomSetting" Fill="{DynamicResource IconFillBrushAccordingTheme}" Width="20" Height="20">
             <Rectangle.OpacityMask>
                 <VisualBrush Visual="{StaticResource appbar_settings}" Stretch="Fill" />
             </Rectangle.OpacityMask>
-        </Rectangle>
+        </Rectangle>-->
 
 
     </UserControl.Resources>
@@ -122,7 +122,7 @@
                                Foreground="White" Margin="5,0,0,4"
                                Content="{DynamicResource LangKeyAccountDetails}" />
 
-                <ToggleButton DockPanel.Dock="Right" Visibility="{Binding MenuHandlerModel.IsMenuHandlerVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent" Cursor="Hand" Background="Transparent" VerticalAlignment="Center" 
+                <!--<ToggleButton DockPanel.Dock="Right" Visibility="{Binding MenuHandlerModel.IsMenuHandlerVisible,Converter={StaticResource BooleanToVisibilityConverter}}" BorderBrush="Transparent" Cursor="Hand" Background="Transparent" VerticalAlignment="Center" 
                               Name="MenuHandlerPanel" ToolTip="{DynamicResource LangKeyInfo}" Margin="10,0">
                     <ToggleButton.Template>
                         <ControlTemplate>
@@ -134,7 +134,7 @@
                             </Border>
                         </ControlTemplate>
                     </ToggleButton.Template>
-                </ToggleButton>
+                </ToggleButton>-->
 
                 <Popup DockPanel.Dock="Right" HorizontalAlignment="Right"  PopupAnimation="None" PlacementTarget="{Binding ElementName=MenuHandlerPanel}"
                                HorizontalOffset="0" VerticalOffset="5" Placement="Bottom" AllowsTransparency="True"  IsOpen="{Binding IsChecked, ElementName=MenuHandlerPanel}"  StaysOpen="False" MaxWidth="400">
@@ -269,7 +269,7 @@
                                             </Rectangle>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
+                                    <!--<MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                         <MenuItem.Icon>
                                             <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                                 <Rectangle.OpacityMask>
@@ -277,7 +277,7 @@
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
                                         </MenuItem.Icon>
-                                    </MenuItem>
+                                    </MenuItem>-->
                                 </Controls:DropDownButton.Items>
                             </Controls:DropDownButton>
 
@@ -312,7 +312,7 @@
                                 </Button.Template>
                             </Button>
 
-                            <Controls:DropDownButton MaxHeight="55" Visibility="{Binding MenuHandlerModel.IsBrowserAutomationVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnBrowserAutomationSub">
+                            <!--<Controls:DropDownButton MaxHeight="55" Visibility="{Binding MenuHandlerModel.IsBrowserAutomationVisible,Converter={StaticResource BooleanToVisibilityConverter}}"  Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0" Name="btnBrowserAutomationSub">
                                 <Controls:DropDownButton.Content>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                         <StackPanel Orientation="Vertical">
@@ -346,17 +346,17 @@
                                         </MenuItem.Icon>
                                     </MenuItem>
                                 </Controls:DropDownButton.Items>
-                            </Controls:DropDownButton>
+                            </Controls:DropDownButton>-->
 
 
-                            <Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsInfoVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Name="btnInfoSub" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
+                            <!--<Button Background="Transparent" Visibility="{Binding MenuHandlerModel.IsInfoVisible,Converter={StaticResource BooleanToVisibilityConverter}}" Name="btnInfoSub" VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}" Command="{Binding InfoCommand}">
                                 <Rectangle Width="25" Height="25" Fill="White" x:Name="InfoSub"
                                             VerticalAlignment="Center" ToolTip="{DynamicResource LangKeyInfo}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_information_circle}" />
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                            </Button>
+                            </Button>-->
                         </WrapPanel>
                     </Border>
                 </Popup>
@@ -516,7 +516,7 @@
                                         </Rectangle>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
+                                <!--<MenuItem Header="{DynamicResource LangKeyUpdateAutoVerifyCredential}" Command="{Binding UpdateUserCradCommand}">
                                     <MenuItem.Icon>
                                         <Rectangle Width="13" Height="15" Fill="{DynamicResource IconFillBrushAccordingTheme}">
                                             <Rectangle.OpacityMask>
@@ -524,7 +524,7 @@
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
                                     </MenuItem.Icon>
-                                </MenuItem>
+                                </MenuItem>-->
                             </Controls:DropDownButton.Items>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SizeChanged" >
@@ -574,7 +574,7 @@
                             </i:Interaction.Triggers>
                         </Button>
 
-                        <Controls:DropDownButton Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
+                        <!--<Controls:DropDownButton Background="Transparent"  Margin="10,0,0,0" Cursor="Hand" BorderBrush="Transparent" BorderThickness="0"  Name="btnBrowserAutomation">
                             <Controls:DropDownButton.Content>
                                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal">
@@ -615,11 +615,11 @@
                                     <i:InvokeCommandAction Command="{Binding BrowserButtonSizeChangedCommand}" CommandParameter="{Binding ElementName=btnBrowserAutomation}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </Controls:DropDownButton>
+                        </Controls:DropDownButton>-->
 
 
 
-                        <Button  Background="Transparent" Cursor="Hand"  Margin="10,0,15,0" BorderBrush="Transparent" BorderThickness="0" ToolTip="{DynamicResource LangKeyInfo}"  Name="btnInfo" Command="{Binding InfoCommand}" >
+                        <!--<Button  Background="Transparent" Cursor="Hand"  Margin="10,0,15,0" BorderBrush="Transparent" BorderThickness="0" ToolTip="{DynamicResource LangKeyInfo}"  Name="btnInfo" Command="{Binding InfoCommand}" >
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" >
@@ -639,7 +639,7 @@
                                     <i:InvokeCommandAction Command="{Binding InfoButtonSizeChnagedCommand}" CommandParameter="{Binding ElementName=btnInfo}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </Button>
+                        </Button>-->
                     </WrapPanel>
                 </Grid>
 
@@ -664,36 +664,36 @@
                             <MenuItem Header="{DynamicResource LangKeyDeleteProfile}" CommandParameter="{Binding}"
                                   Command="{Binding Data.DeleteAccountCommand, Source={StaticResource ContextMenuBinding}}"
                                   Icon="{DynamicResource DeleteIcon}"/>
-                            <MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
+                            <!--<MenuItem Header="{DynamicResource LangKeyBrowserLogin}"  Icon="{DynamicResource BrowseLoginIcon}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.BrowserLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyGoToTools}"  Icon="{DynamicResource GoToToolsIcon}"
                                   CommandParameter="{Binding}"
                                   Visibility="{Binding Data.SelectedNetworkViewModel.Selected, Source={StaticResource ContextMenuBinding}, Converter={StaticResource VisibleIfNetworkIsSocialConverter}}"
-                                  Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                  Command="{Binding Data.GotoToolsCommand, Source={StaticResource ContextMenuBinding}}"/>-->
                             <MenuItem Header="{DynamicResource LangKeyCheckAccountStatus}" Icon="{DynamicResource CheckStatusIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CheckLoginCommand, Source={StaticResource ContextMenuBinding}}" />
                             <MenuItem Header="{DynamicResource LangKeyUpdateFriendship}"  Icon="{DynamicResource UpdateFriendshipIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.UpdateFriendshipCommand, Source={StaticResource ContextMenuBinding}}" />
-                            <MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
+                            <!--<MenuItem Header="{DynamicResource LangKeyEditInstaProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsInstagramConverter}}" 
                                   Icon="{DynamicResource InstEditIcon}" 
                                   Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}"
                                   CommandParameter="{Binding}" />
                             <MenuItem Header="{DynamicResource LangKeyEditTwitterProfile}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsTwitterConverter}}"
                                   Icon="{DynamicResource GotoAccountProvideIcon}" CommandParameter="{Binding}"
-                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />
+                                  Command="{Binding Data.EditNetworkProfileCommand, Source={StaticResource ContextMenuBinding}}" />-->
                             <MenuItem Header="{DynamicResource LangKeyCopyAccountId}"  Icon="{DynamicResource CopyAccountIdIcon}"
                                   CommandParameter="{Binding}"
                                   Command="{Binding Data.CopyAccountIdCommand, Source={StaticResource ContextMenuBinding}}" />
 
-                            <MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
+                            <!--<MenuItem  Height="30"  Header="{DynamicResource LangKeyCustomSetting}" Icon="{DynamicResource CustomSetting}" Style="{StaticResource VisiblityStyle}" Visibility="{Binding AccountBaseModel.AccountNetwork, Converter={StaticResource VisibleIfNetworkIsNotTikTokConverter}}">
                                 <MenuItem Header="{DynamicResource LangKeySettingWizard}" CommandParameter="{Binding}"  Command="{Binding Data.SettingWizardCommand, Source={StaticResource ContextMenuBinding}}"/>
-                                <!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
+                                --><!--<MenuItem Header="Snap Setting"  Command="{Binding Data.SnapSettingCommand, Source={StaticResource ContextMenuBinding}}"/>
                             <MenuItem Header="Copy to other Account(s)"  Command="{Binding Data.CopyToOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>
-                            <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>-->
-                            </MenuItem>
+                            <MenuItem Header="Replace on other Account(s)"  Command="{Binding Data.ReplaceOnOtherAccountCommand, Source={StaticResource ContextMenuBinding}}"/>--><!--
+                            </MenuItem>-->
                         </ContextMenu>
                     </ListView.Resources>
 
@@ -906,14 +906,14 @@
 
                 </ListView>
                 <!--Help section-->
-                <Controls:FlyoutsControl>
+                <!--<Controls:FlyoutsControl>
                     <Controls:Flyout Header="{DynamicResource LangKeyModuleDescription}" Position="Right" Visibility="Collapsed"  x:Name="HelpFlyout" FontWeight="Bold"
                                  Foreground="White"  Width="300" BorderBrush="Black" BorderThickness="2"   IsOpen="{Binding IsOpenHelpControl}"  Background="{DynamicResource AccentBaseColorBrush}" FontSize="10" >
                         <local:HelpControl ModuleDescription="{DynamicResource LangKeyAccountCustomControlDescription}"
                                                  VideoTutorial="{Binding SelectedNetworkViewModel.Selected, Converter={StaticResource SocialNetworkToLinkConverter}}" KnowledgeBaseLink="{Binding KnowledgeBaseLink}" 
                                                  ContactSupportLink="{Binding ContactSupportLink}" />
                     </Controls:Flyout>
-                </Controls:FlyoutsControl>
+                </Controls:FlyoutsControl>-->
             </Grid>
 
 

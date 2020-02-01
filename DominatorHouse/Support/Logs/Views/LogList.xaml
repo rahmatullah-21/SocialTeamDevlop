@@ -102,7 +102,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="{DynamicResource LangKeyDatetime}" DisplayMemberBinding="{Binding DateTime}" Width="150"/>
-                                <GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>
+                                <!--<GridViewColumn Header="{DynamicResource LangKeySocialNetwork}" DisplayMemberBinding="{Binding Network}" Width="130"/>-->
                                 <GridViewColumn Header="{DynamicResource LangKeyAccountCampaignName}" DisplayMemberBinding="{Binding AccountCampaign}"/>
                                 <GridViewColumn Header="{DynamicResource LangKeyActivityType}" DisplayMemberBinding="{Binding ActivityType}" Width="130"/>
                                 <GridViewColumn Header="{DynamicResource LangKeyMessage}" DisplayMemberBinding="{Binding Message}"/>

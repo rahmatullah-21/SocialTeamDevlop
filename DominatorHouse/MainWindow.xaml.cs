@@ -103,6 +103,7 @@ namespace Socinator
         {
             try
             {
+                return;
                 var setThemeString = "Light\r\nDark";
                 var selected = (sender as ComboBox).SelectedItem as string;
 

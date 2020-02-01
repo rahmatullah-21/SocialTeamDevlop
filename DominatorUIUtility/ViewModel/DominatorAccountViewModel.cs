@@ -181,7 +181,6 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateFriendshipCommand { get; }
         public ICommand EditNetworkProfileCommand { get; }
         public ICommand CopyAccountIdCommand { get; }
-        public ICommand SettingWizardCommand { get; }
         public ICommand ActivateBrowserAutomationCommand { get; }
         public ICommand DeActivateBrowserAutomationCommand { get; }
         public ICommand ImportButtonSizeChangedCommand { get; }
@@ -189,8 +188,6 @@ namespace DominatorUIUtility.ViewModel
         public ICommand UpdateButtonSizeChangedCommand { get; }
         public ICommand ExportButtonSizeChangedCommand { get; }
         public ICommand DeleteButtonSizeChangedCommand { get; }
-        public ICommand BrowserButtonSizeChangedCommand { get; }
-        public ICommand InfoButtonSizeChnagedCommand { get; }
 
         #endregion
 
@@ -262,12 +259,7 @@ namespace DominatorUIUtility.ViewModel
             ExportButtonSizeChangedCommand = new BaseCommand<object>(ExportButtonSizeChangedCommandCanExecute, ExportButtonSizeChangedCommandExecute);
 
             DeleteButtonSizeChangedCommand = new BaseCommand<object>(DeleteButtonSizeChangedCommandCanExecute, DeleteButtonSizeChangedCommandExecute);
-
-            BrowserButtonSizeChangedCommand = new BaseCommand<object>(BrowserButtonSizeChangedCommandCanExecute, BrowserButtonSizeChangedCommandExecute);
-
-            InfoButtonSizeChnagedCommand = new BaseCommand<object>(InfoButtonSizeChnagedCommandCanExecute, InfoButtonSizeChnagedCommandExecute);
-
-
+            
             #region Context Menu Command
 
             ProfileDetailsCommand = new DelegateCommand<DominatorAccountModel>(ProfileDetails);
@@ -282,49 +274,10 @@ namespace DominatorUIUtility.ViewModel
             #endregion
 
             #endregion
-
-            #region Custom Setting Command
-
-            SettingWizardCommand = new DelegateCommand<DominatorAccountModel>(CustomSetting);
-
-            #endregion
-
+            
             SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
         }
-
-
-
-        private void InfoButtonSizeChnagedCommandExecute(object Sender)
-        {
-            if (((Button)Sender).ActualHeight == 40)
-            {
-                MenuHandlerModel.IsInfoVisible = false;
-            }
-            else
-            {
-                MenuHandlerModel.IsInfoVisible = true;
-            }
-
-            ChangeMenuHandlerStatus();
-        }
-
-        private bool InfoButtonSizeChnagedCommandCanExecute(object arg)
-        => true;
-
-        private void BrowserButtonSizeChangedCommandExecute(object Sender)
-        {
-            if (((DropDownButton)Sender).ActualHeight == 40)
-            {
-                MenuHandlerModel.IsBrowserAutomationVisible = false;
-            }
-            else
-            {
-                MenuHandlerModel.IsBrowserAutomationVisible = true;
-            }
-
-            ChangeMenuHandlerStatus();
-        }
-
+        
         private void ChangeMenuHandlerStatus()
         {
             if (MenuHandlerModel.IsBrowserAutomationVisible || MenuHandlerModel.IsDeleteAccountVisible
@@ -336,10 +289,7 @@ namespace DominatorUIUtility.ViewModel
             else
                 MenuHandlerModel.IsMenuHandlerVisible = false;
         }
-
-        private bool BrowserButtonSizeChangedCommandCanExecute(object arg)
-        => true;
-
+        
         private bool DeleteButtonSizeChangedCommandCanExecute(object arg)
         => true;
 
@@ -424,15 +374,7 @@ namespace DominatorUIUtility.ViewModel
 
             ChangeMenuHandlerStatus();
         }
-
-        private void CustomSetting(DominatorAccountModel account)
-        {
-            var viewModel = ServiceLocator.Current.GetInstance<ISelectActivityViewModel>();
-            viewModel.SelectedNetwork = account.AccountBaseModel.AccountNetwork.ToString();
-            viewModel.SelectAccount = account;
-            ModuleSetting.Instance.Show();
-        }
-
+        
         private void SelectedNetworkViewModel_ItemSelected(object sender, SocialNetworks? e)
         {
             if (e.HasValue)
