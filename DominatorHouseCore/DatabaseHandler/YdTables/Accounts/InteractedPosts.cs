@@ -79,6 +79,9 @@ namespace DominatorHouseCore.DatabaseHandler.YdTables.Accounts
         [System.ComponentModel.DataAnnotations.Schema.Column(Order = 26)]
         public string CommenterChannelId { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column(Order = 27)]
+        public string PostTitle { get; set; }
+
         public ActivityType GetActivityType()
         {
             return (ActivityType)Enum.Parse(typeof(ActivityType), ActivityType);

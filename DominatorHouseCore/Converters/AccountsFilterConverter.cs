@@ -15,7 +15,9 @@ namespace DominatorHouseCore.Converters
         {
             if (values.Length < 2)
                 return null;
+            
             var collection = values[0] as IEnumerable<DominatorAccountModel>;
+            
             var socialNetworks = values[1] as SocialNetworks?;
             var isReturnwithoutAssign = parameter as bool?;
             if (collection != null)
