@@ -27,6 +27,9 @@ namespace DominatorHouseCore.Converters
                     else
                         collection = collection.Where(a => a.AccountBaseModel.AccountNetwork == socialNetworks.Value);
                 }
+
+                collection = collection.OrderBy(x => x.AccountBaseModel.UserName).OrderBy(x => x.AccountBaseModel.AccountNetwork.ToString());
+
             }
 
             return collection;

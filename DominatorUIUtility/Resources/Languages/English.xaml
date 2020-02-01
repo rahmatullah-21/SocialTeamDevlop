@@ -3883,7 +3883,7 @@ Do you want to Restart?</system:String>
     <system:String x:Key="LangKeyNoCommentsFound">Found {0} comments for post Url {1}{2}</system:String>
     <system:String x:Key="LangKeyNoLikersFound">Found {0} likers for post Url {1}</system:String>
     <system:String x:Key="LangKeyNoMoreCommentsForPostUrl">No more comments for post Url {0}</system:String>
-    <system:String x:Key="LangKeyCannotReplyToComment">Cannot Reply To comment of post url {0} because its not a page post"</system:String>
+    <system:String x:Key="LangKeyCannotReplyToComment">Cannot Reply To comment of post url {0} because its not a page post</system:String>
     <system:String x:Key="LangKeyInValidPostUrl">InValid Post Url {0}</system:String>
     <system:String x:Key="LangKeyFanpageDosentMatchWithFilter">Fanpage with url {0} Dosent Match With Filter Condition</system:String>
     <system:String x:Key="LangKeyUserDosentMatchWithFilter">User With Profile Url {0} Dosent Match With Filter Condition</system:String>
@@ -4550,5 +4550,5 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyUrlsDontHaveCommentId" xml:space="preserve">As you have checked "Activity With Hightlighted comment only" in the Other Configuration Expander.
  Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyErrorOnDeletingCampaigns">Oops! got error on deleting campaigns.</system:String>
-
+    <system:String x:Key="LangKeyCannotReplyToCommentPrivateUser">Cannot Reply To comment of post url {0} because it's a private post</system:String>
 </ResourceDictionary>

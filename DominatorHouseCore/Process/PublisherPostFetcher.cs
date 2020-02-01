@@ -342,11 +342,13 @@ namespace DominatorHouseCore.Process
                                 if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
                                 {
                                     // Get the proper library for publisher
-                                    var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
-                                   .PostScraper.GetPostScraperLibrary();
+                                    
 
                                     try
                                     {
+                                        var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
+                                   .PostScraper.GetPostScraperLibrary();
+
                                         if (publisherPostFetchModel.PostSource == PostSource.SharePost)
                                         {
                                             // Call Share post from facebook

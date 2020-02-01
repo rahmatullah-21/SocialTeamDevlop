@@ -579,7 +579,7 @@ namespace EmbeddedBrowser
         /// <param name="ke">Browser KeyEvent</param>
         /// <param name="winKeyCode">WindowsKeycode of any key in keyboard</param>
         /// /// <param name="delayAtLast">Set delay at last (In seconds)</param>
-        public void PressAnyKey(int n = 1, int delay = 90, KeyEvent ke = new KeyEvent(), int winKeyCode = 0, double delayAtLast = 0)
+        public void PressAnyKey(int n = 1, int delay = 1, KeyEvent ke = new KeyEvent(), int winKeyCode = 0, double delayAtLast = 0)
         {
             if (winKeyCode != 0)
                 ke.WindowsKeyCode = winKeyCode;
@@ -653,7 +653,7 @@ namespace EmbeddedBrowser
         {
             try
             {
-                await Task.Delay(TimeSpan.FromSeconds(delay),DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delay), DominatorAccountModel.Token);
                 return await Browser.GetSourceAsync();
             }
             catch (ArgumentException e)
@@ -672,7 +672,7 @@ namespace EmbeddedBrowser
         {
             try
             {
-                await Task.Delay(TimeSpan.FromSeconds(1),DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(1), DominatorAccountModel.Token);
                 return await Browser.GetSourceAsync();
             }
             catch (ArgumentException e)
@@ -690,7 +690,7 @@ namespace EmbeddedBrowser
         public async Task<string> GoToCustomUrl(string url, int delayAfter = 0)
         {
             Browser.Load(url);
-            await Task.Delay(TimeSpan.FromSeconds(delayAfter),DominatorAccountModel.Token);
+            await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
             return await Browser.GetSourceAsync();
         }
 
@@ -710,11 +710,11 @@ namespace EmbeddedBrowser
 
             for (var i = 0; i < n; i++)
             {
-                await Task.Delay(delay,DominatorAccountModel.Token);
+                await Task.Delay(delay, DominatorAccountModel.Token);
                 Browser.GetBrowser().GetHost().SendKeyEvent(ke);
             }
             if (delayAtLast > 0)
-                await Task.Delay(TimeSpan.FromSeconds(delayAtLast),DominatorAccountModel.Token);
+                await Task.Delay(TimeSpan.FromSeconds(delayAtLast), DominatorAccountModel.Token);
         }
 
         public async Task PressCombinedKey(int winFirstKeyCode, int winSecondKeyCode,
@@ -960,7 +960,7 @@ namespace EmbeddedBrowser
             await Task.Delay(100, DominatorAccountModel.Token);
 
             Browser.GetBrowser().GetHost().SendMouseWheelEvent(new MouseEvent(xLoc, yLoc, CefEventFlags.None), scrollByXLoc, scrollByYLoc);
-            
+
             if (delayAfter > 0)
                 await Task.Delay(TimeSpan.FromSeconds(delayAfter), DominatorAccountModel.Token);
         }
@@ -1036,9 +1036,41 @@ namespace EmbeddedBrowser
             return listNodes;
         }
 
+
+        public async Task<int> GetItemCountInnerHtml(ActType actType, AttributeType attributeType, string attributeValue,
+            ValueTypes valueType = ValueTypes.InnerHtml, string value = "")
+        {
+            if (Browser.IsDisposed)
+                return 0;
+
+            List<string> listNodes = new List<string>();
+
+            int itemCount = actType == ActType.ActByQuery ? int.Parse(await GetElementValueAsync(ActType.GetLengthByQuery, attributeType, attributeValue))
+                : int.Parse(await GetElementValueAsync(ActType.GetLength, attributeType, attributeValue));
+
+            return itemCount;
+        }
+
+        public async Task<int> GetCountInnerHtmlChildElement(ActType actType, AttributeType parentAttributeType,
+            string parentAttributeValue, AttributeType childAttributeName, string childAttributeValue,
+            ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int parentIndex = 0, int childIndex = 0)
+        {
+            if (Browser.IsDisposed)
+                return 0;
+
+            int itemCount = actType == ActType.CustomActByQueryType ? int.Parse(await GetChildElementValueAsync(ActType.GetLengthByCustomQuery, parentAttributeType,
+                            parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex))
+                            : actType == ActType.GetValue ? int.Parse(await GetChildElementValueAsync(ActType.GetLength, parentAttributeType,
+                            parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex)) :
+                            int.Parse(await GetChildElementValueAsync(ActType.GetLengthByQuery, parentAttributeType,
+                            parentAttributeValue, childAttributeName, childAttributeValue, valueType, delayBefore, parentIndex, childIndex));
+
+            return itemCount;
+        }
+
         public async Task<string> GetElementValueAsync(ActType actType, AttributeType attributeType,
-            string attributeValue, ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int clickIndex = 0
-            , string value = "")
+                    string attributeValue, ValueTypes valueType = ValueTypes.InnerHtml, double delayBefore = 0, int clickIndex = 0
+                    , string value = "")
         {
             JavascriptResponse jsResponse = null;
             try
