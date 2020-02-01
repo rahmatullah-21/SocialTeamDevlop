@@ -367,6 +367,22 @@ namespace DominatorHouseCore.Models.SocioPublisher
         }
 
 
+        private bool _ignoreTextOnlyPosts;
+        [ProtoMember(22)]
+        public bool IgnoreTextOnlyPosts
+        {
+            get
+            {
+                return _ignoreTextOnlyPosts;
+            }
+            set
+            {
+                if (_ignoreTextOnlyPosts == value)
+                    return;
+                SetProperty(ref _ignoreTextOnlyPosts, value);
+            }
+        }
+
         #endregion
 
     }
