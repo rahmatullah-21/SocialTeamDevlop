@@ -145,7 +145,7 @@ namespace DominatorHouse.ViewModels
             try
             {
                 e.Cancel = true;
-                bool isClose = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmationToCloseSocinator".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
+                bool isClose = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), String.Format("LangKeyConfirmationToCloseApplication".FromResourceDictionary(), "LangKeySocinator".FromResourceDictionary()), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
                 if (isClose)
                 {
                     DominatorHouseCore.Utility.Utilities.KillGecko();
