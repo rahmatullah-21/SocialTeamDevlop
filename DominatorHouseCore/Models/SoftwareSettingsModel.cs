@@ -714,5 +714,45 @@ namespace DominatorHouseCore.Models
                 SetProperty(ref _stopIfNoMoreData, value);
             }
         }
+
+        private ObservableCollection<LocationModel> _listlocationModel = new ObservableCollection<LocationModel>();
+        [ProtoMember(51)]
+        public ObservableCollection<LocationModel> ListLocationModel
+        {
+            get
+            {
+                return _listlocationModel;
+
+            }
+            set
+            {
+                SetProperty(ref _listlocationModel, value);
+            }
+        }
+
+        private bool _isSelectCountriesFilter;
+        public bool IsSelectCountriesFilter
+        {
+            get { return _isSelectCountriesFilter; }
+            set
+            { SetProperty(ref _isSelectCountriesFilter, value); }
+        }
+
+
+        private ObservableCollection<LocationModel> _listlocationModelTemp = new ObservableCollection<LocationModel>();
+        public ObservableCollection<LocationModel> ListLocationModelTemp
+        {
+            get
+            {
+                return _listlocationModelTemp;
+
+            }
+            set
+            {
+                SetProperty(ref _listlocationModelTemp, value);
+            }
+        }
+
+
     }
 }

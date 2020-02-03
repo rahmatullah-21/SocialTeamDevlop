@@ -20,6 +20,9 @@ using Microsoft.Win32;
 using Registry = Microsoft.Win32.Registry;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Enums.FdQuery;
+using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace DominatorHouseCore.Settings
 {
@@ -33,6 +36,7 @@ namespace DominatorHouseCore.Settings
             , SocialNetworks currentNetwork = SocialNetworks.Facebook);
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
+        ObservableCollection<LocationModel> AssignLocationList();
     }
 
     public class SoftwareSettings : BindableBase, ISoftwareSettings
@@ -369,6 +373,35 @@ namespace DominatorHouseCore.Settings
 
             return true;
         }
+
+        public ObservableCollection<LocationModel> AssignLocationList()
+        {
+            ObservableCollection<LocationModel> CountrySet = new ObservableCollection<LocationModel>();
+            try
+            {
+                var text = string.Empty;
+                using (var stream = Assembly.GetEntryAssembly().GetManifestResourceStream("Socinator.CommonFiles.CountryList.txt"))
+                {
+                    TextReader tr = new StreamReader(stream);
+                    text = tr.ReadToEnd();
+                }
+                var locationList = Regex.Split(text, "\r\n").ToList();
+                locationList.ForEach(x =>
+                {
+                    var model = new LocationModel()
+                    {
+                        CountryName = x
+                    };
+                    CountrySet.Add(model);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return CountrySet;
+        }
+
     }
 
     public class ScrapAdsDetails
@@ -457,5 +490,6 @@ namespace DominatorHouseCore.Settings
 
             }
         }
+
     }
 }
