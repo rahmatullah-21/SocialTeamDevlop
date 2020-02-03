@@ -102,7 +102,7 @@
         </Grid>
         <ScrollViewer Margin="0,40,0,0">
 
-            <StackPanel HorizontalAlignment="Left" Margin="20,0">
+            <StackPanel HorizontalAlignment="Left" Margin="20,10,20,0">
                 <StackPanel.Resources>
                     <ControlTemplate x:Key="ErrorTemplate">
                         <StackPanel Orientation="Horizontal">
@@ -114,30 +114,6 @@
                     </ControlTemplate>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                 </StackPanel.Resources>
-
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Name="TxtblockSelectNetWork" Text="{DynamicResource LangKeySocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-                        <ContentControl>
-                            <ContentControl.Style>
-                                <Style TargetType="{x:Type ContentControl}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <Setter Property="Content">
-                                        <Setter.Value>
-                                            <Rectangle Fill="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToColorBrushConverter}}" Width="20" Height="20">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Visual="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork, Converter={StaticResource SocialNetworkToVisualBrushConverter}}" Stretch="Fill" />
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ContentControl.Style>
-                        </ContentControl>
-                        <Label  Width="230" Height="30" VerticalAlignment="Center" Content="{Binding DominatorAccountModel.AccountBaseModel.AccountNetwork}" FontWeight="SemiBold" Margin="5" />
-                    </StackPanel>
-
-                </StackPanel>
 
                 <StackPanel  Orientation="Horizontal" >
                     <TextBlock Text="{DynamicResource LangKeyGroupName}" Width="120" Margin="5,0,5,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />

@@ -274,8 +274,18 @@ namespace DominatorUIUtility.ViewModel
             #endregion
 
             #endregion
-            
-            SelectedNetworkViewModel.ItemSelected += SelectedNetworkViewModel_ItemSelected;
+
+            var spec = SocinatorInitialize.GetSocialLibrary(SocialNetworks.LinkedIn)
+                        .GetNetworkCoreFactory()
+                        .AccountCountFactory.GetColumnSpecificationProvider();
+
+            VisibleColumns.Clear();
+            VisibleColumns.AddRange(spec.VisibleHeaders.Select((name, colIndex) => new GridViewColumn
+            {
+                DisplayMemberBinding = new Binding($"DisplayColumnValue{colIndex + 1}"),
+                Header = name,
+                Width = 130
+            }));
         }
         
         private void ChangeMenuHandlerStatus()

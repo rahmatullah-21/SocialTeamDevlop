@@ -46,8 +46,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Name="TxtblockSelectNetWork" Text="{DynamicResource LangKeySocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
-            <ComboBox Name="ComboBoxSocialNetworks" Grid.Column="1" Width="230" Height="30" SelectedIndex="0" SelectedItem="{Binding AccountNetwork}"/>
+            <TextBlock Name="TxtblockSelectNetWork" Visibility="Collapsed" Text="{DynamicResource LangKeySocialNetwork}" Width="120" Margin="5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextColorBrushAccordingTheme}" VerticalAlignment="Center" />
+            <ComboBox Name="ComboBoxSocialNetworks" Visibility="Collapsed" Grid.Column="1" Width="230" Height="30" SelectedIndex="0" SelectedItem="{Binding AccountNetwork}"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
