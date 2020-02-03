@@ -3693,7 +3693,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyExportingStarted">Exporting started. Please don't open the file until exporting completed.</system:String>
     <system:String x:Key="LangKeySucessfullyExportedTo">Sucessfully exported to</system:String>
     <system:String x:Key="LangKeyConfirmation">Confirmation</system:String>
-    <system:String x:Key="LangKeyConfirmationToCloseSocinator">Are you sure to close Socinator?</system:String>
+    <system:String x:Key="LangKeyConfirmationToCloseApplication">Are you sure to close {0}?</system:String>
     <system:String x:Key="LangKeyCheckingLicense">Hang On! Checking your License status</system:String>
     <system:String x:Key="LangKeyTakeFewMoments">this will take a few moments...</system:String>
     <system:String x:Key="LangKeyNetworkError">Network Error</system:String>
@@ -4489,7 +4489,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
     <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
     <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
- [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
+[Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
     <system:String x:Key="LangKeyUpdatingDetails">Updating Details</system:String>
     <system:String x:Key="LangKeyAlreadyUpdatingDetailsSoWait">The account is currently updating details. Please wait and then do the action.</system:String>
     <system:String x:Key="LangKeyStepsToGetJsonCookies" xml:space="preserve">Steps to get json cookies from your browsers
@@ -4542,14 +4542,16 @@ Note: Cookies should belong to the same socinator account.</system:String>
     <system:String x:Key="LangKeyScrapeImagesFromGoogle">Scrape Images/Preview/Product Details From Google/Any Link Url</system:String>
     <system:String x:Key="LangKeyImagesForEachUrl">Images for each Url.</system:String>
     <system:String x:Key="LangKeyForScrapingOnly">For Scraping Only.</system:String>
-    <system:String x:Key="LangKeyRemoveAllDestinations">RemoveAllDestinations</system:String>
-    <system:String x:Key="LangKeyDestinationDetailsWillBeRemoved">All selected destinationsmust be removed to proceed for Scraping only option! Do you want to continue?</system:String>
+    <system:String x:Key="LangKeyRemoveAllDestinations">Remove All Destinations</system:String>
+    <system:String x:Key="LangKeyDestinationDetailsWillBeRemoved" xml:space="preserve">All selected destinations must be removed to proceed for option "Scraping only"!
+Do you want to continue?</system:String>
 
     <system:String x:Key="LangKeySkipping">Skipping</system:String>
     <system:String x:Key="LangKeyAsInteractedforthisCampaignForUniqueUser">, As Interacted for this Campaign - Filter Checked with Unique</system:String>
     <system:String x:Key="LangKeyUrlsDontHaveCommentId" xml:space="preserve">As you have checked "Activity With Hightlighted comment only" in the Other Configuration Expander.
- Some of the custom urls don't have CommentId.</system:String>
+Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyErrorOnDeletingCampaigns">Oops! got error on deleting campaigns.</system:String>
     <system:String x:Key="LangKeyCannotReplyToCommentPrivateUser">Cannot Reply To comment of post url {0} because it's a private post</system:String>
     <system:String x:Key="LangKeyIgnoreTextOnlyPost">Ignore Text Only Post</system:String>
+    <system:String x:Key="LangKeyVerifiedAccounts">Verified Accounts</system:String>
 </ResourceDictionary>

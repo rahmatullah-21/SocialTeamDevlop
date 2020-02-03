@@ -1,6 +1,40 @@
+Version[1.0.0.75],[30th January 2020]
+New features:
+	Social:         
+		Account manager ==> Added feature to sort accounts in alphabetical order
+
+	Linkedin:
+		Scraper ==> User Scraper ==> Query Type ==> Only 1st connection ==> Added new feature to scrape add date of connection.
+
+	Instagram:
+		Added feature to scrape verified accounts.
+		
+Fixed:
+	Social:
+		Twitter ==> Media ==> Settings ==> Fixed issue with publishing without media.
+
+	Linkedin
+		Group ==> Group Joiner ==> Query Type==> Keyword ==> Fixed issue with Group Joiner.
+		Engage ==> Like ==> Query Type ==> custom url ==> Fixed issue with Like.
+
+	Instagram:
+		Instastory ==> User who liked post ==> Fixed issue with post count in user filter.
+		Accounts Manager ==> Fixed issue with showing post count in IG profile.
+
+	Pinterest:
+		Pin poster ==> Re pin ==> Fixed issue with repining in both HTTP & browser settings.
+		Publisher ==> Fixed issue with publishing post on selected board.
+
+	Quora:
+		Grow followers ==> Follow ==> Followers of someone following ==> Fixed issue with question count filter.
+		Account activity ==> Unfollow ==> Fixed issue with selecting unfollow and source type.
+		Voting ==> Downvote answer ==> Fixed issue with Answer downvote. 
+		Report ==> Answer ==> Downvote answer ==> Fixed issue with query types
+		Answer => AnswerOnQuestions => Fixed issue in delay for already interacted questions
+
 Version[1.0.0.74],[22nd January 2020]
 New Features:-
-	Social : Added Dark Theme. [Check beside the Networks list]
+	Social : Added Light/Dark Mode. [Check beside the Networks list]
 	
 	Facebook:
 		Scraper ==> Profile Scraper ==> Added  feature to scrape page  post commentors.
