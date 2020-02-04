@@ -403,7 +403,6 @@
     <Content Include="CefSharp.Wpf.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="CommonFiles\CountryList.txt" />
     <Content Include="SocinatorIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

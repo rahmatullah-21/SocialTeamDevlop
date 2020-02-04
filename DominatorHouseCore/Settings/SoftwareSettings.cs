@@ -376,30 +376,22 @@ namespace DominatorHouseCore.Settings
 
         public ObservableCollection<LocationModel> AssignLocationList()
         {
-            ObservableCollection<LocationModel> CountrySet = new ObservableCollection<LocationModel>();
+            var countrySet = new ObservableCollection<LocationModel>();
             try
             {
-                var text = string.Empty;
-                using (var stream = Assembly.GetEntryAssembly().GetManifestResourceStream("Socinator.CommonFiles.CountryList.txt"))
+                new NonStaticUtilities().CountriesList().ForEach(x =>
                 {
-                    TextReader tr = new StreamReader(stream);
-                    text = tr.ReadToEnd();
-                }
-                var locationList = Regex.Split(text, "\r\n").ToList();
-                locationList.ForEach(x =>
-                {
-                    var model = new LocationModel()
+                    countrySet.Add(new LocationModel()
                     {
                         CountryName = x
-                    };
-                    CountrySet.Add(model);
+                    });
                 });
             }
             catch (Exception ex)
             {
                 ex.DebugLog();
             }
-            return CountrySet;
+            return countrySet;
         }
 
     }
