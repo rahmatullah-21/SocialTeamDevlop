@@ -877,7 +877,7 @@
 
                             </GridViewColumn>
 
-                            <GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>
+                            <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" DisplayMemberBinding="{Binding IsRunProcessThroughBrowser, Converter={StaticResource BooleanToAutomationStatusConverter}}"/>-->
 
                             <!--<GridViewColumn  Header="{DynamicResource LangKeyBrowserAutomation}" Width="130">
                                 <GridViewColumn.CellTemplate>

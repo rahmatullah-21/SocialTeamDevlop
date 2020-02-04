@@ -60,7 +60,7 @@
                         </interactivity:Interaction.Triggers>
                     </controls:ToggleSwitch>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="1">
+                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="1">
                     <Label Foreground="White" FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                        Height="25"  Content="{DynamicResource LangKeySelectCampaignCategory}" />
                     <ComboBox x:Name="CmbCampaignType" SelectedIndex="0"
@@ -70,7 +70,7 @@
                           BorderBrush="White"
                           ToolTip="{DynamicResource LangKeySelectTheCampaignToFilterForView}" 
                           behaviours:SelectionChangedBehaviour.Command="{Binding CampaignTypeSelectionChange}"/>
-                </StackPanel>
+                </StackPanel>-->
 
             </Grid>
 
