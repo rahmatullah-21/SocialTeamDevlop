@@ -51,7 +51,7 @@ namespace DominatorHouseCore.StartupActivity.Linkedin
             var listQueryType = new List<string>();
 
             listQueryType.Add(LDScraperUserQueryParameters.Keyword.GetDescriptionAttr()?.FromResourceDictionary());
-            listQueryType.Add(LDScraperUserQueryParameters.ProfileUrl.GetDescriptionAttr()?.FromResourceDictionary());
+            //listQueryType.Add(LDScraperUserQueryParameters.ProfileUrl.GetDescriptionAttr()?.FromResourceDictionary());
             listQueryType.Add(LDScraperUserQueryParameters.SearchUrl.GetDescriptionAttr()?.FromResourceDictionary());
 
             return listQueryType;

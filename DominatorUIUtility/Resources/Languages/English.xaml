@@ -4554,4 +4554,5 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyCannotReplyToCommentPrivateUser">Cannot Reply To comment of post url {0} because it's a private post</system:String>
     <system:String x:Key="LangKeyIgnoreTextOnlyPost">Ignore Text Only Post</system:String>
     <system:String x:Key="LangKeyVerifiedAccounts">Verified Accounts</system:String>
+    <system:String x:Key="LangKey2ndAnd3rdConnections">Only 2ndAnd3rd Connections Url</system:String>
 </ResourceDictionary>

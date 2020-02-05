@@ -6,15 +6,15 @@ namespace DominatorHouseCore.Enums.LdQuery
     {
         [Description("LangKeyKeyword")]
         Keyword,
-        [Description("LangKeyProfileUrl")]
-        ProfileUrl,
+        //[Description("LangKeyProfileUrl")]
+        //ProfileUrl,
         [Description("LangKeySearchUrl")]
         SearchUrl,
         [Description("LangKeyInput")]
         Input,
         [Description("LangKeyOnly1stConnection")]
         Only1stConnection,
-        [Description("LangKeyJoinedGroupUrl")]
-        JoinedGroupUrl,
+        //[Description("LangKeyJoinedGroupUrl")]
+        //JoinedGroupUrl,
     }
 }
