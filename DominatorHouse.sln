@@ -83,8 +83,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwtDominatorCore.Integratio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditDominatorCore.IntegrationTests", "..\reddit-dominator-library\Tests\RedditDominatorCore.IntegrationTests\RedditDominatorCore.IntegrationTests.csproj", "{B431F1E4-CC2C-41F5-8D8A-17F05F92043F}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SocinatorNew", "SocinatorNew\SocinatorNew.vdproj", "{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikTokDominatorCore", "..\tiktokdominator-library\TikTokDominatorCore\TikTokDominatorCore.csproj", "{5D2983FF-352B-4F86-896D-86B6FB946539}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikTokDominatorUI", "..\tiktokdominator-library\TikTokDominatorUI\TikTokDominatorUI.csproj", "{4BA1344E-047E-4430-B271-771EC4990A3D}"
@@ -785,24 +783,6 @@ Global
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F}.Release|x64.Build.0 = Release|Any CPU
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F}.Release|x86.ActiveCfg = Release|Any CPU
 		{B431F1E4-CC2C-41F5-8D8A-17F05F92043F}.Release|x86.Build.0 = Release|Any CPU
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug|Any CPU.ActiveCfg = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug|Any CPU.Build.0 = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug|x64.ActiveCfg = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug|x64.Build.0 = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug|x86.ActiveCfg = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug|x86.Build.0 = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug-fast-test|Any CPU.ActiveCfg = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug-fast-test|Any CPU.Build.0 = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug-fast-test|x64.ActiveCfg = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug-fast-test|x64.Build.0 = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug-fast-test|x86.ActiveCfg = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Debug-fast-test|x86.Build.0 = Debug
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|Any CPU.ActiveCfg = Release
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|Any CPU.Build.0 = Release
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|x64.ActiveCfg = Release
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|x64.Build.0 = Release
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|x86.ActiveCfg = Release
-		{E4073A79-79D4-41A8-82B3-97BFA1DD84DB}.Release|x86.Build.0 = Release
 		{5D2983FF-352B-4F86-896D-86B6FB946539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D2983FF-352B-4F86-896D-86B6FB946539}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D2983FF-352B-4F86-896D-86B6FB946539}.Debug|x64.ActiveCfg = Debug|Any CPU
