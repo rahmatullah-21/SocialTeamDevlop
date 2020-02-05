@@ -95,7 +95,7 @@
     <system:String x:Key="LangKeyAddPhotoids">Add Photoids</system:String>
     <system:String x:Key="LangKeyAddPostCaptions">Add Post Captions</system:String>
     <system:String x:Key="LangKeyAddPosts">Add Posts</system:String>
-    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersSearchPin">Add Posts Source! Like (Boards, Users, Search Pin)</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersSearchPin">Add Posts Source! Like ([K] Keyword, [U] Username, [B] Board Name/Url)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl">Add Posts Source! Like (Ownwall,Page, Group,Friend Url)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeUsersSearch">Add Posts Source! Like ([U]Users,[S]Search,[P]CustomUrl)</system:String>
     <system:String x:Key="LangKeyAddToPrivateBlacklist">Add To Private Blacklist</system:String>
@@ -4555,4 +4555,8 @@ Some of the custom urls don't have CommentId.</system:String>
     <system:String x:Key="LangKeyIgnoreTextOnlyPost">Ignore Text Only Post</system:String>
     <system:String x:Key="LangKeyVerifiedAccounts">Verified Accounts</system:String>
     <system:String x:Key="LangKey2ndAnd3rdConnections">Only 2ndAnd3rd Connections Url</system:String>
+    <system:String x:Key="LangKeySelectCountriesFilter">Select Countries For Location Filter</system:String>
+    <system:String x:Key="LangKeySaveLocations">Save Locations</system:String>
+    <system:String x:Key="LangKeySelectCountry">Select Country</system:String>
+    <system:String x:Key="LangKeySelectLocationByMultipleCities">Select Location By Multiple Cities</system:String>
 </ResourceDictionary>

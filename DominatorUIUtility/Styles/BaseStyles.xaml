@@ -353,9 +353,9 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="MinHeight" Value="27"></Setter>
-        <Setter Property="Height" Value="31"></Setter>
-        <Setter Property="MaxHeight" Value="40"></Setter>
+        <Setter Property="MinHeight" Value="30"></Setter>
+        <Setter Property="Height" Value="Auto"></Setter>
+        <Setter Property="Width" Value="Auto"></Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />

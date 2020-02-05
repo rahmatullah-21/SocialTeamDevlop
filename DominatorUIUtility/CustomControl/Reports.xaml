@@ -115,7 +115,8 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="Height" Value="27"/>
+                    <Setter Property="MinHeight" Value="27"/>
+                    <Setter Property="Height" Value="Auto"/>
                     <Setter Property="Focusable" Value="False"/>
                     <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}"/>
                     <Style.Triggers>
