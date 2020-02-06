@@ -470,7 +470,7 @@ namespace DominatorHouseCore.Models
             }
         }
 
-        private bool _isRunProcessThroughBrowser;
+        private bool _isRunProcessThroughBrowser = false;
         [ProtoMember(28)]
         public bool IsRunProcessThroughBrowser
         {
@@ -483,7 +483,7 @@ namespace DominatorHouseCore.Models
 
                 if (_isRunProcessThroughBrowser == value)
                     return;
-                SetProperty(ref _isRunProcessThroughBrowser, value);
+                SetProperty(ref _isRunProcessThroughBrowser, false);
             }
         }
 
