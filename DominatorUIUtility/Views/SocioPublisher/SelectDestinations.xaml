@@ -16,7 +16,7 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <ListView x:Name="CampaignStatusList"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"                  
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"             
                   ItemsSource="{Binding ListPublisherManageDestinationModels}"
                   VerticalAlignment="Stretch"  AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}" >
             <ListView.Resources>
@@ -26,18 +26,10 @@
                     <Setter Property="Height" Value="30"></Setter>
                     <Setter Property="Margin" Value="0,2,0,0"></Setter>
                 </Style>
-                <SolidColorBrush x:Key="ItemBackgroundHover" Color="Transparent" />
             </ListView.Resources>
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                    <Setter Property="Height" Value="30"></Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource ItemBackgroundHover}" />
-                        </Trigger>
-                    </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>

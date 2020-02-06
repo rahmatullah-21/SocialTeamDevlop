@@ -249,6 +249,8 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
                     PublisherCreateCampaignModel.ScrapePostModel.IsScrapeFacebookPost ||
                     PublisherCreateCampaignModel.ScrapePostModel.IsScrapePinterestPost ||
                     PublisherCreateCampaignModel.ScrapePostModel.IsScrapeTwitterPost ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeGoogleImgaes ||
+                    PublisherCreateCampaignModel.ScrapePostModel.IsScrapeRedditPost ||
                     PublisherCreateCampaignModel.SharePostModel.IsShareFdPagePost ||
                     PublisherCreateCampaignModel.SharePostModel.IsShareCustomPostList);
         }
@@ -611,6 +613,29 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
                         CampaignName = PublisherCreateCampaignModel.CampaignName,
                         ExpireDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
                         PostSource = PostSource.ScrapedPost,
+                        PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.ScrapePostModel),
+                        MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
+                        SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,
+                        NotifyCount = generalSettingsModel.TriggerNotificationCount,
+                        ScrapeCount = PublisherCreateCampaignModel.ScrapePostModel.ScrapeCount,
+                        DelayForNext = PublisherCreateCampaignModel.ScrapePostModel.StartScrapeOnXminute
+                    };
+                    currentCampaignsFetchDetails.Add(scrapeFetchModel);
+                }
+
+                #endregion
+
+                // scrape images, This is useful for all networks
+                #region ScrapeImages
+
+                if (PublisherCreateCampaignModel.ScrapePostModel.IsScrapeGoogleImgaes)
+                {
+                    var scrapeFetchModel = new PublisherPostFetchModel
+                    {
+                        CampaignId = PublisherCreateCampaignModel.CampaignId,
+                        CampaignName = PublisherCreateCampaignModel.CampaignName,
+                        ExpireDate = PublisherCreateCampaignModel.JobConfigurations.CampaignEndDate,
+                        PostSource = PostSource.ScrapeImages,
                         PostDetailsWithFilters = JsonConvert.SerializeObject(PublisherCreateCampaignModel.ScrapePostModel),
                         MaximumPostLimitToStore = generalSettingsModel.MaxPostCountToStore,
                         SelectedDestinations = PublisherCreateCampaignModel.LstDestinationId,

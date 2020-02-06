@@ -106,7 +106,7 @@
                                 <Button Background="Transparent" Command="{Binding DeleteMulipleCommand}">
                                     <Button.Content>
                                         <StackPanel Orientation="Horizontal">
-                                            <Rectangle Fill="White" Height="20" Width="15" ToolTip="{DynamicResource LangKeyDeleteSelected}" >
+                                            <Rectangle Fill="IndianRed" Height="20" Width="15" ToolTip="{DynamicResource LangKeyDeleteSelected}" >
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Fill"/>
                                                 </Rectangle.OpacityMask>
@@ -184,7 +184,7 @@
                                                     RelativeSource= {RelativeSource FindAncestor,AncestorType={x:Type DataGrid}}}"
                                                     CommandParameter="{Binding}">
                                             <Button.Content>
-                                                <Rectangle Width="15" Height="20" Fill="Black" Name="DeleteSingle" >
+                                                <Rectangle Width="15" Height="20" Fill="IndianRed" Name="DeleteSingle" >
                                                     <Rectangle.OpacityMask>
                                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}" />
                                                     </Rectangle.OpacityMask>

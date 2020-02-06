@@ -26,6 +26,11 @@
         /// To Specify the Monitor folder Post
         /// </summary>
         MonitorFolderPost = 5,
-       
+
+        /// <summary>
+        /// To Specify the Scraped Images
+        /// </summary>
+
+        ScrapeImages = 6
     }
 }

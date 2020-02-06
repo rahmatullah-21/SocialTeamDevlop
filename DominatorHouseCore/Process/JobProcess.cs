@@ -170,6 +170,31 @@ namespace DominatorHouseCore.Process
             return limitType != ReachedLimitType.NoLimit;
         }
 
+        public bool StopAndRescheduleJob(int scheduleAfterXXHours = 0)
+        {
+            try
+            {
+                try
+                {
+                    _dominatorScheduler.RescheduleifLimitReached(this, new ReachedLimitInfo()
+                        , ReachedLimitType.Job, scheduleAfterXXHours);
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+                return false;
+            }
+        }
+
+
         public abstract ReachedLimitInfo CheckLimit();
 
         //// TODO: don't think that it works. template.ActivitySettings effectively isn't changed, hence no changes is saved 
@@ -290,7 +315,7 @@ namespace DominatorHouseCore.Process
                 var task = ThreadFactory.Instance.Start(() =>
                   {
 
-                      GlobusLogHelper.log.Info(Log.ProcessStarted, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+                      GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
                       // Login and run scraper/poster from derived concrete classes
                       if (DominatorAccountModel.AccountBaseModel.Status == AccountStatus.Success ||
@@ -393,7 +418,7 @@ namespace DominatorHouseCore.Process
                 }
 
                 JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
+                //GlobusLogHelper.log.Info(Log.StartingJob, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName, ActivityType);
 
 
 

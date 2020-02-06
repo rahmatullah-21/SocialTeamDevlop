@@ -12,20 +12,23 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         [TestMethod]
         public void should_return_lists_of_imageurl_if_url_is_valid()
         {
-            var result = ImageExtracter.ExtractImageUrls("https://www.google.com/search?q=flower&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjazcy_iZ_hAhXCinAKHbSxBzcQ_AUIDigB&biw=1366&bih=576");
+            string title = "";
+            var result = ImageExtracter.ExtractImageUrls("https://www.google.com/search?q=flower&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjazcy_iZ_hAhXCinAKHbSxBzcQ_AUIDigB&biw=1366&bih=576", ref title);
             result.Should().NotBeEmpty().And.HaveCount(100);
         }
         [TestMethod]
         [ExpectedException(typeof(UriFormatException))]
         public void should_throw_UriFormatException_if_url_is_not_valid()
         {
-            ImageExtracter.ExtractImageUrls("url");
+            string title = "";
+            ImageExtracter.ExtractImageUrls("url", ref title);
         }
         [TestMethod]
 
         public void should_return_empty_list_if_url_not_contain_image()
         {
-            var result = ImageExtracter.ExtractImageUrls("http://www.yahoo.com");
+            string title = "";
+            var result = ImageExtracter.ExtractImageUrls("http://www.yahoo.com", ref title);
             result.Should().BeEmpty();
         }
         [TestMethod]
@@ -43,7 +46,8 @@ namespace DominatorHouseCore.UnitTests.Tests.FileManagers
         [TestMethod]
         public void should_remove_invalid_url()
         {
-            var imageurls = (List<string>)ImageExtracter.ExtractImageUrls("https://www.google.com/search?q=flower&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjazcy_iZ_hAhXCinAKHbSxBzcQ_AUIDigB&biw=1366&bih=576");
+            string title = "";
+            var imageurls = (List<string>)ImageExtracter.ExtractImageUrls("https://www.google.com/search?q=flower&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjazcy_iZ_hAhXCinAKHbSxBzcQ_AUIDigB&biw=1366&bih=576", ref title);
             imageurls.Add("abc");
             imageurls.Add("test");
             imageurls.Add("invalid");

@@ -54,6 +54,8 @@ namespace DominatorHouseCore.ViewModel
             get { return _selectedNetwork; }
             set
             {
+                if (_selectedNetwork == value)
+                    return;
                 SetProperty(ref _selectedNetwork, value, nameof(SelectedNetwork));
                 OnPropertyChanged(nameof(NetworkIsSelected));
                 LogCollection.View.Refresh();
@@ -66,6 +68,8 @@ namespace DominatorHouseCore.ViewModel
             get { return _selectedAccount; }
             set
             {
+                if (_selectedAccount == value)
+                    return;
                 SetProperty(ref _selectedAccount, value, nameof(SelectedNetwork));
                 LogCollection.View.Refresh();
             }
@@ -73,7 +77,7 @@ namespace DominatorHouseCore.ViewModel
 
         public bool NetworkIsSelected
         {
-            get { return SelectedNetwork.HasValue; }
+            get { return SelectedNetwork.HasValue && SelectedNetwork != SocialNetworks.Social; }
         }
 
         public DelegateCommand CopyCmd { get; set; }
@@ -91,7 +95,6 @@ namespace DominatorHouseCore.ViewModel
             ActivityTypes.ItemSelected += OnActivityTypeSlectionChange;
             LogCollection.Source = Logs;
             LogCollection.Filter += FilterLog;
-
         }
 
         private void OnActivityTypeSlectionChange(object sender, ActivityType? e)
@@ -133,21 +136,21 @@ namespace DominatorHouseCore.ViewModel
                 return;
             }
 
-            if (string.IsNullOrEmpty(SelectedNetwork.ToString())
+            if (string.IsNullOrEmpty(SelectedNetwork?.ToString())
                 && LogType.Equals(logs.LogType, StringComparison.InvariantCultureIgnoreCase))
             {
                 e.Accepted = true;
                 return;
             }
 
-            if (logs.Network.Equals(SelectedNetwork.ToString(), StringComparison.InvariantCultureIgnoreCase)
+            if (logs.Network.Equals(SelectedNetwork?.ToString(), StringComparison.InvariantCultureIgnoreCase)
                 && LogType.Equals(logs.LogType, StringComparison.InvariantCultureIgnoreCase))
             {
                 e.Accepted = true;
             }
             else e.Accepted = false;
             if (!string.IsNullOrEmpty(ActivityTypes.Selected?.ToString()))
-                if (logs.Network.Equals(SelectedNetwork.ToString(), StringComparison.InvariantCultureIgnoreCase) && logs.ActivityType.Equals(ActivityTypes.Selected?.ToString(),
+                if (logs.Network.Equals(SelectedNetwork?.ToString(), StringComparison.InvariantCultureIgnoreCase) && logs.ActivityType!= null && logs.ActivityType.Equals(ActivityTypes.Selected?.ToString(),
                         StringComparison.InvariantCultureIgnoreCase))
                 {
                     e.Accepted = true;

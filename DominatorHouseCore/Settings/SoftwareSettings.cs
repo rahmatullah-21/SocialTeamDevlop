@@ -21,6 +21,8 @@ using Registry = Microsoft.Win32.Registry;
 using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Enums.FdQuery;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 
 namespace DominatorHouseCore.Settings
 {
@@ -34,6 +36,7 @@ namespace DominatorHouseCore.Settings
             , SocialNetworks currentNetwork = SocialNetworks.Facebook);
         SoftwareSettingsModel Settings { get; set; }
         bool Save();
+        ObservableCollection<LocationModel> AssignLocationList();
     }
 
     public class SoftwareSettings : BindableBase, ISoftwareSettings
@@ -370,6 +373,27 @@ namespace DominatorHouseCore.Settings
 
             return true;
         }
+
+        public ObservableCollection<LocationModel> AssignLocationList()
+        {
+            var countrySet = new ObservableCollection<LocationModel>();
+            try
+            {
+                new NonStaticUtilities().CountriesList().ForEach(x =>
+                {
+                    countrySet.Add(new LocationModel()
+                    {
+                        CountryName = x
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return countrySet;
+        }
+
     }
 
     public class ScrapAdsDetails
@@ -458,5 +482,6 @@ namespace DominatorHouseCore.Settings
 
             }
         }
+
     }
 }

@@ -735,6 +735,7 @@ namespace LegionUIUtility.ViewModel
 
         private void SaveJsonCookiesExecute(object sender)
         {
+            var expireString = "";
             try
             {
                 if (string.IsNullOrWhiteSpace(JsonCookies?.Trim()))
@@ -758,10 +759,12 @@ namespace LegionUIUtility.ViewModel
                     var value = jsonHand.GetJTokenValue(t, "value");
                     var domain = jsonHand.GetJTokenValue(t, "domain");
                     var path = jsonHand.GetJTokenValue(t, "path");
-                    var expireString = jsonHand.GetJTokenValue(t, "expirationDate").Split('.')[0];
-                    DateTime expire = DateTime.Now.AddYears(1);
+                    expireString = jsonHand.GetJTokenValue(t, "expirationDate").Replace(",",".").Split('.')[0];
+                    DateTime expire = DateTime.Now.AddMonths(6);
+
                     if (!string.IsNullOrWhiteSpace(expireString))
-                        expire = DateTimeUtilities.EpochToDateTimeUtc(Convert.ToInt64(expireString)*1000);
+                            expire = DateTimeUtilities.EpochToDateTimeUtc(Convert.ToInt64(expireString) * 1000);
+
                     var httpOnly = jsonHand.GetJTokenValue(t, "httpOnly").ToLower() == "true" ? true: false;
                     var secure = jsonHand.GetJTokenValue(t, "secure").ToLower() == "true" ? true : false;
 
@@ -783,12 +786,15 @@ namespace LegionUIUtility.ViewModel
             }
             catch (Exception ex)
             {
-                if (ex.Message?.Contains(" parsing ") ??false)
+                if (ex.Message?.Contains(" parsing ") ?? false)
                 {
                     ToasterNotification.ShowError("Cookies are not in a valid json text form.");
                 }
                 else
-                    ex.DebugLog();
+                {
+                    ex.DebugLog(!string.IsNullOrWhiteSpace(expireString) ? $"expireString:{expireString}" : "");
+                    ToasterNotification.ShowError("Oops! An error occured.");
+                }
             }
         }
     }

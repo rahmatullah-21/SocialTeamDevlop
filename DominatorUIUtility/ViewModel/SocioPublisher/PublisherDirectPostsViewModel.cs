@@ -44,7 +44,7 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
             {
                 PostDetailsModel.ListMultipleImageUrl = Regex.Split(PostDetailsModel.MultipleImageUrl, "\r\n").Where(x => !string.IsNullOrEmpty(x)).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -359,6 +359,8 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
         {
             try
             {
+                var pageTitle = string.Empty;
+
                 var mediaViewer = (MediaViewer)sender;
 
                 // check whether Image url is empty or not
@@ -376,7 +378,7 @@ namespace LegionUIUtility.ViewModel.SocioPublisher
                 }
 
                 // Start scraping the image url from ImageExtracter.ExtractImageUrls
-                PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl));
+                PostDetailsModel.MediaList = new ObservableCollection<string>(ImageExtracter.ExtractImageUrls(PostDetailsModel.ImagesUrl, ref pageTitle));
 
                 // Add the scraped medias to postdetails collection
                 PostDetailsModel.MediaList.ForEach(x => MediaList.Add(x));

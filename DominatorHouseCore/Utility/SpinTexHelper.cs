@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace DominatorHouseCore.Utility
@@ -49,12 +50,10 @@ namespace DominatorHouseCore.Utility
                 int repeatedCount = 0;
 
                 Random randomIndex = new Random();
-                // Iterate until getting 30 unique texts
-                while (spinnedList.Count < 30)
+                // Iterate until getting 100 unique texts
+                while (spinnedList.Count < 100)
                 {
-
                     if (repeatedCount > 5)
-
                         break;
 
                     var spinnedText = SpinText(randomIndex, content);
@@ -66,7 +65,7 @@ namespace DominatorHouseCore.Utility
                     }
                     spinnedList.Add(spinnedText);
                 }
-                // return 30 unique spin text
+                // return 100 unique spin text
                 return spinnedList;
             }
             catch (Exception ex)

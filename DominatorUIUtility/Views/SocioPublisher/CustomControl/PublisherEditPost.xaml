@@ -13,11 +13,11 @@
         </DataTemplate>
     </UserControl.Resources>
     <StackPanel Margin="0,10,0,10" HorizontalAlignment="Center" VerticalAlignment="Center" >
-        <TextBlock  FontWeight="SemiBold"  Foreground="Black"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
+        <TextBlock  FontWeight="SemiBold"  Text="{DynamicResource LangKeyPostDescription}" VerticalAlignment="Center" FontSize="12" />
         <customControl:SocinatorTextBox   
                        MacroTemplate="{StaticResource ResourceKey=MacroTemplate}"
                        SuggestionProvider="{StaticResource ResourceKey=MacrosSuggestionProvider}"
-                       Watermark="{DynamicResource LangKeyWhatsOnYourMind}"  Foreground="Black"
+                       Watermark="{DynamicResource LangKeyWhatsOnYourMind}" 
                        Text="{Binding PostDescription, Mode=TwoWay}" TextHeight="60" TextWidth="300" Margin="2" TextWrapping="Wrap"
                        DisplayMember="Key">
             <customControl:SocinatorTextBox.LoadingContent>

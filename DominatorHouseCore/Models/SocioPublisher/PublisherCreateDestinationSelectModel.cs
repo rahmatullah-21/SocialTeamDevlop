@@ -270,6 +270,8 @@ namespace DominatorHouseCore.Models.SocioPublisher
             }
         }
 
+       
+
         public void UpdateGroupText() =>
             GroupSelectorText = IsGroupsAvailable ? SelectedGroups + "/" + TotalGroups : "LangKeyNA".FromResourceDictionary();
 
@@ -356,6 +358,23 @@ namespace DominatorHouseCore.Models.SocioPublisher
         {
             get { return _accountGroupName; }
             set { SetProperty(ref _accountGroupName, value); }
+        }
+
+        private bool _isForScrapingOnly;
+        [ProtoMember(22)]
+        public bool IsForScrapingOnly
+        {
+            get
+            {
+                return _isForScrapingOnly;
+            }
+            set
+            {
+                if (_isForScrapingOnly == value)
+                    return;
+                _isForScrapingOnly = value;
+                OnPropertyChanged(nameof(IsForScrapingOnly));
+            }
         }
 
     }

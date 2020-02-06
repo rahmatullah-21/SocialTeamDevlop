@@ -18,7 +18,7 @@ namespace DominatorHouseCore.Utility
         /// <param name="url">url for fetching image</param>
         /// <param name="isBackgroundImageNeed">pass true for fetching css, backgroud images need from the website</param>
         /// <returns></returns>
-        public static IEnumerable<string> ExtractImageUrls(string url, bool isBackgroundImageNeed = false)
+        public static IEnumerable<string> ExtractImageUrls(string url, ref string title, bool isBackgroundImageNeed = false)
         {
             var imageUrl = new List<string>();
 
@@ -42,13 +42,13 @@ namespace DominatorHouseCore.Utility
             //}
             //else
             //{
-                var scrapeUrl = new Uri(url);
-                var host = scrapeUrl.Host;
+            var scrapeUrl = new Uri(url);
+            var host = scrapeUrl.Host;
 
-                if (host.Contains("google"))
-                {
+            if (host.Contains("google"))
+            {
 
-                    var objwebclient = new WebClient();
+                var objwebclient = new WebClient();
 
                 objwebclient.Headers.Add("Host", "www.google.co.in");
                 //  objwebclient.Headers.Add("User-Agent", " Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");                   
@@ -60,69 +60,179 @@ namespace DominatorHouseCore.Utility
 
                 var googlePageResult = objwebclient.DownloadString(scrapeUrl);
 
-                    var images = Regex.Split(googlePageResult, "ou\":\"").Skip(1).ToArray();
-                    if (images.Length == 0)
-                        images = Regex.Split(googlePageResult, "src").Skip(1).ToArray();
+                title = Utilities.GetBetween(googlePageResult, "<title>", "- Google Search</title>");
 
-                    imageUrl = new List<string>();
-                    images.ForEach(x =>
-                    {
-                        var image = Utilities.GetBetween(x, "", "\"");
-                        image = Regex.Unescape(image);
-                        imageUrl.Add(image);
-                    });
+                var images = Regex.Split(googlePageResult, "ou\":\"").Skip(1).ToArray();
+                if (images.Length == 0)
+                    images = Regex.Split(googlePageResult, "src").Skip(1).ToArray();
 
-                }
-                else
+                imageUrl = new List<string>();
+                images.ForEach(x =>
                 {
-                    // Create a request to getting response of given url
-                    var webClient = new WebClient();
-                    var pageResult = webClient.DownloadString(scrapeUrl);
+                    var image = Utilities.GetBetween(x, "", "\"");
+                    image = Regex.Unescape(image);
+                    imageUrl.Add(image);
+                });
 
-                    var htmlDocument = new HtmlDocument
+            }
+            else
+            {
+                // Create a request to getting response of given url
+                var webClient = new WebClient();
+                var pageResult = webClient.DownloadString(scrapeUrl);
+
+                title = Utilities.GetBetween(pageResult, "<title>", "- Google Search</title>");
+
+                var htmlDocument = new HtmlDocument
+                {
+                    OptionAutoCloseOnEnd = true,
+                    OptionCheckSyntax = false,
+                    OptionFixNestedTags = true
+                };
+
+                htmlDocument.LoadHtml(pageResult);
+
+                // Select the nodes
+                var htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes("//img[@src]");
+
+                // Fetching Src values from response
+                if (htmlNodeCollection != null)
+                    imageUrl.AddRange(RemoveInvalidUrls(htmlNodeCollection.Select(node => node.Attributes["src"].Value)));
+
+
+                // Check if background images are needed from the website 
+                if (!isBackgroundImageNeed)
+                    return imageUrl;
+
+                using (var enumerator = htmlDocument.DocumentNode.Descendants().Where(d =>
+                {
+                    // get the style image 
+                    if (d.Attributes.Contains("style"))
+                        return d.Attributes["style"].Value.Contains("background:url");
+                    return false;
+                }).ToList().GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
                     {
-                        OptionAutoCloseOnEnd = true,
-                        OptionCheckSyntax = false,
-                        OptionFixNestedTags = true
-                    };
-
-                    htmlDocument.LoadHtml(pageResult);
-
-                    // Select the nodes
-                    var htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes("//img[@src]");
-
-                    // Fetching Src values from response
-                    if (htmlNodeCollection != null)
-                        imageUrl.AddRange(RemoveInvalidUrls(htmlNodeCollection.Select(node => node.Attributes["src"].Value)));
-
-
-                    // Check if background images are needed from the website 
-                    if (!isBackgroundImageNeed)
-                        return imageUrl;
-
-                    using (var enumerator = htmlDocument.DocumentNode.Descendants().Where(d =>
-                    {
-                        // get the style image 
-                        if (d.Attributes.Contains("style"))
-                            return d.Attributes["style"].Value.Contains("background:url");
-                        return false;
-                    }).ToList().GetEnumerator())
-                    {
-                        while (enumerator.MoveNext())
-                        {
-                            // Getting the background images
-                            var input = enumerator.Current?.Attributes["style"].Value;
-                            var regex = new Regex(".*?background:url\\('?(?<bgpath>.*)'?\\).*?", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
-                            if (input != null && regex.IsMatch(input))
-                                imageUrl.Add(regex.Match(input).Groups["bgpath"].Value);
-                        }
+                        // Getting the background images
+                        var input = enumerator.Current?.Attributes["style"].Value;
+                        var regex = new Regex(".*?background:url\\('?(?<bgpath>.*)'?\\).*?", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+                        if (input != null && regex.IsMatch(input))
+                            imageUrl.Add(regex.Match(input).Groups["bgpath"].Value);
                     }
                 }
+            }
 
             //}
 
             return imageUrl;
         }
+
+
+        public static IEnumerable<string> ExtractLinkDetails(string url, ref string title, ref string description, bool isBackgroundImageNeed = false)
+        {
+            var imageUrl = new List<string>();
+
+            try
+            {
+                if (!url.Contains("https://"))
+                    url = "https://" + url;
+
+                var scrapeUrl = new Uri(url);
+                var host = scrapeUrl.Host;
+
+                var webClient = new WebClient();
+                webClient.Encoding = System.Text.Encoding.UTF8;
+                var googlePageResult = webClient.DownloadString(scrapeUrl);
+
+                googlePageResult = Regex.Replace(googlePageResult, "\\\\([^u])", "\\\\$1").Replace("\\", "");
+                googlePageResult = WebUtility.HtmlDecode(googlePageResult);
+
+
+                title = googlePageResult.Contains("\"og_title\"") ?
+                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "name"
+                    , "og_title", "content") : Utilities.GetBetween(googlePageResult, "<title>", "</title>");
+
+
+                description = googlePageResult.Contains("\"og:description\"") ?
+                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                    , "og:description", "content") : string.Empty;
+
+                var image = googlePageResult.Contains("\"og:image\"") ?
+                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                    , "og:image", "content") : string.Empty;
+
+                var siteUrl = googlePageResult.Contains("\"og:url\"") ?
+                    HtmlParseUtility.GetAttributeValueFromTagName(googlePageResult, "meta", "property"
+                    , "og:url", "content") : string.Empty;
+
+                if (!image.Contains("https:") && !string.IsNullOrEmpty(image) && !image.StartsWith("//"))
+                    image = siteUrl + image;
+
+                if (string.IsNullOrEmpty(image))
+                {
+                    var matchCollection = Regex.Matches(googlePageResult, "href=\"(.*?)\"");
+                    if (matchCollection.Count > 0)
+                    {
+                        foreach (Match match in matchCollection)
+                        {
+                            var imageData = match.Groups[1].ToString();
+                            if (imageData.Contains("png") && imageData.ToLower().Contains("logo"))
+                            {
+                                image = match.Groups[1].ToString();
+                                break;
+                            }
+
+                        }
+                    }
+                }
+
+
+                if (string.IsNullOrEmpty(image) && googlePageResult.Contains("\"logo\":"))
+                {
+                    var splitResponse = Regex.Split(googlePageResult, "\"logo\":").Skip(1).ToList();
+                    foreach (var response in splitResponse)
+                    {
+                        try
+                        {
+                            var matchCollection = Regex.Matches(response, ":\"(.*?)\"");
+                            if (matchCollection.Count > 0)
+                            {
+                                foreach (Match match in matchCollection)
+                                {
+                                    var imageData = match.Groups[1].ToString();
+                                    if (imageData.Contains("png"))
+                                    {
+                                        image = imageData;
+                                        break;
+                                    }
+
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(image))
+                                break;
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.DebugLog();
+                        }
+                    }
+                }
+
+                if (!image.Contains("https:") && !string.IsNullOrEmpty(image) && image.StartsWith("//"))
+                    image = "https:" + image;
+
+                imageUrl.Add(image);
+
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+            return imageUrl;
+        }
+
         /// <summary>
         /// To Check whether give url is proper image or not
         /// </summary>

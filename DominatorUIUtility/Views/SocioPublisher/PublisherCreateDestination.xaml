@@ -14,6 +14,8 @@
         <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
         <converters:BooleanToStringSelectConverter x:Key="BooleanToStringSelectConverter" />
         <converters:PublisherSyncStringToBooleanConverter x:Key="SyncStringToBooleanConverter"></converters:PublisherSyncStringToBooleanConverter>
+        <converters:SocialNetworkToColorBrushConverter x:Key="SocialNetworkToColorBrushConverter" />
+        <converters:SocialNetworkToVisualBrushConverter x:Key="SocialNetworkToVisualBrushConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -218,7 +220,7 @@
                   x:Name="CampaignStatusList"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"                  
                   ItemsSource="{Binding DestinationCollectionView}"
-                  VerticalAlignment="Stretch" >
+                  VerticalAlignment="Stretch" Foreground="{DynamicResource AccentBaseColorBrush}">
                 <ListView.Resources>
                     <Style TargetType="{x:Type GridViewColumnHeader}" 
                        BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -287,154 +289,30 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        
-                        <GridViewColumn Width="130">
+
+                        <GridViewColumn Width="110">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyPlatform}"/>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <ContentControl>
-                                                <ContentControl.Style>
-                                                    <Style TargetType="{x:Type ContentControl}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                        <Style.Triggers>
+                                        <Rectangle Margin="10,0" VerticalAlignment="Center"
+                                                   Fill="{Binding SocialNetworks, Converter={StaticResource SocialNetworkToColorBrushConverter}}"
+                                                   Width="20" Height="20">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush
+                                                    Visual="{Binding SocialNetworks, Converter={StaticResource SocialNetworkToVisualBrushConverter}}"
+                                                    Stretch="Fill" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
 
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Facebook}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#003569" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_social_facebook_variant}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-
-                                                            <!--<DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Instagram}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="Red" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource Instagram}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Twitter}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#3897F0" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_twitter_bird}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Pinterest}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="Red" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_social_pinterest}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Quora}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="Red" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource Quora}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-
-
-
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Reddit}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="OrangeRed" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_social_reddit}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.LinkedIn}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="DodgerBlue" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_social_linkedin_variant}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>-->
-                                                            <!--<DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Gplus}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_googleplus}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>-->
-
-                                                            <!--<DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Youtube}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="#FF0000" Width="20" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_youtube}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-
-                                                            <DataTrigger Binding="{Binding Path=SocialNetworks}" Value="{x:Static enums:SocialNetworks.Tumblr}">
-                                                                <Setter Property="Content" >
-                                                                    <Setter.Value>
-                                                                        <Rectangle Fill="DimGray" Width="16" Height="20">
-                                                                            <Rectangle.OpacityMask>
-                                                                                <VisualBrush Visual="{StaticResource appbar_social_tumblr}" Stretch="Fill" />
-                                                                            </Rectangle.OpacityMask>
-                                                                        </Rectangle>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>-->
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                        </StackPanel>
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-
-
                         </GridViewColumn>
 
-                        <GridViewColumn Width="130">
+                        <GridViewColumn Width="110">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyGroups}"/>
                             </GridViewColumn.Header>
@@ -444,17 +322,19 @@
                                         <Button Cursor="Hand" Margin="6,2,6,2" 
                                                     Content="{Binding GroupSelectorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                     x:Name="ButtonSelectGroups" 
-                                                    FontWeight="SemiBold"       
+                                                    FontWeight="SemiBold"  
                                                     Command="{Binding Path=DataContext.GetSingleAccountGroupsCommand,  RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
                                                     Background="Transparent">
                                             <Button.Style>
                                                 <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
                                                     <Setter Property="IsEnabled" Value="false"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}"/>
                                                     <Style.Triggers>
                                                         <MultiDataTrigger>
                                                             <MultiDataTrigger.Conditions>
                                                                 <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
                                                                 <Condition Binding="{Binding IsGroupsAvailable}" Value="true"/>
+                                                                <Condition Binding="{Binding IsForScrapingOnly}" Value="false"/>
                                                             </MultiDataTrigger.Conditions>
                                                             <Setter Property="IsEnabled" Value="True"/>
                                                         </MultiDataTrigger>
@@ -467,7 +347,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="130">
+                        <GridViewColumn Width="110">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyPagesOrBoards}"/>
                             </GridViewColumn.Header>
@@ -483,11 +363,13 @@
                                             <Button.Style>
                                                 <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
                                                     <Setter Property="IsEnabled" Value="false"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}"/>
                                                     <Style.Triggers>
                                                         <MultiDataTrigger>
                                                             <MultiDataTrigger.Conditions>
                                                                 <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
                                                                 <Condition Binding="{Binding IsPagesOrBoardsAvailable}" Value="true"/>
+                                                                <Condition Binding="{Binding IsForScrapingOnly}" Value="false"/>
                                                             </MultiDataTrigger.Conditions>
                                                             <Setter Property="IsEnabled" Value="True"/>
                                                         </MultiDataTrigger>
@@ -500,7 +382,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="130">
+                        <GridViewColumn Width="115">
                             <GridViewColumn.Header>
                                 <TextBlock Text="{DynamicResource LangKeyCustomDestination}"/>
                             </GridViewColumn.Header>
@@ -516,11 +398,13 @@
                                             <Button.Style>
                                                 <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
                                                     <Setter Property="IsEnabled" Value="false"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}"/>
                                                     <Style.Triggers>
                                                         <MultiDataTrigger>
                                                             <MultiDataTrigger.Conditions>
                                                                 <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
                                                                 <Condition Binding="{Binding IsCustomDestinationInNetworks}" Value="true"/>
+                                                                <Condition Binding="{Binding IsForScrapingOnly}" Value="false"/>
                                                             </MultiDataTrigger.Conditions>
                                                             <Setter Property="IsEnabled" Value="True"/>
                                                         </MultiDataTrigger>
@@ -533,12 +417,12 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="130">
+                        <GridViewColumn Width="115">
                             <GridViewColumn.Header>
                                 <Border BorderBrush="LightGray" Margin="-6,-2,-6,-2">
                                     <CheckBox Margin="6,2,6,2" Content="{DynamicResource LangKeyWallsProfiles}" IsChecked="{Binding IsAllWallsSelected}"/>
                                 </Border>
-                                
+
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -548,11 +432,13 @@
                                                 <CheckBox.Style>
                                                     <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
                                                         <Setter Property="IsEnabled" Value="false"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}"/>
                                                         <Style.Triggers>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
                                                                     <Condition Binding="{Binding IsOwnWallAvailable}" Value="true"/>
+                                                                    <Condition Binding="{Binding IsForScrapingOnly}" Value="false"/>
                                                                 </MultiDataTrigger.Conditions>
                                                                 <Setter Property="IsEnabled" Value="True"/>
                                                             </MultiDataTrigger>
@@ -566,6 +452,39 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+
+                        <!--<GridViewColumn Width="120">
+                            <GridViewColumn.Header>
+                                <Border BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                    <CheckBox Margin="6,2,6,2" Content="{DynamicResource LangKeyForScrapingOnly}" IsChecked="{Binding IsAllScrapingOnlyChckd}" />
+                                </Border>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1,1,0,0" BorderBrush="LightGray" Margin="-6,-2,-6,-2">
+                                        <StackPanel Margin="6,2,6,2" HorizontalAlignment="Center">
+                                            <CheckBox  IsChecked="{Binding IsForScrapingOnly}" CommandParameter="{Binding}" Command="{Binding DataContext.ScrapingOnlySelectedCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                <CheckBox.Style>
+                                                    <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+                                                        <Setter Property="IsEnabled" Value="false"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}"/>
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding IsAccountSelected}" Value="true"/>
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="IsEnabled" Value="True"/>
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </CheckBox.Style>
+                                            </CheckBox>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>-->
+
 
                         <GridViewColumn Width="150">
                             <GridViewColumn.Header>

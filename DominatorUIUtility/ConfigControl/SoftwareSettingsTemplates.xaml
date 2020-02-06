@@ -138,6 +138,33 @@
                         </StackPanel>
                         <CheckBox Margin="5" Content="{DynamicResource LangKeyStopIfNoMoreData}"
                               IsChecked="{Binding StopIfNoMoreData}"/>
+
+                        <StackPanel Orientation="Horizontal" >
+                            <CheckBox Margin="5" Content="{DynamicResource LangKeySelectCountriesFilter}"
+                              IsChecked="{Binding IsSelectCountriesFilter}"/>
+                            <ComboBox VirtualizingPanel.IsContainerVirtualizable="True" IsEditable="True" Height="30" Width="200" Text="{Binding DataContext.SearchText,RelativeSource={RelativeSource AncestorType=GroupBox}}" ItemsSource="{Binding Path=ListLocationModelTemp}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsSelected}"/>
+                                            <TextBlock Text="{Binding CountryName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                                <ComboBox.Triggers>
+                                    <EventTrigger RoutedEvent="TextBoxBase.TextChanged">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsDropDownOpen">
+                                                    <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0"/>
+                                                </BooleanAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </ComboBox.Triggers>
+                            </ComboBox>
+                        </StackPanel>
+
                     </StackPanel>
 
                 </StackPanel>

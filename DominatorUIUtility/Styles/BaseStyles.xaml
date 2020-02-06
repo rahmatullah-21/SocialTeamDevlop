@@ -246,6 +246,7 @@
         </Setter>
 
     </Style>
+    
     <Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
         <Setter Property="Template">
             <Setter.Value>
@@ -272,6 +273,7 @@
 
         <Setter Property="Padding" Value="0" />
     </Style>
+    
     <ControlTemplate TargetType="{x:Type TabControl}" x:Key="LeftTabstyle">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -297,6 +299,7 @@
             <ContentPresenter Margin="4" ContentSource="SelectedContent" Grid.Row="1" />
         </Grid>
     </ControlTemplate>
+    
     <Style TargetType="{x:Type TabItem}" x:Key="TabItemToolsStyle" >
         <Setter Property="Template">
             <Setter.Value>
@@ -331,7 +334,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColorBrushAccordingTheme1}"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -349,7 +353,9 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="MaxHeight" Value="35"></Setter>
+        <Setter Property="MinHeight" Value="30"></Setter>
+        <Setter Property="Height" Value="Auto"></Setter>
+        <Setter Property="Width" Value="Auto"></Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource ListItemsMouseHoverColorAccordingTheme}" />
@@ -359,7 +365,6 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
 
     <!--Begin Socinator Textbox Items-->
 

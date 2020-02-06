@@ -95,9 +95,9 @@
     <system:String x:Key="LangKeyAddPhotoids">Add Photoids</system:String>
     <system:String x:Key="LangKeyAddPostCaptions">Add Post Captions</system:String>
     <system:String x:Key="LangKeyAddPosts">Add Posts</system:String>
-    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersSearchPin">Add Posts Source! Like (Boards, Users, Search Pin)</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeBoardsUsersSearchPin">Add Posts Source! Like ([K] Keyword, [U] Username, [B] Board Name/Url)</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeOwnwallPageGroupFriendUrl">Add Posts Source! Like (Ownwall,Page, Group,Friend Url)</system:String>
-    <system:String x:Key="LangKeyAddPostsSourceLikeUsersSearch">Add Posts Source! Like (Users,Search)</system:String>
+    <system:String x:Key="LangKeyAddPostsSourceLikeUsersSearch">Add Posts Source! Like ([U]Users,[S]Search,[P]CustomUrl)</system:String>
     <system:String x:Key="LangKeyAddToPrivateBlacklist">Add To Private Blacklist</system:String>
     <system:String x:Key="LangKeyAddProfile">Add Profile</system:String>
     <system:String x:Key="LangKeyAddProxy">Add Proxy</system:String>
@@ -3290,8 +3290,11 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyEnableAutoFollow">Enable Auto Follow</system:String>
     <system:String x:Key="LangKeyEnableAutoUnfollow">Enable Auto Unfollow</system:String>
     <system:String x:Key="LangKeySavePagination">Save Pagination</system:String>
+
     <system:String x:Key="LangKeyLikeOnSpecificComment">Like On Specific Comment of Post</system:String>
     <system:String x:Key="LangKeyPostAsSamePage">Post As Same Page (For Ex:- Post on Legion Page with Legion account)</system:String>
+
+    
     <system:String x:Key="LangKeySendGreetingsToFriends">Send Greetings To Friends</system:String>
     <system:String x:Key="LangKeyTodaysBirthdays">Today's Birthdays</system:String>
     <system:String x:Key="LangKeyUpcomingBirthdays">Upcoming Birthdays</system:String>
@@ -3506,7 +3509,7 @@ Type 3. IP:Port
     <system:String x:Key="LangUseUniqueFeatureAs">Use Unique Feature</system:String>
     <system:String x:Key="LangCampaignWise">Campaign wise</system:String>
     <system:String x:Key="LangAccountWise">Account wise</system:String>
-    <system:String x:Key="LangReplyForCommentId">Comment as reply to a specific commentId</system:String>
+    <system:String x:Key="LangReplyForCommentId">Comment as reply to Highlighted comment only</system:String>
     <system:String x:Key="LangKeyImportUsers">Import Users</system:String>
     <system:String x:Key="LangKeyExportUsers">Export Users</system:String>
     <system:String x:Key="LangKeyManageEventCreater">Manage Event Create</system:String>
@@ -3577,7 +3580,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyCommentsOfAVideo">Comments of a video</system:String>
     <system:String x:Key="LangKeyLikeCommentsOf">Like comments of</system:String>
     <system:String x:Key="LangKeyVideosOfAChannel">videos of a channel</system:String>
-    <system:String x:Key="LangKeyProvideCommentIdSpecifically">Provide a specific commentId of a comment of a custom video url.</system:String>
+    <system:String x:Key="LangKeyApplicableOnCommntIdUrl">Applicable only on the search query "Custom Url" with the video url containing the specific CommentId</system:String>
     <system:String x:Key="LangKeyAddMultipleMessageSeparatedByNewLine">Add Multiple Message Separated By New Line</system:String>
     <system:String x:Key="LangKeyNumberOfUnLikesPerDay">Number Of Unlikes Per Day</system:String>
     <system:String x:Key="LangKeyNumberOfUnLikesPerHour">Number Of Unlikes Per Hour</system:String>
@@ -3693,7 +3696,9 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyExportingStarted">Exporting started. Please don't open the file until exporting completed.</system:String>
     <system:String x:Key="LangKeySucessfullyExportedTo">Sucessfully exported to</system:String>
     <system:String x:Key="LangKeyConfirmation">Confirmation</system:String>
-    <system:String x:Key="LangKeyConfirmationToCloseSocinator">Are you sure to close Legion?</system:String>
+
+    <system:String x:Key="LangKeyConfirmationToCloseApplication">Are you sure to close {0}?</system:String>
+
     <system:String x:Key="LangKeyCheckingLicense">Hang On! Checking your License status</system:String>
     <system:String x:Key="LangKeyTakeFewMoments">this will take a few moments...</system:String>
     <system:String x:Key="LangKeyNetworkError">Network Error</system:String>
@@ -4489,7 +4494,7 @@ Do you want to continue running {0}?</system:String>
     <system:String x:Key="LangKeyBoardDescriptionFormatForMultiple">Format for multiple :- {abc}|{abc}|{abc}</system:String>
     <system:String x:Key="LangKeyAccountNotRegisteredYet">Not Registered Yet</system:String>
     <system:String x:Key="LangKeyCopyAccountDetailToClipBoard" xml:space="preserve">Copy account's detail to clipboard.
- [Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
+[Network|Username:Password|ProxyIp:ProxyPort:ProxyUsername:ProxyPassword]</system:String>
     <system:String x:Key="LangKeyUpdatingDetails">Updating Details</system:String>
     <system:String x:Key="LangKeyAlreadyUpdatingDetailsSoWait">The account is currently updating details. Please wait and then do the action.</system:String>
     <system:String x:Key="LangKeyStepsToGetJsonCookies" xml:space="preserve">Steps to get json cookies from your browsers
@@ -4529,6 +4534,7 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyTotalNoConversions">Total {0} Conversions Found After Date Filter</system:String>
     <system:String x:Key="LangKeyNoMoreConversionsFound">No More Conversions Found</system:String>
     <system:String x:Key="LangKeySendMessageToUserWhoHaveNotIntracted">Send Message To User Who Have Not Interacted From</system:String>
+
     <system:String x:Key="LangKeyConfirmationToCloseLegion">Are you sure to close Legion?</system:String>
     <system:String x:Key="LangKeyValidateLegion">Please validate Legion !!</system:String>
     <system:String x:Key="LangKeyUserInActiveOnMyWallFromPast">User Who Are InActive On My Wall From Past</system:String>
@@ -4538,4 +4544,38 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyStartupWarningMessage">When using LEGION, do not do any activities in the Facebook account/s LEGION is using. This includes: liking, commenting, adding friends, removing friends, posting, deleting and any other activities. Using your Facebook account/s simultaneously with LEGION can put your account at risk.</system:String>
     <system:String x:Key="LangKeyEnterTheGroupsUrls">Enter The Groups Urls</system:String>
     <system:String x:Key="LangKeyCannotReplyToCommentPrivateUser">Cannot Reply To comment of post url {0} because it's a private post</system:String>
+
+    <system:String x:Key="LangkeyGroupUrlPosts">GroupUrl Post(S)</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeLikePerGroup">Maximum Number of post to be like per Group</system:String>
+    <system:String x:Key="LangKeyMaximumNumberOfPostToBeCommentPerGroup">Maximum Number of post to be comment per Group</system:String>
+    <system:String x:Key="LangKeyCannotPostOnPage">Cannot Post On page {0} from account {1}!</system:String>
+    <system:String x:Key="LangKeyStopActivityAfter">Stop Activity After</system:String>
+    <system:String x:Key="LangKeyFailedAttemptFor">Failed Attempt For</system:String>
+    <system:String x:Key="LangKeyPostOwner">Post Owner</system:String>
+    <system:String x:Key="LangKeyNumberOfPostsScrapingPerDay">Number Of Posts Scraping Per Day</system:String>
+    <system:String x:Key="LangKeyNumberOfPostsScrapingPerHour">Number Of Posts Scraping Per Hour</system:String>
+    <system:String x:Key="LangKeyNumberOfPostsScrapingPerJob">Number Of Posts Scraping Per Job</system:String>
+    <system:String x:Key="LangKeyNumberOfPostsScrapingPerWeek">Number Of Posts Scraping Per Week</system:String>
+    <system:String x:Key="LangKeyHourPerAccount">Hour Per Account</system:String>
+
+    <system:String x:Key="LangKeyAddPostsSourceLikeGoogleSearch">Add Posts Source! Like ([G]Google images, [U]Any other url)</system:String>
+    <system:String x:Key="LangKeyScrapeImagesFromGoogle">Scrape Images/Preview/Product Details From Google/Any Link Url</system:String>
+    <system:String x:Key="LangKeyImagesForEachUrl">Images for each Url.</system:String>
+    <system:String x:Key="LangKeyForScrapingOnly">For Scraping Only.</system:String>
+    <system:String x:Key="LangKeyRemoveAllDestinations">Remove All Destinations</system:String>
+    <system:String x:Key="LangKeyDestinationDetailsWillBeRemoved" xml:space="preserve">All selected destinations must be removed to proceed for option "Scraping only"!
+Do you want to continue?</system:String>
+
+    <system:String x:Key="LangKeySkipping">Skipping</system:String>
+    <system:String x:Key="LangKeyAsInteractedforthisCampaignForUniqueUser">, As Interacted for this Campaign - Filter Checked with Unique</system:String>
+    <system:String x:Key="LangKeyUrlsDontHaveCommentId" xml:space="preserve">As you have checked "Activity With Hightlighted comment only" in the Other Configuration Expander.
+Some of the custom urls don't have CommentId.</system:String>
+    <system:String x:Key="LangKeyErrorOnDeletingCampaigns">Oops! got error on deleting campaigns.</system:String>
+    <system:String x:Key="LangKeyIgnoreTextOnlyPost">Ignore Text Only Post</system:String>
+    <system:String x:Key="LangKeyVerifiedAccounts">Verified Accounts</system:String>
+    <system:String x:Key="LangKeySelectCountriesFilter">Select Countries For Location Filter</system:String>
+    <system:String x:Key="LangKeySaveLocations">Save Locations</system:String>
+    <system:String x:Key="LangKeySelectCountry">Select Country</system:String>
+        <system:String x:Key="LangKeySelectLocationByMultipleCities">Select Location By Multiple Cities</system:String>
 </ResourceDictionary>
+

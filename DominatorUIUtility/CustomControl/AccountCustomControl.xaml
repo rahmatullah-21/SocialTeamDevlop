@@ -714,7 +714,6 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ListViewItems}">
-                            <Setter Property="Height" Value="30"/>
                             <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}" />
                         </Style>
                     </ListView.ItemContainerStyle>

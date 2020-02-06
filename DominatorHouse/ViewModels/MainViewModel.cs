@@ -111,7 +111,8 @@ namespace Legion.ViewModels
             };
 
             var accountFileManager = ServiceLocator.Current.GetInstance<IAccountsFileManager>();
-            AccountList = new ObservableCollection<DominatorAccountModel>(accountFileManager.GetAll());
+            AccountList = new ObservableCollection<DominatorAccountModel>(accountFileManager.GetAll()
+                .OrderBy(s => s.AccountBaseModel.UserName).ToList());
 
             Socinator.DominatorCores.DominatorCoreBuilder.Strategies = Strategies;
         }
@@ -173,7 +174,7 @@ namespace Legion.ViewModels
             try
             {
                 e.Cancel = true;
-                bool isClose = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), "LangKeyConfirmationToCloseSocinator".FromResourceDictionary(), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
+                bool isClose = Dialog.ShowCustomDialog("LangKeyConfirmation".FromResourceDictionary(), String.Format("LangKeyConfirmationToCloseApplication".FromResourceDictionary(), "LangKeySocinator".FromResourceDictionary()), "LangKeyYes".FromResourceDictionary(), "LangKeyNo".FromResourceDictionary()) == MessageDialogResult.Affirmative;
                 if (isClose)
                 {
                     DominatorHouseCore.Utility.Utilities.KillGecko();

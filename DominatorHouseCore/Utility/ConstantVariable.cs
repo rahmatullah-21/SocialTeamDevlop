@@ -272,6 +272,8 @@ namespace DominatorHouseCore.Utility
         public static List<string> SupportedVideoFormat = new List<string> { "3g2", "3gp", "3gpp", "asf", "avi", "dat", "divx", "dv", "f4v", "flv", "m2ts", "m4v", "mkv", "mod", "mov", "mp4", "mpe", "mpeg", "mpeg4", "mpg", "mts", "nsv", "ogm", "ogv", "qt", "tod", "ts", "vob", "wmv" };
 
         public static string VideoToImageConvertPngFileName { get; set; } = $"_{ApplicationName}IMAGE.png";
+
+
         public static string ProcessingInput { get; set; } =
             "https://members.legionsoftware.io/softsale/api/check-activation?key={0}&request[hardware-id]={1}";
 
