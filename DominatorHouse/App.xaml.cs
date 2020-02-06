@@ -92,11 +92,11 @@ namespace Socinator
             return CheckByProcess();
             //try   // commented this code temporarily as it was not working properly
             //{
-            //    Mutex.OpenExisting("Socinator");
+            //    Mutex.OpenExisting("LDScraper");
             //}
             //catch
             //{
-            //    _mutex = new Mutex(true, "Socinator");
+            //    _mutex = new Mutex(true, "LDScraper");
             //    return false;
             //}
             //return true;
@@ -113,7 +113,7 @@ namespace Socinator
                 {
                     try
                     {
-                        if (item.ProcessName != "Socinator")
+                        if (item.ProcessName != "LDScraper")
                             continue;
                         itemCount++;
                         if (itemCount <= 1) continue;

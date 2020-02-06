@@ -6,13 +6,13 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Socinator")]
+[assembly: AssemblyTitle("LinkedIn Scraper")]
 
-[assembly: AssemblyDescription("The Social Dominator")]
+[assembly: AssemblyDescription("LinkedIn User Scraper")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Socinator")]
-[assembly: AssemblyProduct("Socinator")]
-[assembly: AssemblyCopyright("Copyright © Socinator 2018")]
+[assembly: AssemblyCompany("LDScraper")]
+[assembly: AssemblyProduct("LDScraper")]
+[assembly: AssemblyCopyright("Copyright © LDScraper 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,6 +51,6 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.62")]
-[assembly: AssemblyFileVersion("1.0.0.62")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("DominatorHouseCore.UnitTests")]
