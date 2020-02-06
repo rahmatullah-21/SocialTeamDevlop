@@ -635,6 +635,9 @@ namespace DominatorUIUtility.ViewModel
                                 isBrowserAutomationActive = splitAccount[13];
                                 break;
                             case 15:
+                            case 16:
+                            case 17:
+                            case 18:
                                 proxyaddress = splitAccount[4];
                                 proxyport = splitAccount[5];
                                 proxyusername = splitAccount[6];
