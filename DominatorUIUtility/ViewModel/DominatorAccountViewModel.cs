@@ -1837,7 +1837,7 @@ namespace DominatorUIUtility.ViewModel
 
                             var browserManager = accountScopeFactory[$"{account.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(account.AccountBaseModel.AccountNetwork.ToString());
 
-                            browserManager.BrowserLogin(account, LoginType.InitialiseBrowser);
+                            browserManager.BrowserLogin(account,account.Token, LoginType.InitialiseBrowser);
                         }
                     }
                     catch (Exception ex)
@@ -2324,8 +2324,9 @@ namespace DominatorUIUtility.ViewModel
                     var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
 
                     var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-
-                    browserManager.BrowserLogin(dominatorAccountModel, LoginType.BrowserLogin);
+                   
+                    // don't pass account's cancellationToken here. Otherwise "stopping account activity" could close the browser opened by BrowserLogin click 
+                    browserManager.BrowserLogin(dominatorAccountModel, new CancellationToken(), LoginType.BrowserLogin);
                 });
             }
             catch (Exception ex)
