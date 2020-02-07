@@ -258,10 +258,13 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             {
                 // Stop publishing posts
                 PublishScheduler.StopPublishingPosts(x.CampaignId);
+                PublisherPostFetcher.StopFetchingPostsByCampaignId(x.CampaignId, false);
                 // Update the campaign status to paused
                 UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Paused);
                 // Call to set the default settings
                 InitializeDefaultCampaignStatus();
+
+                System.Threading.Thread.Sleep(1000);
                 //GlobusLogHelper.log.Info(Log.PublisherCampaignPaused, x.CampaignName);
             });
 
@@ -279,6 +282,9 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
             selectedCampaigns.ForEach(x =>
             {
                 // Call to schedule todays campaign
+                var publisherPostFetcher = new PublisherPostFetcher();
+                // Start fetching the post for the campaign
+                publisherPostFetcher.FetchPostsForCampaign(x.CampaignId);
                 PublishScheduler.ScheduleTodaysPublisherByCampaign(x.CampaignId);
                 // Make the status to active
                 UpdateCampaignStatus(x.CampaignId, PublisherCampaignStatus.Active);
