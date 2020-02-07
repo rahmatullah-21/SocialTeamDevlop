@@ -2039,9 +2039,7 @@ namespace DominatorUIUtility.ViewModel
 
                                 var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
                                 var accounts = globalDbOperation.UpdateAccountDetails(account);
-
-                                _updateAccountList.Remove(account.UserName);
-
+                                
                                 try
                                 {
                                     lock (AccountUpdateLock)
@@ -2062,6 +2060,10 @@ namespace DominatorUIUtility.ViewModel
                         catch (Exception ex)
                         {
                             ex.DebugLog();
+                        }
+                        finally
+                        {
+                            _updateAccountList.Remove(account.UserName);
                         }
 
                     }, account.Token);

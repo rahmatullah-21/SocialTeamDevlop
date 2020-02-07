@@ -2714,7 +2714,7 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyPublishingProcessCompleted">Publish process completed with campaign</system:String>
     <!--Ends Newly Added-->
     <!--Begins Newly Added on (05/07/2018)-->
-    <system:String x:Key="LangKeyPercentageOfSelectedAccounts">% of selected accounts</system:String>
+    <system:String x:Key="LangKeyPercentageOfSelectedAccounts">% of selected accounts (for individual post)</system:String>
     <system:String x:Key="LangKeyKeepDelayBetween">Keep delay between</system:String>
     <system:String x:Key="LangKeyPerformActionOnUniquePostFromAllAccountsInThisCampaign">Perform action on unique post from all accounts in this campaign.</system:String>
     <system:String x:Key="LangKeyPerformActionOnPostsOfUniqueUserFromAllAccountsInThisCampaign">Perform action on posts of unique user from all accounts in this campaign.</system:String>
