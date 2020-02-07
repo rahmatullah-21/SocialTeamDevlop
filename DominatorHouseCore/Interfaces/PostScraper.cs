@@ -1,6 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.Threading;
 using DominatorHouseCore.Diagnostics;
+using DominatorHouseCore.Enums;
+using DominatorHouseCore.FileManagers;
 using DominatorHouseCore.Models.SocioPublisher;
 using DominatorHouseCore.Utility;
 
@@ -8,6 +11,85 @@ namespace DominatorHouseCore.Interfaces
 {
     public abstract class PostScraper
     {
+
+        private readonly string _CampaignId;
+        private readonly PublisherPostFetchModel _CurrentPostFetcher;
+        private readonly CancellationTokenSource _PostFetcherCancellationToken;
+
+        public static ConcurrentDictionary<string, object> _UpdatingLock { get; set; } = new ConcurrentDictionary<string, object>();
+        private static ConcurrentDictionary<string, int> _campaignPostCount { get; set; } = new ConcurrentDictionary<string, int>();
+
+        private static ConcurrentDictionary<string, string> _lstCampaignPostId { get; set; } = new ConcurrentDictionary<string, string>();
+
+        public PostScraper(string CampaignId, CancellationTokenSource campaignCancellationToken,
+            PublisherPostFetchModel postFetcherModel)
+        {
+            _CampaignId = CampaignId;
+            _CurrentPostFetcher = postFetcherModel;
+            _PostFetcherCancellationToken = campaignCancellationToken;
+
+            var postList = PostlistFileManager.GetAll(_CampaignId);
+            _campaignPostCount.AddOrUpdate(_CampaignId, postList.Count, (id, count) =>
+            {
+                count = postList.Count;
+                return count;
+            });
+
+            postList.ForEach(x =>
+            {
+                _lstCampaignPostId.TryAdd(x.FetchedPostIdOrUrl, x.CampaignId);
+            });
+        }
+
+
+        protected void CheckForMaxPostCount()
+        {
+            var updatelock = _UpdatingLock.GetOrAdd(_CampaignId, _lock => new object());
+
+            lock (updatelock)
+            {
+                int runningCount = 0;
+
+                _campaignPostCount.TryGetValue(_CampaignId, out runningCount);
+                if (runningCount > 0 && runningCount >= _CurrentPostFetcher.MaximumPostLimitToStore)
+                    _PostFetcherCancellationToken.Cancel();
+                else
+                {
+                    runningCount++;
+                    _campaignPostCount.AddOrUpdate(_CampaignId, runningCount, (id, count) =>
+                    {
+                        if (count < 0)
+                            // ReSharper disable once RedundantAssignment
+                            count = 0;
+                        count = runningCount;
+                        return count;
+                    });
+                }
+
+            }
+
+        }
+
+
+
+        protected bool CheckForDuplicatePost(string postId)
+        {
+            var updatelock = _UpdatingLock.GetOrAdd($"{_CampaignId}_Duplicates", _lock => new object());
+            
+            lock (updatelock)
+            {
+                if (_lstCampaignPostId.TryAdd(postId, _CampaignId))
+                {
+                    CheckForMaxPostCount();
+
+                    _PostFetcherCancellationToken.Token.ThrowIfCancellationRequested();
+
+                    return false;
+                }                    
+                else
+                    return true;
+            }
+        }
 
         #region Post Scrapers
 
@@ -59,8 +141,8 @@ namespace DominatorHouseCore.Interfaces
                 rssFeedModels.ForEach(async x =>
                 {
                     // Call the scraper methods for Rss Post Fetcing
-                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate,x.PostDetailsModel, campaignId, cancellationTokenSource, maximumPostLimitToStore, campaignName);
-                });               
+                    await rssFeedUtilities.RssFeedFetchMethod(x.FeedUrl, x.FeedTemplate, x.PostDetailsModel, campaignId, cancellationTokenSource, maximumPostLimitToStore, campaignName);
+                });
             }, cancellationTokenSource.Token);
         }
 
@@ -87,17 +169,17 @@ namespace DominatorHouseCore.Interfaces
         /// <param name="cancellationTokenSource">Cancellation Token Source for stop the running task</param>
         /// <param name="maximumPostLimitToStore">Maximum post limit for the postlists</param>
         /// <param name="campaignName">Campaign Name</param>
-        public void FetchMonitorFoldersPosts(string campaignId, ObservableCollection<PublisherMonitorFolderModel> monitorFolderModels ,CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
+        public void FetchMonitorFoldersPosts(string campaignId, ObservableCollection<PublisherMonitorFolderModel> monitorFolderModels, CancellationTokenSource cancellationTokenSource, int maximumPostLimitToStore, string campaignName)
         {
             ThreadFactory.Instance.Start(() =>
             {
                 //Create a object of Monitor Folder Utilities
                 var monitorFolderUtilites = new MonitorFolderUtilites();
-                monitorFolderModels.ForEach( x =>
-                {
-                    // Call the scraper methods for folders Post details
-                    monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate,x.PostDetailsModel, cancellationTokenSource, maximumPostLimitToStore, campaignName);
-                });
+                monitorFolderModels.ForEach(x =>
+               {
+                   // Call the scraper methods for folders Post details
+                   monitorFolderUtilites.GetFoldersFileDetails(x.FolderPath, campaignId, x.FolderTemplate, x.PostDetailsModel, cancellationTokenSource, maximumPostLimitToStore, campaignName);
+               });
             }, cancellationTokenSource.Token);
         }
 

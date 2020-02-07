@@ -301,7 +301,7 @@ namespace DominatorHouseCore.Process
 
                 // get the post scraper object for Rss feed and monitor folder
                 var postScraper = PublisherInitialize.GetPublisherLibrary(SocialNetworks.Social).GetPublisherCoreFactory()
-                    .PostScraper.GetPostScraperLibrary();
+                    .PostScraper.GetPostScraperLibrary(publisherPostFetchModel.CampaignId, cancellationTokenSource, publisherPostFetchModel);
 
                 // Call the respective post scraper methods
                 switch (publisherPostFetchModel.PostSource)
@@ -374,7 +374,7 @@ namespace DominatorHouseCore.Process
                                     try
                                     {
                                         var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
-                                   .PostScraper.GetPostScraperLibrary();
+                                            .PostScraper.GetPostScraperLibrary(publisherPostFetchModel.CampaignId, cancellationTokenSource, publisherPostFetchModel);
 
                                         if (publisherPostFetchModel.PostSource == PostSource.SharePost)
                                         {

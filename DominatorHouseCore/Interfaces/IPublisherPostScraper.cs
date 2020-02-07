@@ -1,4 +1,8 @@
-﻿namespace DominatorHouseCore.Interfaces
+﻿using DominatorHouseCore.Enums;
+using DominatorHouseCore.Models.SocioPublisher;
+using System.Threading;
+
+namespace DominatorHouseCore.Interfaces
 {
     public interface IPublisherPostScraper
     {
@@ -6,6 +10,7 @@
         /// To hold the objects for scarping posts from facebook, pinterest, twitter
         /// </summary>
         /// <returns></returns>
-        PostScraper GetPostScraperLibrary();
+        PostScraper GetPostScraperLibrary(string CampaignId
+            , CancellationTokenSource campaignCancellationToken, PublisherPostFetchModel postFetchModel);
     }
 }

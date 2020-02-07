@@ -789,11 +789,7 @@ namespace DominatorUIUtility.ViewModel.SocioPublisher
                 // remove from campaign Ui
                 PublisherCreateCampaigns.GetSingeltonPublisherCreateCampaigns().PublisherCreateCampaignViewModel.CampaignList.Remove(campaign.CampaignName);
                 ListPublisherCampaignStatusModels.Remove(campaign);
-
-
-                // Delete the post fetcher
-                _genericFileManager.Delete<PublisherPostFetchModel>(y => campaign.CampaignId == y.CampaignId, ConstantVariable.GetPublisherPostFetchFile);
-
+                
                 // Stop publishing the post
                 PublishScheduler.StopPublishingPosts(campaign.CampaignId);
 
