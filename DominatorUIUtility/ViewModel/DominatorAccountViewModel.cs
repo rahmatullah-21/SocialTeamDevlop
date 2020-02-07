@@ -621,14 +621,20 @@ namespace LegionUIUtility.ViewModel
                             case 13:
                             case 14:
                             case 15:
-                                proxyaddress = splitAccount[3];
-                                proxyport = splitAccount[4];
-                                proxyusername = splitAccount[5];
-                                proxypassword = splitAccount[6];
-                                status = splitAccount[7];
-                                browserCookies = splitAccount[8].Replace("<>", ",");
-                                banned = splitAccount[9];
-                                proxyGroup = splitAccount[10];
+                            case 16:
+                            case 17:
+                            case 18:
+                                proxyaddress = splitAccount[4];
+                                proxyport = splitAccount[5];
+                                proxyusername = splitAccount[6];
+                                proxypassword = splitAccount[7];
+                                status = splitAccount[8];
+                                cookies = splitAccount[9].Replace("<>", ",");
+                                alternetEmail = splitAccount[10];
+                                banned = splitAccount[11];
+                                browserCookies = splitAccount[12].Replace("<>", ",");
+                                isBrowserAutomationActive = splitAccount[13];
+                                proxyGroup = splitAccount[14];
                                 break;
                         }
 
@@ -1763,7 +1769,7 @@ namespace LegionUIUtility.ViewModel
 
                             var browserManager = accountScopeFactory[$"{account.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(account.AccountBaseModel.AccountNetwork.ToString());
 
-                            browserManager.BrowserLogin(account, LoginType.InitialiseBrowser);
+                            browserManager.BrowserLogin(account,account.Token, LoginType.InitialiseBrowser);
                         }
                     }
                     catch (Exception ex)
@@ -1965,9 +1971,7 @@ namespace LegionUIUtility.ViewModel
 
                                 var globalDbOperation = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
                                 var accounts = globalDbOperation.UpdateAccountDetails(account);
-
-                                _updateAccountList.Remove(account.UserName);
-
+                                
                                 try
                                 {
                                     lock (AccountUpdateLock)
@@ -1988,6 +1992,10 @@ namespace LegionUIUtility.ViewModel
                         catch (Exception ex)
                         {
                             ex.DebugLog();
+                        }
+                        finally
+                        {
+                            _updateAccountList.Remove(account.UserName);
                         }
 
                     }, account.Token);
@@ -2250,8 +2258,9 @@ namespace LegionUIUtility.ViewModel
                     var accountScopeFactory = ServiceLocator.Current.GetInstance<IAccountScopeFactory>();
 
                     var browserManager = accountScopeFactory[$"{dominatorAccountModel.AccountId}_BrowserLogin"].Resolve<IBrowserManager>(dominatorAccountModel.AccountBaseModel.AccountNetwork.ToString());
-
-                    browserManager.BrowserLogin(dominatorAccountModel, LoginType.BrowserLogin);
+                   
+                    // don't pass account's cancellationToken here. Otherwise "stopping account activity" could close the browser opened by BrowserLogin click 
+                    browserManager.BrowserLogin(dominatorAccountModel, new CancellationToken(), LoginType.BrowserLogin);
                 });
             }
             catch (Exception ex)

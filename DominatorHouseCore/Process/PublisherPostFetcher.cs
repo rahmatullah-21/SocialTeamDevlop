@@ -38,18 +38,43 @@ namespace DominatorHouseCore.Process
         {
             var genericFileManager = ServiceLocator.Current.GetInstance<IGenericFileManager>();
             // Get the post fetch details from bin file <see cref="ConstantVariable.GetPublisherPostFetchFile" /> other than normal post
-            var getFetchDetails =
-                genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
-                    .GetPublisherPostFetchFile).Where(x => x.PostSource != PostSource.NormalPost);
+            var allCampaign = genericFileManager.GetModuleDetails<PublisherCreateCampaignModel>(ConstantVariable.GetPublisherCampaignFile());
+
+            var getFetchDetails = genericFileManager.GetModuleDetails<PublisherPostFetchModel>(ConstantVariable
+                    .GetPublisherPostFetchFile);
+
+            var deletedCampaignFetcherList = getFetchDetails.Where(x =>
+                    allCampaign.FirstOrDefault(y => y.CampaignId == x.CampaignId) == null);
+
+            deletedCampaignFetcherList.ForEach(x =>
+            {
+                genericFileManager.Delete<PublisherPostFetchModel>(y => y.CampaignId == x.CampaignId, ConstantVariable
+                       .GetPublisherPostFetchFile);
+            });
+
+            getFetchDetails.RemoveAll(x => deletedCampaignFetcherList.Any(y => y.CampaignId == x.CampaignId));
+
+            getFetchDetails = getFetchDetails.Where(x => x.PostSource != PostSource.NormalPost).ToList();
 
             // Iterate the post fetch detail
             getFetchDetails.ForEach(postFetchModel =>
             {
-                // Register the campaign its running from current fetcher with respective post source and get the cancellation token
-                var cancellationTokenSource = RegisterPostFetcher(postFetchModel.CampaignId, postFetchModel.PostSource);
+                try
+                {
+                    if (allCampaign.FirstOrDefault(x => x.CampaignId == postFetchModel.CampaignId).CampaignStatus == PublisherCampaignStatus.Active)
+                    {
+                        // Register the campaign its running from current fetcher with respective post source and get the cancellation token
+                        var cancellationTokenSource = RegisterPostFetcher(postFetchModel.CampaignId, postFetchModel.PostSource);
 
-                // Call the fetch methods with passing respective cancellation source
-                FetchPosts(postFetchModel, cancellationTokenSource);
+                        // Call the fetch methods with passing respective cancellation source
+                        FetchPosts(postFetchModel, cancellationTokenSource);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.DebugLog();
+                }
+
             });
         }
 
@@ -150,7 +175,7 @@ namespace DominatorHouseCore.Process
         /// Stop post fetcher by using campaign Id
         /// </summary>
         /// <param name="campaignId">Campaign Id</param>
-        public static void StopFetchingPostsByCampaignId(string campaignId)
+        public static void StopFetchingPostsByCampaignId(string campaignId, bool isDeleteRelatedModel = true)
         {
             try
             {
@@ -168,8 +193,10 @@ namespace DominatorHouseCore.Process
                 });
 
                 // Delete all fetcher
-                genericFileManager.Delete<PublisherPostFetchModel>(x => x.CampaignId == campaignId, ConstantVariable
-                    .GetPublisherPostFetchFile);
+
+                if (isDeleteRelatedModel)
+                    genericFileManager.Delete<PublisherPostFetchModel>(x => x.CampaignId == campaignId, ConstantVariable
+                        .GetPublisherPostFetchFile);
 
             }
             catch (Exception ex)
@@ -274,7 +301,7 @@ namespace DominatorHouseCore.Process
 
                 // get the post scraper object for Rss feed and monitor folder
                 var postScraper = PublisherInitialize.GetPublisherLibrary(SocialNetworks.Social).GetPublisherCoreFactory()
-                    .PostScraper.GetPostScraperLibrary();
+                    .PostScraper.GetPostScraperLibrary(publisherPostFetchModel.CampaignId, cancellationTokenSource, publisherPostFetchModel);
 
                 // Call the respective post scraper methods
                 switch (publisherPostFetchModel.PostSource)
@@ -342,12 +369,12 @@ namespace DominatorHouseCore.Process
                                 if (SocinatorInitialize.IsNetworkAvailable(networkWithAccount.Key))
                                 {
                                     // Get the proper library for publisher
-                                    
+
 
                                     try
                                     {
                                         var networkPostScraper = PublisherInitialize.GetPublisherLibrary(networkWithAccount.Key).GetPublisherCoreFactory()
-                                   .PostScraper.GetPostScraperLibrary();
+                                            .PostScraper.GetPostScraperLibrary(publisherPostFetchModel.CampaignId, cancellationTokenSource, publisherPostFetchModel);
 
                                         if (publisherPostFetchModel.PostSource == PostSource.SharePost)
                                         {
