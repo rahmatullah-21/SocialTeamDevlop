@@ -429,9 +429,9 @@ namespace DominatorHouseCore.Process
                     GlobusLogHelper.log.Info(Log.AccountLogin, DominatorAccountModel.AccountBaseModel.AccountNetwork, DominatorAccountModel.AccountBaseModel.UserName);
 
                     if (!DominatorAccountModel.IsRunProcessThroughBrowser)
-                        logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true);
+                        logInProcess.LoginWithDataBaseCookies(DominatorAccountModel, true, JobCancellationTokenSource.Token);
                     else
-                        logInProcess.LoginWithBrowserMethod(DominatorAccountModel);
+                        logInProcess.LoginWithBrowserMethod(DominatorAccountModel, JobCancellationTokenSource.Token);
 
                     JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }

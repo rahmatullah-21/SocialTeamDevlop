@@ -1,5 +1,6 @@
 ﻿using DominatorHouseCore.Enums;
 using DominatorHouseCore.Models;
+using System.Threading;
 
 namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
 {
@@ -8,12 +9,12 @@ namespace DominatorHouseCore.BusinessLogic.ActivitiesWorkflow
     /// </summary>
     public interface ILoginProcess
     {
-        bool CheckLogin(DominatorAccountModel dominatorAccountModel);
+        bool CheckLogin(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken);
 
-        void LoginWithDataBaseCookies(DominatorAccountModel dominatorAccountModel, bool isMobileRequired);
+        void LoginWithDataBaseCookies(DominatorAccountModel dominatorAccountModel, bool isMobileRequired, CancellationToken cancellationToken);
 
-        void LoginWithAlternativeMethod(DominatorAccountModel dominatorAccountModel);
+        void LoginWithAlternativeMethod(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken);
 
-        void LoginWithBrowserMethod(DominatorAccountModel dominatorAccountModel,VerificationType verificationType=0);
+        void LoginWithBrowserMethod(DominatorAccountModel dominatorAccountModel, CancellationToken cancellationToken, VerificationType verificationType=0);
     }
 }
