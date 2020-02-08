@@ -1,3 +1,28 @@
+Version[1.0.0.76],[8th February 2020]
+Fixed:- 
+	Social:
+		Publisher ==> Pinterest ==> Issue fixed with Scrape post for Pinterest Network
+
+	Pinterest:
+		Pinterest ==> Pin Poster ==> Issue fixed with Edit Pin 
+		Pin Poster ==> Issue fixed with re pinning with Browser settings
+		Account Manager ==> Issue fixed with NOT Updating Details with Browser settings
+
+	Instagram:
+		Instaposter ==> Reposter ==> Specific user post ==>  Fixed issue with original post caption.
+		Instaposter ==> Reposter ==> Followers of someones following post ==>Fixed issue with repost count filter.
+	
+	Quora:
+		Quora ==> voting ==> Downvote question ==> Custom urls ==> Fixed issue with downvote the question.
+	
+	Twitter:
+		Grow Followers ==> Follower ==> Someones followers ==> Fixed issue with follow. 
+		Grow Followers ==> Follower ==> User Who liked Tweet ==> Fixed issue with retweet.
+		Poster=> Tweet To ==> Fixed issue with follow 
+
+	Tumblr
+		Tumblr ==> Reblog ==> Keywords ==> Fixed issue with post filter Notes 
+
 Version[1.0.0.75],[30th January 2020]
 New features:
 	Social:         
