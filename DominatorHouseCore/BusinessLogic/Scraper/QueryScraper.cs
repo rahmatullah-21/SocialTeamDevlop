@@ -90,8 +90,8 @@ namespace DominatorHouseCore.BusinessLogic.Scraper
                     {
                         _jobProcess.JobCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                        ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
-                        //ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryTypeEnum}"]?.Invoke(query);
+                        //ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryType}"]?.Invoke(query);
+                        ScrapeWithQueriesActionTable[$"{_jobProcess.ActivityType}{query.QueryTypeEnum}"]?.Invoke(query);
                         Thread.Sleep(5);
                     }
                     catch (KeyNotFoundException ex)

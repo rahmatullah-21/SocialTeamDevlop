@@ -20,16 +20,16 @@ namespace DominatorHouseCore.Enums
         Comment = 5,
 
         //,Instagram,Reddit
-       // [Description("Twitter")]
+        // [Description("Twitter")]
         DeleteComment = 6,
-    
+
 
         //[Description("Instagram")]
         Post = 7,
 
         // INFO : Ambiguous between Repost(8) and Reposter(13), so dont use, if any one used please with Reposter(13)
-       // [Description("Twitter")]
-       // Repost = 8,
+        // [Description("Twitter")]
+        // Repost = 8,
 
         [Description("Instagram")]
         DeletePost = 9,
@@ -40,8 +40,8 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter,Instagram,Gplus,LinkedIn,Pinterest,Reddit,Tumblr,Quora,TikTok")]
         UserScraper = 11,
 
-         [Description("Facebook")]
-         DownloadScraper = 12,
+        [Description("Facebook")]
+        DownloadScraper = 12,
 
         [Description("Twitter,Instagram")]
         Reposter = 13,
@@ -97,25 +97,25 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,Gplus,Youtube,Instagram,Tumblr,TikTok")]
         PostScraper = 30,
 
-        [Description("Facebook,LinkedIn,LangKeyGroupJoiner")]
+        [Description("LinkedIn,LangKeyGroupJoiner")]
         GroupJoiner = 31,
 
-        [Description("Facebook,LinkedIn,LangKeyGroupUnjoiner")]
+        [Description("LinkedIn,LangKeyGroupUnjoiner")]
         GroupUnJoiner = 32,
 
-        [Description("Facebook")]
+        [Description("LangKeyGroupUnjoiner")]
         GroupInviter = 34,
 
-        [Description("Facebook")]
+        [Description("LangKeyGroupUnjoiner")]
         PageInviter = 35,
 
-        [Description("Facebook")]
+        [Description("LangKeyGroupUnjoiner")]
         EventInviter = 36,
 
         //[Description("Facebook")]
         //GroupCreator = 37,
 
-        [Description("Facebook")]
+        [Description("LangKeyGroupUnjoiner")]
         EventCreator = 38,
 
         [Description("Twitter")]
@@ -136,10 +136,10 @@ namespace DominatorHouseCore.Enums
         //[Description("Gplus")]
         //Unjoin = 44,
 
-       // [Description("Facebook")]
+        // [Description("Facebook")]
         PostLikerCommentor = 45,
 
-        [Description("Facebook")]
+        [Description("LangKeyGroupUnjoiner")]
         FanpageLiker = 46,
 
         //[Description("Facebook")]
@@ -148,7 +148,7 @@ namespace DominatorHouseCore.Enums
         [Description("Twitter")]
         TweetScraper = 48,
 
-        [Description("Facebook")]
+        [Description("LangKeyGroupUnjoiner")]
         MakeAdmin = 49,
 
         [Description("LinkedIn")]
@@ -171,7 +171,7 @@ namespace DominatorHouseCore.Enums
 
         [Description("Instagram")]
         BlockFollower = 56,
-        [Description("Instagram,Youtube,Facebook")]
+        [Description("Instagram,Youtube,LangKeyGroupUnjoiner")]
         LikeComment = 57,
 
         [Description("Instagram,TikTok")]
@@ -190,7 +190,7 @@ namespace DominatorHouseCore.Enums
         Mute = 62,
 
         //[Description("Gplus")]
-       // CommunityScraper = 63,
+        // CommunityScraper = 63,
 
         [Description("LinkedIn")]
         JobScraper = 64,
@@ -207,7 +207,7 @@ namespace DominatorHouseCore.Enums
         [Description("Youtube,Reddit")]
         ChannelScraper = 68,
 
-       // [Description("Youtube")]
+        // [Description("Youtube")]
         Unsubscribe = 69,
 
         [Description("Instagram,Twitter,Facebook,LinkedIn,Pinterest,Quora,Tumblr")]
@@ -287,7 +287,7 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook,LangKeyPostLikers")]
         PostLiker = 95,
 
-        [Description("Facebook,LangKeyPostComment")]
+        [Description("LangKeyPostComment,LangKeyPostComment")]
         PostCommentor = 96,
         [Description("Reddit")]
         RemoveVoteComment = 97,
@@ -307,9 +307,9 @@ namespace DominatorHouseCore.Enums
         TweetTo = 104,
         [Description("Facebook")]
         SendMessageToNewFriends = 105,
-        [Description("Facebook")]
+        [Description("LangKeyGroupUnjoiner")]
         WatchPartyInviter = 106,
-       // [Description("Facebook")]
+        // [Description("Facebook")]
         MarketPlaceScraper = 107,
         [Description("Facebook")]
         SendGreetingsToFriends = 108,
@@ -323,7 +323,7 @@ namespace DominatorHouseCore.Enums
         SendBoardInvitation = 112,
         [Description("LinkedIn")]
         BlockUser = 113,
-        [Description("Facebook")]
+        [Description("LangKeyGroupUnjoiner")]
         MessageToFanpages = 114,
         [Description("Facebook")]
         MessageToPlaces = 115,
@@ -338,6 +338,21 @@ namespace DominatorHouseCore.Enums
         [Description("Facebook")]
         CommentRepliesScraper = 120,
         [Description("LinkedIn")]
-        MessageConversationScraper =121
+        MessageConversationScraper = 121
+    }
+
+    public enum RemovedActivityType
+    {
+        GroupJoiner = 1,
+        GroupUnJoiner = 2,
+        MakeAdmin = 3,
+        PostCommentor = 4,
+        FanpageLiker = 5,
+        EventCreator = 6,
+        GroupInviter = 7,
+        PageInviter = 8,
+        EventInviter = 9,
+        WatchPartyInviter = 10,
+        MessageToFanpages = 11
     }
 }

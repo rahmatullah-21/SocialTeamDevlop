@@ -22,7 +22,7 @@ using DominatorHouseCore.DatabaseHandler.Utility;
 using DominatorHouseCore.Enums.FdQuery;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using DominatorHouseCore.DatabaseHandler.CoreModels;
 
 namespace DominatorHouseCore.Settings
 {
@@ -32,6 +32,8 @@ namespace DominatorHouseCore.Settings
         void ActivityManagerInitializer();
         void ScheduleAutoUpdation(List<string> lstAccountsForUpdate = null);
         Task ScheduleAdsScraping();
+
+        Task DeleteUnnecessaryCampaigns();
         Task<bool> ScrapAdsProduceAsync(ActionBlock<ScrapAdsDetails> adsActionBuffer, DominatorAccountModel currentAccount = null
             , SocialNetworks currentNetwork = SocialNetworks.Facebook);
         SoftwareSettingsModel Settings { get; set; }
@@ -40,18 +42,31 @@ namespace DominatorHouseCore.Settings
     }
 
     public class SoftwareSettings : BindableBase, ISoftwareSettings
+
     {
         public ISoftwareSettingsFileManager _softwareSettingsFileManager;
         private readonly IFileSystemProvider _fileSystemProvider;
         private readonly IGenericFileManager _genericFileManager;
 
         private readonly IAccountsFileManager _accountsFileManager;
-        public SoftwareSettings(ISoftwareSettingsFileManager softwareSettingsFileManager, IFileSystemProvider fileSystemProvider, IGenericFileManager genericFileManager, IAccountsFileManager accountsFileManager)
+
+        public ICampaignsFileManager _campaignFileManager;
+        private readonly IJobActivityConfigurationManager _jobActivityConfigurationManager;
+        private readonly IAccountsCacheService _accountsCacheService;
+
+        private  IDominatorScheduler _dominatorScheduler;
+        public SoftwareSettings(ISoftwareSettingsFileManager softwareSettingsFileManager,
+            IFileSystemProvider fileSystemProvider, IGenericFileManager genericFileManager,
+            IAccountsFileManager accountsFileManager, ICampaignsFileManager campaignFileManager,
+            IJobActivityConfigurationManager jobActivityConfigurationManager, IAccountsCacheService accountsCacheService)
         {
             _softwareSettingsFileManager = softwareSettingsFileManager;
             _fileSystemProvider = fileSystemProvider;
             _genericFileManager = genericFileManager;
             _accountsFileManager = accountsFileManager;
+            _campaignFileManager = campaignFileManager;
+            _jobActivityConfigurationManager = jobActivityConfigurationManager;
+            _accountsCacheService = accountsCacheService;
         }
         private SoftwareSettingsModel _settings;
 
@@ -394,6 +409,73 @@ namespace DominatorHouseCore.Settings
             return countrySet;
         }
 
+        public async Task DeleteUnnecessaryCampaigns()
+        {
+            var _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+            var allAccounts = _accountsFileManager.GetAll(SocialNetworks.Facebook);
+            var removedCapaigns = Enum.GetNames(typeof(RemovedActivityType));
+            allAccounts.ForEach(x =>
+            {
+                var moduleConfig = _jobActivityConfigurationManager[x.AccountId];
+                if (moduleConfig != null)
+                {
+                    // Remove task from list
+                    foreach (var moduleConfiguration in _jobActivityConfigurationManager[x.AccountId].Where(mc => removedCapaigns.Any(y => y == mc.ActivityType.ToString())).ToList())
+                    {
+                        _jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
+
+                        //Update ActivityManager of account in Db
+                        _dbOperations.UpdateAccountActivityManager(x);
+                    }
+                }
+            });
+
+            _accountsCacheService.UpsertAccounts(allAccounts.ToArray());
+
+            var campaignsToRemove = _campaignFileManager.Where(x => removedCapaigns.Any(y => x.SubModule.ToString() == y));
+            campaignsToRemove.ForEach(x =>
+            {
+                _campaignFileManager.Delete(x);
+                var _dataBaseHandler = ServiceLocator.Current.GetInstance<IDataBaseHandler>();
+                UpdateAccount(allAccounts, x, x.SelectedAccountList);
+                _dataBaseHandler.DeleteDatabase(new List<string> { x.CampaignId }, DatabaseType.CampaignType);
+
+            });
+        }
+
+        private void UpdateAccount(List<DominatorAccountModel> allAccounts, CampaignDetails camp, List<string> selectedAccount)
+        {
+            try
+            {
+                var _dbOperations = new DbOperations(SocinatorInitialize.GetGlobalDatabase().GetSqlConnection());
+                _dominatorScheduler = ServiceLocator.Current.GetInstance<IDominatorScheduler>();
+                // remove template from each account
+                allAccounts.ForEach(x =>
+                {
+                    var moduleConfig = _jobActivityConfigurationManager[x.AccountId].FirstOrDefault(mc => mc.TemplateId == camp.TemplateId);
+                    if (moduleConfig != null)
+                    {
+                        // Stop active task related to campaign
+                        _dominatorScheduler.StopActivity(x, camp.SubModule, camp.TemplateId, false);
+
+                        // Remove task from list
+                        foreach (var moduleConfiguration in _jobActivityConfigurationManager[x.AccountId].Where(mc => mc.TemplateId == camp.TemplateId).ToList())
+                        {
+                            _jobActivityConfigurationManager.Delete(x.AccountId, moduleConfiguration.ActivityType);
+
+                            //Update ActivityManager of account in Db
+                            _dbOperations.UpdateAccountActivityManager(x);
+                        }
+                    }
+                });
+
+                _accountsCacheService.UpsertAccounts(allAccounts.ToArray());
+            }
+            catch (Exception ex)
+            {
+                ex.DebugLog();
+            }
+        }
     }
 
     public class ScrapAdsDetails

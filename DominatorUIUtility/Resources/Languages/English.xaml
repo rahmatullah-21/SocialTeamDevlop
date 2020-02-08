@@ -729,7 +729,7 @@
     <system:String x:Key="LangKeyFailures">Failures</system:String>
     <system:String x:Key="LangKeyFanPageLiker">Fan Page Liker</system:String>
     <system:String x:Key="LangKeyFanpageFilters">Fanpage Filters</system:String>
-    <system:String x:Key="LangKeyFanpageLikers">Fanpage Likers</system:String>
+    <system:String x:Key="LangKeyFanpageLikers">Fanpage Likers (Fanpage URL)</system:String>
     <system:String x:Key="LangKeyFanpagePostLikers">Fanpage Post Likers</system:String>
     <system:String x:Key="LangKeyFanpageScraper">Fanpage Scraper</system:String>
     <system:String x:Key="LangKeyFavorites">Favorites</system:String>
@@ -821,7 +821,7 @@
     <system:String x:Key="LangKeyForceKillEmbeddedBrowsersExperimentalUseWhenEmbeddedBrowserProcessesAreNotCorrectlyKilled">Force Kill Embedded Browsers (Experimental - Use When Embedded Browser Processes Are Not Correctly Killed)</system:String>
     <system:String x:Key="LangKeyForward">Forward</system:String>
     <system:String x:Key="LangKeyFriday">Friday</system:String>
-    <system:String x:Key="LangKeyFriendOfFriend">Friend Of Friend</system:String>
+    <system:String x:Key="LangKeyFriendOfFriend">Friends of this Profile (Friend Profile URL)</system:String>
     <system:String x:Key="LangKeyFriendRequestsPerOperation">Friend Requests Per Operation</system:String>
     <system:String x:Key="LangKeyFriendTimeline">Friend Timeline</system:String>
     <system:String x:Key="LangKeyFriends">Friends</system:String>
@@ -861,7 +861,7 @@
     <system:String x:Key="LangKeyGroupFilters">Group Filters</system:String>
     <system:String x:Key="LangKeyGroupInviter">Group Inviter</system:String>
     <system:String x:Key="LangKeyGroupJoiner">Group Joiner</system:String>
-    <system:String x:Key="LangKeyGroupMembers">Group Members</system:String>
+    <system:String x:Key="LangKeyGroupMembers">Group Members (Group URL)</system:String>
     <system:String x:Key="LangKeyGroupName">Group Name</system:String>
     <system:String x:Key="LangKeyGroupPostLikers">Group Post Likers</system:String>
     <system:String x:Key="LangKeyGroupScraper">Group Scraper</system:String>
@@ -984,7 +984,7 @@
     <system:String x:Key="LangKeyKeepALowFramerateForEmbeddedBrowserWhenNotVisibleCanImprovePerformance">Keep A Low Framerate For Embedded Browser When Not Visible (Can Improve Performance)</system:String>
     <system:String x:Key="LangKeyKeepAMaximumOf">Keep A Maximum Of</system:String>
     <system:String x:Key="LangKeyKeepThePostsInitialCreationDateWhenReAddingPostsFromHistoryToPostList">Keep The Post's Initial Creation Date When Re-Adding Posts From History To Post List</system:String>
-    <system:String x:Key="LangKeyKeyword">Keyword</system:String>
+    <system:String x:Key="LangKeyKeyword">Keyword (URL)</system:String>
     <system:String x:Key="LangKeyKeywordSearchpost">Keyword Searchpost</system:String>
     <system:String x:Key="LangKeyKeywordUserSearchposts">Keyword User Searchposts</system:String>
     <system:String x:Key="LangKeyKeywords">Keywords</system:String>
@@ -2529,7 +2529,7 @@
     <system:String x:Key="LangKeyUserBioUsernameNameMustContainAnyOfTheFollowingWords">User Bio/Username/Name Must Contain Any Of The Following Words</system:String>
     <system:String x:Key="LangKeyUserBioUsernameNameMustNotContainAnyInvalidWordsSaperateWordsByComma">User Bio/Username/Name Must Not Contain Any Invalid Words(Saperated Words By Comma)</system:String>
     <system:String x:Key="LangKeyUserFilters">User Filters</system:String>
-    <system:String x:Key="LangKeyUserFollower">User Follower</system:String>
+    <system:String x:Key="LangKeyUserFollower">Profile Followers (URL)</system:String>
     <system:String x:Key="LangKeyUserFollowing">User Following</system:String>
     <system:String x:Key="LangKeyUserFullName">User Full Name</system:String>
     <system:String x:Key="LangKeyUserHasAFollowRatioFollowers/FollowingsGreaterThan">User Has A Follow Ratio (Followers/Followings) Greater Than</system:String>
@@ -3059,8 +3059,8 @@ Type 3. IP:Port
     <system:String x:Key="LangKeyNumberOfConnectionsToExportPerWeek">Number Of Connections To Export Per Week</system:String>
     <system:String x:Key="LangKeyMaxConnectionsToExportPerDay">Max Connections To Export Per Day</system:String>
 
-    <system:String x:Key="LangKeyPagePostLikers">Page Post Likers</system:String>
-    <system:String x:Key="LangKeyCustomProfileUrl">Custom Profile Url</system:String>
+    <system:String x:Key="LangKeyPagePostLikers">Fanpage Post Likers (Fanpage URL)</system:String>
+    <system:String x:Key="LangKeyCustomProfileUrl">Profile (URL)</system:String>
 
     <system:String x:Key="LangKeyFilenameFormat">Custom Html Filename Format</system:String>
     <system:String x:Key="LangKeyWaterMarkTextFilenameFormat">Input Filename As Eg: {FirstName}_{MiddleName}_{LastName}_{PhoneNumber}_{EmailAddress}_{ProfileUrl}_{FromAccountEmail}</system:String>
@@ -4523,8 +4523,8 @@ Note: Cookies should belong to the same Legion account.</system:String>
     <system:String x:Key="LangKeyLegionAlreadyRunning">Legion is already running.</system:String>
 
     <system:String x:Key="LangKeyUnLikeSource">Unlike Source</system:String>
-    <system:String x:Key="LangKeyPagePostCommenters">Page Post Commenters</system:String>
-    <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters</system:String>
+    <system:String x:Key="LangKeyPagePostCommenters">Fanpage Post Commenters (Fanpage Url)</system:String>
+    <system:String x:Key="LangKeyGroupPostCommenters">Group Post Commenters (Group Url)</system:String>
     <system:String x:Key="LagKeyNoMoreCommetersForPost">"No More Commenters Available For Post Url {0}"</system:String>
     <system:String x:Key="LangKeyScrapePostsFromReddit">Scrape Posts From Reddit</system:String>
     <system:String x:Key="LangKeyAddPostsSourceLikeKeywordUserSubreddit">Add Posts Source! Like ([K] Keyword, [U] User Post Url, [S] Subreddit Post Url)</system:String>

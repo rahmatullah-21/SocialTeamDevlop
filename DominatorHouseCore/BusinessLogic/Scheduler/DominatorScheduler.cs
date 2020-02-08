@@ -365,12 +365,19 @@ namespace DominatorHouseCore.BusinessLogic.Scheduler
             if (moduleConfiguration == null || !moduleConfiguration.IsEnabled)
                 return;
 
+            var softwareSettings = ServiceLocator.Current.GetInstance<ISoftwareSettingsFileManager>();
+
             // Check if activity with the same id already running
             if (_runningJobsHolder.IsRunning(new JobKey(dominatorAccount.AccountId, moduleConfiguration.TemplateId)))
             {
                 //GlobusLogHelper.log.Info(Log.CustomMessage, dominatorAccount.AccountBaseModel.AccountNetwork, dominatorAccount.UserName, activityType,$"User {dominatorAccount.UserName} is already running with {activityType} activity");
                 return;
             }
+
+            if (_runningJobsHolder.IsActivityRunningForAccount(dominatorAccount.AccountId))
+                return;
+
+            
             try
             {
                 //Get the time when the activity has to be performed next and stopped.

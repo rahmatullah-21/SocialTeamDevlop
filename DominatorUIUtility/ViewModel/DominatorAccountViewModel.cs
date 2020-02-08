@@ -1733,6 +1733,7 @@ namespace LegionUIUtility.ViewModel
                         var softwareSetting = ServiceLocator.Current.GetInstance<ISoftwareSettings>();
 
                         softwareSetting.ScheduleAutoUpdation();
+                        softwareSetting.DeleteUnnecessaryCampaigns();
                         if (SocinatorInitialize.GetSocialLibrary(SocialNetworks.Facebook) != null)
                             softwareSetting.ScheduleAdsScraping();
                     }
